@@ -1,0 +1,43 @@
+const { spawn } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const assert = require('node:assert/strict');
+const browserPath = process.env.EDGE_PATH || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
+const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'oyasumi-browser-'));
+const server = spawn(process.execPath, ['server.js'], { stdio: 'ignore' });
+const browser = spawn(browserPath, ['--headless=new','--disable-gpu','--no-first-run','--remote-debugging-port=9333',`--user-data-dir=${profile}`,'about:blank'], {stdio:'ignore'});
+let socket;
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+(async () => {
+  let tabs;
+  for(let i=0;i<60;i++){try{tabs=await (await fetch('http://127.0.0.1:9333/json')).json();break;}catch{await delay(250);}}
+  assert(tabs,'Browser did not start');
+  socket = new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);
+  await new Promise(resolve=>socket.addEventListener('open',resolve,{once:true}));
+  let id=0;const pending=new Map();const errors=[];
+  socket.addEventListener('message',event=>{const data=JSON.parse(event.data);if(data.id){const p=pending.get(data.id);pending.delete(data.id);data.error?p.reject(data.error):p.resolve(data.result);}if(data.method==='Runtime.exceptionThrown')errors.push(data.params.exceptionDetails.text);});
+  const send=(method,params={})=>new Promise((resolve,reject)=>{const key=++id;pending.set(key,{resolve,reject});socket.send(JSON.stringify({id:key,method,params}));});
+  const evaluate=async expression=>{const result=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});assert(!result.exceptionDetails,JSON.stringify(result.exceptionDetails));return result.result.value;};
+  const click=selector=>evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
+  await send('Runtime.enable');
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await send('Page.navigate',{url:'http://127.0.0.1:3000'});await delay(600);
+  await evaluate('localStorage.clear(); location.reload()');await delay(400);
+  assert(await evaluate('document.body.innerText.includes("今夜まだ起きてる人")'));
+  await click('[data-post="awake"]');assert.equal(await evaluate('state.posts.length'),1);
+  const reaction='[data-react="sample-0"]';await click(reaction);assert.equal(await evaluate('state.reactions.length'),1);await click(reaction);assert.equal(await evaluate('state.reactions.length'),0);
+  await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
+  await click('[data-view="home"]');await click('[data-post="sleep"]');assert(await evaluate('document.body.innerText.includes("おやすみなさい")'));
+  await click('[data-view="morning"]');await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),1);assert(await evaluate('document.querySelector("[data-morning]").disabled'));
+  await click('[data-view="profile"]');await click('[data-view="settings"]');await click('[data-name]');
+  await evaluate('document.querySelector("#nickname").value="<b>ねこ</b>";document.querySelector("#nickname-form").requestSubmit()');
+  assert(await evaluate('document.body.innerText.includes("<b>ねこ</b>")'));assert.equal(await evaluate('document.querySelectorAll(".setting-value b").length'),0);
+  await send('Page.reload');await delay(400);assert.equal(await evaluate('state.posts.length'),2);assert.equal(await evaluate('state.name'),'<b>ねこ</b>');
+  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'),`Overflow: ${page} at ${width}`);}}
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("home")');
+  const capture=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/home-mobile.png',Buffer.from(capture.data,'base64'));
+  await evaluate('go("timeline")');const shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('test-results/timeline-mobile.png',Buffer.from(shot.data,'base64'));
+  await click('[data-delete]');assert.equal(await evaluate('state.posts.length'),1);
+  assert.deepEqual(errors,[]);console.log('PASS: posting, reactions, filters, sleep, morning, profile, safe nickname, persistence, deletion, responsive widths, no runtime errors.');
+})().catch(error=>{console.error(error);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});
