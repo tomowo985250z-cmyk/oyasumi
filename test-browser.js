@@ -26,18 +26,25 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
   await evaluate('localStorage.clear(); location.reload()');await delay(400);
   assert(await evaluate('document.body.innerText.includes("今夜まだ起きてる人")'));
   await click('[data-post="awake"]');assert.equal(await evaluate('state.posts.length'),1);
-  const reaction='[data-react="sample-0"]';await click(reaction);assert.equal(await evaluate('state.reactions.length'),1);await click(reaction);assert.equal(await evaluate('state.reactions.length'),0);
+  const reaction='[data-react="sample-0"][data-reaction="goodnight"]';await click(reaction);assert.equal(await evaluate('state.reactions["sample-0"]'),'goodnight');await click(reaction);assert.equal(await evaluate('Object.keys(state.reactions).length'),0);
+  await click('[data-react="sample-0"][data-reaction="dream"]');assert.equal(await evaluate('state.reactions["sample-0"]'),'dream');
+  await click('[data-react="sample-0"][data-reaction="tomorrow"]');assert.equal(await evaluate('state.reactions["sample-0"]'),'tomorrow');assert.equal(await evaluate('document.querySelectorAll("[data-react=sample-0][aria-pressed=true]").length'),1);
+  await click('[data-react="sample-0"][data-reaction="tomorrow"]');assert.equal(await evaluate('Object.keys(state.reactions).length'),0);
   await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
   await click('[data-view="home"]');await click('[data-post="sleep"]');assert(await evaluate('document.body.innerText.includes("おやすみなさい")'));
+  for(const [status,text] of [['try-sleep','眠れないけど寝てみる 💤'],['early-sleep','お先に寝ます 👋']]){await click('[data-view="home"]');await click(`[data-post="${status}"]`);assert(await evaluate('document.body.innerText.includes("おやすみなさい")'));assert.equal(await evaluate('state.posts[0].status'),status);await evaluate('go("timeline"); filter="sleep"; render()');assert(await evaluate(`document.querySelector('.post-text').textContent===${JSON.stringify(text)}`));}
+  await evaluate('go("home")');await click('[data-post="early-sleep"]');assert.equal(await evaluate('state.posts.length'),4,'Duplicate taps must not add a second post');
   await click('[data-view="morning"]');await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),1);assert(await evaluate('document.querySelector("[data-morning]").disabled'));
   await click('[data-view="profile"]');await click('[data-view="settings"]');await click('[data-name]');
-  await evaluate('document.querySelector("#nickname").value="<b>ねこ</b>";document.querySelector("#nickname-form").requestSubmit()');
-  assert(await evaluate('document.body.innerText.includes("<b>ねこ</b>")'));assert.equal(await evaluate('document.querySelectorAll(".setting-value b").length'),0);
-  await send('Page.reload');await delay(400);assert.equal(await evaluate('state.posts.length'),2);assert.equal(await evaluate('state.name'),'<b>ねこ</b>');
-  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'),`Overflow: ${page} at ${width}`);}}
-  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("home")');
+  await click('[data-name-choice="ねこ"]');assert.equal(await evaluate('state.name'),'ねこ');
+  await evaluate('go("timeline")');await click('[data-react="sample-0"][data-reaction="dream"]');
+  await send('Page.reload');await delay(400);assert.equal(await evaluate('state.posts.length'),4);assert.equal(await evaluate('state.name'),'ねこ');assert.equal(await evaluate('state.reactions["sample-0"]'),'dream');
+  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'),`Overflow: ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]),[contenteditable=true]").length'),0,'No free text fields');}}
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("home")');await delay(150);
   const capture=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/home-mobile.png',Buffer.from(capture.data,'base64'));
-  await evaluate('go("timeline")');const shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('test-results/timeline-mobile.png',Buffer.from(shot.data,'base64'));
-  await click('[data-delete]');assert.equal(await evaluate('state.posts.length'),1);
-  assert.deepEqual(errors,[]);console.log('PASS: posting, reactions, filters, sleep, morning, profile, safe nickname, persistence, deletion, responsive widths, no runtime errors.');
+  await evaluate('go("timeline")');await delay(150);assert.equal(await evaluate('document.querySelectorAll(".header").length'),1);const shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('test-results/timeline-mobile.png',Buffer.from(shot.data,'base64'));
+  await click('[data-delete]');assert.equal(await evaluate('state.posts.length'),3);
+  await evaluate('localStorage.setItem(STORAGE_KEY,JSON.stringify({name:"自由入力の旧名",posts:[{id:"old",status:"sleep",time:Date.now(),count:0}],reactions:["sample-0"],morningDays:[]}));location.reload()');await delay(400);
+  assert.equal(await evaluate('state.name'),'ともを');assert.equal(await evaluate('state.posts.length'),1);assert.equal(await evaluate('state.reactions["sample-0"]'),'goodnight');
+  assert.deepEqual(errors,[]);console.log('PASS: all 4 preset posts, 3 reaction choices and switching/removal, sleep filters, one-tap sleep, duplicate prevention, morning, preset nickname, persistence, legacy migration, deletion, no free text, responsive widths, no runtime errors.');
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});

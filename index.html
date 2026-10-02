@@ -15,6 +15,6 @@
   <aside class="desktop-intro"><span class="brand-moon">☾</span><h1>おやすみ</h1><p>ひとりじゃない、<br>おやすみの時間。</p><div class="intro-note">今日もお疲れさま。<br>ここでは、眠れない夜もひとりじゃない。</div></aside>
   <div class="app-shell"><main id="app"></main><nav id="navigation" aria-label="メインナビゲーション"></nav></div>
   <div id="toast" role="status" aria-live="polite"></div>
-  <dialog id="nickname-dialog"><form id="nickname-form"><h2>なんて呼びましょう？</h2><p>この夜を過ごす、あなたの名前。</p><label for="nickname">ニックネーム</label><input id="nickname" name="nickname" maxlength="16" required autocomplete="nickname"><div class="dialog-actions"><button type="button" class="text-button" id="cancel-name">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
+  <dialog id="nickname-dialog" aria-labelledby="nickname-title"><h2 id="nickname-title">なんて呼びましょう？</h2><p>用意された名前から、ひとつ選んでください。</p><div id="nickname-options" class="name-options" role="group" aria-label="ニックネームの選択肢"></div><button type="button" class="text-button" id="cancel-name">閉じる</button></dialog>
 </body>
 </html>
