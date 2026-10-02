@@ -6,7 +6,6 @@ const POST_OPTIONS = [
  { id: 'early-sleep', text: 'お先に寝ます 👋', sleeping: true }
 ];
 const REACTION_OPTIONS = [{ id: 'goodnight', text: 'おやすみ 🌙' }, { id: 'dream', text: 'いい夢を 💤' }, { id: 'tomorrow', text: 'また明日 👋' }];
-const NAME_OPTIONS = ['ともを', 'ねこ', 'つき', 'ほし', 'そら', 'こもれび'];
 const isSleeping = status => POST_OPTIONS.some(option => option.id === status && option.sleeping);
 const freshState = () => ({ name: 'ともを', posts: [], reactions: {}, morningDays: [], light: false });
 let state;
@@ -16,7 +15,8 @@ state.posts = state.posts.filter(post => post && POST_OPTIONS.some(option => opt
 if (Array.isArray(state.reactions)) state.reactions = Object.fromEntries(state.reactions.map(id => [id, 'goodnight']));
 if (!state.reactions || typeof state.reactions !== 'object') state.reactions = {};
 state.reactions = Object.fromEntries(Object.entries(state.reactions).filter(([, choice]) => REACTION_OPTIONS.some(option => option.id === choice)));
-if (!NAME_OPTIONS.includes(state.name)) state.name = NAME_OPTIONS[0];
+const savedName = NicknameRules.validate(state.name);
+state.name = savedName.error ? freshState().name : savedName.name;
 let view = 'home', filter = 'all', toastTimer;
 const app = document.querySelector('#app');
 const nav = document.querySelector('#navigation');
@@ -60,10 +60,18 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.dataset.react){const id=button.dataset.react,choice=button.dataset.reaction;if(!REACTION_OPTIONS.some(option=>option.id===choice)||!allPosts().some(post=>post.id===id))return;if(state.reactions[id]===choice)delete state.reactions[id];else state.reactions[id]=choice;save();render();return;}
  if(button.dataset.delete){state.posts=state.posts.filter(p=>p.id!==button.dataset.delete);delete state.reactions[button.dataset.delete];save();render();toast('投稿を削除しました');return;}
  if(button.hasAttribute('data-morning')){if(!state.morningDays.includes(dayKey()))state.morningDays.push(dayKey());save();render();toast('おはよう。今日も良い一日を ☀️');return;}
- if(button.hasAttribute('data-name')){document.querySelector('#nickname-options').innerHTML=NAME_OPTIONS.map(name=>`<button class="name-choice ${state.name===name?'selected':''}" data-name-choice="${name}" aria-pressed="${state.name===name}">${name}</button>`).join('');document.querySelector('#nickname-dialog').showModal();}
- if(button.dataset.nameChoice&&NAME_OPTIONS.includes(button.dataset.nameChoice)){state.name=button.dataset.nameChoice;save();document.querySelector('#nickname-dialog').close();render();toast('名前を保存しました');}
+ if(button.hasAttribute('data-name')){document.querySelector('#nickname').value=state.name;clearNicknameError();document.querySelector('#nickname-dialog').showModal();document.querySelector('#nickname').focus();}
 });
 document.addEventListener('change',event=>{if(event.target.id==='dark-switch'){state.light=!event.target.checked;save();render();}});
 document.querySelector('#cancel-name').addEventListener('click',()=>document.querySelector('#nickname-dialog').close());
+function clearNicknameError() { document.querySelector('#nickname-error').textContent='';document.querySelector('#nickname').removeAttribute('aria-invalid'); }
+document.querySelector('#nickname').addEventListener('input',clearNicknameError);
+document.querySelector('#nickname-form').addEventListener('submit',event=>{
+ event.preventDefault();
+ const input=document.querySelector('#nickname');
+ const result=NicknameRules.validate(input.value);
+ if(result.error){document.querySelector('#nickname-error').textContent=result.error;input.setAttribute('aria-invalid','true');input.focus();return;}
+ state.name=result.name;save();document.querySelector('#nickname-dialog').close();render();toast('名前を保存しました');
+});
 save();
 render();
