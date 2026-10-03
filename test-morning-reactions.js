@@ -1,0 +1,32 @@
+const assert=require('node:assert/strict');
+require('node:vm').runInThisContext(require('node:fs').readFileSync('vendor/supabase.js','utf8'));
+require('./supabase-config.js');require('./supabase-api.js');
+const a=createOyasumiConnection('morning-a-'+Date.now()), b=createOyasumiConnection('morning-b-'+Date.now());
+const posts=[];
+(async()=>{
+ await a.initialize();await b.initialize();
+ await a.setNickname('朝ねこ');await a.setCatCoat('calico');
+ await b.setNickname('朝の仲間');await b.setCatCoat('gray');
+ const receipts=async c=>(await c.client.rpc('oyasumi_morning_reactions')).data?.[0];
+ const zero=await receipts(a);assert(zero,'Apply morning-reactions.sql first');
+ assert.equal(Number(zero.goodnight_count),0);
+ const first=await a.submitPost('awake');posts.push(first.id);
+ await b.setReaction(first.id,'goodnight');await b.setReaction(first.id,'goodnight');
+ const second=await a.submitPost('sleep');posts.push(second.id);
+ await b.setReaction(second.id,'comfort');
+ let r=await receipts(a);assert.equal(Number(r.goodnight_count),1);assert.equal(Number(r.comfort_count),1);
+ assert.equal(Number((await receipts(b)).goodnight_count),0,'Other authors cannot read the recipient counts');
+ await b.setReaction(first.id,'dream');r=await receipts(a);
+ assert.equal(Number(r.goodnight_count),0);assert.equal(Number(r.dream_count),1);assert.equal(Number(r.comfort_count),1);
+ await b.setReaction(second.id,'tomorrow');r=await receipts(a);
+ assert.equal(Number(r.tomorrow_count),1);assert.equal(Number(r.comfort_count),0);
+ const snapshot=await a.snapshot();assert.equal(snapshot.morningReactions.dream,1);assert.equal(snapshot.morningReactions.tomorrow,1);
+ assert.equal(snapshot.feed.filter(p=>p.userId===a.userId).length,1,'Timeline still shows one latest post');
+ const signedOut=supabase.createClient(OyasumiConfig.url,OyasumiConfig.publishableKey,{auth:{persistSession:false}});
+ assert((await signedOut.rpc('oyasumi_morning_reactions')).error,'Signed-out reads must be denied');
+ await b.setReaction(first.id,null);assert.equal(Number((await receipts(a)).dream_count),0);
+ console.log('PASS live morning receipts: all author posts, old awake/new sleep, four choices, replacement/removal/deduplication, owner-only and anonymous denial, shared snapshot.');
+})().catch(e=>{console.error(e);process.exitCode=1;}).finally(async()=>{
+ for(const id of posts)await a.deletePost(id);
+ await a.client.auth.signOut({scope:'local'});await b.client.auth.signOut({scope:'local'});
+});

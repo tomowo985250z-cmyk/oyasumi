@@ -53,6 +53,12 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     checked(sleepCountResult);
     const counts = countsRows[0];
     if (!counts) throw new Error('人数を取得できませんでした。');
+    let morningReactions = null;
+    try {
+      const rows = await rpc('oyasumi_morning_reactions');
+      const row = rows.find(row => row.night_date === counts.night_date);
+      if (row) morningReactions = { nightDate: row.night_date, goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count), comfort: Number(row.comfort_count) };
+    } catch { /* A failed receipt fetch must not become a false zero or block existing features. */ }
     let tonightSummary = null;
     try {
       const rows = await rpc('oyasumi_tonight_summary');
@@ -111,7 +117,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     needsNickname = !names.get(userId);
     const needsCat = !profiles.some(p=>p.user_id===userId && allowedCoats.includes(p.cat_coat));
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
-      awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary,
+      awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }

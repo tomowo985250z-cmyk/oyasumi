@@ -51,6 +51,25 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-morning-reactions')){
+    await evaluate('state.lastSleep={nightDate:shared.nightDate};shared.morningReactions={nightDate:shared.nightDate,goodnight:2,dream:3,tomorrow:1,comfort:4};go("morning")');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      assert.equal(await evaluate('document.querySelector(".morning-receipts h2").textContent'),'きのう、あなたに届いたおやすみ');
+      assert.equal(await evaluate('document.querySelector(".morning-receipts p").textContent'),'10個のやさしい言葉が届いていました');
+      assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".morning-reaction-grid strong"),e=>parseInt(e.textContent))'),[2,3,1,4]);
+      await screenshot(`morning-receipts-${width}.png`);
+    }
+    await evaluate('shared.morningReactions=null;render()');
+    assert.equal(await evaluate('document.querySelector(".morning-reaction-grid")'),null);
+    await evaluate('shared.morningReactions={nightDate:"2000-01-01",goodnight:9,dream:0,tomorrow:0,comfort:0};render()');
+    assert.equal(await evaluate('document.querySelector(".morning-reaction-grid")'),null,'A different night must never be displayed');
+    await evaluate('shared.morningReactions={nightDate:shared.nightDate,goodnight:0,dream:0,tomorrow:0,comfort:0};render()');
+    assert.equal(await evaluate('document.querySelector(".morning-receipts p").textContent'),'0個のやさしい言葉が届いていました');
+    assert.deepEqual(errors,[]);
+    console.log('PASS morning receipts: four counts and total, 320/390/430px, failed fetch and wrong-night protection, true zero.');return;
+  }
   if(process.argv.includes('--test-reaction-effects')){
     await evaluate('shared.feed=[{id:"effect-preview",userId:"other",name:"テスト猫",status:"sleep",time:Date.now(),coat:"gray",expression:"calm",self:false}];globalThis.effectCalls=0;OyasumiAPI.setReaction=()=>{effectCalls++;return new Promise(resolve=>{globalThis.effectRelease=resolve})};refreshAfterSave=async()=>true;go("timeline")');
     for(const width of [320,390,430]){
