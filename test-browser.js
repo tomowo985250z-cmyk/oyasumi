@@ -37,7 +37,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   if(process.argv.includes('--preview-cats')){
     await evaluate('go("profile")');await click('[data-expression-picker]');
     assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),5);
-    assert(await evaluate('Array.from(document.querySelectorAll("#expression-options use")).every(el=>el.getAttribute("href")==="cat.svg#cat-base")'));
+    assert.equal(await evaluate('document.querySelectorAll("#expression-options .cat-face").length'),5);
     assert.equal(await evaluate('CatFaces.normalize("<script>")'),'calm');
     await screenshot('cat-expressions-mobile.png');
     await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});
@@ -59,11 +59,18 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       }
     }
     await evaluate('state.coat="calico";state.expression="calm";go("home")');
+    await send('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
+    await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${CatFaces.options.flatMap(expression=>CatFaces.coats.map(coat=>`<div style="text-align:center">${CatFaces.svg(expression.id,coat.id)}<small>${coat.label}・${expression.label}</small></div>`)).join("")}</div>`');
+    await screenshot('cat-matrix.png');
     assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);assert.deepEqual(errors,[]);
     console.log('PASS cat preview: 40 SVG coat/expression combinations, eight coat choices and five expressions, mobile picker, cancellation, safe defaults and preserved existing shared-data loading. Persistence test still requires SQL migration.');
     return;
   }
   assert(await evaluate('shared.expressionSupported'),'Run supabase/cat-appearance.sql before browser expression tests.');
+  assert(await evaluate('shared.trendSupported'),'Run supabase/tonight-trend.sql before browser tests.');
+  await evaluate('go("stats")');
+  assert(!(await evaluate('document.querySelector("#app").textContent')).includes('サンプル'));
+  assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),await evaluate('TonightTrend.classify(shared.trend,shared.awakeCount)'));
   const userId=await evaluate('shared.userId');
   await action('[data-post="awake"]');assert.equal(await evaluate('view'),'timeline');assert.equal(await evaluate('state.posts.length'),1);
   const firstId=await evaluate('state.posts[0].id');
@@ -123,12 +130,20 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await waitFor('!refreshPromise');
   await evaluate('globalThis.originalFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_counts"))throw new Error("Simulated count refresh failure");return originalFetch(input,options)}');
   await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'sleep','A saved post remains successful if count refresh fails');assert.equal(await evaluate('state.posts.length'),5);assert.equal(await evaluate('state.lastSleep.count'),null);
+  assert.equal(await evaluate('document.querySelector(".sleep-cat .cat-face").dataset.catCoat'),'gray');
+  assert.equal(await evaluate('state.posts[0].coat'),'gray');
+  assert.equal(await evaluate('state.posts[0].expression'),'happy');
+  await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
+  await evaluate('globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_trend"))throw new Error("Simulated trend refresh failure");return originalFetch(input,options)};await refreshShared();go("stats")');
+  assert.equal(await evaluate('shared.trend.length'),0);
+  assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),'insufficient');
+  assert(await evaluate('Number.isFinite(shared.awakeCount)'),'Trend failure must preserve existing counts');
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
   for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'),`Overflow ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname),[contenteditable=true]").length'),0);}}
   await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});await evaluate('go("profile")');await click('[data-expression-picker]');
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth'));
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));await click('#cancel-expression');
-  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("home")');await screenshot('home-mobile.png');await evaluate('go("timeline")');await screenshot('timeline-mobile.png');
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("stats")');await screenshot('trend-mobile.png');await evaluate('go("home")');await screenshot('home-mobile.png');await evaluate('go("timeline")');await screenshot('timeline-mobile.png');
   await action('[data-delete]');assert.equal(await evaluate('state.posts.length'),4);
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);
   assert.deepEqual(errors,[]);
