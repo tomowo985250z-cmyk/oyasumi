@@ -51,6 +51,32 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-night-boundary')){
+    await evaluate('globalThis.boundaryBase=await OyasumiAPI.snapshot();globalThis.boundaryAPI=OyasumiAPI.snapshot;globalThis.boundaryHistory=[{id:"00000000-0000-4000-8000-000000000001",userId:shared.userId,name:state.name,status:"awake",time:Date.parse("2026-10-04T05:30:00+09:00"),nightDate:"2026-10-03",self:true,coat:state.coat,expression:state.expression},{id:"00000000-0000-4000-8000-000000000002",userId:shared.userId,name:state.name,status:"sleep",time:Date.parse("2026-10-04T05:59:00+09:00"),nightDate:"2026-10-03",self:true,coat:state.coat,expression:state.expression}]');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('globalThis.boundaryStage="before";globalThis.boundaryBefore={...boundaryBase,nightDate:"2026-10-03",feed:[boundaryHistory[1]],ownPosts:boundaryHistory.slice(),awakeCount:0,sleepingCount:1,tonightSummary:{sleepingCount:1,coats:[{coat:"calico",count:1}],peakHours:[{hour:5,count:1}]},trend:[{time:Date.parse("2026-10-04T05:59:00+09:00"),awake:0,sleeping:1}],clock:{serverNow:Date.parse("2026-10-04T05:59:58.800+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-04T06:00:00+09:00"),nightDate:"2026-10-03",morningNightDate:"2026-10-03"}};OyasumiAPI.snapshot=async()=>boundaryStage==="before"?boundaryBefore:new Promise(resolve=>{globalThis.boundaryRelease=resolve});await refreshShared();go("timeline");boundaryStage="after"');
+      assert.equal(await evaluate('document.querySelectorAll(".post").length'),1);
+      await screenshot(`night-before-${width}.png`);
+      await waitFor('typeof boundaryRelease==="function"');
+      assert.equal(await evaluate('shared.nightDate'),'2026-10-04');
+      assert.equal(await evaluate('document.querySelectorAll(".post").length'),0,'Old posts disappear at 06:00 before fetching finishes');
+      assert.equal(await evaluate('state.posts.length'),2,'History stays intact');
+      assert.equal(await evaluate('shared.tonightSummary'),null);assert.equal(await evaluate('shared.trend.length'),0);
+      await screenshot(`night-cleared-${width}.png`);
+      await evaluate('globalThis.boundaryNew={...boundaryHistory[0],id:"00000000-0000-4000-8000-000000000003",nightDate:"2026-10-04",time:Date.parse("2026-10-04T06:00:01+09:00")};boundaryRelease({...boundaryBase,nightDate:"2026-10-04",feed:[boundaryNew],ownPosts:[boundaryNew,...boundaryHistory],awakeCount:1,sleepingCount:0,tonightSummary:{sleepingCount:0,coats:[],peakHours:[]},trend:[{time:boundaryNew.time,awake:1,sleeping:0}],morningReactions:{nightDate:"2026-10-03",goodnight:1,dream:1,tomorrow:1,comfort:1},clock:{serverNow:boundaryNew.time,monotonicAt:performance.now(),resetAt:Date.parse("2026-10-05T06:00:00+09:00"),nightDate:"2026-10-04",morningNightDate:"2026-10-03"}});globalThis.boundaryRelease=undefined');
+      await waitFor('!refreshPromise');
+      assert.equal(await evaluate('document.querySelectorAll(".post").length'),1);assert.equal(await evaluate('shared.feed[0].nightDate'),'2026-10-04');
+      assert.equal(await evaluate('state.posts.length'),3);
+      await evaluate('go("stats")');assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),0);
+      assert.equal(await evaluate('shared.tonightSummary.sleepingCount'),0);assert.equal(await evaluate('shared.trend[0].awake'),1);
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      await evaluate('state.lastSleep={nightDate:"2026-10-03",at:"2026-10-03T23:00:00+09:00"};go("morning")');
+      assert.equal(await evaluate('document.querySelector(".morning-receipts p").textContent'),'4個のやさしい言葉が届いていました');
+    }
+    await evaluate('OyasumiAPI.snapshot=boundaryAPI;await refreshShared();state.lastSleep=null;go("home")');
+    assert.deepEqual(errors,[]);console.log('PASS night boundary: 05:59→06:00 automatic clear at 320/390/430px, no stale counts/cats/chart, retained history, latest new-night post, previous-night morning receipts.');return;
+  }
   if(process.argv.includes('--test-profile-note')){
     await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();await peer.setNickname("ひとこと猫");await peer.setCatCoat("gray");await peer.setCatRole("mechanic");await peer.setProfileNote("今夜ものんびり");globalThis.notePeerPost=await peer.submitPost("awake");await refreshShared();go("profile")');
     for(const width of [320,390,430]){
@@ -501,7 +527,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('view'),'rest','Night reload must preserve the quiet ending');
   assert.equal(await evaluate('document.querySelector(".rest-screen").dataset.phase'),'settled','Reload must not restart the introduction');
   assert.equal(await evaluate('shared.userId'),userId);
-  await evaluate('globalThis.actualDateNow=Date.now;globalThis.savedSleep=JSON.parse(JSON.stringify(state.lastSleep));Date.now=()=>Date.parse("2026-10-04T08:00:00+09:00");state.lastSleep={...savedSleep,nightDate:"2026-10-03",at:"2026-10-03T23:00:00+09:00",finishedAt:"2026-10-03T23:01:00+09:00",finished:true};document.dispatchEvent(new Event("visibilitychange"))');
+  await evaluate('globalThis.actualDateNow=Date.now;globalThis.savedSleep=JSON.parse(JSON.stringify(state.lastSleep));Date.now=()=>Date.parse("2026-10-04T08:00:00+09:00");NightClock.sync({serverNow:Date.now(),monotonicAt:performance.now(),resetAt:Date.now()+86400000});shared.nightDate=NightClock.night();state.lastSleep={...savedSleep,nightDate:"2026-10-03",at:"2026-10-03T23:00:00+09:00",finishedAt:"2026-10-03T23:01:00+09:00",finished:true};document.dispatchEvent(new Event("visibilitychange"))');
   await waitFor('view==="morning"&&!refreshPromise');
   assert.equal(await evaluate('document.querySelector(".morning-cat .cat-scene").dataset.catScene'),'awake');
   assert.equal(await evaluate('document.querySelector(".morning-cat .cat-scene").dataset.catCoat'),'gray');
@@ -509,7 +535,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await screenshot('morning-cat-mobile.png');
   await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2);
   await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2,'Morning record remains idempotent');
-  await evaluate('Date.now=actualDateNow;state.lastSleep={...savedSleep,finished:false};save();go("settings")');
+  await evaluate('Date.now=actualDateNow;NightClock.sync(shared.clock);shared.nightDate=shared.clock.nightDate;state.lastSleep={...savedSleep,finished:false};save();go("settings")');
   await evaluate('go("settings")');await click('[data-name]');
   const submitName=value=>evaluate(`document.querySelector('#nickname').value=${JSON.stringify(value)};document.querySelector('#nickname').dispatchEvent(new Event('input'));document.querySelector('#nickname-form').requestSubmit()`);
   for(const [value,reason] of [['','1〜12文字'],['あ'.repeat(13),'1〜12文字'],['a@b.jp','連絡先'],['０９０１２３４５６７８','連絡先'],['死ね','不適切'],['<b>ねこ</b>','記号']]){await submitName(value);assert((await evaluate('document.querySelector("#nickname-error").textContent')).includes(reason));assert.equal(await evaluate('state.name'),'旧ねこ');}

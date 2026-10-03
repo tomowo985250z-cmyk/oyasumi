@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');require('./sleep-flow.js');require('./night-clock.js');
+const originalNow=Date.now;
+const at=Date.parse('2026-10-04T05:59:59+09:00');
+NightClock.sync({serverNow:at,monotonicAt:performance.now(),resetAt:at+1000});
+Date.now=()=>Date.parse('2040-01-01T18:00:00-08:00');
+assert.equal(NightClock.night(),'2026-10-03','Device clock/timezone cannot change server night');
+assert(NightClock.remaining()>0&&NightClock.remaining()<=1000);
+NightClock.sync({serverNow:at+1000,monotonicAt:performance.now(),resetAt:at+86401000});
+assert.equal(NightClock.night(),'2026-10-04');assert.equal(NightClock.morningNight(),'2026-10-03');
+Date.now=originalNow;console.log('PASS server night clock: 05:59→06:00 JST, previous night for morning, monotonic anchor ignores device wall clock.');

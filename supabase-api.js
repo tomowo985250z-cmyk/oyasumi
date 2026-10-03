@@ -43,8 +43,13 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || '名無し',
       self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate', expression: expressions.get(row.user_id) || 'calm', coat: coats.get(row.user_id) || 'calico', catRole: roles.get(row.user_id) || null, profileNote: notes.get(row.user_id) || '' };
   }
-  async function snapshot() {
+  async function snapshot(attempt = 0) {
     await initialize();
+    const contextStart=performance.now();
+    const context=(await rpc('oyasumi_night_context'))[0];
+    if(!context)throw new Error('夜の区切りを取得できませんでした。');
+    const clock={serverNow:Date.parse(context.server_now),monotonicAt:(contextStart+performance.now())/2,
+      resetAt:Date.parse(context.next_reset_at),nightDate:context.night_date,morningNightDate:context.morning_night_date};
     const [countsRows, ownRows, sleepCountResult] = await Promise.all([
       rpc('oyasumi_tonight_counts'),
       client.from('oyasumi_posts').select('*').eq('user_id', userId).order('event_order', { ascending: false }).limit(100).then(checked),
@@ -53,10 +58,11 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     checked(sleepCountResult);
     const counts = countsRows[0];
     if (!counts) throw new Error('人数を取得できませんでした。');
+    if(counts.night_date!==clock.nightDate){if(attempt<2)return snapshot(attempt+1);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     let morningReactions = null;
     try {
       const rows = await rpc('oyasumi_morning_reactions');
-      const row = rows.find(row => row.night_date === counts.night_date);
+      const row = rows.find(row => row.night_date === clock.morningNightDate);
       if (row) morningReactions = { nightDate: row.night_date, goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count), comfort: Number(row.comfort_count) };
     } catch { /* A failed receipt fetch must not become a false zero or block existing features. */ }
     let tonightSummary = null;
@@ -121,9 +127,10 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     }
     needsNickname = !names.get(userId);
     const needsCat = !profiles.some(p=>p.user_id===userId && allowedCoats.includes(p.cat_coat));
+    if(clock.serverNow+performance.now()-clock.monotonicAt>=clock.resetAt){if(attempt<2)return snapshot(attempt+1);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
-      profileNote: notes.get(userId) || '',
+      profileNote: notes.get(userId) || '', clock,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles, notes)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles, notes)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }

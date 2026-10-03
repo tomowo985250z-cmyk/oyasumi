@@ -12,8 +12,8 @@ begin
   if v_user is null then
     raise exception '匿名認証が必要です。' using errcode = '42501';
   end if;
-  -- 既存の「今夜」と同じ日本時間正午の区切り。朝6〜12時は昨夜の日付です。
-  select c.night_date into v_night from public.oyasumi_tonight_counts() c;
+  -- 06:00区切り。朝は切り替え前の夜の本人の全投稿を集計します。
+  v_night := public.oyasumi_morning_night_date_at(statement_timestamp());
   return query
   select v_night,
     count(distinct (r.post_id, r.user_id)) filter (where r.choice = 'goodnight'),
