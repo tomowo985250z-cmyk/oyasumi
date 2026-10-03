@@ -45,10 +45,10 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     }
     return initialization;
   }
-  function mapPost(row, names) {
+  function mapPost(row, names, expressions, coats) {
     return { id: row.id, userId: row.user_id, status: row.choice, time: Date.parse(row.created_at),
       order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || 'ともを',
-      self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate' };
+      self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate', expression: expressions.get(row.user_id) || 'calm', coat: coats.get(row.user_id) || 'calico' };
   }
   async function snapshot() {
     await initialize();
@@ -63,8 +63,19 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     const feedRows = checked(await client.from('oyasumi_posts').select('*').eq('night_date', counts.night_date).order('event_order', { ascending: false }).limit(100));
     const postIds = [...new Set([...feedRows, ...ownRows].map(post => post.id))];
     const authorIds = [...new Set([userId, ...feedRows.map(post => post.user_id)])];
-    const profiles = checked(await client.from('oyasumi_profiles').select('user_id,nickname').in('user_id', authorIds));
+    let profileResult = await client.from('oyasumi_profiles').select('user_id,nickname,cat_expression,cat_coat').in('user_id', authorIds);
+    const expressionSupported = !['42703', 'PGRST204'].includes(profileResult.error?.code);
+    if (!expressionSupported) {
+      profileResult = await client.from('oyasumi_profiles').select('user_id,nickname,cat_expression').in('user_id', authorIds);
+      if (['42703', 'PGRST204'].includes(profileResult.error?.code))
+        profileResult = await client.from('oyasumi_profiles').select('user_id,nickname').in('user_id', authorIds);
+    }
+    const profiles = checked(profileResult);
     const names = new Map(profiles.map(profile => [profile.user_id, profile.nickname]));
+    const allowedExpressions = ['calm', 'sleepy', 'yawn', 'restless', 'happy'];
+    const expressions = new Map(profiles.map(profile => [profile.user_id, allowedExpressions.includes(profile.cat_expression) ? profile.cat_expression : 'calm']));
+    const allowedCoats = ['calico','orange','brown','silver','black','white','tuxedo','gray'];
+    const coats = new Map(profiles.map(profile => [profile.user_id, allowedCoats.includes(profile.cat_coat) ? profile.cat_coat : 'calico']));
     const reactions = {}, reactionCounts = {};
     for (let start = 0; start < postIds.length; start += 100) {
       const rows = await rpc('oyasumi_reaction_counts', { p_post_ids: postIds.slice(start, start + 100) });
@@ -73,15 +84,17 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
         reactionCounts[row.post_id] = { goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count) };
       }
     }
-    return { userId, name: names.get(userId) || 'ともを', nightDate: counts.night_date,
+    return { userId, name: names.get(userId) || 'ともを', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state,
-      feed: feedRows.map(row => mapPost(row, names)), ownPosts: ownRows.map(row => mapPost(row, names)),
+      feed: feedRows.map(row => mapPost(row, names, expressions, coats)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }
   return { client, initialize, snapshot, get userId() { return userId; },
     submitPost: choice => rpc('oyasumi_submit_post', { p_choice: choice }),
     deletePost: id => rpc('oyasumi_delete_post', { p_post_id: id }),
     setReaction: (id, choice) => rpc('oyasumi_set_reaction', { p_post_id: id, p_choice: choice }),
-    setNickname: name => rpc('oyasumi_set_nickname', { p_nickname: name }) };
+    setNickname: name => rpc('oyasumi_set_nickname', { p_nickname: name }),
+    setCatCoat: coat => rpc('oyasumi_set_cat_coat', { p_coat: coat }),
+    setCatExpression: expression => rpc('oyasumi_set_cat_expression', { p_expression: expression }) };
 };
 globalThis.OyasumiAPI = createOyasumiConnection();

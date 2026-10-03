@@ -34,6 +34,36 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('state.posts.length'),0,'Legacy posts must not be uploaded');
   assert.equal(await evaluate('state.name'),'旧ねこ');
   assert.deepEqual(await evaluate('state.morningDays'),['2026-01-01']);
+  if(process.argv.includes('--preview-cats')){
+    await evaluate('go("profile")');await click('[data-expression-picker]');
+    assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),5);
+    assert(await evaluate('Array.from(document.querySelectorAll("#expression-options use")).every(el=>el.getAttribute("href")==="cat.svg#cat-base")'));
+    assert.equal(await evaluate('CatFaces.normalize("<script>")'),'calm');
+    await screenshot('cat-expressions-mobile.png');
+    await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});
+    assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth'));
+    assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
+    await click('#cancel-expression');assert.equal(await evaluate('state.expression'),'calm');
+    await evaluate('go("settings")');await click('[data-coat-picker]');
+    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),8);
+    await screenshot('cat-coats-mobile.png');
+    assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
+    await click('#cancel-expression');
+    for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
+      for(const expression of ['calm','sleepy','yawn','restless','happy']){
+        await evaluate(`state.coat=${JSON.stringify(coat)};state.expression=${JSON.stringify(expression)};go("profile")`);
+        assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catCoat'),coat);
+        await click('[data-expression-picker]');
+        assert(await evaluate(`Array.from(document.querySelectorAll('#expression-options .cat-face')).every(el=>el.dataset.catCoat===${JSON.stringify(coat)})`));
+        await click('#cancel-expression');
+      }
+    }
+    await evaluate('state.coat="calico";state.expression="calm";go("home")');
+    assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);assert.deepEqual(errors,[]);
+    console.log('PASS cat preview: 40 SVG coat/expression combinations, eight coat choices and five expressions, mobile picker, cancellation, safe defaults and preserved existing shared-data loading. Persistence test still requires SQL migration.');
+    return;
+  }
+  assert(await evaluate('shared.expressionSupported'),'Run supabase/cat-appearance.sql before browser expression tests.');
   const userId=await evaluate('shared.userId');
   await action('[data-post="awake"]');assert.equal(await evaluate('view'),'timeline');assert.equal(await evaluate('state.posts.length'),1);
   const firstId=await evaluate('state.posts[0].id');
@@ -49,6 +79,30 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
   for(const choice of ['sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('shared.myState'),'sleep');assert.equal(await evaluate('state.lastSleep.count'),await evaluate('shared.sleepingCount'));}
   assert.equal(await evaluate('state.posts.length'),4);
+  for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
+    await evaluate('go("settings")');await click('[data-coat-picker]');await action(`[data-coat="${coat}"]`);
+    assert.equal(await evaluate('state.coat'),coat);
+    await evaluate('go("profile")');
+    assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catCoat'),coat);
+  }
+  await evaluate('go("profile")');await click('[data-expression-picker]');
+  assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),5);
+  for(const expression of ['calm','sleepy','yawn','restless','happy']){
+    await action(`[data-expression="${expression}"]`);
+    assert.equal(await evaluate('state.expression'),expression);
+    assert.equal(await evaluate('state.coat'),'gray','Expression changes must retain the selected coat');
+    assert.equal(await evaluate('document.querySelector("#expression-dialog").open'),false);
+    await evaluate('go("profile")');assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catExpression'),expression);
+    await evaluate('go("timeline")');assert(await evaluate(`Array.from(document.querySelectorAll('.post')).filter(p=>p.querySelector('.self-tag')).every(p=>p.querySelector('.cat-face').dataset.catExpression===${JSON.stringify(expression)})`));
+    await evaluate('go("profile")');await click('[data-expression-picker]');
+  }
+  await evaluate('await refreshShared()');assert(await evaluate('document.querySelector("#expression-dialog").open'),'Refresh must not close expression picker');
+  await screenshot('cat-expressions-mobile.png');await click('#cancel-expression');
+  await evaluate('await peer.setCatCoat("black");await peer.setCatExpression("restless");await refreshShared();filter="all";go("timeline")');
+  assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catExpression`),'restless');
+  assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catCoat`),'black');
+  assert.equal(await evaluate('state.posts.length'),4,'Expressions must not create posts');
+  await evaluate('go("sleep")');
   await click('[data-view="morning"]');await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2);
   await evaluate('go("settings")');await click('[data-name]');
   const submitName=value=>evaluate(`document.querySelector('#nickname').value=${JSON.stringify(value)};document.querySelector('#nickname').dispatchEvent(new Event('input'));document.querySelector('#nickname-form').requestSubmit()`);
@@ -59,19 +113,26 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await click('[data-name]');await evaluate('document.querySelector("#nickname").value="未保存"');await click('#cancel-name');assert.equal(await evaluate('state.name'),'月ねこ');
   await send('Page.reload');await waitFor('typeof ready!=="undefined" && ready && !busy');
   assert.equal(await evaluate('shared.userId'),userId,'Reload must reuse the anonymous identity');assert.equal(await evaluate('state.posts.length'),4);assert.equal(await evaluate('state.name'),'月ねこ');assert.equal(await evaluate('state.morningDays.length'),2);
+  assert.equal(await evaluate('state.expression'),'happy','Reload must preserve the shared expression');
+  assert.equal(await evaluate('state.coat'),'gray','Reload must preserve the shared coat');
   await evaluate('go("home")');await send('Network.enable');await send('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:-1,uploadThroughput:-1});
   await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'home','Failed post must not show completion');assert.equal(await evaluate('state.posts.length'),4);assert((await evaluate('document.querySelector("#toast").textContent')).includes('通信'));
+  await evaluate('go("profile")');await click('[data-expression-picker]');await action('[data-expression="calm"]');
+  assert.equal(await evaluate('state.expression'),'happy','Failed expression save must retain the existing expression');assert(await evaluate('document.querySelector("#expression-error").textContent.length>0'));await click('#cancel-expression');await evaluate('go("home")');
   await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});
   await waitFor('!refreshPromise');
   await evaluate('globalThis.originalFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_counts"))throw new Error("Simulated count refresh failure");return originalFetch(input,options)}');
   await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'sleep','A saved post remains successful if count refresh fails');assert.equal(await evaluate('state.posts.length'),5);assert.equal(await evaluate('state.lastSleep.count'),null);
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
   for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'),`Overflow ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname),[contenteditable=true]").length'),0);}}
+  await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});await evaluate('go("profile")');await click('[data-expression-picker]');
+  assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth'));
+  assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));await click('#cancel-expression');
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("home")');await screenshot('home-mobile.png');await evaluate('go("timeline")');await screenshot('timeline-mobile.png');
   await action('[data-delete]');assert.equal(await evaluate('state.posts.length'),4);
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);
   assert.deepEqual(errors,[]);
-  console.log('PASS browser: shared posts/reactions/counts, preserved anonymous session, all selections, nickname checks, draft/scroll preservation, offline and post-save refresh failure, untouched legacy data, morning records, mobile/desktop widths, no runtime errors.');
+  console.log('PASS browser: all five shared cat expressions, profile/feed/sleep rendering, expression persistence and offline failure, anonymous session, shared posts/reactions/counts, nickname checks, preserved legacy data, mobile widths and no runtime errors.');
 })().catch(error=>{console.error('FAIL browser:',error.message);process.exitCode=1;}).finally(async()=>{
   if(evaluate){try{await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});await evaluate('globalThis.fetch=globalThis.originalFetch||fetch;for(const post of state.posts)await OyasumiAPI.deletePost(post.id);if(localStorage.getItem("oyasumi-browser-peer")){const cleanupPeer=globalThis.peer||createOyasumiConnection("oyasumi-browser-peer");await cleanupPeer.initialize();for(const post of (await cleanupPeer.snapshot()).ownPosts)await cleanupPeer.deletePost(post.id)}');}catch(error){console.error('Browser test cleanup failed:',error.message);process.exitCode=1;}}
   socket?.close();browser.kill();server.kill();
