@@ -10,3 +10,9 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .resting .desktop-intro{display:none}.rest-screen::before{content:"";position:fixed;inset:0;background:#000;pointer-events:none;animation:rest-darken var(--rest-duration) ease-in-out var(--rest-elapsed) both}.rest-content{position:relative;z-index:1;min-height:340px;display:flex;flex-direction:column;align-items:center}.rest-cat .cat-scene{width:180px;height:180px;display:block}.rest-intro{animation:rest-copy var(--rest-duration) ease-in-out var(--rest-elapsed) both}.rest-screen[data-phase=settled]::before{animation:none;opacity:.65}.morning-cat .cat-scene{width:164px;height:164px;display:block}.morning-cat{margin-bottom:8px}@keyframes rest-darken{from{opacity:0}to{opacity:.65}}@keyframes rest-copy{0%,65%{opacity:1}to{opacity:0}}@media(prefers-reduced-motion:reduce){.rest-screen::before{animation:none;opacity:.65}.rest-intro{animation:none}}
 
 .day-hero{text-align:center;padding:4px 0 24px}.day-cat{width:min(220px,72vw);margin:0 auto 14px}.cat-day-scene{display:block;width:100%;height:auto}.day-hero h2{font-size:22px;margin:0 0 8px}.day-hero p{color:var(--muted);font-size:14px;margin:0}
+/* 終了画面自身を全面の背景にし、Safariでも暗転レイヤーを確実に重ねる。 */
+.rest-screen{position:fixed;inset:0;z-index:10;isolation:isolate;min-height:0;padding:24px 22px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));background:linear-gradient(155deg,#0b1934,#041121 75%)}
+.rest-screen::before{position:absolute;z-index:0}
+.rest-screen[data-phase=settled]{background:#000}
+.rest-screen[data-phase=settled]::before{opacity:1}
+@keyframes rest-darken{from{opacity:0}to{opacity:1}}

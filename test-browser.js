@@ -23,7 +23,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const waitFor=async(expression,timeout=30000)=>{const deadline=Date.now()+timeout;while(Date.now()<deadline){if(await evaluate(expression))return;await delay(100);}throw new Error(`Condition timed out: ${expression}; toast: ${await evaluate('document.querySelector("#toast").textContent')}`);};
   const click=selector=>evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
   const action=async selector=>{await click(selector);await waitFor('!busy');};
-  const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));};
+  const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
   await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
@@ -64,6 +64,20 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await evaluate('globalThis.DayCats={...DayCatsOriginal,current:()=>DayCatsOriginalCurrent(Date.parse("2026-10-03T18:00:00+09:00"))};go("home")');
   assert.equal(await evaluate('document.querySelector(".day-hero")'),null);
   await evaluate('globalThis.DayCats=DayCatsOriginal;go("home")');
+  if(process.argv.includes('--preview-dark')){
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('state.lastSleep={finished:true,finishedAt:new Date().toISOString()};go("rest")');
+      assert.equal(await evaluate('document.querySelector(".rest-screen").dataset.phase'),'intro');
+      await waitFor('document.querySelector(".rest-screen").dataset.phase==="settled"',10000);
+      const png=await screenshot(`sleep-dark-pixels-${width}.png`);
+      const pixels=await evaluate(`const img=new Image();img.src=${JSON.stringify('data:image/png;base64,') }+${JSON.stringify(png)};await img.decode();const canvas=document.createElement('canvas');canvas.width=img.width;canvas.height=img.height;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0);return [Array.from(ctx.getImageData(0,0,1,1).data),Array.from(ctx.getImageData(1,400,1,1).data)];`);
+      assert.deepEqual(pixels,[[0,0,0,255],[0,0,0,255]],'Rendered background pixels must actually be black');
+      assert.equal(await evaluate('app.textContent.trim()'),'おやすみなさい 🌙');
+      assert.equal(await evaluate('document.querySelectorAll("#app button,#navigation button").length'),0);
+    }
+    console.log('PASS dark ending: real 6.5-second transitions and black screenshot pixels at 320/390/430px.');return;
+  }
   if(process.argv.includes('--preview-scenes')){
     await send('Emulation.setDeviceMetricsOverride',{width:1280,height:600,deviceScaleFactor:1,mobile:false});
     await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";nav.hidden=true;document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${["awake","sleeping"].flatMap(scene=>CatFaces.coats.map(coat=>`<div style="text-align:center">${CatScenes.svg(scene,coat.id)}<small>${coat.label}・${scene==="awake"?"目覚めた猫":"寝ている猫"}</small></div>`)).join("")}</div>`');
@@ -200,6 +214,13 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('document.querySelectorAll("#app button,#app .rest-message,#app .count,#app .post,#app .chart,#navigation button").length'),0);
   assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),'gray');
   assert(Number(await evaluate('getComputedStyle(document.querySelector(".rest-screen"),"::before").opacity'))>=0.6);
+  for(const width of [320,390,430]){
+    await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+    assert(await evaluate('(()=>{const el=document.querySelector(".rest-screen"),r=el.getBoundingClientRect(),s=getComputedStyle(el);return s.backgroundColor==="rgb(0, 0, 0)"&&s.position==="fixed"&&r.left===0&&r.top===0&&r.width===innerWidth&&r.height===innerHeight&&getComputedStyle(el,"::before").opacity==="1"})()'),'Final dark background must cover the whole mobile viewport');
+    assert.equal(await evaluate('app.textContent.trim()'),'おやすみなさい 🌙');
+    assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catScene'),'sleeping');
+    await screenshot(`sleep-dark-${width}.png`);
+  }
   await screenshot('sleep-settled-mobile.png');
   await send('Page.reload');await waitFor('typeof ready!=="undefined" && ready && !busy');
   assert.equal(await evaluate('view'),'rest','Night reload must preserve the quiet ending');
