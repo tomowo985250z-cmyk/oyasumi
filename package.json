@@ -3,5 +3,5 @@
   "version": "0.1.0",
   "private": true,
   "description": "A quiet, mobile-first goodnight community prototype",
-  "scripts": { "start": "node server.js", "check": "node --check app.js && node --check nickname.js && node --check cat-faces.js && node --check cat-scenes.js && node --check cat-day-scenes.js && node --check tonight-trend.js && node --check sleep-flow.js && node --check supabase-api.js && node --check supabase-config.js && node --check server.js", "test": "node test-trend.js && node test-sleep-flow.js && node test-cat-scenes.js && node test-cat-day-scenes.js && node test-live.js && node test-browser.js" }
+  "scripts": { "start": "node server.js", "check": "node --check app.js && node --check nickname.js && node --check cat-faces.js && node --check cat-scenes.js && node --check cat-day-scenes.js && node --check tonight-trend.js && node --check sleep-flow.js && node --check supabase-api.js && node --check supabase-config.js && node --check server.js", "test": "node test-trend.js && node test-sleep-flow.js && node test-cat-scenes.js && node test-cat-surprised.js && node test-cat-day-scenes.js && node test-live.js && node test-browser.js" }
 }

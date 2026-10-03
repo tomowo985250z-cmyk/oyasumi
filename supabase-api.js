@@ -80,7 +80,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     }
     const profiles = checked(profileResult);
     const names = new Map(profiles.map(profile => [profile.user_id, profile.nickname]));
-    const allowedExpressions = ['calm', 'sleepy', 'yawn', 'restless', 'happy'];
+    const allowedExpressions = ['calm', 'sleepy', 'yawn', 'restless', 'happy', 'surprised'];
     const expressions = new Map(profiles.map(profile => [profile.user_id, allowedExpressions.includes(profile.cat_expression) ? profile.cat_expression : 'calm']));
     const allowedCoats = ['calico','orange','brown','silver','black','white','tuxedo','gray'];
     const coats = new Map(profiles.map(profile => [profile.user_id, allowedCoats.includes(profile.cat_coat) ? profile.cat_coat : 'calico']));

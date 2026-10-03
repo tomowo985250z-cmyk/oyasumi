@@ -4,10 +4,12 @@ globalThis.CatFaces = (() => {
     { id: 'sleepy', label: '眠そう' },
     { id: 'yawn', label: 'あくび' },
     { id: 'restless', label: '寝れない' },
-    { id: 'happy', label: 'うれしい' }
+    { id: 'happy', label: 'うれしい' },
+    { id: 'surprised', label: 'きょとん' }
   ]);
   const smile = '<path d="M50 71v3m0 0q-5 5-9 0m9 0q5 5 9 0" fill="none" stroke="#674e4f" stroke-width="2" stroke-linecap="round"/>';
   const faces = {
+    surprised: '<g data-surprised-eyes><circle cx="33" cy="59" r="6.5" fill="#171b22" stroke="#fff8ee" stroke-width="1.5"/><circle cx="67" cy="59" r="6.5" fill="#171b22" stroke="#fff8ee" stroke-width="1.5"/><circle cx="35" cy="56" r="2" fill="#fff"/><circle cx="69" cy="56" r="2" fill="#fff"/></g><ellipse cx="50" cy="77" rx="2.7" ry="3.5" fill="#ff9295" stroke="#3f4050" stroke-width="1.5"/>',
     calm: '<path d="M28 58q5 6 10 0m24 0q5 6 10 0" fill="none" stroke="#3f4050" stroke-width="3" stroke-linecap="round"/>' + smile,
     sleepy: '<path d="M28 59q5 5 10 0m24 0q5 5 10 0" fill="none" stroke="#3f4050" stroke-width="3" stroke-linecap="round"/>' + smile + '<path d="M76 22h8l-8 8h8m1-20h9l-9 9h9" fill="none" stroke="#087cff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
     yawn: '<path d="m29 55 8 5-8 5m42-10-8 5 8 5" fill="none" stroke="#3f4050" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="50" cy="77" rx="12" ry="14" fill="#e84b4b" stroke="#674e4f" stroke-width="2.5"/><ellipse cx="50" cy="84" rx="9" ry="6" fill="#ffb5a9"/><path d="M25 74q-9 5-4 13t12-6q3-9-8-7Z" fill="#8beaf5" stroke="#45cbe4" stroke-width="1.5"/><ellipse cx="26" cy="79" rx="2" ry="3" fill="#fff"/>',

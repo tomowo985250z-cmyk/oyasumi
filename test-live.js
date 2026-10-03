@@ -29,7 +29,7 @@ async function run() {
   for(const bad of ['not-a-choice']){await assert.rejects(()=>a.submitPost(bad));await assert.rejects(()=>b.setReaction(first.id,bad));}
   for(const name of ['a@b.jp','死ね','あ'.repeat(13)])await assert.rejects(()=>a.setNickname(name));
   await a.setNickname('検証つきA');assert.equal((await b.snapshot()).feed.find(p=>p.id===first.id).name,'検証つきA');
-  for(const expression of ['calm','sleepy','yawn','restless','happy']){
+  for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
     await a.setCatExpression(expression);
     snap=await b.snapshot();
     assert.equal(snap.feed.find(p=>p.id===first.id).expression,expression,'Other users must see the selected expression');
@@ -37,7 +37,7 @@ async function run() {
   }
   for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
     await a.setCatCoat(coat);
-    for(const expression of ['calm','sleepy','yawn','restless','happy']){
+    for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
       await a.setCatExpression(expression);
       const other=(await b.snapshot()).feed.find(p=>p.id===first.id);
       assert.equal(other.coat,coat);assert.equal(other.expression,expression);
@@ -49,6 +49,11 @@ async function run() {
   const forgedExpression=await b.client.from('oyasumi_profiles').update({cat_expression:'restless'}).eq('user_id',a.userId);
   assert(forgedExpression.error,'Direct expression updates must be denied');
   assert.equal((await a.snapshot()).expression,'happy');
+  await a.setCatExpression('surprised');
+  const surprisedPost=await a.submitPost('awake');created.add(surprisedPost.id);
+  assert.equal((await b.snapshot()).feed.find(p=>p.id===surprisedPost.id).expression,'surprised','New posts share the surprised expression');
+  await a.deletePost(surprisedPost.id);created.delete(surprisedPost.id);
+  await a.setCatExpression('happy');
   for(const choice of ['sleep','try-sleep','early-sleep']){const post=await a.submitPost(choice);created.add(post.id);snap=await b.snapshot();assert(snap.feed.some(p=>p.id===post.id));const own=await a.snapshot();assert.equal(own.myState,'sleep');assert.equal(own.trend.at(-1).awake,own.awakeCount);assert.equal(own.trend.at(-1).sleeping,own.sleepingCount);assert(snap.sleepingCount>=base.sleepingCount+1);}
   await b.setReaction(first.id,'dream');await a.deletePost(first.id);created.delete(first.id);assert(!(await b.snapshot()).feed.some(p=>p.id===first.id));
   const comfortPost=await a.submitPost('awake');created.add(comfortPost.id);
@@ -64,7 +69,7 @@ async function run() {
   assert((await signedOut.rpc('oyasumi_set_reaction_v2',{p_post_id:comfortPost.id,p_choice:'comfort'})).error);
   assert((await signedOut.rpc('oyasumi_reaction_counts_v2',{p_post_ids:[comfortPost.id]})).error);
   const rows=await signedOut.from('oyasumi_posts').select('*');assert(rows.error||rows.data.length===0,'Unauthenticated data must be denied');
-  console.log('PASS live Supabase: two identities, shared posts/names/counts and all five cat expressions, invalid expression/unauthenticated/direct-write denial, reaction privacy, duplicate protection and ownership.');
+  console.log('PASS live Supabase: two identities, shared posts/names/counts and all six cat expressions, invalid expression/unauthenticated/direct-write denial, reaction privacy, duplicate protection and ownership.');
 }
 run().catch(error=>{console.error('FAIL live Supabase:',error.message);process.exitCode=1;}).finally(async()=>{
   for(const id of created){try{await a.deletePost(id);}catch{console.error('Test post cleanup failed:',id);process.exitCode=1;}}

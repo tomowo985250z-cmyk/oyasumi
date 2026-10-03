@@ -17,15 +17,11 @@ begin
       add constraint oyasumi_cat_coat_choices
       check (cat_coat in ('calico', 'orange', 'brown', 'silver', 'black', 'white', 'tuxedo', 'gray'));
   end if;
-  if not exists (
-    select 1 from pg_constraint
-    where conrelid = 'public.oyasumi_profiles'::regclass
-      and conname = 'oyasumi_cat_expression_choices'
-  ) then
-    alter table public.oyasumi_profiles
-      add constraint oyasumi_cat_expression_choices
-      check (cat_expression in ('calm', 'sleepy', 'yawn', 'restless', 'happy'));
-  end if;
+  alter table public.oyasumi_profiles
+    drop constraint if exists oyasumi_cat_expression_choices;
+  alter table public.oyasumi_profiles
+    add constraint oyasumi_cat_expression_choices
+    check (cat_expression in ('calm', 'sleepy', 'yawn', 'restless', 'happy', 'surprised'));
 end;
 $$;
 
@@ -42,7 +38,7 @@ begin
     raise exception '匿名認証が必要です。' using errcode = '42501';
   end if;
   if p_expression is null
-     or p_expression not in ('calm', 'sleepy', 'yawn', 'restless', 'happy') then
+     or p_expression not in ('calm', 'sleepy', 'yawn', 'restless', 'happy', 'surprised') then
     raise exception '用意された表情から選んでください。' using errcode = '22023';
   end if;
   perform pg_advisory_xact_lock(hashtextextended(v_user::text, 0));

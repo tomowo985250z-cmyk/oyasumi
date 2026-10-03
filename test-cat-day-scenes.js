@@ -25,4 +25,4 @@ delete require.cache[require.resolve('./cat-day-scenes.js')];require('./cat-day-
 assert.deepEqual(DayCats.current(at('12:00')),stable,'Reloading the module retains the action');
 assert.deepEqual(CatFaces.coats.flatMap(c => CatFaces.options.map(e => CatFaces.svg(e.id,c.id))),profileBefore);
 assert.deepEqual(CatFaces.coats.flatMap(c => ['awake','sleeping'].map(s => CatScenes.svg(s,c.id))),scenesBefore);
-console.log('PASS daytime cats: 40 separate patterns, JST noon–18:00, stable two-hour actions, five-action rotation, unchanged existing 56 cats.');
+console.log('PASS daytime cats: 40 separate patterns, JST noon–18:00, stable two-hour actions, five-action rotation, unchanged profile and sleep/wake cats.');

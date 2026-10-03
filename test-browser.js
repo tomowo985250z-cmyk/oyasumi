@@ -89,8 +89,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     await evaluate('go("timeline")');await screenshot('reactions-layout-mobile.png');
     await evaluate('shared.feed=previewFeed;go("home")');
     await evaluate('go("profile")');await click('[data-expression-picker]');
-    assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),5);
-    assert.equal(await evaluate('document.querySelectorAll("#expression-options .cat-face").length'),5);
+    assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),6);
+    assert.equal(await evaluate('document.querySelectorAll("#expression-options .cat-face").length'),6);
     assert.equal(await evaluate('CatFaces.normalize("<script>")'),'calm');
     await screenshot('cat-expressions-mobile.png');
     await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});
@@ -103,7 +103,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
     await click('#cancel-expression');
     for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
-      for(const expression of ['calm','sleepy','yawn','restless','happy']){
+      for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
         await evaluate(`state.coat=${JSON.stringify(coat)};state.expression=${JSON.stringify(expression)};go("profile")`);
         assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catCoat'),coat);
         await click('[data-expression-picker]');
@@ -116,7 +116,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${CatFaces.options.flatMap(expression=>CatFaces.coats.map(coat=>`<div style="text-align:center">${CatFaces.svg(expression.id,coat.id)}<small>${coat.label}・${expression.label}</small></div>`)).join("")}</div>`');
     await screenshot('cat-matrix.png');
     assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);assert.deepEqual(errors,[]);
-    console.log('PASS UI preview: equal status buttons, unchanged blue/pink, 2x2 reactions at 320/390/430px, 40 SVG cats, mobile picker and legacy data. Reaction persistence still requires SQL migration.');
+    console.log('PASS UI preview: equal status buttons, unchanged blue/pink, 2x2 reactions at 320/390/430px, 48 SVG cats, mobile picker and legacy data. This preview does not test shared persistence.');
     return;
   }
   assert(await evaluate('shared.expressionSupported'),'Run supabase/cat-appearance.sql before browser expression tests.');
@@ -146,8 +146,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catCoat'),coat);
   }
   await evaluate('go("profile")');await click('[data-expression-picker]');
-  assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),5);
-  for(const expression of ['calm','sleepy','yawn','restless','happy']){
+  assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),6);
+  for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
     await action(`[data-expression="${expression}"]`);
     assert.equal(await evaluate('state.expression'),expression);
     assert.equal(await evaluate('state.coat'),'gray','Expression changes must retain the selected coat');
@@ -158,6 +158,20 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await evaluate('await refreshShared()');assert(await evaluate('document.querySelector("#expression-dialog").open'),'Refresh must not close expression picker');
   await screenshot('cat-expressions-mobile.png');await click('#cancel-expression');
+  await click('[data-expression-picker]');await action('[data-expression="surprised"]');
+  await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');
+  assert.equal(await evaluate('state.expression'),'surprised','Reload must preserve the shared surprised expression');
+  await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize()');
+  await evaluate('go("profile")');
+  for(const width of [320,390,430]){
+    await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+    assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catExpression'),'surprised');
+    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    await click('[data-expression-picker]');
+    assert(await evaluate('(()=>{const r=document.querySelector("#expression-dialog").getBoundingClientRect();return r.right<=innerWidth&&r.bottom<=innerHeight})()'));
+    await screenshot(`surprised-picker-${width}.png`);await click('#cancel-expression');
+  }
+  await click('[data-expression-picker]');await action('[data-expression="happy"]');
   await evaluate('await peer.setCatCoat("black");await peer.setCatExpression("restless");await refreshShared();filter="all";go("timeline")');
   assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catExpression`),'restless');
   assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catCoat`),'black');
@@ -251,7 +265,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await action('[data-delete]');assert.equal(await evaluate('state.posts.length'),4);
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);
   assert.deepEqual(errors,[]);
-  console.log('PASS browser: all five shared cat expressions, profile/feed/sleep rendering, expression persistence and offline failure, anonymous session, shared posts/reactions/counts, nickname checks, preserved legacy data, mobile widths and no runtime errors.');
+  console.log('PASS browser: all six shared cat expressions, profile/feed/sleep rendering, expression persistence and offline failure, anonymous session, shared posts/reactions/counts, nickname checks, preserved legacy data, mobile widths and no runtime errors.');
 })().catch(error=>{console.error('FAIL browser:',error.message);process.exitCode=1;}).finally(async()=>{
   if(evaluate){try{await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});await evaluate('globalThis.fetch=globalThis.originalFetch||fetch;for(const post of state.posts)await OyasumiAPI.deletePost(post.id);if(localStorage.getItem("oyasumi-browser-peer")){const cleanupPeer=globalThis.peer||createOyasumiConnection("oyasumi-browser-peer");await cleanupPeer.initialize();for(const post of (await cleanupPeer.snapshot()).ownPosts)await cleanupPeer.deletePost(post.id)}');}catch(error){console.error('Browser test cleanup failed:',error.message);process.exitCode=1;}}
   socket?.close();browser.kill();server.kill();

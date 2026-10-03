@@ -31,7 +31,7 @@ for(const coat of CatFaces.coats)for(const expression of CatFaces.options){
   assert(svg.includes(`data-cat-coat="${coat.id}"`));assert(svg.includes(`data-cat-expression="${expression.id}"`));
   assert(!svg.includes('<image'));assert(!svg.includes('cat.svg'));cats.add(svg);
 }
-assert.equal(cats.size,40);
+assert.equal(cats.size,48);
 assert.equal(CatFaces.normalizeCoat('<script>'),'calico');
 assert.equal(CatFaces.normalize('<script>'),'calm');
-console.log('PASS trend logic: five comments, observation gaps, recent comparison, editable copy, empty/zero graphs and 40 distinct SVG cats.');
+console.log('PASS trend logic: five comments, observation gaps, recent comparison, editable copy, empty/zero graphs and 48 distinct SVG cats.');
