@@ -40,7 +40,7 @@ function showReactionEffect(button,choice) {
 function showShareURL() { const dialog=document.querySelector('#share-dialog');document.querySelector('#share-url').textContent=SHARE_PLACE.url;if(!dialog.open)dialog.showModal(); }
 async function copyPlaceURL() { try { await navigator.clipboard.writeText(SHARE_PLACE.url);document.querySelector('#share-dialog').close();toast('URLをコピーしました'); } catch { showShareURL(); } }
 async function sharePlace() { if(typeof navigator.share!=='function'){await copyPlaceURL();return;}try { await navigator.share({text:SHARE_PLACE.text,url:SHARE_PLACE.url}); } catch(error) { if(error.name!=='AbortError')showShareURL(); } }
-const freshState = () => ({ name: '', expression: 'calm', coat: 'calico', catRole: null, posts: [], reactions: {}, morningDays: [], light: false, lastSleep: null });
+const freshState = () => ({ name: '', expression: 'calm', coat: 'calico', catRole: null, profileNote: '', posts: [], reactions: {}, morningDays: [], light: false, lastSleep: null });
 let localState = {};
 try { localState = { ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'), ...JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}') }; } catch { /* Leave old storage untouched. */ }
 let state = { ...freshState(), coat: CatFaces.normalizeCoat(localState.lastSleep?.coat), name: localState.name, morningDays: Array.isArray(localState.morningDays) ? localState.morningDays : [], light: !!localState.light, lastSleep: localState.lastSleep || null };
@@ -86,7 +86,7 @@ function reactionButtons(post) {
 }
 function timeline() {
  const posts = allPosts().filter(post => filter==='all' || (filter==='sleep' ? isSleeping(post.status) : post.status==='awake'));
- return `${header()}<div class="tabs" aria-label="投稿の絞り込み">${[['all','みんな'],['awake','まだ起きてる'],['sleep','もう寝た']].map(([key,label])=>`<button data-filter="${key}" class="${filter===key?'active':''}" aria-pressed="${filter===key}">${label}</button>`).join('')}</div><div>${posts.length?posts.map(p=>`<article class="post">${avatar(p)}<div class="post-body"><div class="post-top"><h2 class="post-name"><span class="post-nickname">${escapeHTML(p.name)}</span>${roleTag(p.catRole)}${p.self?'<span class="self-tag">あなた</span>':''}</h2>${p.self?`<button class="text-button" data-delete="${p.id}" aria-label="自分の投稿を削除">削除</button>`:''}</div><p class="post-text ${p.status==='awake'?'awake-text':''}">${statusText(p.status)}</p><div class="post-bottom"><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>${reactionButtons(p)}</div></article>`).join(''):'<p class="empty">まだ投稿がありません。<br>ホームから今の気持ちを伝えてみましょう。</p>'}</div><p class="sample-tag">今夜の投稿を共有しています</p>`;
+ return `${header()}<div class="tabs" aria-label="投稿の絞り込み">${[['all','みんな'],['awake','まだ起きてる'],['sleep','もう寝た']].map(([key,label])=>`<button data-filter="${key}" class="${filter===key?'active':''}" aria-pressed="${filter===key}">${label}</button>`).join('')}</div><div>${posts.length?posts.map(p=>`<article class="post"><button class="public-profile-cat" data-public-profile="${p.id}" aria-label="${escapeHTML(p.name)}のプロフィール">${avatar(p)}</button><div class="post-body"><div class="post-top"><h2 class="post-name"><span class="post-nickname">${escapeHTML(p.name)}</span>${roleTag(p.catRole)}${p.self?'<span class="self-tag">あなた</span>':''}</h2>${p.self?`<button class="text-button" data-delete="${p.id}" aria-label="自分の投稿を削除">削除</button>`:''}</div><p class="post-text ${p.status==='awake'?'awake-text':''}">${statusText(p.status)}</p><div class="post-bottom"><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>${reactionButtons(p)}</div></article>`).join(''):'<p class="empty">まだ投稿がありません。<br>ホームから今の気持ちを伝えてみましょう。</p>'}</div><p class="sample-tag">今夜の投稿を共有しています</p>`;
 }
 function sleep() { return `<section class="sleep-screen"><div class="sleep-art" aria-hidden="true"><span class="big-moon">☾</span><span class="star one">✦</span><span class="star two">✦</span><span class="star three">✦</span><span class="sleep-cat">${CatFaces.svg(state.expression,state.coat)}</span></div><h1>おやすみなさい<br>${escapeHTML(state.name)}さん 🌙</h1><div class="card">今夜は <strong>${state.lastSleep?.count ?? '—'}</strong> 人と一緒に<br>おやすみしました。</div><p class="rest-message">今日もお疲れさまでした。<br>ゆっくり休んでくださいね。</p><button class="cream-button" data-finish-sleep>また明日 🌙</button><p class="quiet-note">これで今日のSNSは終了です。<br>スマホを置いて、ゆっくり休みましょう。</p><button class="text-button" data-view="home">ホームに戻る</button><p class="sample-tag">おやすみした時点の報告人数です</p></section>`; }
 function rest() { const elapsed=CatScenes.elapsed(state.lastSleep?.finishedAt),settled=elapsed>=CatScenes.settleDurationMs;return `<section class="rest-screen" data-phase="${settled?'settled':'intro'}" style="--rest-duration:${CatScenes.settleDurationMs}ms;--rest-elapsed:-${elapsed}ms"><div class="rest-content"><div class="rest-cat" aria-hidden="true">${CatScenes.svg('sleeping',state.coat)}</div>${settled?'<h1>おやすみなさい 🌙</h1>':'<div class="rest-intro"><h1>また明日 🌙</h1><p class="rest-message">今日もおつかれさまでした<br>スマホを置いて、ゆっくり休もう</p></div>'}</div></section>`; }
@@ -97,16 +97,16 @@ function morningReceipts() {
  return `<section class="card morning-receipts"><h2>きのう、あなたに届いたおやすみ</h2>${valid?`<div class="morning-reaction-grid">${Object.entries(labels).map(([id,label])=>`<div><span>${label}</span><strong>${receipt[id]}<small> 個</small></strong></div>`).join('')}</div><p>${Object.keys(labels).reduce((total,id)=>total+receipt[id],0)}個のやさしい言葉が届いていました</p>`:'<p class="muted">届いた言葉を取得できませんでした。</p>'}</section>`;
 }
 function morning() { const recorded=state.morningDays.includes(dayKey());return `<section class="morning"><div class="sunrise" aria-hidden="true"><span class="morning-cat">${CatScenes.svg('awake',state.coat)}</span></div><h1>おはようございます<br>${escapeHTML(state.name)}さん ☀️</h1><div class="card">昨夜は <strong>${state.lastSleep?.count ?? '—'}</strong> 人と一緒に<br>おやすみしました。</div>${morningReceipts()}<p>よく眠れましたか？<br>今日も良い一日になりますように！</p><button class="cream-button" data-morning ${recorded?'disabled':''}>${recorded?'おはようを記録しました ✓':'おはよう ☀️ を記録する'}</button><p class="muted">また今夜、ここで会いましょう。</p><p class="sample-tag">おやすみした時点の報告人数です</p></section>`; }
-function profile() { return `${header()}${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner"><button class="profile-cat-button" ${shared.needsCat?'data-coat-picker':'data-expression-picker'} aria-label="${shared.needsCat?'猫の種類を選ぶ':'猫の表情を変更'}">${shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1>${roleTag(state.catRole)}<p>今夜も、自分のペースで。</p></div></div>${roleSetting()}<div class="stats-grid"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><div class="section-heading"><h2>最近の記録</h2></div>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p>`; }
+function profile() { return `${header()}${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner"><button class="profile-cat-button" ${shared.needsCat?'data-coat-picker':'data-expression-picker'} aria-label="${shared.needsCat?'猫の種類を選ぶ':'猫の表情を変更'}">${shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1>${roleTag(state.catRole)}<button class="profile-note-button" data-note-editor><span>そっとひとこと ›</span><span class="profile-note-text">${escapeHTML(state.profileNote)||'未入力'}</span></button></div></div>${roleSetting()}<div class="stats-grid"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><div class="section-heading"><h2>最近の記録</h2></div>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p>`; }
 function settings() { return `${header('設定',true)}<section class="settings-section"><h2>プロフィール</h2><button class="setting-row" data-name><span>ニックネーム</span><span class="setting-value">${escapeHTML(state.name)} ›</span></button><button class="setting-row" data-coat-picker aria-label="猫の毛色を選ぶ"><span>猫の種類（毛色）</span><span class="expression-setting"><span class="avatar peach">${CatFaces.svg(state.expression,state.coat)}</span><span class="setting-value">${shared.needsCat?'未設定':CatFaces.coatLabel(state.coat)} ›</span></span></button>${roleSetting()}</section><section class="settings-section"><h2>表示設定</h2><label class="setting-row"><span>ダークモード</span><input class="switch" type="checkbox" id="dark-switch" ${!state.light?'checked':''}></label><div class="setting-row"><span>言語</span><span class="setting-value">日本語</span></div></section><section class="settings-section"><h2>この初期版について</h2><div class="card settings-info">投稿・リアクション・今夜の人数は、みんなで共有しています。朝の記録と表示設定は、この端末に保存されます。人数の推移は、今夜の投稿をもとに集計しています。<br><br>匿名アカウントは端末ごとに異なります。通知は今後の対応予定です。</div></section><button class="text-button share-place-button" data-share-place>この場所を教える 🌙</button>`; }
 function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');app.innerHTML=({home,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)();navigation();syncBusy();if(view==='sleep'){sleepShownAt??=Date.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(Date.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt);if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')render();},remaining+20);} }
 function go(next) { if(next==='sleep'&&view!=='sleep')sleepShownAt=Date.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0); }
 function syncBusy() {
  app.setAttribute('aria-busy',String(busy));
- document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy;});
+ document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],#note-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy;});
 }
 function renderPreservingPosition() {
- if(document.querySelector('#nickname-dialog').open||document.querySelector('#expression-dialog').open||document.querySelector('#role-dialog').open)return;
+ if(document.querySelector('dialog[open]'))return;
  const x=window.scrollX,y=window.scrollY,focused=document.activeElement;
  const attributes=['data-view','data-filter','data-react','data-reaction','data-delete','data-post'];
  const selector=focused?.id?`#${CSS.escape(focused.id)}`:attributes.filter(key=>focused?.hasAttribute(key)).map(key=>`[${key}="${CSS.escape(focused.getAttribute(key))}"]`).join('');
@@ -117,7 +117,7 @@ async function refreshShared() {
  if(refreshPromise)return refreshPromise;
  refreshPromise=(async()=>{
   const snapshot=await OyasumiAPI.snapshot();
-  shared=snapshot;state.name=snapshot.name;state.expression=CatFaces.normalize(snapshot.expression);state.coat=CatFaces.normalizeCoat(snapshot.coat);state.catRole=snapshot.catRole;state.posts=snapshot.ownPosts;state.reactions=snapshot.reactions;
+  shared=snapshot;state.name=snapshot.name;state.expression=CatFaces.normalize(snapshot.expression);state.coat=CatFaces.normalizeCoat(snapshot.coat);state.catRole=snapshot.catRole;state.profileNote=snapshot.profileNote;state.posts=snapshot.ownPosts;state.reactions=snapshot.reactions;
   ready=true;save();renderPreservingPosition();
  })();
  try{await refreshPromise;}finally{refreshPromise=undefined;}
@@ -151,7 +151,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.dataset.post){const status=button.dataset.post;if(!POST_OPTIONS.some(option=>option.id===status))return;void mutation(async()=>{
   if(!shared.profileComplete){go('profile');toast('名前と猫の種類を設定してください');return;}
   const row=await OyasumiAPI.submitPost(status);
-  const post={id:row.id,userId:row.user_id,status:row.choice,time:Date.parse(row.created_at),nightDate:row.night_date,order:row.event_order,name:state.name,expression:state.expression,coat:state.coat,catRole:state.catRole,self:true,color:'peach'};
+  const post={id:row.id,userId:row.user_id,status:row.choice,time:Date.parse(row.created_at),nightDate:row.night_date,order:row.event_order,name:state.name,expression:state.expression,coat:state.coat,catRole:state.catRole,profileNote:state.profileNote,self:true,color:'peach'};
   state.posts=[post,...state.posts.filter(p=>p.id!==post.id)];shared.feed=[post,...shared.feed.filter(p=>p.userId!==post.userId)];
   const refreshed=await refreshAfterSave();
   if(isSleeping(status)){state.lastSleep={count:refreshed?shared.sleepingCount:null,nightDate:row.night_date,userId:row.user_id,at:row.created_at,coat:state.coat,finished:false};save();}
@@ -197,6 +197,36 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
 document.addEventListener('change',event=>{if(event.target.id==='dark-switch'){state.light=!event.target.checked;save();render();}});
 document.querySelector('#cancel-name').addEventListener('click',()=>document.querySelector('#nickname-dialog').close());
 document.querySelector('#cancel-expression').addEventListener('click',()=>document.querySelector('#expression-dialog').close());
+document.addEventListener('click',event=>{
+ const edit=event.target.closest('[data-note-editor]');
+ if(edit&&!busy){
+  document.querySelector('#profile-note').value=state.profileNote||'';
+  document.querySelector('#note-error').textContent='';document.querySelector('#profile-note').removeAttribute('aria-invalid');
+  document.querySelector('#note-dialog').showModal();document.querySelector('#profile-note').focus();
+ }
+ const button=event.target.closest('[data-public-profile]');if(!button)return;
+ const person=allPosts().find(post=>post.id===button.dataset.publicProfile);if(!person)return;
+ document.querySelector('#public-profile-content').innerHTML=`<div class="public-profile-face">${avatar(person)}</div><h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
+ document.querySelector('#public-profile-dialog').showModal();
+});
+document.querySelector('#close-public-profile').addEventListener('click',()=>document.querySelector('#public-profile-dialog').close());
+document.querySelector('#public-profile-dialog').addEventListener('close',renderPreservingPosition);
+document.querySelector('#cancel-note').addEventListener('click',()=>document.querySelector('#note-dialog').close());
+document.querySelector('#profile-note').addEventListener('input',()=>{document.querySelector('#note-error').textContent='';document.querySelector('#profile-note').removeAttribute('aria-invalid');});
+document.querySelector('#note-form').addEventListener('submit',event=>{
+ event.preventDefault();if(busy)return;
+ const input=document.querySelector('#profile-note');
+ const result=NicknameRules.validate(input.value,{max:20,optional:true,countText:value=>[...value].length});
+ if(result.error){document.querySelector('#note-error').textContent=result.error;input.setAttribute('aria-invalid','true');input.focus();return;}
+ void mutation(async()=>{
+  let note;
+  try{note=await OyasumiAPI.setProfileNote(result.name);}
+  catch(error){document.querySelector('#note-error').textContent=error.code==='22023'?error.message:'保存できませんでした。もう一度お試しください。';input.setAttribute('aria-invalid','true');throw error;}
+  state.profileNote=note;shared.profileNote=note;
+  for(const post of [...state.posts,...shared.feed])if(post.userId===shared.userId)post.profileNote=note;
+  document.querySelector('#note-dialog').close();render();await refreshAfterSave();toast('ひとことを保存しました');
+ });
+});
 const roleWheel=document.querySelector('#role-wheel');
 let selectedRoleIndex=0;
 function selectRole(index, move=false) {

@@ -51,6 +51,37 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-profile-note')){
+    await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();await peer.setNickname("ひとこと猫");await peer.setCatCoat("gray");await peer.setCatRole("mechanic");await peer.setProfileNote("今夜ものんびり");globalThis.notePeerPost=await peer.submitPost("awake");await refreshShared();go("profile")');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await click('[data-note-editor]');
+      for(const value of ['あ'.repeat(21),'https://example.jp','a@example.jp','090-1234-5678','死ね']){
+        await evaluate(`document.querySelector("#profile-note").value=${JSON.stringify(value)}`);await action('#note-form button[type=submit]');
+        assert(await evaluate('document.querySelector("#note-dialog").open&&document.querySelector("#note-error").textContent.length>0'));
+      }
+      await evaluate('document.querySelector("#profile-note").value="あ".repeat(20)');await action('#note-form button[type=submit]');
+      assert.equal(await evaluate('state.profileNote'),'あ'.repeat(20));
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      await screenshot(`profile-note-${width}.png`);await evaluate('go("timeline")');
+      await click(`[data-public-profile="${await evaluate('notePeerPost.id')}"]`);
+      assert.equal(await evaluate('document.querySelector("#public-profile-content h3").textContent'),'ひとこと猫');
+      assert.equal(await evaluate('document.querySelector("#public-profile-content .cat-role-tag").textContent'),'メカ猫');
+      assert.equal(await evaluate('document.querySelector(".public-profile-note").textContent'),'今夜ものんびり');
+      assert.equal(await evaluate('document.querySelectorAll("#public-profile-dialog button").length'),1,'Only closing, no contact/follow/history controls');
+      assert.equal(await evaluate('document.querySelector("#public-profile-dialog").textContent.includes("IT・技術")'),false);
+      assert(await evaluate('document.querySelector("#public-profile-dialog").getBoundingClientRect().right<=innerWidth'));
+      await screenshot(`public-profile-${width}.png`);await click('#close-public-profile');await evaluate('go("profile")');
+    }
+    await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');assert.equal(await evaluate('state.profileNote'),'あ'.repeat(20));
+    await evaluate('go("profile")');await click('[data-note-editor]');await evaluate('document.querySelector("#profile-note").value=""');await action('#note-form button[type=submit]');assert.equal(await evaluate('state.profileNote'),'');
+    await click('[data-note-editor]');await evaluate('document.querySelector("#profile-note").value="変更しない"');await click('#cancel-note');assert.equal(await evaluate('state.profileNote'),'');
+    await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();globalThis.notePeerPost=(await peer.snapshot()).ownPosts[0];await peer.setProfileNote("");await peer.setCatRole("private");await refreshShared();go("timeline")');
+    await click(`[data-public-profile="${await evaluate('notePeerPost.id')}"]`);
+    assert.equal(await evaluate('document.querySelector("#public-profile-content .cat-role-tag")'),null);
+    assert.equal(await evaluate('document.querySelector(".public-profile-note").textContent'),'未入力');await click('#close-public-profile');
+    assert.deepEqual(errors,[]);console.log('PASS profile note UI: 320/390/430px, validation reasons, save/restart/clear/cancel, public cat/name/role/note only, hidden private role.');return;
+  }
   if(process.argv.includes('--test-cat-roles')||process.argv.includes('--test-cat-roles-mock')){
     if(process.argv.includes('--test-cat-roles-mock'))await evaluate('globalThis.testRole=null;OyasumiAPI.setCatRole=async role=>{testRole=role};refreshAfterSave=async()=>true;shared.feed=[{id:"role-preview",userId:shared.userId,name:state.name,coat:state.coat,expression:state.expression,status:"awake",time:Date.now(),self:true}]');
     else await evaluate('globalThis.roleTestPost=await OyasumiAPI.submitPost("awake");await refreshShared()');
@@ -391,7 +422,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     assert.equal(await evaluate('document.querySelector(".count").textContent.trim()'),await evaluate('`${shared.tonightSummary.sleepingCount} 人`'));
     await screenshot(`tonight-summary-${width}.png`);
   }
-  await evaluate('globalThis.summaryFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_summary"))throw new Error("Simulated summary failure");return summaryFetch(input,options)};await refreshShared();go("stats")');
+  await evaluate('if(refreshPromise)await refreshPromise;globalThis.summaryFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_summary"))throw new Error("Simulated summary failure");return summaryFetch(input,options)};await refreshShared();go("stats")');
   assert.equal(await evaluate('shared.tonightSummary'),null);
   assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),0);
   assert(await evaluate('Number.isFinite(shared.sleepingCount)'));
@@ -496,20 +527,20 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('state.expression'),'happy','Failed expression save must retain the existing expression');assert(await evaluate('document.querySelector("#expression-error").textContent.length>0'));await click('#cancel-expression');await evaluate('go("home")');
   await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});
   await waitFor('!refreshPromise');
-  await evaluate('globalThis.originalFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_counts"))throw new Error("Simulated count refresh failure");return originalFetch(input,options)}');
+  await evaluate('if(refreshPromise)await refreshPromise;globalThis.originalFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_counts"))throw new Error("Simulated count refresh failure");return originalFetch(input,options)}');
   await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'sleep','A saved post remains successful if count refresh fails');assert.equal(await evaluate('state.posts.length'),5);assert.equal(await evaluate('state.lastSleep.count'),null);
   assert.equal(await evaluate('document.querySelector(".sleep-cat .cat-face").dataset.catCoat'),'gray');
   assert.equal(await evaluate('state.posts[0].coat'),'gray');
   assert.equal(await evaluate('state.posts[0].expression'),'happy');
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
-  await evaluate('globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_trend"))throw new Error("Simulated trend refresh failure");return originalFetch(input,options)};await refreshShared();go("stats")');
+  await evaluate('if(refreshPromise)await refreshPromise;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_trend"))throw new Error("Simulated trend refresh failure");return originalFetch(input,options)};await refreshShared();go("stats")');
   assert.equal(await evaluate('shared.trend.length'),0);
   assert(!(await evaluate('document.querySelector(".chart").textContent')).includes('サンプル'));
   await evaluate('go("home")');
   assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),'insufficient');
   assert(await evaluate('Number.isFinite(shared.awakeCount)'),'Trend failure must preserve existing counts');
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
-  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','rest','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'),`Overflow ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname),[contenteditable=true]").length'),0);}}
+  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','rest','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'),`Overflow ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname):not(#profile-note),[contenteditable=true]").length'),0);}}
   await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});await evaluate('go("profile")');await click('[data-expression-picker]');
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth'));
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));await click('#cancel-expression');

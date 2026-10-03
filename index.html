@@ -2,14 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="oyasumi-release" content="79aa292b3011f3f9">
+  <meta name="oyasumi-release" content="dc77019c813ff29d">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#071329">
   <meta name="description" content="眠れない夜に、ひとりじゃない。静かなおやすみコミュニティ。">
   <title>おやすみ — ひとりじゃない、おやすみの時間。</title>
   <link rel="icon" href="favicon.svg?v=16ea8576293793f9" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=f6b2144c952d7f4c">
-  <script src="nickname.js?v=eb01471780b491c1" defer></script>
+  <link rel="stylesheet" href="style.css?v=0a0d414ba0046f78">
+  <script src="nickname.js?v=a944082ff045149b" defer></script>
   <script src="cat-faces.js?v=82d5031b9d91d32c" defer></script>
   <script src="cat-roles.js?v=a25e757f9e91e42e" defer></script>
   <script src="cat-scenes.js?v=925149c33b6929f6" defer></script>
@@ -18,9 +18,9 @@
   <script src="cat-day-scenes.js?v=e587d587d099c5db" defer></script>
   <script src="vendor/supabase.js?v=59d39487c3589843" defer></script>
   <script src="supabase-config.js?v=4daaed5455fdf5aa" defer></script>
-  <script src="supabase-api.js?v=0bd6ac08d273b039" defer></script>
+  <script src="supabase-api.js?v=920da452d6855bac" defer></script>
   <script src="update-client.js?v=dce3c8e9063a578a" defer></script>
-  <script src="app.js?v=7d15e2b7e3ee6a12" defer></script>
+  <script src="app.js?v=17b77da9adfef10d" defer></script>
 </head>
 <body>
   <div class="night-sky" aria-hidden="true"></div>
@@ -31,5 +31,7 @@
   <dialog id="expression-dialog" aria-labelledby="expression-title"><h2 id="expression-title">猫の表情</h2><p id="expression-description">今の気分に合う表情を、ひとつ。</p><div id="expression-options" class="expression-options" role="group" aria-label="猫の表情の選択肢"></div><p id="expression-error" class="nickname-error" role="alert"></p><button type="button" class="text-button" id="cancel-expression">閉じる</button></dialog>
 <dialog id="share-dialog" aria-labelledby="share-title"><h2 id="share-title">この場所を教える 🌙</h2><p>URLを長押ししてコピーすることもできます。</p><p id="share-url" class="share-url" tabindex="0"></p><div class="dialog-actions"><button type="button" class="text-button" data-close-share>閉じる</button><button type="button" class="cream-button" data-copy-place>URLをコピー</button></div></dialog>
   <dialog id="role-dialog" aria-labelledby="role-title"><form id="role-form"><h2 id="role-title">職業（任意）</h2><p id="role-help">指で上下に動かして選べます。<br>みんなには「〇〇猫」だけが表示されます。</p><div class="role-wheel-frame"><div id="role-wheel" class="role-wheel" role="listbox" tabindex="0" aria-label="職業の選択肢" aria-describedby="role-help"></div></div><p id="role-preview" class="role-preview" aria-live="polite"></p><p id="role-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-role">キャンセル</button><button type="submit" class="cream-button">保存する</button></div></form></dialog>
+  <dialog id="note-dialog" aria-labelledby="note-title"><form id="note-form" novalidate><h2 id="note-title">そっとひとこと</h2><p id="note-help">20文字以内・未入力でもOK。<br>連絡先や不適切な表現は使えません。</p><label for="profile-note">ひとこと</label><input id="profile-note" name="profile-note" type="text" autocomplete="off" enterkeyhint="done" aria-describedby="note-help note-error" placeholder="今のあなたを、少しだけ"><p id="note-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-note">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
+  <dialog id="public-profile-dialog" aria-labelledby="public-profile-title"><h2 id="public-profile-title">プロフィール</h2><div id="public-profile-content"></div><button type="button" class="text-button" id="close-public-profile">閉じる</button></dialog>
 </body>
 </html>

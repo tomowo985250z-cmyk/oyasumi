@@ -38,10 +38,10 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     }
     return initialization;
   }
-  function mapPost(row, names, expressions, coats, roles) {
+  function mapPost(row, names, expressions, coats, roles, notes) {
     return { id: row.id, userId: row.user_id, status: row.choice, time: Date.parse(row.created_at),
       order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || '名無し',
-      self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate', expression: expressions.get(row.user_id) || 'calm', coat: coats.get(row.user_id) || 'calico', catRole: roles.get(row.user_id) || null };
+      self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate', expression: expressions.get(row.user_id) || 'calm', coat: coats.get(row.user_id) || 'calico', catRole: roles.get(row.user_id) || null, profileNote: notes.get(row.user_id) || '' };
   }
   async function snapshot() {
     await initialize();
@@ -98,6 +98,8 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     const roleResult = await client.from('oyasumi_profiles').select('user_id,cat_role').in('user_id', authorIds);
     const roleSupported = !roleResult.error;
     const roles = new Map((roleResult.data || []).map(profile => [profile.user_id, profile.cat_role]));
+    const noteResult = await client.from('oyasumi_profiles').select('user_id,profile_note').in('user_id', authorIds);
+    const notes = new Map((noteResult.data || []).map(profile => [profile.user_id, profile.profile_note]));
     const names = new Map(profiles.map(profile => [profile.user_id, profile.nickname]));
     const allowedExpressions = ['calm', 'sleepy', 'yawn', 'restless', 'happy', 'surprised'];
     const expressions = new Map(profiles.map(profile => [profile.user_id, allowedExpressions.includes(profile.cat_expression) ? profile.cat_expression : 'calm']));
@@ -121,7 +123,8 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     const needsCat = !profiles.some(p=>p.user_id===userId && allowedCoats.includes(p.cat_coat));
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
-      feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles)),
+      profileNote: notes.get(userId) || '',
+      feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles, notes)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles, notes)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }
   return { client, initialize, snapshot, get userId() { return userId; }, get needsNickname() { return needsNickname; },
@@ -136,6 +139,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       }
     },
     setNickname: async name => { const result = await rpc('oyasumi_set_nickname', { p_nickname: name }); needsNickname = false; try { globalThis.localStorage?.removeItem('oyasumi-name-pending-' + userId); } catch { /* The saved name remains authoritative. */ } return result; },
+    setProfileNote: note => rpc('oyasumi_set_profile_note', { p_note: note }),
     setCatRole: role => rpc('oyasumi_set_cat_role', { p_role: role }),
     setCatCoat: coat => rpc('oyasumi_set_cat_coat', { p_coat: coat }),
     setCatExpression: expression => rpc('oyasumi_set_cat_expression', { p_expression: expression }) };

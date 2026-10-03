@@ -4,9 +4,10 @@ const NicknameRules = (() => {
  const count = name => segmenter ? [...segmenter.segment(name)].length : [...name].length;
  const inappropriateJapanese = /死ね|しね|殺す|ころす|くたばれ|バカ野郎|ばかやろう|キチガイ|きちがい|基地外|土人|セックス|せっくす|ちんこ|チンコ|ちんぽ|チンポ|まんこ|マンコ|オナニー|おなにー|ペニス|ぺにす|レイプ|れいぷ|おっぱい|オッパイ|児童ポルノ/;
  const inappropriateEnglish = /\b(?:fuck(?:ing|er)?|shit|bitch|cunt|nigg(?:er|a)s?|fagg?ot|chink|retard|sex|porn|penis|vagina|rape)\b/i;
- function validate(value) {
+ function validate(value, {max=12,optional=false,countText=count} = {}) {
   const name = typeof value === 'string' ? value.trim().normalize('NFC') : '';
-  if (!name || count(name) > 12) return { error: '1〜12文字で入力してください。' };
+  if (!name && optional) return { name: '', error: '' };
+  if (!name || countText(name) > max) return { error: optional?`${max}文字以内で入力してください。`:`1〜${max}文字で入力してください。` };
   if (/[\p{Cc}\p{Cf}]/u.test(name.replace(/\u200d/g, '')) || /[<>]/.test(name)) return { error: '使えない記号が含まれています。' };
   // Compatibility normalization catches full-width contact info. Strip separators
   // only for screening; display and save the user's original spelling.
