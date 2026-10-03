@@ -8,6 +8,16 @@ const POST_OPTIONS = [
 ];
 const REACTION_OPTIONS = [{ id: 'goodnight', text: 'おやすみ🌙' }, { id: 'dream', text: 'いい夢を💤' }, { id: 'tomorrow', text: 'また明日👋' }, { id: 'comfort', text: '無理せずね☺️' }];
 const isSleeping = status => POST_OPTIONS.some(option => option.id === status && option.sleeping);
+const DARK_HINT_KEY = 'oyasumi-dark-hint-seen';
+let darkHintEligible=false,darkHintStarted,darkHintTimer;
+try { const firstUse=!localStorage.getItem(DARK_HINT_KEY)&&!localStorage.getItem('oyasumi-local-v2')&&!localStorage.getItem('oyasumi-v1');const darkDevice=matchMedia('(prefers-color-scheme: dark)').matches;darkHintEligible=firstUse&&!darkDevice;if(firstUse&&darkDevice)localStorage.setItem(DARK_HINT_KEY,'skipped'); } catch { /* Don't repeat a hint when persistence is unavailable. */ }
+function darkHint() {
+ if(!darkHintEligible)return '';
+ if(darkHintStarted===undefined){darkHintStarted=performance.now();try{localStorage.setItem(DARK_HINT_KEY,'1');}catch{darkHintEligible=false;return '';}}
+ const elapsed=performance.now()-darkHintStarted;if(elapsed>=4000)return '';
+ clearTimeout(darkHintTimer);darkHintTimer=setTimeout(()=>document.querySelector('.dark-mode-hint')?.remove(),4000-elapsed);
+ return `<p class="dark-mode-hint" role="status" style="animation-delay:-${elapsed}ms">🌙 夜はダークモードがおすすめです</p>`;
+}
 const SHARE_PLACE = Object.freeze({ text: '眠る前に、少しだけ立ち寄れる場所です。', url: 'https://tomowo985250z-cmyk.github.io/oyasumi/' });
 let reactionEffectTimer;
 function clearReactionEffect() { clearTimeout(reactionEffectTimer);document.querySelector('.reaction-delivery')?.remove(); }
@@ -58,7 +68,7 @@ function stats() {
  return `${header('今夜の様子',true)}<section class="card count-card"><h2>今夜のおやすみ人数</h2><div class="count">${count??'—'}<small> 人</small></div><p class="muted">今夜、最後におやすみを報告した人</p></section><section class="card tonight-cats"><h2>いまの猫たち</h2>${summary?cats.length?`<div class="sleeping-cats" role="img" aria-label="今夜おやすみした${count}人の猫たち"><div aria-hidden="true">${cats.join('')}</div></div>${count>cats.length?`<p class="muted">ほか ${count-cats.length} 人もおやすみしています</p>`:''}`:'<p class="muted">今夜のおやすみは、これから。</p>':'<p class="muted">猫たちの様子を取得できませんでした。</p>'}<p class="summary-note">名前を出さず、選んだ毛色の猫で表示しています。</p></section><section class="card tonight-hours"><h2>おやすみが多い時間帯</h2>${summary?hours.length?`<div class="peak-hours">${hours.map(h=>`<p><strong>${String(h.hour).padStart(2,'0')}:00〜${String((h.hour+1)%24).padStart(2,'0')}:00</strong><span>${h.count} 人</span></p>`).join('')}</div><p class="summary-note">日本時間・一人につき最新のおやすみ報告</p>`:'<p class="muted">おやすみの報告が集まると表示されます。</p>':'<p class="muted">時間帯を取得できませんでした。</p>'}</section>${chart()}`;
 }
 function dayHero() { const scene=DayCats.current();return scene ? `<section class="day-hero" data-day-bucket="${scene.key}"><div class="day-cat">${DayCats.svg(scene.id,state.coat)}</div><h2>${scene.label}</h2><p>また今夜 🌙</p></section>` : ''; }
-function home() { return `${header()}${dayHero()}${countCard()}${actions()}<section><div class="section-heading"><h2>みんなの様子</h2><small><span class="live-dot"></span>今夜のタイムライン</small></div><div class="mini-feed">${allPosts().slice(0,5).map(p=>`<div class="mini-row">${avatar(p)}<span class="mini-name">${escapeHTML(p.name)}</span><span class="mini-status ${isSleeping(p.status)?'sleeping':''}">${statusText(p.status)}</span><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>`).join('')}</div><p class="sample-tag">今夜の投稿を共有しています</p></section><p class="quiet-note">眠れない夜も、ここではひとりじゃない。</p>`; }
+function home() { return `<div class="home-heading">${header()}${darkHint()}</div>${dayHero()}${countCard()}${actions()}<section><div class="section-heading"><h2>みんなの様子</h2><small><span class="live-dot"></span>今夜のタイムライン</small></div><div class="mini-feed">${allPosts().slice(0,5).map(p=>`<div class="mini-row">${avatar(p)}<span class="mini-name">${escapeHTML(p.name)}</span><span class="mini-status ${isSleeping(p.status)?'sleeping':''}">${statusText(p.status)}</span><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>`).join('')}</div><p class="sample-tag">今夜の投稿を共有しています</p></section><p class="quiet-note">眠れない夜も、ここではひとりじゃない。</p>`; }
 function reactionButtons(post) {
  return `<div class="reaction-options" role="group" aria-label="${escapeHTML(post.name)}へのリアクション">${REACTION_OPTIONS.map(option => {
   const selected = state.reactions[post.id] === option.id;

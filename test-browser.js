@@ -27,9 +27,28 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
-  if(!process.argv.includes('--test-first-nickname'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
+  if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
+  if(process.argv.includes('--test-dark-hint'))await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:process.argv.includes('--dark-device')?'dark':'light'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await send('Page.navigate',{url:baseUrl});
+  if(process.argv.includes('--test-dark-hint')){
+    await waitFor('typeof view!=="undefined"');
+    if(process.argv.includes('--dark-device')){
+      assert.equal(await evaluate('document.querySelector(".dark-mode-hint")'),null);
+      await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:'light'}]});
+      await send('Page.reload');await waitFor('typeof view!=="undefined"');
+      assert.equal(await evaluate('document.querySelector(".dark-mode-hint")'),null,'A skipped first visit must not become a later hint');
+      console.log('PASS hint: dark device does not display the first-use advice.');return;
+    }
+    assert.equal(await evaluate('document.querySelector(".dark-mode-hint").textContent'),'🌙 夜はダークモードがおすすめです');
+    await send('Emulation.setDeviceMetricsOverride',{width:320,height:844,deviceScaleFactor:1,mobile:true});await screenshot('dark-hint-320.png');
+    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    await evaluate('render()');
+    await waitFor('!document.querySelector(".dark-mode-hint")',5000);
+    await evaluate('go("profile");go("home")');assert.equal(await evaluate('document.querySelector(".dark-mode-hint")'),null);
+    await send('Page.reload');await waitFor('typeof view!=="undefined"');assert.equal(await evaluate('document.querySelector(".dark-mode-hint")'),null);
+    console.log('PASS hint: first-use light device, four-second removal despite rerender, no repeat on navigation/reload, 320px layout.');return;
+  }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
   if(process.argv.includes('--test-reaction-effects')){
