@@ -75,6 +75,9 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       await screenshot(`role-profile-${width}.png`);
       await evaluate('go("timeline")');
       assert(await evaluate('Array.from(document.querySelectorAll(".post .cat-role-tag"),e=>e.textContent).includes("まなび猫")'));
+      assert(await evaluate('Array.from(document.querySelectorAll(".post .cat-role-tag")).every(e=>e.parentElement.classList.contains("post-name"))'),'Cat label belongs beside the nickname');
+      assert(await evaluate('(()=>{const label=document.querySelector(".post-name .cat-role-tag"),name=label.parentElement.querySelector(".post-nickname"),a=name.getBoundingClientRect(),b=label.getBoundingClientRect();return b.left>=a.right&&Math.abs(b.top-a.top)<10})()'),'Short nickname and cat label share a row');
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
       assert.equal(await evaluate('document.querySelector("main").textContent.includes("学生")'),false);
       await screenshot(`role-timeline-${width}.png`);
       await evaluate('go("profile")');
