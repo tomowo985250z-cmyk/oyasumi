@@ -125,7 +125,28 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catCoat`),'black');
   assert.equal(await evaluate('state.posts.length'),4,'Expressions must not create posts');
   await evaluate('go("sleep")');
-  await click('[data-view="morning"]');await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2);
+  assert.equal(await evaluate('document.querySelector("[data-finish-sleep]").textContent'),'また明日 🌙');
+  await click('[data-finish-sleep]');assert.equal(await evaluate('view'),'rest');
+  assert.equal(await evaluate('document.querySelectorAll("#app button,#app .post,#navigation button").length'),0);
+  assert.equal(await evaluate('getComputedStyle(document.querySelector("#navigation")).display'),'none');
+  assert((await evaluate('app.textContent')).includes('今日もおつかれさまでした'));
+  assert((await evaluate('app.textContent')).includes('スマホを置いて、ゆっくり休もう'));
+  assert(!(await evaluate('app.textContent')).includes('おはようございます'));
+  assert.equal(await evaluate('state.posts.length'),4,'Ending must not create a new post');
+  for(const width of [320,390,430]){
+    await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    assert.equal(await evaluate('document.querySelectorAll("#app button,#navigation button").length'),0);
+  }
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await screenshot('sleep-ending-mobile.png');
+  await send('Page.reload');await waitFor('typeof ready!=="undefined" && ready && !busy');
+  assert.equal(await evaluate('view'),'rest','Night reload must preserve the quiet ending');
+  assert.equal(await evaluate('shared.userId'),userId);
+  await evaluate('globalThis.actualDateNow=Date.now;globalThis.savedSleep=JSON.parse(JSON.stringify(state.lastSleep));Date.now=()=>Date.parse("2026-10-04T08:00:00+09:00");state.lastSleep={...savedSleep,nightDate:"2026-10-03",at:"2026-10-03T23:00:00+09:00",finishedAt:"2026-10-03T23:01:00+09:00",finished:true};document.dispatchEvent(new Event("visibilitychange"))');
+  await waitFor('view==="morning"&&!refreshPromise');
+  await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2);
+  await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2,'Morning record remains idempotent');
+  await evaluate('Date.now=actualDateNow;state.lastSleep={...savedSleep,finished:false};save();go("settings")');
   await evaluate('go("settings")');await click('[data-name]');
   const submitName=value=>evaluate(`document.querySelector('#nickname').value=${JSON.stringify(value)};document.querySelector('#nickname').dispatchEvent(new Event('input'));document.querySelector('#nickname-form').requestSubmit()`);
   for(const [value,reason] of [['','1〜12文字'],['あ'.repeat(13),'1〜12文字'],['a@b.jp','連絡先'],['０９０１２３４５６７８','連絡先'],['死ね','不適切'],['<b>ねこ</b>','記号']]){await submitName(value);assert((await evaluate('document.querySelector("#nickname-error").textContent')).includes(reason));assert.equal(await evaluate('state.name'),'旧ねこ');}
@@ -154,7 +175,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),'insufficient');
   assert(await evaluate('Number.isFinite(shared.awakeCount)'),'Trend failure must preserve existing counts');
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
-  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'),`Overflow ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname),[contenteditable=true]").length'),0);}}
+  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','rest','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'),`Overflow ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname),[contenteditable=true]").length'),0);}}
   await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});await evaluate('go("profile")');await click('[data-expression-picker]');
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth'));
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));await click('#cancel-expression');
@@ -164,6 +185,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
     assert(await evaluate('(()=>{const [a,b]=Array.from(document.querySelectorAll(".status-button"),el=>el.getBoundingClientRect());return Math.abs(a.width-b.width)<1&&a.height===b.height&&a.top===b.top})()'));
     assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button")).textAlign'),'center');
+    assert.equal(await evaluate('document.querySelectorAll(".count .people").length'),0);
+    assert(await evaluate('(()=>{const el=document.querySelector(".count"),range=document.createRange();range.selectNodeContents(el);const text=range.getBoundingClientRect(),box=el.getBoundingClientRect();return Math.abs((text.left+text.right)-(box.left+box.right))<2})()'),'Count must be centered');
     assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button.sleep")).backgroundImage'),'linear-gradient(125deg, rgb(255, 172, 163), rgb(252, 129, 155))');
     assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button.awake")).backgroundImage'),'linear-gradient(125deg, rgb(131, 152, 255), rgb(88, 108, 227))');
     await evaluate('filter="all";go("timeline")');
