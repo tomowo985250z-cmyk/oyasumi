@@ -31,6 +31,34 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await send('Page.navigate',{url:baseUrl});
   await waitFor('typeof ready!=="undefined" && ready && !busy');
+  if(process.argv.includes('--test-share')){
+    await evaluate('go("settings");Object.defineProperty(navigator,"share",{configurable:true,value:async data=>{globalThis.sharedPlaceData=data}})');
+    await click('[data-share-place]');
+    assert.deepEqual(await evaluate('sharedPlaceData'),{text:'眠る前に、少しだけ立ち寄れる場所です。',url:'https://tomowo985250z-cmyk.github.io/oyasumi/'});
+    await evaluate('Object.defineProperty(navigator,"share",{configurable:true,value:async()=>{throw new DOMException("Cancelled","AbortError")}})');
+    await click('[data-share-place]');assert.equal(await evaluate('document.querySelector("#share-dialog").open'),false);
+    await evaluate('Object.defineProperty(navigator,"share",{configurable:true,value:undefined});Object.defineProperty(navigator,"clipboard",{configurable:true,value:{writeText:async text=>{globalThis.copiedPlaceURL=text}}})');
+    await click('[data-share-place]');await waitFor('typeof copiedPlaceURL!=="undefined"');
+    assert.equal(await evaluate('copiedPlaceURL'),'https://tomowo985250z-cmyk.github.io/oyasumi/');
+    await evaluate('Object.defineProperty(navigator,"clipboard",{configurable:true,value:{writeText:async()=>{throw new Error("Denied")}}})');
+    await click('[data-share-place]');await waitFor('document.querySelector("#share-dialog").open');
+    assert.equal(await evaluate('document.querySelector("#share-url").textContent'),'https://tomowo985250z-cmyk.github.io/oyasumi/');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      assert(await evaluate('document.querySelector("#share-dialog").getBoundingClientRect().right<=innerWidth'));
+      await screenshot(`share-dialog-${width}.png`);
+    }
+    await click('[data-close-share]');
+    await waitFor('!document.querySelector("#toast").classList.contains("visible")');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('document.querySelector("[data-share-place]").scrollIntoView()');await screenshot(`share-settings-${width}.png`);
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    }
+    await evaluate('go("home")');assert.equal(await evaluate('document.querySelector("[data-share-place]")'),null);
+    console.log('PASS share: native API payload/cancel, clipboard, denied clipboard fallback, discreet settings placement at 320/390/430px.');return;
+  }
   if(process.argv.includes('--test-first-nickname')){
     await evaluate('go("settings")');await click('[data-name]');
     assert.equal(await evaluate('document.querySelector("#nickname").value'),'');
