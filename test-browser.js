@@ -64,6 +64,28 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await evaluate('globalThis.DayCats={...DayCatsOriginal,current:()=>DayCatsOriginalCurrent(Date.parse("2026-10-03T18:00:00+09:00"))};go("home")');
   assert.equal(await evaluate('document.querySelector(".day-hero")'),null);
   await evaluate('globalThis.DayCats=DayCatsOriginal;go("home")');
+  if(process.argv.includes('--test-sleep-timer')){
+    await action('[data-post="sleep"]');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('go("home");go("sleep")');
+      assert.equal(await evaluate('view'),'sleep');
+      const started=Date.now();
+      await delay(3500);
+      await evaluate('render();await refreshShared()');
+      await waitFor('view==="rest"&&document.querySelector(".rest-screen").dataset.phase==="settled"',5000);
+      assert(Date.now()-started<8500,'Refresh must not restart the 6.5-second timer');
+      assert.equal(await evaluate('getComputedStyle(document.querySelector(".rest-screen")).backgroundColor'),'rgb(0, 0, 0)');
+      assert.equal(await evaluate('app.textContent.trim()'),'おやすみなさい 🌙');
+      assert.equal(await evaluate('document.querySelectorAll("#app button,#navigation button").length'),0);
+      await screenshot(`automatic-dark-${width}.png`);
+    }
+    await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');
+    assert.equal(await evaluate('view'),'rest');
+    await evaluate('go("home");go("sleep");go("profile")');await delay(6700);
+    assert.equal(await evaluate('view'),'profile','Leaving sleep must cancel the timer');
+    console.log('PASS automatic ending: real sleep post, 6.5-second darkening without another tap, refresh competition, reload and navigation cancellation at 320/390/430px.');return;
+  }
   if(process.argv.includes('--preview-stats')){
     assert(await evaluate('!!shared.tonightSummary'));
     for(const width of [320,390,430]){

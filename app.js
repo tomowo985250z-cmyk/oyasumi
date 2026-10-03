@@ -16,7 +16,7 @@ const savedName = NicknameRules.validate(state.name);
 state.name = savedName.error ? freshState().name : savedName.name;
 let shared = { userId: null, feed: [], reactionCounts: {}, awakeCount: null, sleepingCount: null, ownSleepCount: null, nightDate: null, trend: [], trendSupported: false };
 let busy = false, ready = false, refreshPromise, connectionPromise;
-let view = SleepFlow.openView(state.lastSleep,state.morningDays), filter = 'all', toastTimer, restTimer;
+let view = SleepFlow.openView(state.lastSleep,state.morningDays), filter = 'all', toastTimer, restTimer, sleepShownAt;
 const app = document.querySelector('#app');
 const nav = document.querySelector('#navigation');
 const icons = { home: '<path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/>', timeline: '<rect x="4" y="3" width="16" height="16" rx="3"/><path d="m8 19-2 3v-4M8 8h8M8 12h6"/>', stats: '<path d="M5 21V12h3v9M11 21V4h3v17M17 21V8h3v13"/>', profile: '<circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3Z"/>' };
@@ -59,8 +59,8 @@ function rest() { const elapsed=CatScenes.elapsed(state.lastSleep?.finishedAt),s
 function morning() { const recorded=state.morningDays.includes(dayKey());return `<section class="morning"><div class="sunrise" aria-hidden="true"><span class="morning-cat">${CatScenes.svg('awake',state.coat)}</span></div><h1>おはようございます<br>${escapeHTML(state.name)}さん ☀️</h1><div class="card">昨夜は <strong>${state.lastSleep?.count ?? '—'}</strong> 人と一緒に<br>おやすみしました。</div><p>よく眠れましたか？<br>今日も良い一日になりますように！</p><button class="cream-button" data-morning ${recorded?'disabled':''}>${recorded?'おはようを記録しました ✓':'おはよう ☀️ を記録する'}</button><p class="muted">また今夜、ここで会いましょう。</p><p class="sample-tag">おやすみした時点の報告人数です</p></section>`; }
 function profile() { return `${header()}<div class="profile-banner"><button class="profile-cat-button" data-expression-picker aria-label="猫の表情を変更">${avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)}</h1><p>今夜も、自分のペースで。</p></div></div><div class="stats-grid"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><div class="section-heading"><h2>最近の記録</h2></div>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p>`; }
 function settings() { return `${header('設定',true)}<section class="settings-section"><h2>プロフィール</h2><button class="setting-row" data-name><span>ニックネーム</span><span class="setting-value">${escapeHTML(state.name)} ›</span></button><button class="setting-row" data-coat-picker aria-label="猫の毛色を選ぶ"><span>猫の種類（毛色）</span><span class="expression-setting"><span class="avatar peach">${CatFaces.svg(state.expression,state.coat)}</span><span class="setting-value">${CatFaces.coatLabel(state.coat)} ›</span></span></button></section><section class="settings-section"><h2>表示設定</h2><label class="setting-row"><span>ダークモード</span><input class="switch" type="checkbox" id="dark-switch" ${!state.light?'checked':''}></label><div class="setting-row"><span>言語</span><span class="setting-value">日本語</span></div></section><section class="settings-section"><h2>この初期版について</h2><div class="card settings-info">投稿・リアクション・今夜の人数は、みんなで共有しています。朝の記録と表示設定は、この端末に保存されます。人数の推移は、今夜の投稿をもとに集計しています。<br><br>匿名アカウントは端末ごとに異なります。通知は今後の対応予定です。</div></section>`; }
-function render() { clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');app.innerHTML=({home,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)();navigation();syncBusy();if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt);if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')render();},remaining+20);} }
-function go(next) { view=next;render();window.scrollTo(0,0); }
+function render() { clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');app.innerHTML=({home,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)();navigation();syncBusy();if(view==='sleep'){sleepShownAt??=Date.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(Date.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt);if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')render();},remaining+20);} }
+function go(next) { if(next==='sleep'&&view!=='sleep')sleepShownAt=Date.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0); }
 function syncBusy() {
  app.setAttribute('aria-busy',String(busy));
  document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy;});
@@ -97,12 +97,13 @@ async function mutation(work) {
  catch(error){toast(error.code==='22023'?'少し待って、もう一度お試しください。':'通信できません。接続をご確認ください。');}
  finally{busy=false;syncBusy();}
 }
+function finishSleep(startedAt=Date.now()) { if(state.lastSleep){state.lastSleep.finished=true;state.lastSleep.coat=state.coat;state.lastSleep.finishedAt=new Date(startedAt).toISOString();save();}clearTimeout(toastTimer);document.querySelector('#toast').classList.remove('visible');go('rest'); }
 async function refreshAfterSave() {
  try{await refreshShared();return true;}
  catch{toast('保存済み。表示は後で更新します。');return false;}
 }
 document.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;
- if(button.hasAttribute('data-finish-sleep')){if(state.lastSleep){state.lastSleep.finished=true;state.lastSleep.coat=state.coat;state.lastSleep.finishedAt=new Date().toISOString();save();}clearTimeout(toastTimer);document.querySelector('#toast').classList.remove('visible');go('rest');return;}
+ if(button.hasAttribute('data-finish-sleep')){finishSleep();return;}
  if(button.dataset.view){go(button.dataset.view);return;}
  if(button.dataset.post){const status=button.dataset.post;if(!POST_OPTIONS.some(option=>option.id===status))return;void mutation(async()=>{
   const row=await OyasumiAPI.submitPost(status);
