@@ -1,0 +1,23 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+// Git normalizes text line endings; releases must match on Windows and Pages.
+const normalize=value=>value.toString().replace(/\r\n/g,'\n');
+const root=__dirname, hash=value=>crypto.createHash('sha256').update(normalize(value)).digest('hex').slice(0,16);
+const original=normalize(fs.readFileSync(path.join(root,'index.html'),'utf8'));
+let html=original.replace(/\s*<meta name="oyasumi-release" content="[^"]*">/g,'');
+const resources=new Map();
+html=html.replace(/(src|href)="([^"?#]+)(?:\?[^"#]*)?"/g,(match,attribute,file)=>{
+ if(!/\.(?:js|css|svg)$/.test(file)||/^(?:https?:|\/\/)/.test(file))return match;
+ const version=hash(fs.readFileSync(path.join(root,file)));resources.set(file,version);
+ return `${attribute}="${file}?v=${version}"`;
+});
+const release=hash(html+JSON.stringify([...resources]));
+html=html.replace('<meta charset="utf-8">',`<meta charset="utf-8">\n  <meta name="oyasumi-release" content="${release}">`);
+const manifest=JSON.stringify({release})+'\n';
+if(process.argv.includes('--check')){
+ if(html!==original||!fs.existsSync(path.join(root,'release.json'))||fs.readFileSync(path.join(root,'release.json'),'utf8')!==manifest){
+  console.error('Run npm run release before publishing changed files.');process.exitCode=1;
+ }else console.log('PASS release: every asset URL and deployment marker match file contents.');
+}else{
+ fs.writeFileSync(path.join(root,'index.html'),html);fs.writeFileSync(path.join(root,'release.json'),manifest);
+ console.log('Prepared release '+release);
+}

@@ -255,3 +255,4 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDay
 window.addEventListener('online',()=>{if(view==='rest')return;if(!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});});
 
 window.addEventListener('scroll',positionReactionEffect,{passive:true});window.addEventListener('resize',positionReactionEffect);
+if(globalThis.OyasumiUpdates)OyasumiUpdates.canReload=()=>!busy&&view!=='sleep'&&view!=='rest'&&!document.querySelector('dialog[open]');
