@@ -19,17 +19,23 @@ function darkHint() {
  return `<p class="dark-mode-hint" role="status" style="animation-delay:-${elapsed}ms">🌙 夜はダークモードがおすすめです</p>`;
 }
 const SHARE_PLACE = Object.freeze({ text: '眠る前に、少しだけ立ち寄れる場所です。', url: 'https://tomowo985250z-cmyk.github.io/oyasumi/' });
-let reactionEffectTimer;
+let reactionEffectTimer, reactionEffectPostId;
 function clearReactionEffect() { clearTimeout(reactionEffectTimer);document.querySelector('.reaction-delivery')?.remove(); }
+function positionReactionEffect() {
+ const effect=document.querySelector('.reaction-delivery');
+ const cat=document.querySelector(`[data-react="${CSS.escape(reactionEffectPostId||'')}"]`)?.closest('.post')?.querySelector('.avatar');
+ if(!effect||!cat)return;
+ const box=cat.getBoundingClientRect();
+ effect.style.left=`${Math.max(8,Math.min(innerWidth-120,box.left+12))}px`;
+ effect.style.top=`${Math.max(8,Math.min(innerHeight-140,box.top-20))}px`;
+}
 function showReactionEffect(button,choice) {
  const cat=button.closest('.post')?.querySelector('.avatar');if(!cat)return;
- clearReactionEffect();const box=cat.getBoundingClientRect(),effect=document.createElement('div');
+ clearReactionEffect();reactionEffectPostId=button.dataset.react;const effect=document.createElement('div');
  effect.className=`reaction-delivery delivery-${choice}`;effect.setAttribute('role','status');
  const symbols={goodnight:'🌙',dream:'✨',tomorrow:'',comfort:'♡'};
  effect.innerHTML=`<span class="delivery-symbol" aria-hidden="true">${symbols[choice]}</span><span>届きました</span>`;
- effect.style.left=`${Math.max(8,Math.min(innerWidth-120,box.left+12))}px`;
- effect.style.top=`${Math.max(8,Math.min(innerHeight-140,box.top-20))}px`;
- document.body.append(effect);reactionEffectTimer=setTimeout(clearReactionEffect,1050);
+ document.body.append(effect);positionReactionEffect();reactionEffectTimer=setTimeout(clearReactionEffect,1050);
 }
 function showShareURL() { const dialog=document.querySelector('#share-dialog');document.querySelector('#share-url').textContent=SHARE_PLACE.url;if(!dialog.open)dialog.showModal(); }
 async function copyPlaceURL() { try { await navigator.clipboard.writeText(SHARE_PLACE.url);document.querySelector('#share-dialog').close();toast('URLをコピーしました'); } catch { showShareURL(); } }
@@ -157,7 +163,12 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
   const counts=shared.reactionCounts[id]||{goodnight:0,dream:0,tomorrow:0,comfort:0};
   if(previous)counts[previous]=Math.max(0,counts[previous]-1);if(next)counts[next]+=1;
   shared.reactionCounts[id]=counts;if(next)state.reactions[id]=next;else delete state.reactions[id];
-  renderPreservingPosition();await refreshAfterSave();
+  renderPreservingPosition();
+  if(next&&view==='timeline'){
+   const currentButton=document.querySelector(`[data-react="${CSS.escape(id)}"][data-reaction="${CSS.escape(next)}"]`);
+   if(currentButton)showReactionEffect(currentButton,next);
+  }
+  await refreshAfterSave();
  });return;}
  if(button.dataset.delete){const id=button.dataset.delete;if(!state.posts.some(p=>p.id===id&&p.self))return;void mutation(async()=>{
   const deleted=await OyasumiAPI.deletePost(id);if(!deleted){toast('投稿はすでに削除されています。');await refreshAfterSave();return;}
@@ -206,4 +217,4 @@ setInterval(()=>{if(view==='rest')return;if(!document.hidden)refreshDayScene();i
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDayScene();if(!document.hidden&&!busy&&(view==='rest'||view==='sleep')&&SleepFlow.morningDue(state.lastSleep,state.morningDays))go('morning');if(view==='rest')return;if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>toast('最新の投稿を取得できませんでした。'));});
 window.addEventListener('online',()=>{if(view==='rest')return;if(!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});});
 
-window.addEventListener('scroll',clearReactionEffect,{passive:true});window.addEventListener('resize',clearReactionEffect);
+window.addEventListener('scroll',positionReactionEffect,{passive:true});window.addEventListener('resize',positionReactionEffect);

@@ -70,23 +70,33 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     assert.deepEqual(errors,[]);
     console.log('PASS morning receipts: four counts and total, 320/390/430px, failed fetch and wrong-night protection, true zero.');return;
   }
-  if(process.argv.includes('--test-reaction-effects')){
+  if(process.argv.includes('--test-reaction-effects')||process.argv.includes('--test-reaction-effects-live')){
+    await evaluate('globalThis.originalEffectRefresh=refreshAfterSave;globalThis.originalEffectSet=OyasumiAPI.setReaction');
     await evaluate('shared.feed=[{id:"effect-preview",userId:"other",name:"テスト猫",status:"sleep",time:Date.now(),coat:"gray",expression:"calm",self:false}];globalThis.effectCalls=0;OyasumiAPI.setReaction=()=>{effectCalls++;return new Promise(resolve=>{globalThis.effectRelease=resolve})};refreshAfterSave=async()=>true;go("timeline")');
+    if(process.argv.includes('--test-reaction-effects-live')){
+      await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();await peer.setNickname("演出ねこ");await peer.setCatCoat("gray");globalThis.effectPost=await peer.submitPost("awake");await refreshShared();refreshAfterSave=originalEffectRefresh;OyasumiAPI.setReaction=(id,choice)=>{effectCalls++;return new Promise((resolve,reject)=>{globalThis.effectRelease=async()=>{try{await originalEffectSet(id,choice);resolve()}catch(error){reject(error)}}})};go("timeline")');
+    }
     for(const width of [320,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       await delay(150);
       for(const choice of ['goodnight','dream','tomorrow','comfort']){
         const before=await evaluate('effectCalls');
-        await click(`[data-reaction="${choice}"]`);await waitFor('typeof effectRelease==="function"&&busy');
+        await click(process.argv.includes('--test-reaction-effects-live')?`[data-react="${await evaluate('effectPost.id')}"][data-reaction="${choice}"]`:`[data-reaction="${choice}"]`);await waitFor('typeof effectRelease==="function"&&busy');
         assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
         assert.equal(await evaluate('document.querySelector(".reaction-delivery").textContent.includes("届きました")'),true);
         await evaluate('for(let i=0;i<8;i++)document.querySelector("[data-reaction=goodnight]").click()');
         assert.equal(await evaluate('effectCalls'),before+1,'Rapid taps must not send duplicate reactions');
-        await evaluate('effectRelease();globalThis.effectRelease=undefined');await waitFor('!busy');
-        assert.equal(await evaluate('state.reactions["effect-preview"]'),choice);
+        await delay(1300);await evaluate('effectRelease();globalThis.effectRelease=undefined');await waitFor(`state.reactions[globalThis.effectPost?.id||"effect-preview"]===${JSON.stringify(choice)}`);
+        assert.equal(await evaluate('state.reactions[globalThis.effectPost?.id||"effect-preview"]'),choice);
         assert(await evaluate('(()=>{const r=document.querySelector(".reaction-delivery").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth})()'));
+        await evaluate('renderPreservingPosition();window.dispatchEvent(new Event("scroll"));window.dispatchEvent(new Event("resize"))');
+        assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
         await screenshot(`reaction-${choice}-${width}.png`);
-        await waitFor('!document.querySelector(".reaction-delivery")',2000);
+        assert(await evaluate('Number(getComputedStyle(document.querySelector(".reaction-delivery")).opacity)>0.5'),'Animation must be visibly opaque');
+        await waitFor('!document.querySelector(".reaction-delivery")',2000);await waitFor('!busy');
+        if(process.argv.includes('--test-reaction-effects-live')){
+          assert.equal(await evaluate(`(await peer.snapshot()).reactionCounts[effectPost.id][${JSON.stringify(choice)}]`),1);
+        }
       }
     }
     await evaluate('OyasumiAPI.setReaction=async()=>{throw new Error("Offline")};state.reactions={};go("timeline")');
