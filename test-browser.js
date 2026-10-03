@@ -51,6 +51,51 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-cat-roles')||process.argv.includes('--test-cat-roles-mock')){
+    if(process.argv.includes('--test-cat-roles-mock'))await evaluate('globalThis.testRole=null;OyasumiAPI.setCatRole=async role=>{testRole=role};refreshAfterSave=async()=>true;shared.feed=[{id:"role-preview",userId:shared.userId,name:state.name,coat:state.coat,expression:state.expression,status:"awake",time:Date.now(),self:true}]');
+    else await evaluate('globalThis.roleTestPost=await OyasumiAPI.submitPost("awake");await refreshShared()');
+    await evaluate('go("profile")');
+    assert.equal(await evaluate('state.catRole'),null,'Existing profile starts unset');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await click('[data-role-picker]');
+      assert.equal(await evaluate('document.querySelectorAll("#role-wheel [role=option]").length'),18);
+      await evaluate('document.querySelector("#role-wheel").scrollTop=12*44');
+      await waitFor('selectedRoleIndex===12');
+      assert.equal(await evaluate('document.querySelector("#role-preview").textContent'),'あなたはマイペース猫です 🐱');
+      await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowDown',code:'ArrowDown',windowsVirtualKeyCode:40});
+      await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowDown',code:'ArrowDown',windowsVirtualKeyCode:40});
+      await waitFor('selectedRoleIndex===13');
+      assert.equal(await evaluate('document.querySelector("#role-preview").textContent'),'あなたはまなび猫です 🐱');
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      assert(await evaluate('document.querySelector("#role-dialog").getBoundingClientRect().right<=innerWidth'));
+      await screenshot(`role-wheel-${width}.png`);
+      await action('#role-form button[type=submit]');
+      assert.equal(await evaluate('document.querySelector(".profile-banner .cat-role-tag").textContent'),'まなび猫');
+      await screenshot(`role-profile-${width}.png`);
+      await evaluate('go("timeline")');
+      assert(await evaluate('Array.from(document.querySelectorAll(".post .cat-role-tag"),e=>e.textContent).includes("まなび猫")'));
+      assert.equal(await evaluate('document.querySelector("main").textContent.includes("学生")'),false);
+      await screenshot(`role-timeline-${width}.png`);
+      await evaluate('go("profile")');
+    }
+    if(!process.argv.includes('--test-cat-roles-mock')){
+      await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');
+      assert.equal(await evaluate('state.catRole'),'learner','Role persists across restart');await evaluate('go("profile")');
+    }
+    await click('[data-role-picker]');await evaluate('selectRole(17,true)');await action('#role-form button[type=submit]');
+    assert.equal(await evaluate('document.querySelector(".profile-banner .cat-role-tag")'),null);
+    await evaluate('go("timeline")');assert.equal(await evaluate('document.querySelector(".post .cat-role-tag")'),null);
+    await evaluate('go("profile")');await click('[data-role-picker]');await evaluate('selectRole(1,true)');await click('#cancel-role');
+    assert.equal(await evaluate('state.catRole'),'private','Cancel preserves saved choice');
+    await evaluate('OyasumiAPI.setCatRole=async()=>{throw new Error("Offline")}');
+    await click('[data-role-picker]');await evaluate('selectRole(1,true)');await action('#role-form button[type=submit]');
+    assert.equal(await evaluate('state.catRole'),'private','Failure preserves saved choice');
+    assert(await evaluate('document.querySelector("#role-dialog").open'));
+    assert(await evaluate('document.querySelector("#role-error").textContent.length>0'));
+    await click('#cancel-role');assert.deepEqual(errors,[]);
+    console.log('PASS role wheel: 320/390/430px, scrolling, keyboard, cat-only labels, optional/private, save/restart, cancel and failure.');return;
+  }
   if(process.argv.includes('--test-morning-reactions')){
     await evaluate('state.lastSleep={nightDate:shared.nightDate};shared.morningReactions={nightDate:shared.nightDate,goodnight:2,dream:3,tomorrow:1,comfort:4};go("morning")');
     for(const width of [320,390,430]){
