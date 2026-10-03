@@ -4,6 +4,7 @@ const os = require('node:os');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const browserPath = process.env.EDGE_PATH || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
+const baseUrl = process.env.TEST_BASE_URL || 'http://127.0.0.1:3000';
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'oyasumi-browser-'));
 const server = spawn(process.execPath, ['server.js'], { stdio: 'ignore' });
 const browser = spawn(browserPath, ['--headless=new','--disable-gpu','--no-first-run','--remote-debugging-port=9333',`--user-data-dir=${profile}`,'about:blank'], {stdio:'ignore'});
@@ -28,7 +29,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await send('Page.enable');
   await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
-  await send('Page.navigate',{url:'http://127.0.0.1:3000'});
+  await send('Page.navigate',{url:baseUrl});
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData,'Legacy data must remain intact');
   assert.equal(await evaluate('state.posts.length'),0,'Legacy posts must not be uploaded');
@@ -70,6 +71,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       await evaluate('go("home");go("sleep")');
       assert.equal(await evaluate('view'),'sleep');
+      const beforePng=await screenshot(`automatic-before-${width}.png`);
       const started=Date.now();
       await delay(3500);
       await evaluate('render();await refreshShared()');
@@ -78,7 +80,14 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       assert.equal(await evaluate('getComputedStyle(document.querySelector(".rest-screen")).backgroundColor'),'rgb(0, 0, 0)');
       assert.equal(await evaluate('app.textContent.trim()'),'おやすみなさい 🌙');
       assert.equal(await evaluate('document.querySelectorAll("#app button,#navigation button").length'),0);
-      await screenshot(`automatic-dark-${width}.png`);
+      const afterPng=await screenshot(`automatic-dark-${width}.png`);
+      const readPixels=async png=>evaluate(`const img=new Image();img.src=${JSON.stringify('data:image/png;base64,')}+${JSON.stringify(png)};await img.decode();const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);return [Array.from(ctx.getImageData(0,0,1,1).data),Array.from(ctx.getImageData(1,400,1,1).data)];`);
+      const beforePixels=await readPixels(beforePng),afterPixels=await readPixels(afterPng);
+      assert(beforePixels.every(pixel=>pixel.slice(0,3).some(value=>value>0)),'Before pixels must be visibly different from black');
+      assert.deepEqual(afterPixels,[[0,0,0,255],[0,0,0,255]],'After pixels must actually be black');
+      await evaluate('render();await refreshShared()');
+      assert.equal(await evaluate('view'),'rest');
+      assert.equal(await evaluate('getComputedStyle(document.querySelector(".rest-screen")).backgroundColor'),'rgb(0, 0, 0)','Refresh must not remove darkening');
     }
     await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');
     assert.equal(await evaluate('view'),'rest');
