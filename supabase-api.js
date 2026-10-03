@@ -20,26 +20,15 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     return result.data;
   }
   async function rpc(name, args = {}) { return checked(await client.rpc(name, args)); }
-  async function initialize(initialName = 'ともを') {
+  async function initialize() {
     if (!initialization) {
       const initializeSession = async () => {
       let session = checked(await client.auth.getSession()).session;
       if (!session) session = checked(await client.auth.signInAnonymously()).session;
       if (!session?.user?.id) throw new Error('認証できませんでした。');
       userId = session.user.id;
-      try { needsNickname = globalThis.localStorage?.getItem('oyasumi-name-pending-' + userId) === '1'; } catch { /* Storage may be unavailable. */ }
       const profile = checked(await client.from('oyasumi_profiles').select('nickname').eq('user_id', userId).maybeSingle());
-      if (!profile) {
-        needsNickname = initialName === 'ともを';
-        if (needsNickname) try { globalThis.localStorage?.setItem('oyasumi-name-pending-' + userId, '1'); } catch { /* Keep the session flag. */ }
-        try { await rpc('oyasumi_set_nickname', { p_nickname: initialName }); }
-        catch (error) {
-          // SQL counts code points; the UI counts graphemes. Retain the local
-          // draft and use the default profile only for a validation rejection.
-          if (error.code !== '22023' && error.code !== '23514') throw error;
-          await rpc('oyasumi_set_nickname', { p_nickname: 'ともを' });
-        }
-      }
+      needsNickname = !profile?.nickname;
       return userId;
       };
       // Serialize first-time sign-in across tabs sharing the same origin.
@@ -51,7 +40,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   }
   function mapPost(row, names, expressions, coats) {
     return { id: row.id, userId: row.user_id, status: row.choice, time: Date.parse(row.created_at),
-      order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || 'ともを',
+      order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || '名無し',
       self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate', expression: expressions.get(row.user_id) || 'calm', coat: coats.get(row.user_id) || 'calico' };
   }
   async function snapshot() {
@@ -119,7 +108,9 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
         reactionCounts[row.post_id] = { goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count), comfort: Number(row.comfort_count ?? 0) };
       }
     }
-    return { userId, name: names.get(userId) || 'ともを', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
+    needsNickname = !names.get(userId);
+    const needsCat = !profiles.some(p=>p.user_id===userId && allowedCoats.includes(p.cat_coat));
+    return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };

@@ -6,7 +6,7 @@ const a = createOyasumiConnection('oyasumi-test-a-' + Date.now());
 const b = createOyasumiConnection('oyasumi-test-b-' + Date.now());
 const created = new Set();
 async function run() {
-  await a.initialize('検証ねこA');await b.initialize('検証ねこB');
+  await a.initialize();await b.initialize();await a.setNickname('検証ねこA');await b.setNickname('検証ねこB');await a.setCatCoat('calico');await b.setCatCoat('calico');
   assert.notEqual(a.userId,b.userId);
   const base=await a.snapshot();
   assert(base.tonightSummary,'Run supabase/tonight-summary.sql before testing tonight summaries.');

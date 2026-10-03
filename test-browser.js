@@ -31,6 +31,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await send('Page.navigate',{url:baseUrl});
   await waitFor('typeof ready!=="undefined" && ready && !busy');
+  if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
   if(process.argv.includes('--test-share')){
     await evaluate('go("settings");Object.defineProperty(navigator,"share",{configurable:true,value:async data=>{globalThis.sharedPlaceData=data}})');
     await click('[data-share-place]');
@@ -60,6 +61,17 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     console.log('PASS share: native API payload/cancel, clipboard, denied clipboard fallback, discreet settings placement at 320/390/430px.');return;
   }
   if(process.argv.includes('--test-first-nickname')){
+    assert.equal(await evaluate('(await OyasumiAPI.client.from("oyasumi_profiles").select("nickname,cat_coat").eq("user_id",shared.userId)).data.length'),0,'New sign-in must not create a provisional profile');
+    for(const choice of ['awake','sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'profile');assert.equal(await evaluate('state.posts.length'),0);}
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      await screenshot(`profile-setup-${width}.png`);
+    }
+    await evaluate('globalThis.catFirst=createOyasumiConnection("oyasumi-cat-first");await catFirst.initialize();await catFirst.setCatCoat("gray")');
+    assert(await evaluate('(await catFirst.snapshot()).needsNickname'));
+    assert.equal(await evaluate('(await catFirst.snapshot()).needsCat'),false);
+    assert.equal(await evaluate('(await catFirst.client.from("oyasumi_profiles").select("nickname").eq("user_id",catFirst.userId).single()).data.nickname'),null,'Selecting a cat must not generate a nickname');
     await evaluate('go("settings")');await click('[data-name]');
     assert.equal(await evaluate('document.querySelector("#nickname").value'),'');
     assert.equal(await evaluate('document.querySelector("#nickname").placeholder'),'なんて呼べばいい？');
@@ -67,10 +79,16 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     await evaluate('go("settings")');await click('[data-name]');
     assert.equal(await evaluate('document.querySelector("#nickname").value'),'','An unfinished first registration stays blank after reload');
     await evaluate('document.querySelector("#nickname").value="ともを";document.querySelector("#nickname-form").requestSubmit()');await waitFor('!busy&&!document.querySelector("#nickname-dialog").open');
+    assert.equal(await evaluate('shared.profileComplete'),false);
+    assert.equal(await evaluate('(await OyasumiAPI.client.from("oyasumi_profiles").select("cat_coat").eq("user_id",shared.userId).single()).data.cat_coat'),null);
+    for(const choice of ['awake','sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'profile');assert.equal(await evaluate('state.posts.length'),0);}
+    await click('[data-coat-picker]');await action('[data-coat="gray"]');
+    assert.equal(await evaluate('shared.profileComplete'),true);
+    await evaluate('go("home")');await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('state.posts.length'),1);
     await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');
     await evaluate('go("settings")');await click('[data-name]');
     assert.equal(await evaluate('document.querySelector("#nickname").value'),'ともを','A registered user named ともを must keep the name');
-    console.log('PASS first nickname: blank initial input, requested placeholder, saved existing ともを preserved after reload.');return;
+    console.log('PASS onboarding: no provisional profile, unset/partial setup blocks sleep and opens my page, both saved allow posting, registered name preserved.');return;
   }
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData,'Legacy data must remain intact');
   assert.equal(await evaluate('state.posts.length'),0,'Legacy posts must not be uploaded');
@@ -229,7 +247,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await action('[data-post="awake"]');assert.equal(await evaluate('view'),'timeline');assert.equal(await evaluate('state.posts.length'),1);
   const firstId=await evaluate('state.posts[0].id');
   await evaluate('go("home")');await action('[data-post="awake"]');assert.equal(await evaluate('state.posts.length'),1,'Repeated post must be deduplicated');
-  await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize("検証ほし");globalThis.peerPost=await peer.submitPost("awake");await refreshShared()');
+  await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();await peer.setNickname("検証ほし");await peer.setCatCoat("calico");globalThis.peerPost=await peer.submitPost("awake");await refreshShared()');
   const peerId=await evaluate('peerPost.id');
   assert(await evaluate(`shared.feed.some(p=>p.id===${JSON.stringify(peerId)}&&!p.self)`));
   assert.equal(await evaluate(`document.querySelectorAll('[data-delete="${peerId}"]').length`),0,'Peer posts have no delete control');
