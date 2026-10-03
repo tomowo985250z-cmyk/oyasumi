@@ -34,6 +34,36 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('state.posts.length'),0,'Legacy posts must not be uploaded');
   assert.equal(await evaluate('state.name'),'旧ねこ');
   assert.deepEqual(await evaluate('state.morningDays'),['2026-01-01']);
+  // 演出の時刻だけ固定し、認証・Supabaseの時計は変更しない。
+  const dayFixture = `globalThis.DayCats={...DayCats,current:()=>DayCatsOriginalCurrent(Date.parse('2026-10-03T12:00:00+09:00'))};go('home');`;
+  await evaluate('globalThis.DayCatsOriginal=DayCats;globalThis.DayCatsOriginalCurrent=DayCats.current');
+  await evaluate(dayFixture);
+  const dayAction = await evaluate('document.querySelector(".cat-day-scene").dataset.dayScene');
+  for(const width of [320,390,430]){
+    await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+    await evaluate('go("home")');
+    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    assert.equal(await evaluate('document.querySelector(".cat-day-scene").dataset.catCoat'),await evaluate('state.coat'));
+    assert.equal(await evaluate('document.querySelector(".cat-day-scene").dataset.dayScene'),dayAction);
+    assert.equal(await evaluate('document.body.classList.contains("light-mode")'),false);
+    await screenshot(`day-home-${width}.png`);
+  }
+  await evaluate('globalThis.DayCats={...DayCatsOriginal,current:()=>DayCatsOriginalCurrent(Date.parse("2026-10-03T14:00:00+09:00"))};refreshDayScene()');
+  assert.notEqual(await evaluate('document.querySelector(".cat-day-scene").dataset.dayScene'),dayAction,'Time advancement updates the home without a reload');
+  await evaluate(dayFixture);
+  const reloadFixture = await send('Page.addScriptToEvaluateOnNewDocument',{source:`addEventListener('DOMContentLoaded',()=>{globalThis.DayCatsOriginal=DayCats;globalThis.DayCatsOriginalCurrent=DayCats.current;${dayFixture}});`});
+  await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy&&!!document.querySelector(".cat-day-scene")');
+  assert.equal(await evaluate('document.querySelector(".cat-day-scene").dataset.dayScene'),dayAction);
+  await send('Page.removeScriptToEvaluateOnNewDocument',{identifier:reloadFixture.identifier});
+  if(process.argv.includes('--preview-day')){
+    await send('Emulation.setDeviceMetricsOverride',{width:1280,height:1000,deviceScaleFactor:1,mobile:false});
+    await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";nav.hidden=true;document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${DayCats.options.flatMap(scene=>CatFaces.coats.map(coat=>`<div style="text-align:center">${DayCats.svg(scene.id,coat.id)}<small>${coat.label}・${scene.label}</small></div>`)).join("")}</div>`');
+    assert.equal(await evaluate('document.querySelectorAll(".cat-day-scene").length'),40);
+    await screenshot('cat-day-matrix.png');console.log('PASS daytime preview: 40 patterns, stable reload, dark home at 320/390/430px.');return;
+  }
+  await evaluate('globalThis.DayCats={...DayCatsOriginal,current:()=>DayCatsOriginalCurrent(Date.parse("2026-10-03T18:00:00+09:00"))};go("home")');
+  assert.equal(await evaluate('document.querySelector(".day-hero")'),null);
+  await evaluate('globalThis.DayCats=DayCatsOriginal;go("home")');
   if(process.argv.includes('--preview-scenes')){
     await send('Emulation.setDeviceMetricsOverride',{width:1280,height:600,deviceScaleFactor:1,mobile:false});
     await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";nav.hidden=true;document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${["awake","sleeping"].flatMap(scene=>CatFaces.coats.map(coat=>`<div style="text-align:center">${CatScenes.svg(scene,coat.id)}<small>${coat.label}・${scene==="awake"?"目覚めた猫":"寝ている猫"}</small></div>`)).join("")}</div>`');
