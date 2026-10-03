@@ -27,10 +27,23 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
-  await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
+  if(!process.argv.includes('--test-first-nickname'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await send('Page.navigate',{url:baseUrl});
   await waitFor('typeof ready!=="undefined" && ready && !busy');
+  if(process.argv.includes('--test-first-nickname')){
+    await evaluate('go("settings")');await click('[data-name]');
+    assert.equal(await evaluate('document.querySelector("#nickname").value'),'');
+    assert.equal(await evaluate('document.querySelector("#nickname").placeholder'),'なんて呼べばいい？');
+    await click('#cancel-name');await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');
+    await evaluate('go("settings")');await click('[data-name]');
+    assert.equal(await evaluate('document.querySelector("#nickname").value'),'','An unfinished first registration stays blank after reload');
+    await evaluate('document.querySelector("#nickname").value="ともを";document.querySelector("#nickname-form").requestSubmit()');await waitFor('!busy&&!document.querySelector("#nickname-dialog").open');
+    await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');
+    await evaluate('go("settings")');await click('[data-name]');
+    assert.equal(await evaluate('document.querySelector("#nickname").value'),'ともを','A registered user named ともを must keep the name');
+    console.log('PASS first nickname: blank initial input, requested placeholder, saved existing ともを preserved after reload.');return;
+  }
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData,'Legacy data must remain intact');
   assert.equal(await evaluate('state.posts.length'),0,'Legacy posts must not be uploaded');
   assert.equal(await evaluate('state.name'),'旧ねこ');

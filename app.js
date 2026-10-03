@@ -129,7 +129,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
   renderPreservingPosition();await refreshAfterSave();toast('投稿を削除しました');
  });return;}
  if(button.hasAttribute('data-morning')){if(!state.morningDays.includes(dayKey()))state.morningDays.push(dayKey());save();render();toast('おはよう。今日も良い一日を ☀️');return;}
- if(button.hasAttribute('data-name')){document.querySelector('#nickname').value=state.name;clearNicknameError();document.querySelector('#nickname-dialog').showModal();document.querySelector('#nickname').focus();}
+ if(button.hasAttribute('data-name')){document.querySelector('#nickname').value=OyasumiAPI.needsNickname?'':state.name;clearNicknameError();document.querySelector('#nickname-dialog').showModal();document.querySelector('#nickname').focus();}
  if(button.hasAttribute('data-expression-picker')||button.hasAttribute('data-coat-picker')){
   const coatPicker=button.hasAttribute('data-coat-picker');
   document.querySelector('#expression-title').textContent=coatPicker?'猫の種類（毛色）':'猫の表情';

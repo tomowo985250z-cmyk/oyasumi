@@ -14,6 +14,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   });
   let initialization;
   let userId;
+  let needsNickname = false;
   function checked(result) {
     if (result.error) throw result.error;
     return result.data;
@@ -26,8 +27,11 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       if (!session) session = checked(await client.auth.signInAnonymously()).session;
       if (!session?.user?.id) throw new Error('認証できませんでした。');
       userId = session.user.id;
+      try { needsNickname = globalThis.localStorage?.getItem('oyasumi-name-pending-' + userId) === '1'; } catch { /* Storage may be unavailable. */ }
       const profile = checked(await client.from('oyasumi_profiles').select('nickname').eq('user_id', userId).maybeSingle());
       if (!profile) {
+        needsNickname = initialName === 'ともを';
+        if (needsNickname) try { globalThis.localStorage?.setItem('oyasumi-name-pending-' + userId, '1'); } catch { /* Keep the session flag. */ }
         try { await rpc('oyasumi_set_nickname', { p_nickname: initialName }); }
         catch (error) {
           // SQL counts code points; the UI counts graphemes. Retain the local
@@ -120,7 +124,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       feed: feedRows.map(row => mapPost(row, names, expressions, coats)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }
-  return { client, initialize, snapshot, get userId() { return userId; },
+  return { client, initialize, snapshot, get userId() { return userId; }, get needsNickname() { return needsNickname; },
     submitPost: choice => rpc('oyasumi_submit_post', { p_choice: choice }),
     deletePost: id => rpc('oyasumi_delete_post', { p_post_id: id }),
     setReaction: async (id, choice) => {
@@ -131,7 +135,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
         return rpc('oyasumi_set_reaction', args);
       }
     },
-    setNickname: name => rpc('oyasumi_set_nickname', { p_nickname: name }),
+    setNickname: async name => { const result = await rpc('oyasumi_set_nickname', { p_nickname: name }); needsNickname = false; try { globalThis.localStorage?.removeItem('oyasumi-name-pending-' + userId); } catch { /* The saved name remains authoritative. */ } return result; },
     setCatCoat: coat => rpc('oyasumi_set_cat_coat', { p_coat: coat }),
     setCatExpression: expression => rpc('oyasumi_set_cat_expression', { p_expression: expression }) };
 };

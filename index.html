@@ -16,15 +16,15 @@
   <script src="cat-day-scenes.js" defer></script>
   <script src="vendor/supabase.js" defer></script>
   <script src="supabase-config.js" defer></script>
-  <script src="supabase-api.js?v=20261003-latest-post" defer></script>
-  <script src="app.js?v=20261003-latest-post" defer></script>
+  <script src="supabase-api.js?v=20261003-nickname-empty" defer></script>
+  <script src="app.js?v=20261003-nickname-empty" defer></script>
 </head>
 <body>
   <div class="night-sky" aria-hidden="true"></div>
   <aside class="desktop-intro"><span class="brand-moon">☾</span><h1>おやすみ</h1><p>ひとりじゃない、<br>おやすみの時間。</p><div class="intro-note">今日もお疲れさま。<br>ここでは、眠れない夜もひとりじゃない。</div></aside>
   <div class="app-shell"><main id="app"></main><nav id="navigation" aria-label="メインナビゲーション"></nav></div>
   <div id="toast" role="status" aria-live="polite"></div>
-  <dialog id="nickname-dialog" aria-labelledby="nickname-title"><form id="nickname-form" novalidate><h2 id="nickname-title">なんて呼びましょう？</h2><label for="nickname">ニックネーム</label><p id="nickname-help">1〜12文字。連絡先や不適切な表現は使えません。</p><input id="nickname" name="nickname" type="text" required autocomplete="nickname" enterkeyhint="done" aria-describedby="nickname-help nickname-error"><p id="nickname-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-name">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
+  <dialog id="nickname-dialog" aria-labelledby="nickname-title"><form id="nickname-form" novalidate><h2 id="nickname-title">なんて呼びましょう？</h2><label for="nickname">ニックネーム</label><p id="nickname-help">1〜12文字。連絡先や不適切な表現は使えません。</p><input id="nickname" name="nickname" type="text" placeholder="なんて呼べばいい？" required autocomplete="nickname" enterkeyhint="done" aria-describedby="nickname-help nickname-error"><p id="nickname-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-name">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
   <dialog id="expression-dialog" aria-labelledby="expression-title"><h2 id="expression-title">猫の表情</h2><p id="expression-description">今の気分に合う表情を、ひとつ。</p><div id="expression-options" class="expression-options" role="group" aria-label="猫の表情の選択肢"></div><p id="expression-error" class="nickname-error" role="alert"></p><button type="button" class="text-button" id="cancel-expression">閉じる</button></dialog>
 </body>
 </html>
