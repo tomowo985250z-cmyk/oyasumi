@@ -64,6 +64,18 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await evaluate('globalThis.DayCats={...DayCatsOriginal,current:()=>DayCatsOriginalCurrent(Date.parse("2026-10-03T18:00:00+09:00"))};go("home")');
   assert.equal(await evaluate('document.querySelector(".day-hero")'),null);
   await evaluate('globalThis.DayCats=DayCatsOriginal;go("home")');
+  if(process.argv.includes('--preview-stats')){
+    assert(await evaluate('!!shared.tonightSummary'));
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('go("stats")');
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      assert(await evaluate('(()=>{const r=document.createRange();r.selectNodeContents(document.querySelector(".wordmark"));return r.getClientRects().length===1})()'),'Tonight heading must fit one line');
+      assert.equal(await evaluate('document.querySelectorAll("#app [data-post],.tonight-cats a,.tonight-cats button").length'),0);
+      await screenshot(`tonight-summary-final-${width}.png`);
+    }
+    console.log('PASS tonight summary layout: live data, single-line title and no duplicate actions at 320/390/430px.');return;
+  }
   if(process.argv.includes('--preview-dark')){
     for(const width of [320,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
@@ -137,7 +149,10 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert(await evaluate('shared.trendSupported'),'Run supabase/tonight-trend.sql before browser tests.');
   await evaluate('go("stats")');
   assert(!(await evaluate('document.querySelector("#app").textContent')).includes('サンプル'));
-  assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),await evaluate('TonightTrend.classify(shared.trend)'));
+  assert(await evaluate('!!shared.tonightSummary'),'Run supabase/tonight-summary.sql before browser tests.');
+  assert.equal(await evaluate('document.querySelectorAll("#app [data-post],#app [data-view=profile]").length'),0);
+  assert(!(await evaluate('app.textContent')).includes('今夜まだ起きてる人'));
+  await evaluate('go("home")');
   const userId=await evaluate('shared.userId');
   await action('[data-post="awake"]');assert.equal(await evaluate('view'),'timeline');assert.equal(await evaluate('state.posts.length'),1);
   const firstId=await evaluate('state.posts[0].id');
@@ -153,9 +168,25 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
   for(const choice of ['sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('shared.myState'),'sleep');assert.equal(await evaluate('state.lastSleep.count'),await evaluate('shared.sleepingCount'));}
   assert.equal(await evaluate('state.posts.length'),4);
+  assert.equal(await evaluate('shared.tonightSummary.sleepingCount'),await evaluate('shared.sleepingCount'),'Repeated sleep posts count each person once');
+  for(const width of [320,390,430]){
+    await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+    await evaluate('go("stats")');
+    assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),await evaluate('Math.min(32,shared.tonightSummary.sleepingCount)'));
+    assert.equal(await evaluate('document.querySelectorAll(".tonight-cats button,.tonight-cats a,#app [data-post]").length'),0);
+    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    assert.equal(await evaluate('document.querySelector(".count").textContent.trim()'),await evaluate('`${shared.tonightSummary.sleepingCount} 人`'));
+    await screenshot(`tonight-summary-${width}.png`);
+  }
+  await evaluate('globalThis.summaryFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_summary"))throw new Error("Simulated summary failure");return summaryFetch(input,options)};await refreshShared();go("stats")');
+  assert.equal(await evaluate('shared.tonightSummary'),null);
+  assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),0);
+  assert(await evaluate('Number.isFinite(shared.sleepingCount)'));
+  await evaluate('globalThis.fetch=summaryFetch;await refreshShared()');
   for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
     await evaluate('go("settings")');await click('[data-coat-picker]');await action(`[data-coat="${coat}"]`);
     assert.equal(await evaluate('state.coat'),coat);
+    assert(await evaluate(`shared.tonightSummary.coats.some(c=>c.coat===${JSON.stringify(coat)}&&c.count>=1)`),'Sleeping cat aggregates must reflect the selected coat');
     await evaluate('go("profile")');
     assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catCoat'),coat);
   }
@@ -260,6 +291,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
   await evaluate('globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_trend"))throw new Error("Simulated trend refresh failure");return originalFetch(input,options)};await refreshShared();go("stats")');
   assert.equal(await evaluate('shared.trend.length'),0);
+  assert(!(await evaluate('document.querySelector(".chart").textContent')).includes('サンプル'));
+  await evaluate('go("home")');
   assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),'insufficient');
   assert(await evaluate('Number.isFinite(shared.awakeCount)'),'Trend failure must preserve existing counts');
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');

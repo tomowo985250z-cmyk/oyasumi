@@ -9,6 +9,9 @@ async function run() {
   await a.initialize('検証ねこA');await b.initialize('検証ねこB');
   assert.notEqual(a.userId,b.userId);
   const base=await a.snapshot();
+  assert(base.tonightSummary,'Run supabase/tonight-summary.sql before testing tonight summaries.');
+  assert.equal(base.tonightSummary.coats.reduce((sum,c)=>sum+c.count,0),base.tonightSummary.sleepingCount);
+  assert(base.tonightSummary.coats.every(c=>Object.keys(c).sort().join(',')==='coat,count'),'Only anonymous coat aggregates are returned');
   assert(base.trendSupported,'Run supabase/tonight-trend.sql in SQL Editor before testing shared trends.');
   assert(base.expressionSupported,'Run supabase/cat-appearance.sql in SQL Editor before testing cat expression persistence.');
   const first=await a.submitPost('awake');created.add(first.id);
@@ -66,6 +69,7 @@ async function run() {
   assert((await signedOut.rpc('oyasumi_set_cat_expression',{p_expression:'happy'})).error,'Unauthenticated expression updates must be denied');
   assert((await signedOut.rpc('oyasumi_set_cat_coat',{p_coat:'black'})).error);
   assert((await signedOut.rpc('oyasumi_tonight_trend')).error,'Unauthenticated trend reads must be denied');
+  assert((await signedOut.rpc('oyasumi_tonight_summary')).error,'Unauthenticated summary reads must be denied');
   assert((await signedOut.rpc('oyasumi_set_reaction_v2',{p_post_id:comfortPost.id,p_choice:'comfort'})).error);
   assert((await signedOut.rpc('oyasumi_reaction_counts_v2',{p_post_ids:[comfortPost.id]})).error);
   const rows=await signedOut.from('oyasumi_posts').select('*');assert(rows.error||rows.data.length===0,'Unauthenticated data must be denied');

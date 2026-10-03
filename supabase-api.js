@@ -60,6 +60,12 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     checked(sleepCountResult);
     const counts = countsRows[0];
     if (!counts) throw new Error('人数を取得できませんでした。');
+    let tonightSummary = null;
+    try {
+      const rows = await rpc('oyasumi_tonight_summary');
+      const row = rows.find(row => row.night_date === counts.night_date);
+      if (row) tonightSummary = { sleepingCount: Number(row.sleeping_count), coats: row.cat_coats, peakHours: row.peak_hours };
+    } catch { /* 集計の失敗で投稿や既存の共有機能を止めない。 */ }
     let trend = [], trendSupported = false;
     try {
       const rows = await rpc('oyasumi_tonight_trend');
@@ -99,7 +105,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       }
     }
     return { userId, name: names.get(userId) || 'ともを', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
-      awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported,
+      awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }
