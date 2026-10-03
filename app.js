@@ -108,7 +108,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.dataset.post){const status=button.dataset.post;if(!POST_OPTIONS.some(option=>option.id===status))return;void mutation(async()=>{
   const row=await OyasumiAPI.submitPost(status);
   const post={id:row.id,userId:row.user_id,status:row.choice,time:Date.parse(row.created_at),nightDate:row.night_date,order:row.event_order,name:state.name,expression:state.expression,coat:state.coat,self:true,color:'peach'};
-  state.posts=[post,...state.posts.filter(p=>p.id!==post.id)];shared.feed=[post,...shared.feed.filter(p=>p.id!==post.id)];
+  state.posts=[post,...state.posts.filter(p=>p.id!==post.id)];shared.feed=[post,...shared.feed.filter(p=>p.userId!==post.userId)];
   const refreshed=await refreshAfterSave();
   if(isSleeping(status)){state.lastSleep={count:refreshed?shared.sleepingCount:null,nightDate:row.night_date,userId:row.user_id,at:row.created_at,coat:state.coat,finished:false};save();}
   else if(state.lastSleep?.finished){state.lastSleep.finished=false;save();}

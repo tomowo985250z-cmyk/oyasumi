@@ -57,6 +57,9 @@ async function run() {
   assert.equal((await b.snapshot()).feed.find(p=>p.id===surprisedPost.id).expression,'surprised','New posts share the surprised expression');
   await a.deletePost(surprisedPost.id);created.delete(surprisedPost.id);
   await a.setCatExpression('happy');
+  const historyBefore=await a.snapshot();
+  assert(historyBefore.ownPosts.some(p=>p.id===first.id),'Original post history must remain stored');
+  assert.equal(historyBefore.feed.filter(p=>p.userId===a.userId).length,1,'A user has only one visible post');
   for(const choice of ['sleep','try-sleep','early-sleep']){const post=await a.submitPost(choice);created.add(post.id);snap=await b.snapshot();assert(snap.feed.some(p=>p.id===post.id));const own=await a.snapshot();assert.equal(own.myState,'sleep');assert.equal(own.trend.at(-1).awake,own.awakeCount);assert.equal(own.trend.at(-1).sleeping,own.sleepingCount);assert(snap.sleepingCount>=base.sleepingCount+1);}
   await b.setReaction(first.id,'dream');await a.deletePost(first.id);created.delete(first.id);assert(!(await b.snapshot()).feed.some(p=>p.id===first.id));
   const comfortPost=await a.submitPost('awake');created.add(comfortPost.id);

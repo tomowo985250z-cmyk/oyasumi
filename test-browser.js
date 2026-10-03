@@ -199,6 +199,10 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
   for(const choice of ['sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('shared.myState'),'sleep');assert.equal(await evaluate('state.lastSleep.count'),await evaluate('shared.sleepingCount'));}
   assert.equal(await evaluate('state.posts.length'),4);
+  await evaluate('filter="all";go("timeline")');
+  assert.equal(await evaluate('shared.feed.filter(p=>p.self).length'),1,'Only the newest own post belongs in the timeline');
+  assert.equal(await evaluate('document.querySelectorAll(".post .self-tag").length'),1);
+  assert.equal(await evaluate('shared.feed.find(p=>p.self).id'),await evaluate('state.posts[0].id'));
   assert.equal(await evaluate('shared.tonightSummary.sleepingCount'),await evaluate('shared.sleepingCount'),'Repeated sleep posts count each person once');
   for(const width of [320,390,430]){
     await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});

@@ -74,7 +74,18 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
         time: Date.parse(row.sampled_at), awake: Number(row.awake_count), sleeping: Number(row.sleeping_count)
       }));
     } catch { /* Trend failure must not block posts, cats or existing counts. */ }
-    const feedRows = checked(await client.from('oyasumi_posts').select('*').eq('night_date', counts.night_date).order('event_order', { ascending: false }).limit(100));
+    // 履歴は削除せず、最新順に読み、一人につき先頭の一件だけ公開フィードへ。
+    // 投稿100件で先に切ると、連投の多い人によって他の人が欠落するためページを進める。
+    const feedRows = [], seenAuthors = new Set();
+    for (let offset = 0; feedRows.length < 100; offset += 100) {
+      const rows = checked(await client.from('oyasumi_posts').select('*').eq('night_date', counts.night_date)
+        .order('event_order', { ascending: false }).range(offset, offset + 99));
+      for (const row of rows) {
+        if (!seenAuthors.has(row.user_id)) { seenAuthors.add(row.user_id); feedRows.push(row); }
+        if (feedRows.length === 100) break;
+      }
+      if (rows.length < 100) break;
+    }
     const postIds = [...new Set([...feedRows, ...ownRows].map(post => post.id))];
     const authorIds = [...new Set([userId, ...feedRows.map(post => post.user_id)])];
     let profileResult = await client.from('oyasumi_profiles').select('user_id,nickname,cat_expression,cat_coat').in('user_id', authorIds);
