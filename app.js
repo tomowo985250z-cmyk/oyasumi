@@ -6,7 +6,7 @@ const POST_OPTIONS = [
  { id: 'try-sleep', text: '眠れないけど寝てみる 💤', sleeping: true },
  { id: 'early-sleep', text: 'お先に寝ます 👋', sleeping: true }
 ];
-const REACTION_OPTIONS = [{ id: 'goodnight', text: 'おやすみ 🌙' }, { id: 'dream', text: 'いい夢を 💤' }, { id: 'tomorrow', text: 'また明日 👋' }];
+const REACTION_OPTIONS = [{ id: 'goodnight', text: 'おやすみ🌙' }, { id: 'dream', text: 'いい夢を💤' }, { id: 'tomorrow', text: 'また明日👋' }, { id: 'comfort', text: '無理せずね☺️' }];
 const isSleeping = status => POST_OPTIONS.some(option => option.id === status && option.sleeping);
 const freshState = () => ({ name: 'ともを', expression: 'calm', coat: 'calico', posts: [], reactions: {}, morningDays: [], light: false, lastSleep: null });
 let localState = {};
@@ -30,7 +30,7 @@ const statusText = status => POST_OPTIONS.find(option => option.id === status)?.
 const avatar = p => `<span class="avatar ${p.color || 'peach'}" aria-hidden="true">${CatFaces.svg(p.expression,p.coat)}</span>`;
 const header = (title='おやすみ', back=false) => `<header class="header">${back?'<button class="icon-button" data-view="home" aria-label="ホームに戻る">‹</button>':'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { const items=[['home','ホーム'],['timeline','タイムライン'],['stats','今夜の様子'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=view==='sleep'; }
-function countCard() { return `<section class="card count-card"><h2>今夜まだ起きてる人</h2><div class="count"><span class="people" aria-hidden="true">♟</span>${shared.awakeCount ?? '—'}<small> 人</small></div><p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend,shared.awakeCount)}">${escapeHTML(TonightTrend.comment(shared.trend,shared.awakeCount))}</p></section>`; }
+function countCard() { return `<section class="card count-card"><h2>今夜まだ起きてる人</h2><div class="count"><span class="people" aria-hidden="true">♟</span>${shared.awakeCount ?? '—'}<small> 人</small></div><p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend)}">${escapeHTML(TonightTrend.comment(shared.trend))}</p></section>`; }
 function actions() { return `<div class="status-actions"><button class="status-button awake" data-post="awake"><span class="status-symbol" aria-hidden="true">😴</span><span><strong>まだ寝れない…</strong><small>（いま起きてる）</small></span></button><button class="status-button sleep" data-post="sleep"><span class="status-symbol moon-symbol" aria-hidden="true">☾</span><span><strong>もう寝るよ 🌙</strong><small>（おやすみする）</small></span></button><div class="extra-post-options">${POST_OPTIONS.slice(2).map(option=>`<button class="extra-post-button" data-post="${option.id}">${option.text}</button>`).join('')}</div><p class="choice-note">ひとつ選ぶだけ。寝る報告のあとは、スマホを置いて。</p></div>`; }
 function chart() { return `<section class="card chart"><h2>今夜の推移</h2>${TonightTrend.chart(shared.trend)}</section>`; }
 function home() { return `${header()}${countCard()}${actions()}<section><div class="section-heading"><h2>みんなの様子</h2><small><span class="live-dot"></span>今夜のタイムライン</small></div><div class="mini-feed">${allPosts().slice(0,5).map(p=>`<div class="mini-row">${avatar(p)}<span class="mini-name">${escapeHTML(p.name)}</span><span class="mini-status ${isSleeping(p.status)?'sleeping':''}">${statusText(p.status)}</span><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>`).join('')}</div><p class="sample-tag">今夜の投稿を共有しています</p></section><p class="quiet-note">眠れない夜も、ここではひとりじゃない。</p>`; }
@@ -105,7 +105,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.dataset.react){const id=button.dataset.react,choice=button.dataset.reaction;if(!REACTION_OPTIONS.some(option=>option.id===choice)||!allPosts().some(post=>post.id===id))return;void mutation(async()=>{
   const previous=state.reactions[id],next=previous===choice?null:choice;
   await OyasumiAPI.setReaction(id,next);
-  const counts=shared.reactionCounts[id]||{goodnight:0,dream:0,tomorrow:0};
+  const counts=shared.reactionCounts[id]||{goodnight:0,dream:0,tomorrow:0,comfort:0};
   if(previous)counts[previous]=Math.max(0,counts[previous]-1);if(next)counts[next]+=1;
   shared.reactionCounts[id]=counts;if(next)state.reactions[id]=next;else delete state.reactions[id];
   renderPreservingPosition();await refreshAfterSave();

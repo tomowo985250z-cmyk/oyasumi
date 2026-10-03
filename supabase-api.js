@@ -86,10 +86,16 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     const coats = new Map(profiles.map(profile => [profile.user_id, allowedCoats.includes(profile.cat_coat) ? profile.cat_coat : 'calico']));
     const reactions = {}, reactionCounts = {};
     for (let start = 0; start < postIds.length; start += 100) {
-      const rows = await rpc('oyasumi_reaction_counts', { p_post_ids: postIds.slice(start, start + 100) });
+      const args = { p_post_ids: postIds.slice(start, start + 100) };
+      let rows;
+      try { rows = await rpc('oyasumi_reaction_counts_v2', args); }
+      catch (error) {
+        if (error.code !== 'PGRST202') throw error;
+        rows = await rpc('oyasumi_reaction_counts', args);
+      }
       for (const row of rows) {
         if (row.my_choice) reactions[row.post_id] = row.my_choice;
-        reactionCounts[row.post_id] = { goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count) };
+        reactionCounts[row.post_id] = { goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count), comfort: Number(row.comfort_count ?? 0) };
       }
     }
     return { userId, name: names.get(userId) || 'ともを', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
@@ -100,7 +106,14 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   return { client, initialize, snapshot, get userId() { return userId; },
     submitPost: choice => rpc('oyasumi_submit_post', { p_choice: choice }),
     deletePost: id => rpc('oyasumi_delete_post', { p_post_id: id }),
-    setReaction: (id, choice) => rpc('oyasumi_set_reaction', { p_post_id: id, p_choice: choice }),
+    setReaction: async (id, choice) => {
+      const args = { p_post_id: id, p_choice: choice };
+      try { return await rpc('oyasumi_set_reaction_v2', args); }
+      catch (error) {
+        if (error.code !== 'PGRST202' || choice === 'comfort') throw error;
+        return rpc('oyasumi_set_reaction', args);
+      }
+    },
     setNickname: name => rpc('oyasumi_set_nickname', { p_nickname: name }),
     setCatCoat: coat => rpc('oyasumi_set_cat_coat', { p_coat: coat }),
     setCatExpression: expression => rpc('oyasumi_set_cat_expression', { p_expression: expression }) };

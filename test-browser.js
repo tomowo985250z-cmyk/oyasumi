@@ -35,6 +35,21 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('state.name'),'旧ねこ');
   assert.deepEqual(await evaluate('state.morningDays'),['2026-01-01']);
   if(process.argv.includes('--preview-cats')){
+    await evaluate('go("home")');await screenshot('home-layout-mobile.png');
+    await evaluate('globalThis.previewFeed=shared.feed;shared.feed=[{id:"preview-layout",name:"検証猫",status:"awake",time:Date.now(),expression:"calm",coat:"calico",self:false}]');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('go("home")');
+      assert(await evaluate('(()=>{const [a,b]=Array.from(document.querySelectorAll(".status-button"),el=>el.getBoundingClientRect());return Math.abs(a.width-b.width)<1&&a.height===b.height&&a.top===b.top})()'));
+      assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button.sleep")).backgroundImage'),'linear-gradient(125deg, rgb(255, 172, 163), rgb(252, 129, 155))');
+      assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button.awake")).backgroundImage'),'linear-gradient(125deg, rgb(131, 152, 255), rgb(88, 108, 227))');
+      await evaluate('go("timeline")');
+      assert(await evaluate('(()=>{const r=Array.from(document.querySelector(".reaction-options").children,el=>el.getBoundingClientRect());return r.length===4&&r[0].top===r[1].top&&r[2].top===r[3].top&&r[2].top>r[0].top&&Math.abs(r[0].width-r[1].width)<1})()'));
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    }
+    await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+    await evaluate('go("timeline")');await screenshot('reactions-layout-mobile.png');
+    await evaluate('shared.feed=previewFeed;go("home")');
     await evaluate('go("profile")');await click('[data-expression-picker]');
     assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),5);
     assert.equal(await evaluate('document.querySelectorAll("#expression-options .cat-face").length'),5);
@@ -63,14 +78,14 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${CatFaces.options.flatMap(expression=>CatFaces.coats.map(coat=>`<div style="text-align:center">${CatFaces.svg(expression.id,coat.id)}<small>${coat.label}・${expression.label}</small></div>`)).join("")}</div>`');
     await screenshot('cat-matrix.png');
     assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);assert.deepEqual(errors,[]);
-    console.log('PASS cat preview: 40 SVG coat/expression combinations, eight coat choices and five expressions, mobile picker, cancellation, safe defaults and preserved existing shared-data loading. Persistence test still requires SQL migration.');
+    console.log('PASS UI preview: equal status buttons, unchanged blue/pink, 2x2 reactions at 320/390/430px, 40 SVG cats, mobile picker and legacy data. Reaction persistence still requires SQL migration.');
     return;
   }
   assert(await evaluate('shared.expressionSupported'),'Run supabase/cat-appearance.sql before browser expression tests.');
   assert(await evaluate('shared.trendSupported'),'Run supabase/tonight-trend.sql before browser tests.');
   await evaluate('go("stats")');
   assert(!(await evaluate('document.querySelector("#app").textContent')).includes('サンプル'));
-  assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),await evaluate('TonightTrend.classify(shared.trend,shared.awakeCount)'));
+  assert.equal(await evaluate('document.querySelector("[data-trend-comment]").dataset.trendComment'),await evaluate('TonightTrend.classify(shared.trend)'));
   const userId=await evaluate('shared.userId');
   await action('[data-post="awake"]');assert.equal(await evaluate('view'),'timeline');assert.equal(await evaluate('state.posts.length'),1);
   const firstId=await evaluate('state.posts[0].id');
@@ -79,8 +94,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const peerId=await evaluate('peerPost.id');
   assert(await evaluate(`shared.feed.some(p=>p.id===${JSON.stringify(peerId)}&&!p.self)`));
   assert.equal(await evaluate(`document.querySelectorAll('[data-delete="${peerId}"]').length`),0,'Peer posts have no delete control');
-  for(const choice of ['goodnight','dream','tomorrow']){await action(`[data-react="${peerId}"][data-reaction="${choice}"]`);assert.equal(await evaluate(`state.reactions[${JSON.stringify(peerId)}]`),choice);assert.equal(await evaluate(`(await peer.snapshot()).reactionCounts[${JSON.stringify(peerId)}][${JSON.stringify(choice)}]`),1);}
-  await action(`[data-react="${peerId}"][data-reaction="tomorrow"]`);assert.equal(await evaluate(`state.reactions[${JSON.stringify(peerId)}]`),undefined);
+  for(const choice of ['goodnight','dream','tomorrow','comfort']){await action(`[data-react="${peerId}"][data-reaction="${choice}"]`);assert.equal(await evaluate(`state.reactions[${JSON.stringify(peerId)}]`),choice);assert.equal(await evaluate(`(await peer.snapshot()).reactionCounts[${JSON.stringify(peerId)}][${JSON.stringify(choice)}]`),1);}
+  await action(`[data-react="${peerId}"][data-reaction="comfort"]`);assert.equal(await evaluate(`state.reactions[${JSON.stringify(peerId)}]`),undefined);
   await evaluate(`await peer.setReaction(${JSON.stringify(firstId)},'dream');await refreshShared()`);assert.equal(await evaluate(`shared.reactionCounts[${JSON.stringify(firstId)}].dream`),1);
   await evaluate('window.scrollTo(0,150);globalThis.previousScroll=window.scrollY;await refreshShared()');assert.equal(await evaluate('window.scrollY'),await evaluate('previousScroll'),'Refresh must preserve scroll');
   await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
@@ -144,6 +159,19 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth'));
   assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));await click('#cancel-expression');
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("stats")');await screenshot('trend-mobile.png');await evaluate('go("home")');await screenshot('home-mobile.png');await evaluate('go("timeline")');await screenshot('timeline-mobile.png');
+  await evaluate('go("home")');
+  for(const width of [320,390,430]){
+    await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+    assert(await evaluate('(()=>{const [a,b]=Array.from(document.querySelectorAll(".status-button"),el=>el.getBoundingClientRect());return Math.abs(a.width-b.width)<1&&a.height===b.height&&a.top===b.top})()'));
+    assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button")).textAlign'),'center');
+    assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button.sleep")).backgroundImage'),'linear-gradient(125deg, rgb(255, 172, 163), rgb(252, 129, 155))');
+    assert.equal(await evaluate('getComputedStyle(document.querySelector(".status-button.awake")).backgroundImage'),'linear-gradient(125deg, rgb(131, 152, 255), rgb(88, 108, 227))');
+    await evaluate('filter="all";go("timeline")');
+    assert(await evaluate('(()=>{const r=Array.from(document.querySelector(".reaction-options").children,el=>el.getBoundingClientRect());return r.length===4&&r[0].top===r[1].top&&r[2].top===r[3].top&&r[2].top>r[0].top&&Math.abs(r[0].width-r[1].width)<1})()'));
+    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    await evaluate('go("home")');
+  }
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await screenshot('home-mobile.png');await evaluate('go("timeline")');await screenshot('timeline-mobile.png');
   await action('[data-delete]');assert.equal(await evaluate('state.posts.length'),4);
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);
   assert.deepEqual(errors,[]);

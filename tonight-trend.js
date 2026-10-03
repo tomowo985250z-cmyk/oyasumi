@@ -1,26 +1,61 @@
 globalThis.TonightTrend = (() => {
   // コメント文言と判定の設定は、この2つだけを編集します。
   const messages = {
-    increasing: 'まだ起きている仲間が、少し増えています 🌙',
-    decreasing: 'みんな、そろそろ寝始めています 🌙',
-    steady: '今夜も、それぞれのペースで過ごしています 🌙',
-    small: '今夜は少人数で、静かな夜を過ごしています 🌙',
-    insufficient: '今夜の様子を、ゆっくり集めています 🌙'
+    insufficient: '今夜はこれから',
+    increasing: 'まだ起きてる仲間が増えてきたみたい',
+    steady: '今夜もまだ起きてる仲間がいるみたい',
+    decreasing: '少しずつ、おやすみする人が増えてきたみたい',
+    strongDecreasing: 'みんな少しずつ眠りにつきはじめたみたい'
   };
-  const rules = { smallCount: 5, comparisonMinutes: 30, minimumMinutes: 15, changeRatio: 0.1, minimumChange: 2 };
-  function classify(points, currentCount) {
-    if (!Array.isArray(points) || points.length < 2 || !Number.isFinite(currentCount)) return 'insufficient';
-    const last = points.at(-1);
-    const eligible = points.filter(point => last.time - point.time >= rules.minimumMinutes * 60000);
-    if (!eligible.length) return 'insufficient';
-    const target = last.time - rules.comparisonMinutes * 60000;
-    const previous = eligible.reduce((best, point) => Math.abs(point.time - target) < Math.abs(best.time - target) ? point : best);
-    if (currentCount <= rules.smallCount) return 'small';
-    const change = currentCount - previous.awake;
-    const threshold = Math.max(rules.minimumChange, Math.ceil(previous.awake * rules.changeRatio));
-    return change >= threshold ? 'increasing' : change <= -threshold ? 'decreasing' : 'steady';
+  const rules = {
+    intervalMinutes: 15, recentMinutes: 15, comparisonStartMinutes: 30, comparisonEndMinutes: 60,
+    increaseRate: 0.10, decreaseRate: -0.10, strongDecreaseRate: -0.30,
+    increaseExitRate: 0.05, decreaseExitRate: -0.05, strongDecreaseExitRate: -0.20,
+    minimumChange: 2, confirmationWindows: 2, minimumHoldMinutes: 30
+  };
+  function classify(points) {
+    if (!Array.isArray(points)) return 'insufficient';
+    const interval = rules.intervalMinutes * 60000;
+    // 現在時点の未確定サンプルは使わず、RPCの15分境界だけで判定。
+    const completed = [...new Map(points.filter(point => Number.isFinite(point.time)
+      && Number.isFinite(point.awake) && point.awake >= 0 && point.time % interval === 0)
+      .map(point => [point.time, point])).values()].sort((a,b) => a.time - b.time);
+    let state = 'insufficient', candidate, confirmations = 0, changedAt = -Infinity, previousTime, segmentStart = 0;
+    const mean = rows => rows.reduce((sum,row) => sum + row.awake, 0) / rows.length;
+    for (let index = 0; index < completed.length; index++) {
+      const now = completed[index].time;
+      if (previousTime !== undefined && now - previousTime !== interval) {
+        state = 'insufficient'; candidate = undefined; confirmations = 0; changedAt = -Infinity;
+        segmentStart = index;
+      }
+      previousTime = now;
+      const window = completed.slice(segmentStart,index + 1);
+      const recent = window.filter(point => now - point.time <= rules.recentMinutes * 60000);
+      const baseline = window.filter(point => now - point.time >= rules.comparisonStartMinutes * 60000
+        && now - point.time <= rules.comparisonEndMinutes * 60000);
+      if (recent.length < 2 || !baseline.length) continue;
+      const before = mean(baseline), change = mean(recent) - before;
+      const rate = change / Math.max(1,before);
+      let next = 'steady';
+      if (Math.abs(change) >= rules.minimumChange) {
+        if (rate <= rules.strongDecreaseRate) next = 'strongDecreasing';
+        else if (rate >= rules.increaseRate) next = 'increasing';
+        else if (rate <= rules.decreaseRate) next = 'decreasing';
+        else if (state === 'increasing' && rate >= rules.increaseExitRate) next = state;
+        else if (state === 'decreasing' && rate <= rules.decreaseExitRate) next = state;
+      }
+      if (state === 'strongDecreasing' && rate <= rules.strongDecreaseExitRate
+        && Math.abs(change) >= rules.minimumChange) next = state;
+      if (next === state) { candidate = undefined; confirmations = 0; continue; }
+      confirmations = next === candidate ? confirmations + 1 : 1;
+      candidate = next;
+      if (confirmations >= rules.confirmationWindows && now - changedAt >= rules.minimumHoldMinutes * 60000) {
+        state = next; changedAt = now; candidate = undefined; confirmations = 0;
+      }
+    }
+    return state;
   }
-  const comment = (points, count) => messages[classify(points, count)];
+  const comment = points => messages[classify(points)];
   const timeLabel = time => new Date(time).toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', hour12: false });
   function chart(points) {
     if (!points?.length) return '<p class="empty">今夜の推移は、投稿が集まると表示されます。</p>';
