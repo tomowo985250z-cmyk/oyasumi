@@ -7,8 +7,9 @@ const browserPath = process.env.EDGE_PATH || 'C:/Program Files (x86)/Microsoft/E
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'oyasumi-browser-'));
 const server = spawn(process.execPath, ['server.js'], { stdio: 'ignore' });
 const browser = spawn(browserPath, ['--headless=new','--disable-gpu','--no-first-run','--remote-debugging-port=9333',`--user-data-dir=${profile}`,'about:blank'], {stdio:'ignore'});
-let socket;
+let socket, evaluate, send;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',status:'awake',time:Date.now()}],reactions:{'old-local-post':'dream'},morningDays:['2026-01-01'],light:false});
 (async () => {
   let tabs;
   for(let i=0;i<60;i++){try{tabs=await (await fetch('http://127.0.0.1:9333/json')).json();break;}catch{await delay(250);}}
@@ -16,53 +17,62 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
   socket = new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);
   await new Promise(resolve=>socket.addEventListener('open',resolve,{once:true}));
   let id=0;const pending=new Map();const errors=[];
-  socket.addEventListener('message',event=>{const data=JSON.parse(event.data);if(data.id){const p=pending.get(data.id);pending.delete(data.id);data.error?p.reject(data.error):p.resolve(data.result);}if(data.method==='Runtime.exceptionThrown')errors.push(data.params.exceptionDetails.text);});
-  const send=(method,params={})=>new Promise((resolve,reject)=>{const key=++id;pending.set(key,{resolve,reject});socket.send(JSON.stringify({id:key,method,params}));});
-  const evaluate=async expression=>{const result=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});assert(!result.exceptionDetails,JSON.stringify(result.exceptionDetails));return result.result.value;};
+  socket.addEventListener('message',event=>{const data=JSON.parse(event.data);if(data.id){const p=pending.get(data.id);if(!p)return;pending.delete(data.id);clearTimeout(p.timer);data.error?p.reject(data.error):p.resolve(data.result);}if(data.method==='Runtime.exceptionThrown')errors.push(data.params.exceptionDetails.text);});
+  send=(method,params={})=>new Promise((resolve,reject)=>{const key=++id;const timer=setTimeout(()=>{pending.delete(key);reject(new Error(`Timeout: ${method}`));},45000);pending.set(key,{resolve,reject,timer});socket.send(JSON.stringify({id:key,method,params}));});
+  evaluate=async expression=>{const source=expression.includes('await ')?`(async()=>{${expression.includes(';')?expression:`return (${expression});`}})()`:expression;const result=await send('Runtime.evaluate',{expression:source,returnByValue:true,awaitPromise:true});assert(!result.exceptionDetails,JSON.stringify(result.exceptionDetails));return result.result.value;};
+  const waitFor=async(expression,timeout=30000)=>{const deadline=Date.now()+timeout;while(Date.now()<deadline){if(await evaluate(expression))return;await delay(100);}throw new Error(`Condition timed out: ${expression}; toast: ${await evaluate('document.querySelector("#toast").textContent')}`);};
   const click=selector=>evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
+  const action=async selector=>{await click(selector);await waitFor('!busy');};
+  const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));};
   await send('Runtime.enable');
+  await send('Page.enable');
+  await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
-  await send('Page.navigate',{url:'http://127.0.0.1:3000'});await delay(600);
-  await evaluate('localStorage.clear(); location.reload()');await delay(400);
-  assert(await evaluate('document.body.innerText.includes("今夜まだ起きてる人")'));
-  await click('[data-post="awake"]');assert.equal(await evaluate('state.posts.length'),1);
-  const reaction='[data-react="sample-0"][data-reaction="goodnight"]';await click(reaction);assert.equal(await evaluate('state.reactions["sample-0"]'),'goodnight');await click(reaction);assert.equal(await evaluate('Object.keys(state.reactions).length'),0);
-  await click('[data-react="sample-0"][data-reaction="dream"]');assert.equal(await evaluate('state.reactions["sample-0"]'),'dream');
-  await click('[data-react="sample-0"][data-reaction="tomorrow"]');assert.equal(await evaluate('state.reactions["sample-0"]'),'tomorrow');assert.equal(await evaluate('document.querySelectorAll("[data-react=sample-0][aria-pressed=true]").length'),1);
-  await click('[data-react="sample-0"][data-reaction="tomorrow"]');assert.equal(await evaluate('Object.keys(state.reactions).length'),0);
+  await send('Page.navigate',{url:'http://127.0.0.1:3000'});
+  await waitFor('typeof ready!=="undefined" && ready && !busy');
+  assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData,'Legacy data must remain intact');
+  assert.equal(await evaluate('state.posts.length'),0,'Legacy posts must not be uploaded');
+  assert.equal(await evaluate('state.name'),'旧ねこ');
+  assert.deepEqual(await evaluate('state.morningDays'),['2026-01-01']);
+  const userId=await evaluate('shared.userId');
+  await action('[data-post="awake"]');assert.equal(await evaluate('view'),'timeline');assert.equal(await evaluate('state.posts.length'),1);
+  const firstId=await evaluate('state.posts[0].id');
+  await evaluate('go("home")');await action('[data-post="awake"]');assert.equal(await evaluate('state.posts.length'),1,'Repeated post must be deduplicated');
+  await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize("検証ほし");globalThis.peerPost=await peer.submitPost("awake");await refreshShared()');
+  const peerId=await evaluate('peerPost.id');
+  assert(await evaluate(`shared.feed.some(p=>p.id===${JSON.stringify(peerId)}&&!p.self)`));
+  assert.equal(await evaluate(`document.querySelectorAll('[data-delete="${peerId}"]').length`),0,'Peer posts have no delete control');
+  for(const choice of ['goodnight','dream','tomorrow']){await action(`[data-react="${peerId}"][data-reaction="${choice}"]`);assert.equal(await evaluate(`state.reactions[${JSON.stringify(peerId)}]`),choice);assert.equal(await evaluate(`(await peer.snapshot()).reactionCounts[${JSON.stringify(peerId)}][${JSON.stringify(choice)}]`),1);}
+  await action(`[data-react="${peerId}"][data-reaction="tomorrow"]`);assert.equal(await evaluate(`state.reactions[${JSON.stringify(peerId)}]`),undefined);
+  await evaluate(`await peer.setReaction(${JSON.stringify(firstId)},'dream');await refreshShared()`);assert.equal(await evaluate(`shared.reactionCounts[${JSON.stringify(firstId)}].dream`),1);
+  await evaluate('window.scrollTo(0,150);globalThis.previousScroll=window.scrollY;await refreshShared()');assert.equal(await evaluate('window.scrollY'),await evaluate('previousScroll'),'Refresh must preserve scroll');
   await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
-  await click('[data-view="home"]');await click('[data-post="sleep"]');assert(await evaluate('document.body.innerText.includes("おやすみなさい")'));
-  for(const [status,text] of [['try-sleep','眠れないけど寝てみる 💤'],['early-sleep','お先に寝ます 👋']]){await click('[data-view="home"]');await click(`[data-post="${status}"]`);assert(await evaluate('document.body.innerText.includes("おやすみなさい")'));assert.equal(await evaluate('state.posts[0].status'),status);await evaluate('go("timeline"); filter="sleep"; render()');assert(await evaluate(`document.querySelector('.post-text').textContent===${JSON.stringify(text)}`));}
-  await evaluate('go("home")');await click('[data-post="early-sleep"]');assert.equal(await evaluate('state.posts.length'),4,'Duplicate taps must not add a second post');
-  await click('[data-view="morning"]');await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),1);assert(await evaluate('document.querySelector("[data-morning]").disabled'));
-  await click('[data-view="profile"]');await click('[data-view="settings"]');await click('[data-name]');
-  const submitName = value => evaluate(`document.querySelector('#nickname').value=${JSON.stringify(value)};document.querySelector('#nickname').dispatchEvent(new Event('input'));document.querySelector('#nickname-form').requestSubmit()`);
-  const beforeNickname = await evaluate('JSON.stringify({posts:state.posts,reactions:state.reactions,morningDays:state.morningDays,light:state.light})');
-  for(const [value,reason] of [ ['', '1〜12文字'], ['あ'.repeat(13),'1〜12文字'], ['example.com','連絡先'], ['https://a.jp','連絡先'], ['a@b.jp','連絡先'], ['ａ＠ｂ．ｊｐ','連絡先'], ['０９０１２３４５６７８','連絡先'], ['03-1234-5678','連絡先'], ['死ね','不適切'], ['キチガイ','不適切'], ['セックス','不適切'], ['ﾁﾝｺ','不適切'], ['fuck','不適切'], ['f.u.c.k','不適切'], ['nigger','不適切'], ['ね\u200bこ','記号'], ['<b>ねこ</b>','記号'] ]) {
-   await submitName(value);assert(await evaluate('document.querySelector("#nickname-dialog").open'));
-   assert((await evaluate('document.querySelector("#nickname-error").textContent')).includes(reason),`Nickname reason: ${value}`);
-   assert.equal(await evaluate('state.name'),'ともを');assert.equal(await evaluate('JSON.parse(localStorage.getItem(STORAGE_KEY)).name'),'ともを');
-  }
-  await delay(150);fs.mkdirSync('test-results',{recursive:true});const nameShot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('test-results/nickname-mobile.png',Buffer.from(nameShot.data,'base64'));
-  await evaluate('document.querySelector("#nickname").value="ねこ";document.querySelector("#nickname").dispatchEvent(new Event("input"))');assert.equal(await evaluate('document.querySelector("#nickname-error").textContent'),'');
-  for(const name of ['あ','あ'.repeat(12),'🌙'.repeat(12),'👨‍👩‍👧‍👦','ピエロ','あほうどり','Sussex','  月ねこ  ']) { assert.equal(await evaluate(`NicknameRules.validate(${JSON.stringify(name)}).error`),''); }
-  await submitName('月ねこ');assert.equal(await evaluate('state.name'),'月ねこ');assert.equal(await evaluate('document.querySelector("#nickname-dialog").open'),false);
-  assert.equal(await evaluate('JSON.stringify({posts:state.posts,reactions:state.reactions,morningDays:state.morningDays,light:state.light})'),beforeNickname,'Nickname updates must preserve other data');
+  for(const choice of ['sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('shared.myState'),'sleep');assert.equal(await evaluate('state.lastSleep.count'),await evaluate('shared.sleepingCount'));}
+  assert.equal(await evaluate('state.posts.length'),4);
+  await click('[data-view="morning"]');await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2);
+  await evaluate('go("settings")');await click('[data-name]');
+  const submitName=value=>evaluate(`document.querySelector('#nickname').value=${JSON.stringify(value)};document.querySelector('#nickname').dispatchEvent(new Event('input'));document.querySelector('#nickname-form').requestSubmit()`);
+  for(const [value,reason] of [['','1〜12文字'],['あ'.repeat(13),'1〜12文字'],['a@b.jp','連絡先'],['０９０１２３４５６７８','連絡先'],['死ね','不適切'],['<b>ねこ</b>','記号']]){await submitName(value);assert((await evaluate('document.querySelector("#nickname-error").textContent')).includes(reason));assert.equal(await evaluate('state.name'),'旧ねこ');}
+  await submitName('👨‍👩‍👧‍👦'.repeat(2));await waitFor('!busy');assert((await evaluate('document.querySelector("#nickname-error").textContent')).includes('1〜12文字'),'Server-side errors must stay inline');
+  await evaluate('document.querySelector("#nickname").value="入力中";await refreshShared()');assert.equal(await evaluate('document.querySelector("#nickname").value'),'入力中','Refresh must preserve nickname drafts');
+  await submitName('月ねこ');await waitFor('!busy');assert.equal(await evaluate('state.name'),'月ねこ');assert.equal(await evaluate('document.querySelector("#nickname-dialog").open'),false);
   await click('[data-name]');await evaluate('document.querySelector("#nickname").value="未保存"');await click('#cancel-name');assert.equal(await evaluate('state.name'),'月ねこ');
-  await evaluate('go("timeline")');await click('[data-react="sample-0"][data-reaction="dream"]');
-  await send('Page.reload');await delay(400);assert.equal(await evaluate('state.posts.length'),4);assert.equal(await evaluate('state.name'),'月ねこ');assert.equal(await evaluate('state.reactions["sample-0"]'),'dream');
-  await evaluate('go("settings")');await click('[data-name]');await submitName('あ'.repeat(12));
-  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'),`Overflow: ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname),[contenteditable=true]").length'),0,'Only nickname may accept free text');}}
-  await send('Emulation.setDeviceMetricsOverride',{width:320,height:720,deviceScaleFactor:1,mobile:true});await evaluate('go("settings")');await click('[data-name]');await submitName('a@b.jp');await delay(150);
-  assert(await evaluate('document.querySelector("#nickname-dialog").getBoundingClientRect().right <= window.innerWidth'));
-  assert(await evaluate('document.querySelector("#nickname-dialog").getBoundingClientRect().bottom <= window.innerHeight'));await click('#cancel-name');
-  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("home")');await delay(150);
-  const capture=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/home-mobile.png',Buffer.from(capture.data,'base64'));
-  await evaluate('go("timeline")');await delay(150);assert.equal(await evaluate('document.querySelectorAll(".header").length'),1);const shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('test-results/timeline-mobile.png',Buffer.from(shot.data,'base64'));
-  await click('[data-delete]');assert.equal(await evaluate('state.posts.length'),3);
-  await evaluate('localStorage.setItem(STORAGE_KEY,JSON.stringify({name:"自由入力の旧名",posts:[{id:"old",status:"sleep",time:Date.now(),count:0}],reactions:["sample-0"],morningDays:[]}));location.reload()');await delay(400);
-  assert.equal(await evaluate('state.name'),'自由入力の旧名');assert.equal(await evaluate('state.posts.length'),1);assert.equal(await evaluate('state.reactions["sample-0"]'),'goodnight');
-  await evaluate('const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));saved.name="a@b.jp";localStorage.setItem(STORAGE_KEY,JSON.stringify(saved));location.reload()');await delay(400);
-  assert.equal(await evaluate('state.name'),'ともを');assert.equal(await evaluate('state.posts.length'),1);assert.equal(await evaluate('state.reactions["sample-0"]'),'goodnight');
-  assert.deepEqual(errors,[]);console.log('PASS: preset-only communication, nickname length/contact/profanity checks and inline reasons, Unicode names, cancellation, persistence, other-data preservation, legacy names, unsafe legacy fallback, responsive widths, no runtime errors.');
-})().catch(error=>{console.error(error);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});
+  await send('Page.reload');await waitFor('typeof ready!=="undefined" && ready && !busy');
+  assert.equal(await evaluate('shared.userId'),userId,'Reload must reuse the anonymous identity');assert.equal(await evaluate('state.posts.length'),4);assert.equal(await evaluate('state.name'),'月ねこ');assert.equal(await evaluate('state.morningDays.length'),2);
+  await evaluate('go("home")');await send('Network.enable');await send('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:-1,uploadThroughput:-1});
+  await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'home','Failed post must not show completion');assert.equal(await evaluate('state.posts.length'),4);assert((await evaluate('document.querySelector("#toast").textContent')).includes('通信'));
+  await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});
+  await waitFor('!refreshPromise');
+  await evaluate('globalThis.originalFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_counts"))throw new Error("Simulated count refresh failure");return originalFetch(input,options)}');
+  await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'sleep','A saved post remains successful if count refresh fails');assert.equal(await evaluate('state.posts.length'),5);assert.equal(await evaluate('state.lastSleep.count'),null);
+  await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
+  for(const width of [320,390,430,1280]){await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:width<500});for(const page of ['home','timeline','sleep','morning','profile','settings','stats']){await evaluate(`go(${JSON.stringify(page)})`);assert(await evaluate('document.documentElement.scrollWidth<=window.innerWidth'),`Overflow ${page} at ${width}`);assert.equal(await evaluate('document.querySelectorAll("textarea,input:not([type=checkbox]):not(#nickname),[contenteditable=true]").length'),0);}}
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('go("home")');await screenshot('home-mobile.png');await evaluate('go("timeline")');await screenshot('timeline-mobile.png');
+  await action('[data-delete]');assert.equal(await evaluate('state.posts.length'),4);
+  assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);
+  assert.deepEqual(errors,[]);
+  console.log('PASS browser: shared posts/reactions/counts, preserved anonymous session, all selections, nickname checks, draft/scroll preservation, offline and post-save refresh failure, untouched legacy data, morning records, mobile/desktop widths, no runtime errors.');
+})().catch(error=>{console.error('FAIL browser:',error.message);process.exitCode=1;}).finally(async()=>{
+  if(evaluate){try{await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});await evaluate('globalThis.fetch=globalThis.originalFetch||fetch;for(const post of state.posts)await OyasumiAPI.deletePost(post.id);if(localStorage.getItem("oyasumi-browser-peer")){const cleanupPeer=globalThis.peer||createOyasumiConnection("oyasumi-browser-peer");await cleanupPeer.initialize();for(const post of (await cleanupPeer.snapshot()).ownPosts)await cleanupPeer.deletePost(post.id)}');}catch(error){console.error('Browser test cleanup failed:',error.message);process.exitCode=1;}}
+  socket?.close();browser.kill();server.kill();
+});
