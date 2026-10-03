@@ -32,6 +32,29 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await send('Page.navigate',{url:baseUrl});
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-reaction-effects')){
+    await evaluate('shared.feed=[{id:"effect-preview",userId:"other",name:"テスト猫",status:"sleep",time:Date.now(),coat:"gray",expression:"calm",self:false}];globalThis.effectCalls=0;OyasumiAPI.setReaction=()=>{effectCalls++;return new Promise(resolve=>{globalThis.effectRelease=resolve})};refreshAfterSave=async()=>true;go("timeline")');
+    for(const width of [320,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await delay(150);
+      for(const choice of ['goodnight','dream','tomorrow','comfort']){
+        const before=await evaluate('effectCalls');
+        await click(`[data-reaction="${choice}"]`);await waitFor('typeof effectRelease==="function"&&busy');
+        assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
+        assert.equal(await evaluate('document.querySelector(".reaction-delivery").textContent.includes("届きました")'),true);
+        await evaluate('for(let i=0;i<8;i++)document.querySelector("[data-reaction=goodnight]").click()');
+        assert.equal(await evaluate('effectCalls'),before+1,'Rapid taps must not send duplicate reactions');
+        await evaluate('effectRelease();globalThis.effectRelease=undefined');await waitFor('!busy');
+        assert.equal(await evaluate('state.reactions["effect-preview"]'),choice);
+        assert(await evaluate('(()=>{const r=document.querySelector(".reaction-delivery").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth})()'));
+        await screenshot(`reaction-${choice}-${width}.png`);
+        await waitFor('!document.querySelector(".reaction-delivery")',2000);
+      }
+    }
+    await evaluate('OyasumiAPI.setReaction=async()=>{throw new Error("Offline")};state.reactions={};go("timeline")');
+    await click('[data-reaction="comfort"]');await waitFor('!busy&&!document.querySelector(".reaction-delivery")');
+    console.log('PASS reaction effects: four quiet effects at 320/390/430px, immediate feedback, one-second cleanup, rerender persistence, rapid-tap deduplication and failure cleanup.');return;
+  }
   if(process.argv.includes('--test-share')){
     await evaluate('go("settings");Object.defineProperty(navigator,"share",{configurable:true,value:async data=>{globalThis.sharedPlaceData=data}})');
     await click('[data-share-place]');
