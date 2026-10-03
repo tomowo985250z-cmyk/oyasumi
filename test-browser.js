@@ -34,6 +34,14 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('state.posts.length'),0,'Legacy posts must not be uploaded');
   assert.equal(await evaluate('state.name'),'旧ねこ');
   assert.deepEqual(await evaluate('state.morningDays'),['2026-01-01']);
+  if(process.argv.includes('--preview-scenes')){
+    await send('Emulation.setDeviceMetricsOverride',{width:1280,height:600,deviceScaleFactor:1,mobile:false});
+    await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";nav.hidden=true;document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${["awake","sleeping"].flatMap(scene=>CatFaces.coats.map(coat=>`<div style="text-align:center">${CatScenes.svg(scene,coat.id)}<small>${coat.label}・${scene==="awake"?"目覚めた猫":"寝ている猫"}</small></div>`)).join("")}</div>`');
+    assert.equal(await evaluate('document.querySelectorAll(".cat-scene").length'),16);
+    assert.equal(await evaluate('document.querySelectorAll("[data-awake-eyes]").length'),8);
+    await screenshot('cat-scenes-matrix.png');
+    console.log('PASS scene preview: eight sleeping and eight wide-eyed awake cats.');return;
+  }
   if(process.argv.includes('--preview-cats')){
     await evaluate('go("home")');await screenshot('home-layout-mobile.png');
     await evaluate('globalThis.previewFeed=shared.feed;shared.feed=[{id:"preview-layout",name:"検証猫",status:"awake",time:Date.now(),expression:"calm",coat:"calico",self:false}]');
@@ -127,6 +135,10 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await evaluate('go("sleep")');
   assert.equal(await evaluate('document.querySelector("[data-finish-sleep]").textContent'),'また明日 🌙');
   await click('[data-finish-sleep]');assert.equal(await evaluate('view'),'rest');
+  assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catScene'),'sleeping');
+  assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),'gray');
+  assert.equal(await evaluate('state.expression'),'happy','Scene must not change the selected profile expression');
+  assert.equal(await evaluate('state.lastSleep.coat'),'gray');
   assert.equal(await evaluate('document.querySelectorAll("#app button,#app .post,#navigation button").length'),0);
   assert.equal(await evaluate('getComputedStyle(document.querySelector("#navigation")).display'),'none');
   assert((await evaluate('app.textContent')).includes('今日もおつかれさまでした'));
@@ -139,11 +151,22 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     assert.equal(await evaluate('document.querySelectorAll("#app button,#navigation button").length'),0);
   }
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await screenshot('sleep-ending-mobile.png');
+  await waitFor('document.querySelector(".rest-screen").dataset.phase==="settled"',10000);
+  assert.equal(await evaluate('app.textContent.trim()'),'おやすみなさい 🌙');
+  assert.equal(await evaluate('document.querySelectorAll("#app button,#app .rest-message,#app .count,#app .post,#app .chart,#navigation button").length'),0);
+  assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),'gray');
+  assert(Number(await evaluate('getComputedStyle(document.querySelector(".rest-screen"),"::before").opacity'))>=0.6);
+  await screenshot('sleep-settled-mobile.png');
   await send('Page.reload');await waitFor('typeof ready!=="undefined" && ready && !busy');
   assert.equal(await evaluate('view'),'rest','Night reload must preserve the quiet ending');
+  assert.equal(await evaluate('document.querySelector(".rest-screen").dataset.phase'),'settled','Reload must not restart the introduction');
   assert.equal(await evaluate('shared.userId'),userId);
   await evaluate('globalThis.actualDateNow=Date.now;globalThis.savedSleep=JSON.parse(JSON.stringify(state.lastSleep));Date.now=()=>Date.parse("2026-10-04T08:00:00+09:00");state.lastSleep={...savedSleep,nightDate:"2026-10-03",at:"2026-10-03T23:00:00+09:00",finishedAt:"2026-10-03T23:01:00+09:00",finished:true};document.dispatchEvent(new Event("visibilitychange"))');
   await waitFor('view==="morning"&&!refreshPromise');
+  assert.equal(await evaluate('document.querySelector(".morning-cat .cat-scene").dataset.catScene'),'awake');
+  assert.equal(await evaluate('document.querySelector(".morning-cat .cat-scene").dataset.catCoat'),'gray');
+  assert.equal(await evaluate('state.expression'),'happy');
+  await screenshot('morning-cat-mobile.png');
   await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2);
   await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2,'Morning record remains idempotent');
   await evaluate('Date.now=actualDateNow;state.lastSleep={...savedSleep,finished:false};save();go("settings")');

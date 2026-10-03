@@ -23,8 +23,8 @@ globalThis.CatFaces = (() => {
   ]);
   const normalizeCoat = value => coats.some(coat => coat.id === value) ? value : 'calico';
   const coatLabel = value => coats.find(coat => coat.id === normalizeCoat(value)).label;
+  const colors = { calico: ['#fff8ee','#e89324'], orange: ['#ffbc6c','#d58322'], brown: ['#ac8c64','#33302a'], silver: ['#bfc1c3','#8a8c8e'], black: ['#232323','#232323'], white: ['#fffdf8','#fffdf8'], tuxedo: ['#fffdf8','#292929'], gray: ['#919395','#919395'] };
   function coatMarkup(coat) {
-    const colors = { calico: ['#fff8ee','#e89324'], orange: ['#ffbc6c','#d58322'], brown: ['#ac8c64','#33302a'], silver: ['#bfc1c3','#8a8c8e'], black: ['#232323','#232323'], white: ['#fffdf8','#fffdf8'], tuxedo: ['#fffdf8','#292929'], gray: ['#919395','#919395'] };
     const [fur, stripe] = colors[coat];
     const tabby = ['orange','brown','silver'].includes(coat);
     const patches = coat === 'calico' ? '<path d="M12 53Q9 28 44 27q-4 22-32 26Z" fill="#e89324"/><path d="M53 27q32-1 35 27Q64 49 53 27Z" fill="#353535"/>' : coat === 'tuxedo' ? '<path d="M12 53Q9 25 50 27q41-2 38 26Q63 51 50 31 37 51 12 53Z" fill="#292929"/>' : '';
@@ -39,5 +39,11 @@ globalThis.CatFaces = (() => {
     if (coat === 'black') face = face.replaceAll('#3f4050', '#f3eee9').replaceAll('#674e4f', '#c2b7b1');
     return `<svg class="cat-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-expression="${expression}" data-cat-coat="${coat}">${coatMarkup(coat)}${face}<path d="m45 67 5 4 5-4" fill="#d6887c"/></svg>`;
   }
-  return Object.freeze({ options, normalize, label, coats, normalizeCoat, coatLabel, svg });
+  // 演出用にも同じ輪郭・毛色を共有。プロフィールの表情は追加しません。
+  function headMarkup(value) {
+    const base = coatMarkup(normalizeCoat(value));
+    return base.slice(base.indexOf('<path d="M17'), base.indexOf('<g fill='));
+  }
+  const palette = value => { const [fur, stripe] = colors[normalizeCoat(value)]; return { fur, stripe }; };
+  return Object.freeze({ options, normalize, label, coats, normalizeCoat, coatLabel, svg, baseMarkup: value => coatMarkup(normalizeCoat(value)), headMarkup, palette });
 })();
