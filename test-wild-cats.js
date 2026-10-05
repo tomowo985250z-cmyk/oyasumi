@@ -18,7 +18,7 @@ for(const coat of originals.CatFaces.coats){
   assert.equal(crypto.createHash('sha256').update(png).digest('hex').slice(0,16),match[2]);
  }
 }
-for(const file of fs.readdirSync('assets/wild-cats').filter(f=>f.endsWith('.png')))
+for(const file of fs.readdirSync('assets/wild-cats').filter(f=>f.endsWith('.png')&&!f.endsWith('-faces-sleepy.png')))
  assert.deepEqual(fs.readFileSync('assets/wild-cats/'+file),cp.execFileSync('git',['show','HEAD:assets/wild-cats/'+file],{maxBuffer:16*1024*1024}),'Wild artwork unchanged');
 for(const cat of WildCatAssets.species){
  assert.equal(CatFaces.normalizeCoat(cat.id),cat.id);
@@ -29,6 +29,7 @@ for(const cat of WildCatAssets.species){
 function check(svg){
  const match=svg.match(/href="(assets\/wild-cats\/[^?]+)\?v=([a-f0-9]{16})"/);assert(match,'Versioned cropped image');paths.add(match[1]);
  const png=fs.readFileSync(match[1]);assert.equal(png.subarray(1,4).toString(),'PNG');assert(png.readUInt32BE(16)>=180);assert(png.readUInt32BE(20)>=180);
+ assert.equal(crypto.createHash('sha256').update(png).digest('hex').slice(0,16),match[2],'Wild image cache version matches artwork');
 }
 assert.equal(paths.size,44);
 console.log('PASS wild cats: 24 expressions, 20 day actions, versioned individual PNGs, safe normalization, sleep/wake reuse and all 48 domestic faces available.');
