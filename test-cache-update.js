@@ -30,7 +30,7 @@ const server=http.createServer((req,res)=>{
  const base=`http://127.0.0.1:${server.address().port}/`;
  const browser=await webkit.launch();
  try{
-  for(const standalone of [false,true])for(const width of [320,390,430]){
+  for(const standalone of [false,true])for(const width of [320,375,390,430]){
    release=htmlRelease=first;
    const context=await browser.newContext({viewport:{width,height:844},isMobile:true,hasTouch:true});
    if(standalone)await context.addInitScript(()=>Object.defineProperty(navigator,'standalone',{value:true}));
@@ -65,16 +65,34 @@ const server=http.createServer((req,res)=>{
    await page.evaluate(()=>{busy=true});assert.equal(await page.evaluate(()=>OyasumiUpdates.canReload()),false);
    await page.evaluate(()=>{busy=false;go('rest')});assert.equal(await page.evaluate(()=>OyasumiUpdates.canReload()),false);
    await page.evaluate(()=>go('home'));
-   for(const width of [320,390,430]){
+   for(const width of [320,375,390,430]){
     await page.setViewportSize({width,height:844});
     for(const screen of ['home','profile','settings']){
      await page.evaluate(screen=>go(screen),screen);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     }
    }
+   for(const width of [320,375,390,430]){
+    await page.setViewportSize({width,height:844});await page.evaluate(()=>go('settings'));
+    for(const kind of ['privacy','rules']){
+     await page.click(`[data-safety="${kind}"]`);
+     assert(await page.locator('#safety-dialog').isVisible());
+     assert.equal(await page.locator('#safety-dialog').evaluate(dialog=>dialog.scrollTop),0,'Open explanations from the beginning');
+     assert(await page.evaluate(()=>document.querySelector('#safety-dialog').scrollWidth<=document.querySelector('#safety-dialog').clientWidth));
+     await page.screenshot({path:`test-results/safety-${standalone?'standalone':'safari'}-${kind}-${width}.png`});
+     await page.click('[data-close-safety]');
+    }
+    await page.click('[data-name]');assert((await page.locator('#nickname-help').textContent()).includes('SNS ID'));
+    await page.click('#nickname-dialog [data-safety="rules"]');await page.click('[data-close-safety]');
+    assert(await page.locator('#nickname-dialog').isVisible());await page.click('#cancel-name');
+    await page.evaluate(()=>go('profile'));await page.click('[data-note-editor]');
+    assert((await page.locator('#note-help').textContent()).includes('学校名'));
+    assert(await page.evaluate(()=>document.querySelector('#note-dialog').scrollWidth<=document.querySelector('#note-dialog').clientWidth));
+    await page.click('#cancel-note');
+   }
    await page.reload();await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy,{},{timeout:60000});
    assert.equal(await page.evaluate(()=>shared.userId),user,'Anonymous identity remains after reload');
    assert.deepEqual(errors,[]);await context.close();
   }
-  console.log('PASS WebKit cache update: browser and standalone simulation at 320/390/430px, new JS/CSS, resume, partial deployment/offline/edit guards, preserved auth/settings/history, no loop; real app pages and Supabase identity reload.');
+  console.log('PASS WebKit cache update: browser and standalone simulation at 320/375/390/430px, new JS/CSS, resume, partial deployment/offline/edit guards, preserved auth/settings/history, no loop; privacy/rules and input guidance at all four widths; real app pages and Supabase identity reload.');
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(()=>server.close());

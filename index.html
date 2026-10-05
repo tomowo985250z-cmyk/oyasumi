@@ -2,13 +2,13 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="oyasumi-release" content="d6b07528d52f834d">
+  <meta name="oyasumi-release" content="2b99c42e4dee8070">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#071329">
   <meta name="description" content="眠れない夜に、ひとりじゃない。静かなおやすみコミュニティ。">
   <title>おやすみ — ひとりじゃない、おやすみの時間。</title>
   <link rel="icon" href="favicon.svg?v=16ea8576293793f9" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=0a0d414ba0046f78">
+  <link rel="stylesheet" href="style.css?v=4382d54105608d19">
   <script src="nickname.js?v=a944082ff045149b" defer></script>
   <script src="cat-faces.js?v=82d5031b9d91d32c" defer></script>
   <script src="cat-roles.js?v=a25e757f9e91e42e" defer></script>
@@ -21,18 +21,20 @@
   <script src="supabase-config.js?v=4daaed5455fdf5aa" defer></script>
   <script src="supabase-api.js?v=f81413170c89ff83" defer></script>
   <script src="update-client.js?v=dce3c8e9063a578a" defer></script>
-  <script src="app.js?v=27c9c47b0ebcab12" defer></script>
+  <script src="safety.js?v=cc286ea4586aa181" defer></script>
+  <script src="app.js?v=ffbb21b977118561" defer></script>
 </head>
 <body>
   <div class="night-sky" aria-hidden="true"></div>
   <aside class="desktop-intro"><span class="brand-moon">☾</span><h1>おやすみ</h1><p>ひとりじゃない、<br>おやすみの時間。</p><div class="intro-note">今日もお疲れさま。<br>ここでは、眠れない夜もひとりじゃない。</div></aside>
   <div class="app-shell"><main id="app"></main><nav id="navigation" aria-label="メインナビゲーション"></nav></div>
   <div id="toast" role="status" aria-live="polite"></div>
-  <dialog id="nickname-dialog" aria-labelledby="nickname-title"><form id="nickname-form" novalidate><h2 id="nickname-title">なんて呼びましょう？</h2><label for="nickname">ニックネーム</label><p id="nickname-help">1〜12文字。連絡先や不適切な表現は使えません。</p><input id="nickname" name="nickname" type="text" placeholder="なんて呼べばいい？" required autocomplete="nickname" enterkeyhint="done" aria-describedby="nickname-help nickname-error"><p id="nickname-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-name">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
+  <dialog id="nickname-dialog" aria-labelledby="nickname-title"><form id="nickname-form" novalidate><h2 id="nickname-title">なんて呼びましょう？</h2><label for="nickname">ニックネーム</label><p id="nickname-help">1〜12文字。本名とは違う呼び名にしよう。<br>本名・学校名・住所・電話番号・メール・SNS IDは書かないでね。<br>連絡先や不適切な表現は使えません。</p><input id="nickname" name="nickname" type="text" placeholder="なんて呼べばいい？" required autocomplete="nickname" enterkeyhint="done" aria-describedby="nickname-help nickname-error"><p class="input-safety-links"><button type="button" class="text-button" data-safety="rules">安全ルール</button>・<button type="button" class="text-button" data-safety="privacy">プライバシー</button></p><p id="nickname-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-name">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
   <dialog id="expression-dialog" aria-labelledby="expression-title"><h2 id="expression-title">猫の表情</h2><p id="expression-description">今の気分に合う表情を、ひとつ。</p><div id="expression-options" class="expression-options" role="group" aria-label="猫の表情の選択肢"></div><p id="expression-error" class="nickname-error" role="alert"></p><button type="button" class="text-button" id="cancel-expression">閉じる</button></dialog>
 <dialog id="share-dialog" aria-labelledby="share-title"><h2 id="share-title">この場所を教える 🌙</h2><p>URLを長押ししてコピーすることもできます。</p><p id="share-url" class="share-url" tabindex="0"></p><div class="dialog-actions"><button type="button" class="text-button" data-close-share>閉じる</button><button type="button" class="cream-button" data-copy-place>URLをコピー</button></div></dialog>
   <dialog id="role-dialog" aria-labelledby="role-title"><form id="role-form"><h2 id="role-title">職業（任意）</h2><p id="role-help">指で上下に動かして選べます。<br>みんなには「〇〇猫」だけが表示されます。</p><div class="role-wheel-frame"><div id="role-wheel" class="role-wheel" role="listbox" tabindex="0" aria-label="職業の選択肢" aria-describedby="role-help"></div></div><p id="role-preview" class="role-preview" aria-live="polite"></p><p id="role-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-role">キャンセル</button><button type="submit" class="cream-button">保存する</button></div></form></dialog>
-  <dialog id="note-dialog" aria-labelledby="note-title"><form id="note-form" novalidate><h2 id="note-title">そっとひとこと</h2><p id="note-help">20文字以内・未入力でもOK。<br>連絡先や不適切な表現は使えません。</p><label for="profile-note">ひとこと</label><input id="profile-note" name="profile-note" type="text" autocomplete="off" enterkeyhint="done" aria-describedby="note-help note-error" placeholder="今のあなたを、少しだけ"><p id="note-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-note">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
+  <dialog id="note-dialog" aria-labelledby="note-title"><form id="note-form" novalidate><h2 id="note-title">そっとひとこと</h2><p id="note-help">20文字以内・未入力でもOK。みんなに見えるひとことです。<br>本名・学校名・住所・電話番号・メール・SNS IDは書かないでね。<br>連絡先や不適切な表現は使えません。</p><label for="profile-note">ひとこと</label><input id="profile-note" name="profile-note" type="text" autocomplete="off" enterkeyhint="done" aria-describedby="note-help note-error" placeholder="今のあなたを、少しだけ"><p id="note-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-note">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
   <dialog id="public-profile-dialog" aria-labelledby="public-profile-title"><h2 id="public-profile-title">プロフィール</h2><div id="public-profile-content"></div><button type="button" class="text-button" id="close-public-profile">閉じる</button></dialog>
+  <dialog id="safety-dialog" class="safety-dialog" aria-labelledby="safety-title"><h2 id="safety-title"></h2><div id="safety-content"></div><button type="button" class="text-button" data-close-safety>閉じる</button></dialog>
 </body>
 </html>
