@@ -1,5 +1,5 @@
 globalThis.SleepFlow = (() => {
-  const rules = { timeZone: 'Asia/Tokyo', morningStartHour: 6, morningEndHour: 12, minimumRestHours: 2 };
+  const rules = { timeZone: 'Asia/Tokyo', morningStartHour: 6, morningEndHour: 12 };
   function parts(now) {
     const values = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
       timeZone: rules.timeZone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23'
@@ -17,17 +17,12 @@ globalThis.SleepFlow = (() => {
     const current = parts(now);
     if (!lastSleep || sleepNight(lastSleep) !== previousNight(now) || morningDays.includes(current.day)
       || current.hour < rules.morningStartHour || current.hour >= rules.morningEndHour) return false;
-    // 以前の保存データにはatがないため、夜の日付だけで判定します。
-    const restAt = lastSleep.finishedAt ?? lastSleep.at;
-    if (restAt === undefined) return true;
-    const at = Date.parse(restAt);
-    return Number.isFinite(at) && now - at >= rules.minimumRestHours * 3600000;
+    return true;
   }
   function openView(lastSleep, morningDays, now = Date.now()) {
     if (morningDue(lastSleep, morningDays, now)) return 'morning';
     const current=parts(now),sleepDate=sleepNight(lastSleep);
-    if (lastSleep?.finished && (sleepDate===night(now)
-      || (current.hour>=rules.morningStartHour&&current.hour<rules.morningEndHour&&sleepDate===previousNight(now)))
+    if (lastSleep?.finished && sleepDate===night(now)
       && !morningDays.includes(current.day)) return 'rest';
     return 'home';
   }

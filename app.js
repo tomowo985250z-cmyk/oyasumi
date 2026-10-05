@@ -114,7 +114,13 @@ function renderPreservingPosition() {
  if(selector)document.querySelector(selector)?.focus({preventScroll:true});
 }
 let nightBoundaryTimer;
+function syncSleepView() {
+ if(view!=='rest'&&view!=='sleep')return;
+ const next=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
+ if(next==='morning'||SleepFlow.sleepNight(state.lastSleep)!==NightClock.night())go(next);
+}
 function checkNightBoundary() {
+ syncSleepView();
  if(!shared.clock||shared.nightDate===NightClock.night())return;
  shared={...shared,nightDate:NightClock.night(),feed:[],awakeCount:null,sleepingCount:null,trend:[],tonightSummary:null,reactionCounts:{}};
  clearReactionEffect();
@@ -132,6 +138,7 @@ async function refreshShared() {
  refreshPromise=(async()=>{
   const snapshot=await OyasumiAPI.snapshot();
   NightClock.sync(snapshot.clock);shared=snapshot;state.name=snapshot.name;state.expression=CatFaces.normalize(snapshot.expression);state.coat=CatFaces.normalizeCoat(snapshot.coat);state.catRole=snapshot.catRole;state.profileNote=snapshot.profileNote;state.posts=snapshot.ownPosts;state.reactions=snapshot.reactions;
+  syncSleepView();
   if(!ready&&['home','rest','morning'].includes(view))view=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
   scheduleNightBoundary();
   ready=true;save();renderPreservingPosition();
@@ -153,7 +160,7 @@ async function mutation(work) {
  catch(error){toast(error.code==='22023'?'少し待って、もう一度お試しください。':'通信できません。接続をご確認ください。');}
  finally{busy=false;syncBusy();}
 }
-function finishSleep(startedAt=NightClock.now()) { if(state.lastSleep){state.lastSleep.finished=true;state.lastSleep.coat=state.coat;state.lastSleep.finishedAt=new Date(startedAt).toISOString();save();}clearTimeout(toastTimer);document.querySelector('#toast').classList.remove('visible');go('rest'); }
+function finishSleep(startedAt=NightClock.now()) { if(state.lastSleep){state.lastSleep.finished=true;state.lastSleep.coat=state.coat;state.lastSleep.finishedAt=new Date(startedAt).toISOString();save();}clearTimeout(toastTimer);document.querySelector('#toast').classList.remove('visible');go('rest');syncSleepView(); }
 async function refreshAfterSave() {
  try{await refreshShared();return true;}
  catch{toast('保存済み。表示は後で更新します。');return false;}

@@ -53,7 +53,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
   if(process.argv.includes('--test-night-boundary')){
     await evaluate('globalThis.boundaryBase=await OyasumiAPI.snapshot();globalThis.boundaryAPI=OyasumiAPI.snapshot;globalThis.boundaryHistory=[{id:"00000000-0000-4000-8000-000000000001",userId:shared.userId,name:state.name,status:"awake",time:Date.parse("2026-10-04T05:30:00+09:00"),nightDate:"2026-10-03",self:true,coat:state.coat,expression:state.expression},{id:"00000000-0000-4000-8000-000000000002",userId:shared.userId,name:state.name,status:"sleep",time:Date.parse("2026-10-04T05:59:00+09:00"),nightDate:"2026-10-03",self:true,coat:state.coat,expression:state.expression}]');
-    for(const width of [320,390,430]){
+    for(const width of [320,375,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       await evaluate('globalThis.boundaryStage="before";globalThis.boundaryBefore={...boundaryBase,nightDate:"2026-10-03",feed:[boundaryHistory[1]],ownPosts:boundaryHistory.slice(),awakeCount:0,sleepingCount:1,tonightSummary:{sleepingCount:1,coats:[{coat:"calico",count:1}],peakHours:[{hour:5,count:1}]},trend:[{time:Date.parse("2026-10-04T05:59:00+09:00"),awake:0,sleeping:1}],clock:{serverNow:Date.parse("2026-10-04T05:59:58.800+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-04T06:00:00+09:00"),nightDate:"2026-10-03",morningNightDate:"2026-10-03"}};OyasumiAPI.snapshot=async()=>boundaryStage==="before"?boundaryBefore:new Promise(resolve=>{globalThis.boundaryRelease=resolve});await refreshShared();go("timeline");boundaryStage="after"');
       assert.equal(await evaluate('document.querySelectorAll(".post").length'),1);
@@ -74,8 +74,21 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       await evaluate('state.lastSleep={nightDate:"2026-10-03",at:"2026-10-03T23:00:00+09:00"};go("morning")');
       assert.equal(await evaluate('document.querySelector(".morning-receipts p").textContent'),'4個のやさしい言葉が届いていました');
     }
-    await evaluate('OyasumiAPI.snapshot=boundaryAPI;await refreshShared();state.lastSleep=null;go("home")');
-    assert.deepEqual(errors,[]);console.log('PASS night boundary: 05:59→06:00 automatic clear at 320/390/430px, no stale counts/cats/chart, retained history, latest new-night post, previous-night morning receipts.');return;
+    for(const width of [320,375,390,430])for(const screen of ['rest','sleep']){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate(`state.morningDays=[];state.lastSleep={nightDate:"2026-10-03",at:"2026-10-04T05:59:00+09:00",finishedAt:"2026-10-04T05:59:30+09:00",finished:${screen==='rest'}};globalThis.wakeClock={serverNow:Date.parse("2026-10-04T05:59:59.600+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-04T06:00:00+09:00")};NightClock.sync(wakeClock);shared={...boundaryBase,nightDate:"2026-10-03",clock:wakeClock};OyasumiAPI.snapshot=async()=>({...boundaryBase,nightDate:"2026-10-04",clock:{serverNow:Date.parse("2026-10-04T06:00:01+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-05T06:00:00+09:00")}});go(${JSON.stringify(screen)});scheduleNightBoundary()`);
+      assert.equal(await evaluate('view'),screen);
+      await waitFor('view==="morning"&&!refreshPromise');
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      assert.equal(await evaluate('document.body.classList.contains("resting")'),false);
+      await screenshot(`six-morning-${screen}-${width}.png`);
+      await evaluate('go("rest");checkNightBoundary()');
+      assert.equal(await evaluate('view'),'morning','Resume switches even when the shared night already refreshed');
+      await evaluate('NightClock.sync({serverNow:Date.parse("2026-10-04T12:00:00+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-05T06:00:00+09:00")});shared.nightDate=NightClock.night();go("rest");checkNightBoundary()');
+      assert.equal(await evaluate('view'),'home','Previous-night screen must not return after the morning window');
+    }
+    await evaluate('state.lastSleep=null;OyasumiAPI.snapshot=boundaryAPI;await refreshShared();go("home")');
+    assert.deepEqual(errors,[]);console.log('PASS night boundary: 05:59→06:00 automatic clear and sleep/rest→morning at 320/375/390/430px, resume, no stale counts/cats/chart, retained history, latest new-night post, previous-night morning receipts.');return;
   }
   if(process.argv.includes('--test-profile-note')){
     await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();await peer.setNickname("ひとこと猫");await peer.setCatCoat("gray");await peer.setCatRole("mechanic");await peer.setProfileNote("今夜ものんびり");globalThis.notePeerPost=await peer.submitPost("awake");await refreshShared();go("profile")');
