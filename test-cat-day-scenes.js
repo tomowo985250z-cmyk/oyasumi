@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs'), crypto = require('node:crypto');
 require('./wild-cat-assets.js');require('./cat-faces.js'); require('./cat-scenes.js'); require('./sleep-flow.js');
 const profileBefore = CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)).flatMap(c => CatFaces.options.map(e => CatFaces.svg(e.id,c.id)));
 const scenesBefore = CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)).flatMap(c => ['awake','sleeping'].map(s => CatScenes.svg(s,c.id)));
@@ -9,6 +10,13 @@ for (const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id))) 
   assert(svg.includes(`data-cat-coat="${coat.id}"`));
   assert(svg.includes(`data-day-scene="${scene.id}"`));
   assert(!svg.includes('data-cat-expression'));
+  const image = svg.match(/src="(assets\/day-cats\/[^?]+)\?v=([a-f0-9]+)"/);
+  assert(image, 'Every domestic day scene uses its cropped image');
+  assert.equal(image[1], `assets/day-cats/${coat.id}-${scene.id}.png`);
+  const png = fs.readFileSync(image[1]);
+  assert.equal(png.readUInt32BE(16), 152);
+  assert.equal(png.readUInt32BE(20), 152);
+  assert.equal(crypto.createHash('sha256').update(png).digest('hex').slice(0,16), image[2]);
 }
 assert.equal(patterns.size,40);
 const at = time => Date.parse(`2026-10-03T${time}:00+09:00`);
