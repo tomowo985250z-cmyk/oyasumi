@@ -170,8 +170,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     console.log('PASS role wheel: 320/390/430px, scrolling, keyboard, cat-only labels, optional/private, save/restart, cancel and failure.');return;
   }
   if(process.argv.includes('--test-morning-reactions')){
-    await evaluate('state.lastSleep={nightDate:shared.nightDate};shared.morningReactions={nightDate:shared.nightDate,goodnight:2,dream:3,tomorrow:1,comfort:4};go("morning")');
-    for(const width of [320,390,430]){
+    await evaluate('NightClock.sync({serverNow:Date.parse("2026-10-04T06:00:00+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-05T06:00:00+09:00")});shared.nightDate="2026-10-04";state.lastSleep={nightDate:"2026-10-03"};shared.morningReactions={nightDate:"2026-10-03",goodnight:2,dream:3,tomorrow:1,comfort:4};go("morning")');
+    for(const width of [320,375,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
       assert.equal(await evaluate('document.querySelector(".morning-receipts h2").textContent'),'きのう、あなたに届いたおやすみ');
@@ -183,10 +183,15 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     assert.equal(await evaluate('document.querySelector(".morning-reaction-grid")'),null);
     await evaluate('shared.morningReactions={nightDate:"2000-01-01",goodnight:9,dream:0,tomorrow:0,comfort:0};render()');
     assert.equal(await evaluate('document.querySelector(".morning-reaction-grid")'),null,'A different night must never be displayed');
-    await evaluate('shared.morningReactions={nightDate:shared.nightDate,goodnight:0,dream:0,tomorrow:0,comfort:0};render()');
-    assert.equal(await evaluate('document.querySelector(".morning-receipts p").textContent'),'0個のやさしい言葉が届いていました');
+    await evaluate('shared.morningReactions={nightDate:"2026-10-03",goodnight:0,dream:0,tomorrow:0,comfort:0};render()');
+    assert.equal(await evaluate('document.querySelector(".morning-receipts")'),null,'Zero receipts leave the normal morning screen');
+    await screenshot('morning-receipts-zero.png');
+    await evaluate('shared.morningReactions.comfort=1;render()');
+    assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".morning-reaction-grid strong"),e=>parseInt(e.textContent))'),[0,0,0,1]);
+    await evaluate('NightClock.sync({serverNow:Date.parse("2026-10-04T05:59:59+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-04T06:00:00+09:00")});render()');
+    assert.equal(await evaluate('document.querySelector(".morning-receipts")'),null,'Receipts are shown from 06:00');
     assert.deepEqual(errors,[]);
-    console.log('PASS morning receipts: four counts and total, 320/390/430px, failed fetch and wrong-night protection, true zero.');return;
+    console.log('PASS morning receipts: four counts and total from 06:00, 320/375/390/430px, failed fetch and wrong-night protection, zero hidden and mixed zero counts.');return;
   }
   if(process.argv.includes('--test-reaction-effects')||process.argv.includes('--test-reaction-effects-live')){
     await evaluate('globalThis.originalEffectRefresh=refreshAfterSave;globalThis.originalEffectSet=OyasumiAPI.setReaction');
