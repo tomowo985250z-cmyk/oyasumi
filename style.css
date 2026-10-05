@@ -37,4 +37,10 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .post .public-profile-cat .avatar{width:60px;height:60px}
 .profile-banner .profile-cat-button .avatar{width:111px;height:111px}
 .public-profile-face .avatar{width:112px;height:112px}
-.reaction-heart{color:rgba(242,201,206,.8)}
+.reaction-heart{color:rgba(255,151,174,.8)}
+.reaction-options .reaction,.status-actions .status-button,.status-actions .extra-post-button{font-family:"Hiragino Maru Gothic ProN","Hiragino Maru Gothic Pro","HGMaruGothicMPRO","Meiryo",sans-serif;font-weight:600}
+.reaction-options .reaction{font-size:16px;white-space:normal}
+.status-actions .status-button strong{font-weight:600}
+.header{position:relative}
+.header .wordmark{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;pointer-events:none}
+@media(max-width:350px){.header:has(.eyebrow) .wordmark{font-size:19px}}
