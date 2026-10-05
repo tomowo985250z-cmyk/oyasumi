@@ -200,6 +200,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       await screenshot(`profile-note-${width}.png`);await evaluate('go("timeline")');
       await click(`[data-public-profile="${await evaluate('notePeerPost.id')}"]`);
       assert.equal(await evaluate('document.querySelector("#public-profile-content h3").textContent'),'ひとこと猫');
+      assert(await evaluate('(()=>{const r=document.querySelector(".public-profile-face .avatar").getBoundingClientRect();return r.width===112&&r.height===112})()'),'Public profile cat is 112px');
       assert.equal(await evaluate('document.querySelector("#public-profile-content .cat-role-tag").textContent'),'メカ猫');
       assert.equal(await evaluate('document.querySelector(".public-profile-note").textContent'),'今夜ものんびり');
       assert.equal(await evaluate('document.querySelectorAll("#public-profile-dialog button").length'),1,'Only closing, no contact/follow/history controls');
@@ -304,7 +305,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       assert(await evaluate('(()=>{const a=document.querySelector(".profile-cat-button").getBoundingClientRect(),b=document.querySelector(".profile-banner>div").getBoundingClientRect();return a.right<=b.left&&b.right<=innerWidth})()'),'Cat and profile text must not overlap');
       await screenshot(`profile-cat-size-${width}.png`);
       await evaluate('state.name=iconName;go("timeline")');
-      assert(await evaluate('(()=>{const r=document.querySelector(".post .avatar").getBoundingClientRect();return r.width===50&&r.height===50})()'),'Timeline cat grows by 1.25');
+      assert(await evaluate('(()=>{const r=document.querySelector(".post .avatar").getBoundingClientRect();return r.width===60&&r.height===60})()'),'Timeline cat is 60px');
       assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'),'Timeline must fit');
       assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".post [data-reaction]"),el=>el.firstChild.textContent.trim())').then(values=>values.slice(0,4)),['おやすみ🌙','いい夢を💤','また明日👋','無理せずね☺️']);
       await delay(150);
