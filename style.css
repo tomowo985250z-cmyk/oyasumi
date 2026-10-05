@@ -46,3 +46,5 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 @media(max-width:350px){.header:has(.eyebrow) .wordmark{font-size:19px}}
 #public-profile-content .cat-role-tag{font-size:17px}
 #public-profile-content .public-profile-note{font-size:16px}
+.post .reaction-options{margin-left:-72px;width:calc(100% + 72px)}
+@media(max-width:350px){.post .reaction-options .reaction{padding-inline:2px;column-gap:2px}}
