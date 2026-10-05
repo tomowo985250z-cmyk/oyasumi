@@ -51,6 +51,41 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-wild-cats-preview')){
+    await evaluate('globalThis.wildBase=await OyasumiAPI.snapshot();OyasumiAPI.setCatCoat=async()=>{};OyasumiAPI.setCatExpression=async()=>{};OyasumiAPI.snapshot=async()=>({...wildBase,coat:state.coat,expression:state.expression,feed:[{id:"wild-preview",userId:shared.userId,name:state.name,status:"awake",time:NightClock.now(),nightDate:shared.nightDate,self:true,coat:state.coat,expression:state.expression}]});await refreshShared()');
+    for(const width of [320,375,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('go("settings")');await click('[data-coat-picker]');
+      assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),12);
+      assert.equal(await evaluate('document.querySelector(".cat-group-title").textContent'),'🐾 野生の猫たち');
+      assert(await evaluate('document.querySelector("#expression-dialog").scrollWidth<=document.querySelector("#expression-dialog").clientWidth'));
+      await screenshot(`wild-picker-${width}.png`);await click('#cancel-expression');
+      for(const coat of ['manul','sand','black-footed','fishing']){
+        await evaluate('go("settings")');await click('[data-coat-picker]');await action(`[data-coat="${coat}"]`);
+        assert.equal(await evaluate('state.coat'),coat);
+        await evaluate('go("profile")');await click('[data-expression-picker]');
+        for(const expression of ['calm','sleepy','yawn','restless','happy','surprised']){
+          await action(`[data-expression="${expression}"]`);assert.equal(await evaluate('state.expression'),expression);
+          assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catCoat'),coat);
+          await evaluate('go("timeline")');assert.equal(await evaluate('document.querySelector(".post .cat-face").dataset.catCoat'),coat);
+          await evaluate('go("profile")');await click('[data-expression-picker]');
+        }
+        await screenshot(`wild-expressions-${coat}-${width}.png`);await click('#cancel-expression');
+        for(const scene of ['relax','play','groom','doze','gaze']){
+          await evaluate(`DayCats={...DayCats,current:()=>({id:${JSON.stringify(scene)},label:"昼猫",key:${JSON.stringify(scene)}})};go("home")`);
+          assert.equal(await evaluate('document.querySelector(".cat-day-scene").dataset.catCoat'),coat);
+          assert.equal(await evaluate('document.querySelector(".cat-day-scene").dataset.dayScene'),scene);
+          assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+        }
+        await screenshot(`wild-day-${coat}-${width}.png`);
+        await evaluate('state.lastSleep={nightDate:NightClock.night(),at:new Date(NightClock.now()).toISOString(),finishedAt:new Date(NightClock.now()).toISOString(),finished:true};go("sleep")');
+        assert.equal(await evaluate('document.querySelector(".sleep-cat .cat-face").dataset.catCoat'),coat);
+        await evaluate('go("rest")');assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),coat);
+      }
+    }
+    await evaluate('for(const cat of WildCatAssets.species)for(const [kind,options] of [["faces",CatFaces.options],["day",DayCats.options]])for(const frame of options){const svg=WildCatAssets.image(kind,cat.id,frame.id);const url=svg.match(/href="([^"]+)"/)[1];const asset=new Image();asset.src=url;await asset.decode();if(asset.naturalWidth<180)throw new Error("Missing crop")}');
+    assert.deepEqual(errors,[]);console.log('PASS wild cat preview: 12 choices, separate wild group, 24 expressions, 20 actions, sleep reuse, all 44 image assets decoded, 320/375/390/430px, no runtime errors.');return;
+  }
   if(process.argv.includes('--test-night-boundary')){
     await evaluate('globalThis.boundaryBase=await OyasumiAPI.snapshot();globalThis.boundaryAPI=OyasumiAPI.snapshot;globalThis.boundaryHistory=[{id:"00000000-0000-4000-8000-000000000001",userId:shared.userId,name:state.name,status:"awake",time:Date.parse("2026-10-04T05:30:00+09:00"),nightDate:"2026-10-03",self:true,coat:state.coat,expression:state.expression},{id:"00000000-0000-4000-8000-000000000002",userId:shared.userId,name:state.name,status:"sleep",time:Date.parse("2026-10-04T05:59:00+09:00"),nightDate:"2026-10-03",self:true,coat:state.coat,expression:state.expression}]');
     for(const width of [320,375,390,430]){
@@ -324,8 +359,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   if(process.argv.includes('--preview-day')){
     await send('Emulation.setDeviceMetricsOverride',{width:1280,height:1000,deviceScaleFactor:1,mobile:false});
     await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";nav.hidden=true;document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${DayCats.options.flatMap(scene=>CatFaces.coats.map(coat=>`<div style="text-align:center">${DayCats.svg(scene.id,coat.id)}<small>${coat.label}・${scene.label}</small></div>`)).join("")}</div>`');
-    assert.equal(await evaluate('document.querySelectorAll(".cat-day-scene").length'),40);
-    await screenshot('cat-day-matrix.png');console.log('PASS daytime preview: 40 patterns, stable reload, dark home at 320/390/430px.');return;
+    assert.equal(await evaluate('document.querySelectorAll(".cat-day-scene").length'),60);
+    await screenshot('cat-day-matrix.png');console.log('PASS daytime preview: 60 patterns, stable reload, dark home at 320/390/430px.');return;
   }
   await evaluate('globalThis.DayCats={...DayCatsOriginal,current:()=>DayCatsOriginalCurrent(Date.parse("2026-10-03T18:00:00+09:00"))};go("home")');
   assert.equal(await evaluate('document.querySelector(".day-hero")'),null);
@@ -420,7 +455,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
     await click('#cancel-expression');assert.equal(await evaluate('state.expression'),'calm');
     await evaluate('go("settings")');await click('[data-coat-picker]');
-    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),8);
+    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),12);
     await screenshot('cat-coats-mobile.png');
     assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
     await click('#cancel-expression');

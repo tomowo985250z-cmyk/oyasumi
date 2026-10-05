@@ -26,6 +26,7 @@ globalThis.CatScenes = (() => {
   function svg(sceneValue, coatValue) {
     const scene = sceneValue === 'awake' ? 'awake' : 'sleeping';
     const coat = CatFaces.normalizeCoat(coatValue);
+    if(WildCatAssets.isWild(coat))return `<svg class="cat-scene" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-scene="${scene}" data-cat-coat="${coat}">${WildCatAssets.image(scene==='awake'?'faces':'day',coat,scene==='awake'?'happy':'doze')}</svg>`;
     return `<svg class="cat-scene" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-scene="${scene}" data-cat-coat="${coat}">${scene === 'awake' ? awake(coat) : sleeping(coat)}</svg>`;
   }
   return Object.freeze({ svg, elapsed, settleDurationMs });

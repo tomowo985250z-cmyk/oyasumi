@@ -21,7 +21,8 @@ globalThis.CatFaces = (() => {
     { id: 'calico', label: '三毛' }, { id: 'orange', label: '茶トラ' },
     { id: 'brown', label: 'キジトラ' }, { id: 'silver', label: 'サバトラ' },
     { id: 'black', label: '黒猫' }, { id: 'white', label: '白猫' },
-    { id: 'tuxedo', label: 'ハチワレ' }, { id: 'gray', label: 'グレー' }
+    { id: 'tuxedo', label: 'ハチワレ' }, { id: 'gray', label: 'グレー' },
+    ...WildCatAssets.species
   ]);
   const normalizeCoat = value => coats.some(coat => coat.id === value) ? value : 'calico';
   const coatLabel = value => coats.find(coat => coat.id === normalizeCoat(value)).label;
@@ -37,6 +38,7 @@ globalThis.CatFaces = (() => {
   function svg(value, coatValue) {
     const expression = normalize(value);
     const coat = normalizeCoat(coatValue);
+    if(WildCatAssets.isWild(coat))return `<svg class="cat-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-expression="${expression}" data-cat-coat="${coat}">${WildCatAssets.image('faces',coat,expression)}</svg>`;
     let face = faces[expression].replaceAll('#7189c8', '#087cff').replaceAll('#ff929d', '#ff2862');
     if (coat === 'black') face = face.replaceAll('#3f4050', '#f3eee9').replaceAll('#674e4f', '#c2b7b1');
     return `<svg class="cat-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-expression="${expression}" data-cat-coat="${coat}">${coatMarkup(coat)}${face}<path d="m45 67 5 4 5-4" fill="#d6887c"/></svg>`;

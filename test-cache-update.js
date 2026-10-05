@@ -3,6 +3,7 @@ const {webkit}=require(process.env.OYASUMI_PLAYWRIGHT||'playwright');
 const update=fs.readFileSync('update-client.js','utf8');
 const realHtml=fs.readFileSync('index.html','utf8');
 const realFiles=new Set(['index.html','release.json',...Array.from(realHtml.matchAll(/(?:src|href)="([^"?]+)\?v=/g),match=>match[1])]);
+for(const file of fs.readdirSync('assets/wild-cats'))realFiles.add('assets/wild-cats/'+file);
 const first='aaaaaaaaaaaaaaaa',second='bbbbbbbbbbbbbbbb';
 let release=first,htmlRelease=first,manifestRequests=0;
 const server=http.createServer((req,res)=>{
@@ -12,7 +13,7 @@ const server=http.createServer((req,res)=>{
   const file=url.pathname.slice(6)||'index.html';
   if(!realFiles.has(file)){res.statusCode=404;res.end();return;}
   const extension=file.split('.').at(-1);
-  res.setHeader('Content-Type',({html:'text/html',js:'text/javascript',css:'text/css',json:'application/json',svg:'image/svg+xml'})[extension]);
+  res.setHeader('Content-Type',({html:'text/html',js:'text/javascript',css:'text/css',json:'application/json',svg:'image/svg+xml',png:'image/png'})[extension]);
   res.end(fs.readFileSync(file));return;
  }
  if(url.pathname==='/release.json'){

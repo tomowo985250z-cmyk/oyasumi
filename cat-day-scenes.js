@@ -23,6 +23,7 @@ globalThis.DayCats = (() => {
   function svg(action, coatValue) {
     const scene = options.some(o => o.id === action) ? action : 'relax';
     const coat = CatFaces.normalizeCoat(coatValue);
+    if(WildCatAssets.isWild(coat))return `<svg class="cat-day-scene" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-day-scene="${scene}" data-cat-coat="${coat}">${WildCatAssets.image('day',coat,scene)}</svg>`;
     const { fur, stripe } = CatFaces.palette(coat);
     const ink = coat === 'black' ? '#eee7df' : '#3f4050';
     const outline = coat === 'black' ? '#141922' : '#b69377';

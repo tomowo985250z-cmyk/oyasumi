@@ -1,9 +1,9 @@
 const assert=require('node:assert/strict');
-require('./cat-faces.js');
+require('./wild-cat-assets.js');require('./cat-faces.js');
 assert.equal(CatFaces.options.length,6);
 assert.equal(CatFaces.normalize('surprised'),'surprised');
 assert.equal(CatFaces.label('surprised'),'きょとん');
-for(const coat of CatFaces.coats){
+for(const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id))){
   const svg=CatFaces.svg('surprised',coat.id);
   assert(svg.includes('viewBox="0 0 100 100"'));
   assert(svg.includes('data-surprised-eyes'));

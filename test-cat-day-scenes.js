@@ -1,10 +1,10 @@
 const assert = require('node:assert/strict');
-require('./cat-faces.js'); require('./cat-scenes.js'); require('./sleep-flow.js');
-const profileBefore = CatFaces.coats.flatMap(c => CatFaces.options.map(e => CatFaces.svg(e.id,c.id)));
-const scenesBefore = CatFaces.coats.flatMap(c => ['awake','sleeping'].map(s => CatScenes.svg(s,c.id)));
+require('./wild-cat-assets.js');require('./cat-faces.js'); require('./cat-scenes.js'); require('./sleep-flow.js');
+const profileBefore = CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)).flatMap(c => CatFaces.options.map(e => CatFaces.svg(e.id,c.id)));
+const scenesBefore = CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)).flatMap(c => ['awake','sleeping'].map(s => CatScenes.svg(s,c.id)));
 require('./cat-day-scenes.js');
 const patterns = new Set();
-for (const coat of CatFaces.coats) for (const scene of DayCats.options) {
+for (const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id))) for (const scene of DayCats.options) {
   const svg = DayCats.svg(scene.id,coat.id); patterns.add(svg);
   assert(svg.includes(`data-cat-coat="${coat.id}"`));
   assert(svg.includes(`data-day-scene="${scene.id}"`));
@@ -23,6 +23,6 @@ assert.equal(actions.size,5);
 const stable = DayCats.current(at('12:00'));
 delete require.cache[require.resolve('./cat-day-scenes.js')];require('./cat-day-scenes.js');
 assert.deepEqual(DayCats.current(at('12:00')),stable,'Reloading the module retains the action');
-assert.deepEqual(CatFaces.coats.flatMap(c => CatFaces.options.map(e => CatFaces.svg(e.id,c.id))),profileBefore);
-assert.deepEqual(CatFaces.coats.flatMap(c => ['awake','sleeping'].map(s => CatScenes.svg(s,c.id))),scenesBefore);
+assert.deepEqual(CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)).flatMap(c => CatFaces.options.map(e => CatFaces.svg(e.id,c.id))),profileBefore);
+assert.deepEqual(CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)).flatMap(c => ['awake','sleeping'].map(s => CatScenes.svg(s,c.id))),scenesBefore);
 console.log('PASS daytime cats: 40 separate patterns, JST noon–18:00, stable two-hour actions, five-action rotation, unchanged profile and sleep/wake cats.');

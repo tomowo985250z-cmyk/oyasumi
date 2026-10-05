@@ -2,6 +2,12 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 // Git normalizes text line endings; releases must match on Windows and Pages.
 const normalize=value=>value.toString().replace(/\r\n/g,'\n');
 const root=__dirname, hash=value=>crypto.createHash('sha256').update(normalize(value)).digest('hex').slice(0,16);
+const assetFile=path.join(root,'wild-cat-assets.js');
+const assetOriginal=normalize(fs.readFileSync(assetFile,'utf8'));
+const assetHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/wild-cats')).filter(file=>file.endsWith('.png')).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/wild-cats',file))).digest('hex').slice(0,16)]));
+const assetUpdated=assetOriginal.replace(/const versions = .*;/,`const versions = ${JSON.stringify(assetHashes)};`);
+if(process.argv.includes('--check')&&assetUpdated!==assetOriginal){console.error('Run npm run release to version wild cat images.');process.exitCode=1;}
+else if(!process.argv.includes('--check'))fs.writeFileSync(assetFile,assetUpdated);
 const original=normalize(fs.readFileSync(path.join(root,'index.html'),'utf8'));
 let html=original.replace(/\s*<meta name="oyasumi-release" content="[^"]*">/g,'');
 const resources=new Map();
