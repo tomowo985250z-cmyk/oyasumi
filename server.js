@@ -9,6 +9,7 @@ for(const file of fs.readdirSync(path.join(__dirname,'assets/wild-cats')))if(/^[
 types['.png']='image/png';
 for(const file of fs.readdirSync(path.join(__dirname,'assets/domestic-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/domestic-cats/'+file]='assets/domestic-cats/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/day-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/day-cats/'+file]='assets/day-cats/'+file;
+for(const file of fs.readdirSync(path.join(__dirname,'assets/sleep-wake-cats')))if(/^[a-z-]+-(?:sleeping|waking)\.png$/.test(file))files['/assets/sleep-wake-cats/'+file]='assets/sleep-wake-cats/'+file;
 http.createServer((req, res) => {
   const file = files[new URL(req.url, 'http://localhost').pathname];
   if (!file) { res.writeHead(404); return res.end('Not found'); }

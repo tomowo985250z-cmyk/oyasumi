@@ -484,10 +484,10 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   if(process.argv.includes('--preview-scenes')){
     await send('Emulation.setDeviceMetricsOverride',{width:1280,height:600,deviceScaleFactor:1,mobile:false});
     await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";nav.hidden=true;document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${["awake","sleeping"].flatMap(scene=>CatFaces.coats.map(coat=>`<div style="text-align:center">${CatScenes.svg(scene,coat.id)}<small>${coat.label}・${scene==="awake"?"目覚めた猫":"寝ている猫"}</small></div>`)).join("")}</div>`');
-    assert.equal(await evaluate('document.querySelectorAll(".cat-scene").length'),16);
-    assert.equal(await evaluate('document.querySelectorAll("[data-awake-eyes]").length'),8);
+    assert.equal(await evaluate('document.querySelectorAll(".cat-scene").length'),24);
+    assert.equal(await evaluate('document.querySelectorAll(".cat-scene image").length'),24);
     await screenshot('cat-scenes-matrix.png');
-    console.log('PASS scene preview: eight sleeping and eight wide-eyed awake cats.');return;
+    console.log('PASS scene preview: twelve sleeping and twelve gently waking cats.');return;
   }
   if(process.argv.includes('--preview-cats')){
     await evaluate('go("home")');await screenshot('home-layout-mobile.png');

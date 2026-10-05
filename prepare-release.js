@@ -15,6 +15,12 @@ const domesticUpdated=domesticOriginal.replace(/const domesticVersions = .*;/,`c
 if(process.argv.includes('--check')&&domesticUpdated!==domesticOriginal){console.error('Run npm run release to version domestic cat images.');process.exitCode=1;}
 else if(!process.argv.includes('--check'))fs.writeFileSync(domesticFile,domesticUpdated);
 const original=normalize(fs.readFileSync(path.join(root,'index.html'),'utf8'));
+const scenesFile=path.join(root,'cat-scenes.js');
+const scenesOriginal=normalize(fs.readFileSync(scenesFile,'utf8'));
+const scenesHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/sleep-wake-cats')).filter(file=>/^[a-z-]+-(?:sleeping|waking)\.png$/.test(file)).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/sleep-wake-cats',file))).digest('hex').slice(0,16)]));
+const scenesUpdated=scenesOriginal.replace(/const sceneVersions = .*;/,`const sceneVersions = ${JSON.stringify(scenesHashes)};`);
+if(process.argv.includes('--check')&&scenesUpdated!==scenesOriginal){console.error('Run npm run release to version sleep/wake cat images.');process.exitCode=1;}
+else if(!process.argv.includes('--check'))fs.writeFileSync(scenesFile,scenesUpdated);
 let html=original.replace(/\s*<meta name="oyasumi-release" content="[^"]*">/g,'');
 const resources=new Map();
 html=html.replace(/(src|href)="([^"?#]+)(?:\?[^"#]*)?"/g,(match,attribute,file)=>{
