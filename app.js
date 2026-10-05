@@ -19,23 +19,36 @@ function darkHint() {
  return `<p class="dark-mode-hint" role="status" style="animation-delay:-${elapsed}ms">🌙 夜はダークモードがおすすめです</p>`;
 }
 const SHARE_PLACE = Object.freeze({ text: '眠る前に、少しだけ立ち寄れる場所です。', url: 'https://tomowo985250z-cmyk.github.io/oyasumi/' });
-let reactionEffectTimer, reactionEffectPostId;
-function clearReactionEffect() { clearTimeout(reactionEffectTimer);document.querySelector('.reaction-delivery')?.remove(); }
+let reactionEffectTimer, reactionEffectPostId, reactionHeartTimer;
+function clearReactionEffect() { clearTimeout(reactionEffectTimer);clearTimeout(reactionHeartTimer);document.querySelector('.reaction-delivery')?.remove();document.querySelector('.reaction-heart')?.remove(); }
 function positionReactionEffect() {
  const effect=document.querySelector('.reaction-delivery');
  const cat=document.querySelector(`[data-react="${CSS.escape(reactionEffectPostId||'')}"]`)?.closest('.post')?.querySelector('.avatar');
- if(!effect||!cat)return;
+ if(!cat)return;
  const box=cat.getBoundingClientRect();
- effect.style.left=`${Math.max(8,Math.min(innerWidth-120,box.left+12))}px`;
- effect.style.top=`${Math.max(8,Math.min(innerHeight-140,box.top-20))}px`;
+ if(effect){effect.style.left=`${Math.max(8,Math.min(innerWidth-120,box.left+12))}px`;
+ effect.style.top=`${Math.max(8,Math.min(innerHeight-140,box.top-20))}px`;}
+ const heart=document.querySelector('.reaction-heart');
+ if(heart){heart.style.left=`${Math.max(8,Math.min(innerWidth-24,box.left+box.width/2-8))}px`;heart.style.top=`${Math.max(24,box.top-38)}px`;}
+}
+function showReactionTap(button) {
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)button.animate([
+  {transform:'translateY(0) scale(1)'},{transform:'translateY(2px) scale(.98)',offset:.35},{transform:'translateY(0) scale(1)'}
+ ],{duration:240,easing:'ease-out'});
+ clearTimeout(reactionHeartTimer);document.querySelector('.reaction-heart')?.remove();
+ if(!button.closest('.post')?.querySelector('.avatar'))return;
+ reactionEffectPostId=button.dataset.react;
+ const heart=document.createElement('span');heart.className='reaction-heart';heart.textContent='♡';heart.setAttribute('aria-hidden','true');
+ document.body.append(heart);positionReactionEffect();
+ reactionHeartTimer=setTimeout(()=>document.querySelector('.reaction-heart')?.remove(),1050);
 }
 function showReactionEffect(button,choice) {
  const cat=button.closest('.post')?.querySelector('.avatar');if(!cat)return;
- clearReactionEffect();reactionEffectPostId=button.dataset.react;const effect=document.createElement('div');
+ clearTimeout(reactionEffectTimer);document.querySelector('.reaction-delivery')?.remove();reactionEffectPostId=button.dataset.react;const effect=document.createElement('div');
  effect.className=`reaction-delivery delivery-${choice}`;effect.setAttribute('role','status');
  const symbols={goodnight:'🌙',dream:'✨',tomorrow:'',comfort:'♡'};
  effect.innerHTML=`<span class="delivery-symbol" aria-hidden="true">${symbols[choice]}</span><span>届きました</span>`;
- document.body.append(effect);positionReactionEffect();reactionEffectTimer=setTimeout(clearReactionEffect,1050);
+ document.body.append(effect);positionReactionEffect();reactionEffectTimer=setTimeout(()=>document.querySelector('.reaction-delivery')?.remove(),1050);
 }
 function showShareURL() { const dialog=document.querySelector('#share-dialog');document.querySelector('#share-url').textContent=SHARE_PLACE.url;if(!dialog.open)dialog.showModal(); }
 async function copyPlaceURL() { try { await navigator.clipboard.writeText(SHARE_PLACE.url);document.querySelector('#share-dialog').close();toast('URLをコピーしました'); } catch { showShareURL(); } }
@@ -186,7 +199,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
   go(isSleeping(status)?'sleep':'timeline');if(status==='awake')toast('今の気持ちを伝えました');
  });return;}
  if(button.dataset.filter){filter=button.dataset.filter;render();return;}
- if(button.dataset.react){const id=button.dataset.react,choice=button.dataset.reaction;if(!REACTION_OPTIONS.some(option=>option.id===choice)||!allPosts().some(post=>post.id===id))return;if(!busy&&state.reactions[id]!==choice)showReactionEffect(button,choice);void mutation(async()=>{
+ if(button.dataset.react){const id=button.dataset.react,choice=button.dataset.reaction;if(!REACTION_OPTIONS.some(option=>option.id===choice)||!allPosts().some(post=>post.id===id))return;if(!busy){if(state.reactions[id]!==choice)showReactionEffect(button,choice);showReactionTap(button);}void mutation(async()=>{
   const previous=state.reactions[id],next=previous===choice?null:choice;
   try{await OyasumiAPI.setReaction(id,next);}catch(error){clearReactionEffect();throw error;}
   const counts=shared.reactionCounts[id]||{goodnight:0,dream:0,tomorrow:0,comfort:0};

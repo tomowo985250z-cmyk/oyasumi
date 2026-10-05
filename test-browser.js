@@ -195,11 +195,12 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   if(process.argv.includes('--test-reaction-effects')||process.argv.includes('--test-reaction-effects-live')){
     await evaluate('globalThis.originalEffectRefresh=refreshAfterSave;globalThis.originalEffectSet=OyasumiAPI.setReaction');
+    if(!process.argv.includes('--test-reaction-effects-live'))await evaluate('refreshShared=async()=>{}');
     await evaluate('shared.feed=[{id:"effect-preview",userId:"other",name:"テスト猫",status:"sleep",time:Date.now(),coat:"gray",expression:"calm",self:false}];globalThis.effectCalls=0;OyasumiAPI.setReaction=()=>{effectCalls++;return new Promise(resolve=>{globalThis.effectRelease=resolve})};refreshAfterSave=async()=>true;go("timeline")');
     if(process.argv.includes('--test-reaction-effects-live')){
       await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();await peer.setNickname("演出ねこ");await peer.setCatCoat("gray");globalThis.effectPost=await peer.submitPost("awake");await refreshShared();refreshAfterSave=originalEffectRefresh;OyasumiAPI.setReaction=(id,choice)=>{effectCalls++;return new Promise((resolve,reject)=>{globalThis.effectRelease=async()=>{try{await originalEffectSet(id,choice);resolve()}catch(error){reject(error)}}})};go("timeline")');
     }
-    for(const width of [320,390,430]){
+    for(const width of [320,375,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       await delay(150);
       for(const choice of ['goodnight','dream','tomorrow','comfort']){
@@ -207,9 +208,16 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
         await click(process.argv.includes('--test-reaction-effects-live')?`[data-react="${await evaluate('effectPost.id')}"][data-reaction="${choice}"]`:`[data-reaction="${choice}"]`);await waitFor('typeof effectRelease==="function"&&busy');
         assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
         assert.equal(await evaluate('document.querySelector(".reaction-delivery").textContent.includes("届きました")'),true);
+        assert.equal(await evaluate('document.querySelectorAll(".reaction-heart").length'),1);
+        assert.equal(await evaluate('document.querySelector(".reaction-heart").textContent'),'♡');
+        assert.equal(await evaluate('getComputedStyle(document.querySelector(".reaction-heart")).color'),'rgb(242, 201, 206)');
+        assert(await evaluate('Array.from(document.querySelectorAll("[data-react]")).some(button=>button.getAnimations().length>0)'),'Reaction button presses briefly');
         await evaluate('for(let i=0;i<8;i++)document.querySelector("[data-reaction=goodnight]").click()');
+        assert.equal(await evaluate('document.querySelectorAll(".reaction-heart").length'),1,'Rapid taps keep one heart');
+        await screenshot(`reaction-heart-${choice}-${width}.png`);
         assert.equal(await evaluate('effectCalls'),before+1,'Rapid taps must not send duplicate reactions');
         await delay(1300);await evaluate('effectRelease();globalThis.effectRelease=undefined');await waitFor(`state.reactions[globalThis.effectPost?.id||"effect-preview"]===${JSON.stringify(choice)}`);
+        assert.equal(await evaluate('document.querySelector(".reaction-heart")'),null,'Heart expires and is not replayed by save acknowledgement');
         assert.equal(await evaluate('state.reactions[globalThis.effectPost?.id||"effect-preview"]'),choice);
         assert(await evaluate('(()=>{const r=document.querySelector(".reaction-delivery").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth})()'));
         await evaluate('renderPreservingPosition();window.dispatchEvent(new Event("scroll"));window.dispatchEvent(new Event("resize"))');
@@ -224,7 +232,11 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     }
     await evaluate('OyasumiAPI.setReaction=async()=>{throw new Error("Offline")};state.reactions={};go("timeline")');
     await click('[data-reaction="comfort"]');await waitFor('!busy&&!document.querySelector(".reaction-delivery")');
-    console.log('PASS reaction effects: four quiet effects at 320/390/430px, immediate feedback, one-second cleanup, rerender persistence, rapid-tap deduplication and failure cleanup.');return;
+    assert.equal(await evaluate('document.querySelector(".reaction-heart")'),null,'Failure cleans up the heart');
+    await evaluate('go("home")');
+    assert.equal(await evaluate('Array.from(document.querySelectorAll("[data-post]")).some(button=>button.getAnimations().length>0)'),false,'Post buttons have no reaction press effect');
+    assert.deepEqual(errors,[]);
+    console.log('PASS reaction effects: four quiet effects and a single pale heart at 320/375/390/430px, button press, immediate feedback, one-second cleanup without replay, rerender persistence, rapid-tap deduplication and failure cleanup.');return;
   }
   if(process.argv.includes('--test-share')){
     await evaluate('go("settings");Object.defineProperty(navigator,"share",{configurable:true,value:async data=>{globalThis.sharedPlaceData=data}})');
@@ -608,7 +620,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('localStorage.getItem(STORAGE_KEY)'),oldData);
   assert.deepEqual(errors,[]);
   console.log('PASS browser: all six shared cat expressions, profile/feed/sleep rendering, expression persistence and offline failure, anonymous session, shared posts/reactions/counts, nickname checks, preserved legacy data, mobile widths and no runtime errors.');
-})().catch(error=>{console.error('FAIL browser:',error.message);process.exitCode=1;}).finally(async()=>{
+})().catch(error=>{console.error('FAIL browser:',error.stack);process.exitCode=1;}).finally(async()=>{
   if(evaluate){try{await send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});await evaluate('globalThis.fetch=globalThis.originalFetch||fetch;for(const post of state.posts)await OyasumiAPI.deletePost(post.id);if(localStorage.getItem("oyasumi-browser-peer")){const cleanupPeer=globalThis.peer||createOyasumiConnection("oyasumi-browser-peer");await cleanupPeer.initialize();for(const post of (await cleanupPeer.snapshot()).ownPosts)await cleanupPeer.deletePost(post.id)}');}catch(error){console.error('Browser test cleanup failed:',error.message);process.exitCode=1;}}
   socket?.close();browser.kill();server.kill();
 });
