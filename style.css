@@ -38,7 +38,7 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .profile-banner .profile-cat-button .avatar{width:111px;height:111px}
 .public-profile-face .avatar{width:112px;height:112px}
 .reaction-heart{color:rgba(255,151,174,.8)}
-.reaction-options .reaction,.status-actions .status-button,.status-actions .extra-post-button{font-family:"Hiragino Maru Gothic ProN","Hiragino Maru Gothic Pro","HGMaruGothicMPRO","Meiryo",sans-serif;font-weight:600}
+.reaction-options .reaction,.status-actions .status-button,.status-actions .extra-post-button{font-family:var(--app-font);font-weight:600}
 .reaction-options .reaction{font-size:16px;white-space:normal}
 .status-actions .status-button strong{font-weight:600}
 .header{position:relative}
@@ -48,3 +48,18 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 #public-profile-content .public-profile-note{font-size:16px}
 .post .reaction-options{margin-left:-72px;width:calc(100% + 72px)}
 @media(max-width:350px){.post .reaction-options .reaction{padding-inline:2px;column-gap:2px}}
+/* Self-hosted full Japanese/Latin fonts; hashed URLs also version PWA/browser caches. */
+@font-face{font-family:"M PLUS Rounded 1c";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/mplus-rounded-400-6208cb6654e52a9d.woff2") format("woff2")}
+@font-face{font-family:"M PLUS Rounded 1c";font-style:normal;font-weight:500;font-display:swap;src:url("assets/fonts/mplus-rounded-500-508294cc31617da3.woff2") format("woff2")}
+@font-face{font-family:"M PLUS Rounded 1c";font-style:normal;font-weight:700;font-display:swap;src:url("assets/fonts/mplus-rounded-700-22d74f644b2411c0.woff2") format("woff2")}
+:root{--app-font:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Maru Gothic Pro",sans-serif}
+body{font-family:var(--app-font);font-weight:400}
+button,input,textarea,select{font-family:inherit}
+h1,h2,h3,.wordmark,.section-heading h2,.count-card h2,.desktop-intro h1,strong,b{font-weight:600}
+.cream-button,.status-button,.extra-post-button,.reaction-options .reaction,.dialog-actions button,.name-choice,.expression-choice{font-weight:600}
+nav button,.tabs button,.setting-row,.text-button,.setting-value,.post-name,.profile-banner h1,#public-profile-content h3{font-weight:500}
+.profile-note-button,.profile-note-text,.public-profile-note,.cat-role-tag,.status-button small{font-weight:400}
+time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hours strong,.sleep-screen .card strong,.morning .card strong,.history-row>span:first-child{font-weight:500}
+.chart text{font-family:var(--app-font);font-weight:500}
+/* These are pictorial symbols; preserve their original glyphs and animation metrics. */
+.icon-button,.reaction-heart,.delivery-symbol{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:400}
