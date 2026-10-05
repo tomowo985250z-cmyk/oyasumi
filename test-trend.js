@@ -29,7 +29,7 @@ const cats=new Set();
 for(const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)))for(const expression of CatFaces.options){
   const svg=CatFaces.svg(expression.id,coat.id);
   assert(svg.includes(`data-cat-coat="${coat.id}"`));assert(svg.includes(`data-cat-expression="${expression.id}"`));
-  assert(!svg.includes('<image'));assert(!svg.includes('cat.svg'));cats.add(svg);
+  assert(svg.includes(`assets/domestic-cats/${coat.id}-faces-${expression.id}.png?v=`));assert(!svg.includes('cat.svg'));cats.add(svg);
 }
 assert.equal(cats.size,48);
 assert.equal(CatFaces.normalizeCoat('<script>'),'calico');

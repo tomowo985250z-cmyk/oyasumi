@@ -27,6 +27,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
+  if(process.argv.includes('--test-domestic-faces-preview'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
   if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   if(process.argv.includes('--test-dark-hint'))await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:process.argv.includes('--dark-device')?'dark':'light'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
@@ -51,6 +52,23 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-domestic-faces-preview')){
+    const coats=['calico','orange','brown','silver','black','white','tuxedo','gray'];
+    for(const width of [320,375,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      for(const coat of coats){
+        await evaluate(`state.coat=${JSON.stringify(coat)};go("profile")`);
+        await click('[data-expression-picker]');
+        assert.equal(await evaluate('document.querySelectorAll("#expression-options .cat-face image").length'),6);
+        assert(await evaluate('return await Promise.all(Array.from(document.querySelectorAll("#expression-options .cat-face image"),async el=>{const img=new Image();img.src=el.getAttribute("href");await img.decode();return img.naturalWidth===512&&img.naturalHeight===512})).then(results=>results.every(Boolean))'));
+        assert(await evaluate('document.documentElement.scrollWidth<=innerWidth && document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth && document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
+        if(coat==='black'||coat==='orange')await screenshot(`domestic-faces-picker-${coat}-${width}.png`);
+        await click('#cancel-expression');
+      }
+    }
+    assert.deepEqual(errors,[]);
+    console.log('PASS domestic face picker: 48 images decoded, 320/375/390/430px, no overflow or runtime errors.');return;
+  }
   if(process.argv.includes('--test-domestic-cats-preview')){
     const coats=['calico','orange','brown','silver','black','white','tuxedo','gray'];
     for(const width of [320,375,390,430]){

@@ -8,6 +8,12 @@ const assetHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/wild-
 const assetUpdated=assetOriginal.replace(/const versions = .*;/,`const versions = ${JSON.stringify(assetHashes)};`);
 if(process.argv.includes('--check')&&assetUpdated!==assetOriginal){console.error('Run npm run release to version wild cat images.');process.exitCode=1;}
 else if(!process.argv.includes('--check'))fs.writeFileSync(assetFile,assetUpdated);
+const domesticFile=path.join(root,'cat-faces.js');
+const domesticOriginal=normalize(fs.readFileSync(domesticFile,'utf8'));
+const domesticHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/domestic-cats')).filter(file=>file.endsWith('.png')).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/domestic-cats',file))).digest('hex').slice(0,16)]));
+const domesticUpdated=domesticOriginal.replace(/const domesticVersions = .*;/,`const domesticVersions = ${JSON.stringify(domesticHashes)};`);
+if(process.argv.includes('--check')&&domesticUpdated!==domesticOriginal){console.error('Run npm run release to version domestic cat images.');process.exitCode=1;}
+else if(!process.argv.includes('--check'))fs.writeFileSync(domesticFile,domesticUpdated);
 const original=normalize(fs.readFileSync(path.join(root,'index.html'),'utf8'));
 let html=original.replace(/\s*<meta name="oyasumi-release" content="[^"]*">/g,'');
 const resources=new Map();

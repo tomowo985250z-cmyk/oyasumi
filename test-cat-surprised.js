@@ -6,7 +6,7 @@ assert.equal(CatFaces.label('surprised'),'きょとん');
 for(const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id))){
   const svg=CatFaces.svg('surprised',coat.id);
   assert(svg.includes('viewBox="0 0 100 100"'));
-  assert(svg.includes('data-surprised-eyes'));
+  assert(svg.includes(`assets/domestic-cats/${coat.id}-faces-surprised.png?v=`));
   assert(svg.includes(`data-cat-coat="${coat.id}"`));
   assert(svg.includes('data-cat-expression="surprised"'));
 }
