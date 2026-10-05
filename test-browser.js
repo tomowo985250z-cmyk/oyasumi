@@ -51,6 +51,20 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-domestic-cats-preview')){
+    const coats=['calico','orange','brown','silver','black','white','tuxedo','gray'];
+    for(const width of [320,375,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      for(const coat of coats)for(const scene of ['relax','play','groom','doze','gaze']){
+        await evaluate(`state.coat=${JSON.stringify(coat)};DayCats={...DayCats,current:()=>({id:${JSON.stringify(scene)},label:"昼猫",key:${JSON.stringify(scene)}})};go("home")`);
+        await evaluate('await document.querySelector(".day-cat-image").decode()');
+        assert.deepEqual(await evaluate('(()=>{const el=document.querySelector(".day-cat-image"),r=el.getBoundingClientRect(),s=getComputedStyle(el);return {square:Math.abs(r.width-r.height)<.1,round:s.borderRadius,fit:s.objectFit,overflow:document.documentElement.scrollWidth>innerWidth}})()'),{square:true,round:'50%',fit:'cover',overflow:false});
+      }
+      await screenshot(`domestic-day-home-${width}.png`);
+    }
+    assert.deepEqual(errors,[]);
+    console.log('PASS domestic daytime images: 40 assets decoded, true circles, unchanged hero layout, 320/375/390/430px, no runtime errors.');return;
+  }
   if(process.argv.includes('--test-wild-cats-preview')){
     await evaluate('globalThis.wildBase=await OyasumiAPI.snapshot();OyasumiAPI.setCatCoat=async()=>{};OyasumiAPI.setCatExpression=async()=>{};OyasumiAPI.snapshot=async()=>({...wildBase,coat:state.coat,expression:state.expression,feed:[{id:"wild-preview",userId:shared.userId,name:state.name,status:"awake",time:NightClock.now(),nightDate:shared.nightDate,self:true,coat:state.coat,expression:state.expression}]});await refreshShared()');
     for(const width of [320,375,390,430]){

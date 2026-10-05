@@ -14,8 +14,16 @@ const a=createOyasumiConnection('wild-a-'+Date.now()),b=createOyasumiConnection(
    assert(peer.tonightSummary.coats.some(c=>c.coat===cat.id&&c.count>=1));
   }
   const own=await a.snapshot();assert.equal(own.coat,cat.id);assert.equal(own.needsCat,false);
+  const {data:{session},error:sessionError}=await a.client.auth.getSession();assert.ifError(sessionError);
+  const reloaded=createOyasumiConnection('wild-reload-'+cat.id+'-'+Date.now());
+  try{
+   const restored=await reloaded.client.auth.setSession({access_token:session.access_token,refresh_token:session.refresh_token});assert.ifError(restored.error);
+   await reloaded.initialize();assert.equal(reloaded.userId,a.userId);
+   assert.equal((await reloaded.snapshot()).coat,cat.id,'Fresh connection must read the persisted species');
+  }finally{await reloaded.client.auth.stopAutoRefresh();}
   assert.equal(own.name,before.name);assert.equal(own.catRole,before.catRole);assert.equal(own.profileNote,before.profileNote);
-  assert((await b.client.from('oyasumi_profiles').update({cat_coat:cat.id}).eq('user_id',a.userId)).error);
+  assert((await b.client.from('oyasumi_profiles').update({cat_coat:'calico'}).eq('user_id',a.userId)).error);
+  assert.equal((await a.snapshot()).coat,cat.id,'Denied peer update must leave the species unchanged');
  }
  await assert.rejects(()=>a.setCatCoat('unknown-wild'));
  const visitor=supabase.createClient(OyasumiConfig.url,OyasumiConfig.publishableKey,{auth:{persistSession:false,autoRefreshToken:false}});

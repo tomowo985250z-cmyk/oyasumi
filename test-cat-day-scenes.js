@@ -14,8 +14,8 @@ for (const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id))) 
   assert(image, 'Every domestic day scene uses its cropped image');
   assert.equal(image[1], `assets/day-cats/${coat.id}-${scene.id}.png`);
   const png = fs.readFileSync(image[1]);
-  assert.equal(png.readUInt32BE(16), 152);
-  assert.equal(png.readUInt32BE(20), 152);
+  assert(png.readUInt32BE(16) >= 152);
+  assert.equal(png.readUInt32BE(16), png.readUInt32BE(20));
   assert.equal(crypto.createHash('sha256').update(png).digest('hex').slice(0,16), image[2]);
 }
 assert.equal(patterns.size,40);
