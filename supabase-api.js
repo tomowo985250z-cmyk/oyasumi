@@ -127,10 +127,15 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     }
     needsNickname = !names.get(userId);
     const needsCat = !profiles.some(p=>p.user_id===userId && allowedCoats.includes(p.cat_coat));
+    let catCoatStatus = null;
+    try {
+      const row = (await rpc('oyasumi_cat_coat_status'))[0];
+      if(row && (row.next_change_at === null || Number.isFinite(Date.parse(row.next_change_at))))catCoatStatus = { nextChangeAt: row.next_change_at === null ? null : Date.parse(row.next_change_at) };
+    } catch { /* 猫種選択だけを無効にし、他の機能は継続する。 */ }
     if(clock.serverNow+performance.now()-clock.monotonicAt>=clock.resetAt){if(attempt<2)return snapshot(attempt+1);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
-      profileNote: notes.get(userId) || '', clock,
+      profileNote: notes.get(userId) || '', clock, catCoatStatus,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles, notes)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles, notes)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }

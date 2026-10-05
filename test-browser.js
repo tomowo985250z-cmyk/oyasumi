@@ -27,7 +27,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
-  if(process.argv.includes('--test-domestic-faces-preview'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
+  if(process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
   if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   if(process.argv.includes('--test-dark-hint'))await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:process.argv.includes('--dark-device')?'dark':'light'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
@@ -52,6 +52,34 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-cat-coat-cooldown')){
+    await evaluate('globalThis.coatCalls=0;globalThis.nextCoatChange=null;globalThis.savedCoat="calico";globalThis.baseCoatSnapshot=facesMock.snapshot;facesMock.snapshot=async()=>({...await baseCoatSnapshot(),profileComplete:true,needsCat:false,coat:savedCoat,catCoatStatus:{nextChangeAt:nextCoatChange}});facesMock.setCatCoat=async coat=>{coatCalls++;savedCoat=coat;nextCoatChange=NightClock.now()+30*86400000};await refreshShared();go("profile")');
+    assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),false);
+    await click('[data-coat-picker]');
+    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),12);
+    await action('[data-coat="manul"]');
+    assert.equal(await evaluate('coatCalls'),1);
+    assert.equal(await evaluate('state.coat'),'manul');
+    for(const width of [320,375,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('go("profile")');
+      assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),true);
+      assert(await evaluate('document.querySelector(".cat-coat-availability").textContent.includes("次回変更可能")'));
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      await screenshot(`cat-coat-cooldown-${width}.png`);
+    }
+    await click('[data-coat-picker]');assert.equal(await evaluate('document.querySelector("#expression-dialog").open'),false);
+    await evaluate('document.querySelector("#expression-options").innerHTML=`<button data-coat="orange">変更</button>`;document.querySelector("[data-coat=orange]").click()');await delay(200);
+    assert.equal(await evaluate('coatCalls'),1,'Programmatic stale choice must also be blocked');
+    await evaluate('go("settings")');assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),true);
+    await evaluate('go("profile")');await click('[data-expression-picker]');assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),6);await click('#cancel-expression');
+    await evaluate('nextCoatChange=NightClock.now()-1;await refreshShared();go("profile")');
+    assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),false);
+    await click('[data-coat-picker]');await action('[data-coat="orange"]');assert.equal(await evaluate('coatCalls'),2);
+    await evaluate('facesMock.snapshot=async()=>({...await baseCoatSnapshot(),catCoatStatus:null});await refreshShared();go("profile")');
+    assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),true);
+    assert.deepEqual(errors,[]);console.log('PASS cat cooldown UI: first save, 12 species, next date, four mobile widths, settings/picker/stale-choice lock, expiry unlock, expression unaffected, unavailable status blocked.');return;
+  }
   if(process.argv.includes('--test-domestic-faces-preview')){
     const coats=['calico','orange','brown','silver','black','white','tuxedo','gray'];
     for(const width of [320,375,390,430]){

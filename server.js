@@ -4,6 +4,7 @@ const path = require('node:path');
 const files = { '/': 'index.html', '/index.html': 'index.html', '/style.css': 'style.css', '/app.js': 'app.js', '/safety.js': 'safety.js', '/update-client.js': 'update-client.js', '/release.json': 'release.json', '/nickname.js': 'nickname.js', '/cat-faces.js': 'cat-faces.js', '/cat-roles.js': 'cat-roles.js', '/cat-scenes.js': 'cat-scenes.js', '/cat-day-scenes.js': 'cat-day-scenes.js', '/favicon.svg': 'favicon.svg', '/tonight-trend.js': 'tonight-trend.js', '/sleep-flow.js': 'sleep-flow.js', '/night-clock.js': 'night-clock.js', '/supabase-config.js': 'supabase-config.js', '/supabase-api.js': 'supabase-api.js', '/vendor/supabase.js': 'vendor/supabase.js' };
 const types = { '.html': 'text/html', '.json': 'application/json', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml' };
 files['/wild-cat-assets.js']='wild-cat-assets.js';
+files['/cat-coat-cooldown.js']='cat-coat-cooldown.js';
 for(const file of fs.readdirSync(path.join(__dirname,'assets/wild-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/wild-cats/'+file]='assets/wild-cats/'+file;
 types['.png']='image/png';
 for(const file of fs.readdirSync(path.join(__dirname,'assets/domestic-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/domestic-cats/'+file]='assets/domestic-cats/'+file;
