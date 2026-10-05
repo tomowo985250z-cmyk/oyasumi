@@ -27,7 +27,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
-  if(process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
+  if(process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown')||process.argv.includes('--test-reaction-effects'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
   if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   if(process.argv.includes('--test-dark-hint'))await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:process.argv.includes('--dark-device')?'dark':'light'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
@@ -297,6 +297,16 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     }
     for(const width of [320,375,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('go("profile")');
+      assert(await evaluate('(()=>{const r=document.querySelector(".profile-cat-button .avatar").getBoundingClientRect();return r.width===111&&r.height===111})()'),'Profile cat grows by about 1.35');
+      await evaluate('globalThis.iconName=state.name;state.name="あいうえおかきくけこさし";render()');
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'),'Long profile name must fit');
+      assert(await evaluate('(()=>{const a=document.querySelector(".profile-cat-button").getBoundingClientRect(),b=document.querySelector(".profile-banner>div").getBoundingClientRect();return a.right<=b.left&&b.right<=innerWidth})()'),'Cat and profile text must not overlap');
+      await screenshot(`profile-cat-size-${width}.png`);
+      await evaluate('state.name=iconName;go("timeline")');
+      assert(await evaluate('(()=>{const r=document.querySelector(".post .avatar").getBoundingClientRect();return r.width===50&&r.height===50})()'),'Timeline cat grows by 1.25');
+      assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'),'Timeline must fit');
+      assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".post [data-reaction]"),el=>el.firstChild.textContent.trim())').then(values=>values.slice(0,4)),['おやすみ🌙','いい夢を💤','また明日👋','無理せずね☺️']);
       await delay(150);
       for(const choice of ['goodnight','dream','tomorrow','comfort']){
         const before=await evaluate('effectCalls');
@@ -304,8 +314,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
         assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
         assert.equal(await evaluate('document.querySelector(".reaction-delivery").textContent.includes("届きました")'),true);
         assert.equal(await evaluate('document.querySelectorAll(".reaction-heart").length'),1);
-        assert.equal(await evaluate('document.querySelector(".reaction-heart").textContent'),'♡');
-        assert.equal(await evaluate('getComputedStyle(document.querySelector(".reaction-heart")).color'),'rgb(242, 201, 206)');
+        assert.equal(await evaluate('document.querySelector(".reaction-heart").textContent'),'♥');
+        assert.equal(await evaluate('getComputedStyle(document.querySelector(".reaction-heart")).color'),'rgba(242, 201, 206, 0.8)');
         assert(await evaluate('Array.from(document.querySelectorAll("[data-react]")).some(button=>button.getAnimations().length>0)'),'Reaction button presses briefly');
         await evaluate('for(let i=0;i<8;i++)document.querySelector("[data-reaction=goodnight]").click()');
         assert.equal(await evaluate('document.querySelectorAll(".reaction-heart").length'),1,'Rapid taps keep one heart');
@@ -317,6 +327,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
         assert(await evaluate('(()=>{const r=document.querySelector(".reaction-delivery").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth})()'));
         await evaluate('renderPreservingPosition();window.dispatchEvent(new Event("scroll"));window.dispatchEvent(new Event("resize"))');
         assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
+        await evaluate('document.querySelector(".reaction-delivery").getAnimations().forEach(animation=>{animation.pause();animation.currentTime=350})');
         await screenshot(`reaction-${choice}-${width}.png`);
         assert(await evaluate('Number(getComputedStyle(document.querySelector(".reaction-delivery")).opacity)>0.5'),'Animation must be visibly opaque');
         await waitFor('!document.querySelector(".reaction-delivery")',2000);await waitFor('!busy');

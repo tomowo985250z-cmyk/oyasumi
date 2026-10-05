@@ -34,3 +34,6 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .expression-options .cat-group-title{grid-column:1/-1;text-align:left;font-size:14px;margin:12px 0 2px}.expression-choice>span:last-child{overflow-wrap:anywhere}
 
 .cat-day-scene.day-cat-image{aspect-ratio:1 / 1;border-radius:50%;object-fit:cover}
+.post .public-profile-cat .avatar{width:50px;height:50px}
+.profile-banner .profile-cat-button .avatar{width:111px;height:111px}
+.reaction-heart{color:rgba(242,201,206,.8)}

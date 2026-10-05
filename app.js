@@ -38,7 +38,7 @@ function showReactionTap(button) {
  clearTimeout(reactionHeartTimer);document.querySelector('.reaction-heart')?.remove();
  if(!button.closest('.post')?.querySelector('.avatar'))return;
  reactionEffectPostId=button.dataset.react;
- const heart=document.createElement('span');heart.className='reaction-heart';heart.textContent='♡';heart.setAttribute('aria-hidden','true');
+ const heart=document.createElement('span');heart.className='reaction-heart';heart.textContent='♥';heart.setAttribute('aria-hidden','true');
  document.body.append(heart);positionReactionEffect();
  reactionHeartTimer=setTimeout(()=>document.querySelector('.reaction-heart')?.remove(),1050);
 }
