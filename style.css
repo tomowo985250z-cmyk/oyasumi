@@ -21,7 +21,6 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 
 .share-place-button{width:100%;border:1px solid var(--line);border-radius:16px;font-size:14px;margin:0 0 12px}.share-url{user-select:all;-webkit-user-select:all;overflow-wrap:anywhere;color:var(--text)}
 
-.reaction-delivery{position:fixed;z-index:15;pointer-events:none;display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:18px;background:#14213ee8;color:#dce6f5;font-size:11px;white-space:nowrap;animation:delivery-float 1s ease-out both}.delivery-symbol{font-size:18px;line-height:1;width:20px;text-align:center}.delivery-tomorrow .delivery-symbol{height:17px;border-radius:50%;background:radial-gradient(circle at 50% 70%,#fff0d9 0 25%,#ffd59999 26% 45%,#ffd59922 46% 70%,transparent 71%)}.delivery-comfort .delivery-symbol{color:#ffc1c7;font-size:23px}@keyframes delivery-float{0%{opacity:0;transform:translateY(4px)}20%,65%{opacity:1}100%{opacity:0;transform:translateY(-8px)}}@media(prefers-reduced-motion:reduce){.reaction-delivery{animation:none}}
 
 .home-heading{position:relative}.dark-mode-hint{position:absolute;left:0;right:0;bottom:-21px;margin:0;text-align:center;font-size:11px;line-height:18px;color:var(--muted);pointer-events:none;animation:dark-hint-fade 4s ease-out both}@keyframes dark-hint-fade{0%,70%{opacity:1}100%{opacity:0}}@media(prefers-reduced-motion:reduce){.dark-mode-hint{animation:none}}
 .morning-receipts{margin-top:16px}.morning-receipts h2{font-size:14px;line-height:1.6;margin:0 0 14px}.morning-reaction-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.morning-reaction-grid span{display:block;font-size:12px}.morning-reaction-grid strong{display:block;font-size:22px;margin-top:4px}.morning-reaction-grid small{font-size:11px;font-weight:400}.morning .morning-receipts p{font-size:12px;line-height:1.8;margin-bottom:0}
@@ -37,7 +36,7 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .post .public-profile-cat .avatar{width:60px;height:60px}
 .profile-banner .profile-cat-button .avatar{width:111px;height:111px}
 .public-profile-face .avatar{width:112px;height:112px}
-.reaction-heart{color:rgba(255,151,174,.8)}
+.reaction-heart{color:rgba(255,126,161,.85);width:20px;font-size:24px}
 .reaction-options .reaction,.status-actions .status-button,.status-actions .extra-post-button{font-family:var(--app-font);font-weight:600}
 .reaction-options .reaction{font-size:16px;white-space:normal}
 .status-actions .status-button strong{font-weight:600}
@@ -62,4 +61,4 @@ nav button,.tabs button,.setting-row,.text-button,.setting-value,.post-name,.pro
 time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hours strong,.sleep-screen .card strong,.morning .card strong,.history-row>span:first-child{font-weight:500}
 .chart text{font-family:var(--app-font);font-weight:500}
 /* These are pictorial symbols; preserve their original glyphs and animation metrics. */
-.icon-button,.reaction-heart,.delivery-symbol{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:400}
+.icon-button,.reaction-heart{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:400}

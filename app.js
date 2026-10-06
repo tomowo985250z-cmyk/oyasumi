@@ -19,17 +19,14 @@ function darkHint() {
  return `<p class="dark-mode-hint" role="status" style="animation-delay:-${elapsed}ms">🌙 夜はダークモードがおすすめです</p>`;
 }
 const SHARE_PLACE = Object.freeze({ text: '眠る前に、少しだけ立ち寄れる場所です。', url: 'https://tomowo985250z-cmyk.github.io/oyasumi/' });
-let reactionEffectTimer, reactionEffectPostId, reactionHeartTimer;
-function clearReactionEffect() { clearTimeout(reactionEffectTimer);clearTimeout(reactionHeartTimer);document.querySelector('.reaction-delivery')?.remove();document.querySelector('.reaction-heart')?.remove(); }
+let reactionEffectPostId, reactionHeartTimer;
+function clearReactionEffect() { clearTimeout(reactionHeartTimer);document.querySelector('.reaction-heart')?.remove(); }
 function positionReactionEffect() {
- const effect=document.querySelector('.reaction-delivery');
  const cat=document.querySelector(`[data-react="${CSS.escape(reactionEffectPostId||'')}"]`)?.closest('.post')?.querySelector('.avatar');
  if(!cat)return;
  const box=cat.getBoundingClientRect();
- if(effect){effect.style.left=`${Math.max(8,Math.min(innerWidth-120,box.left+12))}px`;
- effect.style.top=`${Math.max(8,Math.min(innerHeight-140,box.top-20))}px`;}
  const heart=document.querySelector('.reaction-heart');
- if(heart){heart.style.left=`${Math.max(8,Math.min(innerWidth-24,box.left+box.width/2-8))}px`;heart.style.top=`${Math.max(24,box.top-38)}px`;}
+ if(heart){heart.style.left=`${Math.max(8,Math.min(innerWidth-28,box.left+box.width/2-10))}px`;heart.style.top=`${Math.max(8,box.top-28)}px`;}
 }
 function showReactionTap(button) {
  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)button.animate([
@@ -42,14 +39,6 @@ function showReactionTap(button) {
  document.body.append(heart);positionReactionEffect();
  reactionHeartTimer=setTimeout(()=>document.querySelector('.reaction-heart')?.remove(),1050);
 }
-function showReactionEffect(button,choice) {
- const cat=button.closest('.post')?.querySelector('.avatar');if(!cat)return;
- clearTimeout(reactionEffectTimer);document.querySelector('.reaction-delivery')?.remove();reactionEffectPostId=button.dataset.react;const effect=document.createElement('div');
- effect.className=`reaction-delivery delivery-${choice}`;effect.setAttribute('role','status');
- const symbols={goodnight:'🌙',dream:'✨',tomorrow:'',comfort:'♡'};
- effect.innerHTML=`<span class="delivery-symbol" aria-hidden="true">${symbols[choice]}</span><span>届きました</span>`;
- document.body.append(effect);positionReactionEffect();reactionEffectTimer=setTimeout(()=>document.querySelector('.reaction-delivery')?.remove(),1050);
-}
 function showShareURL() { const dialog=document.querySelector('#share-dialog');document.querySelector('#share-url').textContent=SHARE_PLACE.url;if(!dialog.open)dialog.showModal(); }
 async function copyPlaceURL() { try { await navigator.clipboard.writeText(SHARE_PLACE.url);document.querySelector('#share-dialog').close();toast('URLをコピーしました'); } catch { showShareURL(); } }
 async function sharePlace() { if(typeof navigator.share!=='function'){await copyPlaceURL();return;}try { await navigator.share({text:SHARE_PLACE.text,url:SHARE_PLACE.url}); } catch(error) { if(error.name!=='AbortError')showShareURL(); } }
@@ -61,6 +50,7 @@ const savedName = NicknameRules.validate(state.name);
 state.name = savedName.error ? freshState().name : savedName.name;
 let shared = { userId: null, feed: [], reactionCounts: {}, awakeCount: null, sleepingCount: null, ownSleepCount: null, nightDate: null, trend: [], trendSupported: false };
 let busy = false, ready = false, refreshPromise, connectionPromise;
+let stateRevision=0, refreshQueued=false, refreshSaved=false;
 let view = SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now()), filter = 'all', toastTimer, restTimer, sleepShownAt;
 const app = document.querySelector('#app');
 const nav = document.querySelector('#navigation');
@@ -141,6 +131,7 @@ function syncSleepView() {
 function checkNightBoundary() {
  syncSleepView();
  if(!shared.clock||shared.nightDate===NightClock.night())return;
+ stateRevision++;
  shared={...shared,nightDate:NightClock.night(),feed:[],awakeCount:null,sleepingCount:null,trend:[],tonightSummary:null,reactionCounts:{}};
  clearReactionEffect();
  if(SleepFlow.morningDue(state.lastSleep,state.morningDays,NightClock.now())&&(view==='rest'||view==='sleep'))go('morning');
@@ -153,16 +144,21 @@ function scheduleNightBoundary() {
  if(remaining!==null)nightBoundaryTimer=setTimeout(checkNightBoundary,Math.min(2147483647,remaining+5));
 }
 async function refreshShared() {
+ if(busy&&ready){refreshQueued=true;return;}
  if(refreshPromise)return refreshPromise;
+ const revision=stateRevision;
  refreshPromise=(async()=>{
   const snapshot=await OyasumiAPI.snapshot();
+  // A read started before a write/boundary must not overwrite the confirmed local result.
+  if(revision!==stateRevision||(busy&&ready)||snapshot.clock&&snapshot.clock.serverNow+performance.now()-snapshot.clock.monotonicAt>=snapshot.clock.resetAt){refreshQueued=true;return;}
   NightClock.sync(snapshot.clock);shared=snapshot;state.name=snapshot.name;state.expression=CatFaces.normalize(snapshot.expression);state.coat=CatFaces.normalizeCoat(snapshot.coat);state.catRole=snapshot.catRole;state.profileNote=snapshot.profileNote;state.posts=snapshot.ownPosts;state.reactions=snapshot.reactions;
+  if(state.lastSleep?.count===null&&state.lastSleep.postId&&snapshot.nightDate===state.lastSleep.nightDate&&snapshot.feed.some(post=>post.id===state.lastSleep.postId&&isSleeping(post.status)))state.lastSleep.count=snapshot.sleepingCount;
   syncSleepView();
   if(!ready&&['home','rest','morning'].includes(view))view=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
   scheduleNightBoundary();
   ready=true;save();renderPreservingPosition();
  })();
- try{await refreshPromise;}finally{refreshPromise=undefined;}
+ try{await refreshPromise;}finally{refreshPromise=undefined;startQueuedRefresh();}
 }
 async function ensureConnection() {
  if(!connectionPromise)connectionPromise=(async()=>{
@@ -175,14 +171,18 @@ async function ensureConnection() {
 async function mutation(work) {
  if(busy)return;
  busy=true;syncBusy();
- try{await ensureConnection();if(refreshPromise)await refreshPromise;await work();}
- catch(error){toast(error.code==='22023'?'少し待って、もう一度お試しください。':'通信できません。接続をご確認ください。');}
- finally{busy=false;syncBusy();}
+ try{await ensureConnection();stateRevision++;checkNightBoundary();await work();}
+ catch(error){clearReactionEffect();toast(error.code==='22023'?'少し待って、もう一度お試しください。':'通信できません。接続をご確認ください。');}
+ finally{busy=false;syncBusy();startQueuedRefresh();}
 }
 function finishSleep(startedAt=NightClock.now()) { if(state.lastSleep){state.lastSleep.finished=true;state.lastSleep.coat=state.coat;state.lastSleep.finishedAt=new Date(startedAt).toISOString();save();}clearTimeout(toastTimer);document.querySelector('#toast').classList.remove('visible');go('rest');syncSleepView(); }
-async function refreshAfterSave() {
- try{await refreshShared();return true;}
- catch{toast('保存済み。表示は後で更新します。');return false;}
+function startQueuedRefresh() {
+ if(!refreshQueued||busy||refreshPromise)return;
+ const saved=refreshSaved;refreshQueued=false;refreshSaved=false;
+ void refreshShared().catch(()=>toast(saved?'保存済み。表示は後で更新します。':'最新の投稿を取得できませんでした。'));
+}
+function refreshAfterSave(saved=true) {
+ refreshQueued=true;refreshSaved=refreshSaved||saved;startQueuedRefresh();
 }
 document.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;
  if(button.hasAttribute('data-share-place')){void sharePlace();return;}
@@ -193,31 +193,29 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.dataset.post){const status=button.dataset.post;if(!POST_OPTIONS.some(option=>option.id===status))return;void mutation(async()=>{
   if(!shared.profileComplete){go('profile');toast('名前と猫の種類を設定してください');return;}
   const row=await OyasumiAPI.submitPost(status);
+  checkNightBoundary();
   const post={id:row.id,userId:row.user_id,status:row.choice,time:Date.parse(row.created_at),nightDate:row.night_date,order:row.event_order,name:state.name,expression:state.expression,coat:state.coat,catRole:state.catRole,profileNote:state.profileNote,self:true,color:'peach'};
-  state.posts=[post,...state.posts.filter(p=>p.id!==post.id)];shared.feed=[post,...shared.feed.filter(p=>p.userId!==post.userId)];
-  const refreshed=await refreshAfterSave();
-  if(isSleeping(status)){state.lastSleep={count:refreshed&&shared.nightDate===row.night_date?shared.sleepingCount:null,nightDate:row.night_date,userId:row.user_id,at:row.created_at,coat:state.coat,finished:false};save();}
+  state.posts=[post,...state.posts.filter(p=>p.id!==post.id)];if(row.night_date===NightClock.night())shared.feed=[post,...shared.feed.filter(p=>p.userId!==post.userId)];
+  if(isSleeping(status)){state.lastSleep={count:null,postId:row.id,nightDate:row.night_date,userId:row.user_id,at:row.created_at,coat:state.coat,finished:false};save();}
   else if(state.lastSleep?.finished){state.lastSleep.finished=false;save();}
-  go(isSleeping(status)?'sleep':'timeline');if(status==='awake')toast('今の気持ちを伝えました');
+  go(isSleeping(status)?'sleep':'timeline');syncSleepView();if(status==='awake')toast('今の気持ちを伝えました');refreshAfterSave();
  });return;}
  if(button.dataset.filter){filter=button.dataset.filter;render();return;}
- if(button.dataset.react){const id=button.dataset.react,choice=button.dataset.reaction;if(!REACTION_OPTIONS.some(option=>option.id===choice)||!allPosts().some(post=>post.id===id))return;if(!busy){if(state.reactions[id]!==choice)showReactionEffect(button,choice);showReactionTap(button);}void mutation(async()=>{
+ if(button.dataset.react){const id=button.dataset.react,choice=button.dataset.reaction;if(!REACTION_OPTIONS.some(option=>option.id===choice)||!allPosts().some(post=>post.id===id))return;if(!busy)showReactionTap(button);void mutation(async()=>{
   const previous=state.reactions[id],next=previous===choice?null:choice;
   try{await OyasumiAPI.setReaction(id,next);}catch(error){clearReactionEffect();throw error;}
+  checkNightBoundary();
   const counts=shared.reactionCounts[id]||{goodnight:0,dream:0,tomorrow:0,comfort:0};
   if(previous)counts[previous]=Math.max(0,counts[previous]-1);if(next)counts[next]+=1;
+  if(!allPosts().some(post=>post.id===id)){refreshAfterSave();return;}
   shared.reactionCounts[id]=counts;if(next)state.reactions[id]=next;else delete state.reactions[id];
   renderPreservingPosition();
-  if(next&&view==='timeline'){
-   const currentButton=document.querySelector(`[data-react="${CSS.escape(id)}"][data-reaction="${CSS.escape(next)}"]`);
-   if(currentButton)showReactionEffect(currentButton,next);
-  }
-  await refreshAfterSave();
+  toast(next?'リアクションを保存しました':'リアクションを取り消しました');refreshAfterSave();
  });return;}
  if(button.dataset.delete){const id=button.dataset.delete;if(!state.posts.some(p=>p.id===id&&p.self))return;void mutation(async()=>{
-  const deleted=await OyasumiAPI.deletePost(id);if(!deleted){toast('投稿はすでに削除されています。');await refreshAfterSave();return;}
+  const deleted=await OyasumiAPI.deletePost(id);if(!deleted){toast('投稿はすでに削除されています。');refreshAfterSave();return;}
   state.posts=state.posts.filter(p=>p.id!==id);shared.feed=shared.feed.filter(p=>p.id!==id);delete state.reactions[id];
-  renderPreservingPosition();await refreshAfterSave();toast('投稿を削除しました');
+  renderPreservingPosition();refreshAfterSave();toast('投稿を削除しました');
  });return;}
  if(button.hasAttribute('data-morning')){if(!state.morningDays.includes(dayKey()))state.morningDays.push(dayKey());save();render();toast('おはよう。今日も良い一日を ☀️');return;}
  if(button.hasAttribute('data-name')){document.querySelector('#nickname').value=OyasumiAPI.needsNickname?'':state.name;clearNicknameError();document.querySelector('#nickname-dialog').showModal();document.querySelector('#nickname').focus();}
@@ -233,10 +231,10 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.dataset.expression||button.dataset.coat){const coatPicker=Boolean(button.dataset.coat);const value=button.dataset.coat||button.dataset.expression;const expression=coatPicker?state.expression:value;const coat=coatPicker?value:state.coat;if(!(coatPicker?CatFaces.coats:CatFaces.options).some(option=>option.id===value))return;void mutation(async()=>{
   if(coatPicker&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()))return;
   try{if(coatPicker)await OyasumiAPI.setCatCoat(coat);else await OyasumiAPI.setCatExpression(expression);}
-  catch(error){if(coatPicker&&error.code==='P0030'){await refreshAfterSave();document.querySelector('#expression-dialog').close();toast('猫の種類は30日に1回変更できます。');return;}document.querySelector('#expression-error').textContent=['PGRST202','PGRST204','42703'].includes(error.code)?'猫の保存機能は準備中です。':'保存できませんでした。もう一度お試しください。';return;}
-  if(coatPicker)shared.catCoatStatus=null;
+  catch(error){if(coatPicker&&error.code==='P0030'){refreshAfterSave(false);document.querySelector('#expression-dialog').close();toast('猫の種類は30日に1回変更できます。');return;}document.querySelector('#expression-error').textContent=['PGRST202','PGRST204','42703'].includes(error.code)?'猫の保存機能は準備中です。':'保存できませんでした。もう一度お試しください。';return;}
+  if(coatPicker){shared.catCoatStatus=null;shared.needsCat=false;shared.profileComplete=!shared.needsNickname;}
   state.expression=expression;shared.expression=expression;state.coat=coat;shared.coat=coat;for(const post of [...state.posts,...shared.feed])if(post.self){post.expression=expression;post.coat=coat;}
-  document.querySelector('#expression-dialog').close();render();await refreshAfterSave();toast(coatPicker?'猫の毛色を保存しました':'猫の表情を保存しました');
+  document.querySelector('#expression-dialog').close();render();refreshAfterSave();toast(coatPicker?'猫の毛色を保存しました':'猫の表情を保存しました');
  });return;}
 });
 document.addEventListener('change',event=>{if(event.target.id==='dark-switch'){state.light=!event.target.checked;save();render();}});
@@ -269,7 +267,7 @@ document.querySelector('#note-form').addEventListener('submit',event=>{
   catch(error){document.querySelector('#note-error').textContent=error.code==='22023'?error.message:'保存できませんでした。もう一度お試しください。';input.setAttribute('aria-invalid','true');throw error;}
   state.profileNote=note;shared.profileNote=note;
   for(const post of [...state.posts,...shared.feed])if(post.userId===shared.userId)post.profileNote=note;
-  document.querySelector('#note-dialog').close();render();await refreshAfterSave();toast('ひとことを保存しました');
+  document.querySelector('#note-dialog').close();render();refreshAfterSave();toast('ひとことを保存しました');
  });
 });
 const roleWheel=document.querySelector('#role-wheel');
@@ -303,7 +301,7 @@ document.querySelector('#role-form').addEventListener('submit',event=>{
   try{await OyasumiAPI.setCatRole(option.id);}catch(error){document.querySelector('#role-error').textContent='保存できませんでした。もう一度お試しください。';throw error;}
   state.catRole=option.id;shared.catRole=option.id;
   for(const post of [...shared.feed,...state.posts])if(post.userId===shared.userId)post.catRole=option.id;
-  document.querySelector('#role-dialog').close();render();await refreshAfterSave();
+  document.querySelector('#role-dialog').close();render();refreshAfterSave();
   toast(option.cat?`あなたは${option.cat}です 🐱`:'猫ラベルを表示しない設定で保存しました');
  });
 });
@@ -318,8 +316,8 @@ document.querySelector('#nickname-form').addEventListener('submit',event=>{
   let name;
   try{name=await OyasumiAPI.setNickname(result.name);}
   catch(error){if(['22023','23514'].includes(error.code)){document.querySelector('#nickname-error').textContent=error.code==='23514'?'1〜12文字で入力してください。':error.message;input.setAttribute('aria-invalid','true');input.focus();return;}throw error;}
-  state.name=name;for(const p of [...state.posts,...shared.feed])if(p.self)p.name=name;
-  save();document.querySelector('#nickname-dialog').close();render();await refreshAfterSave();toast('名前を保存しました');
+  state.name=name;shared.name=name;shared.needsNickname=false;shared.profileComplete=!shared.needsCat;for(const p of [...state.posts,...shared.feed])if(p.self)p.name=name;
+  save();document.querySelector('#nickname-dialog').close();render();refreshAfterSave();toast('名前を保存しました');
  });
 });
 render();

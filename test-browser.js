@@ -23,7 +23,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   evaluate=async expression=>{const source=expression.includes('await ')?`(async()=>{${expression.includes(';')?expression:`return (${expression});`}})()`:expression;const result=await send('Runtime.evaluate',{expression:source,returnByValue:true,awaitPromise:true});assert(!result.exceptionDetails,JSON.stringify(result.exceptionDetails));return result.result.value;};
   const waitFor=async(expression,timeout=30000)=>{const deadline=Date.now()+timeout;while(Date.now()<deadline){if(await evaluate(expression))return;await delay(100);}throw new Error(`Condition timed out: ${expression}; toast: ${await evaluate('document.querySelector("#toast").textContent')}`);};
   const click=selector=>evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
-  const action=async selector=>{await click(selector);await waitFor('!busy');};
+  const action=async selector=>{await click(selector);await waitFor('!busy&&!refreshPromise&&!refreshQueued');};
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
@@ -312,11 +312,12 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
       for(const choice of ['goodnight','dream','tomorrow','comfort']){
         const before=await evaluate('effectCalls');
         await click(process.argv.includes('--test-reaction-effects-live')?`[data-react="${await evaluate('effectPost.id')}"][data-reaction="${choice}"]`:`[data-reaction="${choice}"]`);await waitFor('typeof effectRelease==="function"&&busy');
-        assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
-        assert.equal(await evaluate('document.querySelector(".reaction-delivery").textContent.includes("届きました")'),true);
+        assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),0);
+        assert.equal(await evaluate('document.body.textContent.includes("届きました")'),false);
         assert.equal(await evaluate('document.querySelectorAll(".reaction-heart").length'),1);
         assert.equal(await evaluate('document.querySelector(".reaction-heart").textContent'),'♥');
-        assert.equal(await evaluate('getComputedStyle(document.querySelector(".reaction-heart")).color'),'rgba(242, 201, 206, 0.8)');
+        assert.equal(await evaluate('getComputedStyle(document.querySelector(".reaction-heart")).color'),'rgba(255, 126, 161, 0.85)');
+        assert.equal(await evaluate('getComputedStyle(document.querySelector(".reaction-heart")).fontSize'),'24px');
         assert(await evaluate('Array.from(document.querySelectorAll("[data-react]")).some(button=>button.getAnimations().length>0)'),'Reaction button presses briefly');
         await evaluate('for(let i=0;i<8;i++)document.querySelector("[data-reaction=goodnight]").click()');
         assert.equal(await evaluate('document.querySelectorAll(".reaction-heart").length'),1,'Rapid taps keep one heart');
@@ -325,13 +326,10 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
         await delay(1300);await evaluate('effectRelease();globalThis.effectRelease=undefined');await waitFor(`state.reactions[globalThis.effectPost?.id||"effect-preview"]===${JSON.stringify(choice)}`);
         assert.equal(await evaluate('document.querySelector(".reaction-heart")'),null,'Heart expires and is not replayed by save acknowledgement');
         assert.equal(await evaluate('state.reactions[globalThis.effectPost?.id||"effect-preview"]'),choice);
-        assert(await evaluate('(()=>{const r=document.querySelector(".reaction-delivery").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth})()'));
         await evaluate('renderPreservingPosition();window.dispatchEvent(new Event("scroll"));window.dispatchEvent(new Event("resize"))');
-        assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),1);
-        await evaluate('document.querySelector(".reaction-delivery").getAnimations().forEach(animation=>{animation.pause();animation.currentTime=350})');
+        assert.equal(await evaluate('document.querySelectorAll(".reaction-delivery").length'),0);
         await screenshot(`reaction-${choice}-${width}.png`);
-        assert(await evaluate('Number(getComputedStyle(document.querySelector(".reaction-delivery")).opacity)>0.5'),'Animation must be visibly opaque');
-        await waitFor('!document.querySelector(".reaction-delivery")',2000);await waitFor('!busy');
+        await waitFor('!busy');
         if(process.argv.includes('--test-reaction-effects-live')){
           assert.equal(await evaluate(`(await peer.snapshot()).reactionCounts[effectPost.id][${JSON.stringify(choice)}]`),1);
         }
@@ -343,7 +341,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     await evaluate('go("home")');
     assert.equal(await evaluate('Array.from(document.querySelectorAll("[data-post]")).some(button=>button.getAnimations().length>0)'),false,'Post buttons have no reaction press effect');
     assert.deepEqual(errors,[]);
-    console.log('PASS reaction effects: four quiet effects and a single pale heart at 320/375/390/430px, button press, immediate feedback, one-second cleanup without replay, rerender persistence, rapid-tap deduplication and failure cleanup.');return;
+    console.log('PASS reaction effects: heart only at 320/375/390/430px, brighter 24px pink heart, button press, immediate feedback without success claim, one-second cleanup without replay, rapid-tap deduplication and failure cleanup.');return;
   }
   if(process.argv.includes('--test-share')){
     await evaluate('go("settings");Object.defineProperty(navigator,"share",{configurable:true,value:async data=>{globalThis.sharedPlaceData=data}})');
@@ -590,8 +588,11 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),0);
   assert(await evaluate('Number.isFinite(shared.sleepingCount)'));
   await evaluate('globalThis.fetch=summaryFetch;await refreshShared()');
-  for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
-    await evaluate('go("settings")');await click('[data-coat-picker]');await action(`[data-coat="${coat}"]`);
+  // Species changes are restricted to once per 30 days; the initial calico save
+  // above already used this account's allowance. Check its persisted appearance.
+  const persistedCoat=await evaluate('state.coat');
+  for(const coat of [persistedCoat]){
+    await evaluate('go("settings")');assert(await evaluate('document.querySelector("[data-coat-picker]").disabled'));
     assert.equal(await evaluate('state.coat'),coat);
     assert(await evaluate(`shared.tonightSummary.coats.some(c=>c.coat===${JSON.stringify(coat)}&&c.count>=1)`),'Sleeping cat aggregates must reflect the selected coat');
     await evaluate('go("profile")');
@@ -602,7 +603,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
     await action(`[data-expression="${expression}"]`);
     assert.equal(await evaluate('state.expression'),expression);
-    assert.equal(await evaluate('state.coat'),'gray','Expression changes must retain the selected coat');
+    assert.equal(await evaluate('state.coat'),persistedCoat,'Expression changes must retain the selected coat');
     assert.equal(await evaluate('document.querySelector("#expression-dialog").open'),false);
     await evaluate('go("profile")');assert.equal(await evaluate('document.querySelector(".profile-banner .cat-face").dataset.catExpression'),expression);
     await evaluate('go("timeline")');assert(await evaluate(`Array.from(document.querySelectorAll('.post')).filter(p=>p.querySelector('.self-tag')).every(p=>p.querySelector('.cat-face').dataset.catExpression===${JSON.stringify(expression)})`));
@@ -624,17 +625,17 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
     await screenshot(`surprised-picker-${width}.png`);await click('#cancel-expression');
   }
   await click('[data-expression-picker]');await action('[data-expression="happy"]');
-  await evaluate('await peer.setCatCoat("black");await peer.setCatExpression("restless");await refreshShared();filter="all";go("timeline")');
+  await evaluate('await peer.setCatExpression("restless");await refreshShared();filter="all";go("timeline")');
   assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catExpression`),'restless');
-  assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catCoat`),'black');
+  assert.equal(await evaluate(`document.querySelector('[data-react="${peerId}"]').closest('.post').querySelector('.cat-face').dataset.catCoat`),'calico');
   assert.equal(await evaluate('state.posts.length'),4,'Expressions must not create posts');
   await evaluate('go("sleep")');
   assert.equal(await evaluate('document.querySelector("[data-finish-sleep]").textContent'),'また明日 🌙');
   await click('[data-finish-sleep]');assert.equal(await evaluate('view'),'rest');
   assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catScene'),'sleeping');
-  assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),'gray');
+  assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),persistedCoat);
   assert.equal(await evaluate('state.expression'),'happy','Scene must not change the selected profile expression');
-  assert.equal(await evaluate('state.lastSleep.coat'),'gray');
+  assert.equal(await evaluate('state.lastSleep.coat'),persistedCoat);
   assert.equal(await evaluate('document.querySelectorAll("#app button,#app .post,#navigation button").length'),0);
   assert.equal(await evaluate('getComputedStyle(document.querySelector("#navigation")).display'),'none');
   assert((await evaluate('app.textContent')).includes('今日もおつかれさまでした'));
@@ -650,7 +651,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await waitFor('document.querySelector(".rest-screen").dataset.phase==="settled"',10000);
   assert.equal(await evaluate('app.textContent.trim()'),'おやすみなさい 🌙');
   assert.equal(await evaluate('document.querySelectorAll("#app button,#app .rest-message,#app .count,#app .post,#app .chart,#navigation button").length'),0);
-  assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),'gray');
+  assert.equal(await evaluate('document.querySelector(".rest-cat .cat-scene").dataset.catCoat'),persistedCoat);
   assert(Number(await evaluate('getComputedStyle(document.querySelector(".rest-screen"),"::before").opacity'))>=0.6);
   for(const width of [320,390,430]){
     await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
@@ -667,7 +668,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await evaluate('globalThis.actualDateNow=Date.now;globalThis.savedSleep=JSON.parse(JSON.stringify(state.lastSleep));Date.now=()=>Date.parse("2026-10-04T08:00:00+09:00");NightClock.sync({serverNow:Date.now(),monotonicAt:performance.now(),resetAt:Date.now()+86400000});shared.nightDate=NightClock.night();state.lastSleep={...savedSleep,nightDate:"2026-10-03",at:"2026-10-03T23:00:00+09:00",finishedAt:"2026-10-03T23:01:00+09:00",finished:true};document.dispatchEvent(new Event("visibilitychange"))');
   await waitFor('view==="morning"&&!refreshPromise');
   assert.equal(await evaluate('document.querySelector(".morning-cat .cat-scene").dataset.catScene'),'awake');
-  assert.equal(await evaluate('document.querySelector(".morning-cat .cat-scene").dataset.catCoat'),'gray');
+  assert.equal(await evaluate('document.querySelector(".morning-cat .cat-scene").dataset.catCoat'),persistedCoat);
   assert.equal(await evaluate('state.expression'),'happy');
   await screenshot('morning-cat-mobile.png');
   await click('[data-morning]');assert.equal(await evaluate('state.morningDays.length'),2);
@@ -683,7 +684,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await send('Page.reload');await waitFor('typeof ready!=="undefined" && ready && !busy');
   assert.equal(await evaluate('shared.userId'),userId,'Reload must reuse the anonymous identity');assert.equal(await evaluate('state.posts.length'),4);assert.equal(await evaluate('state.name'),'月ねこ');assert.equal(await evaluate('state.morningDays.length'),2);
   assert.equal(await evaluate('state.expression'),'happy','Reload must preserve the shared expression');
-  assert.equal(await evaluate('state.coat'),'gray','Reload must preserve the shared coat');
+  assert.equal(await evaluate('state.coat'),persistedCoat,'Reload must preserve the shared coat');
   await evaluate('go("home")');await send('Network.enable');await send('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:-1,uploadThroughput:-1});
   await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'home','Failed post must not show completion');assert.equal(await evaluate('state.posts.length'),4);assert((await evaluate('document.querySelector("#toast").textContent')).includes('通信'));
   await evaluate('go("profile")');await click('[data-expression-picker]');await action('[data-expression="calm"]');
@@ -692,8 +693,8 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await waitFor('!refreshPromise');
   await evaluate('if(refreshPromise)await refreshPromise;globalThis.originalFetch=fetch;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_counts"))throw new Error("Simulated count refresh failure");return originalFetch(input,options)}');
   await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'sleep','A saved post remains successful if count refresh fails');assert.equal(await evaluate('state.posts.length'),5);assert.equal(await evaluate('state.lastSleep.count'),null);
-  assert.equal(await evaluate('document.querySelector(".sleep-cat .cat-face").dataset.catCoat'),'gray');
-  assert.equal(await evaluate('state.posts[0].coat'),'gray');
+  assert.equal(await evaluate('document.querySelector(".sleep-cat .cat-face").dataset.catCoat'),persistedCoat);
+  assert.equal(await evaluate('state.posts[0].coat'),persistedCoat);
   assert.equal(await evaluate('state.posts[0].expression'),'happy');
   await evaluate('globalThis.fetch=originalFetch;await refreshShared()');
   await evaluate('if(refreshPromise)await refreshPromise;globalThis.fetch=async(input,options)=>{if(String(input).includes("/rpc/oyasumi_tonight_trend"))throw new Error("Simulated trend refresh failure");return originalFetch(input,options)};await refreshShared();go("stats")');
