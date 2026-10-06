@@ -39,6 +39,15 @@ assert(!t.chart([{time:NaN,awake:1,sleeping:2}]).includes('<svg'));
 assert(!t.chart([snapshot('2026-10-06T01:00:00+09:00',0,0)]).includes('NaN'));
 const sleepingHigh=t.chart([snapshot('2026-10-06T01:00:00+09:00',1,100)]);
 assert(sleepingHigh.includes('>100</text>'),'Shared scale includes sleeping counts');
+for(const max of [0,1,2,3,4,20,100]){
+ const svg=t.chart([snapshot('2026-10-06T01:00:00+09:00',max,0)]);
+ const ticks=[...svg.matchAll(/<text x="0" y="([^"]+)">([^<]+)<\/text>/g)].map(m=>({y:Number(m[1]),value:Number(m[2].replaceAll(',',''))}));
+ assert(ticks.every(t=>Number.isInteger(t.value)));
+ assert.equal(new Set(ticks.map(t=>t.value)).size,ticks.length,'No duplicated Y-axis ticks');
+ assert(ticks.some(t=>t.value===0));
+ const ceiling=Math.ceil(Math.max(1,max)/(max>20?10:1))*(max>20?10:1);
+ ticks.forEach(t=>assert(Math.abs(t.y-(138-t.value/ceiling*114))<.001,'Ticks align with the unchanged count scale'));
+}
 const old=t.messages.steady;t.messages.steady='変更テスト';assert.equal(t.comment(series([100,100,100,100])),'変更テスト');t.messages.steady=old;
 const threshold=t.rules.increaseRate;t.rules.increaseRate=1;assert.equal(t.classify(series([100,100,120,130])),'steady');t.rules.increaseRate=threshold;
 const cats=new Set();
