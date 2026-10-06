@@ -1,5 +1,16 @@
 # Rooftop cats
 
+## Larger warm night scene
+
+The existing 208 × 110 composition is scaled uniformly by 1.2 inside a
+249.6 × 132 scene area (the outer width fits narrow cards). Cat/roof/moon
+coordinates and heading/explanation typography remain unchanged. Of the 18
+stars, 13 are muted yellow-white/gold and five are white-blue. Only four stars
+twinkle, with 3.8/4.7/5.6/4.2-second periods. One small shooting star appears
+every 15–30 seconds at a slightly randomized position, lasting 0.7–1 second.
+Renders retain its scheduled time; navigation, hidden pages and reduced-motion
+preferences cancel the effect. This adds no network requests or saved data.
+
 ## Quiet star field and card spacing
 
 The existing scene now has 18 irregularly placed stars: 15 tiny dots with

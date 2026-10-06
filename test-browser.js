@@ -65,10 +65,15 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
         assert(await evaluate('(()=>{const h=document.querySelector(".awake-heading"),p=h.parentElement.querySelector("p");return h.getBoundingClientRect().bottom<=p.getBoundingClientRect().top})()'),'Heading and description never overlap, including zero/loading');
         assert(await evaluate('document.querySelector(".count").closest(".awake-heading")!==null'),'Exact count belongs to the heading');
         if(count){
-          assert.deepEqual(await evaluate('(()=>{const e=document.querySelector(".awake-cats"),s=getComputedStyle(e);return [s.width,s.height]})()'),['208px','110px']);
+          assert(await evaluate('(()=>{const s=getComputedStyle(document.querySelector(".awake-cats"));return parseFloat(s.width)>=240&&parseFloat(s.width)<250&&s.height==="132px"})()'));
+          assert(await evaluate('(()=>{const r=document.querySelector(".awake-scene").getBoundingClientRect();return Math.abs(r.width-249.6)<.1&&Math.abs(r.height-132)<.1})()'),'Entire composition scales by 1.2');
           assert.deepEqual(await evaluate('(()=>{const s=getComputedStyle(document.querySelector(".roof-cat"));return [s.width,s.height]})()'),['68px','102px'],'Cats are 1.42 times larger');
           assert.equal(await evaluate('document.querySelectorAll(".roof-stars circle").length'),15);
           assert.equal(await evaluate('document.querySelectorAll(".roof-stars path").length'),3);
+          assert.equal(await evaluate('document.querySelectorAll("[data-star-tone=warm]").length'),13);
+          assert.equal(await evaluate('document.querySelectorAll("[data-star-tone=cool]").length'),5);
+          assert.equal(await evaluate('document.querySelectorAll(".roof-twinkle").length'),4);
+          assert(await evaluate('Array.from(document.querySelectorAll(".roof-twinkle"),e=>parseFloat(getComputedStyle(e).animationDuration)).every(s=>s>=3&&s<=6)'));
           assert.deepEqual(await evaluate('(()=>{const h=document.querySelector(".awake-heading"),p=h.parentElement.querySelector("p");return [getComputedStyle(h).top,getComputedStyle(p).top]})()'),['6px','-6px']);
           assert.equal(await evaluate('document.querySelectorAll(".roof-moon").length'),1);
           assert(await evaluate('document.querySelector(".awake-heading").getBoundingClientRect().bottom<=document.querySelector(".awake-cats").getBoundingClientRect().top'));
@@ -103,6 +108,16 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
       const clip=await evaluate('(()=>{const r=document.querySelector(".count-card").getBoundingClientRect();return {x:r.left,y:r.top+scrollY,width:r.width,height:r.height,scale:1}})()');
       const shot=await send('Page.captureScreenshot',{format:'png',clip});fs.writeFileSync(`test-results/roof-coats-${coats.join('-')}.png`,Buffer.from(shot.data,'base64'));
     }
+    await evaluate('globalThis.skyRandom=Math.random;globalThis.skyTimeout=setTimeout;globalThis.skyDelays=[];Math.random=()=>.5;globalThis.setTimeout=(fn,ms,...args)=>{skyDelays.push(ms);return skyTimeout(fn,ms,...args)};roofNextShootingAt=undefined;syncRoofSky()');
+    assert(await evaluate('roofNextShootingAt-performance.now()>22000&&roofNextShootingAt-performance.now()<=22500'));
+    await evaluate('roofNextShootingAt=performance.now()-1;syncRoofSky()');await waitFor('document.querySelectorAll(".roof-shooting-star").length===1');
+    assert.equal(await evaluate('document.querySelector(".roof-shooting-star").getAnimations()[0].effect.getTiming().duration'),850);
+    assert(await evaluate('skyDelays.at(-1)>22000&&skyDelays.at(-1)<=22500'),'Next star is spaced 15–30 seconds apart');
+    await delay(1000);assert.equal(await evaluate('document.querySelectorAll(".roof-shooting-star").length'),0);
+    await evaluate('Math.random=skyRandom;globalThis.setTimeout=skyTimeout;globalThis.keepSkyTime=roofNextShootingAt;render()');assert.equal(await evaluate('roofNextShootingAt'),await evaluate('keepSkyTime'),'Refresh does not postpone the scheduled star');
+    await evaluate('go("timeline")');assert.equal(await evaluate('roofNextShootingAt'),undefined);
+    await evaluate('go("home")');await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await waitFor('roofNextShootingAt===undefined');
+    assert(await evaluate('Array.from(document.querySelectorAll(".roof-twinkle"),e=>getComputedStyle(e).animationName).every(n=>n==="none")'));
     assert.deepEqual(errors,[]);console.log('PASS roof cats: 0/1/2/max3, exact count, rear-view template, roof silhouette, all 12 coats, overlapping group, unique awake users, neutral fallback, unchanged buttons and no overflow at 320/375/390/430px.');return;
   }
   if(process.argv.includes('--test-day-cat-tap')){
