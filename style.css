@@ -110,3 +110,6 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
 
 /* One quiet profile card groups the selected coat and its availability. */
 .cat-coat-setting{padding:16px}.cat-coat-setting h2{margin:0 0 4px}.cat-coat-setting .setting-row{background:transparent;border:0;border-radius:0;padding:6px 0;min-height:36px}.cat-coat-setting .cat-coat-availability{margin:4px 0 0;padding-top:6px;border-top:1px solid var(--line);text-align:left}
+
+/* Compact only the profile role card while preserving horizontal padding. */
+.profile-banner~.role-setting{padding-block:10.5px 9.5px;align-items:center}
