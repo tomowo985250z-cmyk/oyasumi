@@ -98,3 +98,6 @@ main:has(>.tabs) .tabs button{font-size:15px;line-height:20.8px;padding-inline:8
 main:has(>.tabs) .reaction-count{font-size:13px;line-height:17.6px;margin-inline-start:4px}
 
 main:has(>.tabs) .reaction-count.compact-count{display:inline-block;position:relative;width:min(calc(var(--count-digits)*.4em),16px);height:17.6px;flex-shrink:0;white-space:nowrap}main:has(>.tabs) .compact-count>span{position:absolute;left:0;top:0;transform:scaleX(var(--count-scale));transform-origin:left center}
+
+/* Stats explanations only; preserve numeric labels and chart typography. */
+main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}main:has(>.tonight-cats) .summary-note{font-size:13px;line-height:17.6px}main:has(>.tonight-cats) .tonight-cats:not(:has(.sleeping-cats))>.muted,main:has(>.tonight-cats) .tonight-hours>.muted{font-size:15px;line-height:20.8px}
