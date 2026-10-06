@@ -26,7 +26,7 @@ assert(!t.chart([point(0,2),point(30,4)]).includes('サンプル'));
 const snapshot=(at,awake,sleeping)=>({time:Date.parse(at),awake,sleeping});
 const acrossMidnight=[snapshot('2026-10-05T23:00:00+09:00',8,2),snapshot('2026-10-06T01:00:00+09:00',3,7),snapshot('2026-10-06T05:59:00+09:00',1,9)];
 const dual=t.chart(acrossMidnight);
-assert(dual.includes('まだ起きてる人')&&dual.includes('もう寝た人'));
+assert(dual.includes('<i class="trend-awake"></i>まだ起きてる報告')&&dual.includes('<i class="trend-sleeping"></i>おやすみ報告'));
 assert.equal((dual.match(/<path class="curve /g)||[]).length,2);
 assert.equal((dual.match(/<circle /g)||[]).length,6);
 assert(dual.includes('23:00')&&dual.includes('01:00')&&dual.includes('05:59'));
