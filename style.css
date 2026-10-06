@@ -81,3 +81,6 @@ time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hou
 
 /* Center the two-line try-sleep label and its emoji as one group. */
 .status-actions .extra-post-button[data-post=try-sleep]{display:grid;place-items:center}.status-actions .extra-post-button[data-post=try-sleep]>span{width:auto;text-align:center}
+
+/* Enlarge count-card copy without changing its existing line boxes. */
+.count-card .awake-heading{font-size:17px;line-height:24px}.count-card .awake-heading .count{font-size:20px;line-height:27px}.count-card .awake-heading .count small{font-size:16px;line-height:22.4px}.count-card>p.muted{font-size:15px;line-height:20.8px}
