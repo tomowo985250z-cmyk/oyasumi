@@ -58,20 +58,26 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       for(const count of [null,0,1,2,3,8,12345]){
         await evaluate(`shared.awakeCount=${count};shared.feed=awakeFixture;go("home")`);
-        assert.equal(await evaluate('document.querySelectorAll(".awake-cats .cat-scene").length'),Math.min(3,count||0));
+        assert.equal(await evaluate('document.querySelectorAll(".awake-cats .roof-cat").length'),Math.min(3,count||0));
         assert.equal(await evaluate('document.querySelector(".count").textContent.trim()'),`${count??'—'} 人`);
         assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
         assert.equal(await evaluate('actions()'),await evaluate('beforeButtons'));
+        assert.equal(await evaluate('document.querySelectorAll(".awake-cats .cat-scene,.awake-cats .cat-face").length'),0,'No circular profile icons in rooftop scene');
+        assert.equal(await evaluate('document.querySelectorAll(".awake-roof").length'),count?1:0);
         if(count>=3){
-          assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .cat-scene"),e=>e.dataset.catCoat)'),['orange','gray','manul']);
-          assert(await evaluate('(()=>{const r=Array.from(document.querySelectorAll(".awake-cats .cat-scene"),e=>e.getBoundingClientRect());return r[1].left<r[0].right&&r[2].left<r[1].right&&r.every(e=>e.top===r[0].top)})()'));
+          assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.dataset.catCoat)'),['orange','gray','manul']);
+          assert(await evaluate('(()=>{const r=Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.getBoundingClientRect());return r[1].left<r[0].right&&r[2].left<r[1].right&&r.every(e=>e.top===r[0].top)})()'));
         }
         if(count===3){await evaluate('await Promise.all(Array.from(document.querySelectorAll(".awake-cats image"),e=>{const image=new Image();image.src=e.getAttribute("href");return image.decode()}))');await screenshot(`awake-cats-${width}.png`);}
       }
-      await evaluate('shared.feed=[];shared.awakeCount=3;go("home")');assert.equal(await evaluate('document.querySelectorAll(".awake-cats .cat-scene").length'),3);
-      assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .cat-scene"),e=>e.dataset.catCoat)'),['calico','calico','calico']);
+      await evaluate('shared.feed=[];shared.awakeCount=3;go("home")');assert.equal(await evaluate('document.querySelectorAll(".awake-cats .roof-cat").length'),3);
+      assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.dataset.catCoat)'),['unknown','unknown','unknown']);
     }
-    assert.deepEqual(errors,[]);console.log('PASS awake cats: 0/1/2/max3, exact count, overlapping group, awake users coats without duplicates, fallback, unchanged buttons and no overflow at 320/375/390/430px.');return;
+    for(const coat of await evaluate('CatFaces.coats.map(c=>c.id)')){
+      await evaluate(`shared.awakeCount=1;shared.feed=[{...awakeFixture[1],coat:${JSON.stringify(coat)}}];go("home")`);
+      assert.equal(await evaluate('document.querySelector(".roof-cat").dataset.catCoat'),coat);
+    }
+    assert.deepEqual(errors,[]);console.log('PASS roof cats: 0/1/2/max3, exact count, rear-view template, roof silhouette, all 12 coats, overlapping group, unique awake users, neutral fallback, unchanged buttons and no overflow at 320/375/390/430px.');return;
   }
   if(process.argv.includes('--test-day-cat-tap')){
     await evaluate('globalThis.originalDayCats=DayCats;globalThis.dayNow=Date.parse("2026-10-03T12:00:00+09:00");globalThis.DayCats={...DayCats,current:()=>originalDayCats.current(dayNow)};go("home");globalThis.tapRequests=0;globalThis.fetch=()=>{tapRequests++;throw new Error("Unexpected tap request")};for(const key of Object.keys(facesMock))if(typeof facesMock[key]==="function")facesMock[key]=()=>{tapRequests++;throw new Error("Unexpected tap API call")};globalThis.beforeTapState=JSON.stringify(state)');
