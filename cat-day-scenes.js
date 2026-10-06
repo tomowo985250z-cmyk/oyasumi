@@ -1,11 +1,11 @@
 // 昼の演出専用。プロフィール表情・就寝/起床シーン・保存データとは独立。
 globalThis.DayCats = (() => {
   const options = Object.freeze([
-    { id: 'relax', label: 'のんびり中…' },
-    { id: 'play', label: '遊んでる…' },
-    { id: 'groom', label: '毛づくろい中…' },
-    { id: 'doze', label: 'うとうと中…' },
-    { id: 'gaze', label: '外を眺めてる…' }
+    { id: 'relax', label: 'のんびり中' },
+    { id: 'play', label: '遊んでる' },
+    { id: 'groom', label: '毛づくろい中' },
+    { id: 'doze', label: 'うとうと中' },
+    { id: 'gaze', label: '外を眺めてる' }
   ].map(Object.freeze));
   const rules = Object.freeze({ startHour: 12, endHour: 18, intervalHours: 2 });
   function current(now = Date.now()) {
