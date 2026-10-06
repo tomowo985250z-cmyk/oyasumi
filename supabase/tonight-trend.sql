@@ -1,5 +1,6 @@
 -- SQL Editorで実行。投稿・認証・猫設定の既存RPC/RLSは変更しません。
 -- 各時点までの投稿から、一人につき最新の報告を集計します。
+-- 母集団は各時点で報告済みの参加者。起床＋睡眠＝母集団の人数を保証します。
 -- 削除された投稿は過去の推移からも除外されます。
 begin;
 
@@ -42,7 +43,9 @@ begin
   )
   select v_night, t.point,
     count(*) filter (where latest.choice = 'awake'),
-    count(*) filter (where latest.choice in ('sleep', 'try-sleep', 'early-sleep'))
+    -- choiceは4種類に制約済み。寝た人数は同じ母集団の補集合です。
+    -- LEFT JOINの空行は人数に含めません。
+    count(latest.user_id) - count(*) filter (where latest.choice = 'awake')
   from points t
   left join lateral (
     select distinct on (p.user_id) p.user_id, p.choice
