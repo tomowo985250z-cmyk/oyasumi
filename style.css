@@ -11,6 +11,7 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 
 .day-hero{text-align:center;padding:4px 0 24px}.day-cat{width:min(220px,72vw);margin:0 auto 14px}.cat-day-scene{display:block;width:100%;height:auto}.day-hero h2{font-size:22px;margin:0 0 8px}.day-hero p{color:var(--muted);font-size:14px;margin:0}
 .day-cat{display:block;padding:0;background:transparent;touch-action:manipulation}.day-cat:hover{filter:none}.day-cat:active{transform:none}
+.awake-count-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;column-gap:12px}.awake-cats{display:flex;align-items:center;flex-shrink:0;isolation:isolate}.awake-cats .cat-scene{display:block;width:52px;height:52px;position:relative}.awake-cats .cat-scene+.cat-scene{margin-left:-24px}.awake-cats .cat-scene:nth-child(2){z-index:1}.awake-cats .cat-scene:nth-child(3){z-index:2}
 /* 終了画面自身を全面の背景にし、Safariでも暗転レイヤーを確実に重ねる。 */
 .rest-screen{position:fixed;inset:0;z-index:10;isolation:isolate;min-height:0;padding:24px 22px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));background:linear-gradient(155deg,#0b1934,#041121 75%)}
 .rest-screen::before{position:absolute;z-index:0}

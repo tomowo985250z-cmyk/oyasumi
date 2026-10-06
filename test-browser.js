@@ -27,7 +27,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
-  if(process.argv.includes('--test-day-cat-tap')||process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown')||process.argv.includes('--test-reaction-effects'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
+if(process.argv.includes('--test-awake-cats')||process.argv.includes('--test-day-cat-tap')||process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown')||process.argv.includes('--test-reaction-effects'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
   if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   if(process.argv.includes('--test-dark-hint'))await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:process.argv.includes('--dark-device')?'dark':'light'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
@@ -52,6 +52,27 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-awake-cats')){
+await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",coat:"black"},{id:"a",userId:"a",status:"awake",coat:"orange"},{id:"dup",userId:"a",status:"awake",coat:"black"},{id:"b",userId:"b",status:"awake",coat:"gray"},{id:"c",userId:"c",status:"awake",coat:"manul"}].map(post=>({...post,time:Date.now(),name:"検証猫",expression:"calm"}));globalThis.beforeButtons=actions()');
+    for(const width of [320,375,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      for(const count of [null,0,1,2,3,8,12345]){
+        await evaluate(`shared.awakeCount=${count};shared.feed=awakeFixture;go("home")`);
+        assert.equal(await evaluate('document.querySelectorAll(".awake-cats .cat-scene").length'),Math.min(3,count||0));
+        assert.equal(await evaluate('document.querySelector(".count").textContent.trim()'),`${count??'—'} 人`);
+        assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+        assert.equal(await evaluate('actions()'),await evaluate('beforeButtons'));
+        if(count>=3){
+          assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .cat-scene"),e=>e.dataset.catCoat)'),['orange','gray','manul']);
+          assert(await evaluate('(()=>{const r=Array.from(document.querySelectorAll(".awake-cats .cat-scene"),e=>e.getBoundingClientRect());return r[1].left<r[0].right&&r[2].left<r[1].right&&r.every(e=>e.top===r[0].top)})()'));
+        }
+        if(count===3){await evaluate('await Promise.all(Array.from(document.querySelectorAll(".awake-cats image"),e=>{const image=new Image();image.src=e.getAttribute("href");return image.decode()}))');await screenshot(`awake-cats-${width}.png`);}
+      }
+      await evaluate('shared.feed=[];shared.awakeCount=3;go("home")');assert.equal(await evaluate('document.querySelectorAll(".awake-cats .cat-scene").length'),3);
+      assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .cat-scene"),e=>e.dataset.catCoat)'),['calico','calico','calico']);
+    }
+    assert.deepEqual(errors,[]);console.log('PASS awake cats: 0/1/2/max3, exact count, overlapping group, awake users coats without duplicates, fallback, unchanged buttons and no overflow at 320/375/390/430px.');return;
+  }
   if(process.argv.includes('--test-day-cat-tap')){
     await evaluate('globalThis.originalDayCats=DayCats;globalThis.dayNow=Date.parse("2026-10-03T12:00:00+09:00");globalThis.DayCats={...DayCats,current:()=>originalDayCats.current(dayNow)};go("home");globalThis.tapRequests=0;globalThis.fetch=()=>{tapRequests++;throw new Error("Unexpected tap request")};for(const key of Object.keys(facesMock))if(typeof facesMock[key]==="function")facesMock[key]=()=>{tapRequests++;throw new Error("Unexpected tap API call")};globalThis.beforeTapState=JSON.stringify(state)');
     for(const width of [320,375,390,430]){

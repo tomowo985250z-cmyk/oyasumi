@@ -65,7 +65,14 @@ const statusText = status => POST_OPTIONS.find(option => option.id === status)?.
 const avatar = p => `<span class="avatar ${p.color || 'peach'}" aria-hidden="true">${CatFaces.svg(p.expression,p.coat)}</span>`;
 const header = (title='おやすみ', back=false) => `<header class="header">${back?'<button class="icon-button" data-view="home" aria-label="ホームに戻る">‹</button>':'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { if(view==='rest'){nav.innerHTML='';nav.hidden=true;return;}const items=[['home','ホーム'],['timeline','タイムライン'],['stats','今夜の様子'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=view==='sleep'; }
-function countCard() { return `<section class="card count-card"><h2>今夜まだ起きてる人</h2><div class="count">${shared.awakeCount ?? '—'}<small> 人</small></div><p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend)}">${escapeHTML(TonightTrend.comment(shared.trend))}</p></section>`; }
+function awakeCats() {
+ const count=Number.isFinite(shared.awakeCount)?Math.min(3,Math.max(0,shared.awakeCount)):0;
+ if(!count)return '';
+ const users=new Set(),coats=[];
+ for(const post of shared.feed){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
+ return `<span class="awake-cats" aria-hidden="true">${Array.from({length:count},(_,index)=>CatScenes.svg('awake',coats[index]||'calico')).join('')}</span>`;
+}
+function countCard() { return `<section class="card count-card"><h2>今夜まだ起きてる人</h2><div class="awake-count-row">${awakeCats()}<div class="count">${shared.awakeCount ?? '—'}<small> 人</small></div></div><p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend)}">${escapeHTML(TonightTrend.comment(shared.trend))}</p></section>`; }
 function actions() { return `<div class="status-actions"><button class="status-button awake" data-post="awake"><span class="status-symbol" aria-hidden="true">😴</span><span><strong>まだ寝れない…</strong><small>（いま起きてる）</small></span></button><button class="status-button sleep" data-post="sleep"><span class="status-symbol moon-symbol" aria-hidden="true">☾</span><span><strong>もう寝るよ 🌙</strong><small>（おやすみする）</small></span></button><div class="extra-post-options">${POST_OPTIONS.slice(2).map(option=>`<button class="extra-post-button" data-post="${option.id}">${option.text}</button>`).join('')}</div><p class="choice-note">ひとつ選ぶだけ。寝る報告のあとは、スマホを置いて。</p></div>`; }
 function chart() { return `<section class="card chart"><h2>今夜の推移</h2>${TonightTrend.chart(shared.trend)}</section>`; }
 function stats() {
