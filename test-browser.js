@@ -66,6 +66,8 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
         if(count){
           assert.deepEqual(await evaluate('(()=>{const e=document.querySelector(".awake-cats"),s=getComputedStyle(e);return [s.width,s.height]})()'),['208px','110px']);
           assert.deepEqual(await evaluate('(()=>{const s=getComputedStyle(document.querySelector(".roof-cat"));return [s.width,s.height]})()'),['68px','102px'],'Cats are 1.42 times larger');
+          assert.equal(await evaluate('document.querySelectorAll(".roof-stars circle").length'),7);
+          assert.equal(await evaluate('document.querySelectorAll(".roof-moon").length'),1);
           assert(await evaluate('document.querySelector(".awake-heading").getBoundingClientRect().bottom<=document.querySelector(".awake-cats").getBoundingClientRect().top'));
         }
         assert.equal(await evaluate('document.querySelectorAll(".awake-cats .cat-scene,.awake-cats .cat-face").length'),0,'No circular profile icons in rooftop scene');
@@ -83,6 +85,13 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     for(const coat of await evaluate('CatFaces.coats.map(c=>c.id)')){
       await evaluate(`shared.awakeCount=1;shared.feed=[{...awakeFixture[1],coat:${JSON.stringify(coat)}}];go("home")`);
       assert.equal(await evaluate('document.querySelector(".roof-cat").dataset.catCoat'),coat);
+    }
+    await send('Emulation.setDeviceMetricsOverride',{width:320,height:844,deviceScaleFactor:1,mobile:true});
+    for(const coats of [['calico','orange','brown'],['silver','black','white'],['tuxedo','gray','manul'],['sand','black-footed','fishing']]){
+      await evaluate(`shared.awakeCount=3;shared.feed=${JSON.stringify(coats)}.map((coat,i)=>({...awakeFixture[1],id:'coat-'+i,userId:'coat-'+i,coat}));go("home")`);
+      await evaluate('await Promise.all(Array.from(document.querySelectorAll(".awake-cats image"),e=>{const image=new Image();image.src=e.getAttribute("href");return image.decode()}))');
+      const clip=await evaluate('(()=>{const r=document.querySelector(".count-card").getBoundingClientRect();return {x:r.left,y:r.top+scrollY,width:r.width,height:r.height,scale:1}})()');
+      const shot=await send('Page.captureScreenshot',{format:'png',clip});fs.writeFileSync(`test-results/roof-coats-${coats.join('-')}.png`,Buffer.from(shot.data,'base64'));
     }
     assert.deepEqual(errors,[]);console.log('PASS roof cats: 0/1/2/max3, exact count, rear-view template, roof silhouette, all 12 coats, overlapping group, unique awake users, neutral fallback, unchanged buttons and no overflow at 320/375/390/430px.');return;
   }

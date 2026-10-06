@@ -1,5 +1,16 @@
 # Rooftop cats
 
+## Scene finishing
+
+The existing storybook PNG silhouettes, poses, sizes and positions are unchanged.
+Coat painting uses softly blended filled shapes: tapered flank/dorsal tabby
+markings, irregular calico patches, white tuxedo extremities, subtle manul
+grizzling, pale sand-cat markings, and irregular spots for black-footed/fishing
+cats. The relaxed pose mirrors the markings to follow its left-curving tail.
+Solid coats retain the template's watercolor shading. No new raster image was
+generated for this finishing pass. The dark navy tiled roof, seven faint stars
+and small crescent are drawn in the existing 208 × 110 scene with SVG.
+
 The current scene uses `storybook-upright.png`, `storybook-relaxed.png`, and
 `storybook-rounded.png`. These new soft watercolor/gouache rear-view templates
 were generated with the built-in imagegen tool, using the preceding rear-view
