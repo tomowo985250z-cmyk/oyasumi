@@ -90,3 +90,6 @@ main:has(>.home-heading) .dark-mode-hint{font-size:13px}main:has(>.home-heading)
 
 /* Tighten only the home feed heading-to-first-person gap. */
 main:has(>.home-heading) .section-heading:has(+.mini-feed){margin-bottom:10px}
+
+/* Timeline-only tabs and supporting labels retain their existing line boxes. */
+main:has(>.tabs) .tabs button{font-size:15px;line-height:20.8px;padding-inline:8px}main:has(>.tabs) .post-name .cat-role-tag{font-size:12px;line-height:15px}main:has(>.tabs) .self-tag{font-size:12px;line-height:16px}main:has(>.tabs) .post time{font-size:14px;line-height:19.2px}main:has(>.tabs)>.sample-tag{font-size:13px;line-height:17.6px}
