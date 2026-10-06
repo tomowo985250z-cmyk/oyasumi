@@ -78,3 +78,6 @@ time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hou
 
 /* Keep text emoji sizing and the two lower choices consistent at every width. */
 .status-actions .post-label-emoji{display:inline-block;font-size:1em;line-height:1;vertical-align:-.08em}.status-actions .post-label-line{display:block;white-space:nowrap}
+
+/* Center the two-line try-sleep label and its emoji as one group. */
+.status-actions .extra-post-button[data-post=try-sleep]{display:grid;place-items:center}.status-actions .extra-post-button[data-post=try-sleep]>span{width:auto;text-align:center}
