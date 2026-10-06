@@ -1,5 +1,15 @@
 # Rooftop cats
 
+## Pair composition
+
+Two users select the upright and rounded silhouettes, keeping different ears,
+tails and builds. Rear-view artwork and its coat painting are mirrored together
+where needed so all cats face toward the existing moon. The cats sit inside a
+broad, gently sloping tiled roof plane, with subtle contact shadows under their
+haunches. The second cat in a pair sits 2px lower along that slope. Counts still
+use one cat for one user, two for two, and at most three for larger totals.
+The scene footprint, cat sizes, moon, stars, colors, copy and behavior are kept.
+
 ## Scene finishing
 
 The existing storybook PNG silhouettes, poses, sizes and positions are unchanged.

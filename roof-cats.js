@@ -20,12 +20,13 @@ globalThis.RoofCats = (() => {
   }
   return '';
  }
- function svg(value,index) {
+ function svg(value,index,count=3) {
   const coat=Object.hasOwn(palettes,value)?value:'unknown', [fur,mark]=palettes[coat],mask=`roof-fur-${index}`;
-  const poseIndex=index%templates.length,pose=templates[poseIndex],template=`assets/roof-cats/${pose}.png?v=${versions[poseIndex]}`;
+  const poseIndex=count===2?[0,2][index]:index%templates.length,pose=templates[poseIndex],template=`assets/roof-cats/${pose}.png?v=${versions[poseIndex]}`;
   const pattern=coatPainting(coat,mark),wash=`roof-wash-${index}`,soft=`roof-soft-${index}`;
   const placement=poseIndex===1?'translate(100 0) scale(-1 1)':'';
-  return `<svg class="roof-cat" viewBox="0 0 100 150" aria-hidden="true" focusable="false" data-cat-coat="${coat}" data-cat-pose="${pose}"><defs><linearGradient id="${wash}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${fur}"/><stop offset=".55" stop-color="${fur}"/><stop offset="1" stop-color="${mark}" stop-opacity=".85"/></linearGradient><filter id="${soft}" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".65"/></filter><mask id="${mask}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="150" style="mask-type:alpha"><image href="${template}" width="100" height="150"/></mask></defs><g mask="url(#${mask})"><rect width="100" height="150" fill="url(#${wash})"/><g transform="scale(1 1.5)" filter="url(#${soft})"><g transform="${placement}">${pattern}</g></g><image href="${template}" width="100" height="150" style="mix-blend-mode:multiply"/></g></svg>`;
+  const direction=poseIndex===1?'':'translate(100 0) scale(-1 1)';
+  return `<svg class="roof-cat" viewBox="0 0 100 150" aria-hidden="true" focusable="false" data-cat-coat="${coat}" data-cat-pose="${pose}" data-cat-facing="moon"><defs><linearGradient id="${wash}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${fur}"/><stop offset=".55" stop-color="${fur}"/><stop offset="1" stop-color="${mark}" stop-opacity=".85"/></linearGradient><filter id="${soft}" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".65"/></filter><mask id="${mask}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="150" style="mask-type:alpha"><image href="${template}" width="100" height="150"/></mask></defs><ellipse class="roof-contact" cx="50" cy="141" rx="27" ry="3" fill="#0d172b" opacity=".26"/><g transform="${direction}"><g mask="url(#${mask})"><rect width="100" height="150" fill="url(#${wash})"/><g transform="scale(1 1.5)" filter="url(#${soft})"><g transform="${placement}">${pattern}</g></g><image href="${template}" width="100" height="150" style="mix-blend-mode:multiply"/></g></g></svg>`;
  }
  return Object.freeze({svg});
 })();

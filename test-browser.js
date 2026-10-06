@@ -77,7 +77,14 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
           assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.dataset.catPose)'),['storybook-upright','storybook-relaxed','storybook-rounded']);
           assert(await evaluate('(()=>{const r=Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.getBoundingClientRect());return r[1].left<r[0].right&&r[2].left<r[1].right&&r.every(e=>e.top===r[0].top)})()'));
         }
+        if(count===2){
+          assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".roof-cat"),e=>e.dataset.catPose)'),['storybook-upright','storybook-rounded']);
+          assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".roof-cat"),e=>e.dataset.catFacing)'),['moon','moon']);
+          assert.equal(await evaluate('document.querySelectorAll(".roof-contact").length'),2);
+          assert.equal(await evaluate('getComputedStyle(document.querySelectorAll(".roof-cat")[1]).transform'),'matrix(1, 0, 0, 1, 0, 2)');
+        }
         if(count===3){await evaluate('await Promise.all(Array.from(document.querySelectorAll(".awake-cats image"),e=>{const image=new Image();image.src=e.getAttribute("href");return image.decode()}))');await screenshot(`awake-cats-${width}.png`);}
+        if(count===2){await evaluate('await Promise.all(Array.from(document.querySelectorAll(".awake-cats image"),e=>{const image=new Image();image.src=e.getAttribute("href");return image.decode()}))');await screenshot(`roof-pair-${width}.png`);}
       }
       await evaluate('shared.feed=[];shared.awakeCount=3;go("home")');assert.equal(await evaluate('document.querySelectorAll(".awake-cats .roof-cat").length'),3);
       assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.dataset.catCoat)'),['unknown','unknown','unknown']);
