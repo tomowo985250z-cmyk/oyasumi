@@ -62,11 +62,14 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
         assert.equal(await evaluate('document.querySelector(".count").textContent.trim()'),`${count??'—'} 人`);
         assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
         assert.equal(await evaluate('actions()'),await evaluate('beforeButtons'));
+        assert(await evaluate('(()=>{const h=document.querySelector(".awake-heading"),p=h.parentElement.querySelector("p");return h.getBoundingClientRect().bottom<=p.getBoundingClientRect().top})()'),'Heading and description never overlap, including zero/loading');
         assert(await evaluate('document.querySelector(".count").closest(".awake-heading")!==null'),'Exact count belongs to the heading');
         if(count){
           assert.deepEqual(await evaluate('(()=>{const e=document.querySelector(".awake-cats"),s=getComputedStyle(e);return [s.width,s.height]})()'),['208px','110px']);
           assert.deepEqual(await evaluate('(()=>{const s=getComputedStyle(document.querySelector(".roof-cat"));return [s.width,s.height]})()'),['68px','102px'],'Cats are 1.42 times larger');
-          assert.equal(await evaluate('document.querySelectorAll(".roof-stars circle").length'),7);
+          assert.equal(await evaluate('document.querySelectorAll(".roof-stars circle").length'),15);
+          assert.equal(await evaluate('document.querySelectorAll(".roof-stars path").length'),3);
+          assert.deepEqual(await evaluate('(()=>{const h=document.querySelector(".awake-heading"),p=h.parentElement.querySelector("p");return [getComputedStyle(h).top,getComputedStyle(p).top]})()'),['6px','-6px']);
           assert.equal(await evaluate('document.querySelectorAll(".roof-moon").length'),1);
           assert(await evaluate('document.querySelector(".awake-heading").getBoundingClientRect().bottom<=document.querySelector(".awake-cats").getBoundingClientRect().top'));
         }

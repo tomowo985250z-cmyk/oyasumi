@@ -1,5 +1,13 @@
 # Rooftop cats
 
+## Quiet star field and card spacing
+
+The existing scene now has 18 irregularly placed stars: 15 tiny dots with
+different sizes/brightness and three very small crosses. The moon, roof, cats
+and scene positions are unchanged. Only the heading and explanation are moved
+6px toward the scene, without changing their font sizes or copy. Empty/loading
+cards keep enough spacing so the two text lines do not overlap.
+
 ## Pair composition
 
 Two users select the upright and rounded silhouettes, keeping different ears,
