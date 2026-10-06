@@ -118,7 +118,7 @@ function reactionButtons(post) {
  return `<div class="reaction-options" role="group" aria-label="${escapeHTML(post.name)}へのリアクション">${REACTION_OPTIONS.map(option => {
   const selected = state.reactions[post.id] === option.id;
   const count = shared.reactionCounts[post.id]?.[option.id] ?? 0;
-  return `<button class="reaction ${selected?'selected':''}" data-react="${post.id}" data-reaction="${option.id}" aria-pressed="${selected}" aria-label="${escapeHTML(post.name)}に${option.text}のリアクション">${option.text}<span class="reaction-count">${count}</span></button>`;
+  return `<button class="reaction ${selected?'selected':''}" data-react="${post.id}" data-reaction="${option.id}" aria-pressed="${selected}" aria-label="${escapeHTML(post.name)}に${option.text}のリアクション">${option.text}<span class="reaction-count${count >= 100 ? ' compact-count' : ''}"${count >= 100 ? ` style="--count-digits:${String(count).length};--count-scale:${Math.min(.55,16/(String(count).length*9))}"` : ''}>${count >= 100 ? `<span>${count}</span>` : count}</span></button>`;
  }).join('')}</div>`;
 }
 function timeline() {

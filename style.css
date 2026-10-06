@@ -93,3 +93,8 @@ main:has(>.home-heading) .section-heading:has(+.mini-feed){margin-bottom:10px}
 
 /* Timeline-only tabs and supporting labels retain their existing line boxes. */
 main:has(>.tabs) .tabs button{font-size:15px;line-height:20.8px;padding-inline:8px}main:has(>.tabs) .post-name .cat-role-tag{font-size:12px;line-height:15px}main:has(>.tabs) .self-tag{font-size:12px;line-height:16px}main:has(>.tabs) .post time{font-size:14px;line-height:19.2px}main:has(>.tabs)>.sample-tag{font-size:13px;line-height:17.6px}
+
+/* Timeline reaction counts gain legibility without changing button metrics. */
+main:has(>.tabs) .reaction-count{font-size:13px;line-height:17.6px;margin-inline-start:4px}
+
+main:has(>.tabs) .reaction-count.compact-count{display:inline-block;position:relative;width:min(calc(var(--count-digits)*.4em),16px);height:17.6px;flex-shrink:0;white-space:nowrap}main:has(>.tabs) .compact-count>span{position:absolute;left:0;top:0;transform:scaleX(var(--count-scale));transform-origin:left center}
