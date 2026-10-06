@@ -70,7 +70,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
           assert.deepEqual(await evaluate('(()=>{const s=getComputedStyle(document.querySelector(".roof-cat"));return [s.width,s.height]})()'),['68px','102px'],'Cats are 1.42 times larger');
           assert.equal(await evaluate('document.querySelectorAll(".roof-stars circle").length'),15);
           assert.equal(await evaluate('document.querySelectorAll(".roof-stars path").length'),3);
-          assert.equal(await evaluate('document.querySelectorAll("[data-star-tone=warm]").length'),13);
+          assert.equal(await evaluate('document.querySelectorAll("[data-star-tone=warm]").length'),16);
           assert.equal(await evaluate('document.querySelectorAll("[data-star-tone=cool]").length'),5);
           assert.equal(await evaluate('document.querySelectorAll(".roof-twinkle").length'),4);
           assert(await evaluate('Array.from(document.querySelectorAll(".roof-twinkle"),e=>parseFloat(getComputedStyle(e).animationDuration)).every(s=>s>=3&&s<=6)'));
