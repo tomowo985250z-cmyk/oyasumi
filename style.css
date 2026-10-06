@@ -104,3 +104,6 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
 
 /* Two snapshot series share a scale; dashes also distinguish sleeping counts. */
 .trend-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:12px;margin:0 0 10px}.trend-legend span{display:inline-flex;align-items:center;gap:5px}.trend-legend i{display:block;width:16px;border-top:3px solid #90acff}.trend-legend .trend-sleeping{border-color:#ffb5ab;border-top-style:dashed}.chart .curve.trend-sleeping{stroke:#ffb5ab;stroke-dasharray:5 3}.chart g.trend-awake{fill:#90acff}.chart g.trend-sleeping{fill:#ffb5ab}
+
+/* Enlarge only the profile note prompt and empty placeholder. */
+.profile-banner .profile-note-button>span:first-child{font-size:14px;line-height:19.2px}.profile-banner .profile-note-button .profile-note-text.is-empty{font-size:14px;line-height:19.2px}
