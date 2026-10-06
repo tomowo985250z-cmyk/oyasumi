@@ -84,3 +84,6 @@ time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hou
 
 /* Enlarge count-card copy without changing its existing line boxes. */
 .count-card .awake-heading{font-size:17px;line-height:24px}.count-card .awake-heading .count{font-size:20px;line-height:27px}.count-card .awake-heading .count small{font-size:16px;line-height:22.4px}.count-card>p.muted{font-size:15px;line-height:20.8px}
+
+/* Home-only supporting copy; retain existing line heights and weights. */
+main:has(>.home-heading) .dark-mode-hint{font-size:13px}main:has(>.home-heading) .day-hero p{font-size:16px;line-height:22.4px}main:has(>.home-heading) .count-card>p.muted{font-size:17px}main:has(>.home-heading) .section-heading small{font-size:13px;line-height:17.6px}main:has(>.home-heading) .mini-row time{font-size:13px;line-height:20.8px}main:has(>.home-heading) .sample-tag{font-size:13px;line-height:17.6px}main:has(>.home-heading) .choice-note,main:has(>.home-heading)>.quiet-note{font-size:14px;line-height:19.2px}main:has(>.home-heading) .status-actions small{font-size:13px;line-height:16.8px}
