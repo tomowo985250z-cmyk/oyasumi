@@ -62,12 +62,17 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
         assert.equal(await evaluate('document.querySelector(".count").textContent.trim()'),`${count??'—'} 人`);
         assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
         assert.equal(await evaluate('actions()'),await evaluate('beforeButtons'));
-        if(count)assert.deepEqual(await evaluate('(()=>{const e=document.querySelector(".awake-cats"),s=getComputedStyle(e);return [s.width,s.height]})()'),['132px','76px'],'Rooftop footprint is unchanged');
+        assert(await evaluate('document.querySelector(".count").closest(".awake-heading")!==null'),'Exact count belongs to the heading');
+        if(count){
+          assert.deepEqual(await evaluate('(()=>{const e=document.querySelector(".awake-cats"),s=getComputedStyle(e);return [s.width,s.height]})()'),['208px','110px']);
+          assert.deepEqual(await evaluate('(()=>{const s=getComputedStyle(document.querySelector(".roof-cat"));return [s.width,s.height]})()'),['68px','102px'],'Cats are 1.42 times larger');
+          assert(await evaluate('document.querySelector(".awake-heading").getBoundingClientRect().bottom<=document.querySelector(".awake-cats").getBoundingClientRect().top'));
+        }
         assert.equal(await evaluate('document.querySelectorAll(".awake-cats .cat-scene,.awake-cats .cat-face").length'),0,'No circular profile icons in rooftop scene');
         assert.equal(await evaluate('document.querySelectorAll(".awake-roof").length'),count?1:0);
         if(count>=3){
           assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.dataset.catCoat)'),['orange','gray','manul']);
-          assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.dataset.catPose)'),['rear-upright','rear-relaxed','rear-rounded']);
+          assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.dataset.catPose)'),['storybook-upright','storybook-relaxed','storybook-rounded']);
           assert(await evaluate('(()=>{const r=Array.from(document.querySelectorAll(".awake-cats .roof-cat"),e=>e.getBoundingClientRect());return r[1].left<r[0].right&&r[2].left<r[1].right&&r.every(e=>e.top===r[0].top)})()'));
         }
         if(count===3){await evaluate('await Promise.all(Array.from(document.querySelectorAll(".awake-cats image"),e=>{const image=new Image();image.src=e.getAttribute("href");return image.decode()}))');await screenshot(`awake-cats-${width}.png`);}

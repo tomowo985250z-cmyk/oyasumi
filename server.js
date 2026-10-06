@@ -8,6 +8,7 @@ files['/cat-coat-cooldown.js']='cat-coat-cooldown.js';
 files['/roof-cats.js']='roof-cats.js';
 files['/assets/roof-cats/rear-template.png']='assets/roof-cats/rear-template.png';
 for(const pose of ['rear-upright','rear-relaxed','rear-rounded'])files[`/assets/roof-cats/${pose}.png`]=`assets/roof-cats/${pose}.png`;
+for(const pose of ['storybook-upright','storybook-relaxed','storybook-rounded'])files[`/assets/roof-cats/${pose}.png`]=`assets/roof-cats/${pose}.png`;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/wild-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/wild-cats/'+file]='assets/wild-cats/'+file;
 types['.png']='image/png';
 types['.woff2']='font/woff2';

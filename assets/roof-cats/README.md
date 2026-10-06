@@ -1,6 +1,31 @@
 # Rooftop cats
 
-The current scene uses `rear-upright.png`, `rear-relaxed.png`, and
+The current scene uses `storybook-upright.png`, `storybook-relaxed.png`, and
+`storybook-rounded.png`. These new soft watercolor/gouache rear-view templates
+were generated with the built-in imagegen tool, using the preceding rear-view
+poses as edit targets and `calico-faces-calm.png` as a style reference only.
+Existing app cat artwork was not modified. Production images preserve alpha
+and are scaled to 256 × 384. The user coat colors and patterns remain applied
+by `roof-cats.js`. Cat size is now 68 × 102 (previously 48 × 72), about 1.42×.
+
+## Storybook generation prompts
+
+### storybook-upright
+
+Use case: precise-object-edit. Image 1 is the rear-view cat edit target. Image 2 is ONLY the app's existing soft storybook art style reference; do not edit Image 2. Redraw Image 1 in a SOFT CHILDREN'S PICTURE-BOOK ILLUSTRATION style matching Image 2: simple rounded shapes, soft watercolor/gouache fills, subtly textured broad brushwork, muted gentle outlines. NOT semi-realistic, NOT photographic, NO detailed individual hairs, NO pencil hatching. Keep a naturally feline body: modest head size, relaxed shoulder curve, gently tapered waist, round seated haunches and a graceful natural tail. Exactly ONE seated cat viewed strictly from behind, looking upward, NO eyes or face. WHITE/NEUTRAL GRAYSCALE fur and shading only, no colored patches/stripes; actual user's coat colors/patterns will be composited in the app. Full body, ears and tail fully visible within a centered portrait 2:3 frame; ear tops around 9% height and haunches/tail rest on a common baseline around 93% height. This must read warmly and clearly at 100px tall. Truly transparent alpha background, NO external glow/shadow, NO roof, sky, circle/badge, moon, stars, text or scenery. Average-size cat with a gently upright back, head turned slightly up and LEFT, tail softly curled to the RIGHT. A calm, friendly back silhouette.
+
+### storybook-relaxed
+
+Use case: precise-object-edit. Image 1 is the rear-view cat edit target. Image 2 is ONLY the app's existing soft storybook art style reference; do not edit Image 2. Redraw Image 1 in a SOFT CHILDREN'S PICTURE-BOOK ILLUSTRATION style matching Image 2: simple rounded shapes, soft watercolor/gouache fills, subtly textured broad brushwork, muted gentle outlines. NOT semi-realistic, NOT photographic, NO detailed individual hairs, NO pencil hatching. Keep a naturally feline body: modest head size, relaxed shoulder curve, gently tapered waist, round seated haunches and a graceful natural tail. Exactly ONE seated cat viewed strictly from behind, looking upward, NO eyes or face. WHITE/NEUTRAL GRAYSCALE fur and shading only, no colored patches/stripes; actual user's coat colors/patterns will be composited in the app. Full body, ears and tail fully visible within a centered portrait 2:3 frame; ear tops around 9% height and haunches/tail rest on a common baseline around 93% height. This must read warmly and clearly at 100px tall. Truly transparent alpha background, NO external glow/shadow, NO roof, sky, circle/badge, moon, stars, text or scenery. Slightly smaller, relaxed cat with back leaning gently inward LEFT, head turned subtly up and RIGHT, asymmetric relaxed shoulders, tail curling around LEFT haunch. Different pose from the upright cat.
+
+### storybook-rounded
+
+Use case: precise-object-edit. Image 1 is the rear-view cat edit target. Image 2 is ONLY the app's existing soft storybook art style reference; do not edit Image 2. Redraw Image 1 in a SOFT CHILDREN'S PICTURE-BOOK ILLUSTRATION style matching Image 2: simple rounded shapes, soft watercolor/gouache fills, subtly textured broad brushwork, muted gentle outlines. NOT semi-realistic, NOT photographic, NO detailed individual hairs, NO pencil hatching. Keep a naturally feline body: modest head size, relaxed shoulder curve, gently tapered waist, round seated haunches and a graceful natural tail. Exactly ONE seated cat viewed strictly from behind, looking upward, NO eyes or face. WHITE/NEUTRAL GRAYSCALE fur and shading only, no colored patches/stripes; actual user's coat colors/patterns will be composited in the app. Full body, ears and tail fully visible within a centered portrait 2:3 frame; ear tops around 9% height and haunches/tail rest on a common baseline around 93% height. This must read warmly and clearly at 100px tall. Truly transparent alpha background, NO external glow/shadow, NO roof, sky, circle/badge, moon, stars, text or scenery. Slightly broader seated cat with gently rounded haunches and a small relaxed shoulder hunch, head tilted up a little LEFT, tail softly curved to the RIGHT. Natural proportions, not a chibi toy. Distinct from the other two.
+
+## Previous assets and prompts
+
+
+The previous semi-realistic scene used `rear-upright.png`, `rear-relaxed.png`, and
 `rear-rounded.png`: three semi-realistic rear-view poses, generated separately
 with the built-in imagegen tool using the original template as the edit target.
 The production PNGs preserve transparency and are scaled to 256 × 384 pixels.

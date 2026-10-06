@@ -1,8 +1,8 @@
 // Dedicated rear-view artwork. Existing profile, daytime and sleep cats are unchanged.
 globalThis.RoofCats = (() => {
  const palettes={calico:['#fff6e8','#dd963d'],orange:['#e9ad68','#a66934'],brown:['#9a8060','#514536'],silver:['#b9bbbf','#6d747e'],black:['#383d48','#383d48'],white:['#f2eee6','#f2eee6'],tuxedo:['#343944','#f2eee6'],gray:['#969ba6','#969ba6'],manul:['#aca595','#70695e'],sand:['#dfc599','#a78d64'],'black-footed':['#c8ae83','#60513d'],fishing:['#a5a69a','#555e55'],unknown:['#7d899e','#7d899e']};
- const templates=['rear-upright','rear-relaxed','rear-rounded'];
- const versions=['e232a6773f822dff','ea0d9714960d42da','8a25e44ac137e168'];
+ const templates=['storybook-upright','storybook-relaxed','storybook-rounded'];
+ const versions=['afdac2a62e721459','e30e2af13cad743e','c187710ce839af2d'];
  function svg(value,index) {
   const coat=Object.hasOwn(palettes,value)?value:'unknown', [fur,mark]=palettes[coat],mask=`roof-fur-${index}`;
   const poseIndex=index%templates.length,pose=templates[poseIndex],template=`assets/roof-cats/${pose}.png?v=${versions[poseIndex]}`;
