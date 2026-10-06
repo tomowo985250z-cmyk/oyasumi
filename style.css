@@ -47,6 +47,8 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .reaction-options .reaction,.status-actions .status-button,.status-actions .extra-post-button{font-family:var(--app-font);font-weight:600}
 .reaction-options .reaction{font-size:16px;white-space:normal}
 .status-actions .status-button strong{font-weight:600}
+/* Home posting choices share a quiet surface and a short touch response. */
+.status-actions .extra-post-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.status-actions .status-button,.status-actions .extra-post-button{height:128px;min-height:128px;min-width:0;padding:12px 8px;border:1px solid #ffffff18;border-radius:22px;box-shadow:inset 0 1px 0 #ffffff20,0 3px 8px #02081518;transition:transform 100ms ease-out,box-shadow 100ms ease-out;touch-action:manipulation;filter:none}.status-actions .extra-post-button{display:flex;align-items:center;justify-content:center;line-height:1.5;text-wrap:balance}.status-actions .status-button>span:last-child{line-height:1.5}.status-actions .status-button:active:not(:disabled),.status-actions .extra-post-button:active:not(:disabled){transform:translateY(1px) scale(.98);box-shadow:inset 0 1px 3px #02081520,0 1px 3px #02081512}
 .header{position:relative}
 .header .wordmark{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;pointer-events:none}
 @media(max-width:350px){.header:has(.eyebrow) .wordmark{font-size:19px}}
