@@ -5,6 +5,7 @@ const files = { '/': 'index.html', '/index.html': 'index.html', '/style.css': 's
 const types = { '.html': 'text/html', '.json': 'application/json', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml' };
 files['/wild-cat-assets.js']='wild-cat-assets.js';
 files['/cat-coat-cooldown.js']='cat-coat-cooldown.js';
+files['/timeline-visibility.js']='timeline-visibility.js';
 files['/roof-cats.js']='roof-cats.js';
 files['/assets/roof-cats/rear-template.png']='assets/roof-cats/rear-template.png';
 for(const pose of ['rear-upright','rear-relaxed','rear-rounded'])files[`/assets/roof-cats/${pose}.png`]=`assets/roof-cats/${pose}.png`;
