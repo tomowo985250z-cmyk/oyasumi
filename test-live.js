@@ -39,11 +39,23 @@ async function run() {
     assert.equal((await a.snapshot()).expression,expression);
   }
   for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
-    await a.setCatCoat(coat);
-    for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
-      await a.setCatExpression(expression);
-      const other=(await b.snapshot()).feed.find(p=>p.id===first.id);
-      assert.equal(other.coat,coat);assert.equal(other.expression,expression);
+    // Each identity gets one initial selection; never bypass the 30-day cooldown.
+    const cat=createOyasumiConnection('oyasumi-coat-'+coat+'-'+Date.now());let catPost;
+    try{
+      await cat.initialize();await cat.setNickname('毛色検証猫');await cat.setCatCoat(coat);
+      const saved=await cat.snapshot();assert(saved.catCoatStatus.nextChangeAt>saved.clock.serverNow);
+      await cat.setCatCoat(coat);
+      assert.equal((await cat.snapshot()).catCoatStatus.nextChangeAt,saved.catCoatStatus.nextChangeAt,'Same-coat retry must not extend cooldown');
+      await assert.rejects(()=>cat.setCatCoat(coat==='black'?'white':'black'),error=>error.code==='P0030');
+      assert.equal((await cat.snapshot()).coat,coat,'Rejected change preserves coat');
+      catPost=await cat.submitPost('awake');
+      for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
+        await cat.setCatExpression(expression);
+        const other=(await b.snapshot()).feed.find(p=>p.id===catPost.id);
+        assert.equal(other.coat,coat);assert.equal(other.expression,expression);
+      }
+    }finally{
+      try{if(catPost)await cat.deletePost(catPost.id);}finally{await cat.client.auth.signOut({scope:'local'});}
     }
   }
   await assert.rejects(()=>a.setCatCoat('unknown'));
