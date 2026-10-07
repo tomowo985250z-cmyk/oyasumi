@@ -13,31 +13,31 @@ globalThis.SleepFlow = (() => {
     const at=Date.parse(lastSleep?.at);
     return Number.isFinite(at)?night(at):lastSleep?.nightDate;
   };
-  // Daytime sleep ends at 18:00 JST; night reports retain the 06:00 boundary.
-  // Derive from the original report so persisted records need no migration.
-  function daytimeEnd(lastSleep) {
-    const at=Date.parse(lastSleep?.at);
-    if (!Number.isFinite(at)) return null;
-    const report=parts(at);
-    return report.hour>=6 && report.hour<18 ? Date.parse(`${report.day}T18:00:00+09:00`) : null;
+  // UI duration is independent of the database's 06:00 night boundary.
+  // Original report timestamps also cover persisted states without migration.
+  function endAt(lastSleep) {
+    const report=Date.parse(lastSleep?.at);
+    const at=Number.isFinite(report)?report:Date.parse(lastSleep?.finishedAt);
+    return Number.isFinite(at)?at+3*3600000:null;
   }
   const expired = (lastSleep, now = Date.now()) => {
-    const end=daytimeEnd(lastSleep);
+    const end=endAt(lastSleep);
     return end!==null && now>=end;
   };
   function morningDue(lastSleep, morningDays, now = Date.now()) {
     const current = parts(now);
-    if (!lastSleep || expired(lastSleep,now) || sleepNight(lastSleep) !== previousNight(now) || morningDays.includes(current.day)
+    if (!lastSleep || (endAt(lastSleep)!==null && !expired(lastSleep,now)) || sleepNight(lastSleep) !== previousNight(now) || morningDays.includes(current.day)
       || current.hour < rules.morningStartHour || current.hour >= rules.morningEndHour) return false;
     return true;
   }
   function openView(lastSleep, morningDays, now = Date.now()) {
-    if (expired(lastSleep,now)) return 'home';
     if (morningDue(lastSleep, morningDays, now)) return 'morning';
+    if (expired(lastSleep,now)) return 'home';
+    if (endAt(lastSleep)!==null) return lastSleep.finished?'rest':'home';
     const current=parts(now),sleepDate=sleepNight(lastSleep);
     if (lastSleep?.finished && sleepDate===night(now)
       && !morningDays.includes(current.day)) return 'rest';
     return 'home';
   }
-  return { rules, day, night, previousNight, sleepNight, daytimeEnd, expired, morningDue, openView };
+  return { rules, day, night, previousNight, sleepNight, endAt, expired, morningDue, openView };
 })();

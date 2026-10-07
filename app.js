@@ -160,7 +160,7 @@ let nightBoundaryTimer;
 function syncSleepView() {
  if(view!=='rest'&&view!=='sleep')return;
  const next=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
- if(next==='morning'||SleepFlow.expired(state.lastSleep,NightClock.now())||SleepFlow.sleepNight(state.lastSleep)!==NightClock.night())go(next);
+ if(next==='morning'||SleepFlow.expired(state.lastSleep,NightClock.now())||(SleepFlow.endAt(state.lastSleep)===null&&SleepFlow.sleepNight(state.lastSleep)!==NightClock.night()))go(next);
  scheduleNightBoundary();
 }
 function checkNightBoundary() {
@@ -176,7 +176,7 @@ function checkNightBoundary() {
 function scheduleNightBoundary() {
  clearTimeout(nightBoundaryTimer);
  const remaining=NightClock.remaining();
- const end=(view==='rest'||view==='sleep')?SleepFlow.daytimeEnd(state.lastSleep):null;
+ const end=(view==='rest'||view==='sleep')?SleepFlow.endAt(state.lastSleep):null;
  const sleepRemaining=end!==null&&end>NightClock.now()?end-NightClock.now():null;
  const boundaries=[remaining,sleepRemaining].filter(value=>value!==null&&value>0);
  if(boundaries.length)nightBoundaryTimer=setTimeout(checkNightBoundary,Math.min(2147483647,Math.min(...boundaries)+5));
