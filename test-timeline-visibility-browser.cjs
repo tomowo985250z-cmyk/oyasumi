@@ -37,6 +37,25 @@ let socket;
  assert.equal(await evaluate('shared.awakeCount+shared.sleepingCount'),100);
  assert.equal(await evaluate('allPosts().length'),12,'Home feed and stored records unchanged');
  assert(await evaluate('document.querySelector("#share-dialog").open'),'Expiry preserves open dialogs');
+ await evaluate('document.querySelector("#share-dialog").close();NightClock.now=()=>testNow;testNow=Date.parse("2026-10-07T23:00:00+09:00");shared.activeAwakePosts=rawTimeline.filter(p=>p.status==="awake");go("home")');
+ for(const width of [320,375,390,430]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+  await evaluate('testNow=Date.parse("2026-10-07T23:00:00+09:00");go("home")');
+  assert.equal(await evaluate('activeAwakeCount()'),1);
+  assert.equal(await evaluate('document.querySelectorAll(".roof-cat").length'),1);
+  assert.equal(await evaluate('document.querySelectorAll(".mini-row").length'),5);
+  await evaluate('testNow++;document.dispatchEvent(new Event("visibilitychange"))');
+  assert.equal(await evaluate('activeAwakeCount()'),0);
+  assert.equal(await evaluate('document.querySelectorAll(".roof-cat").length'),0);
+  assert.equal(await evaluate('document.querySelectorAll(".mini-row").length'),5,'Home everyone feed survives expiry');
+  assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+ }
+ await evaluate('globalThis.start=performance.now();NightClock.now=()=>Date.parse("2026-10-07T23:00:00+09:00")-1000+performance.now()-start;go("home")');
+ assert.equal(await evaluate('activeAwakeCount()'),3);
+ await delay(1200);assert.equal(await evaluate('document.querySelectorAll(".roof-cat").length'),0,'Home expiry timer works offline');
+ assert.equal(await evaluate('document.querySelectorAll(".mini-row").length'),5);
+ await evaluate('OyasumiAPI.snapshot=()=>new Promise(()=>{});shared.clock={};shared.nightDate="2026-10-07";NightClock.night=()=>"2026-10-08";NightClock.now=()=>Date.parse("2026-10-08T06:00:00+09:00");checkNightBoundary()');
+ assert.equal(await evaluate('document.querySelectorAll(".mini-row").length'),0,'Home everyone feed clears only at 06:00');
  await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={initialize:async()=> 'expiry-test',snapshot:async()=>({userId:'expiry-test',name:'Expiry test',expression:'calm',coat:'calico',ownPosts:[{id:'expired',status:'awake',time:Date.now()-10801000}],reactions:{},feed:[{id:'expired',status:'awake',time:Date.now()-10801000,name:'Expiry test',coat:'calico',expression:'calm'}],reactionCounts:{},awakeCount:1,sleepingCount:0,ownSleepCount:0,nightDate:null,trend:[],trendSupported:false,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
  await send('Page.reload');
  for(let i=0;i<60;i++){if(await evaluate('typeof ready!=="undefined"&&ready'))break;await delay(100);}
@@ -46,5 +65,5 @@ let socket;
  await evaluate('go("profile")');
  assert.equal(await evaluate('document.querySelectorAll(".history-row").length'),1,'Reload retains expired history');
  assert.deepEqual(errors,[]);
- console.log('PASS timeline expiry browser: all tabs at 320/375/390/430px, startup render/resume/refresh/offline timer, feed/history/counts/trend retained.');
+ console.log('PASS expiry browser: timeline and home awake count/cats expire at +3h across 320/375/390/430px, resume/offline timer; home everyone feed stays until 06:00, history/counts/trend retained.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});

@@ -5,12 +5,17 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const browserPath = process.env.EDGE_PATH || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 const baseUrl = process.env.TEST_BASE_URL || 'http://127.0.0.1:3000';
-const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'oyasumi-browser-'));
+const profile = process.env.OYASUMI_TEST_PROFILE || fs.mkdtempSync(path.join(os.tmpdir(), 'oyasumi-browser-'));
+if(process.env.OYASUMI_TEST_PROFILE){
+  assert.equal(path.dirname(path.resolve(profile)),path.resolve(os.tmpdir()));
+  assert(path.basename(profile).startsWith('oyasumi-browser-'),'Reuse only a dedicated test profile');
+}
 const server = spawn(process.execPath, ['server.js'], { stdio: 'ignore' });
 const browser = spawn(browserPath, ['--headless=new','--disable-gpu','--no-first-run','--remote-debugging-port=9333',`--user-data-dir=${profile}`,'about:blank'], {stdio:'ignore'});
 let socket, evaluate, send;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',status:'awake',time:Date.now()}],reactions:{'old-local-post':'dream'},morningDays:['2026-01-01'],light:false});
+const seedKey = 'oyasumi-test-seeded-' + Date.now();
 (async () => {
   let tabs;
   for(let i=0;i<60;i++){try{tabs=await (await fetch('http://127.0.0.1:9333/json')).json();break;}catch{await delay(250);}}
@@ -28,7 +33,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   await send('Runtime.enable');
   await send('Page.enable');
 if(process.argv.includes('--test-big-cats')||process.argv.includes('--test-awake-cats')||process.argv.includes('--test-day-cat-tap')||process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown')||process.argv.includes('--test-reaction-effects'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
-  if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
+  if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem(${JSON.stringify(seedKey)})){${process.env.OYASUMI_TEST_PROFILE ? "localStorage.removeItem('oyasumi-local-v2');" : ''}localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem(${JSON.stringify(seedKey)},'yes');}`});
   if(process.argv.includes('--test-dark-hint'))await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:process.argv.includes('--dark-device')?'dark':'light'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await send('Page.navigate',{url:baseUrl});

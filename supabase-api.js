@@ -92,6 +92,20 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       if (rows.length < 100) break;
     }
     const postIds = [...new Set([...feedRows, ...ownRows].map(post => post.id))];
+    // Count latest awake reports across all authors, independently of the feed cap.
+    const activeAwakePosts = [], activeAuthors = new Set();
+    const activeSince = new Date(clock.serverNow - 3 * 3600000).toISOString();
+    for (let offset = 0; ; offset += 100) {
+      const rows = checked(await client.from('oyasumi_posts').select('user_id,choice,created_at,event_order')
+        .eq('night_date', counts.night_date).gt('created_at', activeSince)
+        .order('event_order', { ascending: false }).range(offset, offset + 99));
+      for (const row of rows) {
+        if(activeAuthors.has(row.user_id))continue;
+        activeAuthors.add(row.user_id);
+        if(row.choice === 'awake')activeAwakePosts.push({userId:row.user_id,time:Date.parse(row.created_at)});
+      }
+      if(rows.length < 100)break;
+    }
     const authorIds = [...new Set([userId, ...feedRows.map(post => post.user_id)])];
     let profileResult = await client.from('oyasumi_profiles').select('user_id,nickname,cat_expression,cat_coat').in('user_id', authorIds);
     const expressionSupported = !['42703', 'PGRST204'].includes(profileResult.error?.code);
@@ -138,7 +152,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     } catch { /* 猫種選択だけを無効にし、他の機能は継続する。 */ }
     if(clock.serverNow+performance.now()-clock.monotonicAt>=clock.resetAt){if(attempt<2)return snapshot(attempt+1);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
-      awakeCount: Number(counts.awake_count), sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
+      awakeCount: Number(counts.awake_count), activeAwakePosts, sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
       profileNote: notes.get(userId) || '', clock, catCoatStatus,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles, notes)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles, notes)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };

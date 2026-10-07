@@ -87,11 +87,15 @@ function syncRoofSky() {
 }
 document.addEventListener('visibilitychange',syncRoofSky);
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',syncRoofSky);
+function activeAwakeCount() {
+ return Array.isArray(shared.activeAwakePosts) ? TimelineVisibility.visible(shared.activeAwakePosts,NightClock.now()).length : shared.awakeCount;
+}
 function awakeCats() {
- const count=Number.isFinite(shared.awakeCount)?Math.min(3,Math.max(0,shared.awakeCount)):0;
+ const activeCount=activeAwakeCount();
+ const count=Number.isFinite(activeCount)?Math.min(3,Math.max(0,activeCount)):0;
  if(!count)return '';
  const users=new Set(),coats=[];
- for(const post of shared.feed){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
+ for(const post of TimelineVisibility.visible(shared.feed,NightClock.now())){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
 return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="roof-overhead-stars" viewBox="0 0 208 20" focusable="false" style="position:absolute;left:0;top:-10px;width:208px;height:20px;pointer-events:none"><g fill="#f0e3b5" opacity=".65"><circle data-star-tone="warm" cx="38" cy="6" r=".7"/><circle data-star-tone="warm" cx="108" cy="8" r=".8"/><circle data-star-tone="warm" cx="160" cy="5" r=".65"/></g></svg><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g>${roofStars()}<path class="roof-moon" d="M180 12a7 7 0 1 0 7 11 7.5 7.5 0 0 1-7-11Z" fill="#ddd8bf" opacity=".48"/></svg><span class="roof-cat-group" data-cat-count="${count}">${Array.from({length:count},(_,index)=>RoofCats.svg(coats[index],index,count)).join('')}</span></span></span>`;
 }
 function cardSkyStars() {
@@ -99,7 +103,7 @@ function cardSkyStars() {
  const stars=[[7,6,.9,.24],[22,9,.6,.22],[43,5,.7,.18],[68,8,.5,.2],[89,6,.9,.24],[96,20,.6,.18],[5,24,.7,.2],[12,35,.9,.32],[91,36,.6,.3],[4,48,.5,.2],[8,61,.8,.3],[94,53,.9,.3],[89,68,.6,.26],[5,78,.7,.18],[95,80,.5,.18],[11,91,.9,.22],[27,94,.6,.2],[48,95,.8,.18],[72,92,.5,.22],[91,93,.9,.22],[18,70,.5,.24],[82,74,.7,.22],[23,23,.5,.12],[77,24,.6,.12],[25,84,.5,.1],[74,85,.5,.1]];
  return `<span class="card-sky-stars" aria-hidden="true">${stars.map(([x,y,r,opacity],i)=>`<i style="left:${x}%;top:${y}%;width:${r*2}px;height:${r*2}px;opacity:${opacity};background:${i%4===0?'#d2ddec':i%2?'#ece2bd':'#e9d6a7'}"></i>`).join('')}</span>`;
 }
-function countCard() { return `<section class="card count-card roof-sky-card">${cardSkyStars()}<h2 class="awake-heading"><span>今夜まだ起きてる人</span><span class="count">${shared.awakeCount ?? '—'}<small> 人</small></span></h2>${awakeCats()}<p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend)}">今夜も、ひとりじゃないみたい</p></section>`; }
+function countCard() { return `<section class="card count-card roof-sky-card">${cardSkyStars()}<h2 class="awake-heading"><span>今夜まだ起きてる人</span><span class="count">${activeAwakeCount() ?? '—'}<small> 人</small></span></h2>${awakeCats()}<p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend)}">今夜も、ひとりじゃないみたい</p></section>`; }
 function actions() { const captions={"early-sleep":"（また明日）"};return `<div class="status-actions"><button class="status-button awake" data-post="awake"><span class="status-symbol" aria-hidden="true">😴</span><span><strong><span class="post-label-text">まだ寝れない…</span></strong><small>（いま起きてる）</small></span></button><button class="status-button sleep" data-post="sleep"><span class="status-symbol moon-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M39 5C23-1 6 10 6 25C6 40 24 49 39 41C41 40 41 37 38 37C25 37 18 28 20 17C22 11 29 8 37 8C40 8 41 6 39 5Z"/></svg></span><span><strong><span class="post-label-text">もう寝るよ</span></strong><small>（おやすみする）</small></span></button><div class="extra-post-options">${POST_OPTIONS.slice(2).map(option=>`<button class="extra-post-button" data-post="${option.id}"><span><strong>${option.id === 'try-sleep' ? '<span class="post-label-line">眠れないけど</span><span class="post-label-line">寝てみる <span class="post-label-emoji">💤</span></span>' : '<span class="post-label-line">お先に寝ます <span class="post-label-emoji">👋</span></span>'}</strong>${captions[option.id] ? `<small>${captions[option.id]}</small>` : ''}</span></button>`).join('')}</div><p class="choice-note">ひとつ選ぶだけ。<br>寝る報告のあとは、スマホを置いて。</p></div>`; }
 function chart() { return `<section class="card chart"><h2>今夜の推移</h2>${TonightTrend.chart(shared.trend)}</section>`; }
 function stats() {
@@ -160,9 +164,10 @@ let nightBoundaryTimer;
 let timelineExpiryTimer;
 function scheduleTimelineExpiry() {
  clearTimeout(timelineExpiryTimer);
- if(view!=='timeline'||document.hidden)return;
- const now=NightClock.now(),end=TimelineVisibility.nextExpiry(allPosts(),now);
- if(end!==null)timelineExpiryTimer=setTimeout(()=>{if(view==='timeline')renderPreservingPosition(true);},Math.min(2147483647,Math.max(0,end-now)+5));
+ if(!['timeline','home'].includes(view)||document.hidden)return;
+ const posts=view==='home' ? shared.activeAwakePosts || [] : allPosts();
+ const now=NightClock.now(),end=TimelineVisibility.nextExpiry(posts,now);
+ if(end!==null)timelineExpiryTimer=setTimeout(()=>{if(['timeline','home'].includes(view))renderPreservingPosition(true);},Math.min(2147483647,Math.max(0,end-now)+5));
 }
 function syncSleepView() {
  if(view!=='rest'&&view!=='sleep')return;
@@ -174,7 +179,7 @@ function checkNightBoundary() {
  syncSleepView();
  if(!shared.clock||shared.nightDate===NightClock.night())return;
  stateRevision++;
- shared={...shared,nightDate:NightClock.night(),feed:[],awakeCount:null,sleepingCount:null,trend:[],tonightSummary:null,reactionCounts:{}};
+ shared={...shared,nightDate:NightClock.night(),feed:[],awakeCount:null,activeAwakePosts:null,sleepingCount:null,trend:[],tonightSummary:null,reactionCounts:{}};
  clearReactionEffect();
  if(SleepFlow.morningDue(state.lastSleep,state.morningDays,NightClock.now())&&(view==='rest'||view==='sleep'))go('morning');
  else if(document.querySelector('dialog[open]'))render();else renderPreservingPosition();
@@ -371,7 +376,7 @@ render();syncSleepView();
 void ensureConnection().catch(()=>{if(view!=='rest')toast('共有データに接続できません。');});
 function refreshDayScene() { if(view==='home'&&(document.querySelector('.day-hero')?.dataset.dayBucket||null)!==(DayCats.current()?.key||null))renderPreservingPosition(); }
 setInterval(()=>{if(!document.hidden)syncSleepView();if(!document.hidden&&view==='timeline')renderPreservingPosition(true);if(view==='rest')return;if(!document.hidden)refreshDayScene();if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});},30000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNightBoundary();if(!document.hidden&&view==='timeline')renderPreservingPosition(true);if(!document.hidden)refreshDayScene();if(view==='rest')return;if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>toast('最新の投稿を取得できませんでした。'));});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNightBoundary();if(!document.hidden&&['timeline','home'].includes(view))renderPreservingPosition(true);if(!document.hidden)refreshDayScene();if(view==='rest')return;if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>toast('最新の投稿を取得できませんでした。'));});
 window.addEventListener('online',()=>{if(view==='rest')return;if(!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});});
 
 window.addEventListener('scroll',positionReactionEffect,{passive:true});window.addEventListener('resize',positionReactionEffect);

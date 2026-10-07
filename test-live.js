@@ -16,6 +16,8 @@ async function run() {
   assert(base.expressionSupported,'Run supabase/cat-appearance.sql in SQL Editor before testing cat expression persistence.');
   const first=await a.submitPost('awake');created.add(first.id);
   const trendWithAwake=await a.snapshot();
+  assert(trendWithAwake.activeAwakePosts.some(p=>p.userId===a.userId));
+  assert(trendWithAwake.activeAwakePosts.length<=trendWithAwake.awakeCount);
   assert.equal(trendWithAwake.trend.at(-1).awake,trendWithAwake.awakeCount);
   assert.equal(trendWithAwake.trend.at(-1).sleeping,trendWithAwake.sleepingCount);
   // Supabaseとテスト端末の時計にはわずかな差があるため1分まで許容。
@@ -23,6 +25,7 @@ async function run() {
   assert(trendWithAwake.trend.length<=97);
   const duplicate=await a.submitPost('awake');assert.equal(first.id,duplicate.id);
   let snap=await b.snapshot();assert(snap.feed.some(p=>p.id===first.id));assert(snap.awakeCount>=base.awakeCount+1);
+  assert(snap.activeAwakePosts.some(p=>p.userId===a.userId),'Recent awake reports are shared across users');
   const forged=await b.client.from('oyasumi_posts').insert({user_id:a.userId,choice:'awake'});assert(forged.error,'Direct inserts must be denied');
   assert.equal(await b.deletePost(first.id),false,'Cannot delete another user’s post');
   const readOnly=await b.client.from('oyasumi_profiles').update({nickname:'不正更新'}).eq('user_id',a.userId);assert(readOnly.error,'Direct profile updates must be denied');
@@ -74,6 +77,7 @@ async function run() {
   assert(historyBefore.ownPosts.some(p=>p.id===first.id),'Original post history must remain stored');
   assert.equal(historyBefore.feed.filter(p=>p.userId===a.userId).length,1,'A user has only one visible post');
   for(const choice of ['sleep','try-sleep','early-sleep']){const post=await a.submitPost(choice);created.add(post.id);snap=await b.snapshot();assert(snap.feed.some(p=>p.id===post.id));const own=await a.snapshot();assert.equal(own.myState,'sleep');assert.equal(own.trend.at(-1).awake,own.awakeCount);assert.equal(own.trend.at(-1).sleeping,own.sleepingCount);assert(snap.sleepingCount>=base.sleepingCount+1);}
+  assert(!snap.activeAwakePosts.some(p=>p.userId===a.userId),'Latest sleep removes the user from the active awake count without deleting history');
   await b.setReaction(first.id,'dream');await a.deletePost(first.id);created.delete(first.id);assert(!(await b.snapshot()).feed.some(p=>p.id===first.id));
   const comfortPost=await a.submitPost('awake');created.add(comfortPost.id);
   await b.setReaction(comfortPost.id,'comfort');
