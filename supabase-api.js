@@ -131,6 +131,10 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     try {
       const row = (await rpc('oyasumi_cat_coat_status'))[0];
       if(row && (row.next_change_at === null || Number.isFinite(Date.parse(row.next_change_at))))catCoatStatus = { nextChangeAt: row.next_change_at === null ? null : Date.parse(row.next_change_at) };
+      if(catCoatStatus && row.next_change_at === null){
+        try { catCoatStatus.temporarilyUnlocked = (await rpc('oyasumi_cat_coat_cooldown_paused')) === true; }
+        catch { /* Older databases retain the normal seven-day selection message. */ }
+      }
     } catch { /* 猫種選択だけを無効にし、他の機能は継続する。 */ }
     if(clock.serverNow+performance.now()-clock.monotonicAt>=clock.resetAt){if(attempt<2)return snapshot(attempt+1);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,

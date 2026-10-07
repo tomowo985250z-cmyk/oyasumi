@@ -19,10 +19,10 @@ for(const coat of CatFaces.groups.find(g=>g.id==='big').coats){
   assert.equal(crypto.createHash('sha256').update(png).digest('hex').slice(0,16),match[2]);
   assert(svg.includes('preserveAspectRatio="xMidYMid meet"'));assert(svg.includes(`data-cat-expression="${expression.id}"`));
  }
- for(const scene of ['sleeping','awake'])assert(CatScenes.svg(scene,coat.id).includes('assets/big-cats/'));
- for(const scene of DayCats.options)assert(DayCats.svg(scene.id,coat.id).includes('assets/big-cats/'));
+ for(const scene of ['sleeping','awake'])assert(CatScenes.svg(scene,coat.id).includes('assets/sleep-wake-cats/'));
+ for(const scene of DayCats.options)assert(DayCats.svg(scene.id,coat.id).includes('assets/day-cats/'));
  assert(!CatFaces.headMarkup(coat.id).includes('undefined'));
  assert(RoofCats.svg(coat.id,0,1).includes(`data-cat-coat="${coat.id}"`));
 }
 assert.equal(paths.size,24);
-console.log('PASS big cats: 3 categories, 24 versioned RGBA assets, 6 expressions, scene fallback and unchanged basic/wild images/rendering.');
+console.log('PASS big cats: 3 categories, 24 versioned RGBA faces, 6 expressions, dedicated scenes and unchanged basic/wild images/rendering.');

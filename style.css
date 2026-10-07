@@ -40,6 +40,7 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .expression-options .cat-group-title{grid-column:1/-1;text-align:left;font-size:14px;margin:12px 0 2px}.expression-choice>span:last-child{overflow-wrap:anywhere}
 
 .cat-day-scene.day-cat-image{aspect-ratio:1 / 1;border-radius:50%;object-fit:cover}
+.cat-scene:is([data-cat-coat="snow-leopard"],[data-cat-coat="leopard"],[data-cat-coat="cheetah"],[data-cat-coat="jaguar"]){border-radius:50%;overflow:hidden}
 .post .public-profile-cat .avatar{width:60px;height:60px}
 .profile-banner .profile-cat-button .avatar{width:111px;height:111px}
 .public-profile-face .avatar{width:112px;height:112px}

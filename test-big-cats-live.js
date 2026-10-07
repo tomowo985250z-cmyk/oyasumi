@@ -9,10 +9,11 @@ let a;const b=createOyasumiConnection('big-b-'+Date.now());let post;
   await a.initialize();await a.setNickname('大ねこの検証');
   const before=await a.snapshot();
   await a.setCatCoat(cat.id);
-  const saved=await a.snapshot();assert(saved.catCoatStatus.nextChangeAt>saved.clock.serverNow);
+  const saved=await a.snapshot();assert(saved.catCoatStatus.temporarilyUnlocked || saved.catCoatStatus.nextChangeAt>saved.clock.serverNow);
   await a.setCatCoat(cat.id);
   assert.equal((await a.snapshot()).catCoatStatus.nextChangeAt,saved.catCoatStatus.nextChangeAt);
-  await assert.rejects(()=>a.setCatCoat('calico'),error=>error.code==='P0030');
+  if(saved.catCoatStatus.temporarilyUnlocked){await a.setCatCoat('calico');await a.setCatCoat(cat.id);}
+  else await assert.rejects(()=>a.setCatCoat('calico'),error=>error.code==='P0030');
   assert.equal((await a.snapshot()).coat,cat.id);
   post=await a.submitPost('sleep');
   for(const expression of ['calm','sleepy','yawn','restless','happy','surprised']){

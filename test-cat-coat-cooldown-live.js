@@ -12,15 +12,19 @@ const status=async c=>checked(await c.client.rpc('oyasumi_cat_coat_status'))[0];
  for(const [c,name,coat] of [[a,'制限検証通常猫','black'],[b,'制限検証野生猫','manul']]){
   await c.setNickname(name);assert.equal((await status(c)).changed_at,null);
   const before=await c.snapshot();assert(before.needsCat);
+  const paused=before.catCoatStatus.temporarilyUnlocked===true;
   await c.setCatCoat(coat);const first=await status(c),own=await c.snapshot();
   assert.equal(own.coat,coat);assert.equal(own.needsCat,false);assert(own.profileComplete);
-  assert.equal(Date.parse(first.next_change_at)-Date.parse(first.changed_at),7*86400000);
+  if(paused)assert.equal(first.next_change_at,null);
+  else assert.equal(Date.parse(first.next_change_at)-Date.parse(first.changed_at),7*86400000);
   assert(Date.parse(first.changed_at)<=Date.parse(first.server_now));
-  assert.equal(own.catCoatStatus.nextChangeAt,Date.parse(first.next_change_at));
+  assert.equal(own.catCoatStatus.nextChangeAt,paused?null:Date.parse(first.next_change_at));
   for(const target of ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing'].filter(x=>x!==coat)){
-   await assert.rejects(()=>c.setCatCoat(target),e=>e.code==='P0030');
+   if(paused)await c.setCatCoat(target);
+   else await assert.rejects(()=>c.setCatCoat(target),e=>e.code==='P0030');
   }
-  await c.setCatCoat(coat);assert.equal((await status(c)).changed_at,first.changed_at);
+  await c.setCatCoat(coat);if(paused)Object.assign(first,await status(c));
+  assert.equal((await status(c)).changed_at,first.changed_at);
   await assert.rejects(()=>c.setCatCoat('invalid'),e=>e.code==='22023');
   for(const request of [
    ()=>c.client.from('oyasumi_cat_coat_changes').update({changed_at:'2000-01-01'}).eq('user_id',c.userId),
@@ -44,7 +48,7 @@ const status=async c=>checked(await c.client.rpc('oyasumi_cat_coat_status'))[0];
  for(const [name,args] of [['oyasumi_cat_coat_status',{}],['oyasumi_set_cat_coat',{p_coat:'white'}]])assert((await visitor.rpc(name,args)).error);
  const afterExisting=checked(await a.client.from('oyasumi_profiles').select('user_id,nickname,cat_coat,cat_expression,cat_role,profile_note').in('user_id',existing.map(x=>x.user_id)));
  assert.deepEqual(afterExisting.sort((x,y)=>x.user_id.localeCompare(y.user_id)),existing.sort((x,y)=>x.user_id.localeCompare(y.user_id)));
- passed=true;console.log('PASS LIVE: two initial saves (black/manul), 22 blocked changes across all 12 coats, same-coat retry, exact 168-hour deadline, private timestamps/tamper/delete/direct-update denied, expression/name/note/role unaffected, two posts and all four reactions, '+existing.length+' existing profiles unchanged (read-only comparison), unauthenticated denial.');
+ passed=true;console.log('PASS LIVE: initial saves and all 12 coats under current DB cooldown mode, same-coat retry, private timestamps/tamper/delete/direct-update denied, expression/name/note/role unaffected, two posts and all four reactions, '+existing.length+' existing profiles unchanged (read-only comparison), unauthenticated denial.');
 })().catch(e=>{console.error('FAIL LIVE:',e.message,e.code||'');process.exitCode=1;}).finally(async()=>{
  for(const {c,id} of posts){try{assert(await c.deletePost(id));assert(!(await c.snapshot()).ownPosts.some(p=>p.id===id));console.log('CLEANUP: test post deleted (reactions cascade).');}catch(e){console.error('CLEANUP FAILED:',e.message);process.exitCode=1;}}
  for(const c of connections){try{await c.client.auth.signOut({scope:'local'});c.client.auth.stopAutoRefresh();}catch(e){console.error('SIGNOUT FAILED:',e.message);process.exitCode=1;}}

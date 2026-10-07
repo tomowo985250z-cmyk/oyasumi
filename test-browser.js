@@ -198,6 +198,17 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     await evaluate('nextCoatChange=NightClock.now()-1;await refreshShared();go("profile")');
     assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),false);
     await click('[data-coat-picker]');await action('[data-coat="orange"]');assert.equal(await evaluate('coatCalls'),2);
+    await evaluate('facesMock.snapshot=async()=>({...await baseCoatSnapshot(),profileComplete:true,needsCat:false,coat:savedCoat,catCoatStatus:{nextChangeAt:null,temporarilyUnlocked:true}});facesMock.setCatCoat=async coat=>{coatCalls++;savedCoat=coat};await refreshShared()');
+    for(const width of [320,375,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      for(const coat of ['snow-leopard','leopard','cheetah','jaguar']){
+        await evaluate('go("profile")');assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),false);
+        assert(await evaluate('document.querySelector(".cat-coat-availability").textContent.includes("一時解除中")'));
+        await click('[data-coat-picker]');await action(`[data-coat="${coat}"]`);assert.equal(await evaluate('state.coat'),coat);
+        assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+      }
+      await screenshot(`cat-coat-unlocked-${width}.png`);
+    }
     await evaluate('facesMock.snapshot=async()=>({...await baseCoatSnapshot(),catCoatStatus:null});await refreshShared();go("profile")');
     assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),true);
     assert.deepEqual(errors,[]);console.log('PASS cat cooldown UI: first save, 12 species, next date, four mobile widths, settings/picker/stale-choice lock, expiry unlock, expression unaffected, unavailable status blocked.');return;
@@ -551,8 +562,8 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
   if(process.argv.includes('--preview-day')){
     await send('Emulation.setDeviceMetricsOverride',{width:1280,height:1000,deviceScaleFactor:1,mobile:false});
     await evaluate('document.body.style.display="block";document.body.style.padding="20px";document.querySelector(".desktop-intro").style.display="none";nav.hidden=true;document.querySelector(".app-shell").style.cssText="width:100%;max-width:none;border:0";app.innerHTML=`<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px">${DayCats.options.flatMap(scene=>CatFaces.coats.map(coat=>`<div style="text-align:center">${DayCats.svg(scene.id,coat.id)}<small>${coat.label}・${scene.label}</small></div>`)).join("")}</div>`');
-    assert.equal(await evaluate('document.querySelectorAll(".cat-day-scene").length'),60);
-    await screenshot('cat-day-matrix.png');console.log('PASS daytime preview: 60 patterns, stable reload, dark home at 320/390/430px.');return;
+    assert.equal(await evaluate('document.querySelectorAll(".cat-day-scene").length'),80);
+    await screenshot('cat-day-matrix.png');console.log('PASS daytime preview: 80 patterns, stable reload, dark home at 320/390/430px.');return;
   }
   await evaluate('globalThis.DayCats={...DayCatsOriginal,current:()=>DayCatsOriginalCurrent(Date.parse("2026-10-03T18:00:00+09:00"))};go("home")');
   assert.equal(await evaluate('document.querySelector(".day-hero")'),null);
@@ -710,11 +721,10 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
   assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),0);
   assert(await evaluate('Number.isFinite(shared.sleepingCount)'));
   await evaluate('globalThis.fetch=summaryFetch;await refreshShared()');
-  // Species changes are restricted to once per 30 days; the initial calico save
-  // above already used this account's allowance. Check its persisted appearance.
+  // Check persisted appearance under the current server-controlled cooldown mode.
   const persistedCoat=await evaluate('state.coat');
   for(const coat of [persistedCoat]){
-    await evaluate('go("settings")');assert(await evaluate('document.querySelector("[data-coat-picker]").disabled'));
+    await evaluate('go("settings")');assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),await evaluate('!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())'));
     assert.equal(await evaluate('state.coat'),coat);
     assert(await evaluate(`shared.tonightSummary.coats.some(c=>c.coat===${JSON.stringify(coat)}&&c.count>=1)`),'Sleeping cat aggregates must reflect the selected coat');
     await evaluate('go("profile")');

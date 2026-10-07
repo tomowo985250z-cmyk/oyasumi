@@ -43,10 +43,11 @@ async function run() {
     const cat=createOyasumiConnection('oyasumi-coat-'+coat+'-'+Date.now());let catPost;
     try{
       await cat.initialize();await cat.setNickname('毛色検証猫');await cat.setCatCoat(coat);
-      const saved=await cat.snapshot();assert(saved.catCoatStatus.nextChangeAt>saved.clock.serverNow);
+      const saved=await cat.snapshot();assert(saved.catCoatStatus.temporarilyUnlocked || saved.catCoatStatus.nextChangeAt>saved.clock.serverNow);
       await cat.setCatCoat(coat);
       assert.equal((await cat.snapshot()).catCoatStatus.nextChangeAt,saved.catCoatStatus.nextChangeAt,'Same-coat retry must not extend cooldown');
-      await assert.rejects(()=>cat.setCatCoat(coat==='black'?'white':'black'),error=>error.code==='P0030');
+      if(saved.catCoatStatus.temporarilyUnlocked){await cat.setCatCoat(coat==='black'?'white':'black');await cat.setCatCoat(coat);}
+      else await assert.rejects(()=>cat.setCatCoat(coat==='black'?'white':'black'),error=>error.code==='P0030');
       assert.equal((await cat.snapshot()).coat,coat,'Rejected change preserves coat');
       catPost=await cat.submitPost('awake');
       for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){

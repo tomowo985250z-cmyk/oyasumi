@@ -29,9 +29,9 @@ let socket;
    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
   }
  }
- await evaluate('filter="all";globalThis.start=performance.now();NightClock.now=()=>Date.parse("2026-10-07T23:00:00+09:00")-80+performance.now()-start;go("timeline");document.querySelector("#share-dialog").showModal()');
+ await evaluate('filter="all";globalThis.start=performance.now();NightClock.now=()=>Date.parse("2026-10-07T23:00:00+09:00")-1000+performance.now()-start;go("timeline");document.querySelector("#share-dialog").showModal()');
  assert.equal(await evaluate('document.querySelectorAll(".post").length'),12);
- await delay(200);
+ await delay(1200);
  assert.equal(await evaluate('document.querySelectorAll(".post").length'),0,'Automatic timer without fetching');
  assert.equal(await evaluate('JSON.stringify({feed:shared.feed,posts:state.posts,trend:shared.trend})'),await evaluate('beforeData'),'History, raw feed and chart data survive');
  assert.equal(await evaluate('shared.awakeCount+shared.sleepingCount'),100);

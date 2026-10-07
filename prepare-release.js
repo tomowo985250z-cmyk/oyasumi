@@ -22,6 +22,12 @@ const scenesHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/slee
 const scenesUpdated=scenesOriginal.replace(/const sceneVersions = .*;/,`const sceneVersions = ${JSON.stringify(scenesHashes)};`);
 if(process.argv.includes('--check')&&scenesUpdated!==scenesOriginal){console.error('Run npm run release to version sleep/wake cat images.');process.exitCode=1;}
 else if(!process.argv.includes('--check'))fs.writeFileSync(scenesFile,scenesUpdated);
+const dayFile=path.join(root,'cat-day-scenes.js');
+const dayOriginal=normalize(fs.readFileSync(dayFile,'utf8'));
+const dayHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/day-cats')).filter(file=>/^[a-z-]+-(?:relax|play|groom|doze|gaze)\.png$/.test(file)).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/day-cats',file))).digest('hex').slice(0,16)]));
+const dayUpdated=dayOriginal.replace(/const dayImageVersions = .*;/,`const dayImageVersions = ${JSON.stringify(dayHashes)};`);
+if(process.argv.includes('--check')&&dayUpdated!==dayOriginal){console.error('Run npm run release to version day cat images.');process.exitCode=1;}
+else if(!process.argv.includes('--check'))fs.writeFileSync(dayFile,dayUpdated);
 let html=original.replace(/\s*<meta name="oyasumi-release" content="[^"]*">/g,'');
 const resources=new Map();
 html=html.replace(/(src|href)="([^"?#]+)(?:\?[^"#]*)?"/g,(match,attribute,file)=>{
