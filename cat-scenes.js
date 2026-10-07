@@ -9,6 +9,7 @@ globalThis.CatScenes = (() => {
   function svg(sceneValue, coatValue) {
     const scene = sceneValue === 'awake' ? 'awake' : 'sleeping';
     const coat = CatFaces.normalizeCoat(coatValue);
+    if(CatFaces.isBig(coat))return CatFaces.svg(scene === 'awake' ? 'happy' : 'sleepy',coat).replace('class="cat-face"',`class="cat-scene" data-cat-scene="${scene}"`);
     const file = `${coat}-${scene === 'awake' ? 'waking' : 'sleeping'}.png`;
     return `<svg class="cat-scene" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-scene="${scene}" data-cat-coat="${coat}"><image href="assets/sleep-wake-cats/${file}?v=${sceneVersions[file]}" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"/></svg>`;
   }

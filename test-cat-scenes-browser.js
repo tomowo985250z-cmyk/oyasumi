@@ -19,7 +19,7 @@ let socket;
  const loadImages=()=>evaluate(`(async()=>{const images=[...document.querySelectorAll('.cat-scene image')];await Promise.all(images.map(el=>new Promise((resolve,reject)=>{const img=new Image();img.onload=resolve;img.onerror=()=>reject(new Error(el.getAttribute('href')));img.src=el.getAttribute('href')})));return images.length})()`);
  for(const width of [320,375,390,430]){
   await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
-  for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing']){
+  for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing','snow-leopard','leopard','cheetah','jaguar']){
    for(const screen of ['rest','morning']){
     await evaluate(`state.coat=${JSON.stringify(coat)};state.lastSleep={finished:true,finishedAt:new Date().toISOString()};go(${JSON.stringify(screen)})`);
     assert.equal(await loadImages(),1);
@@ -33,7 +33,7 @@ let socket;
  }
  await send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
  await evaluate('document.body.style.cssText="display:block;margin:0;padding:12px";document.body.innerHTML=`<div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px">${["sleeping","awake"].flatMap(s=>CatFaces.coats.map(c=>`<div>${CatScenes.svg(s,c.id)}<small>${c.label} ${s}</small></div>`)).join("")}</div>`;document.querySelectorAll(".cat-scene").forEach(el=>el.style.cssText="width:100%;height:auto")');
- assert.equal(await loadImages(),24);await screenshot('cat-scenes-matrix');
+ assert.equal(await loadImages(),32);await screenshot('cat-scenes-matrix');
  assert.deepEqual(errors,[]);assert.deepEqual(failedImages,[]);
- console.log('PASS scene browser: all 24 images load, actual rest/morning screens for 12 coats at 320/375/390/430px, square visible frames, no overflow, no runtime errors.');
+ console.log('PASS scene browser: all 32 images load, actual rest/morning screens for 16 coats at 320/375/390/430px, square visible frames, no overflow, no runtime errors.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});

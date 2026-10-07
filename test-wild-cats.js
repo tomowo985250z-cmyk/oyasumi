@@ -5,7 +5,7 @@ for(const coat of originals.CatFaces.coats)for(const expression of CatFaces.opti
  const svg=CatFaces.svg(expression.id,coat.id);
  assert(svg.includes(`assets/domestic-cats/${coat.id}-faces-${expression.id}.png?v=`),'Approved domestic artwork');
 }
-assert.equal(CatFaces.coats.length,12);
+assert.equal(CatFaces.groups.find(group=>group.id==='basic').coats.length+WildCatAssets.species.length,12);
 const paths=new Set();
 const crypto=require('node:crypto');
 for(const coat of originals.CatFaces.coats){

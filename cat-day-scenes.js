@@ -22,6 +22,7 @@ globalThis.DayCats = (() => {
   function svg(action, coatValue) {
     const scene = options.some(o => o.id === action) ? action : 'relax';
     const coat = CatFaces.normalizeCoat(coatValue);
+    if(CatFaces.isBig(coat))return CatFaces.svg(scene === 'doze' ? 'sleepy' : 'calm',coat).replace('class="cat-face"',`class="cat-day-scene" data-day-scene="${scene}"`);
     if(WildCatAssets.isWild(coat))return `<svg class="cat-day-scene" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-day-scene="${scene}" data-cat-coat="${coat}">${WildCatAssets.image('day',coat,scene)}</svg>`;
     const file = `${coat}-${scene}.png`;
     return `<img class="cat-day-scene day-cat-image" src="assets/day-cats/${file}?v=${dayImageVersions[file]}" alt="" aria-hidden="true" width="152" height="152" data-day-scene="${scene}" data-cat-coat="${coat}">`;

@@ -1,6 +1,7 @@
 // Dedicated rear-view artwork. Existing profile, daytime and sleep cats are unchanged.
 globalThis.RoofCats = (() => {
  const palettes={calico:['#fff6e8','#dd963d'],orange:['#e9ad68','#a66934'],brown:['#9a8060','#514536'],silver:['#b9bbbf','#6d747e'],black:['#383d48','#383d48'],white:['#f2eee6','#f2eee6'],tuxedo:['#343944','#f2eee6'],gray:['#969ba6','#969ba6'],manul:['#aca595','#70695e'],sand:['#dfc599','#a78d64'],'black-footed':['#c8ae83','#60513d'],fishing:['#a5a69a','#555e55'],unknown:['#7d899e','#7d899e']};
+ Object.assign(palettes,{'snow-leopard':['#e5e3df','#69635e'],leopard:['#edbb6b','#554333'],cheetah:['#edbd75','#554333'],jaguar:['#e8b65e','#4d392d']});
  const templates=['storybook-upright','storybook-relaxed','storybook-rounded'];
  const versions=['afdac2a62e721459','e30e2af13cad743e','c187710ce839af2d'];
  function coatPainting(coat,mark) {
@@ -14,6 +15,10 @@ globalThis.RoofCats = (() => {
   if(['orange','brown','silver'].includes(coat))return spine+flanks+tail+`<g fill="${mark}" opacity=".45"><path d="M27 15q10 5 13 16-8-6-16-8Zm45 0q-12 7-13 17 8-6 15-10Z"/></g>`;
   if(coat==='sand')return `<g fill="${mark}" opacity=".33"><path d="M23 10q7-2 10 8l-9 1Zm43 1q7-3 10 7l-9 2ZM18 78q11-1 15 4l-17 3Zm55-2q10-1 15 3l-12 5Z"/></g>`+tail;
   if(coat==='manul')return `<g fill="${mark}" opacity=".2">${Array.from({length:24},(_,i)=>{const x=27+(i*17%47),y=34+(i*11%48);return `<path d="m${x} ${y} 2-2 1 5-2 2Z"/>`;}).join('')}</g>`+`<g opacity=".55">${tail}</g>`;
+  if(['snow-leopard','leopard','cheetah','jaguar'].includes(coat)){
+   const spots=[[30,34],[57,35],[69,43],[35,49],[52,53],[24,61],[70,61],[42,68],[58,76],[27,79],[77,82]];
+   return `<g opacity=".65">${spots.map(([x,y])=>coat==='cheetah'?`<circle cx="${x}" cy="${y}" r="2.5" fill="${mark}"/>`:`<circle cx="${x}" cy="${y}" r="3.5" fill="none" stroke="${mark}" stroke-width="1.5"/>${coat==='jaguar'?`<circle cx="${x}" cy="${y}" r="1" fill="${mark}"/>`:''}`).join('')}</g>`+tail;
+  }
   if(['black-footed','fishing'].includes(coat)){
    const spots=[[30,34,3,4],[57,35,2,5],[69,43,3,3],[35,49,3,4],[52,53,2,4],[24,61,3,4],[70,61,3,4],[42,68,3,3],[58,76,3,4],[27,79,3,3],[77,82,3,3]];
    return `<g fill="${mark}" opacity=".72">${spots.map(([x,y,w,h])=>`<path d="M${x} ${y}q${w+1} -${h} ${w+2} 0t-${w} ${h}q-${w+1} 0 -2 -${h}Z"/>`).join('')}</g>`+(coat==='fishing'?`<g opacity=".65">${spine}</g>`:'<path d="M10 90h22l-3 10H8Zm58 1h20l4 9H70Z" fill="#51483c" opacity=".8"/>')+tail;

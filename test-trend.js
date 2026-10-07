@@ -51,7 +51,7 @@ for(const max of [0,1,2,3,4,20,100]){
 const old=t.messages.steady;t.messages.steady='変更テスト';assert.equal(t.comment(series([100,100,100,100])),'変更テスト');t.messages.steady=old;
 const threshold=t.rules.increaseRate;t.rules.increaseRate=1;assert.equal(t.classify(series([100,100,120,130])),'steady');t.rules.increaseRate=threshold;
 const cats=new Set();
-for(const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)))for(const expression of CatFaces.options){
+for(const coat of CatFaces.groups.find(group=>group.id==='basic').coats)for(const expression of CatFaces.options){
   const svg=CatFaces.svg(expression.id,coat.id);
   assert(svg.includes(`data-cat-coat="${coat.id}"`));assert(svg.includes(`data-cat-expression="${expression.id}"`));
   assert(svg.includes(`assets/domestic-cats/${coat.id}-faces-${expression.id}.png?v=`));assert(!svg.includes('cat.svg'));cats.add(svg);

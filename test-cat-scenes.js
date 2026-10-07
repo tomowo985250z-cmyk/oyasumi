@@ -13,7 +13,7 @@ const adoptedWildHashes={
  'sand-sleeping':'0969774e942fc6978332814567fa79356fe2826e3188f9df0635f27dafc66b29',
  'sand-waking':'d45e13d77e43470e606e4893068f8820b80a104ab40d0ddaea12952109f64dab'
 };
-for(const coat of CatFaces.coats){
+for(const coat of CatFaces.coats.filter(coat=>!CatFaces.isBig(coat.id))){
   for(const scene of ['sleeping','awake']){
     const svg=CatScenes.svg(scene,coat.id);scenes.add(svg);
     assert(svg.includes(`data-cat-coat="${coat.id}"`));assert(svg.includes(`data-cat-scene="${scene}"`));

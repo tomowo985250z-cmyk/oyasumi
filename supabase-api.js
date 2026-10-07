@@ -109,7 +109,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     const names = new Map(profiles.map(profile => [profile.user_id, profile.nickname]));
     const allowedExpressions = ['calm', 'sleepy', 'yawn', 'restless', 'happy', 'surprised'];
     const expressions = new Map(profiles.map(profile => [profile.user_id, allowedExpressions.includes(profile.cat_expression) ? profile.cat_expression : 'calm']));
-    const allowedCoats = ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing'];
+    const allowedCoats = ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing','snow-leopard','leopard','cheetah','jaguar'];
     const coats = new Map(profiles.map(profile => [profile.user_id, allowedCoats.includes(profile.cat_coat) ? profile.cat_coat : 'calico']));
     const reactions = {}, reactionCounts = {};
     for (let start = 0; start < postIds.length; start += 100) {

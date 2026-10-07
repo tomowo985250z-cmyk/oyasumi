@@ -5,7 +5,7 @@ const profileBefore = CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)
 const scenesBefore = CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id)).flatMap(c => ['awake','sleeping'].map(s => CatScenes.svg(s,c.id)));
 require('./cat-day-scenes.js');
 const patterns = new Set();
-for (const coat of CatFaces.coats.filter(coat=>!WildCatAssets.isWild(coat.id))) for (const scene of DayCats.options) {
+for (const coat of CatFaces.groups.find(group=>group.id==='basic').coats) for (const scene of DayCats.options) {
   const svg = DayCats.svg(scene.id,coat.id); patterns.add(svg);
   assert(svg.includes(`data-cat-coat="${coat.id}"`));
   assert(svg.includes(`data-day-scene="${scene.id}"`));

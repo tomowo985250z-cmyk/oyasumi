@@ -27,7 +27,7 @@ const oldData = JSON.stringify({name:'旧ねこ',posts:[{id:'old-local-post',sta
   const screenshot=async filename=>{await delay(200);const data=await send('Page.captureScreenshot',{format:'png'});fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync(`test-results/${filename}`,Buffer.from(data.data,'base64'));return data.data;};
   await send('Runtime.enable');
   await send('Page.enable');
-if(process.argv.includes('--test-awake-cats')||process.argv.includes('--test-day-cat-tap')||process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown')||process.argv.includes('--test-reaction-effects'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
+if(process.argv.includes('--test-big-cats')||process.argv.includes('--test-awake-cats')||process.argv.includes('--test-day-cat-tap')||process.argv.includes('--test-domestic-faces-preview')||process.argv.includes('--test-cat-coat-cooldown')||process.argv.includes('--test-reaction-effects'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`globalThis.facesMock={userId:'faces-preview',needsNickname:false,initialize:async()=> 'faces-preview',setNickname:async()=>{},setCatCoat:async()=>{},snapshot:async()=>({userId:'faces-preview',name:'検証猫',expression:'calm',coat:'calico',catRole:null,profileNote:null,ownPosts:[],reactions:{},feed:[],reactionCounts:{},awakeCount:0,sleepingCount:0,ownSleepCount:0,nightDate:'2026-10-05',trend:[],trendSupported:false,expressionSupported:true,myState:null,catCoatStatus:{nextChangeAt:null}})};Object.defineProperty(globalThis,'OyasumiAPI',{get:()=>facesMock,set:()=>{},configurable:true});`});
   if(!process.argv.includes('--test-first-nickname')&&!process.argv.includes('--test-dark-hint'))await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('oyasumi-test-seeded')){localStorage.setItem('oyasumi-v1',${JSON.stringify(oldData)});localStorage.setItem('oyasumi-test-seeded','yes');}`});
   if(process.argv.includes('--test-dark-hint'))await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:process.argv.includes('--dark-device')?'dark':'light'}]});
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
@@ -52,6 +52,33 @@ if(process.argv.includes('--test-awake-cats')||process.argv.includes('--test-day
   }
   await waitFor('typeof ready!=="undefined" && ready && !busy');
   if(!process.argv.includes('--test-first-nickname'))await evaluate('await OyasumiAPI.setNickname("旧ねこ");await OyasumiAPI.setCatCoat("calico");await refreshShared()');
+  if(process.argv.includes('--test-big-cats')){
+    await evaluate('globalThis.bigSnapshot=facesMock.snapshot;globalThis.bigCoat="snow-leopard";globalThis.bigExpression="calm";facesMock.snapshot=async()=>({...await bigSnapshot(),profileComplete:true,needsCat:false,coat:bigCoat,expression:bigExpression});facesMock.setCatCoat=async c=>{bigCoat=c};facesMock.setCatExpression=async e=>{bigExpression=e};await refreshShared()');
+    for(const width of [320,375,390,430]){
+      await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+      await evaluate('go("profile")');await click('[data-coat-picker]');
+      assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".cat-group-title"),e=>e.textContent)'),['基本猫','野生猫','大ねこ']);
+      assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),16);
+      assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().right<=innerWidth'));
+      await screenshot(`big-cats-picker-${width}.png`);await evaluate('document.querySelector("#expression-dialog").scrollTop=10000');await screenshot(`big-cats-picker-bottom-${width}.png`);await action('[data-coat="snow-leopard"]');assert.equal(await evaluate('state.coat'),'snow-leopard');
+      for(const coat of ['snow-leopard','leopard','cheetah','jaguar'])for(const expression of ['calm','sleepy','yawn','restless','happy','surprised']){
+        await evaluate(`bigCoat=${JSON.stringify(coat)};bigExpression=${JSON.stringify(expression)};await refreshShared();shared.feed=[{id:'big-peer-post',userId:'big-peer',name:'大ねこ',coat:bigCoat,expression:bigExpression,time:Date.now(),status:'awake',self:false}];filter='all';go('profile')`);
+        assert.equal(await evaluate('document.querySelector(".profile-cat-button .cat-face").dataset.catCoat'),coat);
+        await click('[data-expression-picker]');assert.equal(await evaluate('document.querySelectorAll("[data-expression]").length'),6);await action(`[data-expression="${expression}"]`);
+        await evaluate('shared.feed=[{id:"big-peer-post",userId:"big-peer",name:"大ねこ",profileNote:"",catRole:null,coat:bigCoat,expression:bigExpression,time:Date.now(),status:"awake",self:false}];go("timeline")');assert.equal(await evaluate('document.querySelector(".post .cat-face").dataset.catExpression'),expression);
+        await click('[data-public-profile]');
+        assert.equal(await evaluate('document.querySelector(".public-profile-face .cat-face").dataset.catCoat'),coat);
+        assert.equal(await evaluate('document.querySelector(".public-profile-face .cat-face").dataset.catExpression'),expression);
+        const geometry=await evaluate('(()=>{const e=document.querySelector(".public-profile-face .avatar"),r=e.getBoundingClientRect(),s=getComputedStyle(e);return {square:Math.abs(r.width-r.height)<1,round:s.borderRadius==="50%",overflow:document.documentElement.scrollWidth>innerWidth}})()');
+        assert.deepEqual(geometry,{square:true,round:true,overflow:false});
+        await evaluate('await Promise.all(Array.from(document.querySelectorAll("svg image"),e=>{const i=new Image();i.src=e.getAttribute("href");return i.decode()}))');
+        if(coat==='jaguar'&&expression==='surprised')await screenshot(`big-cats-public-${width}.png`);
+        await evaluate('document.querySelector("#public-profile-dialog").close()');
+      }
+      await evaluate('go("profile")');await screenshot(`big-cats-profile-${width}.png`);
+    }
+    assert.deepEqual(errors,[]);console.log('PASS big cats UI: 24 faces in profile/timeline/public profile, six expression choices, three categories, round square frames, all assets decoded, 320/375/390/430px.');return;
+  }
   if(process.argv.includes('--test-awake-cats')){
 await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",coat:"black"},{id:"a",userId:"a",status:"awake",coat:"orange"},{id:"dup",userId:"a",status:"awake",coat:"black"},{id:"b",userId:"b",status:"awake",coat:"gray"},{id:"c",userId:"c",status:"awake",coat:"manul"}].map(post=>({...post,time:Date.now(),name:"検証猫",expression:"calm"}));globalThis.beforeButtons=actions()');
     for(const width of [320,375,390,430]){
@@ -150,7 +177,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     await evaluate('globalThis.coatCalls=0;globalThis.nextCoatChange=null;globalThis.savedCoat="calico";globalThis.baseCoatSnapshot=facesMock.snapshot;facesMock.snapshot=async()=>({...await baseCoatSnapshot(),profileComplete:true,needsCat:false,coat:savedCoat,catCoatStatus:{nextChangeAt:nextCoatChange}});facesMock.setCatCoat=async coat=>{coatCalls++;savedCoat=coat;nextCoatChange=NightClock.now()+7*86400000};await refreshShared();go("profile")');
     assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),false);
     await click('[data-coat-picker]');
-    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),12);
+    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),16);
     await action('[data-coat="manul"]');
     assert.equal(await evaluate('coatCalls'),1);
     assert.equal(await evaluate('state.coat'),'manul');
@@ -211,8 +238,8 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     for(const width of [320,375,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       await evaluate('go("settings")');await click('[data-coat-picker]');
-      assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),12);
-      assert.equal(await evaluate('document.querySelector(".cat-group-title").textContent'),'🐾 野生の猫たち');
+      assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),16);
+      assert.equal(await evaluate('document.querySelector(".cat-group-title").textContent'),'基本猫');
       assert(await evaluate('document.querySelector("#expression-dialog").scrollWidth<=document.querySelector("#expression-dialog").clientWidth'));
       await screenshot(`wild-picker-${width}.png`);await click('#cancel-expression');
       for(const coat of ['manul','sand','black-footed','fishing']){
@@ -620,7 +647,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
     await click('#cancel-expression');assert.equal(await evaluate('state.expression'),'calm');
     await evaluate('go("settings")');await click('[data-coat-picker]');
-    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),12);
+    assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),16);
     await screenshot('cat-coats-mobile.png');
     assert(await evaluate('document.querySelector("#expression-dialog").getBoundingClientRect().bottom<=innerHeight'));
     await click('#cancel-expression');

@@ -22,8 +22,16 @@ globalThis.CatFaces = (() => {
     { id: 'brown', label: 'キジトラ' }, { id: 'silver', label: 'サバトラ' },
     { id: 'black', label: '黒猫' }, { id: 'white', label: '白猫' },
     { id: 'tuxedo', label: 'ハチワレ' }, { id: 'gray', label: 'グレー' },
-    ...WildCatAssets.species
+    ...WildCatAssets.species,
+    { id: 'snow-leopard', label: 'ユキヒョウ', group: 'big' },
+    { id: 'leopard', label: 'ヒョウ', group: 'big' },
+    { id: 'cheetah', label: 'チーター', group: 'big' },
+    { id: 'jaguar', label: 'ジャガー', group: 'big' }
   ]);
+  const isBig = value => coats.some(coat => coat.id === value && coat.group === 'big');
+  const groups = Object.freeze([
+    { id: 'basic', label: '基本猫' }, { id: 'wild', label: '野生猫' }, { id: 'big', label: '大ねこ' }
+  ].map(group => Object.freeze({ ...group, coats: Object.freeze(coats.filter(coat => (coat.group || 'basic') === group.id)) })));
   const normalizeCoat = value => coats.some(coat => coat.id === value) ? value : 'calico';
   const coatLabel = value => coats.find(coat => coat.id === normalizeCoat(value)).label;
   const colors = { calico: ['#fff8ee','#e89324'], orange: ['#ffbc6c','#d58322'], brown: ['#ac8c64','#33302a'], silver: ['#bfc1c3','#8a8c8e'], black: ['#232323','#232323'], white: ['#fffdf8','#fffdf8'], tuxedo: ['#fffdf8','#292929'], gray: ['#919395','#919395'] };
@@ -36,9 +44,12 @@ globalThis.CatFaces = (() => {
   }
   const label = value => options.find(option => option.id === normalize(value)).label;
   const domesticVersions = {"black-faces-calm.png":"b9b70d19d04572ba","black-faces-happy.png":"6544502df01c0127","black-faces-restless.png":"da362098528cf99b","black-faces-sleepy.png":"20ee5325431de4eb","black-faces-surprised.png":"fb8e8401de2f5358","black-faces-yawn.png":"c24cfaee03299aef","brown-faces-calm.png":"46f285a316a3b7f2","brown-faces-happy.png":"72aef1cf10cc3b11","brown-faces-restless.png":"83c9bafdac4084d2","brown-faces-sleepy.png":"c763a4897267ed10","brown-faces-surprised.png":"b61871d58a4648c3","brown-faces-yawn.png":"a62e9f3bb2f8652c","calico-faces-calm.png":"9c7ff26ea678618b","calico-faces-happy.png":"b4232f5ec805cdb3","calico-faces-restless.png":"51bbd9868f054c3c","calico-faces-sleepy.png":"dc2a3fefde90d8be","calico-faces-surprised.png":"edf0edd440492e29","calico-faces-yawn.png":"a15c91b67fbb3950","gray-faces-calm.png":"97dce9010a721f8e","gray-faces-happy.png":"94fdeab84212f10a","gray-faces-restless.png":"422a62ab51a188e2","gray-faces-sleepy.png":"ab0a67c7f3a9d6da","gray-faces-surprised.png":"9ece4db1177bdc1f","gray-faces-yawn.png":"d295e2d248a84fcd","orange-faces-calm.png":"1ae7bd9b7e7b869c","orange-faces-happy.png":"e7e6c62a0ecaf0f0","orange-faces-restless.png":"aa5123295548ac84","orange-faces-sleepy.png":"104e2acc8a39bcec","orange-faces-surprised.png":"d165f5e45ff38979","orange-faces-yawn.png":"5a4ea2ba3d8a8704","silver-faces-calm.png":"8c26689833c114db","silver-faces-happy.png":"c45b933e1d8c3dbc","silver-faces-restless.png":"311de63bc00478af","silver-faces-sleepy.png":"7ae4d6845f9cda35","silver-faces-surprised.png":"74c5e1613cc0fe1f","silver-faces-yawn.png":"b725cccb25f319cd","tuxedo-faces-calm.png":"ff05d961bb4b8567","tuxedo-faces-happy.png":"ed2aada502e2cef9","tuxedo-faces-restless.png":"e910d874fdf7aeea","tuxedo-faces-sleepy.png":"4a2e158e6ca42dda","tuxedo-faces-surprised.png":"b30c5049d2b081b9","tuxedo-faces-yawn.png":"19ef6f4e298104e6","white-faces-calm.png":"35d3a4e8ff954a76","white-faces-happy.png":"1e8a8f108b9a8192","white-faces-restless.png":"2fb062e21ede6972","white-faces-sleepy.png":"35d391fcf40a8e1d","white-faces-surprised.png":"818a8c9c6ef21ed2","white-faces-yawn.png":"bfc18798bb47de89"};
+  const bigVersions = {"cheetah-faces-calm.png":"f1349b432e30d8b3","cheetah-faces-happy.png":"0509cead2d8bcfa9","cheetah-faces-restless.png":"c57e2644aacc1142","cheetah-faces-sleepy.png":"cd8da0cd5c81a374","cheetah-faces-surprised.png":"1d3b6882db0ede9d","cheetah-faces-yawn.png":"649198b76f9d1e5f","jaguar-faces-calm.png":"c100f17b197c2dd0","jaguar-faces-happy.png":"14f7cec9e0bb1263","jaguar-faces-restless.png":"01c20e66c4114a4f","jaguar-faces-sleepy.png":"66a7ce7b541a5a12","jaguar-faces-surprised.png":"126c2861ac441cf0","jaguar-faces-yawn.png":"ce679d043ea7456e","leopard-faces-calm.png":"15289c3bc319f3ce","leopard-faces-happy.png":"83c668590c0d18e9","leopard-faces-restless.png":"36233bbe1a65c683","leopard-faces-sleepy.png":"baa9c98f9b44f0fb","leopard-faces-surprised.png":"ac1601f52ff6bd45","leopard-faces-yawn.png":"10b5813dc338dde4","snow-leopard-faces-calm.png":"7170ca9e463e88eb","snow-leopard-faces-happy.png":"fe7012de9ba79537","snow-leopard-faces-restless.png":"6db767bb3633f8d1","snow-leopard-faces-sleepy.png":"931ae1642f00f2c5","snow-leopard-faces-surprised.png":"0f4e166297cd85eb","snow-leopard-faces-yawn.png":"708c86d4cf8ea70a"};
+  Object.assign(colors, { 'snow-leopard': ['#e7e5e3','#66615f'], leopard: ['#f4bd62','#493529'], cheetah: ['#efbc70','#49372b'], jaguar: ['#f3b95b','#423027'] });
   function svg(value, coatValue) {
     const expression = normalize(value);
     const coat = normalizeCoat(coatValue);
+    if(isBig(coat))return `<svg class="cat-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-expression="${expression}" data-cat-coat="${coat}"><image href="assets/big-cats/${coat}-faces-${expression}.png?v=${bigVersions[`${coat}-faces-${expression}.png`]}" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"/></svg>`;
     if(WildCatAssets.isWild(coat))return `<svg class="cat-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-expression="${expression}" data-cat-coat="${coat}">${WildCatAssets.image('faces',coat,expression)}</svg>`;
     const file = `${coat}-faces-${expression}.png`;
     return `<svg class="cat-face" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-cat-expression="${expression}" data-cat-coat="${coat}"><image href="assets/domestic-cats/${file}?v=${domesticVersions[file]}" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"/></svg>`;
@@ -49,5 +60,5 @@ globalThis.CatFaces = (() => {
     return base.slice(base.indexOf('<path d="M17'), base.indexOf('<g fill='));
   }
   const palette = value => { const [fur, stripe] = colors[normalizeCoat(value)]; return { fur, stripe }; };
-  return Object.freeze({ options, normalize, label, coats, normalizeCoat, coatLabel, svg, baseMarkup: value => coatMarkup(normalizeCoat(value)), headMarkup, palette });
+  return Object.freeze({ options, normalize, label, coats, groups, isBig, normalizeCoat, coatLabel, svg, baseMarkup: value => coatMarkup(normalizeCoat(value)), headMarkup, palette });
 })();
