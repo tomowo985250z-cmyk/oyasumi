@@ -160,7 +160,8 @@ let nightBoundaryTimer;
 function syncSleepView() {
  if(view!=='rest'&&view!=='sleep')return;
  const next=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
- if(next==='morning'||SleepFlow.sleepNight(state.lastSleep)!==NightClock.night())go(next);
+ if(next==='morning'||SleepFlow.expired(state.lastSleep,NightClock.now())||SleepFlow.sleepNight(state.lastSleep)!==NightClock.night())go(next);
+ scheduleNightBoundary();
 }
 function checkNightBoundary() {
  syncSleepView();
@@ -175,7 +176,10 @@ function checkNightBoundary() {
 function scheduleNightBoundary() {
  clearTimeout(nightBoundaryTimer);
  const remaining=NightClock.remaining();
- if(remaining!==null)nightBoundaryTimer=setTimeout(checkNightBoundary,Math.min(2147483647,remaining+5));
+ const end=(view==='rest'||view==='sleep')?SleepFlow.daytimeEnd(state.lastSleep):null;
+ const sleepRemaining=end!==null&&end>NightClock.now()?end-NightClock.now():null;
+ const boundaries=[remaining,sleepRemaining].filter(value=>value!==null&&value>0);
+ if(boundaries.length)nightBoundaryTimer=setTimeout(checkNightBoundary,Math.min(2147483647,Math.min(...boundaries)+5));
 }
 async function refreshShared() {
  if(busy&&ready){refreshQueued=true;return;}
@@ -355,11 +359,11 @@ document.querySelector('#nickname-form').addEventListener('submit',event=>{
   save();document.querySelector('#nickname-dialog').close();render();refreshAfterSave();toast('名前を保存しました');
  });
 });
-render();
+render();syncSleepView();
 void ensureConnection().catch(()=>{if(view!=='rest')toast('共有データに接続できません。');});
 function refreshDayScene() { if(view==='home'&&(document.querySelector('.day-hero')?.dataset.dayBucket||null)!==(DayCats.current()?.key||null))renderPreservingPosition(); }
-setInterval(()=>{if(view==='rest')return;if(!document.hidden)refreshDayScene();if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});},30000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNightBoundary();if(!document.hidden)refreshDayScene();if(!document.hidden&&!busy&&(view==='rest'||view==='sleep')&&SleepFlow.morningDue(state.lastSleep,state.morningDays,NightClock.now()))go('morning');if(view==='rest')return;if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>toast('最新の投稿を取得できませんでした。'));});
+setInterval(()=>{if(!document.hidden)syncSleepView();if(view==='rest')return;if(!document.hidden)refreshDayScene();if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});},30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNightBoundary();if(!document.hidden)refreshDayScene();if(view==='rest')return;if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>toast('最新の投稿を取得できませんでした。'));});
 window.addEventListener('online',()=>{if(view==='rest')return;if(!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});});
 
 window.addEventListener('scroll',positionReactionEffect,{passive:true});window.addEventListener('resize',positionReactionEffect);
