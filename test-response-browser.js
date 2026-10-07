@@ -20,7 +20,7 @@ let socket;
  await evaluate(`
  globalThis.testClock=(now=Date.parse('2026-10-06T01:00:00+09:00'))=>({serverNow:now,monotonicAt:performance.now(),resetAt:Date.parse(SleepFlow.night(now)+'T06:00:00+09:00')+86400000,nightDate:SleepFlow.night(now)});
  globalThis.testOwn=()=>({id:'own',userId:'self',self:true,name:'検証猫',status:'awake',coat:'calico',expression:'calm',time:NightClock.now(),nightDate:NightClock.night()});
- globalThis.testSnapshot=()=>structuredClone({...shared,clock:testClock(NightClock.now()),nightDate:NightClock.night(),name:state.name,expression:state.expression,coat:state.coat,catRole:state.catRole,profileNote:state.profileNote,ownPosts:state.posts,reactions:state.reactions,sleepingCount:42,catCoatStatus:shared.catCoatStatus||{nextChangeAt:NightClock.now()+30*86400000}});
+ globalThis.testSnapshot=()=>structuredClone({...shared,clock:testClock(NightClock.now()),nightDate:NightClock.night(),name:state.name,expression:state.expression,coat:state.coat,catRole:state.catRole,profileNote:state.profileNote,ownPosts:state.posts,reactions:state.reactions,sleepingCount:42,catCoatStatus:shared.catCoatStatus||{nextChangeAt:NightClock.now()+7*86400000}});
  globalThis.testReset=()=>{clearTimeout(restTimer);clearReactionEffect();document.querySelectorAll('dialog[open]').forEach(d=>d.close());NightClock.sync(testClock());state={...freshState(),name:'検証猫',coat:'calico',catRole:'independent',profileNote:'以前のひとこと'};shared={userId:'self',name:state.name,expression:'calm',coat:'calico',catRole:state.catRole,profileNote:state.profileNote,needsNickname:false,needsCat:false,profileComplete:true,catCoatStatus:{nextChangeAt:null},clock:testClock(),nightDate:NightClock.night(),feed:[{id:'peer',userId:'other',name:'相手猫',status:'sleep',time:NightClock.now(),coat:'gray',expression:'sleepy'}],ownPosts:[],reactions:{},reactionCounts:{peer:{goodnight:3,dream:4,tomorrow:5,comfort:6}},awakeCount:12,sleepingCount:42,morningReactions:null};ready=true;busy=false;refreshQueued=false;refreshSaved=false;connectionPromise=Promise.resolve('self');globalThis.reads=[];globalThis.writes=[];go('home')};
  for(const method of ['submitPost','setReaction','deletePost','setCatExpression','setCatCoat','setNickname','setProfileNote','setCatRole'])OyasumiAPI[method]=(...args)=>new Promise((resolve,reject)=>writes.push({method,args,resolve,reject}));
  OyasumiAPI.snapshot=()=>new Promise((resolve,reject)=>reads.push({snapshot:testSnapshot(),resolve,reject}));testReset();
@@ -63,11 +63,15 @@ let socket;
  await evaluate('testReset();document.querySelector("[data-post=sleep]").click()');await wait('writes.length===1');
  const sleepRow={...operations[0].result,id:'sleep-post',choice:'sleep'};await evaluate('writes[0].resolve('+JSON.stringify(sleepRow)+')');await wait('!busy&&reads.length===1');
  assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('state.lastSleep.count'),null);const started=await evaluate('sleepShownAt');await drain();assert.equal(await evaluate('state.lastSleep.count'),42);assert.equal(await evaluate('sleepShownAt'),started);
- // Discard both an old snapshot and an old-night post when 06:00 passes during an RPC.
+ // Discard old-night feed data at 06:00 without shortening the three-hour sleep UI.
  await evaluate('testReset();NightClock.sync(testClock(Date.parse("2026-10-06T05:59:59+09:00")));shared.clock=testClock(NightClock.now());shared.nightDate=NightClock.night();void refreshShared();document.querySelector("[data-post=sleep]").click()');await wait('writes.length===1&&reads.length===1');
  await evaluate('NightClock.sync(testClock(Date.parse("2026-10-06T06:00:01+09:00")));checkNightBoundary();const old=reads.shift();old.snapshot.name="古い名前";old.resolve(old.snapshot)');await delay(30);
  const oldSleep={...sleepRow,created_at:'2026-10-06T05:59:59+09:00'};await evaluate('writes[0].resolve('+JSON.stringify(oldSleep)+')');await wait('!busy');
- assert.equal(await evaluate('view'),'morning');assert.equal(await evaluate('shared.nightDate'),'2026-10-06');assert.equal(await evaluate('shared.feed.length'),0);assert.equal(await evaluate('state.name'),'検証猫');await drain();
+ assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('shared.nightDate'),'2026-10-06');assert.equal(await evaluate('shared.feed.length'),0);assert.equal(await evaluate('state.name'),'検証猫');await drain();
+ await evaluate('finishSleep();NightClock.sync(testClock(Date.parse("2026-10-06T08:59:58+09:00")));checkNightBoundary()');
+ assert.equal(await evaluate('view'),'rest');
+ await evaluate('NightClock.sync(testClock(Date.parse("2026-10-06T08:59:59+09:00")));checkNightBoundary()');
+ assert.equal(await evaluate('view'),'morning','Previous-night morning starts only after the three-hour sleep expires');
  // First-time profile prerequisites must be confirmed locally before the read finishes.
  await evaluate('testReset();shared.needsNickname=true;shared.profileComplete=false;go("settings");document.querySelector("[data-name]").click();document.querySelector("#nickname").value="応答猫";document.querySelector("#nickname-form").requestSubmit()');await wait('writes.length===1');await evaluate('writes[0].resolve("応答猫")');await wait('!busy');assert.equal(await evaluate('shared.profileComplete'),true);await drain();
  // Server cooldown rejection must not be described as a successful save.

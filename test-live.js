@@ -39,7 +39,7 @@ async function run() {
     assert.equal((await a.snapshot()).expression,expression);
   }
   for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray']){
-    // Each identity gets one initial selection; never bypass the 30-day cooldown.
+    // Each identity gets one initial selection; never bypass the 7-day cooldown.
     const cat=createOyasumiConnection('oyasumi-coat-'+coat+'-'+Date.now());let catPost;
     try{
       await cat.initialize();await cat.setNickname('毛色検証猫');await cat.setCatCoat(coat);

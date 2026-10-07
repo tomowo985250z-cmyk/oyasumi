@@ -1,11 +1,14 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 require('./cat-coat-cooldown.js');
-const now=Date.parse('2026-10-05T10:00:00Z'),end=now+30*86400000;
+const now=Date.parse('2026-10-05T10:00:00Z'),end=now+7*86400000;
 assert(CatCoatCooldown.available({nextChangeAt:null},now));
 assert(!CatCoatCooldown.available(null,now));
 assert(!CatCoatCooldown.available({nextChangeAt:end},end-1));
 assert(CatCoatCooldown.available({nextChangeAt:end},end));
-assert(CatCoatCooldown.message({nextChangeAt:end},now).includes('2026/11/4 19:00'));
+assert(CatCoatCooldown.available({nextChangeAt:end},end+1));
+assert(CatCoatCooldown.message({nextChangeAt:null},now).includes('保存後7日間'));
+assert(CatCoatCooldown.message({nextChangeAt:end},now).includes('7日間は変更できません'));
+assert(CatCoatCooldown.message({nextChangeAt:end},now).includes('2026/10/12 19:00'));
 (async()=>{
  const {PGlite}=require(process.env.PGLITE_PATH||'@electric-sql/pglite');const db=new PGlite();
  try {
@@ -20,7 +23,7 @@ assert(CatCoatCooldown.message({nextChangeAt:end},now).includes('2026/11/4 19:00
  assert.equal((await db.query('select * from public.oyasumi_cat_coat_status()')).rows[0].next_change_at,null);
  await db.query(`select public.oyasumi_set_cat_coat('calico')`);
  const first=(await db.query('select * from public.oyasumi_cat_coat_status()')).rows[0];
- assert.equal(new Date(first.next_change_at)-new Date(first.changed_at),30*86400000);
+ assert.equal(new Date(first.next_change_at)-new Date(first.changed_at),7*86400000);
  for(const coat of ['orange','manul','sand','black-footed','fishing'])await assert.rejects(db.query('select public.oyasumi_set_cat_coat($1)',[coat]),e=>e.code==='P0030');
  await db.query(`select public.oyasumi_set_cat_coat('calico')`);
  assert.equal(String((await db.query('select * from public.oyasumi_cat_coat_status()')).rows[0].changed_at),String(first.changed_at));
@@ -29,9 +32,9 @@ assert(CatCoatCooldown.message({nextChangeAt:end},now).includes('2026/11/4 19:00
  await db.exec('reset role');
  await assert.rejects(db.query(`update public.oyasumi_profiles set cat_coat='white' where user_id=$1`,[user]),e=>e.code==='P0030');
  await db.query(`update public.oyasumi_profiles set nickname='名前だけ',cat_expression='sleepy' where user_id=$1`,[user]);
- await db.query(`update public.oyasumi_cat_coat_changes set changed_at=clock_timestamp()-interval '719 hours' where user_id=$1`,[user]);
+ await db.query(`update public.oyasumi_cat_coat_changes set changed_at=clock_timestamp()-interval '167 hours' where user_id=$1`,[user]);
  await db.exec('set role authenticated');await assert.rejects(db.query(`select public.oyasumi_set_cat_coat('manul')`),e=>e.code==='P0030');await db.exec('reset role');
- await db.query(`update public.oyasumi_cat_coat_changes set changed_at=clock_timestamp()-interval '720 hours' where user_id=$1`,[user]);
+ await db.query(`update public.oyasumi_cat_coat_changes set changed_at=clock_timestamp()-interval '168 hours' where user_id=$1`,[user]);
  await db.exec('set role authenticated');await db.query(`select public.oyasumi_set_cat_coat('manul')`);
  await assert.rejects(db.query(`select public.oyasumi_set_cat_coat('calico')`),e=>e.code==='P0030');
  await db.exec('reset role');await db.exec(`set test.uid='00000000-0000-0000-0000-000000000002';set role authenticated`);
@@ -39,14 +42,34 @@ assert(CatCoatCooldown.message({nextChangeAt:end},now).includes('2026/11/4 19:00
  await assert.rejects(db.query(`select public.oyasumi_set_cat_coat('black')`),e=>e.code==='P0030');
  await db.exec('reset role');
  for(const coat of ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing']){
-  await db.query(`update public.oyasumi_cat_coat_changes set changed_at=clock_timestamp()-interval '721 hours' where user_id=$1`,[user]);
+  await db.query(`update public.oyasumi_cat_coat_changes set changed_at=clock_timestamp()-interval '169 hours' where user_id=$1`,[user]);
   await db.exec(`set test.uid='${user}';set role authenticated`);await db.query('select public.oyasumi_set_cat_coat($1)',[coat]);await db.exec('reset role');
  }
  await db.exec(`set test.uid='00000000-0000-0000-0000-000000000003';set role authenticated`);
  const concurrent=await Promise.allSettled(['orange','manul'].map(coat=>db.query('select public.oyasumi_set_cat_coat($1)',[coat])));
  assert.equal(concurrent.filter(r=>r.status==='fulfilled').length,1);assert.equal(concurrent.find(r=>r.status==='rejected').reason.code,'P0030');
+ // Upgrade an existing 30-day installation without restarting users' timers.
+ await db.exec('reset role');
+ const existing='00000000-0000-0000-0000-000000000004';
+ await db.query(`insert into public.oyasumi_profiles(user_id,nickname,cat_coat) values($1,'移行検証猫','black')`,[existing]);
+ await db.query(`update public.oyasumi_cat_coat_changes set changed_at=clock_timestamp()-interval '240 hours' where user_id=$1`,[existing]);
+ await db.exec(migration.replaceAll("interval '168 hours'","interval '720 hours'"));
+ await db.exec(`set test.uid='${existing}';set role authenticated`);
+ await assert.rejects(db.query(`select public.oyasumi_set_cat_coat('white')`),e=>e.code==='P0030');
+ const oldStatus=(await db.query('select * from public.oyasumi_cat_coat_status()')).rows[0];
+ assert.equal(new Date(oldStatus.next_change_at)-new Date(oldStatus.changed_at),30*86400000);
+ await db.exec('reset role');
+ const oldProfile=(await db.query('select * from public.oyasumi_profiles where user_id=$1',[existing])).rows[0];
+ await db.exec(migration);await db.exec(migration);
+ assert.deepEqual((await db.query('select * from public.oyasumi_profiles where user_id=$1',[existing])).rows[0],oldProfile);
+ await db.exec('set role authenticated');
+ const upgraded=(await db.query('select * from public.oyasumi_cat_coat_status()')).rows[0];
+ assert.equal(String(upgraded.changed_at),String(oldStatus.changed_at));
+ assert.equal(new Date(upgraded.next_change_at)-new Date(upgraded.changed_at),7*86400000);
+ await db.query(`select public.oyasumi_set_cat_coat('white')`);
+ await assert.rejects(db.query(`select public.oyasumi_set_cat_coat('black')`),e=>e.code==='P0030');
  await db.exec(`reset role;set test.uid='';set role anon`);
  await assert.rejects(db.query('select * from public.oyasumi_cat_coat_status()'),e=>e.code==='42501');
- console.log('PASS cat cooldown: initial save, unchanged existing profiles, 30-day boundary, same-cat retry, 12 species, SQL/RPC bypass denial, private timestamps, unrelated edits, anonymous denial.');
+ console.log('PASS cat cooldown: initial save, unchanged existing profiles, 7-day boundary, same-cat retry, 12 species, SQL/RPC bypass denial, private timestamps, unrelated edits, anonymous denial.');
  }finally{await db.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

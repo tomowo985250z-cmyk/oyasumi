@@ -1,5 +1,6 @@
 -- wild-cats.sql / profile-setup.sql適用後に実行。既存プロフィールは更新しない。
--- 導入後の最初の保存から30日間の制限を開始する。
+-- 導入後の最初の保存から7日間の制限を開始する。
+-- 再適用時は既存のchanged_atを保持し、全ユーザーの期限を変更日＋168時間に短縮する。
 begin;
 create table if not exists public.oyasumi_cat_coat_changes (
  user_id uuid primary key references public.oyasumi_profiles(user_id) on delete cascade,
@@ -23,9 +24,9 @@ begin
  if tg_op = 'UPDATE' and new.cat_coat is not distinct from old.cat_coat and v_changed is not null then
   return new;
  end if;
- if v_changed is not null and v_now < v_changed + interval '720 hours' then
-  raise exception '猫の種類は30日に1回変更できます。' using errcode = 'P0030',
-   detail = (v_changed + interval '720 hours')::text;
+ if v_changed is not null and v_now < v_changed + interval '168 hours' then
+  raise exception '猫の種類は7日に1回変更できます。' using errcode = 'P0030',
+   detail = (v_changed + interval '168 hours')::text;
  end if;
  insert into public.oyasumi_cat_coat_changes(user_id,changed_at) values(new.user_id,v_now)
  on conflict(user_id) do update set changed_at=excluded.changed_at;
@@ -42,7 +43,7 @@ language plpgsql security definer set search_path = '' as $$
 declare v_user uuid := auth.uid();
 begin
  if v_user is null then raise exception '匿名認証が必要です。' using errcode='42501'; end if;
- return query select c.changed_at,c.changed_at + interval '720 hours',clock_timestamp()
+ return query select c.changed_at,c.changed_at + interval '168 hours',clock_timestamp()
  from (select v_user as user_id) u left join public.oyasumi_cat_coat_changes c using(user_id);
 end;
 $$;

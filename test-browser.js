@@ -147,7 +147,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     assert.deepEqual(errors,[]);console.log('PASS day cat tap: 400ms gentle hop, cat image only, 30 rapid taps, no requests or saved changes, unchanged two-hour rotation and no overflow at 320/375/390/430px.');return;
   }
   if(process.argv.includes('--test-cat-coat-cooldown')){
-    await evaluate('globalThis.coatCalls=0;globalThis.nextCoatChange=null;globalThis.savedCoat="calico";globalThis.baseCoatSnapshot=facesMock.snapshot;facesMock.snapshot=async()=>({...await baseCoatSnapshot(),profileComplete:true,needsCat:false,coat:savedCoat,catCoatStatus:{nextChangeAt:nextCoatChange}});facesMock.setCatCoat=async coat=>{coatCalls++;savedCoat=coat;nextCoatChange=NightClock.now()+30*86400000};await refreshShared();go("profile")');
+    await evaluate('globalThis.coatCalls=0;globalThis.nextCoatChange=null;globalThis.savedCoat="calico";globalThis.baseCoatSnapshot=facesMock.snapshot;facesMock.snapshot=async()=>({...await baseCoatSnapshot(),profileComplete:true,needsCat:false,coat:savedCoat,catCoatStatus:{nextChangeAt:nextCoatChange}});facesMock.setCatCoat=async coat=>{coatCalls++;savedCoat=coat;nextCoatChange=NightClock.now()+7*86400000};await refreshShared();go("profile")');
     assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),false);
     await click('[data-coat-picker]');
     assert.equal(await evaluate('document.querySelectorAll("[data-coat]").length'),12);
@@ -159,6 +159,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
       await evaluate('go("profile")');
       assert.equal(await evaluate('document.querySelector("[data-coat-picker]").disabled'),true);
       assert(await evaluate('document.querySelector(".cat-coat-availability").textContent.includes("次回変更可能")'));
+      assert(await evaluate('document.querySelector(".cat-coat-availability").textContent.includes("7日間")'));
       assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
       await screenshot(`cat-coat-cooldown-${width}.png`);
     }

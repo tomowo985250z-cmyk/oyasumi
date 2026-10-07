@@ -270,7 +270,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.dataset.expression||button.dataset.coat){const coatPicker=Boolean(button.dataset.coat);const value=button.dataset.coat||button.dataset.expression;const expression=coatPicker?state.expression:value;const coat=coatPicker?value:state.coat;if(!(coatPicker?CatFaces.coats:CatFaces.options).some(option=>option.id===value))return;void mutation(async()=>{
   if(coatPicker&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()))return;
   try{if(coatPicker)await OyasumiAPI.setCatCoat(coat);else await OyasumiAPI.setCatExpression(expression);}
-  catch(error){if(coatPicker&&error.code==='P0030'){refreshAfterSave(false);document.querySelector('#expression-dialog').close();toast('猫の種類は30日に1回変更できます。');return;}document.querySelector('#expression-error').textContent=['PGRST202','PGRST204','42703'].includes(error.code)?'猫の保存機能は準備中です。':'保存できませんでした。もう一度お試しください。';return;}
+  catch(error){if(coatPicker&&error.code==='P0030'){refreshAfterSave(false);document.querySelector('#expression-dialog').close();toast('猫の種類は7日に1回変更できます。');return;}document.querySelector('#expression-error').textContent=['PGRST202','PGRST204','42703'].includes(error.code)?'猫の保存機能は準備中です。':'保存できませんでした。もう一度お試しください。';return;}
   if(coatPicker){shared.catCoatStatus=null;shared.needsCat=false;shared.profileComplete=!shared.needsNickname;}
   state.expression=expression;shared.expression=expression;state.coat=coat;shared.coat=coat;for(const post of [...state.posts,...shared.feed])if(post.self){post.expression=expression;post.coat=coat;}
   document.querySelector('#expression-dialog').close();render();refreshAfterSave();toast(coatPicker?'猫の毛色を保存しました':'猫の表情を保存しました');

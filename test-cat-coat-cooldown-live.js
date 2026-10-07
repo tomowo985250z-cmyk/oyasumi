@@ -14,7 +14,7 @@ const status=async c=>checked(await c.client.rpc('oyasumi_cat_coat_status'))[0];
   const before=await c.snapshot();assert(before.needsCat);
   await c.setCatCoat(coat);const first=await status(c),own=await c.snapshot();
   assert.equal(own.coat,coat);assert.equal(own.needsCat,false);assert(own.profileComplete);
-  assert.equal(Date.parse(first.next_change_at)-Date.parse(first.changed_at),30*86400000);
+  assert.equal(Date.parse(first.next_change_at)-Date.parse(first.changed_at),7*86400000);
   assert(Date.parse(first.changed_at)<=Date.parse(first.server_now));
   assert.equal(own.catCoatStatus.nextChangeAt,Date.parse(first.next_change_at));
   for(const target of ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing'].filter(x=>x!==coat)){
@@ -44,7 +44,7 @@ const status=async c=>checked(await c.client.rpc('oyasumi_cat_coat_status'))[0];
  for(const [name,args] of [['oyasumi_cat_coat_status',{}],['oyasumi_set_cat_coat',{p_coat:'white'}]])assert((await visitor.rpc(name,args)).error);
  const afterExisting=checked(await a.client.from('oyasumi_profiles').select('user_id,nickname,cat_coat,cat_expression,cat_role,profile_note').in('user_id',existing.map(x=>x.user_id)));
  assert.deepEqual(afterExisting.sort((x,y)=>x.user_id.localeCompare(y.user_id)),existing.sort((x,y)=>x.user_id.localeCompare(y.user_id)));
- passed=true;console.log('PASS LIVE: two initial saves (black/manul), 22 blocked changes across all 12 coats, same-coat retry, exact 720-hour deadline, private timestamps/tamper/delete/direct-update denied, expression/name/note/role unaffected, two posts and all four reactions, '+existing.length+' existing profiles unchanged (read-only comparison), unauthenticated denial.');
+ passed=true;console.log('PASS LIVE: two initial saves (black/manul), 22 blocked changes across all 12 coats, same-coat retry, exact 168-hour deadline, private timestamps/tamper/delete/direct-update denied, expression/name/note/role unaffected, two posts and all four reactions, '+existing.length+' existing profiles unchanged (read-only comparison), unauthenticated denial.');
 })().catch(e=>{console.error('FAIL LIVE:',e.message,e.code||'');process.exitCode=1;}).finally(async()=>{
  for(const {c,id} of posts){try{assert(await c.deletePost(id));assert(!(await c.snapshot()).ownPosts.some(p=>p.id===id));console.log('CLEANUP: test post deleted (reactions cascade).');}catch(e){console.error('CLEANUP FAILED:',e.message);process.exitCode=1;}}
  for(const c of connections){try{await c.client.auth.signOut({scope:'local'});c.client.auth.stopAutoRefresh();}catch(e){console.error('SIGNOUT FAILED:',e.message);process.exitCode=1;}}
