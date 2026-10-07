@@ -115,3 +115,4 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
 /* Compact only the profile role card while preserving horizontal padding. */
 .profile-banner~.role-setting{padding-block:10.5px 9.5px;align-items:center}
 .avatar .cat-face[data-cat-coat="snow-leopard"],.avatar .cat-face[data-cat-coat="leopard"],.avatar .cat-face[data-cat-coat="cheetah"],.avatar .cat-face[data-cat-coat="jaguar"]{border-radius:50%;overflow:hidden}
+.avatar:has(>.cat-face:is([data-cat-coat="snow-leopard"],[data-cat-coat="leopard"],[data-cat-coat="cheetah"],[data-cat-coat="jaguar"])){background:#2d719f;border-color:#ffa84f}

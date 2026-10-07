@@ -76,6 +76,7 @@ if(process.argv.includes('--test-big-cats')||process.argv.includes('--test-awake
         assert.equal(await evaluate('document.querySelector(".public-profile-face .cat-face").dataset.catExpression'),expression);
         const geometry=await evaluate('(()=>{const e=document.querySelector(".public-profile-face .avatar"),r=e.getBoundingClientRect(),s=getComputedStyle(e);return {square:Math.abs(r.width-r.height)<1,round:s.borderRadius==="50%",overflow:document.documentElement.scrollWidth>innerWidth}})()');
         assert.deepEqual(geometry,{square:true,round:true,overflow:false});
+        assert.deepEqual(await evaluate('(()=>{const s=getComputedStyle(document.querySelector(".public-profile-face .avatar"));return [s.backgroundColor,s.borderTopColor]})()'),['rgb(45, 113, 159)','rgb(255, 168, 79)']);
         await evaluate('await Promise.all(Array.from(document.querySelectorAll("svg image"),e=>{const i=new Image();i.src=e.getAttribute("href");return i.decode()}))');
         if(coat==='jaguar'&&expression==='surprised')await screenshot(`big-cats-public-${width}.png`);
         await evaluate('document.querySelector("#public-profile-dialog").close()');
