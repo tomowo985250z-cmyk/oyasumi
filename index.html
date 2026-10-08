@@ -2,14 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="oyasumi-release" content="81355cb844c2ba75">
+  <meta name="oyasumi-release" content="4b5ecb3e55e9c8df">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#071329">
   <meta name="description" content="眠れない夜に、ひとりじゃない。静かなおやすみコミュニティ。">
   <title>おやすみ — ひとりじゃない、おやすみの時間。</title>
   <link rel="icon" href="favicon.svg?v=16ea8576293793f9" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/mplus-rounded-400-6208cb6654e52a9d.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=3b1da4630ab4b19a">
+  <link rel="stylesheet" href="style.css?v=fe6376166eade694">
   <script src="cat-coat-cooldown.js?v=3dd9df3b7df7242b" defer></script>
   <script src="nickname.js?v=a944082ff045149b" defer></script>
   <script src="wild-cat-assets.js?v=257f77aec848fbee" defer></script>
@@ -27,7 +27,7 @@
   <script src="supabase-api.js?v=aa332c5e6cf5ee02" defer></script>
   <script src="update-client.js?v=dce3c8e9063a578a" defer></script>
   <script src="safety.js?v=1bef3d2c4949dddf" defer></script>
-  <script src="app.js?v=71f4904bfae19bb1" defer></script>
+  <script src="app.js?v=11d7c31dd54a26b9" defer></script>
 </head>
 <body>
   <div class="night-sky" aria-hidden="true"></div>
@@ -38,7 +38,7 @@
   <dialog id="expression-dialog" aria-labelledby="expression-title"><h2 id="expression-title">猫の表情</h2><p id="expression-description">今の気分に合う表情を、ひとつ。</p><div id="expression-options" class="expression-options" role="group" aria-label="猫の表情の選択肢"></div><p id="expression-error" class="nickname-error" role="alert"></p><button type="button" class="text-button" id="cancel-expression">閉じる</button></dialog>
 <dialog id="share-dialog" aria-labelledby="share-title"><h2 id="share-title">この場所を教える 🌙</h2><p>URLを長押ししてコピーすることもできます。</p><p id="share-url" class="share-url" tabindex="0"></p><div class="dialog-actions"><button type="button" class="text-button" data-close-share>閉じる</button><button type="button" class="cream-button" data-copy-place>URLをコピー</button></div></dialog>
   <dialog id="role-dialog" aria-labelledby="role-title"><form id="role-form"><h2 id="role-title">職業（任意）</h2><p id="role-help">指で上下に動かして選べます。<br>みんなには「〇〇猫」だけが表示されます。</p><div class="role-wheel-frame"><div id="role-wheel" class="role-wheel" role="listbox" tabindex="0" aria-label="職業の選択肢" aria-describedby="role-help"></div></div><p id="role-preview" class="role-preview" aria-live="polite"></p><p id="role-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-role">キャンセル</button><button type="submit" class="cream-button">保存する</button></div></form></dialog>
-  <dialog id="note-dialog" aria-labelledby="note-title"><form id="note-form" novalidate><h2 id="note-title">そっとひとこと</h2><p id="note-help">20文字以内。未入力でも登録できます。みんなに公開されるひとことです。本名・学校名・住所・電話番号・メールアドレス・SNS IDなど、個人を特定できる情報は入力しないでください。連絡先や不適切な表現は使用できません。</p><label for="profile-note">ひとこと</label><input id="profile-note" name="profile-note" type="text" autocomplete="off" enterkeyhint="done" aria-describedby="note-help note-error" placeholder="今のあなたを、少しだけ"><p id="note-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="cancel-note">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
+  <dialog id="note-dialog" aria-labelledby="note-title"><form id="note-form" novalidate><h2 id="note-title">そっとひとこと</h2><p id="note-help">20文字以内。未入力でも登録できます。みんなに公開されるひとことです。本名・学校名・住所・電話番号・メールアドレス・SNS IDなど、個人を特定できる情報は入力しないでください。連絡先や不適切な表現は使用できません。</p><label for="profile-note">ひとこと</label><input id="profile-note" name="profile-note" type="text" autocomplete="off" enterkeyhint="done" aria-describedby="note-help note-error" placeholder="今のあなたを、少しだけ"><p id="note-error" class="nickname-error" role="alert"></p><div class="dialog-actions"><button type="button" class="text-button" id="delete-note">削除する</button><button type="button" class="text-button" id="cancel-note">キャンセル</button><button class="cream-button" type="submit">保存する</button></div></form></dialog>
   <dialog id="public-profile-dialog" aria-labelledby="public-profile-title"><h2 id="public-profile-title">プロフィール</h2><div id="public-profile-content"></div><button type="button" class="text-button" id="close-public-profile">閉じる</button></dialog>
   <dialog id="safety-dialog" class="safety-dialog" aria-labelledby="safety-title"><h2 id="safety-title"></h2><div id="safety-content"></div><button type="button" class="text-button" data-close-safety>閉じる</button></dialog>
 </body>

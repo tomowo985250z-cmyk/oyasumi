@@ -120,8 +120,9 @@ function stats() {
 }
 function dayHero() { const scene=DayCats.current();return scene ? `<section class="day-hero" data-day-bucket="${scene.key}"><button class="day-cat" data-day-cat-tap aria-label="昼猫をなでる">${DayCats.svg(scene.id,state.coat)}</button><h2>${scene.label}</h2><p>また今夜 🌙</p></section>` : ''; }
 function roleTag(role) { const label=CatRoles.label(role);return label?`<span class="cat-role-tag">${escapeHTML(label)}</span>`:''; }
+function homeNote() { return `<section class="card home-note"><button class="profile-note-button" data-note-editor aria-label="自分のそっとひとことを編集"><span>そっとひとこと <small>編集 ›</small></span><span class="profile-note-text${state.profileNote?'':' is-empty'}">${escapeHTML(state.profileNote)||'タップして、ひとこと'}</span></button></section>`; }
 function roleSetting() { return `<button class="setting-row role-setting" data-role-picker><span>職業 <small>任意</small></span><span class="setting-value">${CatRoles.label(state.catRole)||(state.catRole==='private'?'表示なし':'未設定')} ›</span></button>`; }
-function home() { return `<div class="home-heading">${header()}${darkHint()}</div>${dayHero()}${countCard()}${actions()}<section><div class="section-heading"><h2>みんなの様子</h2><small><span class="live-dot"></span>今夜のタイムライン</small></div><div class="mini-feed">${allPosts().slice(0,5).map(p=>`<div class="mini-row">${avatar(p)}<span class="mini-name">${escapeHTML(p.name)}</span><span class="mini-status ${isSleeping(p.status)?'sleeping':''}">${statusText(p.status)}</span><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>`).join('')}</div></section><p class="quiet-note">眠れない夜も、ここではひとりじゃない。</p>`; }
+function home() { return `<div class="home-heading">${header()}${darkHint()}</div>${dayHero()}${countCard()}${homeNote()}${actions()}<section><div class="section-heading"><h2>みんなの様子</h2><small><span class="live-dot"></span>今夜のタイムライン</small></div><div class="mini-feed">${allPosts().slice(0,5).map(p=>`<div class="mini-row">${avatar(p)}<span class="mini-name">${escapeHTML(p.name)}</span><span class="mini-status ${isSleeping(p.status)?'sleeping':''}">${statusText(p.status)}</span><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>`).join('')}</div></section><p class="quiet-note">眠れない夜も、ここではひとりじゃない。</p>`; }
 function reactionButtons(post) {
  return `<div class="reaction-options" role="group" aria-label="${escapeHTML(post.name)}へのリアクション">${REACTION_OPTIONS.map(option => {
   const selected = state.reactions[post.id] === option.id;
@@ -131,7 +132,7 @@ function reactionButtons(post) {
 }
 function timeline() {
  const posts = TimelineVisibility.visible(allPosts(),NightClock.now()).filter(post => filter==='all' || (filter==='sleep' ? isSleeping(post.status) : post.status==='awake'));
- return `${header()}<div class="tabs" aria-label="投稿の絞り込み">${[['all','みんな'],['awake','まだ起きてる'],['sleep','もう寝た']].map(([key,label])=>`<button data-filter="${key}" class="${filter===key?'active':''}" aria-pressed="${filter===key}">${label}</button>`).join('')}</div><div>${posts.length?posts.map(p=>`<article class="post"><button class="public-profile-cat" data-public-profile="${p.id}" aria-label="${escapeHTML(p.name)}のプロフィール">${avatar(p)}</button><div class="post-body"><div class="post-top"><h2 class="post-name"><span class="post-nickname">${escapeHTML(p.name)}</span>${roleTag(p.catRole)}${p.self?'<span class="self-tag">あなた</span>':''}</h2>${p.self?`<button class="text-button" data-delete="${p.id}" aria-label="自分の投稿を削除">削除</button>`:''}</div><p class="post-text ${p.status==='awake'?'awake-text':''}">${statusText(p.status)}</p><div class="post-bottom"><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>${reactionButtons(p)}</div></article>`).join(''):'<p class="empty">まだ投稿がありません。<br>ホームから今の気持ちを伝えてみましょう。</p>'}</div>`;
+ return `${header()}<div class="tabs" aria-label="投稿の絞り込み">${[['all','みんな'],['awake','まだ起きてる'],['sleep','もう寝た']].map(([key,label])=>`<button data-filter="${key}" class="${filter===key?'active':''}" aria-pressed="${filter===key}">${label}</button>`).join('')}</div><div>${posts.length?posts.map(p=>`<article class="post"><button class="public-profile-cat" data-public-profile="${p.id}" aria-label="${escapeHTML(p.name)}のプロフィール">${avatar(p)}</button><div class="post-body"><div class="post-top"><h2 class="post-name"><span class="post-nickname">${escapeHTML(p.name)}</span>${roleTag(p.catRole)}${p.self?'<span class="self-tag">あなた</span>':''}</h2>${p.self?`<button class="text-button" data-delete="${p.id}" aria-label="自分の投稿を削除">削除</button>`:''}</div><p class="post-text ${p.status==='awake'?'awake-text':''}">${statusText(p.status)}</p>${p.profileNote?`<p class="timeline-profile-note">${escapeHTML(p.profileNote)}</p>`:''}<div class="post-bottom"><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>${reactionButtons(p)}</div></article>`).join(''):'<p class="empty">まだ投稿がありません。<br>ホームから今の気持ちを伝えてみましょう。</p>'}</div>`;
 }
 function sleep() { return `<section class="sleep-screen"><div class="sleep-art" aria-hidden="true"><span class="big-moon">☾</span><span class="star one">✦</span><span class="star two">✦</span><span class="star three">✦</span><span class="sleep-cat">${CatFaces.svg(state.expression,state.coat)}</span></div><h1>おやすみなさい<br>${escapeHTML(state.name)}さん 🌙</h1><div class="card">今夜は <strong>${state.lastSleep?.count ?? '—'}</strong> 人と一緒に<br>おやすみしました。</div><p class="rest-message">今日もお疲れさまでした。<br>ゆっくり休んでくださいね。</p><button class="cream-button" data-finish-sleep>また明日 🌙</button><p class="quiet-note">これで今日のSNSは終了です。<br>スマホを置いて、ゆっくり休みましょう。</p><button class="text-button" data-view="home">ホームに戻る</button><p class="sample-tag">おやすみした時点の報告人数です</p></section>`; }
 function rest() { const elapsed=CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now()),settled=elapsed>=CatScenes.settleDurationMs;return `<section class="rest-screen" data-phase="${settled?'settled':'intro'}" style="--rest-duration:${CatScenes.settleDurationMs}ms;--rest-elapsed:-${elapsed}ms"><div class="rest-content"><div class="rest-cat" aria-hidden="true">${CatScenes.svg('sleeping',state.coat)}</div>${settled?'<h1>おやすみなさい 🌙</h1>':'<div class="rest-intro"><h1>また明日 🌙</h1><p class="rest-message">今日もおつかれさまでした<br>スマホを置いて、ゆっくり休もう</p></div>'}</div></section>`; }
@@ -154,7 +155,7 @@ function go(next) { if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.no
 function syncBusy() {
  document.querySelectorAll('[data-coat-picker]').forEach(button=>{button.disabled=busy||!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now());});
  app.setAttribute('aria-busy',String(busy));
- document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],#note-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy||(button.hasAttribute('data-coat')&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()));});
+ document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],[data-note-editor],#delete-note,#note-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy||(button.hasAttribute('data-coat')&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()));});
 }
 function renderPreservingPosition(allowDialog=false) {
  if(!allowDialog&&document.querySelector('dialog[open]'))return;
@@ -306,6 +307,7 @@ document.addEventListener('click',event=>{
  if(edit&&!busy){
   document.querySelector('#profile-note').value=state.profileNote||'';
   document.querySelector('#note-error').textContent='';document.querySelector('#profile-note').removeAttribute('aria-invalid');
+  document.querySelector('#delete-note').hidden=!state.profileNote;
   document.querySelector('#note-dialog').showModal();document.querySelector('#profile-note').focus();
  }
  const button=event.target.closest('[data-public-profile]');if(!button)return;
@@ -316,6 +318,7 @@ document.addEventListener('click',event=>{
 document.querySelector('#close-public-profile').addEventListener('click',()=>document.querySelector('#public-profile-dialog').close());
 document.querySelector('#public-profile-dialog').addEventListener('close',renderPreservingPosition);
 document.querySelector('#cancel-note').addEventListener('click',()=>document.querySelector('#note-dialog').close());
+document.querySelector('#delete-note').addEventListener('click',()=>{if(busy)return;document.querySelector('#profile-note').value='';document.querySelector('#note-form').requestSubmit();});
 document.querySelector('#profile-note').addEventListener('input',()=>{document.querySelector('#note-error').textContent='';document.querySelector('#profile-note').removeAttribute('aria-invalid');});
 document.querySelector('#note-form').addEventListener('submit',event=>{
  event.preventDefault();if(busy)return;

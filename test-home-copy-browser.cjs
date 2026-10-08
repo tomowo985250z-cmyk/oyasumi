@@ -68,6 +68,56 @@ let socket;
   assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),0);
   assert(await evaluate(`!app.innerHTML.includes('今夜')`),'Empty/failure copy is neutral');
  }
+ await evaluate(`globalThis.savedNotes=[];OyasumiAPI.setProfileNote=async value=>{savedNotes.push(value);return value};NightClock.now=()=>Date.parse('2026-10-08T23:00:00+09:00');shared.userId='self-note';state.profileNote='自分のひとこと';shared.profileNote=state.profileNote;state.name='検証猫';state.posts=[];shared.feed=[{id:'mine',userId:'self-note',self:true,name:'検証猫',status:'awake',time:NightClock.now()-1000,coat:'calico',expression:'calm',profileNote:state.profileNote},{id:'peer',userId:'peer-note',self:false,name:'隣の猫',status:'sleep',time:NightClock.now()-1000,coat:'gray',expression:'calm',profileNote:'あ'.repeat(20)}];globalThis.notePostsBefore=shared.feed.map(p=>({id:p.id,status:p.status,time:p.time}));go('home')`);
+ const submitNote=async(value,from='home')=>{
+  await evaluate(`go(${JSON.stringify(from)});document.querySelector('[data-note-editor]').click();document.querySelector('#profile-note').value=${JSON.stringify(value)};document.querySelector('#note-form').requestSubmit()`);
+  for(let i=0;i<60;i++){if(await evaluate('!busy'))break;await delay(50);}
+ };
+ for(const width of [320,375,390,430]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+  await submitNote('あ'.repeat(20));
+  assert.equal(await evaluate('state.profileNote'),'あ'.repeat(20));
+  assert.equal(await evaluate('document.querySelector(".home-note .profile-note-text").textContent'),'あ'.repeat(20));
+  await evaluate(`go('timeline')`);
+  assert.equal(await evaluate('document.querySelectorAll(".timeline-profile-note").length'),2);
+  assert.equal(await evaluate('document.querySelectorAll(".post [data-note-editor],.post input,.post [contenteditable]").length'),0,'Timeline notes are read only');
+  assert(await evaluate(`Array.from(document.querySelectorAll('.timeline-profile-note')).every(p=>getComputedStyle(p).whiteSpace==='nowrap'&&p.getBoundingClientRect().height<30)`));
+  assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+  let shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(`test-results/timeline-notes-${width}.png`,Buffer.from(shot.data,'base64'));
+  await evaluate(`document.querySelector('[data-public-profile="peer"]').click()`);
+  assert.equal(await evaluate('document.querySelector(".public-profile-note").textContent'),'あ'.repeat(20));
+  assert.equal(await evaluate('document.querySelectorAll("#public-profile-dialog [data-note-editor],#public-profile-dialog input").length'),0);
+  await evaluate(`document.querySelector('#public-profile-dialog').close();go('home');document.querySelector('[data-note-editor]').click()`);
+  assert(await evaluate('document.querySelector("#note-dialog").scrollWidth<=document.querySelector("#note-dialog").clientWidth'));
+  shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(`test-results/note-editor-${width}.png`,Buffer.from(shot.data,'base64'));
+  await evaluate(`document.querySelector('#cancel-note').click()`);
+  shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(`test-results/home-note-${width}.png`,Buffer.from(shot.data,'base64'));
+ }
+ const savedCount=await evaluate('savedNotes.length');
+ for(const value of ['あ'.repeat(21),'https://example.jp','ねこ@example.jp','090-1234-5678','死♡ね','<script>','a\u200b']){
+  await submitNote(value);
+  assert(await evaluate('document.querySelector("#note-error").textContent.length>0'));
+  assert.equal(await evaluate('savedNotes.length'),savedCount,'Invalid input never calls API');
+  await evaluate(`document.querySelector('#cancel-note').click()`);
+ }
+ await submitNote('マイページで編集','profile');
+ await evaluate(`go('home')`);assert.equal(await evaluate('document.querySelector(".home-note .profile-note-text").textContent'),'マイページで編集');
+ assert.equal(await evaluate('shared.feed.find(p=>!p.self).profileNote'),'あ'.repeat(20),'Peer note unchanged');
+ await evaluate(`go('home');document.querySelector('[data-note-editor]').click();document.querySelector('#delete-note').click()`);
+ for(let i=0;i<60;i++){if(await evaluate('!busy'))break;await delay(50);}
+ assert.equal(await evaluate('state.profileNote'),'');assert.equal(await evaluate('savedNotes.at(-1)'),'');
+ await submitNote('投稿が消えても残る');
+ await evaluate(`NightClock.now=()=>Date.parse('2026-10-09T02:00:00+09:00');go('timeline')`);
+ assert.equal(await evaluate('document.querySelectorAll(".post").length'),0);
+ await evaluate(`go('home');document.querySelector('[data-note-editor]').click()`);
+ assert.equal(await evaluate('document.querySelector("#profile-note").value'),'投稿が消えても残る');
+ await evaluate(`document.querySelector('#cancel-note').click();OyasumiAPI.setProfileNote=async()=>{throw Error('offline')}`);
+ await submitNote('失敗した保存');
+ assert.equal(await evaluate('state.profileNote'),'投稿が消えても残る');
+ assert(await evaluate('document.querySelector("#note-dialog").open'),'Failed save stays editable');
+ assert.equal(await evaluate('document.querySelector("#profile-note").value'),'失敗した保存');
+ assert.deepEqual(await evaluate('shared.feed.map(p=>({id:p.id,status:p.status,time:p.time}))'),await evaluate('notePostsBefore'),'Note edits never modify posts');
+ await evaluate(`document.querySelector('#cancel-note').click()`);
  assert.deepEqual(errors,[]);
- console.log('PASS home and records copy: 320/375/390/430px, JST home boundaries, offline/resume/dialogs; neutral records day/night, 32-cat cap, counts/hours/trend, zero/failure fallback, unchanged data and home lower feed.');
+ console.log('PASS home, records and notes: 320/375/390/430px; JST copy boundaries, records day/night, counts/hours/trend; own home/profile edit and deletion, 20/21-character screening, read-only one-line timeline notes, +3h editor retention, failed-save draft, unchanged posts and home lower feed.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});
