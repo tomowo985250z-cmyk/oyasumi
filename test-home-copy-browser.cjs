@@ -119,6 +119,27 @@ let socket;
  assert.equal(await evaluate('document.querySelector("#profile-note").value'),'失敗した保存');
  assert.deepEqual(await evaluate('shared.feed.map(p=>({id:p.id,status:p.status,time:p.time}))'),await evaluate('notePostsBefore'),'Note edits never modify posts');
  await evaluate(`document.querySelector('#cancel-note').click()`);
+  for(const width of [320,375,390,430]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+  for(const [hour,period] of [['05','night'],['06','morning'],['11','morning'],['12','day'],['17','day'],['18','night']]){
+   await evaluate(`NightClock.now=()=>Date.parse('2026-10-08T${hour}:00:00+09:00');document.querySelector('#public-profile-content').innerHTML=publicProfileRoom({name:'おへやの猫',coat:'calico',expression:'calm',catRole:'mechanic',profileNote:'あ'.repeat(40)});document.querySelector('#public-profile-dialog').showModal()`);
+   assert.equal(await evaluate('document.querySelector(".cat-room").dataset.time'),period);
+   assert.equal(await evaluate('document.querySelector(".public-profile-note").textContent'),'あ'.repeat(40));
+   assert(await evaluate('document.querySelector("#public-profile-dialog").scrollWidth<=document.querySelector("#public-profile-dialog").clientWidth'));
+   assert.equal(await evaluate('document.querySelectorAll("#public-profile-dialog [data-note-editor],#public-profile-dialog input").length'),0);
+   if(['06','12','18'].includes(hour)){const shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(`test-results/cat-room-${period}-${width}.png`,Buffer.from(shot.data,'base64'));}
+   await evaluate('document.querySelector("#public-profile-dialog").close()');
+  }
+ }
+ assert.equal(await evaluate('Object.keys(roomWhispers).length'),16);
+ for(const role of await evaluate('CatRoles.options.filter(o=>o.cat).map(o=>o.id)')){
+  assert(await evaluate(`publicProfileRoom({name:'猫',coat:'calico',expression:'calm',catRole:${JSON.stringify(role)}}).includes(roomWhispers[${JSON.stringify(role)}])`));
+ }
+ for(const role of [null,'private','unknown'])assert(await evaluate(`publicProfileRoom({name:'猫',coat:'calico',expression:'calm',catRole:${JSON.stringify(role)}}).includes('ここで、いっしょにひとやすみ。')`));
+ for(const coat of await evaluate('CatFaces.coats.map(c=>c.id)'))assert(await evaluate(`publicProfileRoom({name:'猫',coat:${JSON.stringify(coat)},expression:'calm'}).includes(CatFaces.svg('calm',${JSON.stringify(coat)}))`));
+ await evaluate(`document.querySelector('#public-profile-content').innerHTML=publicProfileRoom({name:'猫',coat:'calico',expression:'calm'});document.querySelector('#public-profile-dialog').showModal();NightClock.now=()=>Date.parse('2026-10-08T12:00:00+09:00');document.dispatchEvent(new Event('visibilitychange'))`);
+ assert.equal(await evaluate('document.querySelector(".cat-room").dataset.time'),'day');
+ await evaluate(`document.querySelector('#close-public-profile').click()`);
  assert.deepEqual(errors,[]);
  console.log('PASS home, records and notes: 320/375/390/430px; JST copy boundaries, records day/night, counts/hours/trend; own home/profile edit and deletion, 40/41-character screening, read-only two-line timeline notes, +3h editor retention, failed-save draft, unchanged posts and home lower feed.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});

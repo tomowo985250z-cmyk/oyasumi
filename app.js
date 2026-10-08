@@ -302,6 +302,15 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
 document.addEventListener('change',event=>{if(event.target.id==='dark-switch'){state.light=!event.target.checked;save();render();}});
 document.querySelector('#cancel-name').addEventListener('click',()=>document.querySelector('#nickname-dialog').close());
 document.querySelector('#cancel-expression').addEventListener('click',()=>document.querySelector('#expression-dialog').close());
+const roomWhispers=Object.freeze({steady:'ひとつずつ。今日はここでひとやすみ。',guardian:'安心できる場所で、ほっとひと息。',caring:'あなたにも、やさしい時間が流れますように。',watchful:'ここでは、ゆっくりしていってね。',mechanic:'考えごとも、少しおやすみ。',maker:'小さな積み重ねを、今日はそっと置いて。',welcoming:'いらっしゃい。気楽にくつろいでね。',foodie:'あたたかいものを思い浮かべて、ほっとひと息。',courier:'今日の荷物をおろして、のんびりしよう。',foresight:'先のことは、少しあとで考えよう。',creative:'ひらめきも、のんびり待ってみよう。',independent:'自分のペースで、ゆっくりいこう。',learner:'今日の学びをしまって、ひとやすみ。',homely:'いつもの場所で、ほっとする時間。',resting:'何もしない時間も、大切にしよう。',carefree:'気の向くままに、のんびりしよう。'});
+function roomTime(now=NightClock.now()) { const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));return hour>=6&&hour<12?'morning':hour>=12&&hour<18?'day':'night'; }
+function syncProfileRoom() { const room=document.querySelector('.cat-room');if(room)room.dataset.time=roomTime(); }
+function publicProfileRoom(person) {
+ const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、いっしょにひとやすみ。';
+ return `<section class="cat-room" data-time="${roomTime()}" aria-label="猫の小さなおへや"><div class="room-scene"><div class="room-window" aria-hidden="true"><span class="room-orb"></span><span class="room-cloud"></span><span class="room-stars">· ✧ ·</span></div><span class="room-curtain" aria-hidden="true"></span><span class="room-lamp" aria-hidden="true"></span><span class="room-rug" aria-hidden="true"></span><div class="public-profile-face">${avatar(person)}</div></div><p class="room-whisper"><span aria-hidden="true">“</span>${escapeHTML(whisper)}<span aria-hidden="true">”</span></p><p class="room-whisper-label">おへやの猫のつぶやき</p></section><h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
+}
+setInterval(()=>{if(!document.hidden)syncProfileRoom();},30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncProfileRoom();});
 document.addEventListener('click',event=>{
  const edit=event.target.closest('[data-note-editor]');
  if(edit&&!busy){
@@ -312,7 +321,7 @@ document.addEventListener('click',event=>{
  }
  const button=event.target.closest('[data-public-profile]');if(!button)return;
  const person=allPosts().find(post=>post.id===button.dataset.publicProfile);if(!person)return;
- document.querySelector('#public-profile-content').innerHTML=`<div class="public-profile-face">${avatar(person)}</div><h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
+ document.querySelector('#public-profile-content').innerHTML=publicProfileRoom(person);
  document.querySelector('#public-profile-dialog').showModal();
 });
 document.querySelector('#close-public-profile').addEventListener('click',()=>document.querySelector('#public-profile-dialog').close());
