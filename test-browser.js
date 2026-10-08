@@ -329,12 +329,12 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     for(const width of [320,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       await click('[data-note-editor]');
-      for(const value of ['あ'.repeat(21),'https://example.jp','a@example.jp','090-1234-5678','死ね']){
+      for(const value of ['あ'.repeat(41),'https://example.jp','a@example.jp','090-1234-5678','死ね']){
         await evaluate(`document.querySelector("#profile-note").value=${JSON.stringify(value)}`);await action('#note-form button[type=submit]');
         assert(await evaluate('document.querySelector("#note-dialog").open&&document.querySelector("#note-error").textContent.length>0'));
       }
-      await evaluate('document.querySelector("#profile-note").value="あ".repeat(20)');await action('#note-form button[type=submit]');
-      assert.equal(await evaluate('state.profileNote'),'あ'.repeat(20));
+      await evaluate('document.querySelector("#profile-note").value="あ".repeat(40)');await action('#note-form button[type=submit]');
+      assert.equal(await evaluate('state.profileNote'),'あ'.repeat(40));
       assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
       await screenshot(`profile-note-${width}.png`);await evaluate('go("timeline")');
       await click(`[data-public-profile="${await evaluate('notePeerPost.id')}"]`);
@@ -347,7 +347,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
       assert(await evaluate('document.querySelector("#public-profile-dialog").getBoundingClientRect().right<=innerWidth'));
       await screenshot(`public-profile-${width}.png`);await click('#close-public-profile');await evaluate('go("profile")');
     }
-    await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');assert.equal(await evaluate('state.profileNote'),'あ'.repeat(20));
+    await send('Page.reload');await waitFor('typeof ready!=="undefined"&&ready&&!busy');assert.equal(await evaluate('state.profileNote'),'あ'.repeat(40));
     await evaluate('go("profile")');await click('[data-note-editor]');await evaluate('document.querySelector("#profile-note").value=""');await action('#note-form button[type=submit]');assert.equal(await evaluate('state.profileNote'),'');
     await click('[data-note-editor]');await evaluate('document.querySelector("#profile-note").value="変更しない"');await click('#cancel-note');assert.equal(await evaluate('state.profileNote'),'');
     await evaluate('globalThis.peer=createOyasumiConnection("oyasumi-browser-peer");await peer.initialize();globalThis.notePeerPost=(await peer.snapshot()).ownPosts[0];await peer.setProfileNote("");await peer.setCatRole("private");await refreshShared();go("timeline")');

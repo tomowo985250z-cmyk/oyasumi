@@ -44,7 +44,7 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .post .public-profile-cat .avatar{width:60px;height:60px}
 .profile-banner .profile-cat-button .avatar{width:111px;height:111px}
 .public-profile-face .avatar{width:112px;height:112px}
-.home-note{margin-top:16px;padding:16px 18px}.home-note .profile-note-button{width:100%;margin:0;font-size:14px;min-height:48px}.home-note .profile-note-button>span:first-child{display:flex;justify-content:space-between;gap:12px}.home-note small{font-size:12px}.home-note .profile-note-text{font-size:15px}.home-note .is-empty{color:var(--muted)}.timeline-profile-note{font-size:15px;color:#bfd1e8;line-height:20.8px;margin:4px 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-note{margin-top:16px;padding:16px 18px}.home-note .profile-note-button{width:100%;margin:0;font-size:14px;min-height:48px}.home-note .profile-note-button>span:first-child{display:flex;justify-content:space-between;gap:12px}.home-note small{font-size:12px}.home-note .profile-note-text{font-size:15px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.home-note .is-empty{color:var(--muted)}.timeline-profile-note{font-size:15px;color:#bfd1e8;line-height:20.8px;margin:4px 0 6px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere;overflow:hidden}
 .reaction-heart{color:rgba(255,126,161,.85);width:20px;font-size:24px}
 .reaction-options .reaction,.status-actions .status-button,.status-actions .extra-post-button{font-family:var(--app-font);font-weight:600}
 .reaction-options .reaction{font-size:16px;white-space:normal}

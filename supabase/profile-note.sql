@@ -1,13 +1,8 @@
 -- 任意の「そっとひとこと」を追加。既存ユーザーは未入力のまま。
 begin;
 alter table public.oyasumi_profiles add column if not exists profile_note text;
-do $$
-begin
- if not exists(select 1 from pg_constraint where conrelid='public.oyasumi_profiles'::regclass and conname='oyasumi_profile_note_length') then
-  alter table public.oyasumi_profiles add constraint oyasumi_profile_note_length check (char_length(profile_note)<=20);
- end if;
-end;
-$$;
+alter table public.oyasumi_profiles drop constraint if exists oyasumi_profile_note_length;
+alter table public.oyasumi_profiles add constraint oyasumi_profile_note_length check (char_length(profile_note)<=40);
 create or replace function public.oyasumi_set_profile_note(p_note text)
 returns text
 language plpgsql
@@ -22,7 +17,7 @@ declare
  v_screen text;
 begin
  if v_user is null then raise exception '匿名認証が必要です。' using errcode='42501'; end if;
- if char_length(v_note)>20 then raise exception '20文字以内で入力してください。' using errcode='22023'; end if;
+ if char_length(v_note)>40 then raise exception '40文字以内で入力してください。' using errcode='22023'; end if;
  if v_note ~ '[[:cntrl:]<>]' or v_note ~ U&'[\00AD\200B\200C\200E\200F\202A-\202E\2060-\206F\FEFF]' then
   raise exception '使えない記号が含まれています。' using errcode='22023';
  end if;

@@ -323,7 +323,7 @@ document.querySelector('#profile-note').addEventListener('input',()=>{document.q
 document.querySelector('#note-form').addEventListener('submit',event=>{
  event.preventDefault();if(busy)return;
  const input=document.querySelector('#profile-note');
- const result=NicknameRules.validate(input.value,{max:20,optional:true,countText:value=>[...value].length});
+ const result=NicknameRules.validate(input.value,{max:40,optional:true,countText:value=>[...value].length});
  if(result.error){document.querySelector('#note-error').textContent=result.error;input.setAttribute('aria-invalid','true');input.focus();return;}
  void mutation(async()=>{
   let note;
