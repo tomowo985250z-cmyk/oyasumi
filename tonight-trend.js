@@ -63,7 +63,7 @@ globalThis.TonightTrend = (() => {
     const valid = Array.isArray(points) ? points.filter(p => Number.isFinite(p.time)
       && Number.isFinite(p.awake) && p.awake >= 0 && Number.isFinite(p.sleeping) && p.sleeping >= 0) : [];
     const sorted = [...new Map(valid.map(p => [p.time, p])).values()].sort((a,b) => a.time-b.time);
-    if (!sorted.length) return '<p class="empty">今夜の推移は、投稿が集まると表示されます。</p>';
+    if (!sorted.length) return '<p class="empty">みんなの推移は、投稿が集まると表示されます。</p>';
     const rows = sorted.filter(p => nightKey(p.time) === nightKey(sorted.at(-1).time));
     const first = rows[0].time, last = rows.at(-1).time;
     const max = Math.max(1, ...rows.flatMap(p => [p.awake,p.sleeping]));
@@ -77,7 +77,7 @@ globalThis.TonightTrend = (() => {
     const stride = Math.max(1, Math.ceil(ticks.length/4));
     const labels = first === last ? [first] : [...new Set([first,...ticks.filter((_,i)=>i%stride===0 && x(ticks[i])-44>=42 && 306-x(ticks[i])>=42),last])];
     const end = rows.at(-1);
-    return `<div class="trend-legend"><span><i class="trend-awake"></i>まだ起きてる報告</span><span><i class="trend-sleeping"></i>おやすみ報告</span></div><svg viewBox="0 0 320 160" role="img" aria-label="日本時間の今夜の人数推移。${timeLabel(first)}から${timeLabel(last)}。まだ起きてる人：${rows[0].awake}人から${end.awake}人。もう寝た人：${rows[0].sleeping}人から${end.sleeping}人。">${yTicks.map(value=>`<path class="grid" d="M42 ${y(value)}h266"/><text x="0" y="${y(value)+4}">${value.toLocaleString('ja-JP')}</text>`).join('')}<path class="curve trend-awake" d="M${curve('awake')}"/><path class="curve trend-sleeping" d="M${curve('sleeping')}"/>${['awake','sleeping'].map(key=>`<g class="trend-${key}">${rows.map(p=>`<circle cx="${x(p.time)}" cy="${y(p[key])}" r="3"/>`).join('')}</g>`).join('')}${labels.map(time=>`<text x="${x(time)}" y="156" text-anchor="${first===last?'middle':time===first?'start':time===last?'end':'middle'}">${timeLabel(time)}</text>`).join('')}</svg><p class="sample-tag">各時点の報告人数・日本時間（06:00切替）${rows.length===1?'・データ収集中':''}</p>`;
+    return `<div class="trend-legend"><span><i class="trend-awake"></i>まだ起きてる報告</span><span><i class="trend-sleeping"></i>おやすみ報告</span></div><svg viewBox="0 0 320 160" role="img" aria-label="日本時間の人数推移。${timeLabel(first)}から${timeLabel(last)}。まだ起きてる人：${rows[0].awake}人から${end.awake}人。もう寝た人：${rows[0].sleeping}人から${end.sleeping}人。">${yTicks.map(value=>`<path class="grid" d="M42 ${y(value)}h266"/><text x="0" y="${y(value)+4}">${value.toLocaleString('ja-JP')}</text>`).join('')}<path class="curve trend-awake" d="M${curve('awake')}"/><path class="curve trend-sleeping" d="M${curve('sleeping')}"/>${['awake','sleeping'].map(key=>`<g class="trend-${key}">${rows.map(p=>`<circle cx="${x(p.time)}" cy="${y(p[key])}" r="3"/>`).join('')}</g>`).join('')}${labels.map(time=>`<text x="${x(time)}" y="156" text-anchor="${first===last?'middle':time===first?'start':time===last?'end':'middle'}">${timeLabel(time)}</text>`).join('')}</svg><p class="sample-tag">各時点の報告人数・日本時間（06:00切替）${rows.length===1?'・データ収集中':''}</p>`;
   }
 
   return { messages, rules, classify, comment, chart };

@@ -41,6 +41,33 @@ let socket;
  await evaluate(`NightClock.now=()=>Date.parse('2026-10-09T06:00:00+09:00');document.dispatchEvent(new Event('visibilitychange'))`);
  assert.equal(await evaluate('document.querySelector(".awake-heading>span").textContent'),'最近の投稿','Resume updates copy');
  assert.equal(await evaluate('JSON.stringify({feed:shared.feed,posts:state.posts,trend:shared.trend,awake:shared.awakeCount,sleeping:shared.sleepingCount})'),before);
+ await evaluate(`shared.tonightSummary={sleepingCount:40,coats:[{coat:'calico',count:40}],peakHours:[{hour:23,count:40}]};shared.sleepingCount=40;shared.trend=[{time:Date.parse('2026-10-08T06:00:00+09:00'),awake:2,sleeping:3},{time:Date.parse('2026-10-08T23:00:00+09:00'),awake:1,sleeping:40}];globalThis.recordsBefore=JSON.stringify(shared);go('home');globalThis.homeLowerBefore=document.querySelector('.section-heading').parentElement.outerHTML`);
+ for(const width of [320,375,390,430]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+  let dayText;
+  for(const hour of ['12','23']){
+   await evaluate(`NightClock.now=()=>Date.parse('2026-10-08T${hour}:00:00+09:00');go('stats')`);
+   assert.equal(await evaluate('document.querySelector("#navigation [data-view=stats]").textContent'),'みんなの記録');
+   assert.equal(await evaluate('document.querySelector(".wordmark").textContent'),'みんなの記録');
+   assert.equal(await evaluate('document.querySelector(".count-card h2").textContent'),'おやすみした人');
+   assert.equal(await evaluate('document.querySelector(".count-card .count").textContent'),'40 人');
+   assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),32);
+   assert.equal(await evaluate('document.querySelector(".peak-hours").textContent'),'23:00〜00:0040 人');
+   assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
+   assert(await evaluate(`!app.textContent.includes('今夜')&&!app.innerHTML.includes('今夜')`));
+   const text=await evaluate('app.textContent');if(hour==='12')dayText=text;else assert.equal(text,dayText,'Records copy identical day and night');
+  }
+  const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});fs.writeFileSync(`test-results/records-copy-${width}.png`,Buffer.from(shot.data,'base64'));
+ }
+ assert.equal(await evaluate('JSON.stringify(shared)'),await evaluate('recordsBefore'),'Rendering leaves aggregate data unchanged');
+ await evaluate(`go('home')`);
+ assert.equal(await evaluate('document.querySelector(".section-heading").parentElement.outerHTML'),await evaluate('homeLowerBefore'),'Home lower feed unchanged');
+ for(const [summary,count,label] of [[{sleepingCount:0,coats:[],peakHours:[]},0,'0 人'],[null,7,'7 人'],[null,null,'— 人']]){
+  await evaluate(`shared.tonightSummary=${JSON.stringify(summary)};shared.sleepingCount=${JSON.stringify(count)};shared.trend=[];go('stats')`);
+  assert.equal(await evaluate('document.querySelector(".count-card .count").textContent'),label);
+  assert.equal(await evaluate('document.querySelectorAll(".sleeping-cats .cat-scene").length'),0);
+  assert(await evaluate(`!app.innerHTML.includes('今夜')`),'Empty/failure copy is neutral');
+ }
  assert.deepEqual(errors,[]);
- console.log('PASS home copy: JST boundaries in foreign timezone, 320/375/390/430px, offline automatic switch, resume, dialogs, three-hour count/cats and aggregates preserved.');
+ console.log('PASS home and records copy: 320/375/390/430px, JST home boundaries, offline/resume/dialogs; neutral records day/night, 32-cat cap, counts/hours/trend, zero/failure fallback, unchanged data and home lower feed.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>{socket?.close();browser.kill();server.kill();});
