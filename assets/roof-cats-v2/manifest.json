@@ -1,0 +1,130 @@
+[
+    {
+        "coat":  "black-footed",
+        "file":  "assets/roof-cats-v2/black-footed.png",
+        "sha256":  "f95c7b3b0c47319dea61ea4a8f9f510a08058aa811b6a5928b28464790d27145",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/black-footed-original.png"
+    },
+    {
+        "coat":  "black",
+        "file":  "assets/roof-cats-v2/black.png",
+        "sha256":  "9ce25310b4941e780adb41a9e6d73be57ea1cdf156ee2921c1cce738ef8ff0c3",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/black-original.png"
+    },
+    {
+        "coat":  "brown",
+        "file":  "assets/roof-cats-v2/brown.png",
+        "sha256":  "944319222778728093b1ebcc02d6653592844205586a57a8e23eca67ddff50dd",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/brown-original.png"
+    },
+    {
+        "coat":  "calico",
+        "file":  "assets/roof-cats-v2/calico.png",
+        "sha256":  "0ebb903c401c41d8f764a73c2439a74cf66ff83f8cf3e9a8c9f7ee4687a4e566",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/calico-original.png"
+    },
+    {
+        "coat":  "cheetah",
+        "file":  "assets/roof-cats-v2/cheetah.png",
+        "sha256":  "6064db5668528d0f1ae2d4ed0ecd202c1c2b4177668fed662b411402d858c08a",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/cheetah-original.png"
+    },
+    {
+        "coat":  "fishing",
+        "file":  "assets/roof-cats-v2/fishing.png",
+        "sha256":  "12092bd2a1c06828bf0325fed57cd1e8292ffc45ae6d9415a51b4c08b34f86bb",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/fishing-original.png"
+    },
+    {
+        "coat":  "gray",
+        "file":  "assets/roof-cats-v2/gray.png",
+        "sha256":  "b6ae795a2697e0c5e5af4e8be28c6b71412a8218cf447f920513edaa7df5457c",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/gray-original.png"
+    },
+    {
+        "coat":  "jaguar",
+        "file":  "assets/roof-cats-v2/jaguar.png",
+        "sha256":  "41d9327c5ffa2ee0235c80370f6ed2223ba772fa9dc133d0015296ee7673f708",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/jaguar-original.png"
+    },
+    {
+        "coat":  "leopard",
+        "file":  "assets/roof-cats-v2/leopard.png",
+        "sha256":  "a0420397258a6827cd5189e0bead4da956b607de8ff59785c52d42ff493cea78",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/leopard-original.png"
+    },
+    {
+        "coat":  "manul",
+        "file":  "assets/roof-cats-v2/manul.png",
+        "sha256":  "4a8fbe9e308dc235e7322a9e99a2915854821f9e9ace67079386e662a12648d9",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/manul-original.png"
+    },
+    {
+        "coat":  "orange",
+        "file":  "assets/roof-cats-v2/orange.png",
+        "sha256":  "0504c845ce1bfce177b64a5e950bbf3b4cf8c7fcc91ffc3d0274dba09d22a2eb",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/orange-original.png"
+    },
+    {
+        "coat":  "sand",
+        "file":  "assets/roof-cats-v2/sand.png",
+        "sha256":  "7cf46bc9a27b662de284272e6e68f3830880ee703599fa7a364ef132c56ede35",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/sand-original.png"
+    },
+    {
+        "coat":  "silver",
+        "file":  "assets/roof-cats-v2/silver.png",
+        "sha256":  "3bdccfbf7f22f0aa8a4d4641e5aa6c7991a5232cf8c20a7b4ac3624b156d2283",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/silver-original.png"
+    },
+    {
+        "coat":  "snow-leopard",
+        "file":  "assets/roof-cats-v2/snow-leopard.png",
+        "sha256":  "23109158e5a7e8e42fb121e696b4963587131a875cd60908ea814b634a1882c8",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/snow-leopard-original.png"
+    },
+    {
+        "coat":  "tuxedo",
+        "file":  "assets/roof-cats-v2/tuxedo.png",
+        "sha256":  "377fa9232f3f88e7d53bb1910c6f66ee3134a7ebc8c7987cc15c6f019ff8836f",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/tuxedo-original.png"
+    },
+    {
+        "coat":  "white",
+        "file":  "assets/roof-cats-v2/white.png",
+        "sha256":  "7f5918a547a7aa8ac604852d6c0e1504a406418e28ac503dd988a873266de549",
+        "width":  1024,
+        "height":  1536,
+        "source":  "output/roof-cats-v2/white-original.png"
+    }
+]

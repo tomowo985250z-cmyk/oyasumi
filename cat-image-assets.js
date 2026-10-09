@@ -14,6 +14,9 @@
     pose = day.options.some(option => option.id === pose) ? pose : 'relax';
     return image(coat, 'day-' + pose, 'cat-day-scene day-cat-image', `width="152" height="152" data-day-scene="${pose}"`);
   }});
-  // The rooftop shows awake users.
-  globalThis.RoofCats = Object.freeze({svg: coat => image(coat, 'morning', 'roof-cat')});
+  // Rear-view artwork is exclusive to the awake rooftop group.
+  globalThis.RoofCats = Object.freeze({svg: coat => {
+    coat = faces.normalizeCoat(coat);
+    return `<img class="roof-cat" src="assets/roof-cats-v2/${coat}.png" alt="" aria-hidden="true" data-asset-key="rear/${coat}" data-cat-coat="${coat}" data-cat-pose="rear">`;
+  }});
 })();

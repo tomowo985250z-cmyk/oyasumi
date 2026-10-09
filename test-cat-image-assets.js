@@ -31,9 +31,21 @@ for (const {id: coat} of CatFaces.coats) {
   check(CatScenes.svg('awake', coat), coat, 'morning');
   check(CatScenes.svg('sleeping', coat), coat, 'night');
   for (const {id: pose} of DayCats.options) check(DayCats.svg(pose, coat), coat, 'day-' + pose);
-  check(RoofCats.svg(coat, 0, 3), coat, 'morning');
+  for (const count of [1, 2, 3]) for (let index = 0; index < count; index++) {
+    const rear = RoofCats.svg(coat, index, count);
+    assert(rear.includes(`src="assets/roof-cats-v2/${coat}.png"`));
+    assert(rear.includes('data-cat-pose="rear"'));
+    const png = fs.readFileSync(`assets/roof-cats-v2/${coat}.png`);
+    assert.equal(png.readUInt32BE(16), 1024);
+    assert.equal(png.readUInt32BE(20), 1536);
+    assert.equal(png[25], 6, 'rear RGBA PNG');
+  }
 }
 assert.equal(paths.size, 208);
+const rearManifest = JSON.parse(fs.readFileSync('assets/roof-cats-v2/manifest.json', 'utf8'));
+assert.deepEqual(rearManifest.map(entry => entry.coat).sort(), CatFaces.coats.map(coat => coat.id).sort());
+for (const entry of rearManifest) assert.equal(crypto.createHash('sha256').update(fs.readFileSync(entry.file)).digest('hex'), entry.sha256);
+assert(RoofCats.svg('invalid').includes('/calico.png'));
 for (const entry of manifest) {
   assert(paths.has(entry.file));
   const png = fs.readFileSync(entry.file);
@@ -44,4 +56,4 @@ for (const entry of manifest) {
 }
 assert(CatFaces.svg('invalid', 'invalid').includes('/calico/face-calm.png'));
 assert(DayCats.svg('invalid', 'invalid').includes('/calico/day-relax.png'));
-console.log('PASS approved images: all 208 PNG hashes, dimensions, mappings, fallbacks; original selection rules and timing APIs retained.');
+console.log('PASS approved images: all 208 original PNG hashes and mappings; 16 rear PNG hashes, dimensions, mappings and fallbacks; original selection rules and timing APIs retained.');
