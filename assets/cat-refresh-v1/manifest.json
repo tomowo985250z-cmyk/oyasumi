@@ -1,0 +1,1250 @@
+[
+    {
+        "species":  "calico",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/calico/morning.png",
+        "sha256":  "1382D1AAAE2BBF4222BDBEB83BBB593563C86AD49C94FF138EF7F76A2ED168D4"
+    },
+    {
+        "species":  "calico",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/calico/day-relax.png",
+        "sha256":  "3FFCE745A1B6AFBC546440415F5561298E4DB7E835ED3C6CDA0928528AE9E42E"
+    },
+    {
+        "species":  "calico",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/calico/day-play.png",
+        "sha256":  "B77BFFB592B5E23D2838D13BEFD06BE37D108850727E9A622260D70A007B35BA"
+    },
+    {
+        "species":  "calico",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/calico/day-groom.png",
+        "sha256":  "03685DC1D457700BA09A286F87FD52895D88A8538D1B9DDAD62F1C64625E1DC5"
+    },
+    {
+        "species":  "calico",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/calico/day-gaze.png",
+        "sha256":  "54395D66EE41E5C127738FCFE687DAF2DE841FE49E938A580A85B5D93CEE19BC"
+    },
+    {
+        "species":  "calico",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/calico/day-doze.png",
+        "sha256":  "2061DDF0FC13AB8A5BEA51F6F6DC841DF4B9B26E1BE50020556ADECAF31D7285"
+    },
+    {
+        "species":  "calico",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/calico/night.png",
+        "sha256":  "478575586CD2657A017ABB2B14BB3738480E578A5D87E95D8B09D2758B3E433A"
+    },
+    {
+        "species":  "calico",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/calico/face-calm.png",
+        "sha256":  "D10E10958507E4858D9D2C2CF7E159C4A60E48F75A8DA921A140081D223D7C7D"
+    },
+    {
+        "species":  "calico",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/calico/face-sleepy.png",
+        "sha256":  "6DE4B57F4C9633B6E1296907CF1C9A990D28BF300E717AA87F22EFAED13AE4C2"
+    },
+    {
+        "species":  "calico",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/calico/face-yawn.png",
+        "sha256":  "49C1E948264B37A1ECAD7F2701D513BB218EA85FB3DD74D41F063FDFB2E82CB1"
+    },
+    {
+        "species":  "calico",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/calico/face-restless.png",
+        "sha256":  "D3AF55EEEA49746EAA479CD6544A32E34A26335943620B5C687C8F47314A15C0"
+    },
+    {
+        "species":  "calico",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/calico/face-happy.png",
+        "sha256":  "A299EEFF51491E0AD259EA9605E5A4E7A4C49D60FDF64067CC2D39E45687072C"
+    },
+    {
+        "species":  "calico",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/calico/face-surprised.png",
+        "sha256":  "97B291B9ED095555A839BCB7A1324CBBA13A135DB67C3832B92BE80EABE895C5"
+    },
+    {
+        "species":  "orange",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/orange/morning.png",
+        "sha256":  "128A6A6B3B604A14B08FECB0AB4322D1CA92BA1D38B8FFCAB165B429069173A3"
+    },
+    {
+        "species":  "orange",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/orange/day-relax.png",
+        "sha256":  "FE380215A590BB82C081F0CB2E8EC77ADF7426FD902D93B15D633B137DF13E08"
+    },
+    {
+        "species":  "orange",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/orange/day-play.png",
+        "sha256":  "095414F25F15E89883584070B7061FDAC8B1A8EAFC75CA11C686AF994FC3826C"
+    },
+    {
+        "species":  "orange",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/orange/day-groom.png",
+        "sha256":  "45E76D48F28C8AB04F7B6397E374B79DA3695DC1E4D85B25517681CC0BE53901"
+    },
+    {
+        "species":  "orange",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/orange/day-gaze.png",
+        "sha256":  "9229B6CE3558BAB359EF658C0C68CB9A89C467D7D664C1A9ED820C969CBD4900"
+    },
+    {
+        "species":  "orange",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/orange/day-doze.png",
+        "sha256":  "AADF0ABF9925C509963C7E81827F5BB8B09B987C53C9B35BF366FC029269CC4C"
+    },
+    {
+        "species":  "orange",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/orange/night.png",
+        "sha256":  "1DA62DD9293C610918AA845AB6E2DCCAC45436A6C7D4BBDC179BEE52D7F3A508"
+    },
+    {
+        "species":  "orange",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/orange/face-calm.png",
+        "sha256":  "FC5217A8750BCC9780B2E6298CDF0D3B2477D8D333595B74EF129F03CA3B0DC0"
+    },
+    {
+        "species":  "orange",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/orange/face-sleepy.png",
+        "sha256":  "D482E02E52B7B7BA2F1B27960B91B89AE05CAA3D748734D250F10B37984E7E76"
+    },
+    {
+        "species":  "orange",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/orange/face-yawn.png",
+        "sha256":  "3CFC5DCA99BED6E3C9963319B0904FDA406A89B5E8AD66FF7B89B0ACE55449A2"
+    },
+    {
+        "species":  "orange",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/orange/face-restless.png",
+        "sha256":  "8EFB90F45A2F67EDD44F9421F7671929452DE1B73CC5A71A58961FB14925B5CA"
+    },
+    {
+        "species":  "orange",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/orange/face-happy.png",
+        "sha256":  "F11597934A1F0F2D35A8251F7046065B414FCA74FC26931C9822E9A381AE3780"
+    },
+    {
+        "species":  "orange",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/orange/face-surprised.png",
+        "sha256":  "356648F2D923BE6E6922EAFDF0EA8E1FD5783F6187C16FF01437D76A7FC0F9E5"
+    },
+    {
+        "species":  "brown",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/brown/morning.png",
+        "sha256":  "6CA5C7616D36E0FB21DB69616C05AE9F3DC6789E5142198E4DE87741E1FAF32C"
+    },
+    {
+        "species":  "brown",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/brown/day-relax.png",
+        "sha256":  "4738A48BD8BF9F2007F206285D7136C09ED0C74FA61CF95B2469DDAA63773536"
+    },
+    {
+        "species":  "brown",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/brown/day-play.png",
+        "sha256":  "B2F05097FB134F5767680405428F055FFDE9FE57E8877521D76F6C6169D2E89F"
+    },
+    {
+        "species":  "brown",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/brown/day-groom.png",
+        "sha256":  "7F024C36B31BB68406E930AAEBD8BF4E71E2BC06B3F917A6FB77175243131867"
+    },
+    {
+        "species":  "brown",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/brown/day-gaze.png",
+        "sha256":  "BCC5DB7C96FE936EF86D4AC1049E8F4F6F99C0F2B28D126BC98C4D9DC6B9F27E"
+    },
+    {
+        "species":  "brown",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/brown/day-doze.png",
+        "sha256":  "C89343EB31B9240A30B3D12C0E15F2E98B29557FCFF156B9698B730AB486FFA9"
+    },
+    {
+        "species":  "brown",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/brown/night.png",
+        "sha256":  "30B5B2353D371FD23B59099D9B7AED3245E8EAE1C8050B2BD219674801278783"
+    },
+    {
+        "species":  "brown",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/brown/face-calm.png",
+        "sha256":  "31BC70F1AE4200F55CC5885581A28314BFEC9BA60CC062972A31B7BFE9F0C2D0"
+    },
+    {
+        "species":  "brown",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/brown/face-sleepy.png",
+        "sha256":  "8A0926A5EDA133718AB320ECAC3A56C4502DAAD0146DFE927B2AFCB5FC61C2C5"
+    },
+    {
+        "species":  "brown",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/brown/face-yawn.png",
+        "sha256":  "EFFDEC86CEC158FCC04F5822E01DD120FDD44EC91DF7FF1CF6860A0E9A291C78"
+    },
+    {
+        "species":  "brown",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/brown/face-restless.png",
+        "sha256":  "132BC29B0232A349D9E3D33D74E425CDA82FBB2B1A028E2F25ED276DC42341BA"
+    },
+    {
+        "species":  "brown",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/brown/face-happy.png",
+        "sha256":  "882E4D1354E06CAAA43318BBFD7EC5863519DAED4CE23F86E490ACC929B7B923"
+    },
+    {
+        "species":  "brown",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/brown/face-surprised.png",
+        "sha256":  "17161D0AB8D65BECF3EFAA5596D9F7A91F7CC58DB4C6CE30B0BD66A91C10A112"
+    },
+    {
+        "species":  "silver",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/silver/morning.png",
+        "sha256":  "E5137546700295F103B457B72EBC885E3E9943F219755853A43B5D0671E096AB"
+    },
+    {
+        "species":  "silver",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/silver/day-relax.png",
+        "sha256":  "3D473EF8C7D4CC84D9D72F997DE0EA0935DD1CE5549855962593C491BD7E1D8B"
+    },
+    {
+        "species":  "silver",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/silver/day-play.png",
+        "sha256":  "E79E192487D5C1AB8AAFA86AA6C6214EB125F85C4721CC9AFCC5110E2FEF6958"
+    },
+    {
+        "species":  "silver",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/silver/day-groom.png",
+        "sha256":  "B6BB06A844BBB5C68607BE5B47A946BDF95FCF820F3D572DB0A4902115D86246"
+    },
+    {
+        "species":  "silver",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/silver/day-gaze.png",
+        "sha256":  "3FE47728348E9DD81672016D9A98440E1A4C914564B27C1DD54A2DC346D28318"
+    },
+    {
+        "species":  "silver",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/silver/day-doze.png",
+        "sha256":  "3C19B05C169A5019235843999ADBB24627E8E5DE7D0B285A6751B70B4DB6ECEF"
+    },
+    {
+        "species":  "silver",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/silver/night.png",
+        "sha256":  "8791D886A64D1729BD48963B111EFD80A734387AF459E4FE6579529853EC31A5"
+    },
+    {
+        "species":  "silver",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/silver/face-calm.png",
+        "sha256":  "08DD2F7A50546DE230F5E05B92B09CC7B84A03C30002F0A9074D8BDA54CA7867"
+    },
+    {
+        "species":  "silver",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/silver/face-sleepy.png",
+        "sha256":  "3142E3D59598F0665E3D5FEA086660FF4168B11F0AC9F23B49D554B40305D726"
+    },
+    {
+        "species":  "silver",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/silver/face-yawn.png",
+        "sha256":  "BE621A74559D51D721A91296E3B69C381618A01A500EB0FC6BB8F3D3B011ACCD"
+    },
+    {
+        "species":  "silver",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/silver/face-restless.png",
+        "sha256":  "262839252FF985D628CB0BF006F9BEF90876F42A2D1E40C11592457DFE4C4B04"
+    },
+    {
+        "species":  "silver",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/silver/face-happy.png",
+        "sha256":  "96C2426A680B731DE7ED8C97FE077183E69D27F0E476E4B39EEE7D476ACBB22E"
+    },
+    {
+        "species":  "silver",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/silver/face-surprised.png",
+        "sha256":  "21772833CFF469CC53760510FF36FB4D179FED39D70BD5E53E8B4939878F6FBD"
+    },
+    {
+        "species":  "black",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/black/morning.png",
+        "sha256":  "3E5A29B449292270B0ECC913B5B91B6B709F8C0A2DF73F2C4B3D9552CA463615"
+    },
+    {
+        "species":  "black",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/black/day-relax.png",
+        "sha256":  "17B95F4BA8E123501EF55D701E68B4D5348923CF50CD13D384490D995616AB38"
+    },
+    {
+        "species":  "black",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/black/day-play.png",
+        "sha256":  "95E3BBC6943D779FD14E45409611525E0E03B5923235705CA2103E360B848DFB"
+    },
+    {
+        "species":  "black",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/black/day-groom.png",
+        "sha256":  "BE884DA582FCD59031BAAB0AE2CE64EDC4893C234C11C13A8B31C1BED3E77DF4"
+    },
+    {
+        "species":  "black",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/black/day-gaze.png",
+        "sha256":  "5D3A85346D4560A1907BF23941508299E7E189EB1C08EBD63F31DED640788AD3"
+    },
+    {
+        "species":  "black",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/black/day-doze.png",
+        "sha256":  "40B4545D2141608EB9A3ED9F5FD99CFAE95A320428C55466EC6C57B3BBED8BED"
+    },
+    {
+        "species":  "black",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/black/night.png",
+        "sha256":  "FE865116B1E03CF1CD4C81CDF37089526A8EE5827B1EE933AE7B30ABAA47E80A"
+    },
+    {
+        "species":  "black",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/black/face-calm.png",
+        "sha256":  "56F49CB3995AE2696B055B0DFFC194FAF19C7EFDD4FA2376FEDF8DB654BDD17B"
+    },
+    {
+        "species":  "black",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/black/face-sleepy.png",
+        "sha256":  "524CD655A2020FFE281398D37B30F706B6DED65B6105D71742D2817379978AEA"
+    },
+    {
+        "species":  "black",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/black/face-yawn.png",
+        "sha256":  "086D586899FB27E082BBF18B21095E90626B331CB17368FB3A5A135BEC6C061A"
+    },
+    {
+        "species":  "black",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/black/face-restless.png",
+        "sha256":  "5C9B17FBF95161BC618A36ECA1EA25C7369A2FC1D1F6FA7C8E721F636F46A204"
+    },
+    {
+        "species":  "black",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/black/face-happy.png",
+        "sha256":  "2FFCB52B7DB9AA76E10BE935C9856E0B948AA0846106E3CEE989BF3A1D9B49DB"
+    },
+    {
+        "species":  "black",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/black/face-surprised.png",
+        "sha256":  "796BA8DAE5A6F8B8272C94585A8E46EEF009BD642968ED33EABC5EB0C998F3B6"
+    },
+    {
+        "species":  "white",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/white/morning.png",
+        "sha256":  "6D4229E694403E68F61D36D41614059D8F80BC13291A4F5319D3028AC4FEAFB4"
+    },
+    {
+        "species":  "white",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/white/day-relax.png",
+        "sha256":  "CA5D490216326B8A13BB6C2F791DBD960E044E772E646321B19AF421AE7B07C8"
+    },
+    {
+        "species":  "white",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/white/day-play.png",
+        "sha256":  "94DD41114D27B4884CE1E7BBAD4AB7AA58EAB50FEA9152B724DC6491C94BF743"
+    },
+    {
+        "species":  "white",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/white/day-groom.png",
+        "sha256":  "E6CFAE00FEBD1F5516A6A227BFAB9D8F0D4F4F018DBD7F166ED7629617E35DD6"
+    },
+    {
+        "species":  "white",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/white/day-gaze.png",
+        "sha256":  "5FFDB96B256899691FE324A51670341F9827041398BE5D6ECAD7740894CB6B73"
+    },
+    {
+        "species":  "white",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/white/day-doze.png",
+        "sha256":  "F74E212A89D0382A8CA27B6D9DFA8C56FEB4D8A71F986644B465C5CC2C22707A"
+    },
+    {
+        "species":  "white",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/white/night.png",
+        "sha256":  "34D1A8216B7DA0CCA5F24A8B8BD5CE6C5A286A184A69300FD43F1421D5E0A1A3"
+    },
+    {
+        "species":  "white",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/white/face-calm.png",
+        "sha256":  "61481319DFF3A6388A46F9FC4A63F9077F19605235AB1F902C2340F8715FC4AE"
+    },
+    {
+        "species":  "white",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/white/face-sleepy.png",
+        "sha256":  "C8414A23058984A6BE7B3DB26478DAA4D143556CEEB947A05D5F9E7174EF0C05"
+    },
+    {
+        "species":  "white",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/white/face-yawn.png",
+        "sha256":  "3C5F704BE4C2A4336AD75E82AAD35EDF257948B040CF453F01D3D3B20176A1A0"
+    },
+    {
+        "species":  "white",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/white/face-restless.png",
+        "sha256":  "CC19960F6299C56E9259AA1017918846F4D008A592AE3392CC175BF59E76F5A8"
+    },
+    {
+        "species":  "white",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/white/face-happy.png",
+        "sha256":  "449F7D6D936E484CD33BC42EE5939D4AC316352BF6453AE2FCDA95BD2B0FA931"
+    },
+    {
+        "species":  "white",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/white/face-surprised.png",
+        "sha256":  "90BD700BE49FAB97966F5EF58E3ED8AF4C6EF1FE25CCD0589C7D81344363C043"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/tuxedo/morning.png",
+        "sha256":  "13FAA3A04D7BF90AA9BCFBC92A30B8743BCB1F6E979CD6CAE661E2215CB136F9"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/tuxedo/day-relax.png",
+        "sha256":  "C887B08F49A683B1B1D0A9DB204469AD6151033EDC9400B4B57819CCD6D14030"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/tuxedo/day-play.png",
+        "sha256":  "59790153FAC785F995794F111D9902C855863A62278D0F466B535DADA4CBFCBD"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/tuxedo/day-groom.png",
+        "sha256":  "7381F5ACA8312B8F9E1C369D40EAF14B3023EF075650E061D66A3D99A03D6C59"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/tuxedo/day-gaze.png",
+        "sha256":  "D2AB774B9FC77F34403B13481B2079C4DAF15134D6CFF5F746B876EEE4EF4A26"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/tuxedo/day-doze.png",
+        "sha256":  "F53E1C13C249761E1B6773D8B7A367F55E0B8ABAA44910626DAC6E23B0A4A514"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/tuxedo/night.png",
+        "sha256":  "A5EE6B02F72201F293759CB87EB84AE5122123DAF260713A145D300C070B818A"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/tuxedo/face-calm.png",
+        "sha256":  "393FDE28BDB630B72D16BD4A9FFB35FC968051E8D13EB64D12EBB149B0B2A1C6"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/tuxedo/face-sleepy.png",
+        "sha256":  "3F559E2D3782F7B42895232C65A795FB400227BCEA062C3A917CD02CF9FD8384"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/tuxedo/face-yawn.png",
+        "sha256":  "8AAEF5D3EBC8A9612C5C39A3F1426C098A8009874E5B329FFC89464C17DE9A52"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/tuxedo/face-restless.png",
+        "sha256":  "D508C730290E6F83230CFF3EFDFD1DA3B5BBB5A9073C7536029036F14D218B38"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/tuxedo/face-happy.png",
+        "sha256":  "C3FFD72F67FFEE36A86EF495178D690E34C6A3CA4D777027DF8370090FF37500"
+    },
+    {
+        "species":  "tuxedo",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/tuxedo/face-surprised.png",
+        "sha256":  "EBAF6BC93F204BF56BD8448C54F071F0EA482CA5BD09FB9E655922A147547490"
+    },
+    {
+        "species":  "gray",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/gray/morning.png",
+        "sha256":  "4AC1689061D8D0F213BC4A644CC6B34B883FD62515EBEE6AB7DC133CCB8BE5EF"
+    },
+    {
+        "species":  "gray",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/gray/day-relax.png",
+        "sha256":  "033E453C8DA8739B2A39A7383755CCE4BC78EECF6AFBAC30211E09653BAB8F0F"
+    },
+    {
+        "species":  "gray",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/gray/day-play.png",
+        "sha256":  "9AE5A2E923198CBD635FF4574ADDB123990C0678BB6B463431285F5A879B94EE"
+    },
+    {
+        "species":  "gray",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/gray/day-groom.png",
+        "sha256":  "F9AE18ACF87ED5234AA1BA40111A2CF7C5ED25BE5C19216546AB876B54C54E2D"
+    },
+    {
+        "species":  "gray",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/gray/day-gaze.png",
+        "sha256":  "2DCFD174C9807D7549B60C41D4B06368F199D009CD2999921DA3438F4A320044"
+    },
+    {
+        "species":  "gray",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/gray/day-doze.png",
+        "sha256":  "81A53A7871CDE45DE471E4CFA722A4333BFF93BF61C8BA1D07A19266E4A72B08"
+    },
+    {
+        "species":  "gray",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/gray/night.png",
+        "sha256":  "BF05B5687DB871FA3B29F8F707EE3AF8A03866D9E9E6C9E1D95562E977513D15"
+    },
+    {
+        "species":  "gray",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/gray/face-calm.png",
+        "sha256":  "7E93F639302A23F285B18262B72BC5A3C17EBA9EC0D8D433250409DDAD0358D9"
+    },
+    {
+        "species":  "gray",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/gray/face-sleepy.png",
+        "sha256":  "22CDFB3539E7CB821AE33FB160BF014B42154C4B9B69A35BDD18E85A07AB3AE5"
+    },
+    {
+        "species":  "gray",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/gray/face-yawn.png",
+        "sha256":  "5A456FDAE661A73C7CBAA6A89D81A41E4AA2444BC49926B5DD1D4D6F97030AD7"
+    },
+    {
+        "species":  "gray",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/gray/face-restless.png",
+        "sha256":  "A6E3B6187E93C8298C3C4CE99475C63BAE925EB27C38C0E1223BCA11F0EA729D"
+    },
+    {
+        "species":  "gray",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/gray/face-happy.png",
+        "sha256":  "A926E99BF50CF17AC55E9B8089B16BF415B9A1E3F6198257D8B1CDBD08F5EDBE"
+    },
+    {
+        "species":  "gray",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/gray/face-surprised.png",
+        "sha256":  "68DCC47BFEE9E4BDE1CC1E06E0EC29074E5090C42726883E24938654E46FA96A"
+    },
+    {
+        "species":  "manul",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/manul/morning.png",
+        "sha256":  "16966AA584D494B604628948AE5CD809F26F48FCF4271B072ACE618A6A4BF43F"
+    },
+    {
+        "species":  "manul",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/manul/day-relax.png",
+        "sha256":  "BC7DC106FDC3AA91E9BA2E8F4393EAD0F097717ACD4E6DAEBEB7258485A474EF"
+    },
+    {
+        "species":  "manul",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/manul/day-play.png",
+        "sha256":  "94B5F2FC35E02DF17B711D8D8E1656C264CC4A7B0C67272E7E94B77718179FD4"
+    },
+    {
+        "species":  "manul",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/manul/day-groom.png",
+        "sha256":  "31492BF83D7D8552EF1F4C4D90AAFA2719C00F8327554021976496091AF2DFBF"
+    },
+    {
+        "species":  "manul",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/manul/day-gaze.png",
+        "sha256":  "3B4CCD4A7149026AA879B51512EC0A2F459DB818BA40FF05E0502CD21B79B2C3"
+    },
+    {
+        "species":  "manul",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/manul/day-doze.png",
+        "sha256":  "73896044C0E0F094F08E0CF6A070B5E0C178B1E70D2AEC2AA3F3E592FDCFB53E"
+    },
+    {
+        "species":  "manul",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/manul/night.png",
+        "sha256":  "DFC4F856BBAE77BE24B9A8C699C815AB9243C74CACA18DBCBB603228C0765D30"
+    },
+    {
+        "species":  "manul",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/manul/face-calm.png",
+        "sha256":  "DCBD01EFFC6329FC022B098FFC9D8A9042689A96B72FEB0A3FED21D0B203D738"
+    },
+    {
+        "species":  "manul",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/manul/face-sleepy.png",
+        "sha256":  "3650B6C25057B7035788A1D8A1A831641F02F82EBBEA71CA46962CF509EF70B8"
+    },
+    {
+        "species":  "manul",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/manul/face-yawn.png",
+        "sha256":  "1B22FD5C8161DCC40948B0933B0553E453C6D97137E64191D9FED30DDA8FBB8D"
+    },
+    {
+        "species":  "manul",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/manul/face-restless.png",
+        "sha256":  "EC430BE6B9BD5D190D2CFA6C9E996B7E34F7B21F8C4443A1516C42F38A867535"
+    },
+    {
+        "species":  "manul",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/manul/face-happy.png",
+        "sha256":  "0BA6117F62AF32452E406D4AE903AC1ECF2157BCD25224200258D32E1622F97E"
+    },
+    {
+        "species":  "manul",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/manul/face-surprised.png",
+        "sha256":  "4E94C7088822A451A7468A418358A803E30A2FD0C5A2E6B11DC4E27547DA1B94"
+    },
+    {
+        "species":  "sand",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/sand/morning.png",
+        "sha256":  "19B403E406FCE5F2D48171EBD91A75A9B90FFA55BDE3E3590E5976020C080632"
+    },
+    {
+        "species":  "sand",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/sand/day-relax.png",
+        "sha256":  "068D1EFB45D82CC99308D51CC2FE863BD4ADB2565DE4F7C906BC73D5EBE8007F"
+    },
+    {
+        "species":  "sand",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/sand/day-play.png",
+        "sha256":  "6E7AAD8104FFF688B4EFC4B21D9C5AD1AA0DC59E36E63D9FBC58EB04A538C5F8"
+    },
+    {
+        "species":  "sand",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/sand/day-groom.png",
+        "sha256":  "C2CE7DBF005612E459F2E0BCA70DA823DDEECD118EA942B911D92C1D538307A4"
+    },
+    {
+        "species":  "sand",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/sand/day-gaze.png",
+        "sha256":  "DDA87415CC49968B77961E816C1EF7D2AD0F84A7ED32BBB77EB5E228460E81A8"
+    },
+    {
+        "species":  "sand",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/sand/day-doze.png",
+        "sha256":  "6DC1340DF6BE3B53A5BFAA2E6659A3220B271A79CC48F7B81240981D6D67FBBA"
+    },
+    {
+        "species":  "sand",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/sand/night.png",
+        "sha256":  "490046F302BCDF594EA0103231E27E0B1EECE0F05E1C30B7BFDE16E0F9DEE788"
+    },
+    {
+        "species":  "sand",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/sand/face-calm.png",
+        "sha256":  "C4985BF2D2DFA3C97FB7D4C9C52F3E3E2295E9EC3B82042F977401AAD78514D0"
+    },
+    {
+        "species":  "sand",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/sand/face-sleepy.png",
+        "sha256":  "730D847A19B79D70D398A0695999743F5FEF37508534B98068740D9E3477ED08"
+    },
+    {
+        "species":  "sand",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/sand/face-yawn.png",
+        "sha256":  "D12F5A5AF118B231FC3DB557371D748569ACCF28200B9E97701D50EECC684696"
+    },
+    {
+        "species":  "sand",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/sand/face-restless.png",
+        "sha256":  "CE71559FF5E2020F0DE1018D8FDDF08ECF6953CCEC8DA09D86F33B5E0E966031"
+    },
+    {
+        "species":  "sand",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/sand/face-happy.png",
+        "sha256":  "3B4B5679C995AEE40E9484270863B734C5E924E9D16F38010196CD2060006935"
+    },
+    {
+        "species":  "sand",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/sand/face-surprised.png",
+        "sha256":  "CD918A2CCAD1834426160FC90881DAA39274880F21D0A16660553AEBB13CF693"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/black-footed/morning.png",
+        "sha256":  "19F37D7C288D11674A76DF00B14873EC08075ED32701495C50B6841FFD298D2D"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/black-footed/day-relax.png",
+        "sha256":  "794058F8E4640EFC3F3E0A59AD75A43E385C7D4BF9B62C45E5D60DA58FD1164E"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/black-footed/day-play.png",
+        "sha256":  "73EC245352259856C459EEC1576E0B0666E6581C9D0F8175E6BEB05575960661"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/black-footed/day-groom.png",
+        "sha256":  "25F4374C9DBB9BC5E70006310D610E307BDFF9961E09698FAB388DDD1E93A10D"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/black-footed/day-gaze.png",
+        "sha256":  "49B06A3C11CC6D439F7E30A0A80CA3CE6E08BA2A622C2BC2D3631FD832924B55"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/black-footed/day-doze.png",
+        "sha256":  "0084A265F291F6B4E3807D19D99B54A60D9CE9F6741FC71990469036BB5247E9"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/black-footed/night.png",
+        "sha256":  "6001D14D51B158413690483CEEF52CC57322DB85955519787DAEF68909B024D2"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/black-footed/face-calm.png",
+        "sha256":  "F252D38B884EEF65098FBBA071C4C2947CACE0F64F6D6B79AA6C4B123556DAB1"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/black-footed/face-sleepy.png",
+        "sha256":  "B331E74B99981A3BEEB84B21448B415D4319BC32907186EAAB11EFCC4BE68AE0"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/black-footed/face-yawn.png",
+        "sha256":  "F448322C49FDCE6DDF92280157698CB62744D28B173F3201AD668986710E491B"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/black-footed/face-restless.png",
+        "sha256":  "F41E0F63CA208BCA630011F113B36C1F7221239F654C76E57D06746B13310FCF"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/black-footed/face-happy.png",
+        "sha256":  "0F642C13D01F10A5F16A284EB668EC31BAEDEE2155BB1DB2359D1E28CA773D16"
+    },
+    {
+        "species":  "black-footed",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/black-footed/face-surprised.png",
+        "sha256":  "F009E7A100A5F5572AC3C31CAD0C37E5E5AB1C5881224B82B01A8EA2C9E90207"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/fishing/morning.png",
+        "sha256":  "0F5568DB3C4D575A4F28BFAEAF86305C28102817C78908528286287D9F3465DB"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/fishing/day-relax.png",
+        "sha256":  "2292C0323592487060CFF509576580519F820BC7E44745285DA90DC093CAEB6B"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/fishing/day-play.png",
+        "sha256":  "319987A65A888A5577B98C85C0412004D77D2E498CD18875928EEE4BDF6429C1"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/fishing/day-groom.png",
+        "sha256":  "AB87BB078D7636525753B333EAD32990109F4837CC147007729923D5B1E05CA5"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/fishing/day-gaze.png",
+        "sha256":  "024E9539CD9340B6AA21819914DB117FF713B550C2347CE29FACB6680D349535"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/fishing/day-doze.png",
+        "sha256":  "08EBEA3DD60F16430C45688CF05F8A965AFADD4FF3203E641BC0B9FFAA7D7CAA"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/fishing/night.png",
+        "sha256":  "61EBDB3BBC691ECBCDC4165BEA9C6EE13FCEED481478B33B48435ECADA19F099"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/fishing/face-calm.png",
+        "sha256":  "0BC5A04F04FC5D28687040CD5DBE4CE3B414CF3B8E807D4298E8AAB3E6C280FC"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/fishing/face-sleepy.png",
+        "sha256":  "CB445616C82E22BC44B0C4F45D8CAC64066E0A857EF10F2454389541CBBEB737"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/fishing/face-yawn.png",
+        "sha256":  "30133564DAB2C7E96E372CBA490DB2111E97E210DE6A8699A94622346C4B4587"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/fishing/face-restless.png",
+        "sha256":  "E4FEC55C4DD85CDEA5ED1286DF436B67FA494266076F72DBF31DD49113D8E74B"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/fishing/face-happy.png",
+        "sha256":  "DCD01597FAF52FE858869EE9B7A3FFD221DA1BB69E9124BBE61DDEB4CEE9DD11"
+    },
+    {
+        "species":  "fishing",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/fishing/face-surprised.png",
+        "sha256":  "A763E05288893F51395782EAC9F8A08FB592E1E07B3DF4967385F423035F4E9C"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/snow-leopard/morning.png",
+        "sha256":  "AA8D20139564D87387CD9DCA9B0F27496C281078B57D1B973AA2D7FE6E91E71A"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/snow-leopard/day-relax.png",
+        "sha256":  "51BBE412EE14804C41A60B2525D6B108F62925F02571164491BABBDB7EBF18AA"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/snow-leopard/day-play.png",
+        "sha256":  "2554CDEE4CD35EDFC2AB2A9521F689A28728DCA5AA379DD4B34E11BE24FA7F9D"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/snow-leopard/day-groom.png",
+        "sha256":  "1C3C0415084F65A0EE6BD7E93961F092E3BB81207186AE0F2CEFDA8BD1880486"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/snow-leopard/day-gaze.png",
+        "sha256":  "7D6F59647FF0B67B6B3C8DD59E26008C9CC491FFD48A55CC02120F873B71A046"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/snow-leopard/day-doze.png",
+        "sha256":  "8732193DEDB573DBEB9E156EDAA8F6B15BBA14E00A315B0A3B9DFB5DA885785B"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/snow-leopard/night.png",
+        "sha256":  "6C3EA19B5F24198B5B3D4DF123F647C4CA6B37E14590DFF7129E27BEA1C0D69C"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/snow-leopard/face-calm.png",
+        "sha256":  "92624906FD09590BF6BF5340BEF34971C5ED042FF80DEAD5885D97F472C8C6A8"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/snow-leopard/face-sleepy.png",
+        "sha256":  "8CD7D62CBB82CC9BE95223ED20DEC5D6C9F20B1E6DF3B795961C9CB37953C9DB"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/snow-leopard/face-yawn.png",
+        "sha256":  "C9D884DD7421BB5C038E4328190AC61D9291BB53024A5DF3D2030D446DF2058A"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/snow-leopard/face-restless.png",
+        "sha256":  "1F82A8BE607B27735B1033252A1C60ED6F4F852DDF1B8818444F3EAEBA421499"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/snow-leopard/face-happy.png",
+        "sha256":  "4D3301A916E7CB1F5C5AA11BAEAAFFFCF7179B1963ACCFA17159FC6A4F28B5E9"
+    },
+    {
+        "species":  "snow-leopard",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/snow-leopard/face-surprised.png",
+        "sha256":  "277F8B581EB518D6A0550506236D31A85A368671E6DDB2F2440B391B504E0DBE"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/leopard/morning.png",
+        "sha256":  "E210078758923B3035204091768ADA96C5B2593829B840B8C93B131F21924961"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/leopard/day-relax.png",
+        "sha256":  "0136CFFB6E6D86272015238D00BA7E12F1A33692EE00FB0797653147084085D2"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/leopard/day-play.png",
+        "sha256":  "889E320E30DCBDF7ECE64C00A0429A5711E835814ACEC4AF581065C1D26A72DB"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/leopard/day-groom.png",
+        "sha256":  "F872E71FC461399F0E21201FB9AB49130CC6740D0903E46936F91E2C22DFFFF8"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/leopard/day-gaze.png",
+        "sha256":  "BD89B9C802F7E68081808289FC677FB8645C6392C065BB437BFBFAAA20B0C80E"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/leopard/day-doze.png",
+        "sha256":  "A1CAE1EAAFB9FCBF7E3EEAA2F4B478532771B69F16F2C4CC68BC4D89C5F00812"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/leopard/night.png",
+        "sha256":  "FE2E0A9E8604FFA94F2EDEDC5239057365133D51FB207CCAD7D88F1449741F35"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/leopard/face-calm.png",
+        "sha256":  "D74409D5201D9690581AAD3910CFC2F69A9439419CEBC540014C8738E6734D12"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/leopard/face-sleepy.png",
+        "sha256":  "198696107151CD499652C0524BDDC6FEF5F25CBEDFD343BCEDBE5D8C26D9F732"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/leopard/face-yawn.png",
+        "sha256":  "6C1B6056261EEB7A5DE6F4AB44E8BFAD10863C247CDB8F71ABD92B09AB1B104E"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/leopard/face-restless.png",
+        "sha256":  "FDAF0AF34BB47D6D1FC1232BCAA2C449A7EC60A38D958B70835EB27929290914"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/leopard/face-happy.png",
+        "sha256":  "CEFB72764112E96B15668B44903DC0EE69D7AA0F81DEBD5562A89DCFFB4EABC3"
+    },
+    {
+        "species":  "leopard",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/leopard/face-surprised.png",
+        "sha256":  "428BE052F9D4AE845E6BC01B7124D0D4E0BED06CDC3ADE6F1AE73708A450056D"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/cheetah/morning.png",
+        "sha256":  "7ED64682AB8EE00090C503B88C8DBCF37AD723733A5F78BCA09E23E0FA0046C0"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/cheetah/day-relax.png",
+        "sha256":  "13CE84A31DAFA50940AA513F43368B41A80486DC7FBBB75B7BAEAA4BCA3C8BBB"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/cheetah/day-play.png",
+        "sha256":  "B9F21B2EA4903F6FA6FF6B405823F6176A3BDCB3DADDC437F0B2E00A6E234BB6"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/cheetah/day-groom.png",
+        "sha256":  "E826471829919FFAEE076E62D68BFBFF17920D9F4DB28B1C19BA446D6E005037"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/cheetah/day-gaze.png",
+        "sha256":  "9ECDF4F884A02B41570A86F62437D66607286A53239CA95C56E8D25D5D85AF00"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/cheetah/day-doze.png",
+        "sha256":  "7218FD15CFBFC7237964574F1B6BACC6E8D72AE350008DED35CE8628C365FA14"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/cheetah/night.png",
+        "sha256":  "51DA38FD029414BDE715BF4D443F7B7E57A61282ED8E47582D352F59ADF87BEB"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/cheetah/face-calm.png",
+        "sha256":  "83D7DA5E06C627AE8E3812FA6898A4FEF2D1695D64C7F33806F9B0F3BAD0DF01"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/cheetah/face-sleepy.png",
+        "sha256":  "3042874755E660830EC073997B798BCCA97FE179F844C8AA9AA389FF75B4141E"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/cheetah/face-yawn.png",
+        "sha256":  "DF2D52A817EC98E5A7BA6E96AF468C3A3562FF5A639FB036F5640C09371D8009"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/cheetah/face-restless.png",
+        "sha256":  "EB8B75DB13D7CAAC5B41637E5CFC1B4412D6DF2B2811C604076CA575FA85F1B3"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/cheetah/face-happy.png",
+        "sha256":  "C432BC1AD4BD57430040E647D8DD2C98E980AE4AB7CBEDF087E3FF838DA924E1"
+    },
+    {
+        "species":  "cheetah",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/cheetah/face-surprised.png",
+        "sha256":  "54B4CF23698C32942439A4252E6E6181C7D1058B66562E197AA182EF9EC9A200"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "morning",
+        "file":  "assets/cat-refresh-v1/jaguar/morning.png",
+        "sha256":  "92EE40051B24225DF00A39A4D0727648F2BC36FAF45AE9840F83CD3DC9CF04ED"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "day-relax",
+        "file":  "assets/cat-refresh-v1/jaguar/day-relax.png",
+        "sha256":  "D14CB30A11F22781F65EF98C9B0AB4DA7E16B7A251E7F777DFDD37FB5250ED2A"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "day-play",
+        "file":  "assets/cat-refresh-v1/jaguar/day-play.png",
+        "sha256":  "E1F7CD6B1E59E45D21474783FE5AB68F85FD479E29236963AC0DD9A13D5325FE"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "day-groom",
+        "file":  "assets/cat-refresh-v1/jaguar/day-groom.png",
+        "sha256":  "DF07CA0128151CB327E0E10021EB6319F7D9704830B5D0A67CF069D261917C1B"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "day-gaze",
+        "file":  "assets/cat-refresh-v1/jaguar/day-gaze.png",
+        "sha256":  "0FDF0BB72FCC4B612A64CB4EFAABC3626F8A9A77C4449A36F563445A46D1CA03"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "day-doze",
+        "file":  "assets/cat-refresh-v1/jaguar/day-doze.png",
+        "sha256":  "C3BBCFC1EC885920117023E4B48F75B4BF48CBCCC29D72C1378AE0C9D14D2A2B"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "night",
+        "file":  "assets/cat-refresh-v1/jaguar/night.png",
+        "sha256":  "DFB859E204D4473205D4666553E7E100C1FE769DDDA824EDCB6FF390884C5B94"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "face-calm",
+        "file":  "assets/cat-refresh-v1/jaguar/face-calm.png",
+        "sha256":  "C15F018AB7203738C0892F89BDF9E72A95AAC55F32FEACA5F42189FB80EF5D16"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "face-sleepy",
+        "file":  "assets/cat-refresh-v1/jaguar/face-sleepy.png",
+        "sha256":  "992C956520133C520C6AA24AF3B7F3EDE99FBBCC50D3392ACC8F253A236CCDCE"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "face-yawn",
+        "file":  "assets/cat-refresh-v1/jaguar/face-yawn.png",
+        "sha256":  "02197F9892E39EA35C96AD0EFB4D4D46B8283FAB432E6611108A8DDEC5E45A4F"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "face-restless",
+        "file":  "assets/cat-refresh-v1/jaguar/face-restless.png",
+        "sha256":  "E608768A0E6EDCD4BF96F0BB040505675E7618E413F4DC5C0BC3A8516D4026E3"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "face-happy",
+        "file":  "assets/cat-refresh-v1/jaguar/face-happy.png",
+        "sha256":  "38658F6AD31AEFC8FAA4735ABDBFAFEE3A3196C14E5A16F24FEDF94647D81B81"
+    },
+    {
+        "species":  "jaguar",
+        "frame":  "face-surprised",
+        "file":  "assets/cat-refresh-v1/jaguar/face-surprised.png",
+        "sha256":  "D013D83E8CD441269CE15E43921D7E3909AA08D67E4DD7BE811C4DDCB3647806"
+    }
+]

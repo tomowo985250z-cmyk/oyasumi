@@ -12,12 +12,16 @@ for(const pose of ['rear-upright','rear-relaxed','rear-rounded'])files[`/assets/
 for(const pose of ['storybook-upright','storybook-relaxed','storybook-rounded'])files[`/assets/roof-cats/${pose}.png`]=`assets/roof-cats/${pose}.png`;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/wild-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/wild-cats/'+file]='assets/wild-cats/'+file;
 types['.png']='image/png';
+for(const period of ['morning','day','night'])files[`/assets/room-cats/calico-${period}.png`]=`assets/room-cats/calico-${period}.png`;
+files['/assets/room-cats/calico-day-unified.png']='assets/room-cats/calico-day-unified.png';
 types['.woff2']='font/woff2';
 for(const file of fs.readdirSync(path.join(__dirname,'assets/fonts')))if(/^[a-z0-9-]+\.woff2$/.test(file))files['/assets/fonts/'+file]='assets/fonts/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/domestic-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/domestic-cats/'+file]='assets/domestic-cats/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/big-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/big-cats/'+file]='assets/big-cats/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/day-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/day-cats/'+file]='assets/day-cats/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/sleep-wake-cats')))if(/^[a-z-]+-(?:sleeping|waking)\.png$/.test(file))files['/assets/sleep-wake-cats/'+file]='assets/sleep-wake-cats/'+file;
+files['/cat-image-assets.js']='cat-image-assets.js';
+for(const coat of fs.readdirSync(path.join(__dirname,'assets/cat-refresh-v1')))if(/^[a-z-]+$/.test(coat))for(const file of fs.readdirSync(path.join(__dirname,'assets/cat-refresh-v1',coat)))if(/^[a-z-]+\.png$/.test(file))files['/assets/cat-refresh-v1/'+coat+'/'+file]='assets/cat-refresh-v1/'+coat+'/'+file;
 http.createServer((req, res) => {
   const file = files[new URL(req.url, 'http://localhost').pathname];
   if (!file) { res.writeHead(404); return res.end('Not found'); }
