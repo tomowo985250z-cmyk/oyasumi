@@ -150,15 +150,22 @@ function morning() { const recorded=state.morningDays.includes(dayKey());return 
 function catCoatSetting() { return `<section class="settings-section card cat-coat-setting"><h2>猫の種類</h2><button class="setting-row" data-coat-picker ${CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())?'': 'disabled'}><span>${shared.needsCat?'猫の種類を選ぶ':CatFaces.coatLabel(state.coat)}</span><span>›</span></button><p class="quiet-note cat-coat-availability">${CatCoatCooldown.message(shared.catCoatStatus,NightClock.now())}</p></section>`; }
 function profile() { return `${header()}${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner"><button class="profile-cat-button" ${shared.needsCat?'data-coat-picker':'data-expression-picker'} aria-label="${shared.needsCat?'猫の種類を選ぶ':'猫の表情を変更'}">${shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1>${roleTag(state.catRole)}<button class="profile-note-button" data-note-editor><span>そっとひとこと ›</span><span class="profile-note-text${state.profileNote ? '' : ' is-empty'}">${escapeHTML(state.profileNote)||'未入力'}</span></button></div></div>${shared.profileComplete?CatCare.markup(shared.catCare,state.coat,shared.userId,true):''}${catCoatSetting()}${roleSetting()}<div class="stats-grid"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><div class="section-heading"><h2>最近の記録</h2></div>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p>`; }
 function settings() { return `${header('設定',true)}<section class="settings-section"><h2>プロフィール</h2><button class="setting-row" data-name><span>ニックネーム</span><span class="setting-value">${escapeHTML(state.name)} ›</span></button><button class="setting-row" data-coat-picker ${CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())?'': 'disabled'} aria-label="猫の毛色を選ぶ"><span>猫の種類（毛色）</span><span class="expression-setting"><span class="avatar peach">${CatFaces.svg(state.expression,state.coat)}</span><span class="setting-value">${shared.needsCat?'未設定':CatFaces.coatLabel(state.coat)} ›</span></span></button>${roleSetting()}</section><section class="settings-section"><h2>表示設定</h2><label class="setting-row"><span>ダークモード</span><input class="switch" type="checkbox" id="dark-switch" ${!state.light?'checked':''}></label><div class="setting-row"><span>言語</span><span class="setting-value">日本語</span></div></section><section class="settings-section"><h2>この初期版について</h2><div class="card settings-info">投稿・リアクション・今夜の人数は、みんなで共有しています。朝の記録と表示設定は、この端末に保存されます。人数の推移は、今夜の投稿をもとに集計しています。<br><br>匿名アカウントは端末ごとに異なります。通知は今後の対応予定です。</div></section><section class="settings-section safety-links"><h2>安心して使うために</h2><button class="setting-row" data-safety="privacy">プライバシーポリシー ›</button><button class="setting-row" data-safety="rules">利用規約・安全ルール ›</button></section><button class="text-button share-place-button" data-share-place>この場所を教える 🌙</button>`; }
-function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');app.innerHTML=({home,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)();navigation();syncBusy();syncRoofSky();scheduleTimelineExpiry();if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')render();},remaining+20);} }
+function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');app.innerHTML=({home,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)();navigation();syncBusy();syncRoofSky();scheduleTimelineExpiry();if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
 function go(next) { if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0); }
 function syncBusy() {
  document.querySelectorAll('[data-coat-picker]').forEach(button=>{button.disabled=busy||!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now());});
  app.setAttribute('aria-busy',String(busy));
  document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],[data-note-editor],#delete-note,#note-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy||(button.hasAttribute('data-coat')&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()));});
 }
+let careRenderTimer;
 function renderPreservingPosition(allowDialog=false) {
  if(!allowDialog&&document.querySelector('dialog[open]'))return;
+ clearTimeout(careRenderTimer);
+ // Detaching even the same node restarts CSS animations in WebKit. Defer only
+ // automatic full renders; explicit navigation still renders immediately.
+ if([...app.querySelectorAll('.care-scene')].some(scene=>CatCare.isPlaying(scene))){
+  const currentView=view;careRenderTimer=setTimeout(()=>{if(view===currentView)renderPreservingPosition(allowDialog);},3100);return;
+ }
  const x=window.scrollX,y=window.scrollY,focused=document.activeElement;
  const attributes=['data-view','data-filter','data-react','data-reaction','data-delete','data-post'];
  const selector=focused?.id?`#${CSS.escape(focused.id)}`:attributes.filter(key=>focused?.hasAttribute(key)).map(key=>`[${key}="${CSS.escape(focused.getAttribute(key))}"]`).join('');
@@ -423,7 +430,20 @@ function refreshCareCards() {
  for(const section of document.querySelectorAll('.cat-care')){
   const self=section.dataset.careOwner==='self',coat=section.querySelector('.care-scene').dataset.careCoat;
   const template=document.createElement('template');template.innerHTML=CatCare.markup(shared.catCare,coat,section.dataset.careOwner,self,NightClock.now(),section.dataset.careCompact==='true');
-  const next=template.content.firstElementChild;if(next){section.replaceWith(next);replaced.set(section,next);}else section.remove();
+  const next=template.content.firstElementChild;if(next){
+   const scene=section.querySelector('.care-scene');
+   if(CatCare.isPlaying(scene)){
+    // Update controls/history without removing the playing scene from the tree.
+    for(const child of [...section.children])if(child!==scene)child.remove();
+    let before=true;
+    for(const child of [...next.children]){
+     if(child.classList.contains('care-scene')){before=false;continue;}
+     section.insertBefore(child,before?scene:null);
+    }
+    replaced.set(section,section);continue;
+   }
+   section.replaceWith(next);replaced.set(section,next);
+  }else section.remove();
  }
  return replaced;
 }

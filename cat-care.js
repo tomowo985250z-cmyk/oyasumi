@@ -24,7 +24,15 @@ globalThis.CatCare=(()=>{
   token={};active.set(scene,token);
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Decode off the interaction path: navigation and other controls stay available.
-  await Promise.allSettled([...scene.querySelectorAll('img')].map(img=>img.decode()));
+  await Promise.allSettled([...scene.querySelectorAll('img')].map(img=>typeof img.decode==='function'?img.decode():new Promise(resolve=>{
+   if(img.complete)return resolve();
+   img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true});
+  })));
+  if(!scene.isConnected||active.get(scene)!==token){active.delete(scene);return;}
+  // Commit the newly inserted scene's initial style before starting CSS animations.
+  // WebKit may otherwise coalesce insertion and playback into a single paint.
+  scene.getBoundingClientRect();
+  await new Promise(resolve=>requestAnimationFrame(resolve));
   if(!scene.isConnected||active.get(scene)!==token){active.delete(scene);return;}
   scene.classList.add(reduced?'care-reduced':'care-playing');
   await new Promise(resolve=>setTimeout(resolve,reduced?900:3000));
@@ -33,5 +41,5 @@ globalThis.CatCare=(()=>{
  function lock(key){if(pending.size)return false;pending.add(key);return true;}
  function unlock(key){pending.delete(key);}
  function restPrompt(status,coat){return valid(status)&&status.day===day(NightClock.now())&&status.mealEligible&&!status.mealDone?markup(status,coat,null,true,NightClock.now(),true):'';}
- return {valid,markup,visual,play,lock,unlock,restPrompt,get pending(){return pending.size>0},day};
+ return {valid,markup,visual,play,lock,unlock,restPrompt,isPlaying:scene=>active.has(scene),get pending(){return pending.size>0},day};
 })();

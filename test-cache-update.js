@@ -56,7 +56,7 @@ const server=http.createServer((req,res)=>{
    const requests=manifestRequests;await page.evaluate(()=>OyasumiUpdates.check(true));assert(manifestRequests>requests,'Version probe hits network');
    assert.deepEqual(errors,[]);await context.close();
   }
-  for(const standalone of [false,true]){
+  for(const standalone of process.env.CACHE_FIXTURE_ONLY?[]:[false,true]){
    const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
    if(standalone)await context.addInitScript(()=>Object.defineProperty(navigator,'standalone',{value:true}));
    const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -94,6 +94,6 @@ const server=http.createServer((req,res)=>{
    assert.equal(await page.evaluate(()=>shared.userId),user,'Anonymous identity remains after reload');
    assert.deepEqual(errors,[]);await context.close();
   }
-  console.log('PASS WebKit cache update: browser and standalone simulation at 320/375/390/430px, new JS/CSS, resume, partial deployment/offline/edit guards, preserved auth/settings/history, no loop; privacy/rules and input guidance at all four widths; real app pages and Supabase identity reload.');
+  console.log(process.env.CACHE_FIXTURE_ONLY?'PASS WebKit cache fixture: browser and standalone simulation at 320/375/390/430px, new JS/CSS, resume, partial deployment/offline/edit guards, preserved local storage, no loop; no production DB access.':'PASS WebKit cache update: browser and standalone simulation at 320/375/390/430px, new JS/CSS, resume, partial deployment/offline/edit guards, preserved auth/settings/history, no loop; privacy/rules and input guidance at all four widths; real app pages and Supabase identity reload.');
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(()=>server.close());
