@@ -304,20 +304,22 @@ document.querySelector('#cancel-name').addEventListener('click',()=>document.que
 document.querySelector('#cancel-expression').addEventListener('click',()=>document.querySelector('#expression-dialog').close());
 const roomWhispers=Object.freeze({steady:'ひとつずつ。今日はここでひとやすみ。',guardian:'安心できる場所で、ほっとひと息。',caring:'あなたにも、やさしい時間が流れますように。',watchful:'ここでは、ゆっくりしていってね。',mechanic:'考えごとも、少しおやすみ。',maker:'小さな積み重ねを、今日はそっと置いて。',welcoming:'いらっしゃい。気楽にくつろいでね。',foodie:'あたたかいものを思い浮かべて、ほっとひと息。',courier:'今日の荷物をおろして、のんびりしよう。',foresight:'先のことは、少しあとで考えよう。',creative:'ひらめきも、のんびり待ってみよう。',independent:'自分のペースで、ゆっくりいこう。',learner:'今日の学びをしまって、ひとやすみ。',homely:'いつもの場所で、ほっとする時間。',resting:'何もしない時間も、大切にしよう。',carefree:'気の向くままに、のんびりしよう。'});
 function roomTime(now=NightClock.now()) { const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));return hour>=6&&hour<12?'morning':hour>=12&&hour<18?'day':'night'; }
-function profileRoomCat(coat,now=NightClock.now()) {
- const period=roomTime(now),day=period==='day'?DayCats.current(now):null;
+function profileRoomCat(coat,now=NightClock.now(),status) {
+ const period=roomTime(now);
+ if(status==='awake'||status==='sleep'){const pose=status==='awake'?'awake':'sleeping';return {period,pose,html:CatScenes.svg(pose,coat)};}
+ const day=period==='day'?DayCats.current(now):null;
  return {period,pose:day?.id||(period==='morning'?'awake':'sleeping'),html:day?DayCats.svg(day.id,coat):CatScenes.svg(period==='morning'?'awake':'sleeping',coat)};
 }
 function syncProfileRoom() {
  const room=document.querySelector('.cat-room');if(!room)return;
- const cat=profileRoomCat(room.dataset.coat);
+ const cat=profileRoomCat(room.dataset.coat,NightClock.now(),room.dataset.postStatus);
  if(room.dataset.time===cat.period&&room.dataset.pose===cat.pose)return;
  room.dataset.time=cat.period;room.dataset.pose=cat.pose;room.querySelector('.room-cat').innerHTML=cat.html;
 }
 function publicProfileRoom(person) {
- const coat=CatFaces.normalizeCoat(person.coat),cat=profileRoomCat(coat);
+ const coat=CatFaces.normalizeCoat(person.coat),status=['awake','sleep'].includes(person.status)?person.status:'',cat=profileRoomCat(coat,NightClock.now(),status);
  const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、いっしょにひとやすみ。';
- return `<section class="cat-room" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" aria-label="猫の小さなおへや"><div class="room-scene"><div class="room-window" aria-hidden="true"><span class="room-orb"></span><span class="room-cloud"></span><span class="room-stars">· ✧ ·</span></div><span class="room-curtain" aria-hidden="true"></span><span class="room-lamp" aria-hidden="true"></span><div class="room-cat">${cat.html}</div></div><p class="room-whisper"><span aria-hidden="true">“</span>${escapeHTML(whisper)}<span aria-hidden="true">”</span></p><p class="room-whisper-label">おへやの猫のつぶやき</p></section><h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
+ return `<section class="cat-room" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="猫の小さなおへや"><div class="room-scene"><div class="room-window" aria-hidden="true"><span class="room-orb"></span><span class="room-cloud"></span><span class="room-stars">· ✧ ·</span></div><span class="room-curtain" aria-hidden="true"></span><span class="room-lamp" aria-hidden="true"></span><div class="room-cat">${cat.html}</div></div><p class="room-whisper"><span aria-hidden="true">“</span>${escapeHTML(whisper)}<span aria-hidden="true">”</span></p><p class="room-whisper-label">おへやの猫のつぶやき</p></section><h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
 }
 setInterval(()=>{if(!document.hidden)syncProfileRoom();},30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncProfileRoom();});
