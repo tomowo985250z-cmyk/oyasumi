@@ -1,6 +1,6 @@
 // Optional, additive cat care. Only server-confirmed actions play the animation.
 globalThis.CatCare=(()=>{
- const pending=new Set(),active=new Map();
+ const pending=new Set(),active=new Map(),durationMs=6000;
  const day=now=>SleepFlow.day(now);
  const valid=s=>s&&/^\d{4}-\d{2}-\d{2}$/.test(s.day)&&['mealEligible','mealDone','treatGiven'].every(k=>typeof s[k]==='boolean')&&['receivedToday','receivedTotal'].every(k=>Number.isSafeInteger(s[k])&&s[k]>=0);
  function visual(coat,kind='meal'){
@@ -16,7 +16,7 @@ globalThis.CatCare=(()=>{
   const history=self&&!compact?`<div class="care-received"><p>届いたおやつ <span>今日 ${status.receivedToday}個 · 累計 ${status.receivedTotal}個</span></p>${days.length?`<details><summary>日別の記録</summary><ul>${days.map(r=>`<li><time datetime="${r.day}">${r.day.replaceAll('-','/')}</time><span>${r.count}個</span></li>`).join('')}</ul></details>`:''}<p class="quiet-note">贈ってくれた人の名前は表示されません。</p></div>`:'';
   // Recipient comes from the post's UUID, never from display text.
   if(!self&&!/^[0-9a-f-]{36}$/i.test(recipient||''))return '';
-  return `<section class="card cat-care${compact?' cat-care-compact':''}" data-care-compact="${compact}" data-care-owner="${self?'self':recipient}"><h2>${self?'猫のごはん':'小さなおやつ'}</h2>${visual(coat,kind)}<button class="cream-button" ${self?'data-cat-meal':`data-cat-treat="${recipient}"`} ${disabled?'disabled':''}>${label}</button><p class="quiet-note">${self?'おやすみを投稿した日に、1回。連続投稿は不要です。':'他の猫へ、1日合計1回。お返しは気にせずに。'}</p><p class="care-feedback" role="status" aria-live="polite"></p>${history}</section>`;
+  return `<section class="card cat-care${compact?' cat-care-compact':''}" data-care-compact="${compact}" data-care-owner="${self?'self':recipient}"><h2>${self?'猫のごはん':'小さなおやつ'}</h2>${visual(coat,kind)}<p class="care-caption"><strong>${self?'ごはんだよ':'おやつだよ'}</strong><span class="care-serving" data-care-kind="${kind}"><span class="care-food" aria-hidden="true"><i></i><i></i><i></i></span>${self?'カリカリ':'小魚'}</span></p><button class="cream-button" ${self?'data-cat-meal':`data-cat-treat="${recipient}"`} ${disabled?'disabled':''}>${label}</button><p class="quiet-note">${self?'おやすみを投稿した日に、1回。連続投稿は不要です。':'他の猫へ、1日合計1回。お返しは気にせずに。'}</p><p class="care-feedback" role="status" aria-live="polite"></p>${history}</section>`;
  }
  async function play(scene){
   if(!scene?.isConnected)return;
@@ -35,11 +35,11 @@ globalThis.CatCare=(()=>{
   await new Promise(resolve=>requestAnimationFrame(resolve));
   if(!scene.isConnected||active.get(scene)!==token){active.delete(scene);return;}
   scene.classList.add(reduced?'care-reduced':'care-playing');
-  await new Promise(resolve=>setTimeout(resolve,reduced?900:3000));
+  await new Promise(resolve=>setTimeout(resolve,reduced?900:durationMs));
   if(active.get(scene)===token){scene.classList.remove('care-playing','care-reduced');active.delete(scene);}
  }
  function lock(key){if(pending.size)return false;pending.add(key);return true;}
  function unlock(key){pending.delete(key);}
- function restPrompt(status,coat){return valid(status)&&status.day===day(NightClock.now())&&status.mealEligible&&!status.mealDone?markup(status,coat,null,true,NightClock.now(),true):'';}
- return {valid,markup,visual,play,lock,unlock,restPrompt,isPlaying:scene=>active.has(scene),get pending(){return pending.size>0},day};
+ function restPrompt(status,coat){return valid(status)&&status.day===day(NightClock.now())&&status.mealEligible?markup(status,coat,null,true,NightClock.now(),true):'';}
+ return {durationMs,valid,markup,visual,play,lock,unlock,restPrompt,isPlaying:scene=>active.has(scene),get pending(){return pending.size>0},day};
 })();

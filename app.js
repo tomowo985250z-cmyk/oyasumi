@@ -164,7 +164,7 @@ function renderPreservingPosition(allowDialog=false) {
  // Detaching even the same node restarts CSS animations in WebKit. Defer only
  // automatic full renders; explicit navigation still renders immediately.
  if([...app.querySelectorAll('.care-scene')].some(scene=>CatCare.isPlaying(scene))){
-  const currentView=view;careRenderTimer=setTimeout(()=>{if(view===currentView)renderPreservingPosition(allowDialog);},3100);return;
+  const currentView=view;careRenderTimer=setTimeout(()=>{if(view===currentView)renderPreservingPosition(allowDialog);},CatCare.durationMs+100);return;
  }
  const x=window.scrollX,y=window.scrollY,focused=document.activeElement;
  const attributes=['data-view','data-filter','data-react','data-reaction','data-delete','data-post'];

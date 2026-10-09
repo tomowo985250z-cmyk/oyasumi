@@ -21,8 +21,9 @@ const output=path.join(__dirname,'output/cat-care-webkit');fs.mkdirSync(output,{
      await page.evaluate(()=>{document.querySelectorAll('.care-playing,.care-reduced').forEach(s=>s.classList.remove('care-playing','care-reduced'));const s=document.querySelector('.cat-care:not(dialog:not([open]) *) .care-scene');s.outerHTML=CatCare.visual(s.dataset.careCoat,s.dataset.careKind);});
      await page.locator(`[data-cat-${kind}]`).click({force:true});
      await page.waitForSelector('.care-playing',{state:'attached'});
+     assert.deepEqual(await page.evaluate(()=>{const scene=document.querySelector('.care-playing'),caption=scene.parentElement.querySelector('.care-caption');return {text:caption.innerText.replace(/\s/g,''),duration:CatCare.durationMs,animations:scene.getAnimations({subtree:true}).every(a=>a.effect.getTiming().duration===6000)};}),{text:kind==='meal'?'ごはんだよカリカリ':'おやつだよ小魚',duration:6000,animations:true});
      assert(await page.evaluate(async()=>{const scene=document.querySelector('.care-playing'),animation=scene.querySelector('.care-munch').getAnimations()[0];refreshCareCards();await refreshShared();return scene.isConnected&&CatCare.isPlaying(scene)&&scene.querySelector('.care-munch').getAnimations()[0]===animation;}),'Refresh must keep the same WebKit animation');
-     for(const [time,selector] of [[500,'.care-bowl'],[1500,'.care-munch'],[2500,'.care-joy-cat']]){
+     for(const [time,selector] of [[1000,'.care-bowl'],[2500,'.care-munch'],[5000,'.care-joy-cat']]){
       const result=await page.evaluate(async({time,selector})=>{const scene=document.querySelector('.care-playing');for(const a of scene.getAnimations({subtree:true})){a.pause();a.currentTime=time;}await new Promise(requestAnimationFrame);const item=scene.querySelector(selector),box=item.getBoundingClientRect();return {opacity:Number(getComputedStyle(item).opacity),width:box.width,height:box.height,images:[...scene.querySelectorAll('img')].every(i=>i.complete&&i.naturalWidth>0),visible:getComputedStyle(item).visibility};},{time,selector});
       assert(result.opacity>.9&&result.width>0&&result.height>0&&result.images&&result.visible==='visible',JSON.stringify({standalone,width,coat,kind,time,result}));
       if(width===390&&coat==='calico'&&kind==='meal')await page.screenshot({path:path.join(output,`${standalone?'standalone':'browser'}-${time}.png`)});
@@ -30,6 +31,15 @@ const output=path.join(__dirname,'output/cat-care-webkit');fs.mkdirSync(output,{
      reports.push({standalone,width,coat,kind});
     }
     console.log(`PASS WebKit ${standalone?'standalone simulation':'browser'} ${width}px: 16 coats, meal/treat, refresh, 3 stages`);
+   }
+   for(const kind of ['meal','treat']){
+    await page.evaluate(async kind=>{await fetch('/__care/reset',{method:'POST'});await CarePreview.show('calico',kind);document.querySelectorAll('.care-playing').forEach(s=>s.classList.remove('care-playing'));document.querySelector(`[data-cat-${kind}]`).click();},kind);
+    await page.waitForSelector('.care-playing',{state:'attached'});
+    const started=Date.now();await page.waitForFunction(()=>!document.querySelector('.care-playing'),{},{timeout:9000});
+    assert(Date.now()-started>=5500,'Playback lasts about six seconds');
+    assert(await page.locator(kind==='meal'?'main .care-caption':'dialog[open] .care-caption').isVisible(),'Food kind remains visible after playback');
+    await page.evaluate(()=>refreshCareCards());
+    assert(await page.locator(kind==='meal'?'main .care-caption':'dialog[open] .care-caption').isVisible(),'Food kind survives refresh');
    }
    assert(await page.evaluate(async()=>{
     await fetch('/__care/reset',{method:'POST'});await CarePreview.show('calico','meal');
