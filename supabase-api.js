@@ -150,14 +150,19 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
         catch { /* Older databases retain the normal seven-day selection message. */ }
       }
     } catch { /* 猫種選択だけを無効にし、他の機能は継続する。 */ }
+    let catCare=null;
+    try{catCare=await rpc('oyasumi_cat_care_status');}catch{ /* Optional until the additive cat-care migration is applied. */ }
     if(clock.serverNow+performance.now()-clock.monotonicAt>=clock.resetAt){if(attempt<2)return snapshot(attempt+1);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), activeAwakePosts, sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
-      profileNote: notes.get(userId) || '', clock, catCoatStatus,
+      profileNote: notes.get(userId) || '', clock, catCoatStatus, catCare,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles, notes)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles, notes)),
       reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
   }
   return { client, initialize, snapshot, get userId() { return userId; }, get needsNickname() { return needsNickname; },
+    getCatCareStatus: () => rpc('oyasumi_cat_care_status'),
+    giveCatMeal: () => rpc('oyasumi_give_cat_meal'),
+    giveCatTreat: recipient => rpc('oyasumi_give_cat_treat', {p_recipient:recipient}),
     submitPost: choice => rpc('oyasumi_submit_post', { p_choice: choice }),
     deletePost: id => rpc('oyasumi_delete_post', { p_post_id: id }),
     setReaction: async (id, choice) => {

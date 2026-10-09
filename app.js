@@ -135,7 +135,7 @@ function timeline() {
  return `${header()}<div class="tabs" aria-label="投稿の絞り込み">${[['all','みんな'],['awake','まだ起きてる'],['sleep','もう寝た']].map(([key,label])=>`<button data-filter="${key}" class="${filter===key?'active':''}" aria-pressed="${filter===key}">${label}</button>`).join('')}</div><div>${posts.length?posts.map(p=>`<article class="post"><button class="public-profile-cat" data-public-profile="${p.id}" aria-label="${escapeHTML(p.name)}のプロフィール">${avatar(p)}</button><div class="post-body"><div class="post-top"><h2 class="post-name"><span class="post-nickname">${escapeHTML(p.name)}</span>${roleTag(p.catRole)}${p.self?'<span class="self-tag">あなた</span>':''}</h2>${p.self?`<button class="text-button" data-delete="${p.id}" aria-label="自分の投稿を削除">削除</button>`:''}</div><p class="post-text ${p.status==='awake'?'awake-text':''}">${statusText(p.status)}</p>${p.profileNote?`<p class="timeline-profile-note">${escapeHTML(p.profileNote)}</p>`:''}<div class="post-bottom"><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>${reactionButtons(p)}</div></article>`).join(''):'<p class="empty">まだ投稿がありません。<br>ホームから今の気持ちを伝えてみましょう。</p>'}</div>`;
 }
 function sleep() { return `<section class="sleep-screen"><div class="sleep-art" aria-hidden="true"><span class="big-moon">☾</span><span class="star one">✦</span><span class="star two">✦</span><span class="star three">✦</span><span class="sleep-cat">${CatScenes.svg('sleeping',state.coat)}</span></div><h1>おやすみなさい<br>${escapeHTML(state.name)}さん 🌙</h1><div class="card">今夜は <strong>${state.lastSleep?.count ?? '—'}</strong> 人と一緒に<br>おやすみしました。</div><p class="rest-message">今日もお疲れさまでした。<br>ゆっくり休んでくださいね。</p><button class="cream-button" data-finish-sleep>また明日 🌙</button><p class="quiet-note">これで今日のSNSは終了です。<br>スマホを置いて、ゆっくり休みましょう。</p><button class="text-button" data-view="home">ホームに戻る</button><p class="sample-tag">おやすみした時点の報告人数です</p></section>`; }
-function rest() { const elapsed=CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now()),settled=elapsed>=CatScenes.settleDurationMs;return `<section class="rest-screen" data-phase="${settled?'settled':'intro'}" style="--rest-duration:${CatScenes.settleDurationMs}ms;--rest-elapsed:-${elapsed}ms"><div class="rest-content"><div class="rest-cat" aria-hidden="true">${CatScenes.svg('sleeping',state.coat)}</div>${settled?'<h1>おやすみなさい 🌙</h1>':'<div class="rest-intro"><h1>また明日 🌙</h1><p class="rest-message">今日もおつかれさまでした<br>スマホを置いて、ゆっくり休もう</p></div>'}</div></section>`; }
+function rest() { const elapsed=CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now()),settled=elapsed>=CatScenes.settleDurationMs;return `<section class="rest-screen" data-phase="${settled?'settled':'intro'}" style="--rest-duration:${CatScenes.settleDurationMs}ms;--rest-elapsed:-${elapsed}ms"><div class="rest-content"><div class="rest-cat" aria-hidden="true">${CatScenes.svg('sleeping',state.coat)}</div>${settled?'<h1>おやすみなさい 🌙</h1>':'<div class="rest-intro"><h1>また明日 🌙</h1><p class="rest-message">今日もおつかれさまでした<br>スマホを置いて、ゆっくり休もう</p></div>'}${CatCare.restPrompt(shared.catCare,state.coat)}</div></section>`; }
 function morningReceipts() {
  const morningNight=SleepFlow.previousNight(NightClock.now());
  if(SleepFlow.night(NightClock.now())===morningNight)return '';
@@ -148,7 +148,7 @@ function morningReceipts() {
 }
 function morning() { const recorded=state.morningDays.includes(dayKey());return `<section class="morning"><div class="sunrise" aria-hidden="true"><span class="morning-cat">${CatScenes.svg('awake',state.coat)}</span></div><h1>おはようございます<br>${escapeHTML(state.name)}さん ☀️</h1><div class="card">昨夜は <strong>${state.lastSleep?.count ?? '—'}</strong> 人と一緒に<br>おやすみしました。</div>${morningReceipts()}<p>よく眠れましたか？<br>今日も良い一日になりますように！</p><button class="cream-button" data-morning ${recorded?'disabled':''}>${recorded?'おはようを記録しました ✓':'おはよう ☀️ を記録する'}</button><p class="muted">また今夜、ここで会いましょう。</p><p class="sample-tag">おやすみした時点の報告人数です</p></section>`; }
 function catCoatSetting() { return `<section class="settings-section card cat-coat-setting"><h2>猫の種類</h2><button class="setting-row" data-coat-picker ${CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())?'': 'disabled'}><span>${shared.needsCat?'猫の種類を選ぶ':CatFaces.coatLabel(state.coat)}</span><span>›</span></button><p class="quiet-note cat-coat-availability">${CatCoatCooldown.message(shared.catCoatStatus,NightClock.now())}</p></section>`; }
-function profile() { return `${header()}${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner"><button class="profile-cat-button" ${shared.needsCat?'data-coat-picker':'data-expression-picker'} aria-label="${shared.needsCat?'猫の種類を選ぶ':'猫の表情を変更'}">${shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1>${roleTag(state.catRole)}<button class="profile-note-button" data-note-editor><span>そっとひとこと ›</span><span class="profile-note-text${state.profileNote ? '' : ' is-empty'}">${escapeHTML(state.profileNote)||'未入力'}</span></button></div></div>${catCoatSetting()}${roleSetting()}<div class="stats-grid"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><div class="section-heading"><h2>最近の記録</h2></div>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p>`; }
+function profile() { return `${header()}${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner"><button class="profile-cat-button" ${shared.needsCat?'data-coat-picker':'data-expression-picker'} aria-label="${shared.needsCat?'猫の種類を選ぶ':'猫の表情を変更'}">${shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1>${roleTag(state.catRole)}<button class="profile-note-button" data-note-editor><span>そっとひとこと ›</span><span class="profile-note-text${state.profileNote ? '' : ' is-empty'}">${escapeHTML(state.profileNote)||'未入力'}</span></button></div></div>${shared.profileComplete?CatCare.markup(shared.catCare,state.coat,shared.userId,true):''}${catCoatSetting()}${roleSetting()}<div class="stats-grid"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><div class="section-heading"><h2>最近の記録</h2></div>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p>`; }
 function settings() { return `${header('設定',true)}<section class="settings-section"><h2>プロフィール</h2><button class="setting-row" data-name><span>ニックネーム</span><span class="setting-value">${escapeHTML(state.name)} ›</span></button><button class="setting-row" data-coat-picker ${CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())?'': 'disabled'} aria-label="猫の毛色を選ぶ"><span>猫の種類（毛色）</span><span class="expression-setting"><span class="avatar peach">${CatFaces.svg(state.expression,state.coat)}</span><span class="setting-value">${shared.needsCat?'未設定':CatFaces.coatLabel(state.coat)} ›</span></span></button>${roleSetting()}</section><section class="settings-section"><h2>表示設定</h2><label class="setting-row"><span>ダークモード</span><input class="switch" type="checkbox" id="dark-switch" ${!state.light?'checked':''}></label><div class="setting-row"><span>言語</span><span class="setting-value">日本語</span></div></section><section class="settings-section"><h2>この初期版について</h2><div class="card settings-info">投稿・リアクション・今夜の人数は、みんなで共有しています。朝の記録と表示設定は、この端末に保存されます。人数の推移は、今夜の投稿をもとに集計しています。<br><br>匿名アカウントは端末ごとに異なります。通知は今後の対応予定です。</div></section><section class="settings-section safety-links"><h2>安心して使うために</h2><button class="setting-row" data-safety="privacy">プライバシーポリシー ›</button><button class="setting-row" data-safety="rules">利用規約・安全ルール ›</button></section><button class="text-button share-place-button" data-share-place>この場所を教える 🌙</button>`; }
 function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');app.innerHTML=({home,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)();navigation();syncBusy();syncRoofSky();scheduleTimelineExpiry();if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')render();},remaining+20);} }
 function go(next) { if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0); }
@@ -217,6 +217,8 @@ async function refreshShared() {
   if(!ready&&['home','rest','morning'].includes(view))view=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
   scheduleNightBoundary();
   ready=true;save();renderPreservingPosition();
+  if(document.querySelector('dialog[open]'))refreshCareCards();
+  scheduleCareDay();
  })();
  try{await refreshPromise;}finally{refreshPromise=undefined;startQueuedRefresh();}
 }
@@ -319,7 +321,7 @@ function syncProfileRoom() {
 function publicProfileRoom(person) {
  const coat=CatFaces.normalizeCoat(person.coat),status=['awake','sleep'].includes(person.status)?person.status:'',cat=profileRoomCat(coat,NightClock.now(),status);
  const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、いっしょにひとやすみ。';
- return `<section class="cat-room" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="猫の小さなおへや"><div class="room-scene"><div class="room-window" aria-hidden="true"><span class="room-orb"></span><span class="room-cloud"></span><span class="room-stars">· ✧ ·</span></div><span class="room-curtain" aria-hidden="true"></span><span class="room-lamp" aria-hidden="true"></span><div class="room-cat">${cat.html}</div></div><p class="room-whisper"><span aria-hidden="true">“</span>${escapeHTML(whisper)}<span aria-hidden="true">”</span></p><p class="room-whisper-label">おへやの猫のつぶやき</p></section><h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
+ return `<section class="cat-room" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="猫の小さなおへや"><div class="room-scene"><div class="room-window" aria-hidden="true"><span class="room-orb"></span><span class="room-cloud"></span><span class="room-stars">· ✧ ·</span></div><span class="room-curtain" aria-hidden="true"></span><span class="room-lamp" aria-hidden="true"></span><div class="room-cat">${cat.html}</div></div><p class="room-whisper"><span aria-hidden="true">“</span>${escapeHTML(whisper)}<span aria-hidden="true">”</span></p><p class="room-whisper-label">おへやの猫のつぶやき</p></section><h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>${shared.profileComplete?CatCare.markup(shared.catCare,coat,person.userId,person.userId===shared.userId):''}`;
 }
 setInterval(()=>{if(!document.hidden)syncProfileRoom();},30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncProfileRoom();});
@@ -414,3 +416,61 @@ window.addEventListener('online',()=>{if(view==='rest')return;if(!busy)void ensu
 
 window.addEventListener('scroll',positionReactionEffect,{passive:true});window.addEventListener('resize',positionReactionEffect);
 if(globalThis.OyasumiUpdates)OyasumiUpdates.canReload=()=>!busy&&view!=='sleep'&&view!=='rest'&&!document.querySelector('dialog[open]');
+
+// Care saves use their own pending state; playback never blocks other controls.
+function refreshCareCards() {
+ const replaced=new Map();
+ for(const section of document.querySelectorAll('.cat-care')){
+  const self=section.dataset.careOwner==='self',coat=section.querySelector('.care-scene').dataset.careCoat;
+  const template=document.createElement('template');template.innerHTML=CatCare.markup(shared.catCare,coat,section.dataset.careOwner,self,NightClock.now(),section.dataset.careCompact==='true');
+  const next=template.content.firstElementChild;if(next){section.replaceWith(next);replaced.set(section,next);}else section.remove();
+ }
+ return replaced;
+}
+
+// Calendar-day care allowances reset independently of the existing 06:00 night.
+let careDayTimer;
+function scheduleCareDay(){
+ clearTimeout(careDayTimer);
+ if(!CatCare.valid(shared.catCare))return;
+ const now=NightClock.now(),next=Date.parse(`${CatCare.day(now)}T00:00:00+09:00`)+86400000;
+ careDayTimer=setTimeout(refreshCareDay,Math.max(20,next-now+20));
+}
+async function refreshCareDay(){
+ if(!CatCare.valid(shared.catCare))return;
+ // Disable yesterday's controls immediately, including an open profile dialog.
+ if(shared.catCare.day!==CatCare.day(NightClock.now()))refreshCareCards();
+ const user=shared.userId,revision=stateRevision;
+ try{
+  const status=await OyasumiAPI.getCatCareStatus();
+  if(user===shared.userId&&revision===stateRevision&&!CatCare.pending&&CatCare.valid(status)){
+   shared.catCare=status;refreshCareCards();
+  }
+ }catch{ /* Keep stale controls disabled; retry without affecting other features. */ }
+ clearTimeout(careDayTimer);
+ if(shared.catCare.day===CatCare.day(NightClock.now()))scheduleCareDay();
+ else careDayTimer=setTimeout(refreshCareDay,10000);
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&CatCare.valid(shared.catCare)&&shared.catCare.day!==CatCare.day(NightClock.now()))void refreshCareDay();});
+document.addEventListener('click',async event=>{
+ const button=event.target.closest('[data-cat-meal],[data-cat-treat]');
+ if(!button||button.disabled||busy||!CatCare.lock('save'))return;
+ const section=button.closest('.cat-care'),self=button.hasAttribute('data-cat-meal'),user=shared.userId;
+ document.querySelectorAll('[data-cat-meal],[data-cat-treat]').forEach(b=>b.disabled=true);
+ section.querySelector('.care-feedback').textContent='記録しています…';stateRevision++;
+ let result,message;
+ try{
+  result=await (self?OyasumiAPI.giveCatMeal():OyasumiAPI.giveCatTreat(button.dataset.catTreat));
+  if(!CatCare.valid(result?.status))throw new Error('Invalid care response');
+  if(shared.userId!==user)return;
+  shared.catCare=result.status;
+  message=result.accepted?(self?'ごはんをあげました。':'おやつをそっと贈りました。'):(self?'今日のごはんはあげています。':'今日のおやつは贈っています。');
+ }catch(error){
+  message=error.code==='P0040'?'今日のおやすみ投稿後にごはんをあげられます。':error.code==='P0041'?'猫の情報を確認してください。':'記録を確認できませんでした。もう一度お試しください。';
+  try{const status=await OyasumiAPI.getCatCareStatus();if(shared.userId===user&&CatCare.valid(status))shared.catCare=status;}catch{ /* Keep the prior state and allow a safe retry. */ }
+ }finally{
+  CatCare.unlock('save');
+  if(shared.userId===user){const next=refreshCareCards().get(section);if(next){next.querySelector('.care-feedback').textContent=message;if(result?.accepted)void CatCare.play(next.querySelector('.care-scene'));}}
+  startQueuedRefresh();
+ }
+});
