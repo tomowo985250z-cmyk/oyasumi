@@ -155,4 +155,8 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
 .care-scene[data-care-kind=treat] .care-food i::after,.care-serving[data-care-kind=treat] .care-food i::after{content:"";position:absolute;right:5px;top:4px;width:3px;height:3px;background:#193749;border-radius:50%}
 .care-scene[data-care-kind=treat] .care-food i:not(:first-child),.care-serving[data-care-kind=treat] .care-food i:not(:first-child){display:none}
 @media(prefers-reduced-motion:reduce){.cat-care *{animation:none!important}.care-playing .care-munch{opacity:0}.care-playing .care-joy-cat{opacity:1}}
+.care-paused *{animation-play-state:paused!important}
+.care-reduced .care-idle,.care-reduced .care-munch,.care-reduced .care-joy-cat,.care-reduced .care-joy{opacity:0}
+.care-reduced[data-care-stage=plate] .care-idle,.care-reduced[data-care-stage=munch] .care-munch,.care-reduced[data-care-stage=joy] .care-joy-cat,.care-reduced[data-care-stage=joy] .care-joy{opacity:1}
+.care-reduced[data-care-stage=joy] .care-food{opacity:0}
 .cat-care-compact{background:transparent;border:0;box-shadow:none;padding:8px;margin:0}.cat-care-compact h2,.cat-care-compact .quiet-note{display:none}.cat-care-compact .care-scene{height:0;overflow:visible;margin:0 auto;position:relative}.cat-care-compact .care-scene>*{visibility:hidden}.cat-care-compact .care-playing,.cat-care-compact .care-reduced{height:170px}.cat-care-compact .care-playing>*,.cat-care-compact .care-reduced>*{visibility:visible}.rest-content:has(.care-playing,.care-reduced)>.rest-cat{display:none}

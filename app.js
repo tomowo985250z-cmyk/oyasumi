@@ -211,14 +211,14 @@ function scheduleNightBoundary() {
  if(boundaries.length)nightBoundaryTimer=setTimeout(checkNightBoundary,Math.min(2147483647,Math.min(...boundaries)+5));
 }
 async function refreshShared() {
- if(busy&&ready){refreshQueued=true;return;}
+ if((busy||CatCare.pending)&&ready){refreshQueued=true;return;}
  if(refreshPromise)return refreshPromise;
  const revision=stateRevision;
  refreshPromise=(async()=>{
   const snapshot=await OyasumiAPI.snapshot();
   // A read started before a write/boundary must not overwrite the confirmed local result.
-  if(revision!==stateRevision||(busy&&ready)||snapshot.clock&&snapshot.clock.serverNow+performance.now()-snapshot.clock.monotonicAt>=snapshot.clock.resetAt){refreshQueued=true;return;}
-  NightClock.sync(snapshot.clock);shared=snapshot;state.name=snapshot.name;state.expression=CatFaces.normalize(snapshot.expression);state.coat=CatFaces.normalizeCoat(snapshot.coat);state.catRole=snapshot.catRole;state.profileNote=snapshot.profileNote;state.posts=snapshot.ownPosts;state.reactions=snapshot.reactions;
+  if(revision!==stateRevision||((busy||CatCare.pending)&&ready)||snapshot.clock&&snapshot.clock.serverNow+performance.now()-snapshot.clock.monotonicAt>=snapshot.clock.resetAt){refreshQueued=true;return;}
+  if(shared.userId!==snapshot.userId)CatCare.clearFeedback();NightClock.sync(snapshot.clock);shared=snapshot;state.name=snapshot.name;state.expression=CatFaces.normalize(snapshot.expression);state.coat=CatFaces.normalizeCoat(snapshot.coat);state.catRole=snapshot.catRole;state.profileNote=snapshot.profileNote;state.posts=snapshot.ownPosts;state.reactions=snapshot.reactions;
   if(state.lastSleep?.count===null&&state.lastSleep.postId&&snapshot.nightDate===state.lastSleep.nightDate&&snapshot.feed.some(post=>post.id===state.lastSleep.postId&&isSleeping(post.status)))state.lastSleep.count=snapshot.sleepingCount;
   syncSleepView();
   if(!ready&&['home','rest','morning'].includes(view))view=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
@@ -246,7 +246,7 @@ async function mutation(work) {
 }
 function finishSleep(startedAt=NightClock.now()) { if(state.lastSleep){state.lastSleep.finished=true;state.lastSleep.coat=state.coat;state.lastSleep.finishedAt=new Date(startedAt).toISOString();save();}clearTimeout(toastTimer);document.querySelector('#toast').classList.remove('visible');go('rest');syncSleepView(); }
 function startQueuedRefresh() {
- if(!refreshQueued||busy||refreshPromise)return;
+ if(!refreshQueued||busy||CatCare.pending||refreshPromise)return;
  const saved=refreshSaved;refreshQueued=false;refreshSaved=false;
  void refreshShared().catch(()=>toast(saved?'保存済み。表示は後で更新します。':'最新の投稿を取得できませんでした。'));
 }
@@ -422,7 +422,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNight
 window.addEventListener('online',()=>{if(view==='rest')return;if(!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});});
 
 window.addEventListener('scroll',positionReactionEffect,{passive:true});window.addEventListener('resize',positionReactionEffect);
-if(globalThis.OyasumiUpdates)OyasumiUpdates.canReload=()=>!busy&&view!=='sleep'&&view!=='rest'&&!document.querySelector('dialog[open]');
+if(globalThis.OyasumiUpdates)OyasumiUpdates.canReload=()=>!busy&&!CatCare.pending&&![...document.querySelectorAll('.care-scene')].some(scene=>CatCare.isPlaying(scene))&&view!=='sleep'&&view!=='rest'&&!document.querySelector('dialog[open]');
 
 // Care saves use their own pending state; playback never blocks other controls.
 function refreshCareCards() {
@@ -473,24 +473,40 @@ async function refreshCareDay(){
 }
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&CatCare.valid(shared.catCare)&&shared.catCare.day!==CatCare.day(NightClock.now()))void refreshCareDay();});
 document.addEventListener('click',async event=>{
- const button=event.target.closest('[data-cat-meal],[data-cat-treat]');
- if(!button||button.disabled||busy||!CatCare.lock('save'))return;
+ const button=event.target?.closest?.('[data-cat-meal],[data-cat-treat]');
+ if(!button||button.disabled)return;
  const section=button.closest('.cat-care'),self=button.hasAttribute('data-cat-meal'),user=shared.userId;
+ const owner=section.dataset.careOwner;
+ const feedback=(message,failed=false)=>{
+  CatCare.setFeedback(owner,message,failed);
+  for(const card of document.querySelectorAll('.cat-care'))if(card.dataset.careOwner===owner){const node=card.querySelector('.care-feedback');node.textContent=message;node.setAttribute('role',failed?'alert':'status');node.setAttribute('aria-live',failed?'assertive':'polite');}
+ };
+ if(busy){feedback('ほかの操作を保存中です。完了してからもう一度押してください。');return;}
+ if(!CatCare.lock('save')){feedback('記録しています。少しお待ちください。');return;}
  document.querySelectorAll('[data-cat-meal],[data-cat-treat]').forEach(b=>b.disabled=true);
- section.querySelector('.care-feedback').textContent='記録しています…';stateRevision++;
- let result,message;
+ feedback('記録しています…');stateRevision++;
+ let result,message,play=false,failed=false;
  try{
-  result=await (self?OyasumiAPI.giveCatMeal():OyasumiAPI.giveCatTreat(button.dataset.catTreat));
-  if(!CatCare.valid(result?.status))throw new Error('Invalid care response');
+  result=await CatCare.deadline(()=>self?OyasumiAPI.giveCatMeal():OyasumiAPI.giveCatTreat(button.dataset.catTreat));
+  if(!CatCare.confirmed(result,self))throw Object.assign(new Error('Invalid care response'),{code:'CARE_RESPONSE'});
   if(shared.userId!==user)return;
   shared.catCare=result.status;
+  play=result.accepted===true;
   message=result.accepted?(self?'ごはんをあげました。':'おやつをそっと贈りました。'):(self?'今日のごはんはあげています。':'今日のおやつは贈っています。');
  }catch(error){
-  message=error.code==='P0040'?'今日のおやすみ投稿後にごはんをあげられます。':error.code==='P0041'?'猫の情報を確認してください。':'記録を確認できませんでした。もう一度お試しください。';
-  try{const status=await OyasumiAPI.getCatCareStatus();if(shared.userId===user&&CatCare.valid(status))shared.catCare=status;}catch{ /* Keep the prior state and allow a safe retry. */ }
+  failed=true;message=CatCare.errorMessage(error);
+  if(shared.userId===user)feedback(message,true);
+  try{const status=await CatCare.deadline(()=>OyasumiAPI.getCatCareStatus(),5000);if(shared.userId===user&&CatCare.valid(status)){
+   shared.catCare=status;
+   if(self?status.mealDone:status.treatGiven)message+=' 今日の保存済み記録を確認しました。重ねて保存しません。';
+  }}catch{message+=' 記録の再確認もできませんでした。通信回復後に再試行してください。';}
  }finally{
-  CatCare.unlock('save');
-  if(shared.userId===user){const next=refreshCareCards().get(section);if(next){next.querySelector('.care-feedback').textContent=message;if(result?.accepted)void CatCare.play(next.querySelector('.care-scene'));}}
+  stateRevision++;CatCare.unlock('save');
+  if(shared.userId===user){
+   feedback(message,failed);refreshCareCards();
+   const next=[...document.querySelectorAll('.cat-care')].find(card=>card.dataset.careOwner===owner);
+   if(next&&play)void CatCare.play(next.querySelector('.care-scene'));
+  }
   startQueuedRefresh();
  }
 });

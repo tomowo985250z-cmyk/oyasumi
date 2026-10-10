@@ -54,7 +54,7 @@ const output=path.join(__dirname,'output/cat-care-webkit');fs.mkdirSync(output,{
    // Missing decode() still plays, including the compact resting screen.
    await page.emulateMedia({reducedMotion:'reduce'});
    await page.evaluate(async()=>{await fetch('/__care/reset',{method:'POST'});await CarePreview.show('calico','meal');view='rest';render();for(const img of document.querySelectorAll('.care-scene img'))img.decode=undefined;document.querySelector('[data-cat-meal]').click();});
-   await page.waitForSelector('.care-reduced');assert(await page.locator('.care-reduced .care-joy-cat').isVisible());
+   await page.waitForSelector('.care-reduced');await page.waitForFunction(()=>document.querySelector('.care-reduced')?.dataset.careStage==='joy');assert(await page.locator('.care-reduced .care-joy-cat').isVisible());
    await page.waitForFunction(()=>!document.querySelector('.care-reduced'));
    assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);await context.close();
   }

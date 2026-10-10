@@ -37,7 +37,7 @@ let socket;
  await evaluate('document.querySelector("[data-cat-meal]").click()');await waitFor('!!document.querySelector(".care-playing")');
  for(const [time,selector] of [[1000,'.care-bowl'],[2500,'.care-munch'],[5000,'.care-joy-cat']]){assert(await evaluate(`(()=>{const scene=document.querySelector('.care-playing');for(const a of scene.getAnimations({subtree:true})){a.pause();a.currentTime=${time}}return Number(getComputedStyle(scene.querySelector('${selector}')).opacity)>.9})()`));await screenshot('cat-care-stage-'+time);}
  await evaluate('document.querySelectorAll(".care-playing").forEach(s=>s.classList.remove("care-playing"))');
- await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await evaluate('fetch("/__care/reset",{method:"POST"})');await evaluate('CarePreview.show("calico","meal")');await evaluate('document.querySelector("[data-cat-meal]").click()');await waitFor('!!document.querySelector(".care-reduced")');await delay(1000);assert(await evaluate('!document.querySelector(".care-reduced")'));
+ await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await evaluate('fetch("/__care/reset",{method:"POST"})');await evaluate('CarePreview.show("calico","meal")');await evaluate('document.querySelector("[data-cat-meal]").click()');await waitFor('!!document.querySelector(".care-reduced")');await delay(6100);assert(await evaluate('!document.querySelector(".care-reduced")'));
  await send('Emulation.setEmulatedMedia',{features:[]});
  await evaluate('fetch("/__care/reset",{method:"POST"})');await evaluate('CarePreview.show("calico","treat")');
  // An already-open other-profile dialog must update when the care day changes.
