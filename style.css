@@ -39,8 +39,7 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .reaction-heart{position:fixed;z-index:16;pointer-events:none;width:16px;text-align:center;font-size:19px;line-height:1;color:#f2c9ce;animation:reaction-heart-float 1s ease-out both}@keyframes reaction-heart-float{0%{opacity:0;transform:translateY(4px)}20%{opacity:.9}100%{opacity:0;transform:translateY(-12px)}}@media(prefers-reduced-motion:reduce){.reaction-heart{animation:reaction-heart-fade 1s ease-out both}@keyframes reaction-heart-fade{0%,75%{opacity:.8}100%{opacity:0}}}
 .expression-options .cat-group-title{grid-column:1/-1;text-align:left;font-size:14px;margin:12px 0 2px}.expression-choice>span:last-child{overflow-wrap:anywhere}
 
-.cat-day-scene.day-cat-image{aspect-ratio:1 / 1;border-radius:50%;object-fit:cover}
-.cat-scene:is([data-cat-coat="snow-leopard"],[data-cat-coat="leopard"],[data-cat-coat="cheetah"],[data-cat-coat="jaguar"]){border-radius:50%;overflow:hidden}
+.cat-day-scene.day-cat-image{aspect-ratio:1 / 1;object-fit:contain}
 .post .public-profile-cat .avatar{width:60px;height:60px}
 .profile-banner .profile-cat-button .avatar{width:111px;height:111px}
 .public-profile-face .avatar{width:112px;height:112px}
@@ -128,7 +127,8 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
 /* Image fitting only; original app CSS supplies the actual screen layout. */
 .avatar{border-radius:50%;overflow:hidden}
 .avatar>.cat-face{display:block;width:100%;height:100%;object-fit:contain;border-radius:0;transform:none}
-.cat-scene,.cat-day-scene{object-fit:contain}
+/* Full-body artwork needs the entire square; circular clipping is for avatars. */
+.cat-scene,.cat-day-scene{object-fit:contain;border-radius:0;overflow:visible}
 .sleep-cat>.cat-scene{width:180px;height:180px;object-fit:contain}
 .roof-cat{object-fit:contain;object-position:center bottom}
 .cat-room .room-cat,.cat-room[data-coat=calico] .room-cat,.cat-room[data-coat=calico][data-time=day] .room-cat,.cat-room[data-coat=calico][data-time=night] .room-cat{width:208px;height:208px;bottom:6px}
