@@ -3,8 +3,9 @@
   const faces = CatFaces, scenes = CatScenes, day = DayCats;
   const image = (coat, frame, classes, extra = '') => {
     coat = faces.normalizeCoat(coat);
-    // Restore only the calm manul icon from the original supplied artwork.
+    // Keep the restored calm icon; its five expression edits share that identity.
     if (coat === 'manul' && frame === 'face-calm') return faces.svg('calm', 'manul');
+    if (coat === 'manul' && frame.startsWith('face-')) return `<img class="${classes}" src="assets/manul-expressions-v2/${frame}.png" alt="" aria-hidden="true" data-asset-key="${coat}/${frame}" data-cat-coat="${coat}" ${extra}>`;
     return `<img class="${classes}" src="assets/cat-refresh-v1/${coat}/${frame}.png" alt="" aria-hidden="true" data-asset-key="${coat}/${frame}" data-cat-coat="${coat}" ${extra}>`;
   };
   globalThis.CatFaces = Object.freeze({...faces, svg: (expression, coat) => {

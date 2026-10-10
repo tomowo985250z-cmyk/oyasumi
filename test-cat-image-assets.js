@@ -27,6 +27,12 @@ function check(markup, coat, frame) {
     paths.add(file); // The refresh inventory remains intact; this icon uses the original.
     return;
   }
+  if (coat === 'manul' && frame.startsWith('face-')) {
+    assert(markup.includes(`src="assets/manul-expressions-v2/${frame}.png"`));
+    assert(fs.existsSync(`assets/manul-expressions-v2/${frame}.png`));
+    paths.add(file);
+    return;
+  }
   assert(markup.includes(`src="${file}"`));
   assert(markup.includes(`data-asset-key="${coat}/${frame}"`));
   assert(markup.startsWith('<img '));
