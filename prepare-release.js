@@ -7,28 +7,36 @@ const assetOriginal=normalize(fs.readFileSync(assetFile,'utf8'));
 const assetHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/wild-cats')).filter(file=>file.endsWith('.png')).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/wild-cats',file))).digest('hex').slice(0,16)]));
 const assetUpdated=assetOriginal.replace(/const versions = .*;/,`const versions = ${JSON.stringify(assetHashes)};`);
 if(process.argv.includes('--check')&&assetUpdated!==assetOriginal){console.error('Run npm run release to version wild cat images.');process.exitCode=1;}
-else if(!process.argv.includes('--check'))fs.writeFileSync(assetFile,assetUpdated);
+else if(!process.argv.includes('--check')&&assetUpdated!==assetOriginal)fs.writeFileSync(assetFile,assetUpdated);
 const domesticFile=path.join(root,'cat-faces.js');
 const domesticOriginal=normalize(fs.readFileSync(domesticFile,'utf8'));
 const domesticHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/domestic-cats')).filter(file=>file.endsWith('.png')).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/domestic-cats',file))).digest('hex').slice(0,16)]));
 const bigHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/big-cats')).filter(file=>file.endsWith('.png')).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/big-cats',file))).digest('hex').slice(0,16)]));
 const domesticUpdated=domesticOriginal.replace(/const domesticVersions = .*;/,`const domesticVersions = ${JSON.stringify(domesticHashes)};`).replace(/const bigVersions = .*;/,`const bigVersions = ${JSON.stringify(bigHashes)};`);
 if(process.argv.includes('--check')&&domesticUpdated!==domesticOriginal){console.error('Run npm run release to version domestic cat images.');process.exitCode=1;}
-else if(!process.argv.includes('--check'))fs.writeFileSync(domesticFile,domesticUpdated);
+else if(!process.argv.includes('--check')&&domesticUpdated!==domesticOriginal)fs.writeFileSync(domesticFile,domesticUpdated);
 const original=normalize(fs.readFileSync(path.join(root,'index.html'),'utf8'));
 const scenesFile=path.join(root,'cat-scenes.js');
 const scenesOriginal=normalize(fs.readFileSync(scenesFile,'utf8'));
 const scenesHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/sleep-wake-cats')).filter(file=>/^[a-z-]+-(?:sleeping|waking)\.png$/.test(file)).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/sleep-wake-cats',file))).digest('hex').slice(0,16)]));
 const scenesUpdated=scenesOriginal.replace(/const sceneVersions = .*;/,`const sceneVersions = ${JSON.stringify(scenesHashes)};`);
 if(process.argv.includes('--check')&&scenesUpdated!==scenesOriginal){console.error('Run npm run release to version sleep/wake cat images.');process.exitCode=1;}
-else if(!process.argv.includes('--check'))fs.writeFileSync(scenesFile,scenesUpdated);
+else if(!process.argv.includes('--check')&&scenesUpdated!==scenesOriginal)fs.writeFileSync(scenesFile,scenesUpdated);
 const dayFile=path.join(root,'cat-day-scenes.js');
 const dayOriginal=normalize(fs.readFileSync(dayFile,'utf8'));
 const dayHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/day-cats')).filter(file=>/^[a-z-]+-(?:relax|play|groom|doze|gaze)\.png$/.test(file)).sort().map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/day-cats',file))).digest('hex').slice(0,16)]));
 const dayUpdated=dayOriginal.replace(/const dayImageVersions = .*;/,`const dayImageVersions = ${JSON.stringify(dayHashes)};`);
 if(process.argv.includes('--check')&&dayUpdated!==dayOriginal){console.error('Run npm run release to version day cat images.');process.exitCode=1;}
-else if(!process.argv.includes('--check'))fs.writeFileSync(dayFile,dayUpdated);
+else if(!process.argv.includes('--check')&&dayUpdated!==dayOriginal)fs.writeFileSync(dayFile,dayUpdated);
 let html=original.replace(/\s*<meta name="oyasumi-release" content="[^"]*">/g,'');
+const mealFile=path.join(root,'cat-meal-assets.js');
+const mealOriginal=normalize(fs.readFileSync(mealFile,'utf8'));
+const mealHashes={};
+for(const coat of fs.readdirSync(path.join(root,'assets/cat-meals-v1')).filter(coat=>/^[a-z-]+$/.test(coat)).sort())for(const file of fs.readdirSync(path.join(root,'assets/cat-meals-v1',coat)).filter(file=>/^(?:before|after)-[123]\.png$/.test(file)).sort())mealHashes[coat+'/'+file.replace(/\.png$/,'')]=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/cat-meals-v1',coat,file))).digest('hex').slice(0,16);
+if(Object.keys(mealHashes).length!==96)throw Error('Expected exactly 96 approved meal images');
+const mealUpdated=mealOriginal.replace(/const versions = .*;/,`const versions = ${JSON.stringify(mealHashes)};`);
+if(process.argv.includes('--check')&&mealUpdated!==mealOriginal){console.error('Run npm run release to version meal images.');process.exitCode=1;}
+else if(!process.argv.includes('--check')&&mealUpdated!==mealOriginal)fs.writeFileSync(mealFile,mealUpdated);
 const resources=new Map();
 html=html.replace(/(src|href)="([^"?#]+)(?:\?[^"#]*)?"/g,(match,attribute,file)=>{
  if(!/\.(?:js|css|svg)$/.test(file)||/^(?:https?:|\/\/)/.test(file))return match;

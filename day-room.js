@@ -23,12 +23,17 @@ globalThis.DayRoom=(()=>{
  async function play(proxy,playOriginal){
   const unit=proxy.closest('.profile-room-unit'),stage=unit?.querySelector('.room-scene');
   if(!unit?.isConnected||!stage||active.has(unit))return;
-  const template=document.createElement('template');template.innerHTML=CatCare.visual(proxy.dataset.careCoat,proxy.dataset.careKind);
+  const template=document.createElement('template');template.innerHTML=CatCare.visual(proxy.dataset.careCoat,proxy.dataset.careKind,{before:proxy.dataset.careBefore,after:proxy.dataset.careAfter});
   const animation=template.content.firstElementChild;animation.classList.add('room-care-animation');
   const size=()=>animation.style.setProperty('--room-care-scale',String(stage.classList.contains('day-room')?stage.clientWidth*.4/152:Math.min(208/152,stage.clientWidth/176)));
   stage.append(animation);size();const observer=new ResizeObserver(size);observer.observe(stage);
   active.set(unit,animation);unit.dataset.feeding='true';
-  try{await playOriginal(animation);}finally{observer.disconnect();animation.remove();active.delete(unit);delete unit.dataset.feeding;sync();document.dispatchEvent(new Event('roomcareend'));}
+  try{await playOriginal(animation);}finally{
+   const after=animation.dataset.careFinished==='true'&&proxy.dataset.careDay===CatCare.day(NightClock.now())?animation.querySelector('.care-joy-cat')?.getAttribute('src'):'';
+   observer.disconnect();animation.remove();active.delete(unit);delete unit.dataset.feeding;sync();
+   if(after&&stage.isConnected)stage.querySelector('.room-resident').innerHTML=`<img src="${after}" alt="" aria-hidden="true" data-cat-coat="${proxy.dataset.careCoat}" data-meal-after>`;
+   document.dispatchEvent(new Event('roomcareend'));
+  }
  }
  function sync(){
   if(document.hidden)return;

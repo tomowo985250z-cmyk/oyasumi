@@ -1,0 +1,578 @@
+[
+    {
+        "coat":  "calico",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/calico/before-1.png",
+        "sha256":  "72417596a0bc2430f719c0a8177a02225a544a052d8f63fb1599949e5f950443"
+    },
+    {
+        "coat":  "calico",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/calico/before-2.png",
+        "sha256":  "3df95114431634c8bbb250be3b79b0410176f6a401ec83c1d8206b9dadf1bfb5"
+    },
+    {
+        "coat":  "calico",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/calico/before-3.png",
+        "sha256":  "b4a564283727ef4bc392c88bccd7c3edb533c2bc21f98c14ca4c0fb4de5ebe74"
+    },
+    {
+        "coat":  "calico",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/calico/after-1.png",
+        "sha256":  "78cdd460ae8abb11eb1a44e78f4951a86a6e6119369e401e35e746f52d8e52cb"
+    },
+    {
+        "coat":  "calico",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/calico/after-2.png",
+        "sha256":  "57bd904e4d3057591428571397cba34e47a4a23361d3e26f60e92c38157088b1"
+    },
+    {
+        "coat":  "calico",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/calico/after-3.png",
+        "sha256":  "f49dfd75f5c58a77a047e8bf5614c1c9d843d55277b34727fe4d9d5267e10f9a"
+    },
+    {
+        "coat":  "orange",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/orange/before-1.png",
+        "sha256":  "a49df1c112bd14b707444012a07f2cab133fcc9ee30f3d1d98317797ec2dcb34"
+    },
+    {
+        "coat":  "orange",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/orange/before-2.png",
+        "sha256":  "8739711eefbb0bb141c75ec38a95f49d30a682e0b757126dea15db1bc806e7f2"
+    },
+    {
+        "coat":  "orange",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/orange/before-3.png",
+        "sha256":  "7ce81ba60c9a164bbe6d5082cb24b6fcb8ef3d7543ed5f75ba196ea36b9956a1"
+    },
+    {
+        "coat":  "orange",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/orange/after-1.png",
+        "sha256":  "0e5a36156b4716b4f2467c12f404830dbaacc38b9cad5dfbde85f6c609c3e657"
+    },
+    {
+        "coat":  "orange",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/orange/after-2.png",
+        "sha256":  "fb291480c5b76fa661a16b1526788ef108a23778088a27bc62c21fbabc21d032"
+    },
+    {
+        "coat":  "orange",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/orange/after-3.png",
+        "sha256":  "15b630e74cc6c00fa1f49f87c61c2b423fa7c14a8fb916e9ef7399cdf672785c"
+    },
+    {
+        "coat":  "brown",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/brown/before-1.png",
+        "sha256":  "ca9dd7cfd1c9c264f4c57dad215156e2676bff89a99368ace02bea4046ed518f"
+    },
+    {
+        "coat":  "brown",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/brown/before-2.png",
+        "sha256":  "ff65c02fea5ad88a37a2d6e20620a478f3a0475bf8a8a4086b19cd9a29a81680"
+    },
+    {
+        "coat":  "brown",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/brown/before-3.png",
+        "sha256":  "dd5ef5816045b12ae66e4441771c45bdd07bcca3e2683787e908e52408deaf3d"
+    },
+    {
+        "coat":  "brown",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/brown/after-1.png",
+        "sha256":  "3f98389cf8029970c9c2ab140f2166d630d39e3cc5bcda7ccff2a016fe2c758a"
+    },
+    {
+        "coat":  "brown",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/brown/after-2.png",
+        "sha256":  "919bbebb0d0db8a172a4137ccafef28025435036462f76c6fac7d127f9412500"
+    },
+    {
+        "coat":  "brown",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/brown/after-3.png",
+        "sha256":  "7154e1fe12cfb7e033d7d8d00143d842bb7babb0b1d3dd8db5a9521448c1c810"
+    },
+    {
+        "coat":  "silver",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/silver/before-1.png",
+        "sha256":  "cddc67c73a16fe78ae63f839026cfa2336693a73e9e302dc4b6d89dc5204a5c7"
+    },
+    {
+        "coat":  "silver",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/silver/before-2.png",
+        "sha256":  "e8289ccc01e3804cfd88d26122abaa8de83a78e12c90b8a1535f2b3f65821f3f"
+    },
+    {
+        "coat":  "silver",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/silver/before-3.png",
+        "sha256":  "90ac9ee5779f71d2de659e494d9fe253ca5d6b75084d53dee7f624f02f05b802"
+    },
+    {
+        "coat":  "silver",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/silver/after-1.png",
+        "sha256":  "4b59f70faaa2c9f955ac6c5bef11c6c410532e0b30ec533a3d47951edb60bda9"
+    },
+    {
+        "coat":  "silver",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/silver/after-2.png",
+        "sha256":  "8ec9bd69911ece8008554641a803e1a5fe536f8a624a440d9ebe8acea4e6621c"
+    },
+    {
+        "coat":  "silver",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/silver/after-3.png",
+        "sha256":  "d89d0ab0952ab8b44e34663ae577f91b7caa517c74ede1ae7b4b544c991956e0"
+    },
+    {
+        "coat":  "black",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/black/before-1.png",
+        "sha256":  "82524da8817e3c88e9929732ac3b76124a6e2b28b2d674cdb57c034c67e9be00"
+    },
+    {
+        "coat":  "black",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/black/before-2.png",
+        "sha256":  "ef68871657f3ae654491d69215990530f4e71fbaf45eda0791e4d7c92b473c64"
+    },
+    {
+        "coat":  "black",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/black/before-3.png",
+        "sha256":  "1580c16abe64f8d9d4584a09fe767ea9144d44ba246f862c40bd4d7820933726"
+    },
+    {
+        "coat":  "black",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/black/after-1.png",
+        "sha256":  "7fc094ee05be658b3e9981266584eeb55d8a5fe430a30d39158d2a40d299dd20"
+    },
+    {
+        "coat":  "black",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/black/after-2.png",
+        "sha256":  "81ef10846093fb0ca7bbe790133d9af0097059caa6275b1ffaaeab3503ede537"
+    },
+    {
+        "coat":  "black",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/black/after-3.png",
+        "sha256":  "77b71bcbfdd8f607b42fec191501c13aa983ad3d588918ff9dc51baae468227f"
+    },
+    {
+        "coat":  "white",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/white/before-1.png",
+        "sha256":  "c9fbaf2b633eef6fb0238d0e41872018f0b54c099ddfbec4f1a7b92aa96d5306"
+    },
+    {
+        "coat":  "white",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/white/before-2.png",
+        "sha256":  "0e04533bbeb4fcdbbea30b2a069b3d8a6f0517511c451627fd00b7d228e8a50b"
+    },
+    {
+        "coat":  "white",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/white/before-3.png",
+        "sha256":  "02afd2c76cb04a8fc341ef6f983b1c027bec7a40950dd6e5e55d7149b9a5dd75"
+    },
+    {
+        "coat":  "white",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/white/after-1.png",
+        "sha256":  "52817ef74a708c805224c3f05be7f6e702f09588c0ae79de27a9aeb359fef7b3"
+    },
+    {
+        "coat":  "white",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/white/after-2.png",
+        "sha256":  "047ad0e87da9413aede41070e5493b71ca47b41521246dce20d6c5cab99b1fb0"
+    },
+    {
+        "coat":  "white",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/white/after-3.png",
+        "sha256":  "cae1dd8e49726c4092b7615154d0c8f2ec47dccde8a94a7c899b4b7de2380d7e"
+    },
+    {
+        "coat":  "tuxedo",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/tuxedo/before-1.png",
+        "sha256":  "25a799dbceaee38bb68950e606c3cf591ff94d643bdf4260b492ce68927866b4"
+    },
+    {
+        "coat":  "tuxedo",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/tuxedo/before-2.png",
+        "sha256":  "87e78aa590c65799d64980c65d6d2983c055f983fcb9204cda4238655b28d8a0"
+    },
+    {
+        "coat":  "tuxedo",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/tuxedo/before-3.png",
+        "sha256":  "80480c58918e02a2bc2a6ea85150858079b1c8609c2781fe36cfd654ab367b0d"
+    },
+    {
+        "coat":  "tuxedo",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/tuxedo/after-1.png",
+        "sha256":  "f59192241a2f7322a4a071b139b7a461cdc678ee9345c76b951b9e7b4848a013"
+    },
+    {
+        "coat":  "tuxedo",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/tuxedo/after-2.png",
+        "sha256":  "be2253d9fdb6d19ed1efc3146eb573e353b91ae6357054e6a252e76e28d27acd"
+    },
+    {
+        "coat":  "tuxedo",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/tuxedo/after-3.png",
+        "sha256":  "30f66b0427a35cb52ff76db750dfc0c205bd31407035ccd6eac8d6233f7a1656"
+    },
+    {
+        "coat":  "gray",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/gray/before-1.png",
+        "sha256":  "f57ba82b4384379af7eb1b9376e58fd7ac2e4de9a0a00485cd83913f6f6d62dc"
+    },
+    {
+        "coat":  "gray",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/gray/before-2.png",
+        "sha256":  "cc69ed7242d5f46c9696498622ad49baa8003fc40e8761ff5a1acef4238e7f81"
+    },
+    {
+        "coat":  "gray",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/gray/before-3.png",
+        "sha256":  "c9fef3b8abc977ce84e6dd98e4650145e24c0ad5798e11aecf73ceea25e96513"
+    },
+    {
+        "coat":  "gray",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/gray/after-1.png",
+        "sha256":  "8dc336863477f558d4abacc1422d145f39e43439f7879a23dfe715880045b2c1"
+    },
+    {
+        "coat":  "gray",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/gray/after-2.png",
+        "sha256":  "41b7dabe07f6f72e189d5e89fc14772055fece86d24260c586747597e4cb522e"
+    },
+    {
+        "coat":  "gray",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/gray/after-3.png",
+        "sha256":  "4953d8b90eac01c0c7b61c92b459009350dd2a7805dbf7ee1493fd60416aa6a7"
+    },
+    {
+        "coat":  "sand",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/sand/before-1.png",
+        "sha256":  "cb15f351db256cc72090c25a3bcc2961dfe8f43d5acab122a528acc8f7ea8ac9"
+    },
+    {
+        "coat":  "sand",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/sand/before-2.png",
+        "sha256":  "d3e44f2b012c903bf00e1c93fa58623169a6615c4801e91935701c79070c048f"
+    },
+    {
+        "coat":  "sand",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/sand/before-3.png",
+        "sha256":  "242149a8a3f9e46f4a37fc6db0020e57b952cec3a0c827b25e24311eb0617acf"
+    },
+    {
+        "coat":  "sand",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/sand/after-1.png",
+        "sha256":  "b256e8e9c096f80d41c4610a6852a6173929b81e29b3bd3d094d56992c64fa48"
+    },
+    {
+        "coat":  "sand",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/sand/after-2.png",
+        "sha256":  "9a43cb3fc3c5573dee1c4e4cf899697255a1b0fe56fae24b1674bbe38760855f"
+    },
+    {
+        "coat":  "sand",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/sand/after-3.png",
+        "sha256":  "7b1e0a28eac43c92c6a81d53d122f6285d810220d9543a70461016774c1518ec"
+    },
+    {
+        "coat":  "black-footed",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/black-footed/before-1.png",
+        "sha256":  "11cb225d5cf9862f27433578b24f3451b0c9f18723046fdcda264933ed544006"
+    },
+    {
+        "coat":  "black-footed",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/black-footed/before-2.png",
+        "sha256":  "b3e07079e2c6876ff09515080841340be66e8afca97c5b8cd10e5065b6433461"
+    },
+    {
+        "coat":  "black-footed",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/black-footed/before-3.png",
+        "sha256":  "d55d8eb0438c1ab71a0f59700389ab7ef7ac27a5a5a2f95490077912a9599970"
+    },
+    {
+        "coat":  "black-footed",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/black-footed/after-1.png",
+        "sha256":  "8af8614d6fdb9dbac5d00dc674e30463f7b5de9e4348cd166c6a9a7582e9f818"
+    },
+    {
+        "coat":  "black-footed",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/black-footed/after-2.png",
+        "sha256":  "9ae214116c6868e5d303877b033b4f243c4f150e2d6d88157a320add18ba0002"
+    },
+    {
+        "coat":  "black-footed",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/black-footed/after-3.png",
+        "sha256":  "828db3ea7e4232cb27a400ae0ca54c9309fd09ee0600ce0b5a2b54e02faae272"
+    },
+    {
+        "coat":  "manul",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/manul/before-1.png",
+        "sha256":  "da2a39118f420e101211998d777276ee089c2d8ed02a71f0ca86121ab8d058ed"
+    },
+    {
+        "coat":  "manul",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/manul/before-2.png",
+        "sha256":  "d0af7358216a44017d895c330b48fe3355ac8c89a5a558a85b16e58d4795c5ac"
+    },
+    {
+        "coat":  "manul",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/manul/before-3.png",
+        "sha256":  "ac056fea93b513a416c72045aad6a069d508c82229bf274734706f8b9a3d2fbb"
+    },
+    {
+        "coat":  "manul",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/manul/after-1.png",
+        "sha256":  "37076f41178bfccedf4a5aac2c026dbceda885ca0806ae5fb67f824e6d03f0e8"
+    },
+    {
+        "coat":  "manul",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/manul/after-2.png",
+        "sha256":  "1c2bc4038bcad342d9e6eb9f4ff708782f7dd8b683e8f61ca571b9677019946a"
+    },
+    {
+        "coat":  "manul",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/manul/after-3.png",
+        "sha256":  "c262b5227c82a05ce63dbb3d1b4e18f9b883ca7b8e817d9e68b3ffde14587be9"
+    },
+    {
+        "coat":  "fishing",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/fishing/before-1.png",
+        "sha256":  "d2944225deb2549efa1ead5379bc263ce6eb0d01df33e8a17c205e23ae1a969e"
+    },
+    {
+        "coat":  "fishing",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/fishing/before-2.png",
+        "sha256":  "7a49b331ca9436f67669d3d81a606e5af3a2e7103985d11619954f83cc9f38d3"
+    },
+    {
+        "coat":  "fishing",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/fishing/before-3.png",
+        "sha256":  "512c9c7852ae15b8fa32b6affcf3cda181821d6aec288a36d30dbd8845c14a80"
+    },
+    {
+        "coat":  "fishing",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/fishing/after-1.png",
+        "sha256":  "2dbfd38972d6de6a6b64509522588d691ac5d64dea70801c753f96508a73926a"
+    },
+    {
+        "coat":  "fishing",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/fishing/after-2.png",
+        "sha256":  "0ff9fb4f4a88c22206bee617e9f2520dc9ad9f4d2860f7a6851102ca6ee2a0f9"
+    },
+    {
+        "coat":  "fishing",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/fishing/after-3.png",
+        "sha256":  "aa7d3d7d6492688db5bc6fa8b629fb9a3fd67e6bbe2d63d920efd2ee368e581e"
+    },
+    {
+        "coat":  "snow-leopard",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/snow-leopard/before-1.png",
+        "sha256":  "c8cb64a196d9c1cc264a79b04b2c4eb51e0cc453d3eb2ac704886b710ea0e697"
+    },
+    {
+        "coat":  "snow-leopard",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/snow-leopard/before-2.png",
+        "sha256":  "dfacd89c6559e5b690c0fb4c6a1c0c3e73636c5f77bc07bfaa17f7ec4ebe2604"
+    },
+    {
+        "coat":  "snow-leopard",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/snow-leopard/before-3.png",
+        "sha256":  "345a5e988754b5f27458cffdaec26a5a6199e3b7c277d74a4ebae3b850204679"
+    },
+    {
+        "coat":  "snow-leopard",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/snow-leopard/after-1.png",
+        "sha256":  "20313a0e3eca1b3daf8a69bda0b2be5817302ea3018f14ec5a3816ac3ef651d0"
+    },
+    {
+        "coat":  "snow-leopard",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/snow-leopard/after-2.png",
+        "sha256":  "e803fffb2b875bdfb94b114c75df151b2d28d92ebfa9056b0f651b17886ab135"
+    },
+    {
+        "coat":  "snow-leopard",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/snow-leopard/after-3.png",
+        "sha256":  "30725373e091a885bfa5b5b0b4222968a8a5f04abf730d2688e7abddfc7e5657"
+    },
+    {
+        "coat":  "leopard",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/leopard/before-1.png",
+        "sha256":  "ac91be1525ce976a4e927b453ae2c53d15b4fbcd463a013c87029c1cd8ea632c"
+    },
+    {
+        "coat":  "leopard",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/leopard/before-2.png",
+        "sha256":  "2fc928c1eff803361133c6d096a24598c2d96217cec322b7df3504dad1dda4df"
+    },
+    {
+        "coat":  "leopard",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/leopard/before-3.png",
+        "sha256":  "a85a2b5c583160371f274d1f210d133a5b15cf7b2536f48bbb44cac6662e7f2b"
+    },
+    {
+        "coat":  "leopard",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/leopard/after-1.png",
+        "sha256":  "a0e3c2575632879a1df8f20e267bebabc2278ed10979f69b4a5adbfad46c1822"
+    },
+    {
+        "coat":  "leopard",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/leopard/after-2.png",
+        "sha256":  "d5db678614d867ea6a9c0735a9fb1e1f14a9b106ae216f995d0bbf5c5c712a79"
+    },
+    {
+        "coat":  "leopard",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/leopard/after-3.png",
+        "sha256":  "ab7efe10cc0280117218340b4e100d32e775bfaadbb370a4e742191728489b02"
+    },
+    {
+        "coat":  "cheetah",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/cheetah/before-1.png",
+        "sha256":  "22ce99d71edfd8c70c093e418d9f3b102a04bf8a3d8dafd900b29b9895be1d5a"
+    },
+    {
+        "coat":  "cheetah",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/cheetah/before-2.png",
+        "sha256":  "ac2c69ddc3d02163ee9693ba9f9832d929b591ac18f02f8e5b54253323508b1d"
+    },
+    {
+        "coat":  "cheetah",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/cheetah/before-3.png",
+        "sha256":  "25ac86d1209eaa456194553cb7fe61d96e2c113b78d91a8f5745e6b8db46460e"
+    },
+    {
+        "coat":  "cheetah",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/cheetah/after-1.png",
+        "sha256":  "4c5bce4ecd937160b9eb9cb5f868902213a3d3f3d89dd345048cf0fb22f05860"
+    },
+    {
+        "coat":  "cheetah",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/cheetah/after-2.png",
+        "sha256":  "2330fb899c8b185b6dd44a083cc3c48aa51ad335a8cf384feb2b4a81450d4e01"
+    },
+    {
+        "coat":  "cheetah",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/cheetah/after-3.png",
+        "sha256":  "be97aafcd680bf22e312665e736d26841b068fa784bd0cddd4253f2be62c35b9"
+    },
+    {
+        "coat":  "jaguar",
+        "id":  "before-1",
+        "file":  "assets/cat-meals-v1/jaguar/before-1.png",
+        "sha256":  "adb0e963550ed456355f263ee87e8a772de58b6b733b40e2a1462815a86b0dbe"
+    },
+    {
+        "coat":  "jaguar",
+        "id":  "before-2",
+        "file":  "assets/cat-meals-v1/jaguar/before-2.png",
+        "sha256":  "a1a35abca5f1165b891349299935a4d81e774b035486747b572fa263a4e716b5"
+    },
+    {
+        "coat":  "jaguar",
+        "id":  "before-3",
+        "file":  "assets/cat-meals-v1/jaguar/before-3.png",
+        "sha256":  "998d4878fe274340dc594a5742049dccf6ea98e9349bedf8485ec6451e926b7b"
+    },
+    {
+        "coat":  "jaguar",
+        "id":  "after-1",
+        "file":  "assets/cat-meals-v1/jaguar/after-1.png",
+        "sha256":  "0531bc7a51763312856d8f3bc91b75cdc9a1f02b1b752f63c58fc40555d87374"
+    },
+    {
+        "coat":  "jaguar",
+        "id":  "after-2",
+        "file":  "assets/cat-meals-v1/jaguar/after-2.png",
+        "sha256":  "b3f60452f98a4183029da4421a3bf2f16f819a2fb252911a7c4a231ddd777532"
+    },
+    {
+        "coat":  "jaguar",
+        "id":  "after-3",
+        "file":  "assets/cat-meals-v1/jaguar/after-3.png",
+        "sha256":  "9f48b9f857bce2cb9686b666eb9b58f4262f715fbd8ec539cf9919b4788f90a1"
+    }
+]

@@ -160,4 +160,5 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
 .care-reduced .care-idle,.care-reduced .care-munch,.care-reduced .care-joy-cat,.care-reduced .care-joy{opacity:0}
 .care-reduced[data-care-stage=plate] .care-idle,.care-reduced[data-care-stage=munch] .care-munch,.care-reduced[data-care-stage=joy] .care-joy-cat,.care-reduced[data-care-stage=joy] .care-joy{opacity:1}
 .care-reduced[data-care-stage=joy] .care-food{opacity:0}
+.care-finished .care-idle{opacity:0}.care-finished .care-joy-cat,.care-finished .care-joy,.care-finished .care-bowl{opacity:1}.care-finished .care-food{opacity:0}
 .cat-care-compact{background:transparent;border:0;box-shadow:none;padding:8px;margin:0}.cat-care-compact h2,.cat-care-compact .quiet-note{display:none}.cat-care-compact .care-scene{height:0;overflow:visible;margin:0 auto;position:relative}.cat-care-compact .care-scene>*{visibility:hidden}.cat-care-compact .care-playing,.cat-care-compact .care-reduced{height:170px}.cat-care-compact .care-playing>*,.cat-care-compact .care-reduced>*{visibility:visible}.rest-content:has(.care-playing,.care-reduced)>.rest-cat{display:none}

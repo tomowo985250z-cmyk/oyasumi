@@ -12,10 +12,11 @@ globalThis.CatCare=(()=>{
  function deadline(work,ms=20000){let timer;return Promise.race([Promise.resolve().then(work),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(new Error('Care timeout'),{code:'CARE_TIMEOUT'})),ms);})]).finally(()=>clearTimeout(timer));}
  const day=now=>SleepFlow.day(now);
  const valid=s=>s&&/^\d{4}-\d{2}-\d{2}$/.test(s.day)&&['mealEligible','mealDone','treatGiven'].every(k=>typeof s[k]==='boolean')&&['receivedToday','receivedTotal'].every(k=>Number.isSafeInteger(s[k])&&s[k]>=0);
- function visual(coat,kind='meal'){
+ function visual(coat,kind='meal',options={}){
   coat=CatFaces.normalizeCoat(coat);kind=kind==='treat'?'treat':'meal';
+  const before=CatMealAssets.variant(options.before),after=CatMealAssets.variant(options.after),finished=options.finished===true;
   const file=frame=>`assets/cat-refresh-v1/${coat}/${frame}.png`;
-  return `<div class="care-scene" data-care-coat="${coat}" data-care-kind="${kind}" aria-hidden="true"><img class="care-idle" src="${file('day-relax')}" alt="" width="152" height="152"><span class="care-munch"><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><img class="care-head" src="${file('day-relax')}" alt="" width="152" height="152"></span><img class="care-joy-cat" src="${file('day-play')}" alt="" width="152" height="152"><span class="care-bowl"><span class="care-food"><i></i><i></i><i></i></span></span><span class="care-joy">♥</span></div>`;
+  return `<div class="care-scene${finished?' care-finished':''}" data-care-coat="${coat}" data-care-kind="${kind}" data-care-before="${before}" data-care-after="${after}" data-care-day="${day(NightClock.now())}" data-care-finished="${finished}" aria-hidden="true"><img class="care-idle" src="${CatMealAssets.src(coat,'before',before)}" alt="" width="152" height="152"><span class="care-munch"><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><img class="care-head" src="${file('day-relax')}" alt="" width="152" height="152"></span><img class="care-joy-cat" src="${CatMealAssets.src(coat,'after',after)}" alt="" width="152" height="152"><span class="care-bowl"><span class="care-food"><i></i><i></i><i></i></span></span><span class="care-joy">♥</span></div>`;
  }
  function markup(status,coat,recipient,self,now=NightClock.now(),compact=false){
   if(!valid(status))return '';
@@ -26,13 +27,15 @@ globalThis.CatCare=(()=>{
   const history=self&&!compact?`<div class="care-received"><p>届いたおやつ <span>今日 ${status.receivedToday}個 · 累計 ${status.receivedTotal}個</span></p>${days.length?`<details><summary>日別の記録</summary><ul>${days.map(r=>`<li><time datetime="${r.day}">${r.day.replaceAll('-','/')}</time><span>${r.count}個</span></li>`).join('')}</ul></details>`:''}<p class="quiet-note">贈ってくれた人の名前は表示されません。</p></div>`:'';
   // Recipient comes from the post's UUID, never from display text.
   if(!self&&!/^[0-9a-f-]{36}$/i.test(recipient||''))return '';
-  return `<section class="card cat-care${compact?' cat-care-compact':''}" data-care-compact="${compact}" data-care-owner="${self?'self':recipient}"><h2>${self?'猫のごはん':'小さなおやつ'}</h2>${visual(coat,kind)}<p class="care-caption"><strong>${self?'ごはんだよ':'おやつだよ'}</strong><span class="care-serving" data-care-kind="${kind}"><span class="care-food" aria-hidden="true"><i></i><i></i><i></i></span>${self?'カリカリ':'小魚'}</span></p><button type="button" class="cream-button" ${self?'data-cat-meal':`data-cat-treat="${recipient}"`} ${disabled?'disabled':''}>${label}</button><p class="quiet-note">${self?'おやすみを投稿した日に、1回。連続投稿は不要です。':'他の猫へ、1日合計1回。お返しは気にせずに。'}</p><p class="care-feedback" role="${feedback.failed?'alert':'status'}" aria-live="${feedback.failed?'assertive':'polite'}">${escape(feedback.text)}</p>${history}</section>`;
+  const expressions=CatMealAssets.pair(self?'self':recipient,CatFaces.normalizeCoat(coat),day(now));
+  return `<section class="card cat-care${compact?' cat-care-compact':''}" data-care-compact="${compact}" data-care-owner="${self?'self':recipient}"><h2>${self?'猫のごはん':'小さなおやつ'}</h2>${visual(coat,kind,{...expressions,finished:fresh&&(self?status.mealDone:status.treatGiven)})}<p class="care-caption"><strong>${self?'ごはんだよ':'おやつだよ'}</strong><span class="care-serving" data-care-kind="${kind}"><span class="care-food" aria-hidden="true"><i></i><i></i><i></i></span>${self?'カリカリ':'小魚'}</span></p><button type="button" class="cream-button" ${self?'data-cat-meal':`data-cat-treat="${recipient}"`} ${disabled?'disabled':''}>${label}</button><p class="quiet-note">${self?'おやすみを投稿した日に、1回。連続投稿は不要です。':'他の猫へ、1日合計1回。お返しは気にせずに。'}</p><p class="care-feedback" role="${feedback.failed?'alert':'status'}" aria-live="${feedback.failed?'assertive':'polite'}">${escape(feedback.text)}</p>${history}</section>`;
  }
  async function play(scene){
   if(scene?.classList.contains('room-care-proxy'))return DayRoom.play(scene,play);
   if(!scene?.isConnected)return;
   let token=active.get(scene);if(token)return;
   token={};active.set(scene,token);
+  scene.classList.remove('care-finished');scene.dataset.careFinished='false';
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Decode off the interaction path: navigation and other controls stay available.
   await Promise.allSettled([...scene.querySelectorAll('img')].map(img=>typeof img.decode==='function'?img.decode():new Promise(resolve=>{
@@ -53,6 +56,7 @@ globalThis.CatCare=(()=>{
    const finish=()=>{
     clearTimeout(timer);document.removeEventListener('visibilitychange',visibility);
     scene.classList.remove('care-playing','care-reduced','care-paused');delete scene.dataset.careStage;
+    if(elapsed>=durationMs&&scene.isConnected){scene.classList.add('care-finished');scene.dataset.careFinished='true';}
     scene.dispatchEvent(new CustomEvent('careplaybackend',{bubbles:true,detail:{visibleMs:elapsed}}));resolve();
    };
    const schedule=()=>{
