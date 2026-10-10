@@ -65,11 +65,6 @@ const statusText = status => POST_OPTIONS.find(option => option.id === status)?.
 const avatar = p => `<span class="avatar ${p.color || 'peach'}" aria-hidden="true">${CatFaces.svg(p.expression,p.coat)}</span>`;
 const header = (title='おやすみ', back=false) => `<header class="header">${back?'<button class="icon-button" data-view="home" aria-label="ホームに戻る">‹</button>':'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { if(view==='rest'){nav.innerHTML='';nav.hidden=true;return;}const items=[['home','ホーム'],['timeline','タイムライン'],['stats','みんなの記録'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=view==='sleep'; }
-function roofStars() {
- const stars=[[14,14,.6],[29,8,.4],[8,44,.45],[30,37,.75],[10,60,.5],[25,70,.4],[61,2,.5],[102,3,.65],[120,1,.4],[150,4,1],[199,7,.4],[194,32,.8],[184,44,.45],[202,58,.5],[179,70,.4],[18.5,30,1.5],[167.3,6,1.3],[195.5,64,1.5]];
- const cool=new Set([2,6,10,13,16]),twinkle=new Map([[0,3.8],[9,4.7],[11,5.6],[15,4.2]]);
- return `<g class="roof-stars" opacity=".46">${stars.map(([x,y,r],i)=>{const tone=cool.has(i)?'cool':'warm',color=tone==='cool'?'#d2ddec':i%2?'#ece2bd':'#e9d6a7',motion=twinkle.has(i)?` class="roof-twinkle" style="animation-duration:${twinkle.get(i)}s;animation-delay:-${i*.37}s"`:'';return i<15?`<circle data-star-tone="${tone}" cx="${x}" cy="${y}" r="${r}" fill="${color}" opacity="${i%3===0?1:.6}"${motion}/>`:`<path data-star-tone="${tone}" d="M${x-r} ${y}h${r*2}m-${r}-${r}v${r*2}" fill="none" stroke="${color}" stroke-width=".7" stroke-linecap="round"${motion}/>`;}).join('')}</g>`;
-}
 let roofShootingTimer,roofNextShootingAt;
 function syncRoofSky() {
  clearTimeout(roofShootingTimer);
@@ -96,12 +91,20 @@ function awakeCats() {
  if(!count)return '';
  const users=new Set(),coats=[];
  for(const post of TimelineVisibility.visible(shared.feed,NightClock.now())){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
-return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="roof-overhead-stars" viewBox="0 0 208 20" focusable="false" style="position:absolute;left:0;top:-10px;width:208px;height:20px;pointer-events:none"><g fill="#f0e3b5" opacity=".65"><circle data-star-tone="warm" cx="38" cy="6" r=".7"/><circle data-star-tone="warm" cx="108" cy="8" r=".8"/><circle data-star-tone="warm" cx="160" cy="5" r=".65"/></g></svg><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g>${roofStars()}<path class="roof-moon" d="M180 12a7 7 0 1 0 7 11 7.5 7.5 0 0 1-7-11Z" fill="#ddd8bf" opacity=".48"/></svg><span class="roof-cat-group" data-cat-count="${count}">${Array.from({length:count},(_,index)=>RoofCats.svg(coats[index],index,count)).join('')}</span></span></span>`;
+return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g><path class="roof-moon" d="M180 12a7 7 0 1 0 7 11 7.5 7.5 0 0 1-7-11Z" fill="#ddd8bf" opacity=".48"/></svg><span class="roof-cat-group" data-cat-count="${count}">${Array.from({length:count},(_,index)=>RoofCats.svg(coats[index],index,count)).join('')}</span></span></span>`;
 }
 function cardSkyStars() {
- // Percentage positions follow the card; fixed dot sizes keep the existing quiet scale.
- const stars=[[7,6,.9,.24],[22,9,.6,.22],[43,5,.7,.18],[68,8,.5,.2],[89,6,.9,.24],[96,20,.6,.18],[5,24,.7,.2],[12,35,.9,.32],[91,36,.6,.3],[4,48,.5,.2],[8,61,.8,.3],[94,53,.9,.3],[89,68,.6,.26],[5,78,.7,.18],[95,80,.5,.18],[11,91,.9,.22],[27,94,.6,.2],[48,95,.8,.18],[72,92,.5,.22],[91,93,.9,.22],[18,70,.5,.24],[82,74,.7,.22],[23,23,.5,.12],[77,24,.6,.12],[25,84,.5,.1],[74,85,.5,.1]];
- return `<span class="card-sky-stars" aria-hidden="true">${stars.map(([x,y,r,opacity],i)=>`<i style="left:${x}%;top:${y}%;width:${r*2}px;height:${r*2}px;opacity:${opacity};background:${i%4===0?'#d2ddec':i%2?'#ece2bd':'#e9d6a7'}"></i>`).join('')}</span>`;
+ // One gently jittered star per cell keeps the entire card balanced at every width.
+ // Deterministic offsets prevent stars from jumping when counts refresh.
+ const twinkle=new Map([[2,3.8],[13,4.7],[30,5.6],[45,4.2]]),cross=new Set([6,24,39]);
+ return `<span class="card-sky-stars" aria-hidden="true">${Array.from({length:48},(_,i)=>{
+  const x=((i%8)+.22+((i*37+11)%101)/100*.56)/8*100,y=(Math.floor(i/8)+.22+((i*53+29)%103)/102*.56)/6*100;
+  const tone=i%4===0?'cool':'warm',color=tone==='cool'?'#d2ddec':i%2?'#ece2bd':'#e9d6a7';
+  const size=cross.has(i)?2.8+(i%3)*.3:.8+(i%5)*.2,opacity=.18+(i%4)*.045;
+  const classes=[cross.has(i)?'card-star-cross':'',twinkle.has(i)?'roof-twinkle':''].filter(Boolean).join(' ');
+  const motion=twinkle.has(i)?`animation-duration:${twinkle.get(i)}s;animation-delay:-${i*.37}s;`:'';
+  return `<i class="${classes}" data-star-tone="${tone}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;width:${size}px;height:${size}px;--star-opacity:${opacity};opacity:${opacity};color:${color};${motion}"></i>`;
+ }).join('')}</span>`;
 }
 function homeCopy(now=NightClock.now()) {
  const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));
