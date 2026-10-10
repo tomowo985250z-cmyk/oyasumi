@@ -121,7 +121,7 @@ function stats() {
  const hours=summary?.peakHours||[];
  return `${header('みんなの記録',true)}<section class="card count-card"><h2>おやすみした人</h2><div class="count">${count??'—'}<small> 人</small></div><p class="muted">最後の投稿でおやすみを報告した人</p></section><section class="card tonight-cats"><h2>いまの猫たち</h2>${summary?cats.length?`<div class="sleeping-cats" role="img" aria-label="おやすみした${count}人の猫たち"><div aria-hidden="true">${cats.join('')}</div></div>${count>cats.length?`<p class="muted">ほか ${count-cats.length} 人もおやすみしています</p>`:''}`:'<p class="muted">おやすみの報告は、これから。</p>':'<p class="muted">猫たちの様子を取得できませんでした。</p>'}<p class="summary-note">名前を出さず、選んだ毛色の猫で表示しています。</p></section><section class="card tonight-hours"><h2>おやすみが多い時間帯</h2>${summary?hours.length?`<div class="peak-hours">${hours.map(h=>`<p><strong>${String(h.hour).padStart(2,'0')}:00〜${String((h.hour+1)%24).padStart(2,'0')}:00</strong><span>${h.count} 人</span></p>`).join('')}</div><p class="summary-note">日本時間・一人につき最新のおやすみ報告</p>`:'<p class="muted">おやすみの報告が集まると表示されます。</p>':'<p class="muted">時間帯を取得できませんでした。</p>'}</section>${chart()}`;
 }
-function dayHero() { const scene=DayCats.current(),room=DayRoom.snapshot(shared.userId);return scene ? `<section class="day-hero day-room-hero" data-day-bucket="${scene.key}">${DayRoom.stage(state.coat,shared.userId,null,true)}<h2>${DayCats.options.find(p=>p.id===room.pose)?.label||scene.label}</h2><p>また今夜 🌙</p></section>` : ''; }
+function dayHero() { const key=DayRoom.homeKey(),room=DayRoom.snapshot(shared.userId),post=state.posts[0]||shared.feed.find(p=>p.self)||{};return key ? `<section class="day-hero day-room-hero" data-day-bucket="${key}">${DayRoom.stage(state.coat,shared.userId,{status:post.status},true)}<h2>${DayRoom.homeLabel(room)}</h2><p>${DayRoom.world().daylight?'また今夜 🌙':'ゆっくり、ひとやすみ 🌙'}</p></section>` : ''; }
 function roleTag(role) { const label=CatRoles.label(role);return label?`<span class="cat-role-tag">${escapeHTML(label)}</span>`:''; }
 function homeNote() { return `<section class="card home-note"><button class="profile-note-button" data-note-editor aria-label="自分のそっとひとことを編集"><span>そっとひとこと <small>編集 ›</small></span><span class="profile-note-text${state.profileNote?'':' is-empty'}">${escapeHTML(state.profileNote)||'タップして、ひとこと'}</span></button></section>`; }
 function roleSetting() { return `<button class="setting-row role-setting" data-role-picker><span>職業 <small>任意</small></span><span class="setting-value">${CatRoles.label(state.catRole)||(state.catRole==='private'?'表示なし':'未設定')} ›</span></button>`; }
@@ -257,7 +257,7 @@ function refreshAfterSave(saved=true) {
  refreshQueued=true;refreshSaved=refreshSaved||saved;startQueuedRefresh();
 }
 document.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;
- if(button.hasAttribute('data-day-cat-tap')){const cat=button.querySelector('.cat-day-scene');if(cat&&!matchMedia('(prefers-reduced-motion: reduce)').matches){cat.getAnimations().forEach(animation=>animation.cancel());cat.animate([{transform:'translateY(0)',offset:0},{transform:'translateY(-6px)',offset:.45},{transform:'translateY(0)',offset:1}],{duration:400,easing:'ease-in-out'});}return;}
+ if(button.hasAttribute('data-day-cat-tap')){const cat=button.querySelector('.cat-day-scene,.cat-scene');if(cat&&!matchMedia('(prefers-reduced-motion: reduce)').matches){cat.getAnimations().forEach(animation=>animation.cancel());cat.animate([{transform:'translateY(0)',offset:0},{transform:'translateY(-6px)',offset:.45},{transform:'translateY(0)',offset:1}],{duration:400,easing:'ease-in-out'});}return;}
  if(button.hasAttribute('data-share-place')){void sharePlace();return;}
  if(button.hasAttribute('data-copy-place')){void copyPlaceURL();return;}
  if(button.hasAttribute('data-close-share')){document.querySelector('#share-dialog').close();return;}
@@ -325,7 +325,7 @@ function profileRoomCat(coat,now=NightClock.now(),status) {
 function profileRoomMarkup(person) {
  const coat=CatFaces.normalizeCoat(person.coat),status=['awake','sleep'].includes(person.status)?person.status:'',cat=profileRoomCat(coat,NightClock.now(),status);
  const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、いっしょにひとやすみ。';
- const stage=DayRoom.world().daylight?DayRoom.stage(coat,person.userId,status?{...cat,status}:null):`<div class="room-scene"><div class="room-window" aria-hidden="true"><span class="room-orb"></span><span class="room-cloud"></span><span class="room-stars">· ✧ ·</span></div><span class="room-curtain" aria-hidden="true"></span><span class="room-lamp" aria-hidden="true"></span><div class="room-cat">${cat.html}</div></div>`;
+ const stage=DayRoom.stage(coat,person.userId,{status});
  const room=`<section class="cat-room" data-room-user="${person.userId||''}" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="猫の小さなおへや">${stage}<p class="room-whisper"><span aria-hidden="true">“</span>${escapeHTML(whisper)}<span aria-hidden="true">”</span></p><p class="room-whisper-label">おへやの猫のつぶやき</p></section>`;
  return DayRoom.unit(room,shared.profileComplete?DayRoom.care(shared.catCare,coat,person.userId,person.userId===shared.userId):'',person.userId);
 }
@@ -336,12 +336,7 @@ function myProfileRoom() {
 function syncProfileRoom() {
  for(const room of document.querySelectorAll('.cat-room')){
   if(room.closest('[data-feeding=true]'))continue;
-  const cat=profileRoomCat(room.dataset.coat,NightClock.now(),room.dataset.postStatus),daylight=DayRoom.world().daylight;
-  if(daylight!==!!room.querySelector('.day-room')){
-   const template=document.createElement('template');template.innerHTML=profileRoomMarkup({userId:room.dataset.roomUser,coat:room.dataset.coat,status:room.dataset.postStatus,catRole:room.dataset.catRole});
-   room.querySelector('.room-scene').replaceWith(template.content.querySelector('.room-scene'));
-  }
-  if(!daylight&&(room.dataset.time!==cat.period||room.dataset.pose!==cat.pose))room.querySelector('.room-cat').innerHTML=cat.html;
+  const cat=profileRoomCat(room.dataset.coat,NightClock.now(),room.dataset.postStatus);
   room.dataset.time=cat.period;room.dataset.pose=cat.pose;
  }
  DayRoom.sync();
@@ -436,7 +431,7 @@ document.querySelector('#nickname-form').addEventListener('submit',event=>{
 });
 render();syncSleepView();
 void ensureConnection().catch(()=>{if(view!=='rest')toast('共有データに接続できません。');});
-function refreshDayScene() { DayRoom.sync();const card=document.querySelector('.roof-sky-card'),world=DayRoom.world();if(view==='home'&&((document.querySelector('.day-hero')?.dataset.dayBucket||null)!==(DayCats.current()?.key||null)||(card&&(card.dataset.worldDaylight!==String(world.daylight)||card.dataset.worldDay!==world.day))))renderPreservingPosition(); }
+function refreshDayScene() { DayRoom.sync();const card=document.querySelector('.roof-sky-card'),world=DayRoom.world();if(view==='home'&&((document.querySelector('.day-hero')?.dataset.dayBucket||null)!==DayRoom.homeKey()||(card&&(card.dataset.worldDaylight!==String(world.daylight)||card.dataset.worldDay!==world.day))))renderPreservingPosition(); }
 setInterval(()=>{if(!document.hidden)syncSleepView();if(!document.hidden&&view==='timeline')renderPreservingPosition(true);if(view==='rest')return;if(!document.hidden)refreshDayScene();if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});},30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNightBoundary();if(!document.hidden&&['timeline','home'].includes(view))renderPreservingPosition(true);if(!document.hidden)refreshDayScene();if(view==='rest')return;if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>toast('最新の投稿を取得できませんでした。'));});
 window.addEventListener('online',()=>{if(view==='rest')return;if(!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});});
