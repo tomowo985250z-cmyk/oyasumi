@@ -1,0 +1,3179 @@
+{
+  "engine": "WebKit",
+  "actualIPhone": false,
+  "touch": true,
+  "scope": "full",
+  "geometry": [
+    {
+      "width": 0.3099524456521739,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121877573428492,
+      "left": 0.2591428894927536,
+      "bottom": 0.4819516881690914,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999660326086957,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121877573428492,
+      "left": 0.5007076539855072,
+      "bottom": 0.19997255009607467,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34997735507246375,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121877573428492,
+      "left": 0.7592278079710145,
+      "bottom": 0.1549547076585232,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999660326086957,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121877573428492,
+      "left": 0.5007076539855072,
+      "bottom": 0.19997255009607467,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099524456521739,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121877573428492,
+      "left": 0.2591428894927536,
+      "bottom": 0.4819516881690914,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999660326086957,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121877573428492,
+      "left": 0.5007076539855072,
+      "bottom": 0.19997255009607467,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34997735507246375,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121877573428492,
+      "left": 0.7592278079710145,
+      "bottom": 0.1549547076585232,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999660326086957,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121877573428492,
+      "left": 0.5007076539855072,
+      "bottom": 0.19997255009607467,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30998641304347824,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.2606317934782609,
+      "bottom": 0.48196640316205536,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19993412384716733,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7588994565217392,
+      "bottom": 0.15497364953886694,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19993412384716733,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30998641304347824,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.2606317934782609,
+      "bottom": 0.48196640316205536,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19993412384716733,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7588994565217392,
+      "bottom": 0.15497364953886694,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19993412384716733,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30997824367088606,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121793334931672,
+      "left": 0.25991396360759494,
+      "bottom": 0.48195876288659795,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.399970332278481,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121793334931672,
+      "left": 0.5006180775316456,
+      "bottom": 0.19995204986813714,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34998022151898733,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121793334931672,
+      "left": 0.759345332278481,
+      "bottom": 0.15499880124670343,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.399970332278481,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121793334931672,
+      "left": 0.5006180775316456,
+      "bottom": 0.19995204986813714,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30997824367088606,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121793334931672,
+      "left": 0.25991396360759494,
+      "bottom": 0.48195876288659795,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.399970332278481,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121793334931672,
+      "left": 0.5006180775316456,
+      "bottom": 0.19995204986813714,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34998022151898733,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121793334931672,
+      "left": 0.759345332278481,
+      "bottom": 0.15499880124670343,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.399970332278481,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121793334931672,
+      "left": 0.5006180775316456,
+      "bottom": 0.19995204986813714,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30995370370370373,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.259375,
+      "bottom": 0.48197250280583614,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19998597081930417,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7590277777777777,
+      "bottom": 0.15495230078563413,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19998597081930417,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30995370370370373,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.259375,
+      "bottom": 0.48197250280583614,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19998597081930417,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7590277777777777,
+      "bottom": 0.15495230078563413,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19998597081930417,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099981117824773,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121766994735637,
+      "left": 0.25937027945619334,
+      "bottom": 0.48197528038452736,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999716767371601,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121766994735637,
+      "left": 0.5005900679758308,
+      "bottom": 0.1999885557335775,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499811178247734,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121766994735637,
+      "left": 0.7597243202416919,
+      "bottom": 0.15495536736095217,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999716767371601,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121766994735637,
+      "left": 0.5005900679758308,
+      "bottom": 0.1999885557335775,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099981117824773,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121766994735637,
+      "left": 0.25937027945619334,
+      "bottom": 0.48197528038452736,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999716767371601,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121766994735637,
+      "left": 0.5005900679758308,
+      "bottom": 0.1999885557335775,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499811178247734,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121766994735637,
+      "left": 0.7597243202416919,
+      "bottom": 0.15495536736095217,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999716767371601,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121766994735637,
+      "left": 0.5005900679758308,
+      "bottom": 0.1999885557335775,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099780701754386,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.2605811403508772,
+      "bottom": 0.48199096225412014,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19996012759170653,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7595394736842105,
+      "bottom": 0.15497076023391812,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19996012759170653,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099780701754386,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.2605811403508772,
+      "bottom": 0.48199096225412014,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19996012759170653,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7595394736842105,
+      "bottom": 0.15497076023391812,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.19996012759170653,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309971098265896,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121742938471645,
+      "left": 0.260341401734104,
+      "bottom": 0.48199036566673964,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999729046242775,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121742938471645,
+      "left": 0.5005644869942196,
+      "bottom": 0.199967155682067,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34998193641618497,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121742938471645,
+      "left": 0.7601156069364162,
+      "bottom": 0.1549704401138603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999729046242775,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121742938471645,
+      "left": 0.5005644869942196,
+      "bottom": 0.199967155682067,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309971098265896,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121742938471645,
+      "left": 0.260341401734104,
+      "bottom": 0.48199036566673964,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999729046242775,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121742938471645,
+      "left": 0.5005644869942196,
+      "bottom": 0.199967155682067,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34998193641618497,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121742938471645,
+      "left": 0.7601156069364162,
+      "bottom": 0.1549704401138603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999729046242775,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121742938471645,
+      "left": 0.5005644869942196,
+      "bottom": 0.199967155682067,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099916387959866,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121365680623297,
+      "left": 0.25945861204013376,
+      "bottom": 0.48197884335212515,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997909698996653,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121365680623297,
+      "left": 0.499320652173913,
+      "bottom": 0.19997466269715589,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499686454849498,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121365680623297,
+      "left": 0.7593802257525084,
+      "bottom": 0.15493760689174638,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997909698996653,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121365680623297,
+      "left": 0.499320652173913,
+      "bottom": 0.19997466269715589,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099916387959866,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121365680623297,
+      "left": 0.25945861204013376,
+      "bottom": 0.48197884335212515,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997909698996653,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121365680623297,
+      "left": 0.499320652173913,
+      "bottom": 0.19997466269715589,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499686454849498,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121365680623297,
+      "left": 0.7593802257525084,
+      "bottom": 0.15493760689174638,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997909698996653,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121365680623297,
+      "left": 0.499320652173913,
+      "bottom": 0.19997466269715589,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30999283667621774,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121343680468877,
+      "left": 0.26025250716332377,
+      "bottom": 0.4819558256905628,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39998209169054444,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121343680468877,
+      "left": 0.49941797994269344,
+      "bottom": 0.19997829272263526,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499731375358166,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121343680468877,
+      "left": 0.7601853510028653,
+      "bottom": 0.1549899603842188,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39998209169054444,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121343680468877,
+      "left": 0.49941797994269344,
+      "bottom": 0.19997829272263526,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30999283667621774,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121343680468877,
+      "left": 0.26025250716332377,
+      "bottom": 0.4819558256905628,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39998209169054444,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121343680468877,
+      "left": 0.49941797994269344,
+      "bottom": 0.19997829272263526,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499731375358166,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121343680468877,
+      "left": 0.7601853510028653,
+      "bottom": 0.1549899603842188,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39998209169054444,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121343680468877,
+      "left": 0.49941797994269344,
+      "bottom": 0.19997829272263526,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30997513983840896,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121288216460544,
+      "left": 0.25919308058835716,
+      "bottom": 0.48195115826480006,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999896415993371,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121288216460544,
+      "left": 0.49945618396519575,
+      "bottom": 0.19994977713604117,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34995856639734824,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121288216460544,
+      "left": 0.7592966645949866,
+      "bottom": 0.1549375353129512,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999896415993371,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121288216460544,
+      "left": 0.49945618396519575,
+      "bottom": 0.19994977713604117,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30997513983840896,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121288216460544,
+      "left": 0.25919308058835716,
+      "bottom": 0.48195115826480006,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999896415993371,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121288216460544,
+      "left": 0.49945618396519575,
+      "bottom": 0.19994977713604117,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34995856639734824,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121288216460544,
+      "left": 0.7592966645949866,
+      "bottom": 0.1549375353129512,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999896415993371,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121288216460544,
+      "left": 0.49945618396519575,
+      "bottom": 0.19994977713604117,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099685754189944,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.212146862765845,
+      "left": 0.25995111731843573,
+      "bottom": 0.4819595809967199,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999650837988827,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.212146862765845,
+      "left": 0.5002618715083799,
+      "bottom": 0.19997883821817797,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34999127094972066,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.212146862765845,
+      "left": 0.7604093924581006,
+      "bottom": 0.15495714739181038,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999650837988827,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.212146862765845,
+      "left": 0.5002618715083799,
+      "bottom": 0.19997883821817797,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099685754189944,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.212146862765845,
+      "left": 0.25995111731843573,
+      "bottom": 0.4819595809967199,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999650837988827,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.212146862765845,
+      "left": 0.5002618715083799,
+      "bottom": 0.19997883821817797,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34999127094972066,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.212146862765845,
+      "left": 0.7604093924581006,
+      "bottom": 0.15495714739181038,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999650837988827,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.212146862765845,
+      "left": 0.5002618715083799,
+      "bottom": 0.19997883821817797,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30996621621621623,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.2595439189189189,
+      "bottom": 0.481981981981982,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.1999897624897625,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7592905405405406,
+      "bottom": 0.154995904995905,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.1999897624897625,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30996621621621623,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121212121212122,
+      "left": 0.2595439189189189,
+      "bottom": 0.481981981981982,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.1999897624897625,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.35,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121212121212122,
+      "left": 0.7592905405405406,
+      "bottom": 0.154995904995905,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.4,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121212121212122,
+      "left": 0.5,
+      "bottom": 0.1999897624897625,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099772135416667,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121331689272503,
+      "left": 0.260009765625,
+      "bottom": 0.48197287299630087,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999837239583333,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121331689272503,
+      "left": 0.4994710286458333,
+      "bottom": 0.2,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499755859375,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121331689272503,
+      "left": 0.7604777018229166,
+      "bottom": 0.1549691738594328,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999837239583333,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121331689272503,
+      "left": 0.4994710286458333,
+      "bottom": 0.2,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3099772135416667,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121331689272503,
+      "left": 0.260009765625,
+      "bottom": 0.48197287299630087,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999837239583333,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121331689272503,
+      "left": 0.4994710286458333,
+      "bottom": 0.2,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499755859375,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121331689272503,
+      "left": 0.7604777018229166,
+      "bottom": 0.1549691738594328,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999837239583333,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121331689272503,
+      "left": 0.4994710286458333,
+      "bottom": 0.2,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30999028497409326,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121687929342493,
+      "left": 0.25955310880829013,
+      "bottom": 0.48199214916584887,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997571243523317,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121687929342493,
+      "left": 0.5005059909326425,
+      "bottom": 0.2,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34998380829015546,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121687929342493,
+      "left": 0.7601198186528497,
+      "bottom": 0.1549558390578999,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997571243523317,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121687929342493,
+      "left": 0.5005059909326425,
+      "bottom": 0.2,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30999028497409326,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121687929342493,
+      "left": 0.25955310880829013,
+      "bottom": 0.48199214916584887,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997571243523317,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121687929342493,
+      "left": 0.5005059909326425,
+      "bottom": 0.2,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.34998380829015546,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121687929342493,
+      "left": 0.7601198186528497,
+      "bottom": 0.1549558390578999,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997571243523317,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121687929342493,
+      "left": 0.5005059909326425,
+      "bottom": 0.2,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30997474747474746,
+      "view": "home",
+      "place": "window",
+      "ratio": 1.2121675913525922,
+      "left": 0.2596669823232323,
+      "bottom": 0.4819686244499713,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997632575757575,
+      "view": "home",
+      "place": "cushion",
+      "ratio": 1.2121675913525922,
+      "left": 0.5004932133838383,
+      "bottom": 0.1999713028505835,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499842171717172,
+      "view": "home",
+      "place": "corner",
+      "ratio": 1.2121675913525922,
+      "left": 0.759469696969697,
+      "bottom": 0.154964606849053,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997632575757575,
+      "view": "home",
+      "place": "away",
+      "ratio": 1.2121675913525922,
+      "left": 0.5004932133838383,
+      "bottom": 0.1999713028505835,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.30997474747474746,
+      "view": "meal",
+      "place": "window",
+      "ratio": 1.2121675913525922,
+      "left": 0.2596669823232323,
+      "bottom": 0.4819686244499713,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997632575757575,
+      "view": "meal",
+      "place": "cushion",
+      "ratio": 1.2121675913525922,
+      "left": 0.5004932133838383,
+      "bottom": 0.1999713028505835,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499842171717172,
+      "view": "meal",
+      "place": "corner",
+      "ratio": 1.2121675913525922,
+      "left": 0.759469696969697,
+      "bottom": 0.154964606849053,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.39997632575757575,
+      "view": "meal",
+      "place": "away",
+      "ratio": 1.2121675913525922,
+      "left": 0.5004932133838383,
+      "bottom": 0.1999713028505835,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "treat",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "treat",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "treat",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.309963474025974,
+      "view": "self-profile",
+      "place": "window",
+      "ratio": 1.2121510269339564,
+      "left": 0.26075487012987014,
+      "bottom": 0.481982535973435,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "cushion",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3499898538961039,
+      "view": "self-profile",
+      "place": "corner",
+      "ratio": 1.2121510269339564,
+      "left": 0.759664163961039,
+      "bottom": 0.15496248923871603,
+      "visible": "visible",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    },
+    {
+      "width": 0.3999594155844156,
+      "view": "self-profile",
+      "place": "away",
+      "ratio": 1.2121510269339564,
+      "left": 0.5003043831168831,
+      "bottom": 0.19997540277948592,
+      "visible": "hidden",
+      "artFits": true,
+      "overflow": false,
+      "loaded": true,
+      "extraCats": 0,
+      "window": [
+        "autumn",
+        "sunny"
+      ]
+    }
+  ],
+  "seasons": [
+    {
+      "season": "spring",
+      "weather": "sunny",
+      "view": "home"
+    },
+    {
+      "season": "spring",
+      "weather": "sunny",
+      "view": "meal"
+    },
+    {
+      "season": "spring",
+      "weather": "sunny",
+      "view": "treat"
+    },
+    {
+      "season": "spring",
+      "weather": "cloudy",
+      "view": "home"
+    },
+    {
+      "season": "spring",
+      "weather": "cloudy",
+      "view": "meal"
+    },
+    {
+      "season": "spring",
+      "weather": "cloudy",
+      "view": "treat"
+    },
+    {
+      "season": "spring",
+      "weather": "rainy",
+      "view": "home"
+    },
+    {
+      "season": "spring",
+      "weather": "rainy",
+      "view": "meal"
+    },
+    {
+      "season": "spring",
+      "weather": "rainy",
+      "view": "treat"
+    },
+    {
+      "season": "summer",
+      "weather": "sunny",
+      "view": "home"
+    },
+    {
+      "season": "summer",
+      "weather": "sunny",
+      "view": "meal"
+    },
+    {
+      "season": "summer",
+      "weather": "sunny",
+      "view": "treat"
+    },
+    {
+      "season": "summer",
+      "weather": "cloudy",
+      "view": "home"
+    },
+    {
+      "season": "summer",
+      "weather": "cloudy",
+      "view": "meal"
+    },
+    {
+      "season": "summer",
+      "weather": "cloudy",
+      "view": "treat"
+    },
+    {
+      "season": "summer",
+      "weather": "rainy",
+      "view": "home"
+    },
+    {
+      "season": "summer",
+      "weather": "rainy",
+      "view": "meal"
+    },
+    {
+      "season": "summer",
+      "weather": "rainy",
+      "view": "treat"
+    },
+    {
+      "season": "autumn",
+      "weather": "sunny",
+      "view": "home"
+    },
+    {
+      "season": "autumn",
+      "weather": "sunny",
+      "view": "meal"
+    },
+    {
+      "season": "autumn",
+      "weather": "sunny",
+      "view": "treat"
+    },
+    {
+      "season": "autumn",
+      "weather": "cloudy",
+      "view": "home"
+    },
+    {
+      "season": "autumn",
+      "weather": "cloudy",
+      "view": "meal"
+    },
+    {
+      "season": "autumn",
+      "weather": "cloudy",
+      "view": "treat"
+    },
+    {
+      "season": "autumn",
+      "weather": "rainy",
+      "view": "home"
+    },
+    {
+      "season": "autumn",
+      "weather": "rainy",
+      "view": "meal"
+    },
+    {
+      "season": "autumn",
+      "weather": "rainy",
+      "view": "treat"
+    },
+    {
+      "season": "winter",
+      "weather": "sunny",
+      "view": "home"
+    },
+    {
+      "season": "winter",
+      "weather": "sunny",
+      "view": "meal"
+    },
+    {
+      "season": "winter",
+      "weather": "sunny",
+      "view": "treat"
+    },
+    {
+      "season": "winter",
+      "weather": "cloudy",
+      "view": "home"
+    },
+    {
+      "season": "winter",
+      "weather": "cloudy",
+      "view": "meal"
+    },
+    {
+      "season": "winter",
+      "weather": "cloudy",
+      "view": "treat"
+    },
+    {
+      "season": "winter",
+      "weather": "rainy",
+      "view": "home"
+    },
+    {
+      "season": "winter",
+      "weather": "rainy",
+      "view": "meal"
+    },
+    {
+      "season": "winter",
+      "weather": "rainy",
+      "view": "treat"
+    }
+  ],
+  "feeding": [
+    {
+      "width": 320,
+      "view": "meal",
+      "away": false,
+      "visibleMs": 6012.999999999996,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 320,
+      "view": "meal",
+      "away": true,
+      "visibleMs": 6013.999999999993,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 320,
+      "view": "self-profile",
+      "away": false,
+      "visibleMs": 6004,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 320,
+      "view": "self-profile",
+      "away": true,
+      "visibleMs": 6007,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 320,
+      "view": "treat",
+      "away": false,
+      "visibleMs": 6009.999999999993,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 320,
+      "view": "treat",
+      "away": true,
+      "visibleMs": 6001,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 390,
+      "view": "meal",
+      "away": false,
+      "visibleMs": 6007.999999999985,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 390,
+      "view": "meal",
+      "away": true,
+      "visibleMs": 6014,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 390,
+      "view": "self-profile",
+      "away": false,
+      "visibleMs": 6015.000000000015,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 390,
+      "view": "self-profile",
+      "away": true,
+      "visibleMs": 6014,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 390,
+      "view": "treat",
+      "away": false,
+      "visibleMs": 6015,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 390,
+      "view": "treat",
+      "away": true,
+      "visibleMs": 6009,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 440,
+      "view": "meal",
+      "away": false,
+      "visibleMs": 6002,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 440,
+      "view": "meal",
+      "away": true,
+      "visibleMs": 6013,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 440,
+      "view": "self-profile",
+      "away": false,
+      "visibleMs": 6003.999999999971,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 440,
+      "view": "self-profile",
+      "away": true,
+      "visibleMs": 6006.000000000015,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 440,
+      "view": "treat",
+      "away": false,
+      "visibleMs": 6003,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "width": 440,
+      "view": "treat",
+      "away": true,
+      "visibleMs": 6011,
+      "inside": true,
+      "residentHidden": true,
+      "extraCats": 0
+    },
+    {
+      "night": true,
+      "reduced": false
+    },
+    {
+      "night": true,
+      "reduced": true
+    }
+  ],
+  "boundaries": [
+    {
+      "time": "05:59:59",
+      "view": "home",
+      "dayRoom": false
+    },
+    {
+      "time": "05:59:59",
+      "view": "meal",
+      "dayRoom": false
+    },
+    {
+      "time": "05:59:59",
+      "view": "treat",
+      "dayRoom": false
+    },
+    {
+      "time": "06:00:00",
+      "view": "home",
+      "dayRoom": false
+    },
+    {
+      "time": "06:00:00",
+      "view": "meal",
+      "dayRoom": true
+    },
+    {
+      "time": "06:00:00",
+      "view": "treat",
+      "dayRoom": true
+    },
+    {
+      "time": "11:59:59",
+      "view": "home",
+      "dayRoom": false
+    },
+    {
+      "time": "11:59:59",
+      "view": "meal",
+      "dayRoom": true
+    },
+    {
+      "time": "11:59:59",
+      "view": "treat",
+      "dayRoom": true
+    },
+    {
+      "time": "12:00:00",
+      "view": "home",
+      "dayRoom": true
+    },
+    {
+      "time": "12:00:00",
+      "view": "meal",
+      "dayRoom": true
+    },
+    {
+      "time": "12:00:00",
+      "view": "treat",
+      "dayRoom": true
+    },
+    {
+      "time": "17:59:59",
+      "view": "home",
+      "dayRoom": true
+    },
+    {
+      "time": "17:59:59",
+      "view": "meal",
+      "dayRoom": true
+    },
+    {
+      "time": "17:59:59",
+      "view": "treat",
+      "dayRoom": true
+    },
+    {
+      "time": "18:00:00",
+      "view": "home",
+      "dayRoom": false
+    },
+    {
+      "time": "18:00:00",
+      "view": "meal",
+      "dayRoom": false
+    },
+    {
+      "time": "18:00:00",
+      "view": "treat",
+      "dayRoom": false
+    }
+  ],
+  "errors": [],
+  "requests": [],
+  "temporaryUnlockRetained": true,
+  "boundaryRestored": true,
+  "comparisonPlaybackPreserved": true
+}

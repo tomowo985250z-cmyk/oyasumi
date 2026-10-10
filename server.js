@@ -24,6 +24,7 @@ files['/cat-image-assets.js']='cat-image-assets.js';
 files['/cat-care.js']='cat-care.js';
 for(const coat of fs.readdirSync(path.join(__dirname,'assets/cat-refresh-v1')))if(/^[a-z-]+$/.test(coat))for(const file of fs.readdirSync(path.join(__dirname,'assets/cat-refresh-v1',coat)))if(/^[a-z-]+\.png$/.test(file))files['/assets/cat-refresh-v1/'+coat+'/'+file]='assets/cat-refresh-v1/'+coat+'/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/roof-cats-v2')))if(/^[a-z-]+\.png$/.test(file))files['/assets/roof-cats-v2/'+file]='assets/roof-cats-v2/'+file;
+for(const file of ['day-room.js','day-room.css','day-room-state.js','season-weather.js','season-landscape.js','assets/day-room/room.svg'])files['/'+file]=file;
 http.createServer((req, res) => {
   const file = files[new URL(req.url, 'http://localhost').pathname];
   if (!file) { res.writeHead(404); return res.end('Not found'); }

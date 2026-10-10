@@ -1,0 +1,6 @@
+body[data-room-sample]{display:block!important;padding:0!important;background:linear-gradient(155deg,#0b1934,#041121 75%);min-height:0!important}
+body[data-room-sample].light-mode{background:#edf1fb}
+body[data-room-sample]>.app-shell,body[data-room-sample]>.desktop-intro,body[data-room-sample]>#toast{display:none!important}
+#room-sample{padding:20px;max-width:440px;margin:auto;min-height:0}
+#room-sample .cat-room{margin-top:0}
+#room-sample>.day-hero{padding-bottom:0}

@@ -1,0 +1,35 @@
+﻿<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>おやすみ · 昼猫の部屋 · 共通デザイン</title><link rel="stylesheet" href="/output/day-room-shared-v2/preview.css"><script src="/output/day-room-shared-v2/preview.js" defer></script></head>
+<body><main>
+<div class="intro"><span class="eyebrow">OYASUMI / LOCAL PREVIEW</span><h1>昼猫の部屋を、<br>どの画面でも。</h1><p>day-room-preview-v1 の窓辺・クッション・部屋の隅・留守を共通基準に。背景の構図と猫の比率を保ちます。</p></div>
+<section class="design-reference" aria-labelledby="reference-title">
+<div class="reference-heading"><h2 id="reference-title">正式基準 · 4つの場面</h2><a href="/output/day-room-preview-v1/comparison.html" target="_blank" rel="noopener">試作の完成イメージ ↗</a></div>
+<p>試作の保存画像です。場面を選ぶと、下の3画面を同じ条件で比較できます。</p>
+<div class="reference-scenes">
+<button type="button" data-reference-place="window" aria-pressed="false"><img src="/output/day-room-preview-v1/room-window-390.png" alt="試作の窓辺にいる猫"><span>窓辺<small>猫幅31% · 中心26%</small></span></button>
+<button type="button" data-reference-place="cushion" aria-pressed="true"><img src="/output/day-room-preview-v1/room-cushion-390.png" alt="試作のクッションにいる猫"><span>クッション<small>猫幅40% · 中心50%</small></span></button>
+<button type="button" data-reference-place="corner" aria-pressed="false"><img src="/output/day-room-preview-v1/room-corner-390.png" alt="試作の部屋の隅にいる猫"><span>部屋の隅<small>猫幅35% · 中心76%</small></span></button>
+<button type="button" data-reference-place="away" aria-pressed="false"><img src="/output/day-room-preview-v1/room-away-390.png" alt="試作の留守の部屋"><span>留守<small>猫を隠し、部屋はそのまま</small></span></button>
+</div>
+</section>
+<form id="controls">
+<label>季節<select name="season"><option value="">日付に合わせる</option><option value="spring">春 · 桜</option><option value="summer">夏 · 入道雲</option><option value="autumn">秋 · 紅葉</option><option value="winter">冬 · 冬木立</option></select></label>
+<label>天気<select name="weather"><option value="">日付に合わせる</option><option value="sunny">晴れ</option><option value="cloudy">曇り</option><option value="rainy">雨</option></select></label>
+<label>時間帯<select name="hour"><option value="14">昼 · 14:00</option><option value="23">夜 · 23:00</option><option value="07">朝 · 07:00</option></select></label>
+<label>JST日付<input type="date" name="date" value="2026-10-10"></label>
+<label>iPhone幅<select name="width"><option>320</option><option>360</option><option>375</option><option selected>390</option><option>393</option><option>402</option><option>414</option><option>428</option><option>430</option><option>440</option></select></label>
+<label>自分の猫<select name="coat"><option value="calico">三毛猫</option></select></label>
+<label>表示<select name="light"><option value="false">いつもの色</option><option value="true">明るい色</option></select></label>
+<label>部屋の場面<select name="place"><option value="natural">時刻の予定</option><option value="window">窓辺</option><option value="cushion" selected>クッション</option><option value="corner">部屋の隅</option><option value="away">留守</option></select></label>
+<button type="button" id="care-reset">食事の試行回数を戻す</button>
+<button type="button" id="reset">日付の景色に戻す</button>
+</form>
+<div class="meta"><p id="status" role="status">プレビューを準備しています…</p><a href="/app" target="_blank" rel="noopener">アプリ全体を開く ↗</a></div>
+<div class="comparison">
+<article><header><span>01</span><h2>ホーム</h2></header><div class="frame-holder"><iframe title="自分の猫部屋" src="/app?surface=home"></iframe></div><p>窓辺・クッション・部屋の隅。移動は30〜90分、仕草は10〜30分ごと。</p></article>
+<article><header><span>02</span><h2>マイページ</h2></header><div class="frame-holder"><iframe title="マイページの猫部屋" src="/app?surface=mypage"></iframe></div><p>部屋の比率400:330、猫は居場所ごとの比率に統一。食事は同じ部屋内で約6秒。</p></article>
+<article><header><span>03</span><h2>おとなりのプロフィール</h2></header><div class="frame-holder"><iframe title="他ユーザーの猫部屋" src="/app?surface=profile"></iframe></div><p>窓辺31%・クッション40%・部屋の隅35%。投稿に応じた姿とおやつの保存機能を維持。</p></article>
+<article><header><span>04</span><h2>「最近の投稿」の空</h2></header><div class="frame-holder"><iframe title="最近の投稿の空" src="/app?surface=sky"></iframe></div><p>屋根と猫の位置はそのまま。昼は季節の空、夜はいつもの星空。</p></article>
+</div>
+<p class="footnote">春 3–5月 · 夏 6–8月 · 秋 9–11月 · 冬 12–2月 / 天気はJSTの日付から決まる共通の空です。実際の天気ではありません。<br>本番への接続はなく、操作はこのプレビュー内だけに反映されます。</p>
+</main></body></html>

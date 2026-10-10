@@ -29,6 +29,7 @@ globalThis.CatCare=(()=>{
   return `<section class="card cat-care${compact?' cat-care-compact':''}" data-care-compact="${compact}" data-care-owner="${self?'self':recipient}"><h2>${self?'猫のごはん':'小さなおやつ'}</h2>${visual(coat,kind)}<p class="care-caption"><strong>${self?'ごはんだよ':'おやつだよ'}</strong><span class="care-serving" data-care-kind="${kind}"><span class="care-food" aria-hidden="true"><i></i><i></i><i></i></span>${self?'カリカリ':'小魚'}</span></p><button type="button" class="cream-button" ${self?'data-cat-meal':`data-cat-treat="${recipient}"`} ${disabled?'disabled':''}>${label}</button><p class="quiet-note">${self?'おやすみを投稿した日に、1回。連続投稿は不要です。':'他の猫へ、1日合計1回。お返しは気にせずに。'}</p><p class="care-feedback" role="${feedback.failed?'alert':'status'}" aria-live="${feedback.failed?'assertive':'polite'}">${escape(feedback.text)}</p>${history}</section>`;
  }
  async function play(scene){
+  if(scene?.classList.contains('room-care-proxy'))return DayRoom.play(scene,play);
   if(!scene?.isConnected)return;
   let token=active.get(scene);if(token)return;
   token={};active.set(scene,token);
@@ -76,5 +77,5 @@ globalThis.CatCare=(()=>{
  function lock(key){if(pending.size)return false;pending.add(key);return true;}
  function unlock(key){pending.delete(key);}
  function restPrompt(status,coat){return valid(status)&&status.day===day(NightClock.now())&&status.mealEligible?markup(status,coat,null,true,NightClock.now(),true):'';}
- return {durationMs,setFeedback,clearFeedback:()=>messages.clear(),errorMessage,confirmed,deadline,valid,markup,visual,play,lock,unlock,restPrompt,isPlaying:scene=>active.has(scene),get pending(){return pending.size>0},day};
+ return {durationMs,setFeedback,clearFeedback:()=>messages.clear(),errorMessage,confirmed,deadline,valid,markup,visual,play,lock,unlock,restPrompt,isPlaying:scene=>active.has(scene)||!!globalThis.DayRoom?.isPlaying(scene),get pending(){return pending.size>0},day};
 })();

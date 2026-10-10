@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="330" viewBox="0 0 400 330" fill="none">
+  <defs>
+    <linearGradient id="wall" x2=".2" y2="1"><stop stop-color="#a5b2c7"/><stop offset="1" stop-color="#c4c8d0"/></linearGradient>
+    <linearGradient id="side" x2="1" y2="1"><stop stop-color="#a7afbf"/><stop offset="1" stop-color="#b7b6c2"/></linearGradient>
+    <linearGradient id="floor" x2=".3" y2="1"><stop stop-color="#c9b6a7"/><stop offset="1" stop-color="#e0cabb"/></linearGradient>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#b4d4e3"/><stop offset="1" stop-color="#edf1df"/></linearGradient>
+    <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#e3c7a8"/><stop offset="1" stop-color="#bea28d"/></linearGradient>
+    <linearGradient id="pillow" x2=".3" y2="1"><stop stop-color="#bbb3ce"/><stop offset="1" stop-color="#8c8aa9"/></linearGradient>
+    <radialGradient id="sun"><stop stop-color="#fff1d6" stop-opacity=".5"/><stop offset="1" stop-color="#fff1d6" stop-opacity="0"/></radialGradient>
+    <filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence baseFrequency=".7" numOctaves="3" seed="8" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".055"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
+    <filter id="shadow" x="-30%" y="-40%" width="160%" height="180%"><feGaussianBlur stdDeviation="4"/></filter>
+    <clipPath id="view"><path d="M51 155V73a53 53 0 0 1 106 0v82Z"/></clipPath>
+  </defs>
+  <g filter="url(#paper)">
+    <path fill="url(#wall)" d="M0 0h400v243H0z"/>
+    <path fill="url(#side)" d="M309 0h91v255l-91-30Z"/>
+    <path d="M309 0v225" stroke="#8e98ac" stroke-opacity=".25"/>
+    <path fill="url(#floor)" d="m0 232 309-7 91 30v75H0Z"/>
+    <path d="m0 232 309-7 91 30" stroke="#e6d6c8" stroke-width="6"/>
+    <path d="m0 238 309-7 91 30" stroke="#a58f84" stroke-opacity=".2" stroke-width="2"/>
+    <g stroke="#aa9284" stroke-opacity=".14" stroke-width="1.2"><path d="m0 280 400-6M22 330l29-93m65 93 14-95m85 95-6-97m105 97-28-98m109 98-30-82"/><path d="M32 262h21m64 41h24m106-50h18m79 49h27"/></g>
+    <ellipse cx="133" cy="157" rx="169" ry="168" fill="url(#sun)"/>
+    <!-- Rounded window, quiet view, and a wide wooden perch. -->
+    <path d="M44 162V73a60 60 0 0 1 120 0v89Z" fill="#718697" fill-opacity=".2" filter="url(#soft)" transform="translate(4 5)"/>
+    <path d="M45 160V73a59 59 0 0 1 118 0v87Z" fill="#efe2cf"/>
+    <g clip-path="url(#view)"><path fill="url(#sky)" d="M48 14h112v150H48z"/><circle cx="132" cy="53" r="13" fill="#fff4d3" opacity=".8"/><path d="M45 136q30-32 68-7 34-25 66-8v58H45" fill="#a9b9ab"/><path d="M43 151q26-18 55-6 26-23 70-4v30H43" fill="#8fa69b"/><path d="M64 70q7-9 14-4 7-9 13 2 12-4 15 5H61Z" fill="#fff9ef" opacity=".65"/></g>
+    <path d="M104 20v138m-53-50h106" stroke="#eee1ce" stroke-width="5"/>
+    <path d="M42 25q-11 50-3 113l12 8q-2-60 10-115Z" fill="#e6dbce" opacity=".85"/>
+    <path d="M151 26q16 50 12 116l12-2q5-65-10-113Z" fill="#ded1c5"/>
+    <path d="m47 33-5 95m118-95 8 99" stroke="#c4b8b3" stroke-opacity=".4" stroke-width="2"/>
+    <ellipse cx="105" cy="195" rx="76" ry="10" fill="#6f6d79" opacity=".12" filter="url(#shadow)"/>
+    <rect x="30" y="158" width="150" height="12" rx="5" fill="url(#wood)"/>
+    <path d="M45 170v43m119-43v42" stroke="#b69b85" stroke-width="8" stroke-linecap="round"/>
+    <path d="M46 170h116v17H46" fill="#c3aa94"/>
+    <path d="M38 161h131" stroke="#f4e1c5" stroke-width="2" opacity=".8"/>
+    <!-- Linen rug and a softly rounded cushion. -->
+    <ellipse cx="208" cy="280" rx="111" ry="31" fill="#8d8490" opacity=".12" filter="url(#shadow)"/>
+    <ellipse cx="207" cy="276" rx="116" ry="32" fill="#ede0cb"/>
+    <ellipse cx="207" cy="276" rx="108" ry="27" stroke="#d4c3b1" stroke-width="1.5" stroke-dasharray="2 4"/>
+    <path d="M143 266q-7-29 15-35 42-11 85 0 20 9 13 34-47 25-113 1Z" fill="#8f899d" opacity=".2" filter="url(#soft)"/>
+    <path d="M143 259q-5-24 13-29 43-11 85 0 19 6 13 29-45 21-111 0Z" fill="url(#pillow)"/>
+    <path d="M148 256q46 17 101 0" stroke="#d6ccdf" stroke-width="1.5" opacity=".7"/>
+    <path d="m152 236 8 4m80-4-8 4" stroke="#dfd6e4" stroke-width="2" opacity=".6" stroke-linecap="round"/>
+    <!-- A little shaded corner with a plant and a woven basket. -->
+    <ellipse cx="332" cy="252" rx="38" ry="12" fill="#756b79" opacity=".13" filter="url(#shadow)"/>
+    <path d="M338 212q-9-43-3-71m4 52 18-22m-20 10-17-23" stroke="#829281" stroke-width="3" stroke-linecap="round"/>
+    <g fill="#92a693"><path d="M336 158q-27-4-22-24 23 0 22 24Z"/><path d="M336 150q-12-26 4-38 17 18-4 38Z"/><path d="M341 183q2-25 27-24 2 24-27 24Z"/><path d="M333 183q-25-2-22-22 22-4 22 22Z"/></g>
+    <path d="m322 207 6 31q11 8 24 0l6-31Z" fill="#d7b4a4"/><ellipse cx="340" cy="208" rx="18" ry="5" fill="#e6c9b9"/>
+    <ellipse cx="286" cy="243" rx="27" ry="10" fill="#af9481"/>
+    <path d="M259 242q0 29 27 29 28 0 28-29" fill="#c4ab91"/>
+    <path d="M263 246q23 14 47 0m-45 10q21 11 42 0m-38 9q16 6 32 0" stroke="#e3c9ac" stroke-width="2"/>
+    <path d="m272 247 2 20m10-17v20m11-20-2 19m10-22-3 18" stroke="#a68c77" stroke-opacity=".4" stroke-width="1.5"/>
+    <path d="M270 76h38v43h-38Z" fill="#ece0cf" transform="rotate(4 289 97)"/>
+    <path d="M275 82h28v31h-28Z" fill="#b5bdc5" transform="rotate(4 289 97)"/>
+    <path d="m278 105 7-9 6 6 5-4 5 9" stroke="#e8dfcb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="294" cy="90" r="3" fill="#e9dac0"/>
+    <path d="M214 143h34" stroke="#a5a4b2" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="88" cy="287" rx="7" ry="6" fill="#b7a2ae"/><path d="M84 284q5 1 7 6m-5-9q-1 5 5 10" stroke="#e3cbd6" stroke-width="1"/>
+  </g>
+</svg>
