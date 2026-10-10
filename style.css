@@ -24,7 +24,8 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .rest-screen[data-phase=settled]::before{opacity:1}
 @keyframes rest-darken{from{opacity:0}to{opacity:1}}
 
-.tonight-cats,.tonight-hours{margin-top:20px}.tonight-cats h2,.tonight-hours h2{font-size:16px;margin:0 0 14px}.sleeping-cats>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.sleeping-cats .cat-scene{display:block;width:100%;height:auto}.summary-note{font-size:11px;color:var(--muted);margin:14px 0 0}.tonight-cats>.muted,.tonight-hours>.muted{font-size:13px}.peak-hours p{display:flex;justify-content:space-between;gap:8px;margin:8px 0;font-size:13px}.peak-hours span{color:var(--muted);white-space:nowrap}
+/* Cats are 125% of the former four-column cells; sparse groups keep that size. */
+.tonight-cats,.tonight-hours{margin-top:20px}.tonight-cats h2,.tonight-hours h2{font-size:16px;margin:0 0 14px}.sleeping-cats>div{display:grid;grid-template-columns:repeat(auto-fill,calc(31.25% - 7.5px));justify-content:space-between;gap:12px 10px;padding:4px 0 6px}.sleeping-cats .cat-scene{display:block;width:100%;height:auto;filter:drop-shadow(0 3px 3px #00000020)}.summary-note{font-size:11px;color:var(--muted);margin:14px 0 0}.tonight-cats>.muted,.tonight-hours>.muted{font-size:13px}.peak-hours p{display:flex;justify-content:space-between;gap:8px;margin:8px 0;font-size:13px}.peak-hours span{color:var(--muted);white-space:nowrap}
 
 .share-place-button{width:100%;border:1px solid var(--line);border-radius:16px;font-size:14px;margin:0 0 12px}.share-url{user-select:all;-webkit-user-select:all;overflow-wrap:anywhere;color:var(--text)}
 
