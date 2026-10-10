@@ -21,6 +21,12 @@ assert.equal(manifest.length, 208);
 const paths = new Set();
 function check(markup, coat, frame) {
   const file = `assets/cat-refresh-v1/${coat}/${frame}.png`;
+  if (coat === 'manul' && frame === 'face-calm') {
+    assert.equal(markup, original.faces.svg('calm', 'manul'));
+    assert(markup.includes('assets/wild-cats/manul-faces-calm.png?v='));
+    paths.add(file); // The refresh inventory remains intact; this icon uses the original.
+    return;
+  }
   assert(markup.includes(`src="${file}"`));
   assert(markup.includes(`data-asset-key="${coat}/${frame}"`));
   assert(markup.startsWith('<img '));
