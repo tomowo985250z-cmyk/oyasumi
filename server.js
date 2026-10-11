@@ -21,6 +21,7 @@ for(const file of fs.readdirSync(path.join(__dirname,'assets/big-cats')))if(/^[a
 for(const file of fs.readdirSync(path.join(__dirname,'assets/day-cats')))if(/^[a-z-]+\.png$/.test(file))files['/assets/day-cats/'+file]='assets/day-cats/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/sleep-wake-cats')))if(/^[a-z-]+-(?:sleeping|waking)\.png$/.test(file))files['/assets/sleep-wake-cats/'+file]='assets/sleep-wake-cats/'+file;
 files['/cat-image-assets.js']='cat-image-assets.js';
+for(const file of fs.readdirSync(path.join(__dirname,'assets/window-gaze-v1')))if(/^[a-z-]+\.png$/.test(file))files['/assets/window-gaze-v1/'+file]='assets/window-gaze-v1/'+file;
 files['/cat-care.js']='cat-care.js';
 files['/reactions.js']='reactions.js';
 files['/cat-meal-assets.js']='cat-meal-assets.js';

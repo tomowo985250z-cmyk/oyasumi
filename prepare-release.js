@@ -37,6 +37,13 @@ if(Object.keys(mealHashes).length!==96)throw Error('Expected exactly 96 approved
 const mealUpdated=mealOriginal.replace(/const versions = .*;/,`const versions = ${JSON.stringify(mealHashes)};`);
 if(process.argv.includes('--check')&&mealUpdated!==mealOriginal){console.error('Run npm run release to version meal images.');process.exitCode=1;}
 else if(!process.argv.includes('--check')&&mealUpdated!==mealOriginal)fs.writeFileSync(mealFile,mealUpdated);
+const gazeFile=path.join(root,'cat-image-assets.js');
+const gazeOriginal=normalize(fs.readFileSync(gazeFile,'utf8'));
+const gazeHashes=Object.fromEntries(fs.readdirSync(path.join(root,'assets/window-gaze-v1')).filter(file=>/^[a-z-]+\.png$/.test(file)).sort().map(file=>[file.replace(/\.png$/,''),crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets/window-gaze-v1',file))).digest('hex').slice(0,16)]));
+if(Object.keys(gazeHashes).length!==16)throw Error('Expected exactly 16 window-gazing cat images');
+const gazeUpdated=gazeOriginal.replace(/const windowGazeVersions = .*;/,`const windowGazeVersions = ${JSON.stringify(gazeHashes)};`);
+if(process.argv.includes('--check')&&gazeUpdated!==gazeOriginal){console.error('Run npm run release to version window-gazing images.');process.exitCode=1;}
+else if(!process.argv.includes('--check')&&gazeUpdated!==gazeOriginal)fs.writeFileSync(gazeFile,gazeUpdated);
 const resources=new Map();
 html=html.replace(/(src|href)="([^"?#]+)(?:\?[^"#]*)?"/g,(match,attribute,file)=>{
  if(!/\.(?:js|css|svg)$/.test(file)||/^(?:https?:|\/\/)/.test(file))return match;

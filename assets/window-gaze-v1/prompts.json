@@ -1,0 +1,119 @@
+{
+  "mode": "built-in image_gen",
+  "intent": "precise-object-edit / identity-preserve",
+  "transparent_background": true,
+  "images": [
+    {
+      "coat": "calico",
+      "file": "assets/window-gaze-v1/calico.png",
+      "editTarget": "assets/cat-refresh-v1/calico/day-gaze.png",
+      "poseReference": null,
+      "prompt": "Use case: precise-object-edit / identity-preserve. Asset: ONE production-ready transparent square PNG cat sprite for an existing Japanese cozy cat room. Edit target/reference image 1 is the approved calico cat: preserve this individual, exact warm orange, dark brown and creamy white patches, rounded oversized head, short compact cute body, soft fluffy silhouette, pastel cut-paper illustration and subtle interior paper-grain texture. Change ONLY the pose from facing the viewer to sitting in a THREE-QUARTER REAR view, body and head both turned AWAY from the viewer toward the UPPER LEFT, quietly looking out through a window that will exist in the app, NOT in this image. Clearly show the back of the head, back of both ears, back and rump; at most a tiny side cheek/profile, NOT a frontal face, NOT both eyes, NOT looking back at camera. Keep lovable rounded proportions, anatomically correct seated posture, a curled orange/brown/white tail resting toward the lower right. The cat looks slightly upward-left. Entire cat, ears, paws/rump and tail fully visible, centered on a square canvas with approximately 5% transparent margins, paws/rump baseline near bottom. Match the original full-body sprite scale, color palette and delicate textured edges. Background MUST be truly transparent alpha. No window, room, scenery, floor, props, glow, ambient halo, cast shadow, checkerboard, outline border, text or watermark. The output is only the same single calico cat in the requested rear-quarter pose."
+    },
+    {
+      "coat": "orange",
+      "file": "assets/window-gaze-v1/orange.png",
+      "editTarget": "assets/cat-refresh-v1/orange/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved orange cat (warm orange tabby, darker orange stripes, creamy white chest and paws, orange ringed tail). Preserve its individual breed, coat palette, markings, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors or patches from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "brown",
+      "file": "assets/window-gaze-v1/brown.png",
+      "editTarget": "assets/cat-refresh-v1/brown/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved brown cat (warm tan brown tabby with dark brown stripes, cream chest and paws). Preserve its individual breed, coat palette, markings, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors or patches from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "silver",
+      "file": "assets/window-gaze-v1/silver.png",
+      "editTarget": "assets/cat-refresh-v1/silver/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved silver cat (pale silver gray tabby with darker gray stripes, cream chest and paws). Preserve its individual breed, coat palette, markings, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors or patches from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "black",
+      "file": "assets/window-gaze-v1/black.png",
+      "editTarget": "assets/cat-refresh-v1/black/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved black cat (solid charcoal black cat with softly warm dark tones, no white patches or stripes). Preserve its individual breed, coat palette, markings, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors or patches from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "white",
+      "file": "assets/window-gaze-v1/white.png",
+      "editTarget": "assets/cat-refresh-v1/white/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved white cat (solid warm creamy white fur, no spots or colored patches, pink ears). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "tuxedo",
+      "file": "assets/window-gaze-v1/tuxedo.png",
+      "editTarget": "assets/cat-refresh-v1/tuxedo/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved tuxedo cat (charcoal black back and head with white side muzzle, white chest and sock paws, black tail with WHITE TIP; no tabby stripes). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "gray",
+      "file": "assets/window-gaze-v1/gray.png",
+      "editTarget": "assets/cat-refresh-v1/gray/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved gray cat (solid soft medium slate-gray coat, no stripes or spots or white patches, pink ears). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "manul",
+      "file": "assets/window-gaze-v1/manul.png",
+      "editTarget": "assets/cat-refresh-v1/manul/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved manul cat (Pallas's cat: very fluffy gray-taupe fur, short LOW ROUND ears, broad round head, subtle dark forehead spots and side stripes, thick bushy dark-ringed tail, cream underside; NOT domestic triangular ears). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "sand",
+      "file": "assets/window-gaze-v1/sand.png",
+      "editTarget": "assets/cat-refresh-v1/sand/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved sand cat (sand cat: pale sandy beige fur, faint warm brown stripes, very large broad triangular ears, creamy underside and paws, dark-ringed tail with dark tip). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "black-footed",
+      "file": "assets/window-gaze-v1/black-footed.png",
+      "editTarget": "assets/cat-refresh-v1/black-footed/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved black-footed cat (black-footed cat: warm golden tan fur, dark solid small spots, dark banded legs and clearly BLACK paws/soles, dark-ringed tail with black tip, cream underside). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "fishing",
+      "file": "assets/window-gaze-v1/fishing.png",
+      "editTarget": "assets/cat-refresh-v1/fishing/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved fishing cat (fishing cat: muted gray taupe fur, dark short elongated solid spots and forehead stripes, small rounded ears, cream underside, thick short dark-ringed tail). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "snow-leopard",
+      "file": "assets/window-gaze-v1/snow-leopard.png",
+      "editTarget": "assets/cat-refresh-v1/snow-leopard/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved snow-leopard cat (snow leopard: pale silver-white fluffy coat, gray dark rosettes, low rounded ears, cream underside, very thick bushy long patterned tail with dark tip). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "leopard",
+      "file": "assets/window-gaze-v1/leopard.png",
+      "editTarget": "assets/cat-refresh-v1/leopard/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved leopard cat (leopard: warm golden yellow fur, dark brown OPEN RING rosettes without central dots, round ears, cream underside, long dark patterned tail). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "cheetah",
+      "file": "assets/window-gaze-v1/cheetah.png",
+      "editTarget": "assets/cat-refresh-v1/cheetah/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved cheetah cat (cheetah: warm golden fur, many small SOLID round dark spots, not rosettes, small rounded ears, cream underside, long ringed tail, retain tiny dark tear stripe only if profile visible). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    },
+    {
+      "coat": "jaguar",
+      "file": "assets/window-gaze-v1/jaguar.png",
+      "editTarget": "assets/cat-refresh-v1/jaguar/day-gaze.png",
+      "poseReference": "assets/window-gaze-v1/calico.png",
+      "prompt": "Edit target reference 1 ONLY: the approved jaguar cat (jaguar: rich golden orange fur, big dark rosettes with CENTRAL DOTS, stocky rounded body and broad head, round ears, cream underside, thick patterned tail). Preserve this individual species, its exact coat palette and species-specific markings, ear shape, rounded oversized head, compact cute body, pastel cut-paper illustration, delicate paper-grain texture and soft furry edges. Reference 2 is ONLY a pose/composition guide: copy its seated THREE-QUARTER REAR view facing UPPER LEFT, back of head and ears clearly visible, back and rump facing viewer, curled tail resting lower right. Do NOT copy calico colors, patches or domestic ear shapes from reference 2. Head and body both face away, looking slightly upward-left toward an implied window. At most tiny side cheek/profile; no frontal face, no both eyes, no looking back at viewer. Entire single cat fully visible, centered square canvas, about 5% transparent margins, seated baseline near bottom, same scale and cuteness as reference 2. True transparent alpha background. No room, window, floor, props, glow, halo, cast shadow, text, watermark or checkerboard. Production transparent cat sprite for existing cozy room; change only pose, preserve target cat identity."
+    }
+  ]
+}

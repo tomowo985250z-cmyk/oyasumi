@@ -21,6 +21,15 @@ assert.equal(manifest.length, 208);
 const paths = new Set();
 function check(markup, coat, frame) {
   const file = `assets/cat-refresh-v1/${coat}/${frame}.png`;
+  if (frame === 'day-gaze') {
+    const gazeFile = `assets/window-gaze-v1/${coat}.png`;
+    const version = crypto.createHash('sha256').update(fs.readFileSync(gazeFile)).digest('hex').slice(0, 16);
+    assert(markup.includes(`src="${gazeFile}?v=${version}"`));
+    assert(markup.includes('data-cat-pose="window-rear"'));
+    assert(markup.includes('data-day-scene="gaze"'));
+    paths.add(file); // Preserve the original approved inventory without overwriting it.
+    return;
+  }
   if (coat === 'manul' && frame === 'face-calm') {
     assert.equal(markup, original.faces.svg('calm', 'manul'));
     assert(markup.includes('assets/wild-cats/manul-faces-calm.png?v='));
@@ -54,6 +63,15 @@ for (const {id: coat} of CatFaces.coats) {
   }
 }
 assert.equal(paths.size, 208);
+const gazeManifest = JSON.parse(fs.readFileSync('assets/window-gaze-v1/manifest.json', 'utf8'));
+assert.deepEqual(gazeManifest.map(entry => entry.coat).sort(), CatFaces.coats.map(coat => coat.id).sort());
+for (const entry of gazeManifest) {
+  const png = fs.readFileSync(entry.file);
+  assert.equal(crypto.createHash('sha256').update(png).digest('hex'), entry.sha256);
+  assert.equal(png.readUInt32BE(16), png.readUInt32BE(20), 'Square window sprite');
+  assert.equal(png[25], 6, 'Window sprite has RGBA transparency');
+}
+assert(DayCats.svg('gaze', 'invalid').includes('/calico.png?v='));
 const rearManifest = JSON.parse(fs.readFileSync('assets/roof-cats-v2/manifest.json', 'utf8'));
 assert.deepEqual(rearManifest.map(entry => entry.coat).sort(), CatFaces.coats.map(coat => coat.id).sort());
 for (const entry of rearManifest) assert.equal(crypto.createHash('sha256').update(fs.readFileSync(entry.file)).digest('hex'), entry.sha256);
@@ -68,4 +86,4 @@ for (const entry of manifest) {
 }
 assert(CatFaces.svg('invalid', 'invalid').includes('/calico/face-calm.png'));
 assert(DayCats.svg('invalid', 'invalid').includes('/calico/day-relax.png'));
-console.log('PASS approved images: all 208 original PNG hashes and mappings; 16 rear PNG hashes, dimensions, mappings and fallbacks; original selection rules and timing APIs retained.');
+console.log('PASS approved images: 16 window-gazing PNG hashes, versions and mappings; all 208 original PNG hashes and other mappings, 16 rooftop images and selection/timing APIs retained.');
