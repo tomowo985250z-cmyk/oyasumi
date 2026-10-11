@@ -11,6 +11,7 @@
     "release": "node prepare-release.js",
     "check": "node prepare-release.js --check && node --check update-client.js && node --check cat-care.js && node --check day-room.js && node --check day-room-state.js && node --check season-weather.js && node --check season-landscape.js && node --check app.js && node --check safety.js && node --check nickname.js && node --check wild-cat-assets.js && node --check cat-faces.js && node --check cat-coat-cooldown.js && node --check cat-roles.js && node --check cat-scenes.js && node --check cat-day-scenes.js && node --check cat-image-assets.js && node --check tonight-trend.js && node --check sleep-flow.js && node --check night-clock.js && node --check supabase-api.js && node --check supabase-config.js && node --check server.js",
     "test:cat-images": "node test-cat-image-assets.js",
+    "test:home-post-choices": "node test-home-post-choices.cjs",
     "test:cat-meals": "node test-cat-meal-assets.cjs",
     "test:profile-post-cat": "node test-profile-post-cat.cjs",
     "test:cat-coat-cooldown": "node test-cat-coat-cooldown.js && node test-browser.js --test-cat-coat-cooldown",

@@ -512,7 +512,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
   }
   if(process.argv.includes('--test-first-nickname')){
     assert.equal(await evaluate('(await OyasumiAPI.client.from("oyasumi_profiles").select("nickname,cat_coat").eq("user_id",shared.userId)).data.length'),0,'New sign-in must not create a provisional profile');
-    for(const choice of ['awake','sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'profile');assert.equal(await evaluate('state.posts.length'),0);}
+    for(const choice of ['relax','sleep','sleepless','try-sleep']){await evaluate('go("home")');await action(`[data-home-choice="${choice}"]`);assert.equal(await evaluate('view'),'profile');assert.equal(await evaluate('state.posts.length'),0);}
     for(const width of [320,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
@@ -531,7 +531,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     await evaluate('document.querySelector("#nickname").value="ともを";document.querySelector("#nickname-form").requestSubmit()');await waitFor('!busy&&!document.querySelector("#nickname-dialog").open');
     assert.equal(await evaluate('shared.profileComplete'),false);
     assert.equal(await evaluate('(await OyasumiAPI.client.from("oyasumi_profiles").select("cat_coat").eq("user_id",shared.userId).single()).data.cat_coat'),null);
-    for(const choice of ['awake','sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'profile');assert.equal(await evaluate('state.posts.length'),0);}
+    for(const choice of ['relax','sleep','sleepless','try-sleep']){await evaluate('go("home")');await action(`[data-home-choice="${choice}"]`);assert.equal(await evaluate('view'),'profile');assert.equal(await evaluate('state.posts.length'),0);}
     await click('[data-coat-picker]');await action('[data-coat="gray"]');
     assert.equal(await evaluate('shared.profileComplete'),true);
     await evaluate('go("home")');await action('[data-post="sleep"]');assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('state.posts.length'),1);
@@ -706,8 +706,8 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
   await evaluate(`await peer.setReaction(${JSON.stringify(firstId)},'dream');await refreshShared()`);assert.equal(await evaluate(`shared.reactionCounts[${JSON.stringify(firstId)}].dream`),1);
   await evaluate('window.scrollTo(0,150);globalThis.previousScroll=window.scrollY;await refreshShared()');assert.equal(await evaluate('window.scrollY'),await evaluate('previousScroll'),'Refresh must preserve scroll');
   await click('[data-filter="sleep"]');assert.equal(await evaluate('document.querySelectorAll(".awake-text").length'),0);
-  for(const choice of ['sleep','try-sleep','early-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('shared.myState'),'sleep');assert.equal(await evaluate('state.lastSleep.count'),await evaluate('shared.sleepingCount'));}
-  assert.equal(await evaluate('state.posts.length'),4);
+  for(const choice of ['sleep','try-sleep']){await evaluate('go("home")');await action(`[data-post="${choice}"]`);assert.equal(await evaluate('view'),'sleep');assert.equal(await evaluate('shared.myState'),'sleep');assert.equal(await evaluate('state.lastSleep.count'),await evaluate('shared.sleepingCount'));}
+  assert.equal(await evaluate('state.posts.length'),3);
   await evaluate('filter="all";go("timeline")');
   assert.equal(await evaluate('shared.feed.filter(p=>p.self).length'),1,'Only the newest own post belongs in the timeline');
   assert.equal(await evaluate('document.querySelectorAll(".post .self-tag").length'),1);

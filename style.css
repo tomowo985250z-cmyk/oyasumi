@@ -78,7 +78,7 @@ time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hou
 .icon-button,.reaction-heart{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:400}
 
 /* Restored home icons stay balanced above the existing two-part labels. */
-.status-actions .status-button{gap:0}.status-actions .status-button>.status-symbol{display:grid;place-items:center;width:48px;height:44px;flex-shrink:0;line-height:1}.status-actions .status-button>.moon-symbol{font-size:0}.status-actions .moon-symbol svg{display:block;width:48px;height:48px;fill:#fff0c2;filter:drop-shadow(0 0 3px #fff0c226)}
+.status-actions .status-button{gap:0}.status-actions .status-button>.status-symbol{display:grid;place-items:center;width:48px;height:44px;flex-shrink:0;line-height:1}.status-actions .status-button>.moon-symbol,.status-actions .status-button>.sun-symbol{font-size:0}.status-actions .moon-symbol svg,.status-actions .sun-symbol svg{display:block;width:48px;height:48px;fill:#fff0c2;filter:drop-shadow(0 0 3px #fff0c226)}
 
 /* Keep text emoji sizing and the two lower choices consistent at every width. */
 .status-actions .post-label-emoji{display:inline-block;font-size:1em;line-height:1;vertical-align:-.08em}.status-actions .post-label-line{display:block;white-space:nowrap}
