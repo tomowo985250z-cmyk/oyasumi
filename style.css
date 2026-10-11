@@ -91,6 +91,14 @@ time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hou
 .post-text{color:#ffcec5}.post-text.awake-text{color:#A9D4FF}
 .light-mode .post-text{color:#7a374e}
 
+/* One quiet morning gesture using the current cat artwork. */
+[data-morning-beg=true] .room-resident{animation:morning-beg 4s ease-in-out both;animation-delay:var(--beg-elapsed,0ms)}
+@keyframes morning-beg{0%,100%{translate:0 0;rotate:0deg}25%,65%{translate:0 -3px;rotate:-2deg}45%,80%{translate:0 0;rotate:1deg}}
+@media(prefers-reduced-motion:reduce){[data-morning-beg=true] .room-resident{animation:none}}
+.care-idle>img,.care-idle>svg{width:100%;height:100%;object-fit:contain}
+.care-scene>span.care-idle{display:block;position:absolute;left:12px;top:0;width:152px;height:152px}
+.care-scene .care-idle img{left:0;top:0;width:100%;height:100%}
+
 /* Enlarge count-card copy without changing its existing line boxes. */
 .count-card .awake-heading{font-size:17px;line-height:24px}.count-card .awake-heading .count{font-size:20px;line-height:27px}.count-card .awake-heading .count small{font-size:16px;line-height:22.4px}.count-card>p.muted{font-size:15px;line-height:20.8px}
 

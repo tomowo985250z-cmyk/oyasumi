@@ -5,6 +5,7 @@ let mode='modern',failMorning=false,failCounts=false;const calls=[];
 const rpc=async(name,args={})=>{
  calls.push({name,args});
  if(name==='oyasumi_night_context')return{data:[{night_date:'2026-10-11',morning_night_date:'2026-10-10',server_now:'2026-10-11T23:00:00+09:00',next_reset_at:'2026-10-12T06:00:00+09:00'}]};
+ if(name==='oyasumi_sent_reaction_people')return{data:[{night_date:'2026-10-11',people_count:'3'}]};
  if(name==='oyasumi_tonight_counts')return{data:[{night_date:'2026-10-11',awake_count:1,sleeping_count:0,my_state:'awake'}]};
  if(name==='oyasumi_reaction_counts_v3')return mode==='legacy'?{error:{code:'PGRST202'}}:failCounts?{error:{code:'42501'}}:{data:args.p_post_ids.length?[{post_id:post,counts:{'sleepless-here':2,comfort:1},my_choice:'sleepless-here'}]:[]};
  if(name==='oyasumi_reaction_counts_v2')return{data:[{post_id:post,goodnight_count:0,dream_count:1,tomorrow_count:0,comfort_count:1,my_choice:'comfort'}]};
@@ -25,6 +26,7 @@ global.supabase={createClient:()=>({auth:{getSession:async()=>({data:{session:{u
 require('./supabase-api.js');
 (async()=>{
  const api=createOyasumiConnection('isolated-reactions');let s=await api.snapshot();
+ assert.deepEqual(await api.getSentReactionPeople(),{nightDate:'2026-10-11',count:3});
  assert.equal(s.reactionVersion,3);assert.equal(s.feed[0].intent,'sleepless');assert.equal(s.ownPosts[0].intent,'sleepless');
  assert.equal(s.reactionCounts[post]['sleepless-here'],2);assert.equal(s.reactions[post],'sleepless-here');assert.equal(PostReactions.total(s.morningReactions.counts),4);
  await api.submitPost('awake','sleepless');assert.deepEqual(calls.at(-1),{name:'oyasumi_submit_post_v2',args:{p_choice:'awake',p_intent:'sleepless'}});

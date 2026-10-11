@@ -8,27 +8,42 @@ globalThis.CatCare=(()=>{
   const reason=code==='P0040'?'今日（日本時間0時以降）の「おやすみ」「寝てみる」「早めに寝る」の投稿が必要です。前日分の投稿は対象外です。':code==='P0041'?'猫の情報を確認できません。プロフィールで猫を選んでから再試行してください。':code==='PGRST202'?'食事の保存機能がサーバーで見つかりません。時間をおいて再試行してください。':['42501','PGRST301','PGRST303','28000'].includes(code)?'認証または保存権限を確認できません。通信を確認してアプリを開き直してください。':code==='CARE_RESPONSE'?'保存応答を確認できませんでした。記録を再確認します。':code==='CARE_TIMEOUT'||error?.name==='AbortError'?'保存の確認が時間切れになりました。通信を確認して再試行してください。':'通信またはサーバーのエラーで保存を確認できませんでした。通信を確認して再試行してください。';
   return reason+(/^[A-Za-z0-9_-]{1,24}$/.test(code||'')?`（コード: ${code}）`:'');
  }
- function confirmed(result,self){return valid(result?.status)&&typeof result.accepted==='boolean'&&(self?result.status.mealDone:result.status.treatGiven)===true;}
+ function given(status,recipient){return status?.allowanceVersion===2 ? status.treatGiven||status.treatRecipients.includes(recipient) : status?.treatGiven;}
+ function confirmed(result,self,recipient){return valid(result?.status)&&typeof result.accepted==='boolean'&&(self?result.status.mealDone:given(result.status,recipient))===true;}
  function deadline(work,ms=20000){let timer;return Promise.race([Promise.resolve().then(work),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(new Error('Care timeout'),{code:'CARE_TIMEOUT'})),ms);})]).finally(()=>clearTimeout(timer));}
- const day=now=>SleepFlow.day(now);
- const valid=s=>s&&/^\d{4}-\d{2}-\d{2}$/.test(s.day)&&['mealEligible','mealDone','treatGiven'].every(k=>typeof s[k]==='boolean')&&['receivedToday','receivedTotal'].every(k=>Number.isSafeInteger(s[k])&&s[k]>=0);
+ const day=now=>SleepFlow.night(now);
+ const slot=now=>now<Date.parse(day(now)+'T12:00:00+09:00')?'morning':'night';
+ const valid=s=>s&&/^\d{4}-\d{2}-\d{2}$/.test(s.day)&&['mealEligible','mealDone','treatGiven'].every(k=>typeof s[k]==='boolean')&&['receivedToday','receivedTotal'].every(k=>Number.isSafeInteger(s[k])&&s[k]>=0)&&(s.allowanceVersion!==2||(Number.isSafeInteger(s.treatCount)&&s.treatCount>=0&&Array.isArray(s.treatRecipients)&&s.treatRecipients.every(id=>/^[0-9a-f-]{36}$/i.test(id))&&['morning','night'].includes(s.mealSlot)));
+ const fresh=(status,now=NightClock.now())=>valid(status)&&status.day===(status.allowanceVersion===2?day(now):SleepFlow.day(now))&&(status.allowanceVersion!==2||status.mealSlot===slot(now));
+ const nextBoundary=(status,now)=>status.allowanceVersion===2?Date.parse(day(now)+(slot(now)==='morning'?'T12:00:00+09:00':'T06:00:00+09:00'))+(slot(now)==='morning'?0:86400000):Date.parse(SleepFlow.day(now)+'T00:00:00+09:00')+86400000;
+ const begCache=new Map();
+ function begDecision(user,careDay){let n=2166136261;for(const c of 'morning-beg-v1:'+user+':'+careDay)n=Math.imul(n^c.charCodeAt(0),16777619);return (n>>>0)/4294967296<.35;}
+ function morningBeg(status,user,now=NightClock.now()){
+  if(!user||status?.allowanceVersion!==2||!fresh(status,now)||slot(now)!=='morning')return '';
+  const key='oyasumi-morning-beg-v1:'+user+':'+day(now);let started=begCache.get(key);
+  if(started===undefined){try{const saved=localStorage.getItem(key);if(saved!==null)started=Number(saved);}catch{}started??=now;begCache.set(key,started);try{localStorage.setItem(key,String(started));}catch{}}
+  if(status.mealDone||!begDecision(user,day(now))||now-started<0||now-started>=4000)return '';
+  return ` data-morning-beg="true" style="--beg-elapsed:-${now-started}ms"`;
+ }
+ function normalCat(coat,user){return DayRoom.world().daylight?DayCats.svg(DayRoom.snapshot(user).pose,coat):CatScenes.svg('sleeping',coat);}
+ function syncNormal(){for(const scene of document.querySelectorAll('[data-care-normal="true"]'))if(!active.has(scene)){const idle=scene.querySelector('.care-idle');if(idle)idle.innerHTML=normalCat(scene.dataset.careCoat,scene.dataset.roomUser);}}
  function visual(coat,kind='meal',options={}){
   coat=CatFaces.normalizeCoat(coat);kind=kind==='treat'?'treat':'meal';
   const before=CatMealAssets.variant(options.before),after=CatMealAssets.variant(options.after),finished=options.finished===true;
   const file=frame=>`assets/cat-refresh-v1/${coat}/${frame}.png`;
-  return `<div class="care-scene${finished?' care-finished':''}" data-care-coat="${coat}" data-care-kind="${kind}" data-care-before="${before}" data-care-after="${after}" data-care-day="${day(NightClock.now())}" data-care-finished="${finished}" aria-hidden="true"><img class="care-idle" src="${CatMealAssets.src(coat,'before',before)}" alt="" width="152" height="152"><span class="care-munch"><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><img class="care-head" src="${file('day-relax')}" alt="" width="152" height="152"></span><img class="care-joy-cat" src="${CatMealAssets.src(coat,'after',after)}" alt="" width="152" height="152"><span class="care-bowl"><span class="care-food"><i></i><i></i><i></i></span></span><span class="care-joy">♥</span></div>`;
+  return `<div class="care-scene${finished&&!options.normal?' care-finished':''}" data-care-normal="${!!options.normal}" data-room-user="${options.user||''}" data-care-coat="${coat}" data-care-kind="${kind}" data-care-before="${before}" data-care-after="${after}" data-care-day="${day(NightClock.now())}" data-care-finished="${finished}" aria-hidden="true">${options.normal?`<span class="care-idle">${normalCat(coat,options.user)}</span>`:`<img class="care-idle" src="${CatMealAssets.src(coat,'before',before)}" alt="" width="152" height="152">`}<span class="care-munch"><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><img class="care-head" src="${file('day-relax')}" alt="" width="152" height="152"></span><img class="care-joy-cat" src="${CatMealAssets.src(coat,'after',after)}" alt="" width="152" height="152"><span class="care-bowl"><span class="care-food"><i></i><i></i><i></i></span></span><span class="care-joy">♥</span></div>`;
  }
  function markup(status,coat,recipient,self,now=NightClock.now(),compact=false){
   if(!valid(status))return '';
-  const fresh=status.day===day(now),kind=self?'meal':'treat',disabled=!fresh||pending.size>0||(self?status.mealDone||!status.mealEligible:status.treatGiven);
-  const label=!fresh?'今日の記録を確認中':self?(status.mealDone?'今日のごはんはあげました':!status.mealEligible?'今日のおやすみ投稿が必要です':'ごはんをあげる'):(status.treatGiven?'今日のおやつは贈りました':'おやつを贈る');
-  const feedback=messages.get(self?'self':recipient)||{text:self&&fresh&&!status.mealEligible&&!status.mealDone?'日本時間の今日0時以降に「おやすみ」「寝てみる」「早めに寝る」を投稿すると、ごはんをあげられます。前日分の投稿は対象外です。':'',failed:false};
+  const current=fresh(status,now),modern=status.allowanceVersion===2,kind=self?'meal':'treat',disabled=!current||pending.size>0||(self?status.mealDone||!status.mealEligible:given(status,recipient));
+  const label=!current?'今日の記録を確認中':self?(status.mealDone?(modern?(status.mealSlot==='morning'?'朝':'夜')+'のごはんはあげました':'今日のごはんはあげました'):!status.mealEligible?(modern?'猫を選んでください':'今日のおやすみ投稿が必要です'):'ごはんをあげる'):(given(status,recipient)?'今日のおやつは贈りました':'おやつを贈る');
+  const feedback=messages.get(self?'self':recipient)||{text:self&&current&&!modern&&!status.mealEligible&&!status.mealDone?'日本時間の今日0時以降に「おやすみ」「寝てみる」「早めに寝る」を投稿すると、ごはんをあげられます。前日分の投稿は対象外です。':'',failed:false};
   const days=Array.isArray(status.receivedDays)?status.receivedDays.filter(r=>/^\d{4}-\d{2}-\d{2}$/.test(r.day)&&Number.isSafeInteger(r.count)&&r.count>0).slice(0,30):[];
   const history=self&&!compact?`<div class="care-received"><p>届いたおやつ <span>今日 ${status.receivedToday}個 · 累計 ${status.receivedTotal}個</span></p>${days.length?`<details><summary>日別の記録</summary><ul>${days.map(r=>`<li><time datetime="${r.day}">${r.day.replaceAll('-','/')}</time><span>${r.count}個</span></li>`).join('')}</ul></details>`:''}<p class="quiet-note">贈ってくれた人の名前は表示されません。</p></div>`:'';
   // Recipient comes from the post's UUID, never from display text.
   if(!self&&!/^[0-9a-f-]{36}$/i.test(recipient||''))return '';
   const expressions=CatMealAssets.pair(self?'self':recipient,CatFaces.normalizeCoat(coat),day(now));
-  return `<section class="card cat-care${compact?' cat-care-compact':''}" data-care-compact="${compact}" data-care-owner="${self?'self':recipient}"><h2>${self?'猫のごはん':'小さなおやつ'}</h2>${visual(coat,kind,{...expressions,finished:fresh&&(self?status.mealDone:status.treatGiven)})}<p class="care-caption"><strong>${self?'ごはんだよ':'おやつだよ'}</strong><span class="care-serving" data-care-kind="${kind}"><span class="care-food" aria-hidden="true"><i></i><i></i><i></i></span>${self?'カリカリ':'小魚'}</span></p><button type="button" class="cream-button" ${self?'data-cat-meal':`data-cat-treat="${recipient}"`} ${disabled?'disabled':''}>${label}</button><p class="quiet-note">${self?'おやすみを投稿した日に、1回。連続投稿は不要です。':'他の猫へ、1日合計1回。お返しは気にせずに。'}</p><p class="care-feedback" role="${feedback.failed?'alert':'status'}" aria-live="${feedback.failed?'assertive':'polite'}">${escape(feedback.text)}</p>${history}</section>`;
+  return `<section class="card cat-care${compact?' cat-care-compact':''}" data-care-compact="${compact}" data-care-owner="${self?'self':recipient}"><h2>${self?'猫のごはん':'小さなおやつ'}</h2>${visual(coat,kind,{...expressions,normal:modern,user:recipient,finished:current&&(self?status.mealDone:given(status,recipient))})}<p class="care-caption"><strong>${self?'ごはんだよ':'おやつだよ'}</strong><span class="care-serving" data-care-kind="${kind}"><span class="care-food" aria-hidden="true"><i></i><i></i><i></i></span>${self?'カリカリ':'小魚'}</span></p><button type="button" class="cream-button" ${self?'data-cat-meal':`data-cat-treat="${recipient}"`} ${disabled?'disabled':''}>${label}</button><p class="quiet-note">${self?(modern?'朝6:00〜12:00と12:00〜翌6:00に、各1回。':'おやすみを投稿した日に、1回。連続投稿は不要です。'):(modern?'別々の猫2匹へ、1日各1回。お返しは気にせずに。':'他の猫へ、1日合計1回。お返しは気にせずに。')}</p><p class="care-feedback" role="${feedback.failed?'alert':'status'}" aria-live="${feedback.failed?'assertive':'polite'}">${escape(feedback.text)}</p>${history}</section>`;
  }
  async function play(scene){
   if(scene?.classList.contains('room-care-proxy'))return DayRoom.play(scene,play);
@@ -56,7 +71,7 @@ globalThis.CatCare=(()=>{
    const finish=()=>{
     clearTimeout(timer);document.removeEventListener('visibilitychange',visibility);
     scene.classList.remove('care-playing','care-reduced','care-paused');delete scene.dataset.careStage;
-    if(elapsed>=durationMs&&scene.isConnected){scene.classList.add('care-finished');scene.dataset.careFinished='true';}
+    if(elapsed>=durationMs&&scene.isConnected){if(scene.dataset.careNormal!=='true')scene.classList.add('care-finished');scene.dataset.careFinished='true';}
     scene.dispatchEvent(new CustomEvent('careplaybackend',{bubbles:true,detail:{visibleMs:elapsed}}));resolve();
    };
    const schedule=()=>{
@@ -77,9 +92,10 @@ globalThis.CatCare=(()=>{
    scene.dispatchEvent(new CustomEvent('careplaybackstart',{bubbles:true}));schedule();
   });
   if(active.get(scene)===token)active.delete(scene);
+  syncNormal();
  }
  function lock(key){if(pending.size)return false;pending.add(key);return true;}
  function unlock(key){pending.delete(key);}
- function restPrompt(status,coat){return valid(status)&&status.day===day(NightClock.now())&&status.mealEligible?markup(status,coat,null,true,NightClock.now(),true):'';}
- return {durationMs,setFeedback,clearFeedback:()=>messages.clear(),errorMessage,confirmed,deadline,valid,markup,visual,play,lock,unlock,restPrompt,isPlaying:scene=>active.has(scene)||!!globalThis.DayRoom?.isPlaying(scene),get pending(){return pending.size>0},day};
+ function restPrompt(status,coat){return fresh(status)&&status.mealEligible?markup(status,coat,null,true,NightClock.now(),true):'';}
+ return {durationMs,setFeedback,clearFeedback:()=>messages.clear(),errorMessage,confirmed,deadline,valid,fresh,slot,nextBoundary,given,morningBeg,begDecision,syncNormal,markup,visual,play,lock,unlock,restPrompt,isPlaying:scene=>active.has(scene)||!!globalThis.DayRoom?.isPlaying(scene),get pending(){return pending.size>0},day};
 })();

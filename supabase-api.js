@@ -203,6 +203,12 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       reactions, reactionCounts, reactionVersion, ownSleepCount: Number(sleepCountResult.count) };
   }
   return { client, initialize, snapshot, get userId() { return userId; }, get needsNickname() { return needsNickname; },
+    getSentReactionPeople: async () => {
+      const row = (await rpc('oyasumi_sent_reaction_people'))[0];
+      const count = Number(row?.people_count);
+      if (!row || !/^\d{4}-\d{2}-\d{2}$/.test(row.night_date) || !Number.isSafeInteger(count) || count < 0) throw new Error('Invalid sent reaction count');
+      return {nightDate:row.night_date,count};
+    },
     getCatCareStatus: () => rpc('oyasumi_cat_care_status'),
     giveCatMeal: () => rpc('oyasumi_give_cat_meal'),
     giveCatTreat: recipient => rpc('oyasumi_give_cat_treat', {p_recipient:recipient}),

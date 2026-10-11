@@ -1,0 +1,28 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const {PGlite}=require('@electric-sql/pglite');
+(async()=>{const db=new PGlite();try{
+ await db.exec(`create role anon;create role authenticated;create schema auth;
+ create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.uid',true),'')::uuid$$;
+ create function public.test_now() returns timestamptz language sql stable as $$select current_setting('test.now')::timestamptz$$;
+ create function public.oyasumi_night_date_at(p_at timestamptz) returns date language sql as $$select ((p_at at time zone 'Asia/Tokyo')-interval '6 hours')::date$$;
+ create table public.oyasumi_posts(id uuid primary key,user_id uuid);
+ create table public.oyasumi_reactions(post_id uuid,user_id uuid,choice text,updated_at timestamptz,primary key(post_id,user_id));`);
+ const ids=Array.from({length:6},(_,i)=>'00000000-0000-0000-0000-'+String(i+1).padStart(12,'0'));
+ for(let i=0;i<4;i++)await db.query('insert into public.oyasumi_posts values($1,$2)',[ids[i],i<2?ids[4]:i===2?ids[5]:ids[0]]);
+ for(let i=0;i<4;i++)await db.query("insert into public.oyasumi_reactions values($1,$2,'sleep-night','2026-10-11T23:00:00+09:00')",[ids[i],ids[0]]);
+ const before=(await db.query('select * from public.oyasumi_reactions order by post_id')).rows;
+ const sql=fs.readFileSync('supabase/sent-reaction-people.sql','utf8').replaceAll('statement_timestamp()','public.test_now()');
+ await db.exec(sql);await db.exec(sql);assert.deepEqual((await db.query('select * from public.oyasumi_reactions order by post_id')).rows,before);
+ await db.query("select set_config('test.uid',$1,false)",[ids[0]]);
+ const at=async at=>db.query("select set_config('test.now',$1,false)",[at]);
+ const count=async()=>Number((await db.query('select * from public.oyasumi_sent_reaction_people()')).rows[0].people_count);
+ await at('2026-10-12T05:59:59.999+09:00');assert.equal(await count(),2,'Same author is one, self excluded');
+ await db.query('delete from public.oyasumi_reactions where post_id=$1',[ids[0]]);assert.equal(await count(),2,'Another active reaction to same author remains');
+ await db.query('delete from public.oyasumi_reactions where post_id=$1',[ids[1]]);assert.equal(await count(),1,'Last cancellation removes recipient');
+ await at('2026-10-12T06:00:00+09:00');assert.equal(await count(),0);
+ await db.query("update public.oyasumi_reactions set updated_at='2026-10-12T06:00:00+09:00' where post_id=$1",[ids[2]]);assert.equal(await count(),1,'Boundary event belongs to new day');
+ await db.query("select set_config('test.uid',$1,false)",[ids[4]]);assert.equal(await count(),0,'No access to another sender count');
+ await db.query("select set_config('test.uid','',false)");await assert.rejects(count(),e=>e.code==='42501');
+ await db.exec('set role anon');await assert.rejects(count(),e=>e.code==='42501');
+ console.log('PASS sent people SQL: additive/idempotent, exact distinct authors, last cancellation, self exclusion, 05:59/06:00, own-only and anonymous denial. Local DB only.');
+}finally{await db.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

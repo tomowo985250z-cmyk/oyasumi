@@ -1,0 +1,45 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const {PGlite}=require('@electric-sql/pglite');
+(async()=>{
+ const db=new PGlite(),ids=Array.from({length:4},(_,i)=>'00000000-0000-0000-0000-'+String(i+1).padStart(12,'0'));
+ try{
+  await db.exec(`create role anon;create role authenticated;create schema auth;
+   create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.uid',true),'')::uuid$$;
+   create function public.test_now() returns timestamptz language sql as $$select current_setting('test.now')::timestamptz$$;
+   create table public.oyasumi_profiles(user_id uuid primary key,cat_coat text);
+   create table public.oyasumi_posts(user_id uuid,choice text,created_at timestamptz);`);
+  for(const id of ids)await db.query('insert into public.oyasumi_profiles values($1,$2)',[id,'calico']);
+  await db.exec(fs.readFileSync('supabase/cat-care.sql','utf8'));
+  await db.query("insert into public.oyasumi_cat_meals values($1,'2026-10-11','2026-10-11T05:59:00+09:00')",[ids[0]]);
+  await db.query("insert into public.oyasumi_cat_treats values($1,$2,'2026-10-11','2026-10-11T05:59:00+09:00')",[ids[0],ids[1]]);
+  const original=(await db.query('select user_id,care_date,created_at from public.oyasumi_cat_meals')).rows;
+  const sql=fs.readFileSync('supabase/cat-care-two-windows.sql','utf8').replaceAll('clock_timestamp()','public.test_now()');
+  await db.exec(sql);await db.exec(sql);
+  assert.deepEqual((await db.query('select user_id,care_date,created_at from public.oyasumi_cat_meals')).rows,original);
+  const as=async id=>{await db.exec('reset role');await db.query("select set_config('test.uid',$1,false)",[id||'']);await db.exec('set role authenticated');};
+  const at=async time=>{await db.query("select set_config('test.now',$1,false)",['2026-10-11T'+time+'+09:00']);};
+  const status=async()=> (await db.query('select public.oyasumi_cat_care_status() as s')).rows[0].s;
+  const meal=async()=> (await db.query('select public.oyasumi_give_cat_meal() as s')).rows[0].s;
+  const treat=async id=> (await db.query('select public.oyasumi_give_cat_treat($1) as s',[id])).rows[0].s;
+  await as(ids[0]);await at('05:59:59');let s=await status();assert.equal(s.day,'2026-10-10');assert.equal(s.mealSlot,'night');assert(s.mealDone);assert.equal((await meal()).accepted,false);
+  await at('06:00:00');s=await status();assert.equal(s.day,'2026-10-11');assert.equal(s.mealSlot,'morning');assert(!s.mealDone&&s.mealEligible);
+  assert.equal((await meal()).accepted,true,'No sleeping post required');assert.equal((await meal()).accepted,false);
+  const parallel=await Promise.all([meal(),meal(),meal()]);assert(parallel.every(r=>!r.accepted));
+  assert.equal((await treat(ids[1])).accepted,true,'Legacy midnight date does not block new 06:00 day');
+  assert.equal((await treat(ids[1])).accepted,false,'Same recipient cannot repeat');
+  assert.equal((await treat(ids[2])).accepted,true);assert.equal((await treat(ids[3])).accepted,false,'Third cat rejected');
+  await assert.rejects(treat(ids[0]),e=>e.code==='22023');await assert.rejects(treat(null),e=>e.code==='22023');
+  s=await status();assert.equal(s.treatCount,2);assert.equal(s.treatRecipients.length,2);assert(s.treatGiven);
+  await at('11:59:59');assert.equal((await meal()).accepted,false);
+  await at('12:00:00');s=await status();assert.equal(s.mealSlot,'night');assert(!s.mealDone);assert.equal((await meal()).accepted,true);
+  await at('23:59:59');assert.equal((await meal()).accepted,false);
+  await db.query("select set_config('test.now','2026-10-12T00:00:00+09:00',false)");assert.equal((await meal()).accepted,false,'Midnight cannot reset allowances');
+  await db.query("select set_config('test.now','2026-10-12T05:59:59+09:00',false)");assert.equal((await treat(ids[3])).accepted,false);
+  await db.query("select set_config('test.now','2026-10-12T06:00:00+09:00',false)");s=await status();assert.equal(s.day,'2026-10-12');assert(!s.mealDone&&!s.treatGiven);assert.equal((await meal()).accepted,true);
+  await as(ids[1]);s=await status();assert.equal(s.receivedTotal,2,'Legacy and new receipt history retained');assert.equal(s.receivedDays[0].count,2);
+  await assert.rejects(db.query('select * from public.oyasumi_cat_treats'),e=>e.code==='42501');
+  await assert.rejects(db.query('select public.oyasumi_cat_care_status_at(public.test_now())'),e=>e.code==='42501');
+  await as(null);await assert.rejects(meal(),e=>e.code==='42501');await assert.rejects(status(),e=>e.code==='42501');
+  console.log('PASS care SQL v2: idempotent migration, legacy rows retained, 06:00/12:00/midnight, two meals without posts, duplicate operations, two distinct treats, third/self/null refusal and private history/permissions. Local DB only; no production access.');
+ }finally{await db.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

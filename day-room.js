@@ -30,9 +30,7 @@ globalThis.DayRoom=(()=>{
   stage.append(animation);size();const observer=new ResizeObserver(size);observer.observe(stage);
   active.set(unit,animation);unit.dataset.feeding='true';
   try{await playOriginal(animation);}finally{
-   const after=animation.dataset.careFinished==='true'&&proxy.dataset.careDay===CatCare.day(NightClock.now())?animation.querySelector('.care-joy-cat')?.getAttribute('src'):'';
-   observer.disconnect();animation.remove();active.delete(unit);delete unit.dataset.feeding;sync();
-   if(after&&stage.isConnected)stage.querySelector('.room-resident').innerHTML=`<img src="${after}" alt="" aria-hidden="true" data-cat-coat="${proxy.dataset.careCoat}" data-meal-after>`;
+   observer.disconnect();animation.remove();active.delete(unit);delete unit.dataset.feeding;delete stage.dataset.roomStamp;sync();
    document.dispatchEvent(new Event('roomcareend'));
   }
  }
