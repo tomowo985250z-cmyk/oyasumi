@@ -80,5 +80,66 @@ globalThis.TonightTrend = (() => {
     return `<div class="trend-legend"><span><i class="trend-awake"></i>まだ起きてる報告</span><span><i class="trend-sleeping"></i>おやすみ報告</span></div><svg viewBox="0 0 320 160" role="img" aria-label="日本時間の人数推移。${timeLabel(first)}から${timeLabel(last)}。まだ起きてる人：${rows[0].awake}人から${end.awake}人。もう寝た人：${rows[0].sleeping}人から${end.sleeping}人。">${yTicks.map(value=>`<path class="grid" d="M42 ${y(value)}h266"/><text x="0" y="${y(value)+4}">${value.toLocaleString('ja-JP')}</text>`).join('')}<path class="curve trend-awake" d="M${curve('awake')}"/><path class="curve trend-sleeping" d="M${curve('sleeping')}"/>${['awake','sleeping'].map(key=>`<g class="trend-${key}">${rows.map(p=>`<circle cx="${x(p.time)}" cy="${y(p[key])}" r="3"/>`).join('')}</g>`).join('')}${labels.map(time=>`<text x="${x(time)}" y="156" text-anchor="${first===last?'middle':time===first?'start':time===last?'end':'middle'}">${timeLabel(time)}</text>`).join('')}</svg><p class="sample-tag">各時点の報告人数・日本時間（06:00切替）${rows.length===1?'・データ収集中':''}</p>`;
   }
 
-  return { messages, rules, classify, comment, chart };
+  // Same population as the chart/RPC: latest event_order per author within
+  // each 06:00 JST night, without applying the home's three-hour expiry.
+  const catRules = Object.freeze({ low: .75, high: 1.25, lowExit: .85, highExit: 1.15,
+    minimumDays: 3, minimumBaseline: 3, minimumChange: 2, holdMinutes: 30 });
+  const catInterval = 15 * 60000, day = 86400000;
+  const nightStart = time => Math.floor((time + 3 * 3600000) / day) * day - 3 * 3600000;
+  function catBaseline(history, at) {
+    const start = nightStart(at), slot = Math.floor((at - start) / catInterval) * catInterval;
+    const nights = new Map();
+    for (const row of history || []) {
+      if (!Number.isFinite(row.time) || !Number.isFinite(row.order) || !row.userId
+        || !['awake','sleep','try-sleep','early-sleep'].includes(row.status)) continue;
+      const previous = nightStart(row.time), age = (start - previous) / day;
+      if (age < 1 || age > 7 || row.nightDate !== new Date(previous + 9 * 3600000).toISOString().slice(0,10)) continue;
+      if (!nights.has(previous)) nights.set(previous, new Map());
+      // A night with later posts but none yet at this slot is an observed zero.
+      if (row.time > previous + slot) continue;
+      const authors = nights.get(previous), before = authors.get(row.userId);
+      if (!before || row.order > before.order) authors.set(row.userId, row);
+    }
+    const counts = [...nights.values()].map(authors => [...authors.values()].filter(row => row.status === 'awake').length);
+    return { days: counts.length, average: counts.length ? counts.reduce((a,b) => a+b,0) / counts.length : 0 };
+  }
+  function createCatIndicator() {
+    let start, lastSlot, count, candidate, confirmations = 0, changedAt = -Infinity;
+    return (activeCount, points, history, now) => {
+      const currentStart = nightStart(now), slot = Math.floor(now / catInterval) * catInterval;
+      if (start !== currentStart) { start = currentStart; lastSlot = undefined; count = undefined; candidate = undefined; confirmations = 0; changedAt = -Infinity; }
+      // Exact small counts and unknown/zero must never retain decorative cats.
+      if (!Number.isFinite(activeCount) || activeCount < 3) {
+        count = Number.isFinite(activeCount) ? Math.max(0, Math.floor(activeCount)) : 0;
+        lastSlot = undefined; candidate = undefined; confirmations = 0; changedAt = -Infinity;
+        return count;
+      }
+      if (lastSlot === slot) return count;
+      const consecutive = lastSlot !== undefined && slot - lastSlot === catInterval;
+      lastSlot = slot;
+      const baseline = catBaseline(history, slot);
+      const point = (points || []).find(p => p.time === slot && Number.isFinite(p.awake) && p.awake >= 0);
+      let next = 2;
+      if (baseline.days >= catRules.minimumDays && baseline.average >= catRules.minimumBaseline && point) {
+        const change = point.awake - baseline.average, ratio = point.awake / baseline.average;
+        if (Math.abs(change) >= catRules.minimumChange) {
+          if (ratio <= catRules.low) next = 1;
+          else if (ratio >= catRules.high) next = 3;
+          else if (count === 1 && ratio <= catRules.lowExit) next = 1;
+          else if (count === 3 && ratio >= catRules.highExit) next = 3;
+        }
+      }
+      if (count === undefined || count < 1 || !consecutive) {
+        count = next; candidate = undefined; confirmations = 0; changedAt = slot;
+      } else if (next === count) { candidate = undefined; confirmations = 0; }
+      else {
+        confirmations = next === candidate ? confirmations + 1 : 1; candidate = next;
+        if (confirmations >= 2 && slot - changedAt >= catRules.holdMinutes * 60000) {
+          count = next; changedAt = slot; candidate = undefined; confirmations = 0;
+        }
+      }
+      return count;
+    };
+  }
+  return { messages, rules, classify, comment, chart, catRules, catBaseline, createCatIndicator };
 })();

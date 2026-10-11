@@ -37,6 +37,15 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));let browser;
    assert.equal(layout.buttons.length,4);assert(layout.noOverflow&&layout.buttons.every(b=>b.fit&&b.height>=44));
    const [a,b,c,d]=layout.buttons;assert(Math.abs(a.y-b.y)<1&&Math.abs(c.y-d.y)<1&&a.y<c.y&&a.x<b.x);
    assert.deepEqual(layout.labels,await page.evaluate(intent=>PostReactions.groups[intent].map(o=>o.text),intent));
+   for(const count of [0,1,9,10,99,100,999]){
+    await page.evaluate(count=>{const id=HomePostFixture.peerPosts[0].id;shared.reactionCounts[id]=Object.fromEntries(PostReactions.options(HomePostFixture.peerPosts[0]).map(o=>[o.id,count]));render();},count);
+    const fits=await page.locator('.reaction').evaluateAll(buttons=>buttons.map(button=>{
+     const label=button.querySelector('.reaction-label'),number=button.querySelector('.reaction-count');
+     const b=button.getBoundingClientRect(),l=label.getBoundingClientRect(),n=number.getBoundingClientRect();
+     return {fits:button.scrollWidth<=button.clientWidth+1&&label.scrollWidth<=label.clientWidth+1&&l.right+4<=n.left&&n.right<=b.right-3&&b.height===44&&l.height<25,label:label.textContent,labelWidth:l.width,scroll:label.scrollWidth,gap:n.left-l.right,right:b.right-n.right,height:b.height,lineHeight:l.height};
+    }));
+    assert(fits.every(b=>b.fits),`Label/count separation at ${width}px, ${intent}, ${count}, light=${light}: ${JSON.stringify(fits)}`);
+   }
    if(width===390&&!light)await page.screenshot({path:path.join(output,`${intent}-390.png`),fullPage:true});
    layouts.push({width,light,intent,...layout});
   }

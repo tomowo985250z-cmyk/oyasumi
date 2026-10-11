@@ -16,6 +16,37 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   let userId;
   let needsNickname = false;
   let reactionVersion = 2;
+  let historyCache;
+  function trendHistory(clock) {
+    const night = clock.nightDate, now = performance.now();
+    if (!historyCache || historyCache.night !== night) historyCache = { night, rows: [], nextAt: 0, pending: false };
+    const cache = historyCache;
+    if (!cache.pending && now >= cache.nextAt) {
+      cache.pending = true;
+      // Optional background read: never delay posts/counts on a week of history.
+      // Read only five small fields, at most 5,000 events plus one overflow probe.
+      void (async () => {
+        try {
+          const since = new Date(Date.parse(night + 'T00:00:00Z') - 7 * 86400000).toISOString().slice(0,10);
+          const rows = [];
+          for (let offset = 0; offset <= 5000; offset += 1000) {
+            const page = checked(await client.from('oyasumi_posts').select('user_id,choice,created_at,event_order,night_date')
+              .gte('night_date', since).lt('night_date', night).order('event_order', {ascending:false}).range(offset, offset + (offset === 5000 ? 0 : 999)));
+            rows.push(...page);
+            if (rows.length > 5000) throw new Error('History budget exceeded');
+            if (page.length < 1000) break;
+          }
+          cache.rows = rows.map(row => ({userId:row.user_id,status:row.choice,time:Date.parse(row.created_at),order:Number(row.event_order),nightDate:row.night_date}));
+          cache.nextAt = performance.now() + 3600000;
+        } catch {
+          // Never use truncated counts as a baseline. Keep a valid same-night
+          // cache after transient failures; otherwise the indicator uses two cats.
+          cache.nextAt = performance.now() + 300000;
+        } finally { cache.pending = false; }
+      })();
+    }
+    return cache.rows;
+  }
   function checked(result) {
     if (result.error) throw result.error;
     return result.data;
@@ -167,6 +198,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), activeAwakePosts, sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
       profileNote: notes.get(userId) || '', clock, catCoatStatus, catCare,
+      trendHistory: trendSupported ? trendHistory(clock) : [],
       feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles, notes)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles, notes)),
       reactions, reactionCounts, reactionVersion, ownSleepCount: Number(sleepCountResult.count) };
   }

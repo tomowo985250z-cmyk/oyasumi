@@ -85,9 +85,10 @@ matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',syncRoo
 function activeAwakeCount() {
  return Array.isArray(shared.activeAwakePosts) ? TimelineVisibility.visible(shared.activeAwakePosts,NightClock.now()).length : shared.awakeCount;
 }
+const homeCatCount = TonightTrend.createCatIndicator();
 function awakeCats() {
  const activeCount=activeAwakeCount();
- const count=Number.isFinite(activeCount)?Math.min(3,Math.max(0,activeCount)):0;
+ const count=homeCatCount(activeCount,shared.trend,shared.trendHistory,NightClock.now());
  if(!count)return '';
  const users=new Set(),coats=[];
  for(const post of TimelineVisibility.visible(shared.feed,NightClock.now())){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
@@ -135,7 +136,7 @@ function reactionButtons(post) {
  return `<div class="reaction-options" role="group" aria-label="${escapeHTML(post.name)}へのリアクション">${reactionOptions(post).map(option => {
   const selected = state.reactions[post.id] === option.id;
   const count = shared.reactionCounts[post.id]?.[option.id] ?? 0;
-  return `<button class="reaction ${selected?'selected':''}" data-react="${post.id}" data-reaction="${option.id}" aria-pressed="${selected}" aria-label="${escapeHTML(post.name)}に${option.text}のリアクション">${option.text}<span class="reaction-count${count >= 100 ? ' compact-count' : ''}"${count >= 100 ? ` style="--count-digits:${String(count).length};--count-scale:${Math.min(.55,16/(String(count).length*9))}"` : ''}>${count >= 100 ? `<span>${count}</span>` : count}</span></button>`;
+  return `<button class="reaction ${selected?'selected':''}" data-react="${post.id}" data-reaction="${option.id}" aria-pressed="${selected}" aria-label="${escapeHTML(post.name)}に${option.text}のリアクション"><span class="reaction-label">${option.text}</span><span class="reaction-count">${count}</span></button>`;
  }).join('')}</div>${old.length ? `<details class="legacy-reactions"><summary>以前のリアクション（${old.reduce((sum,option)=>sum+counts[option.id],0)}個）</summary>${old.map(option=>`<p>${option.text} ${counts[option.id]}個${state.reactions[post.id] === option.id ? ` <button class="text-button" data-react="${post.id}" data-reaction="${option.id}" aria-label="${option.text}を取り消す">取り消す</button>` : ''}</p>`).join('')}</details>` : ''}`;
 }
 function timeline() {
@@ -198,6 +199,8 @@ function scheduleTimelineExpiry() {
   const day=SleepFlow.day(now);
   const copyBoundary=[Date.parse(`${day}T06:00:00+09:00`),Date.parse(`${day}T18:00:00+09:00`),Date.parse(`${day}T06:00:00+09:00`)+86400000].find(at=>at>now);
   end=end===null?copyBoundary:Math.min(end,copyBoundary);
+  const catBoundary=(Math.floor(now/(15*60000))+1)*15*60000;
+  end=Math.min(end,catBoundary);
  }
  if(end!==null)timelineExpiryTimer=setTimeout(()=>{if(['timeline','home'].includes(view))renderPreservingPosition(true);},Math.min(2147483647,Math.max(0,end-now)+5));
 }

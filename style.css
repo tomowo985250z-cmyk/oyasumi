@@ -86,6 +86,11 @@ time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hou
 /* Center the two-line try-sleep label and its emoji as one group. */
 .status-actions .extra-post-button[data-post=try-sleep]{display:grid;place-items:center}.status-actions .extra-post-button[data-post=try-sleep]>span{width:auto;text-align:center}
 
+/* Awake choices stay blue; sleep reports share the existing soft pink. */
+.status-actions .extra-post-button[data-post=awake]{color:#A9D4FF}
+.post-text{color:#ffcec5}.post-text.awake-text{color:#A9D4FF}
+.light-mode .post-text{color:#7a374e}
+
 /* Enlarge count-card copy without changing its existing line boxes. */
 .count-card .awake-heading{font-size:17px;line-height:24px}.count-card .awake-heading .count{font-size:20px;line-height:27px}.count-card .awake-heading .count small{font-size:16px;line-height:22.4px}.count-card>p.muted{font-size:15px;line-height:20.8px}
 
@@ -98,10 +103,10 @@ main:has(>.home-heading) .section-heading:has(+.mini-feed){margin-bottom:10px}
 /* Timeline-only tabs and supporting labels retain their existing line boxes. */
 main:has(>.tabs) .tabs button{font-size:15px;line-height:20.8px;padding-inline:8px}main:has(>.tabs) .post-name .cat-role-tag{font-size:12px;line-height:15px}main:has(>.tabs) .self-tag{font-size:12px;line-height:16px}main:has(>.tabs) .post time{font-size:14px;line-height:19.2px}main:has(>.tabs)>.sample-tag{font-size:13px;line-height:17.6px}
 
-/* Timeline reaction counts gain legibility without changing button metrics. */
-main:has(>.tabs) .reaction-count{font-size:13px;line-height:17.6px;margin-inline-start:4px}
-
-main:has(>.tabs) .reaction-count.compact-count{display:inline-block;position:relative;width:min(calc(var(--count-digits)*.4em),16px);height:17.6px;flex-shrink:0;white-space:nowrap}main:has(>.tabs) .compact-count>span{position:absolute;left:0;top:0;transform:scaleX(var(--count-scale));transform-origin:left center}
+/* Reserve three digits at the right; center labels in the remaining space. */
+main:has(>.tabs) .reaction-options .reaction{display:grid;grid-template-columns:minmax(0,1fr) 26px;column-gap:5px;padding-inline:4px;font-size:clamp(11px,calc(5.455vw - 6.455px),14px)}
+main:has(>.tabs) .reaction-label{min-width:0;text-align:center;white-space:nowrap}
+main:has(>.tabs) .reaction-count{font-size:13px;line-height:17.6px;margin:0;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
 
 /* Stats explanations only; preserve numeric labels and chart typography. */
 main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}main:has(>.tonight-cats) .summary-note{font-size:13px;line-height:17.6px}main:has(>.tonight-cats) .tonight-cats:not(:has(.sleeping-cats))>.muted,main:has(>.tonight-cats) .tonight-hours>.muted{font-size:15px;line-height:20.8px}

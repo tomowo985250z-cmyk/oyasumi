@@ -93,6 +93,8 @@ function installFixture() {
     });
     assert.deepEqual(result.choices, ['relax', 'sleep', 'sleepless', 'try-sleep']);
     assert.deepEqual(result.statuses, ['awake', 'sleep', 'awake', 'try-sleep']);
+    assert.deepEqual(await page.locator('.extra-post-button').evaluateAll(buttons=>buttons.map(button=>getComputedStyle(button).color)), ['rgb(169, 212, 255)',light?'rgb(122, 55, 78)':'rgb(255, 206, 197)']);
+    assert(result.boxes.every(box=>box.height===128),'All button sizes stay unchanged');
     assert.deepEqual(result.labels, ['起きてるよ（のんびり中）', 'もう寝るよ（おやすみする）', 'まだ眠れない…（起きてる）', '眠れないけど寝てみる💤']);
     const [a, b, c, d] = result.boxes;
     assert(Math.abs(a.y - b.y) < 1 && Math.abs(c.y - d.y) < 1 && c.y > a.y && a.x < b.x && c.x < d.x && Math.abs(a.x - c.x) < 1 && Math.abs(b.x - d.x) < 1, '2 columns, 2 rows');
@@ -120,6 +122,8 @@ function installFixture() {
     assert.equal(result.mealEligible, sleeping);
     assert.equal(result.calls.length, 1);
     if (sleeping) assert.equal(result.lastSleep.postId, result.rows[0].id); else { assert.equal(result.lastSleep, null); assert.equal(result.renderedStatus, intent === 'sleepless' ? 'まだ眠れない…' : '起きてるよ'); }
+    await page.evaluate(()=>{state.light=false;go('timeline');});
+    assert.equal(await page.locator('.post-text').evaluate(el=>getComputedStyle(el).color),sleeping?'rgb(255, 206, 197)':'rgb(169, 212, 255)');
     posts.push({ width, intent, ...result });
    }
   }
@@ -171,8 +175,25 @@ function installFixture() {
   await reset();
   await page.evaluate(() => { state.light = false; go('home'); });
   await page.screenshot({ path: path.join(output, 'home-390.png'), fullPage: true });
+  const catLayouts=[];
+  for(const width of [320,375,390,430])for(const [active,trendCount,expected] of [[0,0,0],[1,10,1],[2,10,2],[3,5,1],[10,10,2],[15,15,3]]){
+   await page.setViewportSize({width,height:844});
+   await page.evaluate(({active,trendCount})=>{
+    HomePostFixture.at+=86400000;const now=HomePostFixture.at;
+    shared.activeAwakePosts=Array.from({length:active},(_,i)=>({userId:String(i),time:now-1000}));
+    shared.trend=[{time:now,awake:trendCount,sleeping:0}];
+    shared.trendHistory=Array.from({length:7},(_,i)=>Array.from({length:10},(_,j)=>({userId:String(j),status:'awake',order:j+1,time:now-(i+1)*86400000,nightDate:SleepFlow.night(now-(i+1)*86400000)}))).flat();
+    go('home');
+   },{active,trendCount});
+   assert.equal(await page.locator('.roof-cat').count(),expected);
+   assert.equal(await page.locator('.awake-heading .count').innerText(),`${active} 人`);
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+   await page.screenshot({path:path.join(output,`trend-cats-${width}-${expected}.png`)});
+   catLayouts.push({width,active,trendCount,expected});
+  }
   assert.deepEqual(errors, []); assert.deepEqual(failedResponses, []); assert.deepEqual(external, []);
   const report = { pass: true, engine, published, actualIPhone: false, productionDbWrites: false, layouts, posts, duplicateTap: true, failedSaveRetry: true, profileGate: true, legacySleepHistory: true, fourReactions: true, reactionRemoval: true, statistics: true, deletion: true, awakeAfterSleep: true, catCoatCooldownStillUnlocked: true, errors, failedResponses, external };
+  report.catLayouts=catLayouts;
   fs.writeFileSync(path.join(output, 'report.json'), JSON.stringify(report, null, 2));
   console.log(`PASS ${engine}: ${layouts.length} mobile layouts, ${posts.length} real post-handler cases, legacy history/reactions/statistics and error recovery; no production DB writes`);
  } finally { await browser?.close(); server?.kill(); }
