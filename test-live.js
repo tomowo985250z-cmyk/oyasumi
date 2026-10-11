@@ -5,6 +5,7 @@ require('./supabase-api.js');
 const a = createOyasumiConnection('oyasumi-test-a-' + Date.now());
 const b = createOyasumiConnection('oyasumi-test-b-' + Date.now());
 const created = new Set();
+const legacyReaction = async (id,choice) => { const r=await b.client.rpc('oyasumi_set_reaction_v2',{p_post_id:id,p_choice:choice});if(r.error)throw r.error;return r.data; };
 async function run() {
   await a.initialize();await b.initialize();await a.setNickname('検証ねこA');await b.setNickname('検証ねこB');await a.setCatCoat('calico');await b.setCatCoat('calico');
   assert.notEqual(a.userId,b.userId);
@@ -29,10 +30,10 @@ async function run() {
   const forged=await b.client.from('oyasumi_posts').insert({user_id:a.userId,choice:'awake'});assert(forged.error,'Direct inserts must be denied');
   assert.equal(await b.deletePost(first.id),false,'Cannot delete another user’s post');
   const readOnly=await b.client.from('oyasumi_profiles').update({nickname:'不正更新'}).eq('user_id',a.userId);assert(readOnly.error,'Direct profile updates must be denied');
-  for(const choice of ['goodnight','dream','tomorrow','comfort']){await b.setReaction(first.id,choice);snap=await a.snapshot();assert.equal(snap.reactionCounts[first.id][choice],1);assert(!snap.reactions[first.id]);assert.equal((await b.snapshot()).reactions[first.id],choice);}
+  for(const choice of ['goodnight','dream','tomorrow','comfort']){await legacyReaction(first.id,choice);snap=await a.snapshot();assert.equal(snap.reactionCounts[first.id][choice],1);assert(!snap.reactions[first.id]);assert.equal((await b.snapshot()).reactions[first.id],choice);}
   assert.equal((await a.client.from('oyasumi_reactions').select('*').eq('post_id',first.id)).data.length,0,'Reaction identities stay private');
-  await b.setReaction(first.id,null);assert.equal((await a.snapshot()).reactionCounts[first.id].comfort,0);
-  for(const bad of ['not-a-choice']){await assert.rejects(()=>a.submitPost(bad));await assert.rejects(()=>b.setReaction(first.id,bad));}
+  await legacyReaction(first.id,null);assert.equal((await a.snapshot()).reactionCounts[first.id].comfort,0);
+  for(const bad of ['not-a-choice']){await assert.rejects(()=>a.submitPost(bad));await assert.rejects(()=>legacyReaction(first.id,bad));}
   for(const name of ['a@b.jp','死ね','あ'.repeat(13)])await assert.rejects(()=>a.setNickname(name));
   await a.setNickname('検証つきA');assert.equal((await b.snapshot()).feed.find(p=>p.id===first.id).name,'検証つきA');
   for(const expression of ['calm','sleepy','yawn','restless','surprised','happy']){
@@ -78,11 +79,11 @@ async function run() {
   assert.equal(historyBefore.feed.filter(p=>p.userId===a.userId).length,1,'A user has only one visible post');
   for(const choice of ['sleep','try-sleep','early-sleep']){const post=await a.submitPost(choice);created.add(post.id);snap=await b.snapshot();assert(snap.feed.some(p=>p.id===post.id));const own=await a.snapshot();assert.equal(own.myState,'sleep');assert.equal(own.trend.at(-1).awake,own.awakeCount);assert.equal(own.trend.at(-1).sleeping,own.sleepingCount);assert(snap.sleepingCount>=base.sleepingCount+1);}
   assert(!snap.activeAwakePosts.some(p=>p.userId===a.userId),'Latest sleep removes the user from the active awake count without deleting history');
-  await b.setReaction(first.id,'dream');await a.deletePost(first.id);created.delete(first.id);assert(!(await b.snapshot()).feed.some(p=>p.id===first.id));
+  await legacyReaction(first.id,'dream');await a.deletePost(first.id);created.delete(first.id);assert(!(await b.snapshot()).feed.some(p=>p.id===first.id));
   const comfortPost=await a.submitPost('awake');created.add(comfortPost.id);
-  await b.setReaction(comfortPost.id,'comfort');
+  await legacyReaction(comfortPost.id,'comfort');
   assert.equal((await b.snapshot()).reactions[comfortPost.id],'comfort');
-  await b.setReaction(comfortPost.id,'dream');
+  await legacyReaction(comfortPost.id,'dream');
   const switched=await a.snapshot();assert.equal(switched.reactionCounts[comfortPost.id].comfort,0);assert.equal(switched.reactionCounts[comfortPost.id].dream,1);
   const signedOut=globalThis.supabase.createClient(OyasumiConfig.url,OyasumiConfig.publishableKey,{auth:{persistSession:false,autoRefreshToken:false}});
   assert((await signedOut.rpc('oyasumi_tonight_counts')).error,'Unauthenticated RPC must be denied');

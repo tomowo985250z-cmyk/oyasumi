@@ -3,6 +3,7 @@ require('node:vm').runInThisContext(require('node:fs').readFileSync('vendor/supa
 require('./supabase-config.js');require('./supabase-api.js');
 const a=createOyasumiConnection('morning-a-'+Date.now()), b=createOyasumiConnection('morning-b-'+Date.now());
 const posts=[];
+const legacyReaction=async(id,choice)=>{const r=await b.client.rpc('oyasumi_set_reaction_v2',{p_post_id:id,p_choice:choice});if(r.error)throw r.error;};
 (async()=>{
  await a.initialize();await b.initialize();
  await a.setNickname('朝ねこ');await a.setCatCoat('calico');
@@ -11,22 +12,22 @@ const posts=[];
  const zero=await receipts(a);assert(zero,'Apply morning-reactions.sql first');
  assert.equal(Number(zero.goodnight_count),0);
  const first=await a.submitPost('awake');posts.push(first.id);
- await b.setReaction(first.id,'goodnight');await b.setReaction(first.id,'goodnight');
+ await legacyReaction(first.id,'goodnight');await legacyReaction(first.id,'goodnight');
  const second=await a.submitPost('sleep');posts.push(second.id);
  const included=first.night_date===zero.night_date?1:0;
- await b.setReaction(second.id,'comfort');
+ await legacyReaction(second.id,'comfort');
  let r=await receipts(a);assert.equal(Number(r.goodnight_count),included);assert.equal(Number(r.comfort_count),included);
  assert.equal(Number((await receipts(b)).goodnight_count),0,'Other authors cannot read the recipient counts');
- await b.setReaction(first.id,'dream');r=await receipts(a);
+ await legacyReaction(first.id,'dream');r=await receipts(a);
  assert.equal(Number(r.goodnight_count),0);assert.equal(Number(r.dream_count),included);assert.equal(Number(r.comfort_count),included);
- await b.setReaction(second.id,'tomorrow');r=await receipts(a);
+ await legacyReaction(second.id,'tomorrow');r=await receipts(a);
  assert.equal(Number(r.tomorrow_count),included);assert.equal(Number(r.comfort_count),0);
  const snapshot=await a.snapshot();assert.equal(snapshot.morningReactions.dream,included);assert.equal(snapshot.morningReactions.tomorrow,included);
  assert.equal(snapshot.reactionCounts[first.id].dream,1,'History reactions remain accessible after the night switches');
  assert.equal(snapshot.feed.filter(p=>p.userId===a.userId).length,1,'Timeline still shows one latest post');
  const signedOut=supabase.createClient(OyasumiConfig.url,OyasumiConfig.publishableKey,{auth:{persistSession:false}});
  assert((await signedOut.rpc('oyasumi_morning_reactions')).error,'Signed-out reads must be denied');
- await b.setReaction(first.id,null);assert.equal(Number((await receipts(a)).dream_count),0);
+ await legacyReaction(first.id,null);assert.equal(Number((await receipts(a)).dream_count),0);
  console.log('PASS live morning receipts: all author posts, old awake/new sleep, four choices, replacement/removal/deduplication, owner-only and anonymous denial, shared snapshot.');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(async()=>{
  for(const id of posts)await a.deletePost(id);

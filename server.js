@@ -22,6 +22,7 @@ for(const file of fs.readdirSync(path.join(__dirname,'assets/day-cats')))if(/^[a
 for(const file of fs.readdirSync(path.join(__dirname,'assets/sleep-wake-cats')))if(/^[a-z-]+-(?:sleeping|waking)\.png$/.test(file))files['/assets/sleep-wake-cats/'+file]='assets/sleep-wake-cats/'+file;
 files['/cat-image-assets.js']='cat-image-assets.js';
 files['/cat-care.js']='cat-care.js';
+files['/reactions.js']='reactions.js';
 files['/cat-meal-assets.js']='cat-meal-assets.js';
 files['/assets/cat-meals-v1/manifest.json']='assets/cat-meals-v1/manifest.json';
 for(const coat of fs.readdirSync(path.join(__dirname,'assets/cat-meals-v1')))if(/^[a-z-]+$/.test(coat))for(const file of fs.readdirSync(path.join(__dirname,'assets/cat-meals-v1',coat)))if(/^(?:before|after)-[123]\.png$/.test(file))files['/assets/cat-meals-v1/'+coat+'/'+file]='assets/cat-meals-v1/'+coat+'/'+file;

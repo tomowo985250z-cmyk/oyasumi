@@ -22,20 +22,20 @@ function installFixture() {
  const peer = '00000000-0000-0000-0000-000000000002';
  const f = globalThis.HomePostFixture = { at: Date.parse('2026-10-11T23:00:00+09:00'), rows: [], calls: [], reactions: {}, peer: false, complete: true, fail: false };
  const sleeping = choice => ['sleep', 'try-sleep', 'early-sleep'].includes(choice);
- const mapped = row => ({ id: row.id, userId: row.user_id, status: row.choice, time: Date.parse(row.created_at), nightDate: row.night_date, order: row.event_order, name: row.user_id === own ? '確認ねこ' : 'おとなり', expression: 'calm', coat: 'calico', catRole: null, profileNote: '', self: row.user_id === own, color: 'peach' });
+ const mapped = row => ({ id: row.id, userId: row.user_id, status: row.choice, intent: row.post_intent, time: Date.parse(row.created_at), nightDate: row.night_date, order: row.event_order, name: row.user_id === own ? '確認ねこ' : 'おとなり', expression: 'calm', coat: 'calico', catRole: null, profileNote: '', self: row.user_id === own, color: 'peach' });
  f.row = (choice, user = own) => ({ id: `home-post-${f.rows.length + 1}`, user_id: user, choice, created_at: new Date(f.at).toISOString(), night_date: SleepFlow.night(f.at), event_order: f.rows.length + 1 });
  f.reset = () => { f.rows = []; f.calls = []; f.reactions = {}; f.peer = false; f.complete = true; f.fail = false; };
  const care = () => ({ day: SleepFlow.day(f.at), mealEligible: f.rows.some(row => sleeping(row.choice)), mealDone: false, treatGiven: false, receivedToday: 0, receivedTotal: 0, receivedDays: [] });
  const api = {
   initialize: async () => own,
   getCatCareStatus: async () => care(),
-  submitPost: async choice => {
+  submitPost: async (choice,intent) => {
    assertChoice(choice);
-   f.calls.push({ kind: 'post', choice });
+   f.calls.push({ kind: 'post', choice, intent });
    await new Promise(resolve => setTimeout(resolve, 80));
    if (f.fail) throw Error('Isolated post failure');
-   if (f.rows[0]?.choice === choice) return f.rows[0];
-   const row = f.row(choice); f.rows.unshift(row); return row;
+   if (f.rows[0]?.choice === choice && f.rows[0]?.post_intent === intent) return f.rows[0];
+   const row = {...f.row(choice),post_intent:intent}; f.rows.unshift(row); return row;
   },
   setReaction: async (id, choice) => { f.calls.push({ kind: 'reaction', id, choice }); if (choice) f.reactions[id] = choice; else delete f.reactions[id]; return true; },
   deletePost: async id => { const count = f.rows.length; f.rows = f.rows.filter(row => row.id !== id); return count !== f.rows.length; },
@@ -45,7 +45,7 @@ function installFixture() {
    const sleepingCount = feed.filter(post => sleeping(post.status)).length;
    const activeAwakePosts = feed.filter(post => post.status === 'awake');
    const reactionCounts = Object.fromEntries(Object.entries(f.reactions).map(([id, choice]) => [id, { [choice]: 1 }]));
-   return { userId: own, name: '確認ねこ', coat: 'calico', expression: 'calm', catRole: null, profileNote: '', profileComplete: f.complete, needsCat: !f.complete, needsNickname: false, ownPosts, feed, reactions: { ...f.reactions }, reactionCounts, activeAwakePosts, awakeCount: activeAwakePosts.length, sleepingCount, ownSleepCount: f.rows.filter(row => sleeping(row.choice)).length, myState: ownPosts.length ? sleeping(ownPosts[0].status) ? 'sleep' : 'awake' : null, nightDate: SleepFlow.night(f.at), trend: [], trendSupported: false, catCoatStatus: { nextChangeAt: null, temporarilyUnlocked: true }, catCare: care(), tonightSummary: { sleepingCount, coats: sleepingCount ? [{ coat: 'calico', count: sleepingCount }] : [], peakHours: [] } };
+   return { userId: own, name: '確認ねこ', coat: 'calico', expression: 'calm', catRole: null, profileNote: '', profileComplete: f.complete, needsCat: !f.complete, needsNickname: false, ownPosts, feed, reactions: { ...f.reactions }, reactionCounts, reactionVersion: 3, activeAwakePosts, awakeCount: activeAwakePosts.length, sleepingCount, ownSleepCount: f.rows.filter(row => sleeping(row.choice)).length, myState: ownPosts.length ? sleeping(ownPosts[0].status) ? 'sleep' : 'awake' : null, nightDate: SleepFlow.night(f.at), trend: [], trendSupported: false, catCoatStatus: { nextChangeAt: null, temporarilyUnlocked: true }, catCare: care(), tonightSummary: { sleepingCount, coats: sleepingCount ? [{ coat: 'calico', count: sleepingCount }] : [], peakHours: [] } };
   }
  };
  function assertChoice(choice) { if (!['awake', 'sleep', 'try-sleep', 'early-sleep'].includes(choice)) throw Error('Unexpected DB choice: ' + choice); }
@@ -110,7 +110,7 @@ function installFixture() {
     await reset();
     await page.locator(`[data-home-choice="${intent}"]`).click();
     await settled();
-    const result = await page.evaluate(() => ({ view, rows: HomePostFixture.rows, calls: HomePostFixture.calls, lastSleep: state.lastSleep, myState: shared.myState, ownSleepCount: shared.ownSleepCount, sleepingCount: shared.sleepingCount, awakeCount: shared.awakeCount, mealEligible: shared.catCare.mealEligible, renderedStatus: statusText(state.posts[0].status) }));
+    const result = await page.evaluate(() => ({ view, rows: HomePostFixture.rows, calls: HomePostFixture.calls, lastSleep: state.lastSleep, myState: shared.myState, ownSleepCount: shared.ownSleepCount, sleepingCount: shared.sleepingCount, awakeCount: shared.awakeCount, mealEligible: shared.catCare.mealEligible, renderedStatus: statusText(state.posts[0].status,state.posts[0].intent) }));
     assert.equal(result.rows[0].choice, choice);
     assert.equal(result.view, sleeping ? 'sleep' : 'timeline');
     assert.equal(result.myState, sleeping ? 'sleep' : 'awake');
@@ -119,7 +119,7 @@ function installFixture() {
     assert.equal(result.awakeCount, Number(!sleeping));
     assert.equal(result.mealEligible, sleeping);
     assert.equal(result.calls.length, 1);
-    if (sleeping) assert.equal(result.lastSleep.postId, result.rows[0].id); else { assert.equal(result.lastSleep, null); assert.equal(result.renderedStatus, '起きてるよ'); }
+    if (sleeping) assert.equal(result.lastSleep.postId, result.rows[0].id); else { assert.equal(result.lastSleep, null); assert.equal(result.renderedStatus, intent === 'sleepless' ? 'まだ眠れない…' : '起きてるよ'); }
     posts.push({ width, intent, ...result });
    }
   }
@@ -148,12 +148,12 @@ function installFixture() {
   assert.equal(await page.locator('[data-coat-picker]').isDisabled(), false, 'Seven-day restriction remains lifted');
   await page.evaluate(() => { filter = 'sleep'; go('timeline'); });
   assert.equal(await page.locator('.post').count(), 2, 'Legacy records remain in the sleep filter');
-  for (const reaction of ['goodnight', 'dream', 'tomorrow', 'comfort']) {
+  for (const reaction of ['sleep-night', 'sleep-dream', 'sleep-tomorrow', 'sleep-rest']) {
    await page.locator(`[data-react="legacy-peer"][data-reaction="${reaction}"]`).click(); await settled();
    assert.equal(await page.evaluate(() => state.reactions['legacy-peer']), reaction);
    assert.equal(await page.evaluate(reaction => shared.reactionCounts['legacy-peer'][reaction], reaction), 1);
   }
-  await page.locator('[data-react="legacy-peer"][data-reaction="comfort"]').click(); await settled();
+  await page.locator('[data-react="legacy-peer"][data-reaction="sleep-rest"]').click(); await settled();
   assert.equal(await page.evaluate(() => state.reactions['legacy-peer']), undefined, 'Reaction can be removed');
   await page.evaluate(() => go('stats'));
   assert.equal(await page.locator('.sleeping-cats .cat-scene').count(), 2, 'Latest sleeping users still populate statistics');
@@ -165,7 +165,7 @@ function installFixture() {
   assert.equal(await page.evaluate(() => shared.sleepingCount), 1, 'Only the peer remains sleeping');
   await page.evaluate(() => { filter = 'awake'; go('timeline'); });
   assert.equal(await page.locator('.post').count(), 1);
-  assert.equal(await page.locator('.awake-text').textContent(), '起きてるよ');
+  assert.equal(await page.locator('.awake-text').textContent(), 'まだ眠れない…');
   await page.locator('[data-delete]').click(); await settled();
   assert.equal(await page.evaluate(() => state.posts.length), 1, 'Deleting awake retains legacy sleep history');
   await reset();

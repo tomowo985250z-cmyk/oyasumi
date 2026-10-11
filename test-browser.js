@@ -409,8 +409,8 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     for(const width of [320,375,390,430]){
       await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
       assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
-      assert.equal(await evaluate('document.querySelector(".morning-receipts h2").textContent'),'きのう、あなたに届いたおやすみ');
-      assert.equal(await evaluate('document.querySelector(".morning-receipts p").textContent'),'10個のやさしい言葉が届いていました');
+      assert.equal(await evaluate('document.querySelector(".morning-receipts summary").textContent'),'昨日の投稿に、10個のやさしい気持ちが届いたよ 🐾');
+      await click('.morning-receipts summary');
       assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".morning-reaction-grid strong"),e=>parseInt(e.textContent))'),[2,3,1,4]);
       await screenshot(`morning-receipts-${width}.png`);
     }
@@ -422,7 +422,7 @@ await evaluate('globalThis.awakeFixture=[{id:"sleep",userId:"s",status:"sleep",c
     assert.equal(await evaluate('document.querySelector(".morning-receipts")'),null,'Zero receipts leave the normal morning screen');
     await screenshot('morning-receipts-zero.png');
     await evaluate('shared.morningReactions.comfort=1;render()');
-    assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".morning-reaction-grid strong"),e=>parseInt(e.textContent))'),[0,0,0,1]);
+    assert.deepEqual(await evaluate('Array.from(document.querySelectorAll(".morning-reaction-grid strong"),e=>parseInt(e.textContent))'),[1]);
     await evaluate('NightClock.sync({serverNow:Date.parse("2026-10-04T05:59:59+09:00"),monotonicAt:performance.now(),resetAt:Date.parse("2026-10-04T06:00:00+09:00")});render()');
     assert.equal(await evaluate('document.querySelector(".morning-receipts")'),null,'Receipts are shown from 06:00');
     assert.deepEqual(errors,[]);

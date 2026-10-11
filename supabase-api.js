@@ -15,11 +15,13 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   let initialization;
   let userId;
   let needsNickname = false;
+  let reactionVersion = 2;
   function checked(result) {
     if (result.error) throw result.error;
     return result.data;
   }
   async function rpc(name, args = {}) { return checked(await client.rpc(name, args)); }
+  const normalizeCounts = values => Object.fromEntries(Object.entries({goodnight:0,dream:0,tomorrow:0,comfort:0,...values}).map(([id,count]) => [id,Number.isSafeInteger(Number(count)) && Number(count)>0 ? Number(count) : 0]));
   async function initialize() {
     if (!initialization) {
       const initializeSession = async () => {
@@ -39,7 +41,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     return initialization;
   }
   function mapPost(row, names, expressions, coats, roles, notes) {
-    return { id: row.id, userId: row.user_id, status: row.choice, time: Date.parse(row.created_at),
+    return { id: row.id, userId: row.user_id, status: row.choice, intent: row.post_intent, time: Date.parse(row.created_at),
       order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || '名無し',
       self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate', expression: expressions.get(row.user_id) || 'calm', coat: coats.get(row.user_id) || 'calico', catRole: roles.get(row.user_id) || null, profileNote: notes.get(row.user_id) || '' };
   }
@@ -61,9 +63,14 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     if(counts.night_date!==clock.nightDate){if(attempt<2)return snapshot(attempt+1);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     let morningReactions = null;
     try {
-      const rows = await rpc('oyasumi_morning_reactions');
+      let rows;
+      try { rows = await rpc('oyasumi_morning_reactions_v2'); }
+      catch (error) { if (error.code !== 'PGRST202') throw error; rows = await rpc('oyasumi_morning_reactions'); }
       const row = rows.find(row => row.night_date === clock.morningNightDate);
-      if (row) morningReactions = { nightDate: row.night_date, goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count), comfort: Number(row.comfort_count) };
+      if (row) {
+        const counts = normalizeCounts(row.counts || {goodnight:row.goodnight_count,dream:row.dream_count,tomorrow:row.tomorrow_count,comfort:row.comfort_count});
+        morningReactions = { nightDate: row.night_date, ...counts, counts };
+      }
     } catch { /* A failed receipt fetch must not become a false zero or block existing features. */ }
     let tonightSummary = null;
     try {
@@ -126,17 +133,21 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     const allowedCoats = ['calico','orange','brown','silver','black','white','tuxedo','gray','manul','sand','black-footed','fishing','snow-leopard','leopard','cheetah','jaguar'];
     const coats = new Map(profiles.map(profile => [profile.user_id, allowedCoats.includes(profile.cat_coat) ? profile.cat_coat : 'calico']));
     const reactions = {}, reactionCounts = {};
+    // Probe even an empty timeline so the four home choices can save their intent.
+    const support = await client.rpc('oyasumi_reaction_counts_v3', {p_post_ids:[]});
+    if (support.error && support.error.code !== 'PGRST202') throw support.error;
+    reactionVersion = support.error ? 2 : 3;
     for (let start = 0; start < postIds.length; start += 100) {
       const args = { p_post_ids: postIds.slice(start, start + 100) };
       let rows;
-      try { rows = await rpc('oyasumi_reaction_counts_v2', args); }
+      try { rows = await rpc(reactionVersion === 3 ? 'oyasumi_reaction_counts_v3' : 'oyasumi_reaction_counts_v2', args); }
       catch (error) {
-        if (error.code !== 'PGRST202') throw error;
+        if (error.code !== 'PGRST202' || reactionVersion === 3) throw error;
         rows = await rpc('oyasumi_reaction_counts', args);
       }
       for (const row of rows) {
         if (row.my_choice) reactions[row.post_id] = row.my_choice;
-        reactionCounts[row.post_id] = { goodnight: Number(row.goodnight_count), dream: Number(row.dream_count), tomorrow: Number(row.tomorrow_count), comfort: Number(row.comfort_count ?? 0) };
+        reactionCounts[row.post_id] = normalizeCounts(row.counts || {goodnight:row.goodnight_count,dream:row.dream_count,tomorrow:row.tomorrow_count,comfort:row.comfort_count});
       }
     }
     needsNickname = !names.get(userId);
@@ -157,16 +168,19 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       awakeCount: Number(counts.awake_count), activeAwakePosts, sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
       profileNote: notes.get(userId) || '', clock, catCoatStatus, catCare,
       feed: feedRows.map(row => mapPost(row, names, expressions, coats, roles, notes)), ownPosts: ownRows.map(row => mapPost(row, names, expressions, coats, roles, notes)),
-      reactions, reactionCounts, ownSleepCount: Number(sleepCountResult.count) };
+      reactions, reactionCounts, reactionVersion, ownSleepCount: Number(sleepCountResult.count) };
   }
   return { client, initialize, snapshot, get userId() { return userId; }, get needsNickname() { return needsNickname; },
     getCatCareStatus: () => rpc('oyasumi_cat_care_status'),
     giveCatMeal: () => rpc('oyasumi_give_cat_meal'),
     giveCatTreat: recipient => rpc('oyasumi_give_cat_treat', {p_recipient:recipient}),
-    submitPost: choice => rpc('oyasumi_submit_post', { p_choice: choice }),
+    submitPost: (choice, intent) => reactionVersion === 3
+      ? rpc('oyasumi_submit_post_v2', { p_choice: choice, p_intent: intent || (choice === 'awake' ? 'relax' : choice === 'early-sleep' ? 'sleep' : choice) })
+      : rpc('oyasumi_submit_post', { p_choice: choice }),
     deletePost: id => rpc('oyasumi_delete_post', { p_post_id: id }),
     setReaction: async (id, choice) => {
       const args = { p_post_id: id, p_choice: choice };
+      if (reactionVersion === 3) return rpc('oyasumi_set_reaction_v3', args);
       try { return await rpc('oyasumi_set_reaction_v2', args); }
       catch (error) {
         if (error.code !== 'PGRST202' || choice === 'comfort') throw error;

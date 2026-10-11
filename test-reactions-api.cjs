@@ -1,0 +1,38 @@
+const assert=require('node:assert/strict');require('./reactions.js');
+const own='00000000-0000-0000-0000-000000000001',post='00000000-0000-0000-0000-000000000011';
+global.OyasumiConfig={url:'https://isolated.invalid',publishableKey:'test'};
+let mode='modern',failMorning=false,failCounts=false;const calls=[];
+const rpc=async(name,args={})=>{
+ calls.push({name,args});
+ if(name==='oyasumi_night_context')return{data:[{night_date:'2026-10-11',morning_night_date:'2026-10-10',server_now:'2026-10-11T23:00:00+09:00',next_reset_at:'2026-10-12T06:00:00+09:00'}]};
+ if(name==='oyasumi_tonight_counts')return{data:[{night_date:'2026-10-11',awake_count:1,sleeping_count:0,my_state:'awake'}]};
+ if(name==='oyasumi_reaction_counts_v3')return mode==='legacy'?{error:{code:'PGRST202'}}:failCounts?{error:{code:'42501'}}:{data:args.p_post_ids.length?[{post_id:post,counts:{'sleepless-here':2,comfort:1},my_choice:'sleepless-here'}]:[]};
+ if(name==='oyasumi_reaction_counts_v2')return{data:[{post_id:post,goodnight_count:0,dream_count:1,tomorrow_count:0,comfort_count:1,my_choice:'comfort'}]};
+ if(name==='oyasumi_morning_reactions_v2')return failMorning?{error:{code:'57014'}}:mode==='legacy'?{error:{code:'PGRST202'}}:{data:[{night_date:'2026-10-10',counts:{'sleep-night':3,comfort:1}}]};
+ if(name==='oyasumi_morning_reactions')return{data:[{night_date:'2026-10-10',goodnight_count:1,dream_count:0,tomorrow_count:0,comfort_count:2}]};
+ if(name==='oyasumi_cat_coat_status')return{data:[{next_change_at:null}]};
+ if(name==='oyasumi_cat_coat_cooldown_paused')return{data:true};
+ if(name==='oyasumi_submit_post_v2')return{data:{id:post,choice:args.p_choice,post_intent:args.p_intent}};
+ if(name==='oyasumi_submit_post')return{data:{id:post,choice:args.p_choice}};
+ if(name==='oyasumi_set_reaction_v3'||name==='oyasumi_set_reaction_v2')return{data:args.p_choice};
+ return{error:{code:'PGRST202'}};
+};
+const profile={user_id:own,nickname:'確認ねこ',cat_expression:'calm',cat_coat:'calico',cat_role:null,profile_note:''};
+const row={id:post,user_id:own,choice:'awake',post_intent:'sleepless',created_at:'2026-10-11T23:00:00+09:00',night_date:'2026-10-11',event_order:1};
+global.supabase={createClient:()=>({auth:{getSession:async()=>({data:{session:{user:{id:own}}}})},rpc,from:table=>{
+ let head=false,single=false;const query={select:(fields,options)=>{head=!!options?.head;return query;},eq:()=>query,gt:()=>query,in:()=>query,order:()=>query,limit:()=>query,range:()=>query,maybeSingle:()=>{single=true;return query;},then:(resolve,reject)=>Promise.resolve(table==='oyasumi_profiles'?{data:single?profile:[profile]}:head?{data:null,count:0}:{data:[row]}).then(resolve,reject)};return query;
+}})};
+require('./supabase-api.js');
+(async()=>{
+ const api=createOyasumiConnection('isolated-reactions');let s=await api.snapshot();
+ assert.equal(s.reactionVersion,3);assert.equal(s.feed[0].intent,'sleepless');assert.equal(s.ownPosts[0].intent,'sleepless');
+ assert.equal(s.reactionCounts[post]['sleepless-here'],2);assert.equal(s.reactions[post],'sleepless-here');assert.equal(PostReactions.total(s.morningReactions.counts),4);
+ await api.submitPost('awake','sleepless');assert.deepEqual(calls.at(-1),{name:'oyasumi_submit_post_v2',args:{p_choice:'awake',p_intent:'sleepless'}});
+ await api.setReaction(post,'sleepless-here');assert.equal(calls.at(-1).name,'oyasumi_set_reaction_v3');await api.setReaction(post,null);assert.equal(calls.at(-1).args.p_choice,null);
+ failMorning=true;const start=calls.length;s=await api.snapshot();assert.equal(s.morningReactions,null);assert(!calls.slice(start).some(c=>c.name==='oyasumi_morning_reactions'),'Transient error does not silently replace new counts with old counts');failMorning=false;
+ failCounts=true;await assert.rejects(api.snapshot(),e=>e.code==='42501');failCounts=false;
+ mode='legacy';s=await api.snapshot();assert.equal(s.reactionVersion,2);assert.equal(s.reactionCounts[post].comfort,1);assert.equal(PostReactions.total(s.morningReactions.counts),3);
+ await api.setReaction(post,'comfort');assert.equal(calls.at(-1).name,'oyasumi_set_reaction_v2');await api.submitPost('awake','relax');assert.equal(calls.at(-1).name,'oyasumi_submit_post');
+ assert.equal(s.ownSleepCount,0);assert.equal(s.catCoatStatus.temporarilyUnlocked,true);
+ console.log('PASS reactions API: v3 intent/count mapping, v2 submit and v3 writes/cancel, legacy deployment compatibility, transient errors cannot hide new counts, sleep totals and paused cooldown preserved; no network.');
+})().catch(e=>{console.error(e);process.exitCode=1;});
