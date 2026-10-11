@@ -20,26 +20,26 @@ let socket;
   await send('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
   for(const [time,day] of [['05:59:59.999',false],['06:00:00.000',true],['12:00:00.000',true],['17:59:59.999',true],['18:00:00.000',false],['23:59:59.999',false],['00:00:00.000',false]]){
    await evaluate(`testNow=Date.parse('2026-10-08T${time}+09:00');shared.activeAwakePosts=[{id:'recent',userId:'recent',status:'awake',time:testNow-1000,coat:'calico',expression:'calm'},{id:'expired',userId:'expired',status:'awake',time:testNow-10800000,coat:'calico',expression:'calm'}];go('home')`);
-   assert.equal(await evaluate('document.querySelector(".awake-heading>span").textContent'),day?'最近の投稿':'今夜まだ起きてる人');
-   assert.equal(await evaluate('document.querySelector("[data-trend-comment]").textContent'),day?'ここには、誰かがいるみたい':'今夜も、ひとりじゃないみたい');
-   assert.equal(await evaluate('activeAwakeCount()'),1);assert.equal(await evaluate('document.querySelectorAll(".roof-cat").length'),1);
+   assert.equal(await evaluate('document.querySelectorAll(".roof-sky-card").length'),day?0:1);
+   if(!day){assert.equal(await evaluate('document.querySelector(".awake-heading>span").textContent'),'今夜まだ起きてる人');assert.equal(await evaluate('document.querySelector("[data-trend-comment]").textContent'),'今夜も、ひとりじゃないみたい');}
+   assert.equal(await evaluate('activeAwakeCount()'),1);assert.equal(await evaluate('document.querySelectorAll(".roof-cat").length'),day?0:1);
    assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
-   assert(await evaluate(`(()=>{const a=document.querySelector('.awake-heading>span').getBoundingClientRect(),b=document.querySelector('.count').getBoundingClientRect();return a.right<=b.left})()`),'Heading and count do not overlap');
+   if(!day)assert(await evaluate(`(()=>{const a=document.querySelector('.awake-heading>span').getBoundingClientRect(),b=document.querySelector('.count').getBoundingClientRect();return a.right<=b.left})()`),'Heading and count do not overlap');
    if(time==='12:00:00.000'||time==='18:00:00.000'){
     const shot=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(`test-results/home-copy-${day?'day':'night'}-${width}.png`,Buffer.from(shot.data,'base64'));
    }
   }
  }
  const before=await evaluate('JSON.stringify({feed:shared.feed,posts:state.posts,trend:shared.trend,awake:shared.awakeCount,sleeping:shared.sleepingCount})');
- for(const [boundary,heading] of [['06:00:00','最近の投稿'],['18:00:00','今夜まだ起きてる人']]){
+ for(const [boundary,visible] of [['06:00:00',false],['18:00:00',true]]){
   await evaluate(`shared.activeAwakePosts=[];globalThis.start=performance.now();NightClock.now=()=>Date.parse('2026-10-08T${boundary}+09:00')-300+performance.now()-start;go('home');document.querySelector('#share-dialog').showModal()`);
   await delay(600);
-  assert.equal(await evaluate('document.querySelector(".awake-heading>span").textContent'),heading,'Offline automatic boundary switch');
+  assert.equal(await evaluate('!!document.querySelector(".roof-sky-card")'),visible,'Offline automatic boundary switch');
   assert(await evaluate('document.querySelector("#share-dialog").open'),'Boundary preserves open dialog');
   await evaluate(`document.querySelector('#share-dialog').close()`);
  }
  await evaluate(`NightClock.now=()=>Date.parse('2026-10-09T06:00:00+09:00');document.dispatchEvent(new Event('visibilitychange'))`);
- assert.equal(await evaluate('document.querySelector(".awake-heading>span").textContent'),'最近の投稿','Resume updates copy');
+ assert.equal(await evaluate('document.querySelector(".roof-sky-card")'),null,'Resume hides the daytime card');
  assert.equal(await evaluate('JSON.stringify({feed:shared.feed,posts:state.posts,trend:shared.trend,awake:shared.awakeCount,sleeping:shared.sleepingCount})'),before);
  await evaluate(`shared.tonightSummary={sleepingCount:40,coats:[{coat:'calico',count:40}],peakHours:[{hour:23,count:40}]};shared.sleepingCount=40;shared.trend=[{time:Date.parse('2026-10-08T06:00:00+09:00'),awake:2,sleeping:3},{time:Date.parse('2026-10-08T23:00:00+09:00'),awake:1,sleeping:40}];globalThis.recordsBefore=JSON.stringify(shared);go('home');globalThis.homeLowerBefore=document.querySelector('.section-heading').parentElement.outerHTML`);
  for(const width of [320,375,390,430]){
