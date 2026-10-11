@@ -69,6 +69,7 @@ let roofShootingTimer,roofNextShootingAt;
 function syncRoofSky() {
  clearTimeout(roofShootingTimer);
  const scene=document.querySelector('.awake-roof');
+ if(!document.hidden&&scene)scene.querySelector('.roof-moon').outerHTML=RoofMoon.svg(NightClock.now());
  if(DayRoom.world().daylight||document.hidden||!scene||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.roof-shooting-star').forEach(star=>{star.getAnimations().forEach(animation=>animation.cancel());star.remove();});roofNextShootingAt=undefined;return;}
  roofNextShootingAt??=performance.now()+15000+Math.random()*15000;
  roofShootingTimer=setTimeout(()=>{
@@ -81,6 +82,7 @@ function syncRoofSky() {
  },Math.max(0,roofNextShootingAt-performance.now()));
 }
 document.addEventListener('visibilitychange',syncRoofSky);
+window.addEventListener('pageshow',()=>{if(!document.hidden){checkNightBoundary();refreshDayScene();syncRoofSky();}});
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',syncRoofSky);
 function activeAwakeCount() {
  return Array.isArray(shared.activeAwakePosts) ? TimelineVisibility.visible(shared.activeAwakePosts,NightClock.now()).length : shared.awakeCount;
@@ -108,7 +110,7 @@ function awakeCats() {
  if(!count)return '';
  const users=new Set(),coats=[];
  for(const post of TimelineVisibility.visible(shared.feed,NightClock.now())){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
-return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g><path class="roof-moon" d="M180 12a7 7 0 1 0 7 11 7.5 7.5 0 0 1-7-11Z" fill="#ddd8bf" opacity=".48"/></svg><span class="roof-cat-group" data-cat-count="${count}">${Array.from({length:count},(_,index)=>RoofCats.svg(coats[index],index,count)).join('')}</span></span></span>`;
+return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g>${RoofMoon.svg(NightClock.now())}</svg><span class="roof-cat-group" data-cat-count="${count}">${Array.from({length:count},(_,index)=>RoofCats.svg(coats[index],index,count)).join('')}</span></span></span>`;
 }
 function cardSkyStars() {
  // One gently jittered star per cell keeps the entire card balanced at every width.

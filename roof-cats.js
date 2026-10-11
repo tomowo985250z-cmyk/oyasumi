@@ -35,3 +35,28 @@ globalThis.RoofCats = (() => {
  }
  return Object.freeze({svg});
 })();
+
+// Decorative moon, calculated from the same clock as the rest of the home card.
+globalThis.RoofMoon = (() => {
+ const cycleDays=29.530588853, dayMs=86400000;
+ const epoch=Date.parse('2000-01-06T18:14:00Z'); // Reference new moon.
+ const jst=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
+ function snapshot(now) {
+  const age=(now-epoch)/(cycleDays*dayMs),phase=((age%1)+1)%1;
+  const parts=Object.fromEntries(jst.formatToParts(now).map(part=>[part.type,part.value]));
+  const hours=Number(parts.hour)+Number(parts.minute)/60+Number(parts.second)/3600+(now%1000)/3600000;
+  const angle=(hours-18)/24*Math.PI*2;
+  // Stay in the clear strip to the right of even the three-cat arrangement.
+  return {phase,illumination:(1-Math.cos(phase*Math.PI*2))/2,
+   x:192+2.5*(1-Math.cos(angle)),y:26-11*Math.sin(angle),
+   scale:1.025+.125*Math.cos(angle-.7)};
+ }
+ function svg(now) {
+  const moon=snapshot(now),cosine=Math.cos(moon.phase*Math.PI*2),rx=Math.abs(cosine);
+  // Outer limb plus elliptical terminator: right-lit waxing, left-lit waning.
+  const terminator=rx<1e-8?'L0 -1':`A${rx} 1 0 0 ${cosine>=0?0:1} 0 -1`;
+  const path=`M0 -1A1 1 0 0 1 0 1${terminator}Z`;
+  return `<g class="roof-moon" data-moon-phase="${moon.phase}" transform="translate(${moon.x} ${moon.y}) scale(${7.5*moon.scale})"><circle r="1" fill="#ddd8bf" opacity=".06"/><path d="${path}" transform="scale(${moon.phase<=.5?1:-1} 1)" fill="#ddd8bf" opacity=".6"/></g>`;
+ }
+ return Object.freeze({snapshot,svg});
+})();
