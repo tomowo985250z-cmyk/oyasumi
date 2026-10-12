@@ -26,7 +26,7 @@ globalThis.CatCare=(()=>{
   return ` data-morning-beg="true" style="--beg-elapsed:-${now-started}ms"`;
  }
  function normalCat(coat,user){return DayRoom.world().daylight?DayCats.svg(DayRoom.snapshot(user).pose,coat):CatScenes.svg('sleeping',coat);}
- function syncNormal(){for(const scene of document.querySelectorAll('[data-care-normal="true"]'))if(!active.has(scene)){const idle=scene.querySelector('.care-idle');if(idle)idle.innerHTML=normalCat(scene.dataset.careCoat,scene.dataset.roomUser);}}
+ function syncNormal(){for(const scene of document.querySelectorAll('[data-care-normal="true"]'))if(!active.has(scene)){const idle=scene.querySelector('.care-idle');if(idle)CatImages.render(idle,normalCat(scene.dataset.careCoat,scene.dataset.roomUser));}}
  function visual(coat,kind='meal',options={}){
   coat=CatFaces.normalizeCoat(coat);kind=kind==='treat'?'treat':'meal';
   const before=CatMealAssets.variant(options.before),after=CatMealAssets.variant(options.after),finished=options.finished===true;
@@ -52,24 +52,31 @@ globalThis.CatCare=(()=>{
   token={};active.set(scene,token);
   scene.classList.remove('care-finished');scene.dataset.careFinished='false';
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cancelPreparation;
+  const preparationCancelled=new Promise(resolve=>{cancelPreparation=resolve;});
+  const preparationObserver=new MutationObserver(()=>{if(!scene.isConnected)cancelPreparation();});
+  preparationObserver.observe(document.body,{childList:true,subtree:true});
+  try{
   // Decode off the interaction path: navigation and other controls stay available.
-  await Promise.allSettled([...scene.querySelectorAll('img')].map(img=>typeof img.decode==='function'?img.decode():new Promise(resolve=>{
+  await Promise.race([preparationCancelled,Promise.allSettled([...scene.querySelectorAll('img')].map(img=>typeof img.decode==='function'?img.decode():new Promise(resolve=>{
    if(img.complete)return resolve();
    img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true});
-  })));
+  })))]);
   if(!scene.isConnected||active.get(scene)!==token){active.delete(scene);return;}
   // Commit the newly inserted scene's initial style before starting CSS animations.
   // WebKit may otherwise coalesce insertion and playback into a single paint.
   scene.getBoundingClientRect();
-  await new Promise(resolve=>requestAnimationFrame(resolve));
+  await Promise.race([preparationCancelled,new Promise(resolve=>requestAnimationFrame(resolve))]);
   if(!scene.isConnected||active.get(scene)!==token){active.delete(scene);return;}
+  }finally{preparationObserver.disconnect();}
   scene.classList.add(reduced?'care-reduced':'care-playing');
   // Count visible time, including reduced-motion mode. Backgrounding Safari/PWA
   // must not consume the meal while the user cannot see it.
   await new Promise(resolve=>{
-   let elapsed=0,started=performance.now(),timer;
+   let elapsed=0,started=null,timer,finished=false,returning=false;
    const finish=()=>{
-    clearTimeout(timer);document.removeEventListener('visibilitychange',visibility);
+    if(finished)return;finished=true;
+    clearTimeout(timer);detached.disconnect();document.removeEventListener('visibilitychange',visibility);
     scene.classList.remove('care-playing','care-reduced','care-paused');delete scene.dataset.careStage;
     if(elapsed>=durationMs&&scene.isConnected){if(scene.dataset.careNormal!=='true')scene.classList.add('care-finished');scene.dataset.careFinished='true';}
     scene.dispatchEvent(new CustomEvent('careplaybackend',{bubbles:true,detail:{visibleMs:elapsed}}));resolve();
@@ -78,16 +85,20 @@ globalThis.CatCare=(()=>{
     clearTimeout(timer);
     if(!scene.isConnected||active.get(scene)!==token)return finish();
     scene.dataset.careStage=elapsed<1000?'plate':elapsed<4000?'munch':'joy';
+    if(elapsed>=5800&&!returning){returning=true;scene.dispatchEvent(new CustomEvent('careplaybackreturn',{bubbles:true}));}
     if(elapsed>=durationMs)return finish();
     if(document.hidden){scene.classList.add('care-paused');return;}
     scene.classList.remove('care-paused');started=performance.now();
-    const boundary=elapsed<1000?1000:elapsed<4000?4000:durationMs;
-    timer=setTimeout(()=>{elapsed+=performance.now()-started;schedule();},Math.max(1,boundary-elapsed));
+    const boundary=elapsed<1000?1000:elapsed<4000?4000:elapsed<5800?5800:durationMs;
+    timer=setTimeout(()=>{elapsed+=performance.now()-started;started=null;schedule();},Math.max(1,boundary-elapsed));
    };
    const visibility=()=>{
-    if(document.hidden){elapsed+=performance.now()-started;clearTimeout(timer);scene.classList.add('care-paused');}
+    if(document.hidden){if(started!==null)elapsed+=performance.now()-started;started=null;clearTimeout(timer);scene.classList.add('care-paused');}
     else schedule();
    };
+   // A hidden/detached screen has no phase timer to clean it up on its own.
+   const detached=new MutationObserver(()=>{if(!scene.isConnected)finish();});
+   detached.observe(document.body,{childList:true,subtree:true});
    document.addEventListener('visibilitychange',visibility);
    scene.dispatchEvent(new CustomEvent('careplaybackstart',{bubbles:true}));schedule();
   });

@@ -27,4 +27,61 @@
     coat = faces.normalizeCoat(coat);
     return `<img class="roof-cat" src="assets/roof-cats-v2/${coat}.png" alt="" aria-hidden="true" data-asset-key="rear/${coat}" data-cat-coat="${coat}" data-cat-pose="rear">`;
   }});
+  // Retain a small working set of decoded images, never the whole cat catalog.
+  const cache = new Map(), limit = 12;
+  const selector = 'img[data-asset-key], svg.cat-face, .care-scene img';
+  function remember(src, image) {
+    if (!src) return;
+    if (cache.has(src)) {
+      const entry = cache.get(src); cache.delete(src); cache.set(src, entry);
+      return;
+    }
+    image ||= new Image();
+    cache.set(src, image);
+    image.loading = 'eager';
+    image.addEventListener('error', () => { if (cache.get(src) === image) cache.delete(src); }, {once: true});
+    if (!image.getAttribute('src')) image.src = src;
+    if (typeof image.decode === 'function') void image.decode().catch(() => {});
+    while (cache.size > limit) cache.delete(cache.keys().next().value);
+  }
+  function warm(root) {
+    for (const cat of root.querySelectorAll(selector)) {
+      const image = cat.matches('img') ? cat : cat.querySelector('image');
+      if (image) remember(image.getAttribute('src') || image.getAttribute('href'), image.matches('img') ? image : undefined);
+    }
+  }
+  function preload(markup) {
+    const template = document.createElement('template'); template.innerHTML = markup;
+    const sources = new Set();
+    for (const image of template.content.querySelectorAll('img, svg.cat-face image')) {
+      const src = image.getAttribute('src') || image.getAttribute('href');
+      if (src) sources.add(src);
+      if (sources.size === 4) break;
+    }
+    for (const src of sources) remember(src);
+  }
+  function render(target, markup) {
+    const template = document.createElement('template'); template.innerHTML = markup;
+    for (const image of template.content.querySelectorAll('img[data-asset-key], .care-scene img')) image.loading = 'eager';
+    const children = [...template.content.childNodes];
+    if (children.length === target.childNodes.length && children.every((node, i) => node.isEqualNode(target.childNodes[i]))) {
+      warm(target); return;
+    }
+    // Reuse identical cat nodes when only surrounding text/data changes.
+    const existing = new Map();
+    for (const cat of target.querySelectorAll(selector)) {
+      const key = cat.outerHTML;
+      if (!existing.has(key)) existing.set(key, []);
+      existing.get(key).push(cat);
+    }
+    for (const cat of template.content.querySelectorAll(selector)) {
+      const previous = existing.get(cat.outerHTML)?.shift();
+      if (previous) cat.replaceWith(previous);
+    }
+    target.replaceChildren(template.content);
+    // Cached images must not retain entire detached screens through their parents.
+    for (const image of cache.values()) if (!image.isConnected) image.remove();
+    warm(target);
+  }
+  globalThis.CatImages = Object.freeze({preload, render, warm});
 })();

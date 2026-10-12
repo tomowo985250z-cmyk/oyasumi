@@ -4,12 +4,12 @@ globalThis.DayRoom=(()=>{
  const world=()=>SeasonWeather.at(NightClock.now());
  const snapshot=(user,now=NightClock.now())=>DayRoomState.at(now,user||'local-cat');
  const attrs=w=>`data-world-day="${w.day}" data-world-season="${w.season}" data-world-weather="${w.weather}" data-world-daylight="${w.daylight}"`;
- const artwork=(room,coat,status,w)=>w.daylight?DayCats.svg(room.pose,coat):CatScenes.svg(status==='awake'?'awake':'sleeping',coat);
+ const artwork=(room,coat,status,w,home=false)=>home&&status==='sleep'?CatScenes.svg('sleeping',coat):w.daylight?DayCats.svg(room.pose,coat):CatScenes.svg(status==='awake'?'awake':'sleeping',coat);
  const placement=(room,w)=>w.daylight&&room.pose==='gaze'?'window':room.place;
- const homeKey=()=>DayRoom.world().daylight?(DayCats.current()?.key||null):DayRoom.world().day+':night';
- const homeLabel=room=>DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
+ const homeKey=()=>DayRoom.world().day+':'+(DayCats.current(NightClock.now())?.key||'night');
+ const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
-  const room=DayRoom.snapshot(user),w=DayRoom.world(),html=artwork(room,coat,cat?.status,w);
+  const room=DayRoom.snapshot(user),w=DayRoom.world(),html=artwork(room,coat,cat?.status,w,cat?.home);
   const tag=interactive?'button':'div';
   return `<div class="day-room room-scene" ${attrs(w)} data-room-user="${user||''}" data-place="${placement(room,w)}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><img class="day-room-art" src="assets/day-room/room.svg" alt="" aria-hidden="true"><div class="day-room-night-light" aria-hidden="true"></div><div class="day-room-world-window" aria-hidden="true">${SeasonLandscape.art(w)}</div><${tag} class="day-cat day-room-cat room-resident" ${interactive?'type="button" data-day-cat-tap aria-label="猫をなでる"':''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
@@ -27,10 +27,14 @@ globalThis.DayRoom=(()=>{
   const template=document.createElement('template');template.innerHTML=CatCare.visual(proxy.dataset.careCoat,proxy.dataset.careKind,{before:proxy.dataset.careBefore,after:proxy.dataset.careAfter});
   const animation=template.content.firstElementChild;animation.classList.add('room-care-animation');
   const size=()=>animation.style.setProperty('--room-care-scale',String(stage.classList.contains('day-room')?stage.clientWidth*.4/152:Math.min(208/152,stage.clientWidth/176)));
+  // Keep the resident visible until the meal images have decoded and playback starts.
+  animation.style.visibility='hidden';
+  animation.addEventListener('careplaybackstart',()=>{animation.style.removeProperty('visibility');unit.dataset.feeding='true';},{once:true});
+  animation.addEventListener('careplaybackreturn',()=>{delete unit.dataset.feeding;sync();unit.dataset.feeding='true';unit.classList.add('room-care-returning');},{once:true});
   stage.append(animation);size();const observer=new ResizeObserver(size);observer.observe(stage);
-  active.set(unit,animation);unit.dataset.feeding='true';
+  active.set(unit,animation);
   try{await playOriginal(animation);}finally{
-   observer.disconnect();animation.remove();active.delete(unit);delete unit.dataset.feeding;delete stage.dataset.roomStamp;sync();
+   observer.disconnect();animation.remove();active.delete(unit);delete unit.dataset.feeding;unit.classList.remove('room-care-returning');delete stage.dataset.roomStamp;sync();
    document.dispatchEvent(new Event('roomcareend'));
   }
  }
@@ -38,17 +42,18 @@ globalThis.DayRoom=(()=>{
   if(document.hidden)return;
   for(const stage of document.querySelectorAll('.day-room')){
    if(stage.closest('[data-feeding=true]'))continue;
+   if(stage.closest('.home-room-unit'))stage.dataset.postStatus=homeCatStatus();
    const room=DayRoom.snapshot(stage.dataset.roomUser),w=DayRoom.world(),cat=stage.querySelector('.room-resident');
    const stamp=[room.day,room.place,room.pose,room.away,stage.dataset.coat,stage.dataset.postStatus,w.day,w.season,w.weather,w.daylight].join(':');
    if(stage.dataset.roomStamp!==stamp){
     stage.dataset.roomStamp=stamp;
     stage.dataset.place=placement(room,w);stage.dataset.away=String(room.away);
     stage.dataset.worldDay=w.day;stage.dataset.worldSeason=w.season;stage.dataset.worldWeather=w.weather;stage.dataset.worldDaylight=String(w.daylight);
-    cat.innerHTML=artwork(room,stage.dataset.coat,stage.dataset.postStatus,w);
+    CatImages.render(cat,artwork(room,stage.dataset.coat,stage.dataset.postStatus,w,!!stage.closest('.home-room-unit')));
     cat.toggleAttribute('aria-hidden',room.away);
     if(cat.matches('button')){cat.disabled=room.away;if(room.away)cat.tabIndex=-1;else cat.removeAttribute('tabindex');}
     stage.querySelector('.day-room-world-window').innerHTML=SeasonLandscape.art(w);
-    const hero=stage.closest('.day-room-hero'),heading=hero?.querySelector('h2');if(heading)heading.textContent=homeLabel(room);
+    const hero=stage.closest('.day-room-hero'),heading=hero?.querySelector('h2');if(heading)heading.textContent=homeLabel(room,stage.dataset.postStatus);
     const caption=hero?.querySelector('p');if(caption)caption.textContent=w.daylight?'また今夜 🌙':'ゆっくり、ひとやすみ 🌙';
    }
   }

@@ -153,11 +153,11 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
    can fail to repaint together in WebKit. Keep its child image coordinates. */
 .care-munch{display:block;position:absolute;inset:0;width:176px;height:170px}
 @keyframes care-plate{0%{opacity:0;transform:translateY(7px) scale(.85)}16.6667%,100%{opacity:1;transform:none}}
-@keyframes care-wait{0%,16.6666%{opacity:1}16.6667%,100%{opacity:0}}
-@keyframes care-munch-show{0%,16.6666%{opacity:0}16.6667%,66.6666%{opacity:1}66.6667%,100%{opacity:0}}
+@keyframes care-wait{0%,15%{opacity:1}18%,100%{opacity:0}}
+@keyframes care-munch-show{0%,15%{opacity:0}18%,65%{opacity:1}68%,100%{opacity:0}}
 @keyframes care-chew{0%,16.6667%,66.6667%,100%{transform:none}22%,32%,42%,52%,62%{transform:translateY(12px) rotate(3deg)}27%,37%,47%,57%{transform:translateY(8px) rotate(1deg)}}
 @keyframes care-food-away{0%,16.6667%{opacity:1;transform:none}66.6667%,100%{opacity:0;transform:scale(.5)}}
-@keyframes care-raise{0%,66.6666%{opacity:0}66.6667%,100%{opacity:1}}
+@keyframes care-raise{0%,65%{opacity:0}68%,100%{opacity:1}}
 @keyframes care-thanks{0%,66.6666%{opacity:0;transform:translateY(6px)}70%,100%{opacity:1;transform:none}}
 .care-playing .care-idle{animation:care-wait 6s linear both}
 .care-caption{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:10px 0;font-size:14px;line-height:1.6}

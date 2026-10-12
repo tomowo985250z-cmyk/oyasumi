@@ -26,7 +26,7 @@ globalThis.DayRoomState=(() => {
   function at(now=Date.now(),identity='local-cat'){
     const plan=schedule(now,identity),active=now>=plan.start&&now<plan.end;
     const place=plan.places.findLast(event=>event.at<=now)||plan.places[0],mood=plan.moods.findLast(event=>event.at<=now)||plan.moods[0];
-    return Object.freeze({day:plan.day,active,place:place.value,pose:mood.value,away:active&&plan.away.some(period=>now>=period.start&&now<period.end)});
+    return Object.freeze({day:plan.day,active,place:place.value,pose:mood.value,away:false});
   }
   return Object.freeze({rules,schedule,at});
 })();

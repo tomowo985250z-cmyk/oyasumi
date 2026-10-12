@@ -29,7 +29,7 @@ let browser;
  const peers=['00000000-0000-0000-0000-000000000002','00000000-0000-0000-0000-000000000003','00000000-0000-0000-0000-000000000004'];
  for(const width of [320,375,390,430]){
   await page.setViewportSize({width,height:844});
-  await page.evaluate(async()=>{HomePostFixture.at=Date.parse('2026-10-12T06:00:00+09:00');careData.meals=[];careData.treats=[];await refreshShared();go('profile');});
+  await page.evaluate(async()=>{HomePostFixture.at=Date.parse('2026-10-12T06:00:00+09:00');careData.meals=[];careData.treats=[];await refreshShared();go('home');});
   assert(await page.locator('[data-cat-meal]').isEnabled(),'Morning needs no post');
   const before=await page.evaluate(()=>careData.calls);
   await page.evaluate(()=>{const b=document.querySelector('[data-cat-meal]');b.click();b.click();});
@@ -37,7 +37,7 @@ let browser;
   assert.equal(await page.evaluate(()=>careData.calls),before+1);
   await page.waitForFunction(()=>!document.querySelector('.care-playing'),{},{timeout:9000});
   assert.equal(await page.locator('.care-finished').count(),0,'After six seconds return to ordinary artwork');
-  assert(await page.locator('.care-idle img,.care-idle svg').first().isVisible());
+  assert(await page.locator('.home-room-unit .room-resident').isVisible());
   assert(await page.locator('[data-cat-meal]').isDisabled());
   await page.evaluate(()=>{HomePostFixture.at=Date.parse('2026-10-12T11:59:59+09:00');refreshCareCards();});assert(await page.locator('[data-cat-meal]').isDisabled());
   await page.evaluate(()=>{HomePostFixture.at=Date.parse('2026-10-12T12:00:00+09:00');refreshCareCards();});assert(await page.locator('[data-cat-meal]').isDisabled(),'Stale slot disabled before server confirmation');

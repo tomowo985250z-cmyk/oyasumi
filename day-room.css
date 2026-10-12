@@ -15,7 +15,6 @@
 .day-room[data-world-daylight=false] .day-room-night-light{display:block}
 .day-room[data-world-daylight=false] .day-room-world-window::before,.day-room[data-world-daylight=false] .day-room-world-window::after{background:#b5a995}
 .day-room[data-world-daylight=false] .room-resident>img,.day-room[data-world-daylight=false] .room-care-animation img{filter:brightness(.86) saturate(.92)}
-.day-room[data-away=true] .room-resident{visibility:hidden;pointer-events:none}
 .day-room-hero h2{font-size:18px;font-weight:500;letter-spacing:.05em;margin:17px 0 4px}
 .day-room-hero>p{font-size:12px;color:var(--muted);margin:0;letter-spacing:.05em}
 .cat-room:has(.day-room){border:0;background:transparent;overflow:visible}
@@ -26,7 +25,13 @@
 .profile-room-unit[data-feeding=true] .room-cat,.profile-room-unit[data-feeding=true] .room-resident{visibility:hidden}
 .room-care-animation{position:absolute;left:50%;bottom:6px;width:176px;height:170px;margin:0;transform:translateX(-50%) scale(var(--room-care-scale,1));transform-origin:center bottom;z-index:4}
 .day-room .room-care-animation{bottom:calc(20% - 18px * var(--room-care-scale,1))}
-@media(prefers-reduced-motion:reduce){.room-care-animation *{animation:none!important}}
+.room-care-returning .room-care-animation{animation:room-meal-out .2s linear both}
+.profile-room-unit[data-feeding=true].room-care-returning .room-resident{visibility:visible;animation:room-meal-in .2s linear both}
+@keyframes room-meal-out{to{opacity:0}}
+@keyframes room-meal-in{from{opacity:0}to{opacity:1}}
+.resting nav{z-index:11}
+.rest-screen{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+@media(prefers-reduced-motion:reduce){.room-care-animation,.room-care-animation *,.room-care-returning .room-resident{animation:none!important}}
 
 .season-landscape{display:block;width:100%;height:100%;pointer-events:none}
 .day-room-world-window{position:absolute;left:12.75%;top:6.06%;width:26.5%;height:40.91%;border-radius:50% 50% 0 0 / 39.26% 39.26% 0 0;overflow:hidden;z-index:1;pointer-events:none}
