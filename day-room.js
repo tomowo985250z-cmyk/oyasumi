@@ -41,6 +41,7 @@ globalThis.DayRoom=(()=>{
  function sync(){
   if(document.hidden)return;
   for(const stage of document.querySelectorAll('.day-room')){
+   if(stage.closest('.own-cat-room')&&typeof catsResolved==='function'&&!catsResolved())continue;
    if(stage.closest('[data-feeding=true]'))continue;
    if(stage.closest('.own-cat-room'))stage.dataset.postStatus=CatCare.sleeping(shared.catCare)?'sleep':homeCatStatus();
    const room=DayRoom.snapshot(stage.dataset.roomUser),w=DayRoom.world(),cat=stage.querySelector('.room-resident');

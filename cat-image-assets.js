@@ -60,8 +60,15 @@
     }
     for (const src of sources) remember(src);
   }
-  function render(target, markup) {
+  function render(target, markup, {resolved = true} = {}) {
     const template = document.createElement('template'); template.innerHTML = markup;
+    // Keep the existing geometry, without attaching/requesting provisional art.
+    if (!resolved) for (const cat of template.content.querySelectorAll(selector)) {
+      cat.setAttribute('data-cat-placeholder', '');
+      for (const image of [cat, ...cat.querySelectorAll('image')]) {
+        image.removeAttribute('src'); image.removeAttribute('href');
+      }
+    }
     for (const image of template.content.querySelectorAll('img[data-asset-key], .care-scene img')) image.loading = 'eager';
     const children = [...template.content.childNodes];
     if (children.length === target.childNodes.length && children.every((node, i) => node.isEqualNode(target.childNodes[i]))) {

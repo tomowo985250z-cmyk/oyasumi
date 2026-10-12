@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');require('./reactions.js');
 const own='00000000-0000-0000-0000-000000000001',post='00000000-0000-0000-0000-000000000011';
 global.OyasumiConfig={url:'https://isolated.invalid',publishableKey:'test'};
-let mode='modern',failMorning=false,failCounts=false;const calls=[];
+let mode='modern',failMorning=false,failCounts=false,careMode='absent';const calls=[];
 const rpc=async(name,args={})=>{
  calls.push({name,args});
  if(name==='oyasumi_night_context')return{data:[{night_date:'2026-10-11',morning_night_date:'2026-10-10',server_now:'2026-10-11T23:00:00+09:00',next_reset_at:'2026-10-12T06:00:00+09:00'}]};
@@ -12,6 +12,7 @@ const rpc=async(name,args={})=>{
  if(name==='oyasumi_morning_reactions_v2')return failMorning?{error:{code:'57014'}}:mode==='legacy'?{error:{code:'PGRST202'}}:{data:[{night_date:'2026-10-10',counts:{'sleep-night':3,comfort:1}}]};
  if(name==='oyasumi_morning_reactions')return{data:[{night_date:'2026-10-10',goodnight_count:1,dream_count:0,tomorrow_count:0,comfort_count:2}]};
  if(name==='oyasumi_cat_coat_status')return{data:[{next_change_at:null}]};
+ if(name==='oyasumi_cat_care_status')return careMode==='ready'?{data:{day:'2026-10-11',sleepStateVersion:1,catState:'sleep'}}:{error:{code:careMode==='absent'?'PGRST202':'57014'}};
  if(name==='oyasumi_cat_coat_cooldown_paused')return{data:true};
  if(name==='oyasumi_submit_post_v2')return{data:{id:post,choice:args.p_choice,post_intent:args.p_intent}};
  if(name==='oyasumi_submit_post')return{data:{id:post,choice:args.p_choice}};
@@ -26,6 +27,9 @@ global.supabase={createClient:()=>({auth:{getSession:async()=>({data:{session:{u
 require('./supabase-api.js');
 (async()=>{
  const api=createOyasumiConnection('isolated-reactions');let s=await api.snapshot();
+ assert.equal(s.catStateResolved,true,'A legacy server can use the existing history fallback');
+ careMode='failed';s=await api.snapshot();assert.equal(s.catStateResolved,false,'A failed state read must not reveal a guessed cat');assert.equal(s.catCare,null);assert.equal(s.coat,'calico');
+ careMode='ready';s=await api.snapshot();assert.equal(s.catStateResolved,true);assert.equal(s.catCare.catState,'sleep');
  assert.deepEqual(await api.getSentReactionPeople(),{nightDate:'2026-10-11',count:3});
  assert.equal(s.reactionVersion,3);assert.equal(s.feed[0].intent,'sleepless');assert.equal(s.ownPosts[0].intent,'sleepless');
  assert.equal(s.reactionCounts[post]['sleepless-here'],2);assert.equal(s.reactions[post],'sleepless-here');assert.equal(PostReactions.total(s.morningReactions.counts),4);
