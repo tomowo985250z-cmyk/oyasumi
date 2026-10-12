@@ -150,7 +150,12 @@ function homeCatStatus(now=NightClock.now()) {
  const last=state.lastSleep;
  return !ready&&last&&SleepFlow.sleepNight(last)===SleepFlow.night(now)?'sleep':'';
 }
-function dayHero() { const key=DayRoom.homeKey(),room=DayRoom.snapshot(shared.userId),status=homeCatStatus();const hero=`<section class="day-hero day-room-hero" data-day-bucket="${key}"${CatCare.morningBeg(shared.catCare,shared.userId)}>${DayRoom.stage(state.coat,shared.userId,{status,home:true},true)}<h2>${DayRoom.homeLabel(room,status)}</h2><p>${DayRoom.world().daylight?'また今夜 🌙':'ゆっくり、ひとやすみ 🌙'}</p></section>`;return `<section class="profile-room-unit home-room-unit" data-room-user="${shared.userId||''}">${hero}${shared.profileComplete?DayRoom.care(shared.catCare,state.coat,shared.userId,true):''}</section>`; }
+function dayHero() { const key=DayRoom.homeKey(),room=DayRoom.snapshot(shared.userId),status=homeCatStatus();return `<section class="profile-room-unit home-room-unit own-cat-room" data-room-user="${shared.userId||''}"><section class="day-hero day-room-hero" data-day-bucket="${key}"${CatCare.morningBeg(shared.catCare,shared.userId)}>${DayRoom.stage(state.coat,shared.userId,{status,home:true},true)}<h2>${DayRoom.homeLabel(room,status)}</h2><p>${DayRoom.world().daylight?'また今夜 🌙':'ゆっくり、ひとやすみ 🌙'}</p><span class="cat-tap-hint">猫をタップで、ごはんのようすへ ›</span></section></section>`; }
+function catMeal() {
+ const room=DayRoom.stage(state.coat,shared.userId,{status:CatCare.sleeping(shared.catCare)?'sleep':homeCatStatus(),home:true});
+ const care=shared.profileComplete?DayRoom.care(shared.catCare,state.coat,shared.userId,true):'<p class="quiet-note">名前と猫の種類を設定すると、ごはんをあげられます。</p><button class="text-button" data-view="profile">プロフィールを設定する</button>';
+ return `${header('猫のごはん',true)}<section class="profile-room-unit own-cat-room cat-meal-room" data-room-user="${shared.userId||''}">${room}${care||'<p class="quiet-note">ごはんの記録を取得できませんでした。</p><button class="text-button" data-care-retry>もう一度確認する</button>'}</section>`;
+}
 function roleTag(role) { const label=CatRoles.label(role);return label?`<span class="cat-role-tag">${escapeHTML(label)}</span>`:''; }
 function homeNote() { return `<section class="card home-note"><button class="profile-note-button" data-note-editor aria-label="自分のそっとひとことを編集"><span>そっとひとこと <small>編集 ›</small></span><span class="profile-note-text${state.profileNote?'':' is-empty'}">${escapeHTML(state.profileNote)||'タップして、ひとこと'}</span></button></section>`; }
 function roleSetting() { return `<button class="setting-row role-setting" data-role-picker><span>職業 <small>任意</small></span><span class="setting-value">${CatRoles.label(state.catRole)||(state.catRole==='private'?'表示なし':'未設定')} ›</span></button>`; }
@@ -189,12 +194,12 @@ function preloadCats(next) {
  if(next==='profile'||next==='settings')markup=CatFaces.svg(state.expression,state.coat);
  else if(next==='sleep'||next==='rest')markup=CatScenes.svg('sleeping',state.coat);
  else if(next==='morning')markup=CatScenes.svg('awake',state.coat);
- else if(next==='home')markup=DayRoom.stage(state.coat,shared.userId,{status:homeCatStatus(),home:true});
+ else if(next==='home'||next==='catMeal')markup=DayRoom.stage(state.coat,shared.userId,{status:homeCatStatus(),home:true});
  else if(next==='timeline')markup=TimelineVisibility.visible(allPosts(),NightClock.now()).filter(p=>filter==='all'||(filter==='sleep'?isSleeping(p.status):p.status==='awake')).slice(0,4).map(p=>CatFaces.svg(p.expression,p.coat)).join('');
  else if(next==='stats')markup=(shared.tonightSummary?.coats||[]).slice(0,4).map(p=>CatScenes.svg('sleeping',p.coat)).join('');
  CatImages.preload(markup);
 }
-function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)());navigation();syncBusy();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
+function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)());navigation();syncBusy();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
 function go(next) { preloadCats(next);if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0);void refreshSentReactionPeople(); }
 function preloadCatDestination(event) {
  const button=event.target.closest('button');if(!button)return;
@@ -315,7 +320,7 @@ function refreshAfterSave(saved=true) {
  refreshQueued=true;refreshSaved=refreshSaved||saved;startQueuedRefresh();
 }
 document.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;
- if(button.hasAttribute('data-day-cat-tap')){const cat=button.querySelector('.cat-day-scene,.cat-scene');if(cat&&!matchMedia('(prefers-reduced-motion: reduce)').matches){cat.getAnimations().forEach(animation=>animation.cancel());cat.animate([{transform:'translateY(0)',offset:0},{transform:'translateY(-6px)',offset:.45},{transform:'translateY(0)',offset:1}],{duration:400,easing:'ease-in-out'});}return;}
+ if(button.hasAttribute('data-care-retry')){void refreshShared().catch(()=>toast('記録を取得できませんでした。通信をご確認ください。'));return;}
  if(button.hasAttribute('data-share-place')){void sharePlace();return;}
  if(button.hasAttribute('data-copy-place')){void copyPlaceURL();return;}
  if(button.hasAttribute('data-close-share')){document.querySelector('#share-dialog').close();return;}
@@ -557,6 +562,7 @@ document.addEventListener('click',async event=>{
   CatCare.setFeedback(owner,message,failed);
   for(const card of document.querySelectorAll('.cat-care'))if(card.dataset.careOwner===owner){const node=card.querySelector('.care-feedback');node.textContent=message;node.setAttribute('role',failed?'alert':'status');node.setAttribute('aria-live',failed?'assertive':'polite');}
  };
+ if(self&&CatCare.sleeping(shared.catCare)){feedback('おやすみ中は、ごはんをあげられません。');refreshCareCards();return;}
  if(busy){feedback('ほかの操作を保存中です。完了してからもう一度押してください。');return;}
  if(!CatCare.lock('save')){feedback('記録しています。少しお待ちください。');return;}
  document.querySelectorAll('[data-cat-meal],[data-cat-treat]').forEach(b=>b.disabled=true);
@@ -567,7 +573,7 @@ document.addEventListener('click',async event=>{
   if(!CatCare.confirmed(result,self,button.dataset.catTreat))throw Object.assign(new Error('Invalid care response'),{code:'CARE_RESPONSE'});
   if(shared.userId!==user)return;
   shared.catCare=result.status;
-  play=result.accepted===true;
+  play=result.accepted===true&&(!self||!CatCare.sleeping(result.status));
   message=result.accepted?(self?'ごはんをあげました。':'おやつをそっと贈りました。'):(self?'今日のごはんはあげています。':'今日のおやつは贈っています。');
  }catch(error){
   failed=true;message=CatCare.errorMessage(error);

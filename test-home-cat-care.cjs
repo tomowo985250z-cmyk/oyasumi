@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{spawn}=require('node:child_process');
 const {webkit,chromium}=require(process.env.OYASUMI_PLAYWRIGHT_PATH||'./output/webkit-tools/core/package');
 const engine=process.argv.includes('--edge')?'edge':'webkit',port=engine==='edge'?9408:9407,base=`http://127.0.0.1:${port}/`;
-const output=path.join(__dirname,'output/home-cat-care',engine);fs.mkdirSync(output,{recursive:true});
+const output=path.join(__dirname,'output/cat-meal-screen',engine);fs.mkdirSync(output,{recursive:true});
 const source=fs.readFileSync(path.join(__dirname,'test-home-post-choices.cjs'),'utf8');
 const fixture=source.slice(source.indexOf('function installFixture()'),source.indexOf('\n(async () =>'))+'\ninstallFixture();';
 const server=spawn(process.execPath,['server.js'],{cwd:__dirname,env:{...process.env,PORT:String(port)},windowsHide:true,stdio:'ignore'});
@@ -13,9 +13,9 @@ let browser;
  await context.addInitScript({content:fixture});
  await context.addInitScript(()=>{
   const f=HomePostFixture,api=OyasumiAPI,snapshot=api.snapshot;f.meals=new Set();f.treats=[];f.delay=100;f.mealCalls=0;f.failMeal=false;
-  f.care=()=>({allowanceVersion:2,day:SleepFlow.night(f.at),mealSlot:CatCare.slot(f.at),mealEligible:true,mealDone:f.meals.has(SleepFlow.night(f.at)+':'+CatCare.slot(f.at)),treatGiven:false,treatCount:f.treats.length,treatRecipients:[...f.treats],receivedToday:2,receivedTotal:8,receivedDays:[{day:SleepFlow.day(f.at),count:2}]});
+  f.care=()=>({allowanceVersion:2,day:SleepFlow.night(f.at),mealSlot:CatCare.slot(f.at),mealEligible:true,mealSleeping:!!f.rows[0]&&SleepFlow.night(Date.parse(f.rows[0].created_at))===SleepFlow.night(f.at)&&['sleep','try-sleep','early-sleep'].includes(f.rows[0].choice),mealDone:f.meals.has(SleepFlow.night(f.at)+':'+CatCare.slot(f.at)),treatGiven:false,treatCount:f.treats.length,treatRecipients:[...f.treats],receivedToday:2,receivedTotal:8,receivedDays:[{day:SleepFlow.day(f.at),count:2}]});
   api.snapshot=async()=>({...await snapshot(),catCare:f.care()});api.getCatCareStatus=async()=>f.care();
-  api.giveCatMeal=async()=>{f.mealCalls++;await new Promise(r=>setTimeout(r,f.delay));if(f.failMeal)throw Error('Isolated meal failure');const key=SleepFlow.night(f.at)+':'+CatCare.slot(f.at),accepted=!f.meals.has(key);f.meals.add(key);return{accepted,status:f.care()};};
+  api.giveCatMeal=async()=>{f.mealCalls++;if(homeCatStatus()==='sleep')throw Object.assign(Error('Sleeping'),{code:'P0042'});await new Promise(r=>setTimeout(r,f.delay));if(f.failMeal)throw Error('Isolated meal failure');const key=SleepFlow.night(f.at)+':'+CatCare.slot(f.at),accepted=!f.meals.has(key);f.meals.add(key);return{accepted,status:f.care()};};
   api.giveCatTreat=async id=>{f.treats.push(id);return{accepted:true,status:f.care()};};
  });
  const page=await context.newPage(),errors=[],failed=[];
@@ -24,19 +24,37 @@ let browser;
  await page.goto(base);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy);
  const settle=()=>page.waitForFunction(()=>!busy&&!CatCare.pending&&!refreshPromise&&!refreshQueued);
  const reset=async(time='2026-10-11T14:00:00+09:00',coat='calico')=>{
-  await settle();await page.evaluate(async({time,coat})=>{HomePostFixture.reset();HomePostFixture.meals.clear();HomePostFixture.treats=[];HomePostFixture.mealCalls=0;HomePostFixture.failMeal=false;HomePostFixture.delay=100;HomePostFixture.at=Date.parse(time);NightClock.now=()=>HomePostFixture.at;state.lastSleep=null;document.querySelectorAll('dialog[open]').forEach(d=>d.close());await refreshShared();state.coat=coat;go('home');},{time,coat});
+  await settle();await page.evaluate(async({time,coat})=>{HomePostFixture.reset();HomePostFixture.meals.clear();HomePostFixture.treats=[];HomePostFixture.mealCalls=0;HomePostFixture.failMeal=false;HomePostFixture.delay=100;HomePostFixture.at=Date.parse(time);NightClock.now=()=>HomePostFixture.at;state.lastSleep=null;document.querySelectorAll('dialog[open]').forEach(d=>d.close());await refreshShared();state.coat=coat;go('catMeal');},{time,coat});
  };
  const layouts=[];
- for(const width of [320,375,390,430]){
+ for(const width of process.argv.includes('--interactions-only')?[]:[320,375,390,430]){
   await page.setViewportSize({width,height:844});
   for(const hour of [0,5,6,11,12,14,17,18,23])for(const light of [false,true]){
    await reset(`2026-10-11T${String(hour).padStart(2,'0')}:00:00+09:00`);
-   await page.evaluate(light=>{state.light=light;render();},light);
-   assert(await page.locator('.home-room-unit .room-resident').isVisible());
+   await page.evaluate(light=>{state.light=light;go('home');},light);
+   assert.equal(await page.locator('[data-cat-meal],.care-remaining,.cat-care').count(),0);
+   assert(await page.locator('.cat-tap-hint').isVisible());
+   await page.locator('.home-room-unit .room-resident').click();
+   assert.equal(await page.locator('.wordmark').innerText(),'猫のごはん');
+   assert(await page.locator('.cat-meal-room .room-resident').isVisible());
    assert.equal(await page.locator('[data-cat-meal]').count(),1);
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    assert.equal(await page.locator('.day-room').getAttribute('data-away'),'false');
    layouts.push({width,hour,light});
+  }
+  for(const light of [false,true]){
+   await reset();await page.evaluate(light=>{state.light=light;go('home');},light);
+   await page.screenshot({path:path.join(output,`home-${width}-${light?'light':'dark'}.png`)});
+   await page.locator('.home-room-unit .room-resident').click();
+   assert((await page.locator('.care-serving').innerText()).includes('カリカリ'));
+   assert((await page.locator('.care-remaining').innerText()).includes('残り 1回'));
+   await page.screenshot({path:path.join(output,`ready-${width}-${light?'light':'dark'}.png`)});
+   await page.evaluate(async()=>{await OyasumiAPI.submitPost('sleep','sleep');await refreshShared();go('catMeal');});
+   assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
+   assert(await page.locator('[data-cat-meal]').isDisabled());
+   assert(await page.locator('.care-sleep-note').isVisible());
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+   await page.screenshot({path:path.join(output,`sleep-${width}-${light?'light':'dark'}.png`)});
   }
   await page.evaluate(()=>go('profile'));assert.equal(await page.locator('.day-room,.care-scene,[data-cat-meal]').count(),0);
   assert(await page.locator('.profile-cat-button .avatar').isVisible());
@@ -45,7 +63,7 @@ let browser;
  await reset();assert(await page.evaluate(()=>{for(let i=0;i<360;i++)if(DayRoomState.at(Date.parse('2026-10-11T12:00:00+09:00')+i*60000,shared.userId).away)return false;return true;}));
  assert(await page.evaluate(()=>DayRoom.stage('calico','other-cat',{status:'sleep'}).includes('data-day-scene')),'Other profiles retain their time-of-day artwork');
  const scenes=[];
- for(const width of [320,375,390,430]){
+ for(const width of process.argv.includes('--interactions-only')?[]:[320,375,390,430]){
  await page.setViewportSize({width,height:844});
  for(const coat of await page.evaluate(()=>CatFaces.coats.map(c=>c.id))){
   await reset(undefined,coat);
@@ -70,36 +88,51 @@ let browser;
  assert.equal(await page.locator('dialog .care-playing').getAttribute('data-care-kind'),'treat');
  assert(await page.locator('dialog .care-playing .care-bowl').isVisible());
  await page.evaluate(()=>{document.querySelector('#public-profile-dialog').close();document.querySelector('#public-profile-content').replaceChildren();});
- // Real visible time, natural return and restoration of a sleeping resident.
- await reset('2026-10-11T14:00:00+09:00');
- await page.locator('[data-home-choice=sleep]').click();await settle();await page.evaluate(()=>go('home'));
- assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
+ // Natural playback lasts six visible seconds and returns to the resident.
+ await reset();
  await page.evaluate(()=>{globalThis.playbackMs=null;document.addEventListener('careplaybackend',e=>playbackMs=e.detail.visibleMs,{once:true});});
  await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing');
  const started=Date.now();await page.waitForFunction(()=>!document.querySelector('.care-playing'),{},{timeout:10000});
  assert(Date.now()-started>=5500);assert(await page.evaluate(()=>playbackMs>=6000&&DayRoom.playing===0));
- assert(await page.locator('.room-resident').isVisible());assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
- assert(await page.locator('[data-cat-meal]').isDisabled());
- // 3h does not reset the home cat; midnight does not reset it; 06:00 does.
- for(const time of ['2026-10-11T17:00:01+09:00','2026-10-12T00:00:00+09:00','2026-10-12T05:59:59.999+09:00']){
-  await page.evaluate(time=>{HomePostFixture.at=Date.parse(time);DayRoom.sync();},time);assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
+ assert(await page.locator('.room-resident').isVisible());assert(await page.locator('[data-cat-meal]').isDisabled());
+ assert((await page.locator('.care-remaining').innerText()).includes('残り 0回'));
+ for(const choice of ['sleep','try-sleep','early-sleep']){
+  await reset();await page.evaluate(async choice=>{await OyasumiAPI.submitPost(choice,choice==='try-sleep'?'try-sleep':'sleep');await refreshShared();go('home');},choice);
+  assert.equal(await page.locator('[data-cat-meal]').count(),0);
+  await page.locator('.home-room-unit .room-resident').click();
+  assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
+  assert(await page.locator('[data-cat-meal]').isDisabled());
+  assert((await page.locator('.care-remaining').innerText()).includes('残り 1回'));
+  await page.evaluate(()=>{const b=document.querySelector('[data-cat-meal]');b.disabled=false;b.click();});
+  assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),0);
+  assert.equal(await page.locator('.care-playing').count(),0);
  }
- await page.evaluate(()=>{HomePostFixture.at=Date.parse('2026-10-12T06:00:00+09:00');checkNightBoundary();DayRoom.sync();});
+ // Sleep persists past three hours and midnight, and releases at 06:00.
+ for(const time of ['2026-10-11T17:00:01+09:00','2026-10-12T00:00:00+09:00','2026-10-12T05:59:59.999+09:00']){
+  await page.evaluate(time=>{HomePostFixture.at=Date.parse(time);DayRoom.sync();refreshCareCards();},time);
+  assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');assert(await page.locator('[data-cat-meal]').isDisabled());
+ }
+ await page.evaluate(async()=>{HomePostFixture.at=Date.parse('2026-10-12T06:00:00+09:00');checkNightBoundary();DayRoom.sync();await refreshCareDay();});await settle();
  assert.equal(await page.evaluate(()=>homeCatStatus()),'');assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),null);
- await page.evaluate(()=>refreshCareDay());assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
+ assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
  assert.equal(await page.evaluate(()=>CatCare.slot(Date.parse('2026-10-12T11:59:59.999+09:00'))),'morning');
  assert.equal(await page.evaluate(()=>CatCare.slot(Date.parse('2026-10-12T12:00:00+09:00'))),'night');
+ await page.evaluate(async()=>{HomePostFixture.at=Date.parse('2026-10-12T11:59:59+09:00');await refreshCareDay();});
+ await page.locator('[data-cat-meal]').click();await settle();await page.evaluate(()=>go('catMeal'));
+ assert(await page.locator('[data-cat-meal]').isDisabled());
+ await page.evaluate(async()=>{HomePostFixture.at=Date.parse('2026-10-12T12:00:00+09:00');await refreshCareDay();});
+ assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
  // No restrictions on browsing/reactions/changes after sleeping.
- await reset();await page.evaluate(()=>{HomePostFixture.peer=true;});await page.locator('[data-home-choice=sleep]').click();await settle();
+ await reset();await page.evaluate(()=>{HomePostFixture.peer=true;go('home');});await page.locator('[data-home-choice=sleep]').click();await settle();
  await page.locator('#navigation [data-view=timeline]').click();await page.locator('[data-react=legacy-peer]').first().click();await settle();
  assert(await page.evaluate(()=>!!state.reactions['legacy-peer']));
  await page.evaluate(()=>{finishSleep();});assert(await page.locator('.rest-screen [data-view=home]').isVisible());
- await page.locator('#navigation [data-view=home]').click();assert.equal(await page.locator('[data-cat-meal]').count(),1);
+ await page.locator('#navigation [data-view=home]').click();assert.equal(await page.locator('[data-cat-meal]').count(),0);
  await page.evaluate(()=>go('home'));await page.locator('[data-home-choice=sleepless]').click();await settle();assert.equal(await page.evaluate(()=>homeCatStatus()),'awake');
  // Pending save survives navigation; returning cannot create a second RPC.
- await reset();await page.evaluate(()=>{HomePostFixture.delay=1000;document.querySelector('[data-cat-meal]').click();go('profile');go('home');document.querySelector('[data-cat-meal]').click();});
+ await reset();await page.evaluate(()=>{HomePostFixture.delay=1000;document.querySelector('[data-cat-meal]').click();go('profile');go('catMeal');document.querySelector('[data-cat-meal]').click();});
  await settle();assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),1);assert(await page.locator('[data-cat-meal]').isDisabled());
- await page.waitForSelector('.care-playing');await page.evaluate(()=>{go('timeline');go('home');document.querySelector('[data-cat-meal]').click();});
+ await page.waitForSelector('.care-playing');await page.evaluate(()=>{go('timeline');go('catMeal');document.querySelector('[data-cat-meal]').click();});
  await settle();assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),1);await page.waitForFunction(()=>DayRoom.playing===0);
  // Failed saves retry; a server-confirmed duplicate never replays.
  await reset();await page.evaluate(()=>{HomePostFixture.failMeal=true;document.querySelector('[data-cat-meal]').click();});await settle();assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
@@ -115,7 +148,22 @@ let browser;
  await page.waitForFunction(()=>DayRoom.playing===1);
  assert(await page.locator('.room-resident').isVisible(),'Keep resident visible during image decode');
  await page.evaluate(()=>go('profile'));await page.waitForFunction(()=>DayRoom.playing===0);
- await page.evaluate(()=>{CatCare.visual=originalMealVisual;go('home');});assert(await page.locator('[data-cat-meal]').isDisabled());
+ await page.evaluate(()=>{CatCare.visual=originalMealVisual;go('catMeal');});assert(await page.locator('[data-cat-meal]').isDisabled());
+ // Keyboard entry and back navigation preserve the original home.
+ await reset();await page.evaluate(()=>go('home'));await page.locator('.home-room-unit .room-resident').focus();await page.keyboard.press('Enter');
+ assert.equal(await page.locator('[data-cat-meal]').count(),1);
+ await page.locator('.header [data-view=home]').click();assert.equal(await page.locator('[data-cat-meal],.care-remaining').count(),0);
+ // Missing care status keeps the dedicated screen accessible and offers recovery.
+ await page.evaluate(()=>{shared.catCare=null;go('catMeal');});assert(await page.locator('[data-care-retry]').isVisible());
+ await page.locator('[data-care-retry]').click();await settle();assert.equal(await page.locator('[data-cat-meal]').count(),1);
+ await page.evaluate(async()=>{HomePostFixture.complete=false;await refreshShared();go('catMeal');});
+ assert.equal(await page.locator('[data-cat-meal]').count(),0);assert(await page.locator('.cat-meal-room [data-view=profile]').isVisible());
+ await reset();await page.evaluate(()=>{shared.catCare.mealSleeping=true;go('catMeal');});
+ assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');assert(await page.locator('[data-cat-meal]').isDisabled());
+ // A stale client receives the server sleep rejection and restores controls safely.
+ await reset();await page.evaluate(()=>{globalThis.originalGive=OyasumiAPI.giveCatMeal;OyasumiAPI.giveCatMeal=async()=>{throw Object.assign(Error('Sleeping'),{code:'P0042'});};});
+ await page.locator('[data-cat-meal]').click();await settle();assert.equal(await page.locator('.care-playing').count(),0);
+ assert((await page.locator('.care-feedback').innerText()).includes('おやすみ中'));await page.evaluate(()=>{OyasumiAPI.giveCatMeal=originalGive;});
  // Leaving a backgrounded animation must clear its lock without a phase timer.
  await reset();await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing');
  await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'));document.dispatchEvent(new Event('visibilitychange'));go('profile');});

@@ -41,3 +41,8 @@
 .world-day-card{background:#d1dfe3}.world-day-card .awake-heading{color:#263d57;text-shadow:0 1px 1px #ffffff80}.world-day-card>p{color:#304760;text-shadow:0 1px 1px #ffffff90}
 .world-day-card .roof-moon{visibility:hidden}
 .world-day-card .world-sky::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,#f7f5ed24,transparent 50%,#f7f4e742)}
+.cat-tap-hint{display:block;margin-top:12px;color:var(--muted);font-size:11px;letter-spacing:.03em}
+.cat-meal-room .cat-care h2{display:none}
+.cat-meal-room .room-care-controls{margin-top:16px}
+.care-remaining{font-size:14px;margin:10px 0 14px;color:var(--text)}
+.care-sleep-note{margin-bottom:14px}
