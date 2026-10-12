@@ -77,7 +77,7 @@ globalThis.CatCare=(()=>{
    let elapsed=0,started=null,timer,finished=false,returning=false;
    const finish=()=>{
     if(finished)return;finished=true;
-    clearTimeout(timer);detached.disconnect();document.removeEventListener('visibilitychange',visibility);
+    clearTimeout(timer);detached.disconnect();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('catvisibilitychange',visibility);
     scene.classList.remove('care-playing','care-reduced','care-paused');delete scene.dataset.careStage;
     if(elapsed>=durationMs&&scene.isConnected){if(scene.dataset.careNormal!=='true')scene.classList.add('care-finished');scene.dataset.careFinished='true';}
     scene.dispatchEvent(new CustomEvent('careplaybackend',{bubbles:true,detail:{visibleMs:elapsed}}));resolve();
@@ -88,19 +88,20 @@ globalThis.CatCare=(()=>{
     scene.dataset.careStage=elapsed<1000?'plate':elapsed<4000?'munch':'joy';
     if(elapsed>=5800&&!returning){returning=true;scene.dispatchEvent(new CustomEvent('careplaybackreturn',{bubbles:true}));}
     if(elapsed>=durationMs)return finish();
-    if(document.hidden){scene.classList.add('care-paused');return;}
+    if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')){scene.classList.add('care-paused');return;}
     scene.classList.remove('care-paused');started=performance.now();
     const boundary=elapsed<1000?1000:elapsed<4000?4000:elapsed<5800?5800:durationMs;
     timer=setTimeout(()=>{elapsed+=performance.now()-started;started=null;schedule();},Math.max(1,boundary-elapsed));
    };
    const visibility=()=>{
-    if(document.hidden){if(started!==null)elapsed+=performance.now()-started;started=null;clearTimeout(timer);scene.classList.add('care-paused');}
+    if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')){if(started!==null)elapsed+=performance.now()-started;started=null;clearTimeout(timer);scene.classList.add('care-paused');}
     else schedule();
    };
    // A hidden/detached screen has no phase timer to clean it up on its own.
    const detached=new MutationObserver(()=>{if(!scene.isConnected)finish();});
    detached.observe(document.body,{childList:true,subtree:true});
    document.addEventListener('visibilitychange',visibility);
+   document.addEventListener('catvisibilitychange',visibility);
    scene.dispatchEvent(new CustomEvent('careplaybackstart',{bubbles:true}));schedule();
   });
   if(active.get(scene)===token)active.delete(scene);

@@ -53,7 +53,11 @@ let busy = false, ready = false, refreshPromise, connectionPromise;
 // Local defaults and a restored page are not a confirmed cat identity/state.
 let catStatePending=true, catStateRevision=0;
 const catsResolved=()=>ready&&!catStatePending&&shared.catStateResolved!==false;
-function syncCatVisibility(){document.documentElement.toggleAttribute('data-cat-state-pending',!catsResolved());}
+function syncCatVisibility(){
+ const pending=!catsResolved(),root=document.documentElement,changed=root.hasAttribute('data-cat-state-pending')!==pending;
+ root.toggleAttribute('data-cat-state-pending',pending);
+ if(changed)document.dispatchEvent(new Event('catvisibilitychange'));
+}
 function invalidateCatState(){catStatePending=true;catStateRevision++;syncCatVisibility();}
 document.addEventListener('visibilitychange',invalidateCatState,{capture:true});
 window.addEventListener('pagehide',invalidateCatState,{capture:true});

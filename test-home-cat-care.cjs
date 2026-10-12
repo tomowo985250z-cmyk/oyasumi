@@ -173,6 +173,24 @@ let browser;
  await reset();await page.evaluate(()=>{globalThis.originalGive=OyasumiAPI.giveCatMeal;OyasumiAPI.giveCatMeal=async()=>{throw Object.assign(Error('Sleeping'),{code:'P0042'});};});
  await page.locator('[data-cat-meal]').click();await settle();assert.equal(await page.locator('.care-playing').count(),0);
  assert((await page.locator('.care-feedback').innerText()).includes('おやすみ中'));await page.evaluate(()=>{OyasumiAPI.giveCatMeal=originalGive;});
+ // Waiting for confirmed cat state after resume must not consume the six seconds.
+ await reset();await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing[data-care-stage=plate]');
+ await page.evaluate(()=>{
+  globalThis.resumeSnapshot=OyasumiAPI.snapshot;globalThis.mealVisibleMs=null;
+  OyasumiAPI.snapshot=async()=>{const s=await resumeSnapshot();await new Promise(resolve=>globalThis.releaseMealResume=resolve);return s;};
+  document.addEventListener('careplaybackend',event=>globalThis.mealVisibleMs=event.detail.visibleMs,{once:true});
+  Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'));
+  delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));
+ });
+ await page.waitForFunction(()=>typeof releaseMealResume==='function');await page.waitForSelector('.care-playing.care-paused');
+ const pausedAt=await page.locator('.care-playing').evaluate(scene=>scene.getAnimations({subtree:true}).map(a=>a.currentTime));
+ await page.waitForTimeout(800);
+ assert(await page.locator('.care-playing.care-paused').count());
+ const stillPaused=await page.locator('.care-playing').evaluate(scene=>scene.getAnimations({subtree:true}).map(a=>a.currentTime));
+ assert(stillPaused.every((t,i)=>Math.abs(t-pausedAt[i])<80),'No animation time consumed during cat-state verification');
+ await page.evaluate(()=>{OyasumiAPI.snapshot=resumeSnapshot;releaseMealResume();});
+ await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-cat-state-pending')&&!document.querySelector('.care-paused'));
+ await page.waitForFunction(()=>mealVisibleMs!==null);assert(await page.evaluate(()=>mealVisibleMs>=6000));
  // Leaving a backgrounded animation must clear its lock without a phase timer.
  await reset();await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing');
  await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});document.dispatchEvent(new Event('visibilitychange'));document.dispatchEvent(new Event('visibilitychange'));go('profile');});
