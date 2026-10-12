@@ -12,10 +12,11 @@ let browser;
  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,timezoneId:'America/Los_Angeles'});
  await context.addInitScript({content:fixture});
  await context.addInitScript(()=>{
-  const f=HomePostFixture,api=OyasumiAPI,snapshot=api.snapshot;f.meals=new Set();f.treats=[];f.delay=100;f.mealCalls=0;f.failMeal=false;
-  f.care=()=>({allowanceVersion:2,day:SleepFlow.night(f.at),mealSlot:CatCare.slot(f.at),mealEligible:true,mealSleeping:!!f.rows[0]&&SleepFlow.night(Date.parse(f.rows[0].created_at))===SleepFlow.night(f.at)&&['sleep','try-sleep','early-sleep'].includes(f.rows[0].choice),mealDone:f.meals.has(SleepFlow.night(f.at)+':'+CatCare.slot(f.at)),treatGiven:false,treatCount:f.treats.length,treatRecipients:[...f.treats],receivedToday:2,receivedTotal:8,receivedDays:[{day:SleepFlow.day(f.at),count:2}]});
+  const f=HomePostFixture,api=OyasumiAPI,snapshot=api.snapshot,submit=api.submitPost;f.meals=new Set();f.states=new Map();f.treats=[];f.delay=100;f.mealCalls=0;f.failMeal=false;
+  api.submitPost=async(...args)=>{const row=await submit(...args);f.states.set(SleepFlow.night(Date.parse(row.created_at)),row.choice==='awake'?'awake':'sleep');return row;};
+  f.care=()=>({allowanceVersion:2,sleepStateVersion:1,catState:f.states.get(SleepFlow.night(f.at))||null,day:SleepFlow.night(f.at),mealSlot:CatCare.slot(f.at),mealEligible:true,mealSleeping:f.states.get(SleepFlow.night(f.at))==='sleep',mealDone:f.meals.has(SleepFlow.night(f.at)+':'+CatCare.slot(f.at)),treatGiven:false,treatCount:f.treats.length,treatRecipients:[...f.treats],receivedToday:2,receivedTotal:8,receivedDays:[{day:SleepFlow.day(f.at),count:2}]});
   api.snapshot=async()=>({...await snapshot(),catCare:f.care()});api.getCatCareStatus=async()=>f.care();
-  api.giveCatMeal=async()=>{f.mealCalls++;if(homeCatStatus()==='sleep')throw Object.assign(Error('Sleeping'),{code:'P0042'});await new Promise(r=>setTimeout(r,f.delay));if(f.failMeal)throw Error('Isolated meal failure');const key=SleepFlow.night(f.at)+':'+CatCare.slot(f.at),accepted=!f.meals.has(key);f.meals.add(key);return{accepted,status:f.care()};};
+  api.giveCatMeal=async()=>{f.mealCalls++;if(f.care().mealSleeping)throw Object.assign(Error('Sleeping'),{code:'P0042'});await new Promise(r=>setTimeout(r,f.delay));if(f.failMeal)throw Error('Isolated meal failure');const key=SleepFlow.night(f.at)+':'+CatCare.slot(f.at),accepted=!f.meals.has(key);f.meals.add(key);return{accepted,status:f.care()};};
   api.giveCatTreat=async id=>{f.treats.push(id);return{accepted:true,status:f.care()};};
  });
  const page=await context.newPage(),errors=[],failed=[];
@@ -24,7 +25,7 @@ let browser;
  await page.goto(base);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy);
  const settle=()=>page.waitForFunction(()=>!busy&&!CatCare.pending&&!refreshPromise&&!refreshQueued);
  const reset=async(time='2026-10-11T14:00:00+09:00',coat='calico')=>{
-  await settle();await page.evaluate(async({time,coat})=>{HomePostFixture.reset();HomePostFixture.meals.clear();HomePostFixture.treats=[];HomePostFixture.mealCalls=0;HomePostFixture.failMeal=false;HomePostFixture.delay=100;HomePostFixture.at=Date.parse(time);NightClock.now=()=>HomePostFixture.at;state.lastSleep=null;document.querySelectorAll('dialog[open]').forEach(d=>d.close());await refreshShared();state.coat=coat;go('catMeal');},{time,coat});
+  await settle();await page.evaluate(async({time,coat})=>{HomePostFixture.reset();HomePostFixture.meals.clear();HomePostFixture.states.clear();HomePostFixture.treats=[];HomePostFixture.mealCalls=0;HomePostFixture.failMeal=false;HomePostFixture.delay=100;HomePostFixture.at=Date.parse(time);NightClock.now=()=>HomePostFixture.at;state.lastSleep=null;document.querySelectorAll('dialog[open]').forEach(d=>d.close());await refreshShared();state.coat=coat;go('catMeal');},{time,coat});
  };
  const layouts=[];
  for(const width of process.argv.includes('--interactions-only')?[]:[320,375,390,430]){
@@ -106,6 +107,9 @@ let browser;
   await page.evaluate(()=>{const b=document.querySelector('[data-cat-meal]');b.disabled=false;b.click();});
   assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),0);
   assert.equal(await page.locator('.care-playing').count(),0);
+  await page.evaluate(async()=>{for(const row of [...HomePostFixture.rows])await OyasumiAPI.deletePost(row.id);state.lastSleep=null;state.posts=[];await refreshShared();go('profile');go('home');});
+  assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping','Deleted history and a fresh local state still use DB sleep');
+  await page.locator('.home-room-unit .room-resident').click();assert(await page.locator('[data-cat-meal]').isDisabled());
  }
  // Sleep persists past three hours and midnight, and releases at 06:00.
  for(const time of ['2026-10-11T17:00:01+09:00','2026-10-12T00:00:00+09:00','2026-10-12T05:59:59.999+09:00']){
@@ -129,6 +133,11 @@ let browser;
  await page.evaluate(()=>{finishSleep();});assert(await page.locator('.rest-screen [data-view=home]').isVisible());
  await page.locator('#navigation [data-view=home]').click();assert.equal(await page.locator('[data-cat-meal]').count(),0);
  await page.evaluate(()=>go('home'));await page.locator('[data-home-choice=sleepless]').click();await settle();assert.equal(await page.evaluate(()=>homeCatStatus()),'awake');
+ await page.evaluate(()=>go('home'));assert.notEqual(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
+ await page.locator('.home-room-unit .room-resident').click();assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
+ await page.evaluate(async()=>{for(const row of [...HomePostFixture.rows])await OyasumiAPI.deletePost(row.id);state.lastSleep=null;await refreshShared();go('home');});
+ assert.equal(await page.evaluate(()=>homeCatStatus()),'awake','Deleted awake history must not revive sleep');
+ await page.locator('.home-room-unit .room-resident').click();assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
  // Pending save survives navigation; returning cannot create a second RPC.
  await reset();await page.evaluate(()=>{HomePostFixture.delay=1000;document.querySelector('[data-cat-meal]').click();go('profile');go('catMeal');document.querySelector('[data-cat-meal]').click();});
  await settle();assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),1);assert(await page.locator('[data-cat-meal]').isDisabled());
@@ -158,7 +167,7 @@ let browser;
  await page.locator('[data-care-retry]').click();await settle();assert.equal(await page.locator('[data-cat-meal]').count(),1);
  await page.evaluate(async()=>{HomePostFixture.complete=false;await refreshShared();go('catMeal');});
  assert.equal(await page.locator('[data-cat-meal]').count(),0);assert(await page.locator('.cat-meal-room [data-view=profile]').isVisible());
- await reset();await page.evaluate(()=>{shared.catCare.mealSleeping=true;go('catMeal');});
+ await reset();await page.evaluate(()=>{shared.catCare.mealSleeping=true;shared.catCare.catState='sleep';go('catMeal');});
  assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');assert(await page.locator('[data-cat-meal]').isDisabled());
  // A stale client receives the server sleep rejection and restores controls safely.
  await reset();await page.evaluate(()=>{globalThis.originalGive=OyasumiAPI.giveCatMeal;OyasumiAPI.giveCatMeal=async()=>{throw Object.assign(Error('Sleeping'),{code:'P0042'});};});

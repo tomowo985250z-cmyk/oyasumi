@@ -143,8 +143,10 @@ function stats() {
  const hours=summary?.peakHours||[];
  return `${header('みんなの記録',true)}<section class="card count-card"><h2>おやすみした人</h2><div class="count">${count??'—'}<small> 人</small></div><p class="muted">最後の投稿でおやすみを報告した人</p></section><section class="card tonight-cats"><h2>おやすみ中の猫たち</h2>${summary?cats.length?`<div class="sleeping-cats" role="img" aria-label="おやすみした${count}人の猫たち"><div aria-hidden="true">${cats.join('')}</div></div>${count>cats.length?`<p class="muted">ほか ${count-cats.length} 人もおやすみしています</p>`:''}`:'<p class="muted">おやすみの報告は、これから。</p>':'<p class="muted">猫たちの様子を取得できませんでした。</p>'}<p class="summary-note">名前を出さず、選んだ毛色の猫で表示しています。</p></section><section class="card tonight-hours"><h2>おやすみが多い時間帯</h2>${summary?hours.length?`<div class="peak-hours">${hours.map(h=>`<p><strong>${String(h.hour).padStart(2,'0')}:00〜${String((h.hour+1)%24).padStart(2,'0')}:00</strong><span>${h.count} 人</span></p>`).join('')}</div><p class="summary-note">日本時間・一人につき最新のおやすみ報告</p>`:'<p class="muted">おやすみの報告が集まると表示されます。</p>':'<p class="muted">時間帯を取得できませんでした。</p>'}</section>${chart()}`;
 }
-// Sleep artwork follows the latest report until the next JST 06:00 boundary.
+// Use the DB's persisted latest report, even if its history row was deleted.
+// Older servers retain the existing latest-post fallback during deployment.
 function homeCatStatus(now=NightClock.now()) {
+ if(CatCare.fresh(shared.catCare,now)&&shared.catCare.sleepStateVersion===1)return shared.catCare.catState||'';
  const post=state.posts[0]||shared.feed.find(p=>p.self);
  if(post&&SleepFlow.night(post.time)===SleepFlow.night(now))return isSleeping(post.status)?'sleep':'awake';
  const last=state.lastSleep;
@@ -332,6 +334,8 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
   checkNightBoundary();
   const post={id:row.id,userId:row.user_id,status:row.choice,intent:row.post_intent,time:Date.parse(row.created_at),nightDate:row.night_date,order:row.event_order,name:state.name,expression:state.expression,coat:state.coat,catRole:state.catRole,profileNote:state.profileNote,self:true,color:'peach'};
   state.posts=[post,...state.posts.filter(p=>p.id!==post.id)];if(row.night_date===NightClock.night())shared.feed=[post,...shared.feed.filter(p=>p.userId!==post.userId)];
+  // The confirmed submit RPC and its trigger have already saved this state.
+  if(CatCare.fresh(shared.catCare)&&shared.catCare.sleepStateVersion===1&&SleepFlow.night(post.time)===NightClock.night())shared.catCare={...shared.catCare,catState:isSleeping(post.status)?'sleep':'awake',mealSleeping:isSleeping(post.status)};
   if(isSleeping(status)){state.lastSleep={count:null,postId:row.id,nightDate:row.night_date,userId:row.user_id,at:row.created_at,coat:state.coat,finished:false};save();}
   else if(state.lastSleep?.finished){state.lastSleep.finished=false;save();}
   go(isSleeping(status)?'sleep':'timeline');syncSleepView();if(status==='awake')toast('今の気持ちを伝えました');refreshAfterSave();
