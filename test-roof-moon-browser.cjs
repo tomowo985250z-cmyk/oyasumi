@@ -100,7 +100,7 @@ let browser;
  });
  for(const p of phases){assert(Math.abs(p.area-(1-Math.cos(p.fraction*2*Math.PI))/2)<.01);if(p.fraction>0&&p.fraction<.5)assert(p.right>p.left);if(p.fraction>.5)assert(p.left>p.right);}
  for(const fraction of [0,.125,.25,.5,.75,.875]){
-  await page.evaluate(fraction=>{document.querySelector('.roof-moon').outerHTML=RoofMoon.svg(Date.parse('2000-01-06T18:14:00Z')+29.530588853*86400000*fraction);},fraction);
+  await page.evaluate(fraction=>{clearTimeout(roofMoonTimer);document.querySelector('.roof-moon').outerHTML=RoofMoon.svg(Date.parse('2000-01-06T18:14:00Z')+29.530588853*86400000*fraction);},fraction);
   await page.locator('.roof-sky-card').screenshot({path:path.join(output,`phase-${fraction}.png`)});
  }
  const resumes=[];

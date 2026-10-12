@@ -51,12 +51,21 @@ globalThis.RoofMoon = (() => {
    x:192+2.5*(1-Math.cos(angle)),y:26-11*Math.sin(angle),
    scale:1.025+.125*Math.cos(angle-.7)};
  }
- function svg(now) {
+ function drawing(now) {
   const moon=snapshot(now),cosine=Math.cos(moon.phase*Math.PI*2),rx=Math.abs(cosine);
   // Outer limb plus elliptical terminator: right-lit waxing, left-lit waning.
   const terminator=rx<1e-8?'L0 -1':`A${rx} 1 0 0 ${cosine>=0?0:1} 0 -1`;
   const path=`M0 -1A1 1 0 0 1 0 1${terminator}Z`;
-  return `<g class="roof-moon" data-moon-phase="${moon.phase}" transform="translate(${moon.x} ${moon.y}) scale(${7.5*moon.scale})"><circle r="1" fill="#ddd8bf" opacity=".06"/><path d="${path}" transform="scale(${moon.phase<=.5?1:-1} 1)" fill="#ddd8bf" opacity=".6"/></g>`;
+  return {phase:moon.phase,transform:`translate(${moon.x} ${moon.y}) scale(${7.5*moon.scale})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
  }
- return Object.freeze({snapshot,svg});
+ function svg(now) {
+  const moon=drawing(now);
+  return `<g class="roof-moon" data-moon-phase="${moon.phase}" transform="${moon.transform}"><circle r="1" fill="#ddd8bf" opacity=".06"/><path d="${moon.path}" transform="${moon.facing}" fill="#ddd8bf" opacity=".6"/></g>`;
+ }
+ function update(element,now) {
+  const moon=drawing(now),path=element.querySelector('path');
+  element.setAttribute('data-moon-phase',moon.phase);element.setAttribute('transform',moon.transform);
+  path.setAttribute('d',moon.path);path.setAttribute('transform',moon.facing);
+ }
+ return Object.freeze({snapshot,svg,update});
 })();

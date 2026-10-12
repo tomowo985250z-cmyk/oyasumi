@@ -77,11 +77,20 @@ const statusText = (status,intent) => status === 'awake' && intent === 'sleeples
 const avatar = p => `<span class="avatar ${p.color || 'peach'}" aria-hidden="true">${CatFaces.svg(p.expression,p.coat)}</span>`;
 const header = (title='おやすみ', back=false) => `<header class="header">${back?'<button class="icon-button" data-view="home" aria-label="ホームに戻る">‹</button>':'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { const items=[['home','ホーム'],['timeline','タイムライン'],['stats','みんなの記録'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=false; }
-let roofShootingTimer,roofNextShootingAt;
+let roofMoonTimer,roofShootingTimer,roofNextShootingAt;
+function syncRoofMoon() {
+ clearTimeout(roofMoonTimer);
+ const moon=document.querySelector('.awake-roof .roof-moon');
+ if(document.hidden||!moon)return;
+ // Clock-driven decoration must not wait for a shooting star, a successful
+ // network refresh or a full render. Keep the moon and cat nodes in place.
+ RoofMoon.update(moon,NightClock.now());
+ roofMoonTimer=setTimeout(syncRoofMoon,1000);
+}
 function syncRoofSky() {
  clearTimeout(roofShootingTimer);
  const scene=document.querySelector('.awake-roof');
- if(!document.hidden&&scene)scene.querySelector('.roof-moon').outerHTML=RoofMoon.svg(NightClock.now());
+ syncRoofMoon();
  if(DayRoom.world().daylight||document.hidden||!scene||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.roof-shooting-star').forEach(star=>{star.getAnimations().forEach(animation=>animation.cancel());star.remove();});roofNextShootingAt=undefined;return;}
  roofNextShootingAt??=performance.now()+15000+Math.random()*15000;
  roofShootingTimer=setTimeout(()=>{

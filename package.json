@@ -13,7 +13,7 @@
     "test:cat-images": "node test-cat-image-assets.js",
     "test:cat-loading": "node test-cat-loading.cjs && node test-cat-loading.cjs --edge",
     "test:home-post-choices": "node test-home-post-choices.cjs",
-    "test:roof-moon": "node test-roof-moon.js && node test-roof-moon-browser.cjs",
+    "test:roof-moon": "node test-roof-moon.js && node test-roof-moon-browser.cjs && node test-roof-moon-browser.cjs --edge && node test-roof-moon-updates.cjs && node test-roof-moon-updates.cjs --edge",
     "test:cat-meals": "node test-cat-meal-assets.cjs",
     "test:cat-meal-motion": "node test-cat-meal-motion.cjs && node test-cat-meal-motion.cjs --edge",
     "test:home-cat-care": "node test-home-cat-care.cjs && node test-home-cat-care.cjs --edge",
