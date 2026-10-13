@@ -52,7 +52,8 @@
     }catch{ /* Missing, disabled or damaged storage does not block startup. */ }
   }
   function confirmCoat(userId,scope,coat,expression,now) {
-    if(!userId||!validCoat(coat))return;
+    if(!userId)return;
+    if(!validCoat(coat)){try{localStorage.removeItem(coatKey(scope));}catch{}return;}
     try{localStorage.setItem(coatKey(scope),JSON.stringify({version:1,userId,coat,at:Date.now()}));}catch{}
     warmCoat(userId,coat,expression,now);
   }

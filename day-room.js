@@ -9,7 +9,8 @@ globalThis.DayRoom=(()=>{
  const homeKey=()=>DayRoom.world().day+':'+(DayCats.current(NightClock.now())?.key||'night');
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
-  const room=DayRoom.snapshot(user),w=DayRoom.world(),html=artwork(room,coat,cat?.status,w,cat?.home);
+  const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true;
+  const html=unselected?'<span data-cat-placeholder aria-hidden="true"></span>':artwork(room,coat,cat?.status,w,cat?.home);
   const tag=interactive?'button':'div';
   return `<div class="day-room room-scene" ${attrs(w)} data-room-user="${user||''}" data-place="${placement(room,w)}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><img class="day-room-art" src="assets/day-room/room.svg" alt="" aria-hidden="true"><div class="day-room-night-light" aria-hidden="true"></div><div class="day-room-world-window" aria-hidden="true">${SeasonLandscape.art(w)}</div><${tag} class="day-cat day-room-cat room-resident" ${interactive?'type="button" data-view="catMeal" aria-label="猫のごはんを開く"':''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
@@ -41,7 +42,7 @@ globalThis.DayRoom=(()=>{
  function sync(){
   if(document.hidden)return;
   for(const stage of document.querySelectorAll('.day-room')){
-   if(stage.closest('.own-cat-room')&&typeof catsResolved==='function'&&!catsResolved())continue;
+   if(stage.closest('.own-cat-room')&&((typeof catsResolved==='function'&&!catsResolved())||(typeof shared!=='undefined'&&shared.needsCat===true)))continue;
    if(stage.closest('[data-feeding=true]'))continue;
    if(stage.closest('.own-cat-room'))stage.dataset.postStatus=CatCare.sleeping(shared.catCare)?'sleep':homeCatStatus();
    const room=DayRoom.snapshot(stage.dataset.roomUser),w=DayRoom.world(),cat=stage.querySelector('.room-resident');

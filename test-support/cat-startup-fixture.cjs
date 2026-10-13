@@ -18,7 +18,7 @@ module.exports=function installStartupFixture(options){
   const night=SleepFlow.night(f.at);let data;
   if(name==='oyasumi_night_context')data=[{night_date:night,morning_night_date:SleepFlow.previousNight(f.at),server_now:new Date(f.at).toISOString(),next_reset_at:new Date(Date.parse(night+'T06:00:00+09:00')+86400000).toISOString()}];
   else if(name==='oyasumi_tonight_counts')data=[{night_date:night,awake_count:40,sleeping_count:f.asleep?1:0,my_state:f.asleep?'sleep':'awake'}];
-  else if(name==='oyasumi_cat_care_status')return read(name,f.failCare?{error:{code:'57014'}}:{data:{allowanceVersion:2,sleepStateVersion:1,catState:f.asleep?'sleep':'awake',mealSleeping:f.asleep,day:night,mealSlot:'night',mealEligible:true,mealDone:false,treatGiven:false,treatCount:0,treatRecipients:[],receivedToday:0,receivedTotal:0,receivedDays:[]}},180,f.holdCare?f.careGates:null);
+  else if(name==='oyasumi_cat_care_status')return read(name,f.failCare?{error:{code:'57014'}}:{data:{allowanceVersion:2,sleepStateVersion:1,catState:f.asleep?'sleep':'awake',mealSleeping:f.asleep,day:night,mealSlot:'night',mealEligible:!!f.coat,mealDone:false,treatGiven:false,treatCount:0,treatRecipients:[],receivedToday:0,receivedTotal:0,receivedDays:[]}},180,f.holdCare?f.careGates:null);
   else if(name==='oyasumi_cat_coat_status')data=[{next_change_at:null}];
   else if(name==='oyasumi_cat_coat_cooldown_paused')data=true;
   else if(name==='oyasumi_reaction_counts_v3')data=[];
