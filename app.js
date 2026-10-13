@@ -58,7 +58,7 @@ function syncCatVisibility(){
  const pending=!catsResolved(),root=document.documentElement,changed=root.hasAttribute('data-cat-state-pending')!==pending;
  root.toggleAttribute('data-cat-state-pending',pending);
  root.toggleAttribute('data-cat-own-ready',!!previewFresh(ownCatPreview));
- root.toggleAttribute('data-cat-timeline-ready',!!previewFresh(timelinePreview));
+ root.toggleAttribute('data-cat-timeline-ready',!!previewFresh(timelinePreview)||(ready&&!catStatePending));
  if(changed)document.dispatchEvent(new Event('catvisibilitychange'));
 }
 function invalidateCatState(){catStatePending=true;catStateRevision++;ownCatPreview=timelinePreview=undefined;syncCatVisibility();syncBusy();}

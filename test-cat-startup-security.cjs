@@ -30,6 +30,11 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
    await page.waitForFunction(()=>CatStartupFixture.calls.some(c=>c.label==='oyasumi_cat_care_status')&&!refreshPromise);
    assert.equal(await page.evaluate(()=>CatStartupFixture.firstOwn),null);
    assert(await page.locator('html').evaluate(el=>el.hasAttribute('data-cat-state-pending')));
+   if(cache==='failed-care'){
+    await page.evaluate(()=>go('timeline'));
+    await page.waitForFunction(()=>CatStartupFixture.firstFast!==null,{},{timeout:4000});
+    assert.equal(await page.evaluate(()=>CatStartupFixture.firstOwn),null,'Unknown own sleep stays hidden while fresh author icons remain available');
+   }
   }else{
    await page.waitForFunction(()=>CatStartupFixture.firstOwn!==null);
    if(cache==='initial-pageshow'){
