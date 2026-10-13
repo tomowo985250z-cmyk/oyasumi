@@ -324,7 +324,7 @@ async function refreshShared() {
     const appearanceChanged=state.coat!==own.coat||state.expression!==own.expression;
     ownCatPreview={revision,catRevision,appearanceChanged,clock:own.clock,catCare:own.catCare};
     NightClock.sync(own.clock);state.coat=own.coat;state.expression=own.expression;state.name=own.name||state.name;
-    shared={...shared,userId:own.userId,clock:own.clock,catCare:own.catCare,needsCat:false,needsNickname:!own.name,profileComplete:!!own.name};
+    shared={...shared,userId:own.userId,clock:own.clock,nightDate:shared.nightDate||own.clock.nightDate,catCare:own.catCare,needsCat:false,needsNickname:!own.name,profileComplete:!!own.name};
     scheduleNightBoundary();
     renderPreservingPosition(true);syncCatVisibility();
    },

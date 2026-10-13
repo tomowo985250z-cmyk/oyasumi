@@ -8,9 +8,9 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
  for(let i=0;i<100;i++){try{if((await fetch(base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
  browser=await(engine==='edge'?chromium:webkit).launch(engine==='edge'?{executablePath:process.env.EDGE_PATH||'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'}:{});
  const cases=[];
- for(const cache of ['warm','stale','foreign','expired','corrupt','blocked','failed-care','held-care','auth-change','stale-progress','early-meal','unknown-author','missing-coat'].filter(c=>!selected||c===selected)){
+ for(const cache of ['warm','stale','foreign','expired','corrupt','blocked','failed-care','held-care','auth-change','stale-progress','early-meal','unknown-author','missing-coat','initial-pageshow'].filter(c=>!selected||c===selected)){
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
-  await context.addInitScript(installFixture,{standalone:true,cache,coat:cache==='missing-coat'?null:'black',asleep:cache!=='early-meal',at:Date.parse('2026-10-13T23:00:00+09:00'),failCare:cache==='failed-care',holdCare:['held-care','auth-change'].includes(cache),holdOptional:['stale-progress','early-meal','unknown-author'].includes(cache),holdProfiles:cache==='unknown-author'});
+  await context.addInitScript(installFixture,{standalone:true,cache,coat:cache==='missing-coat'?null:'black',asleep:cache!=='early-meal',at:Date.parse('2026-10-13T23:00:00+09:00'),failCare:cache==='failed-care',holdCare:['held-care','auth-change'].includes(cache),holdOptional:['stale-progress','early-meal','unknown-author','initial-pageshow'].includes(cache),holdProfiles:cache==='unknown-author'});
   const page=await context.newPage(),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
   await page.route('**/*',route=>{const u=new URL(route.request().url());if(!u.href.startsWith(base))return route.abort();if(/\/(?:vendor\/supabase|supabase-config|update-client)\.js$/.test(u.pathname))return route.fulfill({contentType:'text/javascript',body:''});return route.continue();});
   await page.goto(base,{waitUntil:'domcontentloaded'});
@@ -32,6 +32,14 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
    assert(await page.locator('html').evaluate(el=>el.hasAttribute('data-cat-state-pending')));
   }else{
    await page.waitForFunction(()=>CatStartupFixture.firstOwn!==null);
+   if(cache==='initial-pageshow'){
+    const revision=await page.evaluate(()=>stateRevision);
+    await page.evaluate(()=>window.dispatchEvent(new PageTransitionEvent('pageshow',{persisted:false})));
+    assert.equal(await page.evaluate(()=>stateRevision),revision,'Initial pageshow is not a new care day');
+    assert(await page.locator('.home-room-unit .room-resident img').isVisible());
+    await page.evaluate(()=>go('timeline'));await page.waitForFunction(()=>CatStartupFixture.firstFast!==null);
+    await page.evaluate(()=>{CatStartupFixture.releaseOptional();go('home');});
+   }
    if(cache==='early-meal'){
     await page.locator('.home-room-unit .room-resident').evaluate(button=>button.click());assert(await page.locator('[data-cat-meal]').isDisabled());
     await page.locator('[data-cat-meal]').evaluate(button=>{button.disabled=false;button.click();});
