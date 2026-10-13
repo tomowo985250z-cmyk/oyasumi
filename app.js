@@ -51,14 +51,17 @@ state.name = savedName.error ? freshState().name : savedName.name;
 let shared = { userId: null, feed: [], reactionCounts: {}, awakeCount: null, sleepingCount: null, ownSleepCount: null, nightDate: null, trend: [], trendSupported: false };
 let busy = false, ready = false, refreshPromise, connectionPromise;
 // Local defaults and a restored page are not a confirmed cat identity/state.
-let catStatePending=true, catStateRevision=0;
+let catStatePending=true, catStateRevision=0,ownCatPreview,timelinePreview;
+const previewFresh=preview=>preview&&preview.revision===stateRevision&&preview.catRevision===catStateRevision&&!document.hidden&&(!preview.clock||preview.clock.serverNow+performance.now()-preview.clock.monotonicAt<preview.clock.resetAt)&&(!preview.catCare||CatCare.fresh(preview.catCare));
 const catsResolved=()=>ready&&!catStatePending&&shared.catStateResolved!==false;
 function syncCatVisibility(){
  const pending=!catsResolved(),root=document.documentElement,changed=root.hasAttribute('data-cat-state-pending')!==pending;
  root.toggleAttribute('data-cat-state-pending',pending);
+ root.toggleAttribute('data-cat-own-ready',!!previewFresh(ownCatPreview));
+ root.toggleAttribute('data-cat-timeline-ready',!!previewFresh(timelinePreview));
  if(changed)document.dispatchEvent(new Event('catvisibilitychange'));
 }
-function invalidateCatState(){catStatePending=true;catStateRevision++;syncCatVisibility();}
+function invalidateCatState(){catStatePending=true;catStateRevision++;ownCatPreview=timelinePreview=undefined;syncCatVisibility();}
 document.addEventListener('visibilitychange',invalidateCatState,{capture:true});
 window.addEventListener('pagehide',invalidateCatState,{capture:true});
 window.addEventListener('pageshow',event=>{if(event.persisted){invalidateCatState();void ensureConnection().then(()=>refreshShared()).catch(()=>{});}},{capture:true});
@@ -72,9 +75,9 @@ const timeLabel = date => new Date(date).toLocaleTimeString('ja-JP', { hour: '2-
 const dayKey = () => SleepFlow.day(NightClock.now());
 function save() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify({ name: state.name, morningDays: state.morningDays, light: state.light, lastSleep: state.lastSleep })); } catch { toast('端末の設定を保存できませんでした。'); } }
 function toast(message) { const el=document.querySelector('#toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),2800); }
-const allPosts = () => shared.feed;
+const allPosts = () => view==='timeline'&&previewFresh(timelinePreview)?timelinePreview.feed:shared.feed;
 const statusText = (status,intent) => status === 'awake' && intent === 'sleepless' ? 'まだ眠れない…' : POST_OPTIONS.find(option => option.id === status)?.text || '';
-const avatar = p => `<span class="avatar ${p.color || 'peach'}" aria-hidden="true">${CatFaces.svg(p.expression,p.coat)}</span>`;
+const avatar = p => `<span class="avatar ${p.color || 'peach'}" ${p.appearanceReady===true?'data-cat-appearance-ready="true"':''} aria-hidden="true">${p.appearanceReady===false?'<span class="cat-face" data-cat-placeholder></span>':CatFaces.svg(p.expression,p.coat)}</span>`;
 const header = (title='おやすみ', back=false) => `<header class="header">${back?'<button class="icon-button" data-view="home" aria-label="ホームに戻る">‹</button>':'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { const items=[['home','ホーム'],['timeline','タイムライン'],['stats','みんなの記録'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=false; }
 let roofMoonTimer,roofShootingTimer,roofNextShootingAt;
@@ -224,24 +227,24 @@ function preloadCats(next) {
  else if(next==='sleep'||next==='rest')markup=CatScenes.svg('sleeping',state.coat);
  else if(next==='morning')markup=CatScenes.svg('awake',state.coat);
  else if(next==='home'||next==='catMeal')markup=DayRoom.stage(state.coat,shared.userId,{status:homeCatStatus(),home:true});
- else if(next==='timeline')markup=TimelineVisibility.visible(allPosts(),NightClock.now()).filter(p=>filter==='all'||(filter==='sleep'?isSleeping(p.status):p.status==='awake')).slice(0,4).map(p=>CatFaces.svg(p.expression,p.coat)).join('');
+ else if(next==='timeline')markup=TimelineVisibility.visible(allPosts(),NightClock.now()).filter(p=>p.appearanceReady!==false&&(filter==='all'||(filter==='sleep'?isSleeping(p.status):p.status==='awake'))).slice(0,4).map(p=>CatFaces.svg(p.expression,p.coat)).join('');
  else if(next==='stats')markup=(shared.tonightSummary?.coats||[]).slice(0,4).map(p=>CatScenes.svg('sleeping',p.coat)).join('');
  CatImages.preload(markup);
 }
-function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready});navigation();syncBusy();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
+function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.home-room-unit .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
 function go(next) { preloadCats(next);if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0);void refreshSentReactionPeople(); }
 function preloadCatDestination(event) {
  const button=event.target.closest('button');if(!button)return;
  if(button.dataset.view)preloadCats(button.dataset.view);
  else if(button.dataset.post)preloadCats(isSleeping(button.dataset.post)?'sleep':'timeline');
- else if(button.dataset.publicProfile){const person=allPosts().find(p=>p.id===button.dataset.publicProfile);if(person)CatImages.preload(DayRoom.stage(person.coat,person.userId,{status:person.status}));}
+ else if(button.dataset.publicProfile){const person=allPosts().find(p=>p.id===button.dataset.publicProfile);if(person&&person.appearanceReady!==false)CatImages.preload(DayRoom.stage(person.coat,person.userId,{status:person.status}));}
 }
 document.addEventListener('pointerdown',preloadCatDestination,{passive:true});
 document.addEventListener('focusin',preloadCatDestination);
 function syncBusy() {
  document.querySelectorAll('[data-coat-picker]').forEach(button=>{button.disabled=busy||!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now());});
  app.setAttribute('aria-busy',String(busy));
- document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],[data-note-editor],#delete-note,#note-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy||(button.hasAttribute('data-coat')&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()));});
+ document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],[data-note-editor],#delete-note,#note-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy||(!ready&&button.matches('[data-post],[data-react],[data-delete]'))||(button.hasAttribute('data-coat')&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()));});
 }
 let careRenderTimer;
 function renderPreservingPosition(allowDialog=false) {
@@ -291,6 +294,7 @@ function checkNightBoundary() {
  syncSleepView();
  if(!shared.clock||shared.nightDate===NightClock.night())return;
  stateRevision++;
+ ownCatPreview=timelinePreview=undefined;syncCatVisibility();
  shared={...shared,nightDate:NightClock.night(),feed:[],awakeCount:null,activeAwakePosts:null,sleepingCount:null,trend:[],tonightSummary:null,reactionCounts:{}};
  clearReactionEffect();
  if(SleepFlow.morningDue(state.lastSleep,state.morningDays,NightClock.now())&&(view==='rest'||view==='sleep'))go('morning');
@@ -309,24 +313,44 @@ async function refreshShared() {
  if((busy||CatCare.pending)&&ready){refreshQueued=true;return;}
  if(refreshPromise)return refreshPromise;
  const revision=stateRevision,catRevision=catStateRevision;
+ const accepts=payload=>revision===stateRevision&&catRevision===catStateRevision&&!busy&&!CatCare.pending&&!document.hidden&&payload.clock&&payload.clock.serverNow+performance.now()-payload.clock.monotonicAt<payload.clock.resetAt;
  refreshPromise=(async()=>{
-  const snapshot=await OyasumiAPI.snapshot();
+  const snapshot=await OyasumiAPI.snapshot(0,{
+   onIdentityChanged:()=>{if(revision===stateRevision&&catRevision===catStateRevision)invalidateCatState();},
+   onOwnCat:own=>{
+    if(!accepts(own)||!CatFaces.coats.some(c=>c.id===own.coat)||CatFaces.normalize(own.expression)!==own.expression||!CatCare.fresh(own.catCare,own.clock.serverNow+performance.now()-own.clock.monotonicAt)||!own.catCare.mealEligible)return;
+    const appearanceChanged=state.coat!==own.coat||state.expression!==own.expression;
+    ownCatPreview={revision,catRevision,appearanceChanged,clock:own.clock,catCare:own.catCare};
+    NightClock.sync(own.clock);state.coat=own.coat;state.expression=own.expression;state.name=own.name||state.name;
+    shared={...shared,userId:own.userId,clock:own.clock,catCare:own.catCare};
+    scheduleNightBoundary();
+    renderPreservingPosition(true);syncCatVisibility();
+   },
+   onTimeline:partial=>{
+    if(!accepts(partial))return;
+    timelinePreview={...partial,revision,catRevision};
+    NightClock.sync(partial.clock);
+    if(view==='timeline')renderPreservingPosition(true);
+    syncCatVisibility();
+   }
+  });
   // A read started before a write/boundary must not overwrite the confirmed local result.
   if(revision!==stateRevision||catRevision!==catStateRevision||((busy||CatCare.pending)&&ready)||snapshot.clock&&snapshot.clock.serverNow+performance.now()-snapshot.clock.monotonicAt>=snapshot.clock.resetAt){refreshQueued=true;return;}
-  const appearanceChanged=!ready||state.coat!==CatFaces.normalizeCoat(snapshot.coat)||state.expression!==CatFaces.normalize(snapshot.expression);
+  const appearanceChanged=!ready||ownCatPreview?.appearanceChanged||state.coat!==CatFaces.normalizeCoat(snapshot.coat)||state.expression!==CatFaces.normalize(snapshot.expression);
   if(shared.userId!==snapshot.userId)CatCare.clearFeedback();NightClock.sync(snapshot.clock);shared=snapshot;state.name=snapshot.name;state.expression=CatFaces.normalize(snapshot.expression);state.coat=CatFaces.normalizeCoat(snapshot.coat);state.catRole=snapshot.catRole;state.profileNote=snapshot.profileNote;state.posts=snapshot.ownPosts;state.reactions=snapshot.reactions;
   if(state.lastSleep?.count===null&&state.lastSleep.postId&&snapshot.nightDate===state.lastSleep.nightDate&&snapshot.feed.some(post=>post.id===state.lastSleep.postId&&isSleeping(post.status)))state.lastSleep.count=snapshot.sleepingCount;
   syncSleepView();
   if(!ready&&['home','rest','morning'].includes(view))view=SleepFlow.openView(state.lastSleep,state.morningDays,NightClock.now());
   scheduleNightBoundary();
   const confirming=catStatePending;
+  ownCatPreview=timelinePreview=undefined;
   ready=true;catStatePending=document.hidden;save();renderPreservingPosition(confirming);
   const picker=document.querySelector('#expression-dialog[open]');if(picker&&appearanceChanged)renderCatPicker(picker.dataset.kind==='coat');
   syncCatVisibility();void refreshSentReactionPeople();
   if(document.querySelector('dialog[open]'))refreshCareCards();
   scheduleCareDay();
  })();
- try{await refreshPromise;}finally{refreshPromise=undefined;startQueuedRefresh();}
+ try{await refreshPromise;}catch(error){if(error.code==='CAT_AUTH_CHANGED')invalidateCatState();throw error;}finally{refreshPromise=undefined;startQueuedRefresh();}
 }
 async function ensureConnection() {
  if(!connectionPromise)connectionPromise=(async()=>{
@@ -450,7 +474,7 @@ document.addEventListener('click',event=>{
   document.querySelector('#note-dialog').showModal();document.querySelector('#profile-note').focus();
  }
  const button=event.target.closest('[data-public-profile]');if(!button)return;
- const person=allPosts().find(post=>post.id===button.dataset.publicProfile);if(!person)return;
+ const person=allPosts().find(post=>post.id===button.dataset.publicProfile);if(!person||person.appearanceReady===false)return;
  CatImages.render(document.querySelector('#public-profile-content'),publicProfileRoom(person));
  document.querySelector('#public-profile-dialog').showModal();
 });

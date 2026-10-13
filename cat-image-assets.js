@@ -29,6 +29,33 @@
   }});
   // Retain a small working set of decoded images, never the whole cat catalog.
   const cache = new Map(), limit = 12;
+  const timings=[],coatMaxAge=7*86400000;
+  const coatKey=scope=>'oyasumi-confirmed-coat-v1:'+scope;
+  const validCoat=coat=>faces.coats.some(c=>c.id===coat);
+  function record(stage,src,start) {
+    timings.push({stage,src,start,ms:performance.now()-start});if(timings.length>40)timings.shift();
+  }
+  function warmCoat(userId,coat,expression,now=Date.now()) {
+    if(!validCoat(coat))return;
+    const pose=globalThis.DayRoomState?.at(now,userId).pose||'relax';
+    preload(CatScenes.svg('sleeping',coat)+CatScenes.svg('awake',coat)+DayCats.svg(pose,coat)+(expression&&faces.normalize(expression)===expression?CatFaces.svg(expression,coat):''));
+  }
+  // A cached coat is an image-loading hint, never a source of rendered state.
+  // Bind it to the authenticated user and project/auth-storage namespace.
+  function primeCoat(userId,scope) {
+    if(!userId||!scope)return;
+    try {
+      const key=coatKey(scope),saved=JSON.parse(localStorage.getItem(key)||'null');
+      if(!saved)return;
+      if(saved.version!==1||saved.userId!==userId||!validCoat(saved.coat)||!Number.isFinite(saved.at)||Date.now()-saved.at>coatMaxAge||saved.at>Date.now()+60000){localStorage.removeItem(key);return;}
+      warmCoat(userId,saved.coat);
+    }catch{ /* Missing, disabled or damaged storage does not block startup. */ }
+  }
+  function confirmCoat(userId,scope,coat,expression,now) {
+    if(!userId||!validCoat(coat))return;
+    try{localStorage.setItem(coatKey(scope),JSON.stringify({version:1,userId,coat,at:Date.now()}));}catch{}
+    warmCoat(userId,coat,expression,now);
+  }
   const selector = 'img[data-asset-key], svg.cat-face, .care-scene img';
   function remember(src, image) {
     if (!src) return;
@@ -39,9 +66,12 @@
     image ||= new Image();
     cache.set(src, image);
     image.loading = 'eager';
+    const start=performance.now();
+    if(image.complete&&image.naturalWidth)record('image-cached',src,start);
+    else image.addEventListener('load',()=>record('image-load',src,start),{once:true});
     image.addEventListener('error', () => { if (cache.get(src) === image) cache.delete(src); }, {once: true});
     if (!image.getAttribute('src')) image.src = src;
-    if (typeof image.decode === 'function') void image.decode().catch(() => {});
+    if (typeof image.decode === 'function') void image.decode().then(()=>record('image-decode',src,start)).catch(() => {});
     while (cache.size > limit) cache.delete(cache.keys().next().value);
   }
   function warm(root) {
@@ -60,10 +90,11 @@
     }
     for (const src of sources) remember(src);
   }
-  function render(target, markup, {resolved = true} = {}) {
+  function render(target, markup, {resolved = true,confirmed = ''} = {}) {
     const template = document.createElement('template'); template.innerHTML = markup;
     // Keep the existing geometry, without attaching/requesting provisional art.
     if (!resolved) for (const cat of template.content.querySelectorAll(selector)) {
+      if(confirmed&&cat.closest(confirmed))continue;
       cat.setAttribute('data-cat-placeholder', '');
       for (const image of [cat, ...cat.querySelectorAll('image')]) {
         image.removeAttribute('src'); image.removeAttribute('href');
@@ -90,5 +121,5 @@
     for (const image of cache.values()) if (!image.isConnected) image.remove();
     warm(target);
   }
-  globalThis.CatImages = Object.freeze({preload, render, warm});
+  globalThis.CatImages = Object.freeze({preload, render, warm,primeCoat,confirmCoat,get timings(){return timings.map(t=>({...t}));}});
 })();
