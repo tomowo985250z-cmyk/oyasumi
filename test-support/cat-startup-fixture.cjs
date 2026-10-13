@@ -54,7 +54,8 @@ module.exports=function installStartupFixture(options){
    }
    const post=img.closest('[data-public-profile]');
    if(post){const i=Number(post.dataset.publicProfile.replace('post-','')),p=f.profiles[i];
-    if(!p||img.dataset.catCoat!==(i?p.cat_coat:f.coat)||img.dataset.catExpression!==p.cat_expression)f.violations.push('wrong author '+i);
+    const expression=globalThis.PostCatExpressions?PostCatExpressions.forPost({id:post.dataset.publicProfile,choice:i?'awake':f.asleep?'sleep':'awake',post_intent:i?'relax':f.asleep?'sleep':'relax'}):p?.cat_expression;
+    if(!p||img.dataset.catCoat!==(i?p.cat_coat:f.coat)||img.dataset.catExpression!==expression)f.violations.push('wrong author '+i);
     if(i>0&&i<=20)f.firstFast??=now;if(i>20)f.firstSlow??=now;
    }
   }

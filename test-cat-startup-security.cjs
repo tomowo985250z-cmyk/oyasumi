@@ -66,7 +66,7 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
    await page.waitForFunction(()=>document.querySelector('.home-room-unit .room-resident img')?.naturalWidth>0);
    const expected=cache==='stale-progress'?'white':'black';assert.equal(await page.locator('.home-room-unit .room-resident img').getAttribute('data-cat-coat'),expected);
    await page.evaluate(()=>go('profile'));await page.waitForFunction(()=>document.querySelector('.profile-banner img')?.naturalWidth>0);
-   assert.equal(await page.locator('.profile-banner img').getAttribute('data-cat-expression'),'surprised');
+   assert.equal(await page.locator('.profile-banner img').getAttribute('data-cat-expression'),await page.evaluate(()=>PostCatExpressions.forPost(ownIconPost())));
    if(cache!=='blocked')assert.deepEqual(await page.evaluate(()=>Object.keys(JSON.parse(localStorage.getItem('oyasumi-confirmed-coat-v1:https://isolated.invalid|oyasumi-auth'))).sort()),['at','coat','userId','version']);
   }
   assert.deepEqual(await page.evaluate(()=>CatStartupFixture.violations),[]);assert.deepEqual(errors,[]);

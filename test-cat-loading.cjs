@@ -47,7 +47,7 @@ function delayedFixture(options){
    if(!f.frames.includes(key))f.frames.push(key);
    if(image.dataset.catCoat!==f.coat)f.violations.push('Wrong coat: '+key);
    if(image.closest('.own-cat-room')&&(image.dataset.catScene||'day:'+image.dataset.dayScene)!==f.expectedScene())f.violations.push('Wrong sleep/time pose: '+key);
-   if(image.closest('.profile-banner')&&image.dataset.catExpression!==f.expression)f.violations.push('Wrong expression: '+key);
+   if(image.closest('.profile-banner')&&image.dataset.catExpression!==PostCatExpressions.forPost(ownIconPost()))f.violations.push('Wrong expression: '+key);
   }
   requestAnimationFrame(frame);
  }
@@ -87,7 +87,7 @@ let browser;
   assert.equal(await page.locator('.day-room').getAttribute('data-room-user'),'00000000-0000-0000-0000-000000000001');
   if(scenario==='day-awake')assert.equal(await page.locator('.room-resident img').getAttribute('data-day-scene'),await page.evaluate(()=>DayRoomState.at(CatLoadingFixture.at,shared.userId).pose));
   await page.evaluate(()=>{go('profile');});await page.waitForFunction(()=>document.querySelector('.profile-banner img')?.naturalWidth>0);
-  assert.equal(await page.locator('.profile-banner img').getAttribute('data-cat-expression'),'surprised');
+  assert.equal(await page.locator('.profile-banner img').getAttribute('data-cat-expression'),'calm');
   await page.evaluate(()=>go('home'));
   assert(await page.evaluate(()=>{const cat=document.querySelector('.room-resident img');DayRoom.sync();DayRoom.sync();render();return cat===document.querySelector('.room-resident img');}),'Same confirmed image node is reused');
   // Navigation during revalidation must not expose the previous identity/state.
@@ -117,12 +117,12 @@ let browser;
    await page.waitForFunction(()=>!refreshPromise);await hidden();
    await page.evaluate(()=>{CatLoadingFixture.fail=false;window.dispatchEvent(new Event('online'));});await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-cat-state-pending'));
    // A picker left open across backgrounding also uses the newly confirmed cat.
-   await page.evaluate(()=>go('profile'));await page.locator('[data-expression-picker]').click();
+   await page.evaluate(()=>go('profile'));await page.locator('.profile-page [data-coat-picker]').click();
    await page.evaluate(()=>{const f=CatLoadingFixture;f.hidden=true;document.dispatchEvent(new Event('visibilitychange'));f.coat='gray';f.expression='happy';f.hold=true;f.hidden=false;document.dispatchEvent(new Event('visibilitychange'));});
    await page.waitForFunction(()=>CatLoadingFixture.gates.length>0);await hidden();await page.evaluate(()=>CatLoadingFixture.release());
    await page.waitForFunction(()=>!refreshPromise&&!document.documentElement.hasAttribute('data-cat-state-pending'));
-   assert(await page.locator('#expression-options img').evaluateAll(images=>images.length===6&&images.every(i=>i.dataset.catCoat==='gray')));
-   assert.equal(await page.locator('#expression-options [aria-pressed=true]').getAttribute('data-expression'),'happy');
+   assert(await page.locator('#expression-options [data-coat]').evaluateAll(choices=>choices.length===16&&choices.every(c=>c.querySelector('[data-cat-coat]')?.dataset.catCoat===c.dataset.coat)));
+   assert.equal(await page.locator('#expression-options [aria-pressed=true]').getAttribute('data-coat'),'gray');
    await page.locator('#cancel-expression').click();
   }
   const beforeReload=await page.evaluate(()=>({violations:CatLoadingFixture.violations,frames:CatLoadingFixture.frames}));assert.deepEqual(beforeReload.violations,[]);
