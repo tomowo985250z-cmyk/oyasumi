@@ -84,11 +84,13 @@ let browser;
  // Other people's treats keep their existing room animation and duplicate lock.
  await reset();await page.evaluate(async()=>{HomePostFixture.peer=true;await refreshShared();go('timeline');});
  await page.locator('[data-public-profile=legacy-peer]').click();
- await page.locator('[data-cat-treat]').click();await page.waitForSelector('dialog .care-playing');
+ assert.equal(await page.locator('dialog [data-cat-treat]').count(),0);
+ await page.locator('.public-profile-care-icon').click();
+ await page.locator('[data-cat-treat]').click();await page.waitForSelector('.cat-treat-room .care-playing');
  assert(await page.locator('[data-cat-treat]').isDisabled());
- assert.equal(await page.locator('dialog .care-playing').getAttribute('data-care-kind'),'treat');
- assert(await page.locator('dialog .care-playing .care-bowl').isVisible());
- await page.evaluate(()=>{document.querySelector('#public-profile-dialog').close();document.querySelector('#public-profile-content').replaceChildren();});
+ assert.equal(await page.locator('.cat-treat-room .care-playing').getAttribute('data-care-kind'),'treat');
+ assert(await page.locator('.cat-treat-room .care-playing .care-bowl').isVisible());
+ await page.evaluate(()=>{go('home');document.querySelector('#public-profile-content').replaceChildren();});
  // Natural playback lasts six visible seconds and returns to the resident.
  await reset();
  await page.evaluate(()=>{globalThis.playbackMs=null;document.addEventListener('careplaybackend',e=>playbackMs=e.detail.visibleMs,{once:true});});

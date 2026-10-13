@@ -12,7 +12,8 @@ globalThis.DayRoom=(()=>{
   const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true;
   const html=unselected?'<span data-cat-placeholder aria-hidden="true"></span>':artwork(room,coat,cat?.status,w,cat?.home);
   const tag=interactive?'button':'div';
-  return `<div class="day-room room-scene" ${attrs(w)} data-room-user="${user||''}" data-place="${placement(room,w)}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><img class="day-room-art" src="assets/day-room/room.svg" alt="" aria-hidden="true"><div class="day-room-night-light" aria-hidden="true"></div><div class="day-room-world-window" aria-hidden="true">${SeasonLandscape.art(w)}</div><${tag} class="day-cat day-room-cat room-resident" ${interactive?'type="button" data-view="catMeal" aria-label="猫のごはんを開く"':''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
+  const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
+  return `<div class="day-room room-scene" ${attrs(w)} data-room-user="${user||''}" data-place="${placement(room,w)}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><img class="day-room-art" src="assets/day-room/room.svg" alt="" aria-hidden="true"><div class="day-room-night-light" aria-hidden="true"></div><div class="day-room-world-window" aria-hidden="true">${SeasonLandscape.art(w)}</div><${tag} class="day-cat day-room-cat room-resident" ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
  function controls(html){
   const template=document.createElement('template');template.innerHTML=html;

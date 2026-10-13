@@ -78,7 +78,7 @@ function toast(message) { const el=document.querySelector('#toast');el.textConte
 const allPosts = () => view==='timeline'&&previewFresh(timelinePreview)?timelinePreview.feed:shared.feed;
 const statusText = (status,intent) => status === 'awake' && intent === 'sleepless' ? 'まだ眠れない…' : POST_OPTIONS.find(option => option.id === status)?.text || '';
 const avatar = p => `<span class="avatar ${p.color || 'peach'}" ${p.appearanceReady===true?'data-cat-appearance-ready="true"':''} aria-hidden="true">${p.appearanceReady===false?'<span class="cat-face" data-cat-placeholder></span>':CatFaces.svg(p.expression,p.coat)}</span>`;
-const header = (title='おやすみ', back=false) => `<header class="header">${back?'<button class="icon-button" data-view="home" aria-label="ホームに戻る">‹</button>':'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
+const header = (title='おやすみ', back=false, backAction='data-view="home" aria-label="ホームに戻る"') => `<header class="header">${back?`<button class="icon-button" ${backAction}>‹</button>`:'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { const items=[['home','ホーム'],['timeline','タイムライン'],['stats','みんなの記録'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=false; }
 let roofMoonTimer,roofShootingTimer,roofNextShootingAt;
 function syncRoofMoon() {
@@ -183,6 +183,15 @@ function catMeal() {
  const care=shared.profileComplete?DayRoom.care(shared.catCare,state.coat,shared.userId,true):'<p class="quiet-note">名前と猫の種類を設定すると、ごはんをあげられます。</p><button class="text-button" data-view="profile">プロフィールを設定する</button>';
  return `${header('猫のごはん',true)}<section class="profile-room-unit own-cat-room cat-meal-room" data-room-user="${shared.userId||''}">${room}${care||'<p class="quiet-note">ごはんの記録を取得できませんでした。</p><button class="text-button" data-care-retry>もう一度確認する</button>'}</section>`;
 }
+let publicProfilePerson,publicProfileViewer,catTreatTarget,catTreatOrigin='timeline';
+function catTreat() {
+ const person=catTreatTarget?.viewer===shared.userId?catTreatTarget.person:null;
+ if(!person||person.userId===shared.userId)return `${header('猫のおやつ',true)}<p class="quiet-note">タイムラインから、贈る猫を選んでください。</p><button class="text-button" data-view="timeline">タイムラインへ</button>`;
+ const current=allPosts().find(post=>post.userId===person.userId&&post.appearanceReady!==false)||person;
+ const room=DayRoom.stage(current.coat,current.userId,{status:current.status});
+ const care=shared.profileComplete?DayRoom.care(shared.catCare,current.coat,current.userId,false):'<p class="quiet-note">名前と猫の種類を設定すると、おやつを贈れます。</p><button class="text-button" data-view="profile">プロフィールを設定する</button>';
+ return `${header('猫のおやつ',true,'data-treat-back aria-label="プロフィールに戻る"')}<p class="treat-recipient">${escapeHTML(current.name)}さんの猫へ · ${escapeHTML(CatFaces.coatLabel(current.coat))}</p><section class="profile-room-unit cat-treat-room" data-room-user="${current.userId}">${room}${care||'<p class="quiet-note">おやつの記録を取得できませんでした。</p><button class="text-button" data-care-retry>もう一度確認する</button>'}</section>`;
+}
 function roleTag(role) { const label=CatRoles.label(role);return label?`<span class="cat-role-tag">${escapeHTML(label)}</span>`:''; }
 function homeNote() { return `<section class="card home-note"><button class="profile-note-button" data-note-editor aria-label="自分のそっとひとことを編集"><span>そっとひとこと <small>編集 ›</small></span><span class="profile-note-text${state.profileNote?'':' is-empty'}">${escapeHTML(state.profileNote)||'タップして、ひとこと'}</span></button></section>`; }
 function roleSetting() { return `<button class="setting-row role-setting" data-role-picker><span>職業 <small>任意</small></span><span class="setting-value">${CatRoles.label(state.catRole)||(state.catRole==='private'?'表示なし':'未設定')} ›</span></button>`; }
@@ -219,7 +228,7 @@ function renderCatPicker(coatPicker){
  CatImages.render(document.querySelector('#expression-options'),coatPicker?CatFaces.groups.map(group=>`<h3 class="cat-group-title">${group.label}</h3>${choices(group.coats)}`).join(''):choices(CatFaces.options),{resolved:ready});
  syncBusy();
 }
-function profile() { return `${header()}${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner"><button class="profile-cat-button" ${shared.needsCat?'data-coat-picker':'data-expression-picker'} aria-label="${shared.needsCat?'猫の種類を選ぶ':'猫の表情を変更'}">${shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1>${roleTag(state.catRole)}<button class="profile-note-button" data-note-editor><span>そっとひとこと ›</span><span class="profile-note-text${state.profileNote ? '' : ' is-empty'}">${escapeHTML(state.profileNote)||'未入力'}</span></button></div></div>${catCoatSetting()}${roleSetting()}<div class="stats-grid profile-stats"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><details class="profile-history" data-history-user="${escapeHTML(shared.userId||'')}"><summary id="profile-history-summary">🐾 最近の記録を見る ＞</summary>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status,p.intent)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p></details>`; }
+function profile() { return `${header()}<section class="profile-page">${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner"><button class="profile-cat-button" ${shared.needsCat?'data-coat-picker':'data-view="catMeal"'} aria-label="${shared.needsCat?'猫の種類を選ぶ':'自分の猫のごはんを開く'}">${shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':avatar({expression:state.expression,coat:state.coat,color:'peach'})}</button><div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1><div class="profile-meta">${roleTag(state.catRole)}${shared.needsCat?'':'<button class="text-button" data-expression-picker>表情を編集 ›</button>'}</div><button class="profile-note-button" data-note-editor><span>そっとひとこと <small>編集 ›</small></span><span class="profile-note-text${state.profileNote ? '' : ' is-empty'}">${escapeHTML(state.profileNote)||'未入力'}</span></button></div></div><p class="profile-cat-hint">自分の猫をタップで、ごはんへ ›</p>${catCoatSetting()}${roleSetting()}<div class="stats-grid profile-stats"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><details class="profile-history" data-history-user="${escapeHTML(shared.userId||'')}"><summary id="profile-history-summary">🐾 最近の記録を見る ＞</summary>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status,p.intent)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p></details></section>`; }
 function settings() { return `${header('設定',true)}<section class="settings-section"><h2>プロフィール</h2><button class="setting-row" data-name><span>ニックネーム</span><span class="setting-value">${escapeHTML(state.name)} ›</span></button><button class="setting-row" data-coat-picker ${CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())?'': 'disabled'} aria-label="猫の毛色を選ぶ"><span>猫の種類（毛色）</span><span class="expression-setting"><span class="avatar peach">${CatFaces.svg(state.expression,state.coat)}</span><span class="setting-value">${shared.needsCat?'未設定':CatFaces.coatLabel(state.coat)} ›</span></span></button>${roleSetting()}</section><section class="settings-section"><h2>表示設定</h2><label class="setting-row"><span>ダークモード</span><input class="switch" type="checkbox" id="dark-switch" ${!state.light?'checked':''}></label><div class="setting-row"><span>言語</span><span class="setting-value">日本語</span></div></section><section class="settings-section"><h2>この初期版について</h2><div class="card settings-info">投稿・リアクション・今夜の人数は、みんなで共有しています。朝の記録と表示設定は、この端末に保存されます。人数の推移は、今夜の投稿をもとに集計しています。<br><br>匿名アカウントは端末ごとに異なります。通知は今後の対応予定です。</div></section><section class="settings-section safety-links"><h2>安心して使うために</h2><button class="setting-row" data-safety="privacy">プライバシーポリシー ›</button><button class="setting-row" data-safety="rules">利用規約・安全ルール ›</button></section><button class="text-button share-place-button" data-share-place>この場所を教える 🌙</button>`; }
 function preloadCats(next) {
  if(!catsResolved()||(shared.needsCat&&next!=='timeline'&&next!=='stats'))return;
@@ -232,7 +241,7 @@ function preloadCats(next) {
  else if(next==='stats')markup=(shared.tonightSummary?.coats||[]).slice(0,4).map(p=>CatScenes.svg('sleeping',p.coat)).join('');
  CatImages.preload(markup);
 }
-function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
+function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,catTreat,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
 function go(next) { preloadCats(next);if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0);void refreshSentReactionPeople(); }
 function preloadCatDestination(event) {
  const button=event.target.closest('button');if(!button)return;
@@ -448,9 +457,9 @@ function profileRoomCat(coat,now=NightClock.now(),status) {
 function profileRoomMarkup(person) {
  const coat=CatFaces.normalizeCoat(person.coat),status=['awake','sleep'].includes(person.status)?person.status:'',cat=profileRoomCat(coat,NightClock.now(),status);
  const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、一緒にひとやすみ。';
- const stage=DayRoom.stage(coat,person.userId,{status});
+ const self=person.userId===shared.userId,stage=DayRoom.stage(coat,person.userId,{status},{profileCare:true,self});
  const room=`<section class="cat-room" data-room-user="${person.userId||''}" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="猫の小さなおへや">${stage}<p class="room-whisper">${escapeHTML(whisper)}</p><p class="room-whisper-label">おへやの猫のつぶやき</p></section>`;
- return DayRoom.unit(room,shared.profileComplete&&person.userId!==shared.userId?DayRoom.care(shared.catCare,coat,person.userId,false):'',person.userId);
+ return DayRoom.unit(room,'',person.userId);
 }
 function syncProfileRoom() {
  CatCare.syncNormal();
@@ -462,12 +471,25 @@ function syncProfileRoom() {
  DayRoom.sync();
 }
 function publicProfileRoom(person) {
- return `${profileRoomMarkup(person)}<h3>${escapeHTML(person.name)}</h3>${roleTag(person.catRole)}<h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
+ const self=person.userId===shared.userId;
+ return `<div class="public-profile-identity"><button class="public-profile-care-icon" data-profile-care="${person.userId}" aria-label="${self?'自分の猫のごはん':'この猫のおやつ'}を開く">${avatar(person)}</button><div><h3>${escapeHTML(person.name)}</h3><p class="public-profile-coat">${escapeHTML(CatFaces.coatLabel(person.coat))}</p>${roleTag(person.catRole)}</div></div>${profileRoomMarkup(person)}<p class="profile-cat-hint">猫をタップで、${self?'自分の猫のごはん':'この猫のおやつ'}へ ›</p><h4>そっとひとこと</h4><p class="public-profile-note">${escapeHTML(person.profileNote)||'未入力'}</p>`;
 }
 setInterval(()=>{if(!document.hidden)syncProfileRoom();},5000);
 document.addEventListener('roomcareend',syncProfileRoom);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncProfileRoom();});
 document.addEventListener('click',event=>{
+ const care=event.target.closest('[data-profile-care]');
+ if(care){
+  const person=publicProfileViewer===shared.userId?publicProfilePerson:null;
+  if(!person||person.userId!==care.dataset.profileCare||person.appearanceReady===false)return;
+  const self=person.userId===shared.userId;catTreatOrigin=view;
+  if(!self)catTreatTarget={person:{...person},viewer:shared.userId};
+  document.querySelector('#public-profile-dialog').close();go(self?'catMeal':'catTreat');return;
+ }
+ if(event.target.closest('[data-treat-back]')){
+  const person=catTreatTarget?.viewer===shared.userId?catTreatTarget.person:null;
+  go(catTreatOrigin);if(person){publicProfilePerson=person;publicProfileViewer=shared.userId;CatImages.render(document.querySelector('#public-profile-content'),publicProfileRoom(person));document.querySelector('#public-profile-dialog').showModal();syncRoofSky();}return;
+ }
  const edit=event.target.closest('[data-note-editor]');
  if(edit&&!busy){
   document.querySelector('#profile-note').value=state.profileNote||'';
@@ -477,6 +499,7 @@ document.addEventListener('click',event=>{
  }
  const button=event.target.closest('[data-public-profile]');if(!button)return;
  const person=allPosts().find(post=>post.id===button.dataset.publicProfile);if(!person||person.appearanceReady===false)return;
+ publicProfilePerson=person;publicProfileViewer=shared.userId;
  CatImages.render(document.querySelector('#public-profile-content'),publicProfileRoom(person));
  document.querySelector('#public-profile-dialog').showModal();
  syncRoofSky();
