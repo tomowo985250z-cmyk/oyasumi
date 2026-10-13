@@ -437,7 +437,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
 document.addEventListener('change',event=>{if(event.target.id==='dark-switch'){state.light=!event.target.checked;save();render();}});
 document.querySelector('#cancel-name').addEventListener('click',()=>document.querySelector('#nickname-dialog').close());
 document.querySelector('#cancel-expression').addEventListener('click',()=>document.querySelector('#expression-dialog').close());
-const roomWhispers=Object.freeze({steady:'ひとつずつ。今日はここでひとやすみ。',guardian:'安心できる場所で、ほっとひと息。',caring:'あなたにも、やさしい時間が流れますように。',watchful:'ここでは、ゆっくりしていってね。',mechanic:'考えごとも、少しおやすみ。',maker:'小さな積み重ねを、今日はそっと置いて。',welcoming:'いらっしゃい。気楽にくつろいでね。',foodie:'あたたかいものを思い浮かべて、ほっとひと息。',courier:'今日の荷物をおろして、のんびりしよう。',foresight:'先のことは、少しあとで考えよう。',creative:'ひらめきも、のんびり待ってみよう。',independent:'自分のペースで、ゆっくりいこう。',learner:'今日の学びをしまって、ひとやすみ。',homely:'いつもの場所で、ほっとする時間。',resting:'何もしない時間も、大切にしよう。',carefree:'気の向くままに、のんびりしよう。'});
+const roomWhispers=Object.freeze({steady:'今日も、ひとつずつ。',guardian:'安心して、ほっとひと息。',caring:'あなたにも、やさしい時間を。',watchful:'ここでは、ゆっくりしてね。',mechanic:'考えごとも、少しおやすみ。',maker:'積み重ねた日々に、ひと息。',welcoming:'いらっしゃい。くつろいでね。',foodie:'あたたかいものと、ひと息。',courier:'荷物をおろして、のんびり。',foresight:'先のことは、あとで考えよう。',creative:'ひらめきも、のんびり待とう。',independent:'自分のペースで、ゆっくり。',learner:'今日の学びに、ひとやすみ。',homely:'いつもの場所で、ひと息。',resting:'何もしない時間も、大切に。',carefree:'気の向くままに、のんびり。'});
 function roomTime(now=NightClock.now()) { const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));return hour>=6&&hour<12?'morning':hour>=12&&hour<18?'day':'night'; }
 function profileRoomCat(coat,now=NightClock.now(),status) {
  const period=roomTime(now);
@@ -447,10 +447,9 @@ function profileRoomCat(coat,now=NightClock.now(),status) {
 }
 function profileRoomMarkup(person) {
  const coat=CatFaces.normalizeCoat(person.coat),status=['awake','sleep'].includes(person.status)?person.status:'',cat=profileRoomCat(coat,NightClock.now(),status);
- const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、いっしょにひとやすみ。';
+ const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、一緒にひとやすみ。';
  const stage=DayRoom.stage(coat,person.userId,{status});
- const whisperHTML=person.catRole==='watchful'?escapeHTML(whisper):`<span aria-hidden="true">“</span>${escapeHTML(whisper)}<span aria-hidden="true">”</span>`;
- const room=`<section class="cat-room" data-room-user="${person.userId||''}" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="猫の小さなおへや">${stage}<p class="room-whisper${person.catRole==='watchful'?' room-whisper-watchful':''}">${whisperHTML}</p><p class="room-whisper-label">おへやの猫のつぶやき</p></section>`;
+ const room=`<section class="cat-room" data-room-user="${person.userId||''}" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="猫の小さなおへや">${stage}<p class="room-whisper">${escapeHTML(whisper)}</p><p class="room-whisper-label">おへやの猫のつぶやき</p></section>`;
  return DayRoom.unit(room,shared.profileComplete&&person.userId!==shared.userId?DayRoom.care(shared.catCare,coat,person.userId,false):'',person.userId);
 }
 function syncProfileRoom() {

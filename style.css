@@ -134,8 +134,8 @@ main:has(>.tonight-cats) .count-card>p.muted{font-size:17px;line-height:20.8px}m
 .avatar:has(>.cat-face:is([data-cat-coat="snow-leopard"],[data-cat-coat="leopard"],[data-cat-coat="cheetah"],[data-cat-coat="jaguar"])){background:#2d719f;border-color:#ffa84f}
 .cat-room[data-coat=calico] .room-cat{width:235px;height:235px;bottom:10px}.cat-room[data-coat=calico][data-time=day] .room-cat{width:204px;height:204px;bottom:16px}.cat-room[data-coat=calico][data-time=night] .room-cat{width:244px;height:244px;bottom:0}.room-cat>.room-cat-art{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 1px #241e2422)}
 .cat-room .room-lamp{right:4px;top:22px}.cat-room .room-scene::after{right:11px;top:49px;height:40px}.cat-room .room-whisper{font-size:16px;line-height:1.85;color:#f4e8d7;padding:0 12px}.cat-room .room-whisper-label{font-size:11px}
-.cat-room .room-whisper-watchful{white-space:nowrap}
-@media(max-width:369px){.cat-room .room-whisper-watchful{font-size:clamp(13px,calc(6.25vw - 7px),16px);letter-spacing:-.15px}}
+.cat-room .room-whisper{white-space:nowrap}
+@media(max-width:349px){.cat-room .room-whisper{font-size:clamp(14.5px,calc(5vw - 1.5px),16px)}}
 .cat-room[data-time=morning] .room-orb{background:#fff2b8;box-shadow:0 0 12px 3px #fff0b84d}
 @media(max-width:350px){.cat-room .room-scene{height:284px}.cat-room .room-lamp{top:4px}.cat-room .room-scene::after{top:31px;height:24px}}
 
