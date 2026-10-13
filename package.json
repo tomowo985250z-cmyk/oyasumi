@@ -15,6 +15,7 @@
     "test:cat-startup": "node test-cat-startup-api.cjs && node test-cat-startup-browser.cjs && node test-cat-startup-security.cjs && node test-cat-startup-browser.cjs --edge && node test-cat-startup-security.cjs --edge",
     "test:home-post-choices": "node test-home-post-choices.cjs",
     "test:roof-moon": "node test-roof-moon.js && node test-roof-moon-browser.cjs && node test-roof-moon-browser.cjs --edge && node test-roof-moon-updates.cjs && node test-roof-moon-updates.cjs --edge",
+    "test:room-moon": "node test-room-moon.js && node test-room-moon-browser.cjs && node test-room-moon-browser.cjs --edge",
     "test:cat-meals": "node test-cat-meal-assets.cjs",
     "test:cat-meal-motion": "node test-cat-meal-motion.cjs && node test-cat-meal-motion.cjs --edge",
     "test:home-cat-care": "node test-home-cat-care.cjs && node test-home-cat-care.cjs --edge",

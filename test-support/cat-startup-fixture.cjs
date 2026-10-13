@@ -1,6 +1,6 @@
 module.exports=function installStartupFixture(options){
  const own='00000000-0000-0000-0000-000000000001';
- const f=globalThis.CatStartupFixture={...options,own,started:performance.now(),calls:[],frames:[],violations:[],firstOwn:null,firstFast:null,firstSlow:null,hidden:false,careGates:[],optionalGates:[]};
+ const f=globalThis.CatStartupFixture={...options,own,started:performance.now(),calls:[],frames:[],violations:[],firstOwn:null,firstFast:null,firstSlow:null,hidden:false,careGates:[],optionalGates:[],profileGates:[]};
  Object.defineProperty(navigator,'standalone',{value:f.standalone});
  const mm=matchMedia.bind(window);window.matchMedia=q=>q==='(display-mode: standalone)'?{matches:f.standalone,media:q,addEventListener(){},removeEventListener(){}}:mm(q);
  Object.defineProperty(document,'hidden',{get:()=>f.hidden,configurable:true});
@@ -35,13 +35,14 @@ module.exports=function installStartupFixture(options){
     data=single?profiles.find(p=>p.user_id===filters.user_id):profiles.filter(p=>!ids||ids.includes(p.user_id));
     if(single)ms=180;else if(fields.includes('cat_expression'))ms=ids?.some(id=>profiles.findIndex(p=>p.user_id===id)>20)?650:100;
    }else data=head?null:f.rows().filter(r=>!filters.user_id||r.user_id===filters.user_id).slice(range[0],range[1]+1);
-   return read(table+':'+fields+(single?':single':''),{data,...(head?{count:1}:{})},ms).then(resolve,reject);
+   return read(table+':'+fields+(single?':single':''),{data,...(head?{count:1}:{})},ms,f.holdProfiles&&ms===650?f.profileGates:null).then(resolve,reject);
   }};return q;
  };
  window.OyasumiConfig={url:'https://isolated.invalid',publishableKey:'test'};
  window.supabase={createClient:()=>({auth,rpc,from})};
  f.releaseCare=()=>{f.holdCare=false;f.careGates.splice(0).forEach(r=>r());};
  f.releaseOptional=()=>{f.holdOptional=false;f.optionalGates.splice(0).forEach(r=>r());};
+ f.releaseProfiles=()=>{f.holdProfiles=false;f.profileGates.splice(0).forEach(r=>r());};
  function frame(){
   const now=performance.now();
   for(const img of document.querySelectorAll('#app img[data-asset-key]')){

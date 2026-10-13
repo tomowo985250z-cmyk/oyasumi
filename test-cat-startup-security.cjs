@@ -7,9 +7,9 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
  for(let i=0;i<100;i++){try{if((await fetch(base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
  browser=await(engine==='edge'?chromium:webkit).launch(engine==='edge'?{executablePath:process.env.EDGE_PATH||'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'}:{});
  const cases=[];
- for(const cache of ['warm','stale','foreign','expired','corrupt','blocked','failed-care','held-care','auth-change','stale-progress']){
+ for(const cache of ['warm','stale','foreign','expired','corrupt','blocked','failed-care','held-care','auth-change','stale-progress','early-meal','unknown-author']){
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
-  await context.addInitScript(installFixture,{standalone:true,cache,coat:'black',asleep:true,at:Date.parse('2026-10-13T23:00:00+09:00'),failCare:cache==='failed-care',holdCare:['held-care','auth-change'].includes(cache),holdOptional:cache==='stale-progress'});
+  await context.addInitScript(installFixture,{standalone:true,cache,coat:'black',asleep:cache!=='early-meal',at:Date.parse('2026-10-13T23:00:00+09:00'),failCare:cache==='failed-care',holdCare:['held-care','auth-change'].includes(cache),holdOptional:['stale-progress','early-meal','unknown-author'].includes(cache),holdProfiles:cache==='unknown-author'});
   const page=await context.newPage(),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
   await page.route('**/*',route=>{const u=new URL(route.request().url());if(!u.href.startsWith(base))return route.abort();if(/\/(?:vendor\/supabase|supabase-config|update-client)\.js$/.test(u.pathname))return route.fulfill({contentType:'text/javascript',body:''});return route.continue();});
   await page.goto(base,{waitUntil:'domcontentloaded'});
@@ -24,6 +24,18 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
    assert(await page.locator('html').evaluate(el=>el.hasAttribute('data-cat-state-pending')));
   }else{
    await page.waitForFunction(()=>CatStartupFixture.firstOwn!==null);
+   if(cache==='early-meal'){
+    await page.locator('.home-room-unit .room-resident').evaluate(button=>button.click());assert(await page.locator('[data-cat-meal]').isDisabled());
+    await page.locator('[data-cat-meal]').evaluate(button=>{button.disabled=false;button.click();});
+    assert(!await page.evaluate(()=>CatStartupFixture.calls.some(c=>c.label==='oyasumi_give_cat_meal')));assert.equal(await page.locator('.care-playing').count(),0);
+    await page.evaluate(()=>{CatStartupFixture.releaseOptional();go('home');});
+   }
+   if(cache==='unknown-author'){
+    await page.evaluate(()=>go('timeline'));await page.waitForFunction(()=>CatStartupFixture.firstFast!==null&&CatStartupFixture.profileGates.length>0);
+    assert(await page.locator('[data-public-profile=post-21] [data-cat-placeholder]').count());
+    await page.locator('[data-public-profile=post-21]').evaluate(button=>button.click());assert.equal(await page.locator('#public-profile-dialog[open]').count(),0);
+    await page.evaluate(()=>{CatStartupFixture.releaseProfiles();CatStartupFixture.releaseOptional();go('home');});
+   }
    if(cache==='stale-progress'){
     await page.evaluate(()=>{const f=CatStartupFixture;f.hidden=true;document.dispatchEvent(new Event('visibilitychange'));f.coat='white';f.asleep=false;f.hidden=false;document.dispatchEvent(new Event('visibilitychange'));});
     assert(await page.locator('.home-room-unit .room-resident img').evaluate(img=>getComputedStyle(img).visibility==='hidden'));

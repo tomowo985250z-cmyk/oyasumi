@@ -185,6 +185,6 @@ html[data-cat-state-pending] :is(img[data-asset-key],svg.cat-face,.care-scene im
 [data-cat-placeholder]{visibility:hidden!important}
 /* Only fresh, authenticated partial reads can opt into the pending screen.
    Unknown author icons retain their geometry without requesting fallback art. */
-html[data-cat-state-pending][data-cat-own-ready] .home-room-unit .room-resident,
-html[data-cat-state-pending][data-cat-own-ready] .home-room-unit .room-resident :is(img[data-asset-key],svg.cat-face),
+html[data-cat-state-pending][data-cat-own-ready] .own-cat-room .room-resident,
+html[data-cat-state-pending][data-cat-own-ready] .own-cat-room .room-resident :is(img[data-asset-key],svg.cat-face),
 html[data-cat-state-pending][data-cat-timeline-ready] .post .avatar[data-cat-appearance-ready=true] :is(img[data-asset-key],svg.cat-face){visibility:visible!important}

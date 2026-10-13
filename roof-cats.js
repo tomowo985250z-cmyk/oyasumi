@@ -51,19 +51,22 @@ globalThis.RoofMoon = (() => {
    x:192+2.5*(1-Math.cos(angle)),y:26-11*Math.sin(angle),
    scale:1.025+.125*Math.cos(angle-.7)};
  }
- function drawing(now) {
+ function drawing(now,frame='roof') {
   const moon=snapshot(now),cosine=Math.cos(moon.phase*Math.PI*2),rx=Math.abs(cosine);
   // Outer limb plus elliptical terminator: right-lit waxing, left-lit waning.
   const terminator=rx<1e-8?'L0 -1':`A${rx} 1 0 0 ${cosine>=0?0:1} 0 -1`;
   const path=`M0 -1A1 1 0 0 1 0 1${terminator}Z`;
-  return {phase:moon.phase,transform:`translate(${moon.x} ${moon.y}) scale(${7.5*moon.scale})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
+  // The room's rounded right-hand pane has a different coordinate system.
+  // Preserve its original center/radius and map the same temporal trajectory.
+  const window=frame==='window',x=window?117+(moon.x-194.5)*2:moon.x,y=window?43+(moon.y-26)*.65:moon.y;
+  return {phase:moon.phase,transform:`translate(${x} ${y}) scale(${(window?12:7.5)*moon.scale})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
  }
- function svg(now) {
-  const moon=drawing(now);
-  return `<g class="roof-moon" data-moon-phase="${moon.phase}" transform="${moon.transform}"><circle r="1" fill="#ddd8bf" opacity=".06"/><path d="${moon.path}" transform="${moon.facing}" fill="#ddd8bf" opacity=".6"/></g>`;
+ function svg(now,frame='roof') {
+  const window=frame==='window',moon=drawing(now,frame);
+  return `<g class="${window?'room-window-moon':'roof-moon'}" data-moon-frame="${window?'window':'roof'}" data-moon-phase="${moon.phase}" transform="${moon.transform}"><circle r="${window?14/12:1}" fill="${window?'#e8dcb8':'#ddd8bf'}" opacity="${window?'.14':'.06'}"/><path d="${moon.path}" transform="${moon.facing}" fill="${window?'#efe1be':'#ddd8bf'}" opacity="${window?'1':'.6'}"/></g>`;
  }
  function update(element,now) {
-  const moon=drawing(now),path=element.querySelector('path');
+  const moon=drawing(now,element.dataset.moonFrame),path=element.querySelector('path');
   element.setAttribute('data-moon-phase',moon.phase);element.setAttribute('transform',moon.transform);
   path.setAttribute('d',moon.path);path.setAttribute('transform',moon.facing);
  }

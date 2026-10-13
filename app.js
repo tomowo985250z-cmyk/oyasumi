@@ -61,7 +61,7 @@ function syncCatVisibility(){
  root.toggleAttribute('data-cat-timeline-ready',!!previewFresh(timelinePreview));
  if(changed)document.dispatchEvent(new Event('catvisibilitychange'));
 }
-function invalidateCatState(){catStatePending=true;catStateRevision++;ownCatPreview=timelinePreview=undefined;syncCatVisibility();}
+function invalidateCatState(){catStatePending=true;catStateRevision++;ownCatPreview=timelinePreview=undefined;syncCatVisibility();syncBusy();}
 document.addEventListener('visibilitychange',invalidateCatState,{capture:true});
 window.addEventListener('pagehide',invalidateCatState,{capture:true});
 window.addEventListener('pageshow',event=>{if(event.persisted){invalidateCatState();void ensureConnection().then(()=>refreshShared()).catch(()=>{});}},{capture:true});
@@ -83,11 +83,12 @@ function navigation() { const items=[['home','ホーム'],['timeline','タイム
 let roofMoonTimer,roofShootingTimer,roofNextShootingAt;
 function syncRoofMoon() {
  clearTimeout(roofMoonTimer);
- const moon=document.querySelector('.awake-roof .roof-moon');
- if(document.hidden||!moon)return;
+ const moons=document.querySelectorAll('.roof-moon,.room-window-moon');
+ if(document.hidden||!moons.length)return;
  // Clock-driven decoration must not wait for a shooting star, a successful
  // network refresh or a full render. Keep the moon and cat nodes in place.
- RoofMoon.update(moon,NightClock.now());
+ const now=NightClock.now();
+ for(const moon of moons)RoofMoon.update(moon,now);
  roofMoonTimer=setTimeout(syncRoofMoon,1000);
 }
 function syncRoofSky() {
@@ -231,7 +232,7 @@ function preloadCats(next) {
  else if(next==='stats')markup=(shared.tonightSummary?.coats||[]).slice(0,4).map(p=>CatScenes.svg('sleeping',p.coat)).join('');
  CatImages.preload(markup);
 }
-function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.home-room-unit .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
+function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
 function go(next) { preloadCats(next);if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0);void refreshSentReactionPeople(); }
 function preloadCatDestination(event) {
  const button=event.target.closest('button');if(!button)return;
@@ -242,6 +243,7 @@ function preloadCatDestination(event) {
 document.addEventListener('pointerdown',preloadCatDestination,{passive:true});
 document.addEventListener('focusin',preloadCatDestination);
 function syncBusy() {
+ if(!catsResolved())document.querySelectorAll('[data-cat-meal],[data-cat-treat]').forEach(button=>{button.disabled=true;});
  document.querySelectorAll('[data-coat-picker]').forEach(button=>{button.disabled=busy||!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now());});
  app.setAttribute('aria-busy',String(busy));
  document.querySelectorAll('[data-post],[data-react],[data-delete],[data-expression],[data-coat],#role-form button[type=submit],[data-note-editor],#delete-note,#note-form button[type=submit],#nickname-form button[type=submit]').forEach(button=>{button.disabled=busy||(!ready&&button.matches('[data-post],[data-react],[data-delete]'))||(button.hasAttribute('data-coat')&&!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()));});
@@ -322,7 +324,7 @@ async function refreshShared() {
     const appearanceChanged=state.coat!==own.coat||state.expression!==own.expression;
     ownCatPreview={revision,catRevision,appearanceChanged,clock:own.clock,catCare:own.catCare};
     NightClock.sync(own.clock);state.coat=own.coat;state.expression=own.expression;state.name=own.name||state.name;
-    shared={...shared,userId:own.userId,clock:own.clock,catCare:own.catCare};
+    shared={...shared,userId:own.userId,clock:own.clock,catCare:own.catCare,needsCat:false,needsNickname:!own.name,profileComplete:!!own.name};
     scheduleNightBoundary();
     renderPreservingPosition(true);syncCatVisibility();
    },
@@ -477,6 +479,7 @@ document.addEventListener('click',event=>{
  const person=allPosts().find(post=>post.id===button.dataset.publicProfile);if(!person||person.appearanceReady===false)return;
  CatImages.render(document.querySelector('#public-profile-content'),publicProfileRoom(person));
  document.querySelector('#public-profile-dialog').showModal();
+ syncRoofSky();
 });
 document.querySelector('#close-public-profile').addEventListener('click',()=>document.querySelector('#public-profile-dialog').close());
 document.querySelector('#public-profile-dialog').addEventListener('close',renderPreservingPosition);
@@ -614,7 +617,7 @@ async function refreshCareDay(){
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&CatCare.valid(shared.catCare)&&!CatCare.fresh(shared.catCare))void refreshCareDay();});
 document.addEventListener('click',async event=>{
  const button=event.target?.closest?.('[data-cat-meal],[data-cat-treat]');
- if(!button||button.disabled)return;
+ if(!button||button.disabled||!catsResolved())return;
  const section=button.closest('.cat-care'),self=button.hasAttribute('data-cat-meal'),user=shared.userId;
  const owner=section.dataset.careOwner;
  const feedback=(message,failed=false)=>{

@@ -19,7 +19,7 @@ let browser;
  const cases=[];
  for(const standalone of baseline||process.argv.includes('--focused')?[true]:[false,true])for(const width of baseline||process.argv.includes('--focused')?[390]:[320,375,390,430])for(const asleep of baseline||process.argv.includes('--focused')?[false]:[false,true]){
   const context=await browser.newContext({viewport:{width,height:844},isMobile:true,hasTouch:true,timezoneId:'America/Los_Angeles'});
-  await context.addInitScript(installFixture,{standalone,cache:'cold',coat:'black',asleep,at:Date.parse(`2026-10-13T${asleep?'23':'14'}:00:00+09:00`)});
+  await context.addInitScript(installFixture,{standalone,cache:'cold',coat:'black',asleep,holdOptional:published,holdProfiles:published,at:Date.parse(`2026-10-13T${asleep?'23':'14'}:00:00+09:00`)});
   const page=await context.newPage(),errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().includes('/assets/'))requests.push({url:r.url(),at:Date.now()});});
   await page.route('**/*',route=>{const u=new URL(route.request().url());if(!u.href.startsWith(base))return route.abort();if(/\/(?:vendor\/supabase|supabase-config|update-client)\.js$/.test(u.pathname))return route.fulfill({contentType:'text/javascript',body:''});return route.continue();});
   await page.goto(base,{waitUntil:'domcontentloaded'});
@@ -34,16 +34,19 @@ let browser;
   await page.evaluate(()=>go('timeline'));await page.waitForFunction(()=>CatStartupFixture.firstFast!==null);
   if(!baseline){
    assert.equal(await page.evaluate(()=>CatStartupFixture.firstSlow),null,'Fast author batch must not wait for the slow batch');
-   await page.locator('[data-public-profile=post-21]').evaluate(button=>button.click());
-   assert.equal(await page.locator('#public-profile-dialog[open]').count(),0,'Unknown appearance cannot open a guessed profile cat');
+   const attempted=await page.locator('[data-public-profile=post-21]').evaluate(button=>{if(!button.querySelector('[data-cat-placeholder]'))return false;button.click();return true;});
+   if(attempted)assert.equal(await page.locator('#public-profile-dialog[open]').count(),0,'Unknown appearance cannot open a guessed profile cat');
   }
+  if(published)await page.evaluate(()=>{CatStartupFixture.releaseOptional();CatStartupFixture.releaseProfiles();});
   await page.waitForFunction(()=>ready&&!refreshPromise&&CatStartupFixture.firstSlow!==null);
   const first=await page.evaluate(()=>({ownMs:CatStartupFixture.firstOwn-CatStartupFixture.started,fastMs:CatStartupFixture.firstFast-CatStartupFixture.started,slowMs:CatStartupFixture.firstSlow-CatStartupFixture.started,api:OyasumiAPI.timings||[],images:CatImages.timings||[],violations:CatStartupFixture.violations}));
   assert.deepEqual(first.violations,[]);assert.deepEqual(errors,[]);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert(!requests.some(r=>/\/(?:calico|orange)\//.test(r.url)),'No provisional own artwork requested');
   await page.screenshot({path:path.join(output,`${width}-${standalone?'pwa':'browser'}-${asleep?'sleep':'awake'}.png`)});
   // Warm reload keeps only a user-bound coat hint; all expressions/sleep are fresh.
-  await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>CatStartupFixture.firstOwn!==null&&ready&&!refreshPromise);
+  await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>CatStartupFixture.firstOwn!==null);
+  if(published)await page.evaluate(()=>{CatStartupFixture.releaseOptional();CatStartupFixture.releaseProfiles();});
+  await page.waitForFunction(()=>ready&&!refreshPromise);
   const warm=await page.evaluate(()=>({ownMs:CatStartupFixture.firstOwn-CatStartupFixture.started,api:OyasumiAPI.timings||[],images:CatImages.timings||[],violations:CatStartupFixture.violations}));
   assert.deepEqual(warm.violations,[]);assert.deepEqual(errors,[]);
   cases.push({standalone,width,asleep,ownPhase:own,cold:first,warm});await context.close();console.log(`PASS ${engine} ${width} ${standalone?'PWA':'browser'} ${asleep?'sleep':'awake'}: own ${Math.round(first.ownMs)}ms, fast author ${Math.round(first.fastMs)}ms`);
