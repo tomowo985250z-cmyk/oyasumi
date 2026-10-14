@@ -6,7 +6,9 @@
 .day-room .day-room-cat.day-cat{position:absolute;display:block;margin:0;padding:0;background:transparent;max-width:none;aspect-ratio:1;height:auto;transform:translateX(-50%);z-index:2;border:0;border-radius:0;filter:drop-shadow(0 3px 2px #61576918)}
 .day-room .day-room-cat.day-cat:hover{filter:drop-shadow(0 3px 2px #61576918)}
 .day-room .day-room-cat.day-cat:active{transform:translateX(-50%)}
-.day-room[data-place=window] .day-room-cat.day-cat{left:26%;bottom:48.2%;width:31%;height:auto}
+/* room.svg sill highlight is y=161 in its 400 × 330 viewBox. */
+.day-room[data-place=window] .day-room-cat.day-cat{left:26%;bottom:51.212121%;width:31%;height:auto;transform:translate(-50%,var(--window-cat-pad,0%))}
+.day-room[data-place=window] .day-room-cat.day-cat:active{transform:translate(-50%,var(--window-cat-pad,0%))}
 .day-room[data-place=cushion] .day-room-cat.day-cat{left:50%;bottom:20%;width:40%;height:auto}
 .day-room[data-place=corner] .day-room-cat.day-cat{left:76%;bottom:15.5%;width:35%;height:auto}
 .day-room-cat>img{width:100%;height:100%;object-fit:contain;border-radius:0;display:block}

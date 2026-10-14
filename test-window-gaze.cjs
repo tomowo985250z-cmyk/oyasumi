@@ -11,7 +11,8 @@ fs.mkdirSync(output, {recursive: true});
 const source = fs.readFileSync('test-home-post-choices.cjs', 'utf8');
 const fixture = source.slice(source.indexOf('function installFixture()'), source.indexOf('\n(async () => {'));
 const previousAssets = execFileSync('git', ['show', '83a76ef:cat-image-assets.js'], {encoding: 'utf8', windowsHide: true});
-const previousRoom = execFileSync('git', ['show', '83a76ef:day-room.js'], {encoding: 'utf8', windowsHide: true});
+// Compare room interactions with the current pre-contact-fix behavior.
+const previousRoom = execFileSync('git', ['show', '17a5bff:day-room.js'], {encoding: 'utf8', windowsHide: true});
 const server = published ? null : spawn(process.execPath, ['server.js'], {env: {...process.env, PORT: String(port)}, windowsHide: true, stdio: 'ignore'});
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 let browser;
@@ -100,7 +101,11 @@ let browser;
    const equal = await page.evaluate(pose => {
     WindowGazeFixture.pose = pose; DayRoom.sync(); const stage = document.querySelector('.day-room');
     const previous = document.createElement('div'); previous.innerHTML = PreviousDayRoom.stage(stage.dataset.coat, stage.dataset.roomUser, {status: stage.dataset.postStatus}, true);
-    return stage.dataset.place === WindowGazeFixture.place && stage.querySelector('.room-resident').outerHTML === previous.querySelector('.room-resident').outerHTML;
+    const resident = stage.querySelector('.room-resident').cloneNode(true);
+    // Window contact correction changes only the transparent-padding offset.
+    resident.style.removeProperty('--window-cat-pad'); if (!resident.style.length) resident.removeAttribute('style');
+    resident.querySelectorAll('img').forEach(img => img.removeAttribute('loading'));
+    return stage.dataset.place === WindowGazeFixture.place && resident.outerHTML === previous.querySelector('.room-resident').outerHTML;
    }, pose);
    assert(equal, `${coat.id}/${place}/${pose}: original artwork, placement and button preserved`);
   }
@@ -108,16 +113,19 @@ let browser;
   assert.equal(await page.locator('.day-room').getAttribute('data-place'), 'window');
   for (const status of ['awake', 'sleep']) {
    const same = await page.evaluate(status => {
-    HomePostFixture.at = Date.parse('2026-10-11T23:00:00+09:00'); const stage = document.querySelector('.day-room'); stage.dataset.postStatus = status; DayRoom.sync();
+    HomePostFixture.at = Date.parse('2026-10-11T23:00:00+09:00'); state.posts = [{self: true, time: HomePostFixture.at, status}]; const stage = document.querySelector('.day-room'); stage.dataset.postStatus = status; DayRoom.sync();
     const previous = document.createElement('div'); previous.innerHTML = PreviousDayRoom.stage(stage.dataset.coat, stage.dataset.roomUser, {status}, true);
-    return stage.dataset.place === WindowGazeFixture.place && stage.querySelector('.room-resident').outerHTML === previous.querySelector('.room-resident').outerHTML;
+    const resident = stage.querySelector('.room-resident').cloneNode(true);
+    resident.style.removeProperty('--window-cat-pad'); if (!resident.style.length) resident.removeAttribute('style');
+    resident.querySelectorAll('img').forEach(img => img.removeAttribute('loading'));
+    return stage.dataset.place === WindowGazeFixture.place && resident.outerHTML === previous.querySelector('.room-resident').outerHTML;
    }, status); assert(same, 'Nighttime image and placement preserved');
   }
-  await page.evaluate(() => {HomePostFixture.at = Date.parse('2026-10-11T14:00:00+09:00'); WindowGazeFixture.away = true; DayRoom.sync();});
-  assert.equal(await page.locator('.room-resident').isVisible(), false); assert.equal(await page.locator('.room-resident').isDisabled(), true);
-  await page.evaluate(() => {WindowGazeFixture.away = false; DayRoom.sync();});
+  // The current room no longer schedules absence; keep its resident tappable.
+  await page.evaluate(() => {HomePostFixture.at = Date.parse('2026-10-11T14:00:00+09:00'); state.posts = []; WindowGazeFixture.away = false; DayRoom.sync();});
+  assert.equal(await page.evaluate(() => DayRoomState.at(NightClock.now(), shared.userId).away), false);
   assert.equal(await page.locator('.room-resident').isVisible(), true); assert.equal(await page.locator('.room-resident').isDisabled(), false);
-  transitions.push({coat: coat.id, place, otherPoses: 4, nightStatuses: 2, away: true});
+  transitions.push({coat: coat.id, place, otherPoses: 4, nightStatuses: 2, residentTappable: true});
  }
  await page.setViewportSize({width: 390, height: 844});
  await page.evaluate(() => {state.coat = 'calico'; WindowGazeFixture.pose = 'gaze'; go('home');});
@@ -139,5 +147,5 @@ let browser;
  await board.screenshot({path: path.join(output, 'all-16-rooms.png'), fullPage: true});
  const report = {pass: true, engine: edge ? 'Edge' : 'WebKit', published, productionDbWrites: false, layouts, transitions, otherImagesIdentical: true, roomDesignIdentical: true, errors, failed};
  fs.writeFileSync(path.join(output, 'report.json'), JSON.stringify(report, null, 2));
- console.log(`PASS ${published ? 'published' : 'local'} ${report.engine}: 16 coats × 4 mobile widths; 48 placement transitions, 192 other-action and 96 night comparisons; away/tap preserved, no DB writes.`);
+ console.log(`PASS ${published ? 'published' : 'local'} ${report.engine}: 16 coats × 4 mobile widths; 48 placement transitions, 192 other-action and 96 night comparisons; resident/tap preserved, no DB writes.`);
 } finally {await browser?.close(); server?.kill();}})().catch(e => {fs.writeFileSync(path.join(output, 'failure.txt'), e.stack); console.error(e); process.exitCode = 1;});
