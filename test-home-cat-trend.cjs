@@ -60,6 +60,7 @@ const client={from(table){assert.equal(table,'oyasumi_posts');const filters={};c
   async range(start,end){calls.push({start,end,...filters});if(releasePage)await new Promise(resolve=>{releasePage=resolve;});if(fail)throw Error('offline');return {data:dataset.slice(start,end+1)};}
 };return query;}};
 const read=vm.runInNewContext(cacheSource+'trendHistory',{client,performance:{now:()=>monotonic},Date,Error,
+  OyasumiConfig:{url:'https://fixture.invalid'},storageKey:'roof-trend-test',
   checked:result=>result.data});
 const clock={nightDate:'2026-10-11'};
 const settle=()=>new Promise(resolve=>setImmediate(resolve));

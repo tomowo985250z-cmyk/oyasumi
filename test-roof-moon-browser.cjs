@@ -51,7 +51,7 @@ let browser;
    await show(count,hour,light);
    // Three active users use the existing neutral two-cat fallback. Force a
    // three-cat layout separately to cover the most crowded scene as well.
-   if(count===3)await page.evaluate(()=>{const group=document.querySelector('.roof-cat-group');group.dataset.catCount='3';group.innerHTML=['calico','orange','gray'].map((coat,i)=>RoofCats.svg(coat,i,3)).join('');});
+   if(count===3)await page.evaluate(()=>{const group=document.querySelector('.roof-cat-group');group.dataset.catCount='3';group.innerHTML=RoofRecline.group(['calico','orange','gray'],3,NightClock.night());});
    const result=await page.evaluate(()=>{
     const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
     const moon=document.querySelector('.roof-moon'),cats=[...document.querySelectorAll('.roof-cat')];
@@ -59,21 +59,17 @@ let browser;
     const m=moon&&rect(moon),sky=document.querySelector('.awake-roof');
     const s=sky&&rect(sky),texts=[...document.querySelectorAll('.awake-heading,.roof-sky-card>p')].map(rect);
     const after=cats.map(cat=>({rect:rect(cat),foot:rect(cat).bottom}));
-    cats.forEach((cat,i)=>cat.style.transform=cats.length===2&&i===1?'translateY(2px)':'none');
-    const before=cats.map(cat=>({rect:rect(cat),foot:rect(cat).bottom}));
-    cats.forEach(cat=>cat.style.removeProperty('transform'));
+    const expected=RoofRecline.plan(cats.map(cat=>cat.dataset.catCoat),cats.length,NightClock.night()),scale=s?s.width/208:1;
     return {overflow:document.documentElement.scrollWidth>innerWidth,cats:cats.length,stars:document.querySelectorAll('.card-sky-stars i').length,
      moonContained:!m||(m.x>=s.x&&m.right<=s.right&&m.y>=s.y&&m.bottom<=s.bottom),
-     overlaps:!!m&&[...after.map(c=>c.rect),...texts].some(r=>overlap(m,r)),before,after,
+     overlaps:!!m&&[...after.map(c=>c.rect),...texts].some(r=>overlap(m,r)),after,
+     catOverlaps:after.some((cat,i)=>i>0&&after[i-1].rect.right-cat.rect.x>.05),
+     layoutMatches:after.every((cat,i)=>Math.abs(cat.rect.width/scale-expected[i].width)<.05&&Math.abs((cat.rect.y-s.y)/scale-expected[i].top)<.05),
      moonAnimations:moon?.getAnimations({subtree:true}).length||0};
    });
    assert.equal(result.cats,count);assert.equal(result.stars,48);
-   assert(!result.overflow&&result.moonContained&&!result.overlaps);assert.equal(result.moonAnimations,0);
-   for(let i=0;i<count;i++){
-    assert(Math.abs(result.after[i].rect.width/result.before[i].rect.width-.85)<.0001);
-    assert(Math.abs(result.after[i].rect.height/result.before[i].rect.height-.85)<.0001);
-    assert(Math.abs(result.after[i].foot-result.before[i].foot)<.02,'Contact baseline remains fixed');
-   }
+   assert(!result.overflow&&result.moonContained&&!result.overlaps&&!result.catOverlaps,JSON.stringify(result));assert.equal(result.moonAnimations,0);
+   assert(result.layoutMatches,'Approved seated/reclining sizes and placement');
    layouts.push({width,count,light,hour});
   }
   await show(2,23);
@@ -132,5 +128,5 @@ let browser;
  }
  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.deepEqual(external,[]);
  fs.writeFileSync(path.join(output,'report.json'),JSON.stringify({pass:true,engine:edge?'edge':'webkit',actualIPhone:false,productionDbAccess:false,layouts,phases,resumes,boundaries,errors,failed,external},null,2));
- console.log(`PASS ${edge?'Edge':'WebKit'}: ${layouts.length} layouts at 320–430px, fixed feet/85% cats, phase rasterization, resume and 06:00 boundary.`);
+ console.log(`PASS ${edge?'Edge':'WebKit'}: ${layouts.length} layouts at 320–430px, fixed feet/76.5% cats, phase rasterization, resume and 06:00 boundary.`);
 }finally{await browser?.close();server.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});

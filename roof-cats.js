@@ -63,7 +63,8 @@ globalThis.RoofMoon = (() => {
  }
  function svg(now,frame='roof') {
   const window=frame==='window',moon=drawing(now,frame);
-  return `<g class="${window?'room-window-moon':'roof-moon'}" data-moon-frame="${window?'window':'roof'}" data-moon-phase="${moon.phase}" transform="${moon.transform}"><circle r="${window?14/12:1}" fill="${window?'#e8dcb8':'#ddd8bf'}" opacity="${window?'.14':'.06'}"/><path d="${moon.path}" transform="${moon.facing}" fill="${window?'#efe1be':'#ddd8bf'}" opacity="${window?'1':'.6'}"/></g>`;
+  // Retain the circular bounds while letting the sky show through the unlit side.
+  return `<g class="${window?'room-window-moon':'roof-moon'}" data-moon-frame="${window?'window':'roof'}" data-moon-phase="${moon.phase}" transform="${moon.transform}"><circle r="${window?14/12:1}" fill="none"/><path d="${moon.path}" transform="${moon.facing}" fill="${window?'#efe1be':'#ddd8bf'}" opacity="${window?'1':'.6'}"/></g>`;
  }
  function update(element,now) {
   const moon=drawing(now,element.dataset.moonFrame),path=element.querySelector('path');

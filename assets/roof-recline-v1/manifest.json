@@ -1,0 +1,242 @@
+[
+  {
+    "coat": "black",
+    "seated": [
+      1024,
+      1536,
+      0.9752604166666666
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9873046875
+    ],
+    "file": "assets/roof-recline-v1/black.png",
+    "sha256": "2a79f44d009ae901bf99a6d5292a9be33e28fff6154b2efbff7c668c510505cb"
+  },
+  {
+    "coat": "black-footed",
+    "seated": [
+      1024,
+      1536,
+      0.9733072916666666
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.986328125
+    ],
+    "file": "assets/roof-recline-v1/black-footed.png",
+    "sha256": "e89bb3ca32fa26460b5b0d61b501a4a3beeacb87045388343dd123e9bd7981f0"
+  },
+  {
+    "coat": "brown",
+    "seated": [
+      1024,
+      1536,
+      0.9830729166666666
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.990234375
+    ],
+    "file": "assets/roof-recline-v1/brown.png",
+    "sha256": "d096c6a4f094ac673d2811abcff946198b7a331057e406734c5dedf914a243b1"
+  },
+  {
+    "coat": "calico",
+    "seated": [
+      1024,
+      1536,
+      0.966796875
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9873046875
+    ],
+    "file": "assets/roof-recline-v1/calico.png",
+    "sha256": "321e856cab3e252fa6af7e0948959a49f272ab287581cb27cdf2a8c799308284"
+  },
+  {
+    "coat": "cheetah",
+    "seated": [
+      1024,
+      1536,
+      0.970703125
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.986328125
+    ],
+    "file": "assets/roof-recline-v1/cheetah.png",
+    "sha256": "65fd573380ee8f53ad37018947721291219118822b9a72636211632a4e2e356b"
+  },
+  {
+    "coat": "fishing",
+    "seated": [
+      1024,
+      1536,
+      0.966796875
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9892578125
+    ],
+    "file": "assets/roof-recline-v1/fishing.png",
+    "sha256": "4777dd312ee24c1df0585a6b91be0a165a342180b63b1d75f263a9d82205da33"
+  },
+  {
+    "coat": "gray",
+    "seated": [
+      1024,
+      1536,
+      0.9778645833333334
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9921875
+    ],
+    "file": "assets/roof-recline-v1/gray.png",
+    "sha256": "5e427168559423d62a584ebd8424e723616a1fd61248c356957f7784e960d884"
+  },
+  {
+    "coat": "jaguar",
+    "seated": [
+      1024,
+      1536,
+      0.9791666666666666
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9873046875
+    ],
+    "file": "assets/roof-recline-v1/jaguar.png",
+    "sha256": "915f14e99728b9bb429a8b8de08aafb7ca0d2d4f82037482bd94b8e5138a605c"
+  },
+  {
+    "coat": "leopard",
+    "seated": [
+      1024,
+      1536,
+      0.9765625
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9873046875
+    ],
+    "file": "assets/roof-recline-v1/leopard.png",
+    "sha256": "668808d912fee919ec416b830f15a908eb19339662877d24c5a9ae725a5985e5"
+  },
+  {
+    "coat": "manul",
+    "seated": [
+      1024,
+      1536,
+      0.97265625
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9892578125
+    ],
+    "file": "assets/roof-recline-v1/manul.png",
+    "sha256": "ca9c669d3caab34eb690b42f35a6541a37bc6d227590895ac28606106f868c30"
+  },
+  {
+    "coat": "orange",
+    "seated": [
+      1024,
+      1536,
+      0.9654947916666666
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.98828125
+    ],
+    "file": "assets/roof-recline-v1/orange.png",
+    "sha256": "00f8fc9ea51d2439b2faf5c3b07184df42876f8964fae152428f954ddcf0e084"
+  },
+  {
+    "coat": "sand",
+    "seated": [
+      1024,
+      1536,
+      0.98828125
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.990234375
+    ],
+    "file": "assets/roof-recline-v1/sand.png",
+    "sha256": "746109cc4193715fa68f54a090bc61bd7b50f6de4196ca6aa5fe771857ed2b86"
+  },
+  {
+    "coat": "silver",
+    "seated": [
+      1024,
+      1536,
+      0.974609375
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.984375
+    ],
+    "file": "assets/roof-recline-v1/silver.png",
+    "sha256": "5e90bce5ec2bd356a31d3f762a53e0a338721d01bfd6ac54bc671215f87fc443"
+  },
+  {
+    "coat": "snow-leopard",
+    "seated": [
+      1024,
+      1536,
+      0.9720052083333334
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.986328125
+    ],
+    "file": "assets/roof-recline-v1/snow-leopard.png",
+    "sha256": "b0aadf2daca20fb65c4593695f3d3ea76910b7396663816092552f4dd73d5a7a"
+  },
+  {
+    "coat": "tuxedo",
+    "seated": [
+      1024,
+      1536,
+      0.9778645833333334
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.98828125
+    ],
+    "file": "assets/roof-recline-v1/tuxedo.png",
+    "sha256": "def2783aa67036c5dc8711c1eef60b1472c7b1783e092282f6849de263f3f71c"
+  },
+  {
+    "coat": "white",
+    "seated": [
+      1024,
+      1536,
+      0.9830729166666666
+    ],
+    "reclining": [
+      1536,
+      1024,
+      0.9921875
+    ],
+    "file": "assets/roof-recline-v1/white.png",
+    "sha256": "4657799f6ecfdace536120db151129714e4b0857b6cb48400a30589aad848b74"
+  }
+]

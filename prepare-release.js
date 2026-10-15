@@ -44,6 +44,17 @@ if(Object.keys(gazeHashes).length!==16)throw Error('Expected exactly 16 window-g
 const gazeUpdated=gazeOriginal.replace(/const windowGazeVersions = .*;/,`const windowGazeVersions = ${JSON.stringify(gazeHashes)};`);
 if(process.argv.includes('--check')&&gazeUpdated!==gazeOriginal){console.error('Run npm run release to version window-gazing images.');process.exitCode=1;}
 else if(!process.argv.includes('--check')&&gazeUpdated!==gazeOriginal)fs.writeFileSync(gazeFile,gazeUpdated);
+const roofFile=path.join(root,'roof-recline.js'),roofOriginal=normalize(fs.readFileSync(roofFile,'utf8'));
+const roofManifest=JSON.parse(fs.readFileSync(path.join(root,'assets/roof-recline-v1/manifest.json'),'utf8'));
+if(roofManifest.length!==16)throw Error('Expected 16 reclining rooftop cats');
+const roofAssets=Object.fromEntries(roofManifest.map(entry=>{
+ const version=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,entry.file))).digest('hex');
+ if(version!==entry.sha256)throw Error('Rebuild reclining image metadata: '+entry.coat);
+ return [entry.coat,{version:version.slice(0,16),reclining:entry.reclining,seated:entry.seated}];
+}));
+const roofUpdated=roofOriginal.replace(/const assets = .*;/,`const assets = ${JSON.stringify(roofAssets)};`);
+if(process.argv.includes('--check')&&roofUpdated!==roofOriginal){console.error('Run npm run release to version reclining cats.');process.exitCode=1;}
+else if(!process.argv.includes('--check')&&roofUpdated!==roofOriginal)fs.writeFileSync(roofFile,roofUpdated);
 const resources=new Map();
 html=html.replace(/(src|href)="([^"?#]+)(?:\?[^"#]*)?"/g,(match,attribute,file)=>{
  if(!/\.(?:js|css|svg)$/.test(file)||/^(?:https?:|\/\/)/.test(file))return match;
