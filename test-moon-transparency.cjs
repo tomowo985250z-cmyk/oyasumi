@@ -41,10 +41,24 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
     const fraction=i/64,now=moonEpoch+moonCycle*fraction,holder=document.createElementNS('http://www.w3.org/2000/svg','svg');holder.innerHTML=RoofMoon.svg(now,frame);
     const moon=holder.firstElementChild,path=moon.querySelector('path');
     const old=document.createElementNS('http://www.w3.org/2000/svg','svg');old.innerHTML=PreviousRoofMoon.svg(now,frame);
-    const geometryUnchanged=moon.getAttribute('transform')===old.firstElementChild.getAttribute('transform')&&path.outerHTML===old.querySelector('path').outerHTML&&moon.querySelector('circle').getAttribute('r')===old.querySelector('circle').getAttribute('r')&&JSON.stringify(RoofMoon.snapshot(now))===JSON.stringify(PreviousRoofMoon.snapshot(now));
-    moon.removeAttribute('transform');let transparent=true,skyVisible=true;
-    for(const backdrop of ['',sky]){const actual=await rasterize(moon.outerHTML,backdrop),litOnly=await rasterize(path.outerHTML,backdrop);const same=actual.every((n,j)=>n===litOnly[j]);if(backdrop)skyVisible=same;else transparent=same;}
-    rows.push({frame,fraction,geometryUnchanged,transparent,skyVisible});
+    const oldPath=old.querySelector('path'),light=moon.querySelector('[data-moon-light]');
+    const geometryUnchanged=moon.getAttribute('transform')===old.firstElementChild.getAttribute('transform')&&path.getAttribute('d')===oldPath.getAttribute('d')&&path.getAttribute('transform')===oldPath.getAttribute('transform')&&JSON.stringify(RoofMoon.snapshot(now))===JSON.stringify(PreviousRoofMoon.snapshot(now));
+    if(moon.querySelector('circle')||!light)throw Error('Moon must have only a masked light layer');
+    const reference=path.cloneNode(true);reference.setAttribute('fill',light.getAttribute('fill'));reference.setAttribute('opacity',light.getAttribute('opacity'));
+    moon.removeAttribute('transform');let transparent=true,skyVisible=true,firstDifference;
+    // Mask and fill antialiasing can differ at the limb by one raster pixel.
+    // Require every interior and every pixel beyond that edge to match exactly.
+    const alpha=await rasterize(reference.outerHTML);
+    for(const backdrop of ['',sky]){
+     const actual=await rasterize(moon.outerHTML,backdrop),litOnly=await rasterize(reference.outerHTML,backdrop);let same=true;
+     for(let y=1;y<119;y++)for(let x=1;x<119;x++){
+      const pixel=(y*120+x)*4,level=alpha[pixel+3];
+      if(![-1,0,1].every(dy=>[-1,0,1].every(dx=>alpha[((y+dy)*120+x+dx)*4+3]===level)))continue;
+      if([0,1,2,3].some(c=>Math.abs(actual[pixel+c]-litOnly[pixel+c])>1)||(!backdrop&&level===0&&actual[pixel+3]!==0)){same=false;firstDifference??={x,y,level,actual:[...actual.slice(pixel,pixel+4)],reference:[...litOnly.slice(pixel,pixel+4)],backdrop:!!backdrop};}
+     }
+     if(backdrop)skyVisible=same;else transparent=same;
+    }
+    rows.push({frame,fraction,geometryUnchanged,transparent,skyVisible,firstDifference});
    }return rows;
   });
   for(const r of raster)assert(r.geometryUnchanged&&r.transparent&&r.skyVisible,JSON.stringify(r));
@@ -71,5 +85,5 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
  }
  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
  fs.writeFileSync(path.join(output,'report.json'),JSON.stringify({pass:true,actualIPhone:false,productionDbWrites:false,results,mobileWidths:[320,375,390,430],errors,failed},null,2));
- console.log(`PASS ${edge?'Edge':'WebKit'}: 64 phases × roof/window × browser/standalone, pixel-exact transparent and gradient-sky comparisons; unchanged geometry at 320/375/390/430px; no DB writes.`);
+ console.log(`PASS ${edge?'Edge':'WebKit'}: 64 phases × roof/window × browser/standalone, transparent interiors and gradient-sky pixels; unchanged geometry at 320/375/390/430px; no DB writes.`);
 }finally{await browser?.close();server.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});

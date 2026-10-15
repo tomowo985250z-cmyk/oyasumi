@@ -41,6 +41,7 @@ globalThis.RoofMoon = (() => {
  const cycleDays=29.530588853, dayMs=86400000;
  const epoch=Date.parse('2000-01-06T18:14:00Z'); // Reference new moon.
  const jst=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
+ let maskSequence=0;
  function snapshot(now) {
   const age=(now-epoch)/(cycleDays*dayMs),phase=((age%1)+1)%1;
   const parts=Object.fromEntries(jst.formatToParts(now).map(part=>[part.type,part.value]));
@@ -61,13 +62,25 @@ globalThis.RoofMoon = (() => {
   const window=frame==='window',x=window?117+(moon.x-194.5)*2:moon.x,y=window?43+(moon.y-26)*.65:moon.y;
   return {phase:moon.phase,transform:`translate(${x} ${y}) scale(${(window?12:7.5)*moon.scale})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
  }
+ function surface(moon,frame){
+  const window=frame==='window',radius=window?14/12:1,id='oyasumi-moon-lit-'+(++maskSequence);
+  // The alpha mask is only the illuminated silhouette. No painted dark disk,
+  // backing circle, shadow or sky-colored patch anywhere in the moon layer.
+  return `<defs><mask id="${id}" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="${-radius}" y="${-radius}" width="${radius*2}" height="${radius*2}" style="mask-type:alpha"><path d="${moon.path}" transform="${moon.facing}" fill="#fff"/></mask></defs><rect data-moon-light x="${-radius}" y="${-radius}" width="${radius*2}" height="${radius*2}" fill="${window?'#efe1be':'#ddd8bf'}" opacity="${window?'1':'.6'}" stroke="none" mask="url(#${id})"/>`;
+ }
  function svg(now,frame='roof') {
   const window=frame==='window',moon=drawing(now,frame);
-  // Retain the circular bounds while letting the sky show through the unlit side.
-  return `<g class="${window?'room-window-moon':'roof-moon'}" data-moon-frame="${window?'window':'roof'}" data-moon-phase="${moon.phase}" transform="${moon.transform}"><circle r="${window?14/12:1}" fill="none"/><path d="${moon.path}" transform="${moon.facing}" fill="${window?'#efe1be':'#ddd8bf'}" opacity="${window?'1':'.6'}"/></g>`;
+  return `<g class="${window?'room-window-moon':'roof-moon'}" data-moon-renderer="lit-mask-v2" data-moon-frame="${window?'window':'roof'}" data-moon-phase="${moon.phase}" transform="${moon.transform}" style="filter:none">${surface(moon,frame)}</g>`;
  }
  function update(element,now) {
-  const moon=drawing(now,element.dataset.moonFrame),path=element.querySelector('path');
+  const frame=element.dataset.moonFrame,moon=drawing(now,frame);
+  // Migrate an already-mounted old moon too, instead of leaving its disk behind.
+  if(element.dataset.moonRenderer!=='lit-mask-v2'||!element.querySelector('mask path')||!element.querySelector('[data-moon-light]')){
+   element.innerHTML=surface(moon,frame);element.dataset.moonRenderer='lit-mask-v2';
+  }
+  const path=element.querySelector('mask path'),light=element.querySelector('[data-moon-light]');
+  for(const child of [...element.children])if(child.localName!=='defs'&&child!==light)child.remove();
+  element.style.filter='none';
   element.setAttribute('data-moon-phase',moon.phase);element.setAttribute('transform',moon.transform);
   path.setAttribute('d',moon.path);path.setAttribute('transform',moon.facing);
  }

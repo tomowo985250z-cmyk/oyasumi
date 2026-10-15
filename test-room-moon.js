@@ -10,6 +10,9 @@ for(let minute=0;minute<=1440;minute++){
 const epoch=Date.parse('2000-01-06T18:14:00Z'),cycle=29.530588853*86400000;
 for(const phase of [0,.125,.25,.5,.75,.875,1]){
  const now=epoch+phase*cycle;assert.deepEqual(attributes(RoofMoon.svg(now)).path,attributes(RoofMoon.svg(now,'window')).path);
- assert(SeasonLandscape.art({daylight:false,day:'test'},'window',now).includes(RoofMoon.svg(now,'window')));
+ const art=SeasonLandscape.art({daylight:false,day:'test'},'window',now),moon=RoofMoon.svg(now,'window');
+ // Each SVG instance needs its own mask ID; compare the rendered geometry.
+ assert.deepEqual(attributes(art),attributes(moon));
+ assert(art.includes('data-moon-renderer="lit-mask-v2"'));
 }
 console.log('PASS shared moon: identical phase/shape and normalized size/trajectory, full-day window bounds and room renderer uses the shared clock input');
