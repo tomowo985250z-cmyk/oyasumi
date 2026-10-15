@@ -37,7 +37,7 @@
   }
   function warmCoat(userId,coat,expression,now=Date.now()) {
     if(!validCoat(coat))return;
-    const pose=globalThis.DayRoomState?.at(now,userId).pose||'relax';
+    const pose=globalThis.DayRoom?.snapshot(userId,now).pose||globalThis.DayRoomState?.at(now,userId).pose||'relax';
     preload(CatScenes.svg('sleeping',coat)+CatScenes.svg('awake',coat)+DayCats.svg(pose,coat)+(expression&&faces.normalize(expression)===expression?CatFaces.svg(expression,coat):''));
   }
   // A cached coat is an image-loading hint, never a source of rendered state.
