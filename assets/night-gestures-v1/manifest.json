@@ -1,0 +1,1394 @@
+[
+  {
+    "coat": "calico",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/calico-curl.png",
+    "sha256": "56dcd05c7a985414631898e80e79ed1aec3b46f6ac7cd5d3d4872189a1b0c254",
+    "width": 1448,
+    "height": 1086,
+    "alphaBounds": {
+      "left": 97,
+      "top": 108,
+      "right": 1397,
+      "bottom": 1020
+    },
+    "transparentPixels": 727900,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 158.3969230769231,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 122.15076923076923,
+      "top": 147.43076923076922,
+      "width": 147.0276923076923,
+      "height": 110.27076923076923,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "calico",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/calico-stretch.png",
+    "sha256": "bb394377fcc759cfa7280c9a2f78d8e8632a617236fca0adbffababa219eff3b",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 60,
+      "top": 28,
+      "right": 1506,
+      "bottom": 979
+    },
+    "transparentPixels": 807298,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.71784232365144,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.60995850622406,
+      "top": 172.73582295988933,
+      "width": 163.5850622406639,
+      "height": 109.0567081604426,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "calico",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/calico-window.png",
+    "sha256": "7b50e6b97273718dd2decb8908e95a8dfbf7b2463f7c96b35e3b8c14ae316a82",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 30.271095644386342,
+      "top": 122.73554894277805,
+      "right": 1266.1959859460042,
+      "bottom": 930.1950995429138
+    },
+    "transparentPixels": 928288,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.90775295611724,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 21.109865401961542,
+      "top": 72.18956936025698,
+      "width": 146.64968836072865,
+      "height": 97.76645890715244,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "orange",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/orange-curl.png",
+    "sha256": "56346ded1495a133f86b2e842957482d7564014544ee39eedbc4ca58e5ad03b0",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 119,
+      "top": 54,
+      "right": 1481,
+      "bottom": 978
+    },
+    "transparentPixels": 657609,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 161.44933920704847,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 120.4669603524229,
+      "top": 156.215859030837,
+      "width": 148.86343612334804,
+      "height": 99.24229074889868,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "orange",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/orange-stretch.png",
+    "sha256": "bfece46719c020ac37993d7408c6843b8b1eb945c7b630bd20c96b4b60a8b240",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 61,
+      "top": 32,
+      "right": 1511,
+      "bottom": 991
+    },
+    "transparentPixels": 781957,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.14758620689656,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.52137931034483,
+      "top": 171.7489655172414,
+      "width": 163.13379310344828,
+      "height": 108.75586206896551,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "orange",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/orange-window.png",
+    "sha256": "0dfe6723b35a6a02bb1690f1c639dee8d78126fb536b1e012b39e0e918c0425c",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 5.461813986138971,
+      "top": 98.81325772798016,
+      "right": 1274.3104552981772,
+      "bottom": 937.004464598567
+    },
+    "transparentPixels": 894252,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.05014909543816,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 23.492063884232902,
+      "top": 73.86074380920574,
+      "width": 142.8444607960352,
+      "height": 95.22964053069015,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "brown",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/brown-curl.png",
+    "sha256": "0230336f2c445ed4bbc3c9acee456ca75f5500158c8db94cf41f7261ebf5f639",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 107,
+      "top": 80,
+      "right": 1495,
+      "bottom": 974
+    },
+    "transparentPixels": 672813,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 165.97982708933716,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 121.82420749279538,
+      "top": 158.37175792507205,
+      "width": 146.0749279538905,
+      "height": 97.38328530259366,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "brown",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/brown-stretch.png",
+    "sha256": "8a22b90596ea1e2023b9ec8ce64954c1604588a3dfc8dc47f2285f2dc67d65f6",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 58,
+      "top": 17,
+      "right": 1516,
+      "bottom": 981
+    },
+    "transparentPixels": 789449,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.17832647462276,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.87379972565158,
+      "top": 173.38271604938274,
+      "width": 162.23868312757202,
+      "height": 108.15912208504801,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "brown",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/brown-window.png",
+    "sha256": "5e51b350b7f0a766e615c92a9d65d6964b30337fc925314cbf4d87f3fc8d093a",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 20.588699343198364,
+      "top": 108.34336581724341,
+      "right": 1269.2840800953768,
+      "bottom": 929.570931751959
+    },
+    "transparentPixels": 926005,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.39512192163014,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 22.05439616423185,
+      "top": 73.15682252251352,
+      "width": 145.14989227462456,
+      "height": 96.76659484974971,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "silver",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/silver-curl.png",
+    "sha256": "44e2cef58251733fd3865c5aae40772fcbb5004673db83100f9990efabe2ea0b",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 112,
+      "top": 87,
+      "right": 1489,
+      "bottom": 973
+    },
+    "transparentPixels": 701142,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 166.06753812636165,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 121.26361655773421,
+      "top": 157.72766884531592,
+      "width": 147.24183006535947,
+      "height": 98.16122004357298,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "silver",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/silver-stretch.png",
+    "sha256": "364038491e2cf11fc8679f5ad9bfe6a6b7bfca97c7acc777670313ebaf5d48e5",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 62,
+      "top": 28,
+      "right": 1512,
+      "bottom": 985
+    },
+    "transparentPixels": 809878,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.36,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.4151724137931,
+      "top": 172.38620689655173,
+      "width": 163.13379310344828,
+      "height": 108.75586206896551,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "silver",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/silver-window.png",
+    "sha256": "021e995b3de0d334cdd398ec36db8a10b6705d9b07a24220bb1502c41a8fc2ca",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 6.196516217663579,
+      "top": 104.0994525946245,
+      "right": 1306.9743866447545,
+      "bottom": 954.0273010981779
+    },
+    "transparentPixels": 857821,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.89883737759922,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 23.437883338648568,
+      "top": 74.45546069858752,
+      "width": 139.33816381769316,
+      "height": 92.89210921179543,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "black",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/black-curl.png",
+    "sha256": "cc095f40a331b0e11e97b1dd6f8c001c3410e3e45dba6a805055fb286e1f33a3",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 144,
+      "top": 100,
+      "right": 1459,
+      "bottom": 962
+    },
+    "transparentPixels": 768742,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 164.4722433460076,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 117.54524714828898,
+      "top": 154.4342205323194,
+      "width": 154.18403041825096,
+      "height": 102.7893536121673,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "black",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/black-stretch.png",
+    "sha256": "e32bb56bf6b95ecf1082908c045f7e56612f94f4b1279e47385d51af089f1a50",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 56,
+      "top": 32,
+      "right": 1507,
+      "bottom": 980
+    },
+    "transparentPixels": 813718,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 176.38525155065471,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 99.0565127498277,
+      "top": 172.98897312198483,
+      "width": 163.02136457615438,
+      "height": 108.68090971743625,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "black",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/black-window.png",
+    "sha256": "d1caa2800a08e3c166c8af69c78a0b7125d5b995a1b63e1c476247ca3b7324ab",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": -7.102622526537445,
+      "top": 96.40610008417298,
+      "right": 1298.492566176819,
+      "bottom": 936.0751442442406
+    },
+    "transparentPixels": 862697,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 85.11051444721576,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 24.64193669322861,
+      "top": 76.39730846395052,
+      "width": 138.82404099543695,
+      "height": 92.54936066362463,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "white",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/white-curl.png",
+    "sha256": "bc75383434813b4790978e404d1086c4c43c0fde9dc9641bf06090afdd72af60",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 131,
+      "top": 71,
+      "right": 1474,
+      "bottom": 999
+    },
+    "transparentPixels": 666882,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 159.789277736411,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 119.12434847356664,
+      "top": 152.81087118391662,
+      "width": 150.96947133283692,
+      "height": 100.64631422189129,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "white",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/white-stretch.png",
+    "sha256": "f3870a72c64a6672cd8e1f32b1a4af928a12d16d092f03e9c542efeecded701b",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 56,
+      "top": 34,
+      "right": 1508,
+      "bottom": 981
+    },
+    "transparentPixels": 792420,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 176.56060606060606,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 99.06060606060606,
+      "top": 172.95454545454544,
+      "width": 162.9090909090909,
+      "height": 108.60606060606061,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "white",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/white-window.png",
+    "sha256": "28c7f8e5bc73f17119439e73a6c640f9c9608c5653a0ff27fdabac4915c87f37",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 10.748008852783222,
+      "top": 108.96753360819815,
+      "right": 1283.942088862057,
+      "bottom": 940.4569068750507
+    },
+    "transparentPixels": 886953,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.93732150814436,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 23.003871393574826,
+      "top": 73.83817859846816,
+      "width": 142.35692958820528,
+      "height": 94.90461972547018,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "tuxedo",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/tuxedo-curl.png",
+    "sha256": "6ee2ac6448e1eced30f1fdec4a061b335aa8c40ba53050e7a021643dfc90f9a4",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 143,
+      "top": 80,
+      "right": 1477,
+      "bottom": 991
+    },
+    "transparentPixels": 697504,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 160.85607196401799,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 117.85007496251873,
+      "top": 152.94002998500747,
+      "width": 151.9880059970015,
+      "height": 101.32533733133434,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "tuxedo",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/tuxedo-stretch.png",
+    "sha256": "6f2582b0ce20c636065fac6d65fb5a2c869955f89874ea1566568a9fa7670303",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 60,
+      "top": 26,
+      "right": 1502,
+      "bottom": 981
+    },
+    "transparentPixels": 806194,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.0097087378641,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.59223300970874,
+      "top": 172.23300970873788,
+      "width": 164.0388349514563,
+      "height": 109.35922330097087,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "tuxedo",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/tuxedo-window.png",
+    "sha256": "e8fab3d4d3f9c6f24f53c377cb9a6de77bd0fef130aabf405ea750c70568fc93",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 3.8908840484730263,
+      "top": 99.59571970816194,
+      "right": 1288.8101698756311,
+      "bottom": 941.4151048368444
+    },
+    "transparentPixels": 867431,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.69188536520525,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 23.64268236706848,
+      "top": 74.54555605472436,
+      "width": 141.05788744802194,
+      "height": 94.03859163201463,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "gray",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/gray-curl.png",
+    "sha256": "af4df9f2aab79c124e1a86a03044b686d9e91d85c4ddf60c74c529a933f24d53",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 124,
+      "top": 87,
+      "right": 1489,
+      "bottom": 988
+    },
+    "transparentPixels": 701976,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 163.87032967032968,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 120.00879120879121,
+      "top": 155.45714285714286,
+      "width": 148.53626373626375,
+      "height": 99.02417582417583,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "gray",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/gray-stretch.png",
+    "sha256": "762dd5511af1c04202e1331c98037551cb626bc725e8ebdde0506f6166f49b68",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 58,
+      "top": 27,
+      "right": 1494,
+      "bottom": 983
+    },
+    "transparentPixels": 812076,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 174.47632311977713,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.77994428969359,
+      "top": 171.5807799442897,
+      "width": 164.72423398328692,
+      "height": 109.81615598885794,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "gray",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/gray-window.png",
+    "sha256": "5740412f7a5a11b6e42fcb0ecc71da373d86818fbfb1df07c748ecc4855dc6a9",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 5.1989913336442655,
+      "top": 123.77783058680347,
+      "right": 1298.7046260920054,
+      "bottom": 945.811306271388
+    },
+    "transparentPixels": 881096,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 86.01002892894125,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 23.52572222270634,
+      "top": 74.71840126473606,
+      "width": 140.12153880864912,
+      "height": 93.41435920576608,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "manul",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/manul-curl.png",
+    "sha256": "53188fb9dc369d1d7b5155002a8d7c1bd0f73c6eb90b8dda315880148904ebfe",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 108,
+      "top": 134,
+      "right": 1509,
+      "bottom": 974
+    },
+    "transparentPixels": 666945,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 171.85653104925052,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 121.82441113490364,
+      "top": 159.23126338329763,
+      "width": 144.71948608137046,
+      "height": 96.4796573875803,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "manul",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/manul-stretch.png",
+    "sha256": "f792cd2a02434c0a43a56df47e3687e5fd1506ede83d754cf74d1f08640918ff",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 54,
+      "top": 20,
+      "right": 1520,
+      "bottom": 985
+    },
+    "transparentPixels": 777867,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.6289222373806,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 99.32742155525239,
+      "top": 173.52796725784447,
+      "width": 161.35334242837655,
+      "height": 107.56889495225103,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "manul",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/manul-window.png",
+    "sha256": "aaa2bc13285a01ec5f34691ee2a5f8b6b7d5abbb6c82b1b9ce6781316a361ba5",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 15.66685260366522,
+      "top": 131.0083124841783,
+      "right": 1315.2411442088526,
+      "bottom": 932.3031106006517
+    },
+    "transparentPixels": 885039,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 88.24326205240975,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 22.577466006234193,
+      "top": 76.34784293478573,
+      "width": 139.46720950914548,
+      "height": 92.97813967276365,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "sand",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/sand-curl.png",
+    "sha256": "c1632ee1be4e8f8db9a29ae6247b19179e6d878a33a54bc45e739a7bed9793f1",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 157,
+      "top": 77,
+      "right": 1483,
+      "bottom": 962
+    },
+    "transparentPixels": 736865,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 162.9004524886878,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 116.3710407239819,
+      "top": 155.23529411764707,
+      "width": 152.9049773755656,
+      "height": 101.9366515837104,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "sand",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/sand-stretch.png",
+    "sha256": "33beaac5421be2d30ba7106ca6608e4eef3576e2a6e1eda3983ae6d7aa0f6b16",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 64,
+      "top": 23,
+      "right": 1514,
+      "bottom": 989
+    },
+    "transparentPixels": 778491,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 174.40413793103448,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.20275862068965,
+      "top": 171.96137931034485,
+      "width": 163.13379310344828,
+      "height": 108.75586206896551,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "sand",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/sand-window.png",
+    "sha256": "2182970c6c265058d6f6d3d278073dfe49e02deeff88233dc0901c65f03d2c53",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 12.581761442943872,
+      "top": 92.79236062981107,
+      "right": 1298.5970946400867,
+      "bottom": 932.5514944494128
+    },
+    "transparentPixels": 885775,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.94681468193465,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 22.84554420780006,
+      "top": 75.43253163128367,
+      "width": 140.93766638800656,
+      "height": 93.95844425867104,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "black-footed",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/black-footed-curl.png",
+    "sha256": "7596d737ef85101dac9b4a3b9e9d02f7a61d47239f78cb2cb71aa13ac59adfce",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 115,
+      "top": 83,
+      "right": 1485,
+      "bottom": 960
+    },
+    "transparentPixels": 706917,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 166.50072992700728,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 120.91970802919708,
+      "top": 158.50364963503648,
+      "width": 147.9941605839416,
+      "height": 98.66277372262773,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "black-footed",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/black-footed-stretch.png",
+    "sha256": "151cd42403f8bf6e63382ee7be382568a18a30f71e5888079d7dbe2e91baffcf",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 43,
+      "top": 22,
+      "right": 1514,
+      "bottom": 982
+    },
+    "transparentPixels": 806487,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 176.49694085656017,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 100.49830047586676,
+      "top": 174.19374575118968,
+      "width": 160.80489462950374,
+      "height": 107.20326308633582,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "black-footed",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/black-footed-window.png",
+    "sha256": "5e1a44855582738f3cd778d6c2f8d00333faa86fb7c30ada09d8addf9c58e15d",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 21.99833210298611,
+      "top": 120.32839129897093,
+      "right": 1299.9559646625662,
+      "bottom": 924.4574698782756
+    },
+    "transparentPixels": 927293,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 86.75087870298847,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 21.968787757890446,
+      "top": 75.64037721880364,
+      "width": 141.8262979790529,
+      "height": 94.5508653193686,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "fishing",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/fishing-curl.png",
+    "sha256": "1d53ec7b0de0dd97b2fdd22a383fed564e3b7e64797dd9271bf1d631e61987ac",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 100,
+      "top": 106,
+      "right": 1494,
+      "bottom": 953
+    },
+    "transparentPixels": 652267,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 170.79626972740317,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 122.53084648493544,
+      "top": 160.7589670014347,
+      "width": 145.44619799139167,
+      "height": 96.96413199426112,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "fishing",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/fishing-stretch.png",
+    "sha256": "54471387171be1a6a73c0f3cbc136b9331f1f21e7939882a642820e82ea33c2c",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 53,
+      "top": 29,
+      "right": 1511,
+      "bottom": 987
+    },
+    "transparentPixels": 794117,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.81207133058984,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 99.40192043895748,
+      "top": 172.74897119341563,
+      "width": 162.23868312757202,
+      "height": 108.15912208504801,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "fishing",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/fishing-window.png",
+    "sha256": "2971c3285e09f137c07cc7f8c8c6774296b2bfbbb8960b264813cfc95a1f42e4",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 4.6733460286548585,
+      "top": 116.6101233813414,
+      "right": 1269.5469027478714,
+      "bottom": 929.4838450810762
+    },
+    "transparentPixels": 891783,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 85.16704527418518,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 23.564023748894225,
+      "top": 74.28849185206411,
+      "width": 143.29337429593716,
+      "height": 95.52891619729144,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "snow-leopard",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/snow-leopard-curl.png",
+    "sha256": "bb1ff612787507d9e934cdb740f84348ece949e75e8226a640fb3a3020566824",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 107,
+      "top": 94,
+      "right": 1471,
+      "bottom": 977
+    },
+    "transparentPixels": 698627,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 165.5483870967742,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 121.64516129032258,
+      "top": 156.4516129032258,
+      "width": 148.64516129032256,
+      "height": 99.09677419354838,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "snow-leopard",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/snow-leopard-stretch.png",
+    "sha256": "a9c19bdaeccb313362928bdcee74523490432bd33c9d73b20fc9f3e814319878",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 57,
+      "top": 11,
+      "right": 1527,
+      "bottom": 980
+    },
+    "transparentPixels": 749284,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.48571428571427,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 99.02857142857142,
+      "top": 174.33333333333331,
+      "width": 160.9142857142857,
+      "height": 107.27619047619048,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "snow-leopard",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/snow-leopard-window.png",
+    "sha256": "4e356e74769f8b0bd08ce0710e6f20925bbbd19bf95942f96503888f38e65c1b",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 2.4782483000341315,
+      "top": 98.3921408862584,
+      "right": 1293.6274881518964,
+      "bottom": 949.9446850534371
+    },
+    "transparentPixels": 862782,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.17537902647423,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 23.773509296696346,
+      "top": 74.1831786934511,
+      "width": 140.37726577664654,
+      "height": 93.58484385109769,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "leopard",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/leopard-curl.png",
+    "sha256": "4078898413a0300bf312f73c52ff9f4766d2f018af0a2f0905f42899df71a13d",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 116,
+      "top": 97,
+      "right": 1488,
+      "bottom": 978
+    },
+    "transparentPixels": 706497,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 166.2390670553936,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 120.8396501457726,
+      "top": 156.9067055393586,
+      "width": 147.77842565597666,
+      "height": 98.51895043731778,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "leopard",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/leopard-stretch.png",
+    "sha256": "bcaafccb279328980a34e86c7bd38fa269557e9924287fdb25ec68fced338b00",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 60,
+      "top": 28,
+      "right": 1510,
+      "bottom": 981
+    },
+    "transparentPixels": 796821,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.78482758620692,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.62758620689655,
+      "top": 172.81103448275863,
+      "width": 163.13379310344828,
+      "height": 108.75586206896551,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "leopard",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/leopard-window.png",
+    "sha256": "5f2f9cc04aee05e88dfdb1f22ec994e12a27da8e6d345c4a8082dc02d7dd80da",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 23.88284743045502,
+      "top": 104.9954520040273,
+      "right": 1265.4105209771712,
+      "bottom": 927.5818879612225
+    },
+    "transparentPixels": 892381,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 82.81793325181434,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 21.730073959009783,
+      "top": 72.83872489387109,
+      "width": 145.98788562015892,
+      "height": 97.32525708010594,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "cheetah",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/cheetah-curl.png",
+    "sha256": "bbbcb160166146fc40157d88f2d6bc06601132e0eb86959e134cefa228333958",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 103,
+      "top": 93,
+      "right": 1502,
+      "bottom": 970
+    },
+    "transparentPixels": 696008,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 168.25232308791993,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 122.28162973552537,
+      "top": 159.47748391708365,
+      "width": 144.9263759828449,
+      "height": 96.61758398856325,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "cheetah",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/cheetah-stretch.png",
+    "sha256": "24b1700ea005ba3e2816c3a1d5f781d9670d68c9045ae393193c84fa01d7e317",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 59,
+      "top": 21,
+      "right": 1507,
+      "bottom": 983
+    },
+    "transparentPixels": 788849,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 174.6878453038674,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 98.72513812154696,
+      "top": 172.45441988950276,
+      "width": 163.35911602209944,
+      "height": 108.9060773480663,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "cheetah",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/cheetah-window.png",
+    "sha256": "8904db19058883c3e9b915b9312cceffcc6bb3d3a0c4f79ca4096adc34d61247",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 25.925656947150863,
+      "top": 111.06410885085353,
+      "right": 1269.2840800953768,
+      "bottom": 928.8536713128192
+    },
+    "transparentPixels": 904707,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 83.38829401567669,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 21.539544943108414,
+      "top": 72.8478379408974,
+      "width": 145.7729296923681,
+      "height": 97.1819531282454,
+      "rotation": 6,
+      "flip": true
+    }
+  },
+  {
+    "coat": "jaguar",
+    "pose": "curl",
+    "file": "assets/night-gestures-v1/jaguar-curl.png",
+    "sha256": "22882c932f406366ce1d218e9dfd7c46ca80bba8cb3b4ede60a01540362a5b1a",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 109,
+      "top": 102,
+      "right": 1481,
+      "bottom": 962
+    },
+    "transparentPixels": 681008,
+    "visible": {
+      "left": 132,
+      "right": 264,
+      "top": 168.2594752186589,
+      "bottom": 251
+    },
+    "placement": {
+      "left": 121.5131195335277,
+      "top": 158.4460641399417,
+      "width": 147.77842565597666,
+      "height": 98.51895043731778,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "jaguar",
+    "pose": "stretch",
+    "file": "assets/night-gestures-v1/jaguar-stretch.png",
+    "sha256": "d4d664bf5757f9d0e284ba4ba47dea720d4dea9d41582eca2e6630b48c32034b",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 56,
+      "top": 22,
+      "right": 1516,
+      "bottom": 985
+    },
+    "transparentPixels": 765417,
+    "visible": {
+      "left": 105,
+      "right": 259,
+      "top": 175.42328767123288,
+      "bottom": 277
+    },
+    "placement": {
+      "left": 99.0931506849315,
+      "top": 173.10273972602738,
+      "width": 162.01643835616437,
+      "height": 108.01095890410959,
+      "rotation": 0,
+      "flip": false
+    }
+  },
+  {
+    "coat": "jaguar",
+    "pose": "window",
+    "file": "assets/night-gestures-v1/jaguar-window.png",
+    "sha256": "dfe38f659dfc173a254faf3cc9f1413555f605e4bd18e9e30d43084aed89eaec",
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": {
+      "left": 19.173060606108326,
+      "top": 123.62554237487865,
+      "right": 1263.5260056497023,
+      "bottom": 922.3464558318865
+    },
+    "transparentPixels": 911834,
+    "visible": {
+      "left": 24,
+      "right": 142,
+      "top": 85.25857296892157,
+      "bottom": 161
+    },
+    "placement": {
+      "left": 22.18184932134225,
+      "top": 73.53536046852875,
+      "width": 145.65642386425202,
+      "height": 97.104282576168,
+      "rotation": 6,
+      "flip": true
+    }
+  }
+]

@@ -55,6 +55,17 @@ const roofAssets=Object.fromEntries(roofManifest.map(entry=>{
 const roofUpdated=roofOriginal.replace(/const assets = .*;/,`const assets = ${JSON.stringify(roofAssets)};`);
 if(process.argv.includes('--check')&&roofUpdated!==roofOriginal){console.error('Run npm run release to version reclining cats.');process.exitCode=1;}
 else if(!process.argv.includes('--check')&&roofUpdated!==roofOriginal)fs.writeFileSync(roofFile,roofUpdated);
+const nightFile=path.join(root,'night-cats.js'),nightOriginal=normalize(fs.readFileSync(nightFile,'utf8'));
+const nightManifest=JSON.parse(fs.readFileSync(path.join(root,'assets/night-gestures-v1/manifest.json'),'utf8'));
+if(nightManifest.length!==48||new Set(nightManifest.map(e=>e.coat+'/'+e.pose)).size!==48)throw Error('Expected exactly 48 night gesture images');
+const nightAssets=Object.fromEntries(nightManifest.map(entry=>{
+ const version=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,entry.file))).digest('hex');
+ if(version!==entry.sha256)throw Error('Rebuild night gesture metadata: '+entry.coat+'/'+entry.pose);
+ return [entry.coat+'/'+entry.pose,{version:version.slice(0,16),width:entry.width,height:entry.height,placement:entry.placement}];
+}));
+const nightUpdated=nightOriginal.replace(/const assets = .*;/,`const assets = ${JSON.stringify(nightAssets)};`);
+if(process.argv.includes('--check')&&nightUpdated!==nightOriginal){console.error('Run npm run release to version night gestures.');process.exitCode=1;}
+else if(!process.argv.includes('--check')&&nightUpdated!==nightOriginal)fs.writeFileSync(nightFile,nightUpdated);
 const resources=new Map();
 html=html.replace(/(src|href)="([^"?#]+)(?:\?[^"#]*)?"/g,(match,attribute,file)=>{
  if(!/\.(?:js|css|svg)$/.test(file)||/^(?:https?:|\/\/)/.test(file))return match;

@@ -1,0 +1,294 @@
+{
+  "mode": "built-in image_gen",
+  "pixelEdits": false,
+  "assets": [
+    {
+      "coat": "calico",
+      "pose": "window",
+      "file": "assets/night-gestures-v1/calico-window.png",
+      "approvedSource": "output/night-gestures-calico-v1/assets/calico-window-recline-v1.png"
+    },
+    {
+      "coat": "calico",
+      "pose": "stretch",
+      "file": "assets/night-gestures-v1/calico-stretch.png",
+      "approvedSource": "output/night-gestures-calico-v1/assets/calico-stretch-v1.png"
+    },
+    {
+      "coat": "calico",
+      "pose": "curl",
+      "file": "assets/night-gestures-v1/calico-curl.png",
+      "approvedSource": "output/night-gestures-calico-v1/assets/calico-curl-v1.png"
+    },
+    {
+      "coat": "orange",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-81a40953-64bc-4bbe-90f0-472cb2c5b810.png",
+      "file": "assets/night-gestures-v1/orange-curl.png"
+    },
+    {
+      "coat": "orange",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-c56bcf7f-e6bf-450d-bd1b-3797481fd6d3.png",
+      "file": "assets/night-gestures-v1/orange-stretch.png"
+    },
+    {
+      "coat": "orange",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-94e8e6da-645d-49db-825a-7da791e3574d.png",
+      "file": "assets/night-gestures-v1/orange-window.png"
+    },
+    {
+      "coat": "brown",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-1e4f9ef1-fcda-4bf3-86b3-3996f48925df.png",
+      "file": "assets/night-gestures-v1/brown-curl.png"
+    },
+    {
+      "coat": "brown",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-bbbe2335-6dc8-480f-a633-b0128eb60f97.png",
+      "file": "assets/night-gestures-v1/brown-stretch.png"
+    },
+    {
+      "coat": "brown",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-e0e3b1a5-727b-40c2-b2f5-c268c65ef786.png",
+      "file": "assets/night-gestures-v1/brown-window.png"
+    },
+    {
+      "coat": "silver",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-0dd3371a-5b46-428e-b5f7-0db663029285.png",
+      "file": "assets/night-gestures-v1/silver-curl.png"
+    },
+    {
+      "coat": "silver",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-ab9d1bf9-86ae-43c1-8b0f-09a09e439334.png",
+      "file": "assets/night-gestures-v1/silver-stretch.png"
+    },
+    {
+      "coat": "silver",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-5c9cadcb-63b6-4202-ab25-8bbf440f70b6.png",
+      "file": "assets/night-gestures-v1/silver-window.png"
+    },
+    {
+      "coat": "black",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-e307a081-05a3-41ed-aa3e-f5b573069306.png",
+      "file": "assets/night-gestures-v1/black-curl.png"
+    },
+    {
+      "coat": "black",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-58634bfb-6ca1-45f5-8003-be7eb32b45f7.png",
+      "file": "assets/night-gestures-v1/black-stretch.png"
+    },
+    {
+      "coat": "black",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-9d5762e0-a1ce-44f0-a740-682bb4027fdb.png",
+      "file": "assets/night-gestures-v1/black-window.png"
+    },
+    {
+      "coat": "white",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-283230d7-6a74-4b22-99c5-eab85ce7077e.png",
+      "file": "assets/night-gestures-v1/white-curl.png"
+    },
+    {
+      "coat": "white",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-b82cdbf5-8ae9-4d21-ab34-4270e337b7a9.png",
+      "file": "assets/night-gestures-v1/white-stretch.png"
+    },
+    {
+      "coat": "white",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-58625796-c2f1-4a5f-8c76-291aa62d6fa2.png",
+      "file": "assets/night-gestures-v1/white-window.png"
+    },
+    {
+      "coat": "tuxedo",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-52692214-1f49-4dfa-8049-6705063561fe.png",
+      "file": "assets/night-gestures-v1/tuxedo-curl.png"
+    },
+    {
+      "coat": "tuxedo",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-169e49a4-56bf-449e-ad91-6fa806a26427.png",
+      "file": "assets/night-gestures-v1/tuxedo-stretch.png"
+    },
+    {
+      "coat": "tuxedo",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-9f762b89-8205-435d-a4f5-e7de305679d8.png",
+      "file": "assets/night-gestures-v1/tuxedo-window.png"
+    },
+    {
+      "coat": "gray",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-dafe0da0-11e9-4403-88f2-44830db5d7d9.png",
+      "file": "assets/night-gestures-v1/gray-curl.png"
+    },
+    {
+      "coat": "gray",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-21e553d1-381f-4d71-a74b-a708dbc91932.png",
+      "file": "assets/night-gestures-v1/gray-stretch.png"
+    },
+    {
+      "coat": "gray",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-5c46f795-8eef-4ec7-bd96-20242cbd2ac8.png",
+      "file": "assets/night-gestures-v1/gray-window.png"
+    },
+    {
+      "coat": "manul",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-b4f38572-7861-4667-9fda-f0b0deb3802c.png",
+      "file": "assets/night-gestures-v1/manul-curl.png"
+    },
+    {
+      "coat": "manul",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-f3dd139c-d835-4f24-80a4-decba4ef9803.png",
+      "file": "assets/night-gestures-v1/manul-stretch.png"
+    },
+    {
+      "coat": "manul",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-36864f1b-d767-4311-befd-c547a2215c14.png",
+      "file": "assets/night-gestures-v1/manul-window.png"
+    },
+    {
+      "coat": "sand",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-0ff1da4e-a84d-420b-9b5e-bd020d336a2e.png",
+      "file": "assets/night-gestures-v1/sand-curl.png"
+    },
+    {
+      "coat": "sand",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-ea5a4f3c-b0e0-4138-ae60-cd665234a282.png",
+      "file": "assets/night-gestures-v1/sand-stretch.png"
+    },
+    {
+      "coat": "sand",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-3bd1b863-c72d-49de-aa11-3d706bd64916.png",
+      "file": "assets/night-gestures-v1/sand-window.png"
+    },
+    {
+      "coat": "black-footed",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-e56d599b-f350-4e05-b399-75553771978b.png",
+      "file": "assets/night-gestures-v1/black-footed-curl.png"
+    },
+    {
+      "coat": "black-footed",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-abf6c52f-9777-4e94-85c0-01f98f24d705.png",
+      "file": "assets/night-gestures-v1/black-footed-stretch.png"
+    },
+    {
+      "coat": "black-footed",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-44f3dd12-8faa-470e-bf14-798251a26932.png",
+      "file": "assets/night-gestures-v1/black-footed-window.png"
+    },
+    {
+      "coat": "fishing",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-d2359d56-3f03-4cd7-8830-92840c6bc770.png",
+      "file": "assets/night-gestures-v1/fishing-curl.png"
+    },
+    {
+      "coat": "fishing",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-9b96e371-e2aa-4737-97ce-31b3ce61c366.png",
+      "file": "assets/night-gestures-v1/fishing-stretch.png"
+    },
+    {
+      "coat": "fishing",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-bf7d3057-ae9d-41e2-a41f-14e3e98f6f49.png",
+      "file": "assets/night-gestures-v1/fishing-window.png"
+    },
+    {
+      "coat": "snow-leopard",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-2bec5a79-67d6-4a1d-9602-265561b66be3.png",
+      "file": "assets/night-gestures-v1/snow-leopard-curl.png"
+    },
+    {
+      "coat": "snow-leopard",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-e1faa739-a89a-4dec-9974-c152514eaa90.png",
+      "file": "assets/night-gestures-v1/snow-leopard-stretch.png"
+    },
+    {
+      "coat": "snow-leopard",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-bda857a9-a9a5-4816-9a8f-2f31ff895b9c.png",
+      "file": "assets/night-gestures-v1/snow-leopard-window.png"
+    },
+    {
+      "coat": "leopard",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-938631ae-f8d6-4837-ba80-4b015f6204b1.png",
+      "file": "assets/night-gestures-v1/leopard-curl.png"
+    },
+    {
+      "coat": "leopard",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-bb134f5d-0d8c-4a73-9c05-e9d50480308c.png",
+      "file": "assets/night-gestures-v1/leopard-stretch.png"
+    },
+    {
+      "coat": "leopard",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-c6f5a7f2-2975-4564-9474-29aa34e72f8c.png",
+      "file": "assets/night-gestures-v1/leopard-window.png"
+    },
+    {
+      "coat": "cheetah",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-b84e9b67-0dc3-4e7f-a8bb-ed939adc5a6a.png",
+      "file": "assets/night-gestures-v1/cheetah-curl.png"
+    },
+    {
+      "coat": "cheetah",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-f1367286-49ee-4d2e-b3c4-4106f1b041b3.png",
+      "file": "assets/night-gestures-v1/cheetah-stretch.png"
+    },
+    {
+      "coat": "cheetah",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-49392a31-fbbf-4fd3-9959-860b6bbaf9b4.png",
+      "file": "assets/night-gestures-v1/cheetah-window.png"
+    },
+    {
+      "coat": "jaguar",
+      "pose": "curl",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-aebad2fe-b671-4337-a474-d4514598ea11.png",
+      "file": "assets/night-gestures-v1/jaguar-curl.png"
+    },
+    {
+      "coat": "jaguar",
+      "pose": "stretch",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-fbc34c19-0d88-4a84-a004-8bd28bb91c2e.png",
+      "file": "assets/night-gestures-v1/jaguar-stretch.png"
+    },
+    {
+      "coat": "jaguar",
+      "pose": "window",
+      "generated": ".codex/generated_images/01a13add-2b8c-7fe0-8208-107cc72efa2e/exec-54a5d336-64e6-4c2e-a5f3-7ee9094c43fa.png",
+      "file": "assets/night-gestures-v1/jaguar-window.png"
+    }
+  ]
+}

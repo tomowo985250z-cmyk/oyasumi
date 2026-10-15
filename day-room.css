@@ -12,6 +12,9 @@
 .day-room[data-place=cushion] .day-room-cat.day-cat{left:50%;bottom:20%;width:40%;height:auto}
 .day-room[data-place=corner] .day-room-cat.day-cat{left:76%;bottom:15.5%;width:35%;height:auto}
 .day-room-cat>img{width:100%;height:100%;object-fit:contain;border-radius:0;display:block}
+/* Geometry uses the actual alpha silhouette, aligned to cushion/rug/sill. */
+.day-room[data-night-pose]:not([data-night-pose=seated]) .day-room-cat.day-cat{left:var(--night-left);top:var(--night-top);bottom:auto;width:var(--night-width);height:var(--night-height);aspect-ratio:auto;transform:translateX(-50%)}
+.day-room .night-cat-image{transform:rotate(var(--night-rotation,0deg)) scaleX(var(--night-flip,1))}
 .day-room-night-light{display:none;position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 62% 65%,#f4c68a26,transparent 72%),linear-gradient(135deg,#24324b18,#d5a16d16);z-index:0}
 .day-room[data-world-daylight=false] .day-room-art{filter:brightness(.64) saturate(.8)}
 .day-room[data-world-daylight=false] .day-room-night-light{display:block}
