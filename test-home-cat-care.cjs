@@ -48,7 +48,8 @@ let browser;
    await page.screenshot({path:path.join(output,`home-${width}-${light?'light':'dark'}.png`)});
    await page.locator('.home-room-unit .room-resident').click();
    assert((await page.locator('.care-serving').innerText()).includes('カリカリ'));
-   assert((await page.locator('.care-remaining').innerText()).includes('残り 1回'));
+   assert.equal(await page.locator('.care-remaining').count(),0);
+   assert.equal(await page.locator('[data-cat-meal]').innerText(),'ごはんをあげる');
    await page.screenshot({path:path.join(output,`ready-${width}-${light?'light':'dark'}.png`)});
    await page.evaluate(async()=>{await OyasumiAPI.submitPost('sleep','sleep');await refreshShared();go('catMeal');});
    assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
@@ -97,15 +98,16 @@ let browser;
  await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing');
  const started=Date.now();await page.waitForFunction(()=>!document.querySelector('.care-playing'),{},{timeout:10000});
  assert(Date.now()-started>=5500);assert(await page.evaluate(()=>playbackMs>=6000&&DayRoom.playing===0));
- assert(await page.locator('.room-resident').isVisible());assert(await page.locator('[data-cat-meal]').isDisabled());
- assert((await page.locator('.care-remaining').innerText()).includes('残り 0回'));
+ assert(await page.locator('.room-resident').isVisible());assert.equal(await page.locator('[data-cat-meal]').count(),0);
+ assert(await page.locator('[data-cat-meal-complete]').isVisible());
+ assert((await page.locator('.care-next').innerText()).includes('明日6:00から'));
  for(const choice of ['sleep','try-sleep','early-sleep']){
   await reset();await page.evaluate(async choice=>{await OyasumiAPI.submitPost(choice,choice==='try-sleep'?'try-sleep':'sleep');await refreshShared();go('home');},choice);
   assert.equal(await page.locator('[data-cat-meal]').count(),0);
   await page.locator('.home-room-unit .room-resident').click();
   assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
   assert(await page.locator('[data-cat-meal]').isDisabled());
-  assert((await page.locator('.care-remaining').innerText()).includes('残り 1回'));
+  assert.equal(await page.locator('.care-remaining').count(),0);
   await page.evaluate(()=>{const b=document.querySelector('[data-cat-meal]');b.disabled=false;b.click();});
   assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),0);
   assert.equal(await page.locator('.care-playing').count(),0);
@@ -125,7 +127,7 @@ let browser;
  assert.equal(await page.evaluate(()=>CatCare.slot(Date.parse('2026-10-12T12:00:00+09:00'))),'night');
  await page.evaluate(async()=>{HomePostFixture.at=Date.parse('2026-10-12T11:59:59+09:00');await refreshCareDay();});
  await page.locator('[data-cat-meal]').click();await settle();await page.evaluate(()=>go('catMeal'));
- assert(await page.locator('[data-cat-meal]').isDisabled());
+ assert(await page.locator('[data-cat-meal-complete]').isVisible());
  await page.evaluate(async()=>{HomePostFixture.at=Date.parse('2026-10-12T12:00:00+09:00');await refreshCareDay();});
  assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
  // No restrictions on browsing/reactions/changes after sleeping.
@@ -142,8 +144,8 @@ let browser;
  await page.locator('.home-room-unit .room-resident').click();assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
  // Pending save survives navigation; returning cannot create a second RPC.
  await reset();await page.evaluate(()=>{HomePostFixture.delay=1000;document.querySelector('[data-cat-meal]').click();go('profile');go('catMeal');document.querySelector('[data-cat-meal]').click();});
- await settle();assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),1);assert(await page.locator('[data-cat-meal]').isDisabled());
- await page.waitForSelector('.care-playing');await page.evaluate(()=>{go('timeline');go('catMeal');document.querySelector('[data-cat-meal]').click();});
+ await settle();assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),1);assert(await page.locator('[data-cat-meal-complete]').isVisible());
+ await page.waitForSelector('.care-playing');await page.evaluate(()=>{go('timeline');go('catMeal');document.querySelector('[data-cat-meal-complete]').click();});
  await settle();assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),1);await page.waitForFunction(()=>DayRoom.playing===0);
  // Failed saves retry; a server-confirmed duplicate never replays.
  await reset();await page.evaluate(()=>{HomePostFixture.failMeal=true;document.querySelector('[data-cat-meal]').click();});await settle();assert.equal(await page.locator('[data-cat-meal]').isDisabled(),false);
@@ -159,7 +161,7 @@ let browser;
  await page.waitForFunction(()=>DayRoom.playing===1);
  assert(await page.locator('.room-resident').isVisible(),'Keep resident visible during image decode');
  await page.evaluate(()=>go('profile'));await page.waitForFunction(()=>DayRoom.playing===0);
- await page.evaluate(()=>{CatCare.visual=originalMealVisual;go('catMeal');});assert(await page.locator('[data-cat-meal]').isDisabled());
+ await page.evaluate(()=>{CatCare.visual=originalMealVisual;go('catMeal');});assert(await page.locator('[data-cat-meal-complete]').isVisible());
  // Keyboard entry and back navigation preserve the original home.
  await reset();await page.evaluate(()=>go('home'));await page.locator('.home-room-unit .room-resident').focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('[data-cat-meal]').count(),1);

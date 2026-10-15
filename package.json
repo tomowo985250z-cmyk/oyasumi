@@ -20,6 +20,7 @@
     "test:cat-meals": "node test-cat-meal-assets.cjs",
     "test:cat-meal-motion": "node test-cat-meal-motion.cjs && node test-cat-meal-motion.cjs --edge",
     "test:home-cat-care": "node test-home-cat-care.cjs && node test-home-cat-care.cjs --edge",
+    "test:cat-meal-controls": "node test-cat-meal-controls.cjs && node test-cat-meal-controls.cjs --edge",
     "test:profile-post-cat": "node test-profile-post-cat.cjs",
     "test:profile-compact": "node test-profile-compact.cjs && node test-profile-compact.cjs --edge",
     "test:post-cat-expressions": "node test-post-cat-expressions.cjs && node test-post-cat-expressions-browser.cjs && node test-post-cat-expressions-browser.cjs --edge",
