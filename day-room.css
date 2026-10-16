@@ -68,3 +68,10 @@
 .day-room[data-location=room][data-place=window] .day-room-cat.day-cat,.day-room[data-location=room][data-place=window] .day-room-cat.day-cat:active{transform:translate(-50%,var(--window-cat-pad,0%)) scale(var(--room-cat-scale,1))}
 .day-room[data-night-pose]:not([data-night-pose=seated]) .day-room-cat.day-cat{transform:translateX(-50%) scale(var(--room-cat-scale,1))}
 .room-care-animation>img.care-idle,.room-care-animation>img.care-joy-cat,.room-care-animation>.care-munch{transform:scale(var(--room-cat-scale,1))}
+
+/* Solar lighting changes only ambient light and projected ink on support surfaces. */
+.room-cat-lighting{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.solar-cat-shadow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.day-room[data-solar-light] .room-resident>img,.day-room[data-solar-light] .room-care-animation img{filter:var(--room-light-filter,none)}
+html[data-cat-state-pending] .room-cat-lighting{visibility:hidden}
+html[data-cat-own-ready] .own-cat-room .room-cat-lighting{visibility:visible}

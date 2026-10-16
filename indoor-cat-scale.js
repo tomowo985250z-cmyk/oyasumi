@@ -22,5 +22,5 @@ globalThis.IndoorCatScale=(()=>{
   const a=contacts[animation.dataset.careCoat+'/day-relax'];
   if(a){const munch=animation.querySelector('.care-munch');munch.style.transformOrigin=(12+152*(a[2]+a[4])/2/a[0])+'px '+(152*a[5]/a[1])+'px';munch.style.setProperty('--room-cat-scale',scale(a,.4,previous));}
  }
- return Object.freeze({style,prepareMeal});
+ return Object.freeze({style,prepareMeal,contact:key=>contacts[key]?.slice()});
 })();

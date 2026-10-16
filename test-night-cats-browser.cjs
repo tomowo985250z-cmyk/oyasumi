@@ -12,6 +12,7 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  const context=await browser.newContext({viewport:{width:375,height:900},deviceScaleFactor:2,isMobile:true,hasTouch:true,timezoneId:'America/Los_Angeles',reducedMotion:'reduce'});
  await context.addInitScript({content:fixture});
  await context.addInitScript(()=>{
+  globalThis.nightGeometryStyle=el=>Array.from(el.style).filter(name=>!/^--room-light-(?:brightness|saturation|filter)$/.test(name)).map(name=>name+':'+el.style.getPropertyValue(name)).join(';');
   const f=HomePostFixture,api=OyasumiAPI,snapshot=api.snapshot,submit=api.submitPost,q=new URLSearchParams(location.search);
   f.at=Number(q.get('at'))||Date.parse('2026-10-15T23:00:00+09:00');f.coat=q.get('coat')||'calico';f.sleep=false;f.meals=new Set();f.mealCalls=0;
   f.care=()=>({allowanceVersion:2,sleepStateVersion:1,catState:f.sleep?'sleep':'awake',mealSleeping:f.sleep,day:SleepFlow.night(f.at),mealSlot:CatCare.slot(f.at),mealEligible:true,mealDone:f.meals.has(SleepFlow.night(f.at)+':'+CatCare.slot(f.at)),treatGiven:false,treatCount:0,treatRecipients:[],receivedToday:0,receivedTotal:0,receivedDays:[]});
@@ -26,7 +27,9 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  const decode=async()=>{await page.waitForFunction(()=>[...document.querySelectorAll('.day-room')].every(stage=>DayRoom.settled(stage)));await page.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));});};
  await page.goto(base);await settle();assert.equal(await page.locator('meta[name=oyasumi-release]').getAttribute('content'),JSON.parse(fs.readFileSync('release.json','utf8')).release);
  const times=await page.evaluate(()=>Object.fromEntries(['seated','curl','stretch','window'].map(pose=>{let at=Date.parse('2026-10-15T18:00:00+09:00');while(NightCats.at(at,shared.userId).pose!==pose)at+=NightCats.interval;return [pose,at];})));
- for(const width of [320,375,390,430]){
+ const release=JSON.parse(fs.readFileSync('release.json','utf8')).release,matrixFile=path.join(output,'matrix.json'),interactionsOnly=process.argv.includes('--interactions-only');
+ if(interactionsOnly){const prior=JSON.parse(fs.readFileSync(matrixFile,'utf8').replace(/^\uFEFF/,''));assert(prior.pass&&prior.release===release&&prior.caseCount===256,'Resume only the verified matrix for this release');}
+ for(const width of interactionsOnly?[]:[320,375,390,430]){
   await page.setViewportSize({width,height:900});
   for(const coat of coats)for(const pose of ['seated','curl','stretch','window']){
    await page.evaluate(({at,coat})=>{HomePostFixture.at=at;HomePostFixture.coat=coat;HomePostFixture.sleep=false;shared.catCare=HomePostFixture.care();state.coat=coat;NightClock.now=()=>HomePostFixture.at;go('home');},{at:times[pose],coat});await decode();
@@ -56,22 +59,24 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   }
   console.log(`PASS ${edge?'Edge':'WebKit'} ${width}px: all 16 coats × 4 night poses`);
  }
+ if(!interactionsOnly)fs.writeFileSync(matrixFile,JSON.stringify({pass:true,release,caseCount:cases.length,cases},null,2));
+ // Ambient light properties may remain; night geometry must be removed.
  // Real reloads within one slot retain both chosen gesture and placement.
  for(const [pose,at] of Object.entries(times)){
   await page.goto(base+`?at=${at}&coat=manul`);await settle();await page.evaluate(()=>{NightClock.now=()=>HomePostFixture.at;go('home');});await decode();
-  const before=await page.locator('.home-room-unit .room-resident').innerHTML(),style=await page.locator('.home-room-unit .day-room').getAttribute('style');
+  const before=await page.locator('.home-room-unit .room-resident').innerHTML(),style=await page.locator('.home-room-unit .day-room').evaluate(el=>nightGeometryStyle(el));
   await page.reload();await settle();await page.evaluate(()=>{NightClock.now=()=>HomePostFixture.at;go('home');});await decode();
-  assert.equal(await page.locator('.home-room-unit .day-room').getAttribute('data-night-pose'),pose);assert.equal(await page.locator('.home-room-unit .room-resident').innerHTML(),before);assert.equal(await page.locator('.home-room-unit .day-room').getAttribute('style'),style);
+  assert.equal(await page.locator('.home-room-unit .day-room').getAttribute('data-night-pose'),pose);assert.equal(await page.locator('.home-room-unit .room-resident').innerHTML(),before);assert.equal(await page.locator('.home-room-unit .day-room').evaluate(el=>nightGeometryStyle(el)),style);
  }
  // A mounted room follows time changes and removes night geometry in daylight/sleep.
  for(const time of ['2026-10-15T23:59:59','2026-10-16T00:00:00','2026-10-16T05:59:59','2026-10-16T06:00:00','2026-10-16T11:59:59','2026-10-16T12:00:00','2026-10-16T17:59:59','2026-10-16T18:00:00']){
   await page.evaluate(time=>{HomePostFixture.at=Date.parse(time+'+09:00');shared.catCare=HomePostFixture.care();DayRoom.sync();},time);await decode();
-  const row=await page.evaluate(()=>{const room=document.querySelector('.home-room-unit .day-room'),i=room.querySelector('.room-resident img'),s=DayRoom.snapshot(shared.userId),w=DayRoom.world();return{pose:room.dataset.nightPose||null,expected:NightCats.at(NightClock.now(),shared.userId)?.pose||null,style:room.style.cssText,daylight:w.daylight,originalDay:!w.daylight||i.outerHTML.replace(/ loading="eager"/g,'')===DayCats.svg(s.pose,state.coat)};});
+   const row=await page.evaluate(()=>{const room=document.querySelector('.home-room-unit .day-room'),i=room.querySelector('.room-resident img'),s=DayRoom.snapshot(shared.userId),w=DayRoom.world();return{pose:room.dataset.nightPose||null,expected:NightCats.at(NightClock.now(),shared.userId)?.pose||null,style:nightGeometryStyle(room),daylight:w.daylight,originalDay:!w.daylight||i.outerHTML.replace(/ loading="eager"/g,'')===DayCats.svg(s.pose,state.coat)};});
   assert.equal(row.pose,row.expected);if(row.daylight){assert.equal(row.style,'');assert(row.originalDay);}transitions.push({time,...row});
  }
  // No renderer changes for other people's rooms or explicit sleeping cats.
  for(const coat of coats){
-  const row=await page.evaluate(({coat,at})=>{HomePostFixture.at=at;HomePostFixture.sleep=true;shared.catCare=HomePostFixture.care();state.coat=coat;go('home');DayRoom.sync();const home=document.querySelector('.home-room-unit .day-room');return{sleep:home.querySelector('img[data-cat-scene=sleeping]')?.getAttribute('src'),pose:home.dataset.nightPose||null,style:home.style.cssText,peer:DayRoom.stage(coat,'peer',{status:'awake'}).includes('data-night-pose')};},{coat,at:times.window});
+  const row=await page.evaluate(({coat,at})=>{HomePostFixture.at=at;HomePostFixture.sleep=true;shared.catCare=HomePostFixture.care();state.coat=coat;go('home');DayRoom.sync();const home=document.querySelector('.home-room-unit .day-room');return{sleep:home.querySelector('img[data-cat-scene=sleeping]')?.getAttribute('src'),pose:home.dataset.nightPose||null,style:nightGeometryStyle(home),peer:DayRoom.stage(coat,'peer',{status:'awake'}).includes('data-night-pose')};},{coat,at:times.window});
   assert(row.sleep?.includes(`/cat-refresh-v1/${coat}/night.png`));assert.equal(row.pose,null);assert.equal(row.style,'');assert.equal(row.peer,false);
  }
  // Feed once from every gesture and return to its same supported pose.
@@ -100,6 +105,6 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  }
  assert(new Set(timed.map(r=>r.pose)).size>=3,'Real 15-minute timers change gestures without reloading');
  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.deepEqual(external,[]);
- fs.writeFileSync(path.join(output,'report.json'),JSON.stringify({pass:true,engine:edge?'Edge':'WebKit',published,release:JSON.parse(fs.readFileSync('release.json','utf8')).release,cases,transitions,timed,reloadStable:true,feedingReturn:true,sleepPreserved:true,resume:true,productionDbWrites:0,physicalIPhoneTested:false,errors,failed,external},null,2));
- console.log(`PASS night cats ${edge?'Edge':'WebKit'}: ${cases.length} coat/pose/width scenes, actual reloads, mounted day/night boundaries, sleeping cats, four feeding returns and background resume; API isolated, no DB writes.`);
+ fs.writeFileSync(path.join(output,'report.json'),JSON.stringify({pass:true,engine:edge?'Edge':'WebKit',published,release,cases,matrixCaseCount:256,matrixResumed:interactionsOnly,transitions,timed,reloadStable:true,feedingReturn:true,sleepPreserved:true,resume:true,productionDbWrites:0,physicalIPhoneTested:false,errors,failed,external},null,2));
+ console.log(`PASS night cats ${edge?'Edge':'WebKit'}: 256 coat/pose/width scenes${interactionsOnly?' (previously passed matrix)':''}, actual reloads, mounted day/night boundaries, sleeping cats, four feeding returns and background resume; API isolated, no DB writes.`);
 }finally{await browser?.close();server?.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -10,6 +10,7 @@ globalThis.SeasonLandscape=(()=>{
  };
  const phase=w=>w.phase||((w.daylight===false||w.hour<6||w.hour>=18)?'night':w.hour<10?'morning':w.hour>=16?'evening':'day');
  function theme(w){
+  if(w.solar)return SolarLighting.theme(w);
   const p={...(seasons[w.season]||seasons.summer)},phase=SeasonLandscape.phase(w),cloud=w.weather!=='sunny',rain=w.weather==='rainy';
   if(cloud){p.sky=rain?'#718c9e':'#9cb3c0';p.horizon=rain?'#b5c6c2':'#d8dfd7';for(const key of ['far','hill','field','green','leaf','leafLight'])p[key]=mix(p[key],rain?'#52746d':'#8b9e92',rain?.24:.12);}
   if(phase==='morning'){p.sky=mix(p.sky,'#b9d8e6',.42);p.horizon=mix(p.horizon,'#e6e4cc',.18);}

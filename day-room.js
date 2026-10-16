@@ -26,7 +26,7 @@ globalThis.DayRoom=(()=>{
   const index=['morning','night','day-relax','day-play','day-groom','day-doze','day-gaze-window'].indexOf(frame);
   return windowPadding[CatFaces.normalizeCoat(coat)]?.[index]||0;
  }
- const world=()=>SeasonWeather.at(NightClock.now());
+ const world=()=>{const at=NightClock.now();return {...SeasonWeather.at(at),at};}
  const snapshot=(user,now=NightClock.now())=>{
   user=user||'local-cat';const room=DayRoomState.at(now,user),visit=CatPlaces.at(now,user);
   return {...room,location:visit.place,pose:visit.night?room.pose:visit.pose,since:visit.since,moodSince:visit.moodSince,nextAt:visit.nextAt};
