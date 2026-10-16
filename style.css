@@ -220,3 +220,7 @@ html[data-cat-state-pending][data-cat-timeline-ready] .post .avatar[data-cat-app
 .first-guide-topics p,.first-guide-note{font-size:12px;line-height:1.8;margin:0}
 .first-guide-note{color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:14px}
 .settings-section .first-guide{margin-bottom:0}
+
+/* Softer posting surfaces keep white labels clear in the dark theme. */
+body:not(.light-mode) .status-actions .status-button.awake{background:linear-gradient(125deg,#455780,#39496e)}
+body:not(.light-mode) .status-actions .status-button.sleep{background:linear-gradient(125deg,#765064,#614355)}

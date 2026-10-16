@@ -102,7 +102,9 @@ function installFixture() {
     assert.deepEqual(result.icons[0], result.icons[1], 'Sun and moon have identical size, placement, cream fill and glow');
     assert.equal(result.icons[0].fill, 'rgb(255, 240, 194)');
     assert.equal(result.icons[0].width, 48);
-    if (!light) { assert(result.backgrounds[0].image.includes('rgb(131, 152, 255)')); assert(result.backgrounds[1].image.includes('rgb(255, 172, 163)')); assert.deepEqual(result.backgrounds[2], result.backgrounds[3]); }
+    assert(result.backgrounds[0].image.includes(light?'rgb(131, 152, 255)':'rgb(69, 87, 128)'));
+    assert(result.backgrounds[1].image.includes(light?'rgb(255, 172, 163)':'rgb(118, 80, 100)'));
+    if (!light) assert.deepEqual(result.backgrounds[2], result.backgrounds[3]);
     await page.evaluate(() => window.scrollTo(0, window.scrollY + document.querySelector('.status-actions').getBoundingClientRect().top - 140));
     assert(await page.evaluate(() => [...document.querySelectorAll('[data-home-choice]')].every(button => button.getBoundingClientRect().bottom < document.querySelector('#navigation').getBoundingClientRect().top)), 'All four choices are visible above navigation');
     // Refresh can replace this node after screenshot's initial locator lookup.
