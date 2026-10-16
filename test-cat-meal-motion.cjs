@@ -52,18 +52,14 @@ let browser;
    await page.waitForSelector('.room-care-animation:is(.care-playing,.care-reduced)[data-care-stage=munch]');
    assert.equal(await page.locator('.room-care-animation').getAttribute('data-care-coat'),coat);
    await page.locator('.room-care-animation').scrollIntoViewIfNeeded();
-   const samples=await page.evaluate(async()=>{
+   await page.evaluate(()=>{
     const scene=document.querySelector('.room-care-animation'),head=scene.querySelector('.care-head'),body=scene.querySelector('.care-body');
     if(head.tagName!=='SPAN'||getComputedStyle(head).clipPath!=='none'||getComputedStyle(head.querySelector('.care-head-crop')).overflow!=='hidden'||head.querySelector('img').getAnimations().length)throw Error('Head motion and image crop must be separate');
-    const samples=[],start=performance.now();
-    while(performance.now()-start<1100){await new Promise(requestAnimationFrame);samples.push({time:performance.now(),headY:head.getBoundingClientRect().top,bodyY:body.getBoundingClientRect().top,stage:scene.dataset.careStage});}
-    return samples;
+    // Observe layout and screenshots concurrently: screenshot latency on software
+    // WebKit must not consume another 1.1 seconds before the first painted sample.
+    const log=globalThis.HeadSamples={samples:[],done:false},start=performance.now();
+    const tick=()=>{log.samples.push({time:performance.now(),headY:head.getBoundingClientRect().top,bodyY:body.getBoundingClientRect().top,stage:scene.dataset.careStage});if(performance.now()-start<1100)requestAnimationFrame(tick);else log.done=true;};requestAnimationFrame(tick);
    });
-   assert(samples.length>=3,`Head must paint across multiple real animation frames: ${JSON.stringify(samples)}`);
-   assert(samples.every(s=>s.stage==='munch'),JSON.stringify({width,night,reduced,standalone,samples}));
-   assert(samples.at(-1).time-samples[0].time>400,JSON.stringify(samples));
-   assert(Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY))>1,`Head moves vertically, including reduced motion: ${JSON.stringify(samples)}`);
-   assert(Math.max(...samples.map(s=>s.bodyY))-Math.min(...samples.map(s=>s.bodyY))<.1,'Body stays still');
    // Keep the real playback clock running while taking painted frames. Mixing
    // pauseAt/runFor with screenshot rAF ticks can rewind the virtual clock.
    const pose=()=>page.evaluate(()=>{
@@ -82,6 +78,12 @@ let browser;
     const frames=await Promise.all(sources.map(pixels));return Math.max(...frames.slice(1).map(b=>{const a=frames[0];let changed=0;for(let i=0;i<a.length;i+=4)if(Math.abs(a[i]-b[i])+Math.abs(a[i+1]-b[i+1])+Math.abs(a[i+2]-b[i+2])>20)changed++;return changed;}));
    },[down,up,last].map(frame=>frame.toString('base64')));
    assert(painted>Math.ceil(80*deviceScaleFactor**2/9),`Head pixels must repaint, not only computed layout: ${JSON.stringify({painted,width,night,reduced,standalone,first,second,third})}`);
+   await page.waitForFunction(()=>HeadSamples.done);const samples=await page.evaluate(()=>HeadSamples.samples);
+   assert(samples.length>=3,`Head must paint across multiple real animation frames: ${JSON.stringify(samples)}`);
+   assert(samples.every(s=>s.stage==='munch'),JSON.stringify({width,night,reduced,standalone,samples}));
+   assert(samples.at(-1).time-samples[0].time>400,JSON.stringify(samples));
+   assert(Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY))>1,`Head moves vertically, including reduced motion: ${JSON.stringify(samples)}`);
+   assert(Math.max(...samples.map(s=>s.bodyY))-Math.min(...samples.map(s=>s.bodyY))<.1,'Body stays still');
    await page.waitForSelector('.room-care-animation[data-care-stage=joy]');
    await page.screenshot({path:path.join(output,name+'-joy-room.png'),clip:await page.locator('.cat-meal-room .day-room').boundingBox()});
    await page.waitForFunction(()=>DayRoom.playing===0&&!document.querySelector('.room-care-animation'),{},{timeout:15000});

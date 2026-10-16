@@ -33,7 +33,8 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  };
  const sample=p=>p.evaluate(()=>{
   const stage=document.querySelector(HomePostFixture.viewer===HomePostFixture.owner?'.home-room-unit .day-room':'#public-profile-content .day-room'),cat=stage.querySelector('.room-resident img'),r=stage.getBoundingClientRect(),c=cat.getBoundingClientRect();
-  return {location:stage.dataset.location,place:stage.dataset.place,pose:cat.dataset.dayScene,night:stage.dataset.nightPose||null,coat:cat.dataset.catCoat,src:cat.getAttribute('src'),loaded:cat.complete&&cat.naturalWidth>0,overflow:document.documentElement.scrollWidth>innerWidth,relative:{x:c.x-r.x,y:c.y-r.y,width:c.width,height:c.height},stageWidth:r.width};
+  const resident=getComputedStyle(cat.parentElement),unrotatedWidth=parseFloat(resident.width)*new DOMMatrix(resident.transform).a;
+  return {location:stage.dataset.location,place:stage.dataset.place,pose:cat.dataset.dayScene,night:stage.dataset.nightPose||null,coat:cat.dataset.catCoat,src:cat.getAttribute('src'),loaded:cat.complete&&cat.naturalWidth>0,overflow:document.documentElement.scrollWidth>innerWidth,relative:{x:c.x-r.x,y:c.y-r.y,width:c.width,height:c.height},unrotatedWidth,stageWidth:r.width};
  });
  const cases=[],coats=await home.evaluate(()=>CatFaces.coats.map(c=>c.id));
  for(const width of process.argv.includes('--care-only')?[]:[320,375,390,430]){
@@ -47,7 +48,10 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
    }
    assert(a.loaded&&b.loaded&&!a.overflow&&!b.overflow,JSON.stringify({width,coat,place,a,b}));
    for(const s of [a,b]){assert(s.relative.x>=-1&&s.relative.y>=-1);assert(s.relative.x+s.relative.width<=s.stageWidth+1);assert(s.relative.y+s.relative.height<=s.stageWidth*330/400+1);}
-   if(place!=='room'){assert.equal(a.place,'cushion');assert(Math.abs(a.relative.width/a.stageWidth-.4)<.001);assert.notEqual(a.pose,'gaze');}
+   // Morning begging adds a small independent rotate/translate on home only.
+   // Keep that motion and compare uniform artwork scale before its rotation.
+   assert(Math.abs(a.unrotatedWidth/a.stageWidth-b.unrotatedWidth/b.stageWidth)<.001,JSON.stringify({width,coat,place,a,b}));
+   if(place!=='room'){assert.equal(a.place,'cushion');assert(a.relative.width/a.stageWidth<=.401);assert.notEqual(a.pose,'gaze');}
    if(width===375){const clip=await home.locator('.home-room-unit .day-room').boundingBox();await home.screenshot({path:path.join(out,`${coat}-${place}-375.png`),clip});}
    cases.push({width,coat,place,at,home:a,profile:b});
   }console.log(`PASS ${engine} ${width}px: 16 cats × 3 places on home and another viewer's profile`);

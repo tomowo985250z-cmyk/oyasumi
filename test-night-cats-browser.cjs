@@ -32,17 +32,20 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
    await page.evaluate(({at,coat})=>{HomePostFixture.at=at;HomePostFixture.coat=coat;HomePostFixture.sleep=false;shared.catCare=HomePostFixture.care();state.coat=coat;NightClock.now=()=>HomePostFixture.at;go('home');},{at:times[pose],coat});await decode();
    const result=await page.evaluate(()=>{
     const room=document.querySelector('.home-room-unit .day-room'),image=room.querySelector('.room-resident img'),r=room.getBoundingClientRect(),ir=image.getBoundingClientRect();
-    return {pose:room.dataset.nightPose,place:room.dataset.place,loaded:image.complete&&image.naturalWidth>0,coat:image.dataset.catCoat,src:image.getAttribute('src'),overflow:document.documentElement.scrollWidth>innerWidth,width:r.width,origin:getComputedStyle(room.querySelector('.room-resident')).transformOrigin.split(' ').map(parseFloat),rect:{x:ir.x-r.x,y:ir.y-r.y,width:ir.width,height:ir.height},callCount:HomePostFixture.calls.length};
+    return {pose:room.dataset.nightPose,place:room.dataset.place,loaded:image.complete&&image.naturalWidth>0,coat:image.dataset.catCoat,src:image.getAttribute('src'),overflow:document.documentElement.scrollWidth>innerWidth,width:r.width,scale:Number(room.querySelector('.room-resident').style.getPropertyValue('--room-cat-scale')),origin:getComputedStyle(room.querySelector('.room-resident')).transformOrigin.split(' ').map(parseFloat),rect:{x:ir.x-r.x,y:ir.y-r.y,width:ir.width,height:ir.height},callCount:HomePostFixture.calls.length};
    });
    assert.equal(result.pose,pose);assert.equal(result.coat,coat);assert(result.loaded&&!result.overflow);assert.equal(result.callCount,0);
    if(pose!=='seated'){
     const entry=manifest.find(e=>e.coat===coat&&e.pose===pose),s=result.width/400,p=entry.placement;
     // Image element dimensions/placement and the measured transformed alpha silhouette.
     const angle=p.rotation*Math.PI/180,bw=Math.abs(Math.cos(angle))*p.width+Math.abs(Math.sin(angle))*p.height,bh=Math.abs(Math.sin(angle))*p.width+Math.abs(Math.cos(angle))*p.height;
-    assert(Math.abs(result.rect.width-bw*s*.9)<.3);
-    assert(Math.abs(result.rect.height-bh*s*.9)<.3);
-    assert(Math.abs(result.rect.x-((p.left+(p.width-bw)/2)*s*.9+(p.left*s+result.origin[0])*.1))<.3);
-    assert(Math.abs(result.rect.y-((p.top+(p.height-bh)/2)*s*.9+(p.top*s+result.origin[1])*.1))<.3);
+    // The exact visible-size cap is independently rasterized by test-room-cat-scale.
+    // Here retain the night asset's rotation, aspect and anchored placement at its new scale.
+    const k=result.scale;assert(k>0&&k<=.9);
+    assert(Math.abs(result.rect.width-bw*s*k)<.3);
+    assert(Math.abs(result.rect.height-bh*s*k)<.3);
+    assert(Math.abs(result.rect.x-((p.left+(p.width-bw)/2)*s*k+(p.left*s+result.origin[0])*(1-k)))<.3);
+    assert(Math.abs(result.rect.y-((p.top+(p.height-bh)/2)*s*k+(p.top*s+result.origin[1])*(1-k)))<.3);
     assert(entry.visible.left>=0&&entry.visible.right<=400&&entry.visible.top>=0);
     assert.equal(entry.visible.bottom,{curl:251,stretch:277,window:161}[pose]);
     assert.equal(result.place,{curl:'cushion',stretch:'corner',window:'window'}[pose]);

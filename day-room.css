@@ -62,8 +62,9 @@
 .day-room .room-resident>img,.day-room .room-care-animation img{transition:filter 1600ms ease-in-out}
 @media(prefers-reduced-motion:reduce){.day-room .room-resident>img,.day-room .room-care-animation img{transition:none}}
 
-/* Indoor silhouette scale keeps the original visible foot contact (including rotated night art). */
-.day-room[data-location=room] .day-room-cat.day-cat,.day-room[data-location=room] .day-room-cat.day-cat:active{transform:translateX(-50%) scale(var(--indoor-cat-scale,.9));transform-origin:var(--indoor-cat-origin,50% 100%)}
-.day-room[data-location=room][data-place=window] .day-room-cat.day-cat,.day-room[data-location=room][data-place=window] .day-room-cat.day-cat:active{transform:translate(-50%,var(--window-cat-pad,0%)) scale(var(--indoor-cat-scale,.9))}
-.day-room[data-location=room][data-night-pose]:not([data-night-pose=seated]) .day-room-cat.day-cat{transform:translateX(-50%) scale(var(--indoor-cat-scale,.9))}
-.room-care-animation[data-indoor-cat-scale=true]>img.care-idle,.room-care-animation[data-indoor-cat-scale=true]>img.care-joy-cat,.room-care-animation[data-indoor-cat-scale=true]>.care-munch{transform:scale(.9)}
+/* Shared visible-body limit, around the original feet (also rotated night art). */
+.day-room .day-room-cat.day-cat,.day-room .day-room-cat.day-cat:active{transform:translateX(-50%) scale(var(--room-cat-scale,1));transform-origin:var(--room-cat-origin,50% 100%)}
+.day-room[data-location]:not([data-location=room]) .day-room-cat.day-cat,.day-room[data-location]:not([data-location=room]) .day-room-cat.day-cat:active{transform:translate(-50%,var(--ground-cat-pad,0%)) scale(var(--room-cat-scale,1))}
+.day-room[data-location=room][data-place=window] .day-room-cat.day-cat,.day-room[data-location=room][data-place=window] .day-room-cat.day-cat:active{transform:translate(-50%,var(--window-cat-pad,0%)) scale(var(--room-cat-scale,1))}
+.day-room[data-night-pose]:not([data-night-pose=seated]) .day-room-cat.day-cat{transform:translateX(-50%) scale(var(--room-cat-scale,1))}
+.room-care-animation>img.care-idle,.room-care-animation>img.care-joy-cat,.room-care-animation>.care-munch{transform:scale(var(--room-cat-scale,1))}

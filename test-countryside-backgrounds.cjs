@@ -54,11 +54,11 @@ const server=published?null:spawn(process.execPath,['server.js'],{cwd:__dirname,
     for(const c of cases){
      f.set('summer',c.hour,'sunny',c.where,c.pose);host.innerHTML=DayRoom.stage(coat,f.owner,{home:true,status:c.status})+BaselineDayRoom.stage(coat,f.owner,{home:true,status:c.status});
      await Promise.all([...host.querySelectorAll('img')].map(i=>i.decode()));const [a,b]=host.querySelectorAll('.day-room'),x=a.querySelector('.room-resident'),y=b.querySelector('.room-resident');
-     y.style.setProperty('--indoor-cat-scale','1');const geo=(cat,stage)=>{const r=cat.getBoundingClientRect(),s=stage.getBoundingClientRect();return [r.x-s.x,r.y-s.y,r.width,r.height];};
+     y.style.setProperty('--room-cat-scale','1');const geo=(cat,stage)=>{const r=cat.getBoundingClientRect(),s=stage.getBoundingClientRect();return [r.x-s.x,r.y-s.y,r.width,r.height];};
      rows.push({...c,coat,identical:x.innerHTML.replace(/ loading="eager"/g,'')===y.innerHTML.replace(/ loading="eager"/g,''),a:geo(x,a),b:geo(y,b),samePlace:a.dataset.location===b.dataset.location&&a.dataset.place===b.dataset.place,loaded:[...host.querySelectorAll('img')].every(i=>i.complete&&i.naturalWidth>0)});
     }return rows;
    },coat);
-   for(const r of rows){assert(r.identical&&r.samePlace&&r.loaded,JSON.stringify(r));for(const i of [2,3])assert(Math.abs(r.a[i]/r.b[i]-(r.where==='room'?.9:1))<.002,JSON.stringify(r));cats.push({width,...r});}
+   for(const r of rows){assert(r.identical&&r.samePlace&&r.loaded,JSON.stringify(r));const ratio=r.a[2]/r.b[2];assert(ratio<=(r.where==='room'?.9:1)+.002,JSON.stringify(r));assert(Math.abs(r.a[3]/r.b[3]-ratio)<.002,JSON.stringify(r));cats.push({width,...r});}
   }
   // Real mounted DayRoom.sync must update time independently of unchanged cat moods.
   await page.evaluate(()=>{const f=BackgroundCheck;f.set();const host=document.querySelector('#background-verification');host.innerHTML=DayRoom.stage('calico',f.owner,{status:'awake'});DayRoom.sync();});
