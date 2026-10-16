@@ -24,7 +24,7 @@ function installFixture() {
  const sleeping = choice => ['sleep', 'try-sleep', 'early-sleep'].includes(choice);
  const mapped = row => ({ id: row.id, userId: row.user_id, status: row.choice, intent: row.post_intent, time: Date.parse(row.created_at), nightDate: row.night_date, order: row.event_order, name: row.user_id === own ? '確認ねこ' : 'おとなり', expression: 'calm', coat: 'calico', catRole: null, profileNote: '', self: row.user_id === own, color: 'peach' });
  f.row = (choice, user = own) => ({ id: `home-post-${f.rows.length + 1}`, user_id: user, choice, created_at: new Date(f.at).toISOString(), night_date: SleepFlow.night(f.at), event_order: f.rows.length + 1 });
- f.reset = () => { f.rows = []; f.calls = []; f.reactions = {}; f.peer = false; f.complete = true; f.fail = false; };
+ f.reset = () => { f.rows = []; f.calls = []; f.reactions = {}; f.peer = false; f.complete = true; f.fail = false; delete f.trendCase; };
  const care = () => ({ day: SleepFlow.day(f.at), mealEligible: f.rows.some(row => sleeping(row.choice)), mealDone: false, treatGiven: false, receivedToday: 0, receivedTotal: 0, receivedDays: [] });
  const api = {
   initialize: async () => own,
@@ -45,7 +45,7 @@ function installFixture() {
    const sleepingCount = feed.filter(post => sleeping(post.status)).length;
    const activeAwakePosts = feed.filter(post => post.status === 'awake');
    const reactionCounts = Object.fromEntries(Object.entries(f.reactions).map(([id, choice]) => [id, { [choice]: 1 }]));
-   return { userId: own, name: '確認ねこ', coat: 'calico', expression: 'calm', catRole: null, profileNote: '', profileComplete: f.complete, needsCat: !f.complete, needsNickname: false, ownPosts, feed, reactions: { ...f.reactions }, reactionCounts, reactionVersion: 3, activeAwakePosts, awakeCount: activeAwakePosts.length, sleepingCount, ownSleepCount: f.rows.filter(row => sleeping(row.choice)).length, myState: ownPosts.length ? sleeping(ownPosts[0].status) ? 'sleep' : 'awake' : null, nightDate: SleepFlow.night(f.at), trend: [], trendSupported: false, catCoatStatus: { nextChangeAt: null, temporarilyUnlocked: true }, catCare: care(), tonightSummary: { sleepingCount, coats: sleepingCount ? [{ coat: 'calico', count: sleepingCount }] : [], peakHours: [] } };
+   return { userId: own, name: '確認ねこ', coat: 'calico', expression: 'calm', catRole: null, profileNote: '', profileComplete: f.complete, needsCat: !f.complete, needsNickname: false, ownPosts, feed, reactions: { ...f.reactions }, reactionCounts, reactionVersion: 3, activeAwakePosts, awakeCount: activeAwakePosts.length, sleepingCount, ownSleepCount: f.rows.filter(row => sleeping(row.choice)).length, myState: ownPosts.length ? sleeping(ownPosts[0].status) ? 'sleep' : 'awake' : null, nightDate: SleepFlow.night(f.at), trend: [], trendSupported: false, catCoatStatus: { nextChangeAt: null, temporarilyUnlocked: true }, catCare: care(), tonightSummary: { sleepingCount, coats: sleepingCount ? [{ coat: 'calico', count: sleepingCount }] : [], peakHours: [] },...f.trendCase };
   }
  };
  function assertChoice(choice) { if (!['awake', 'sleep', 'try-sleep', 'early-sleep'].includes(choice)) throw Error('Unexpected DB choice: ' + choice); }
@@ -178,11 +178,13 @@ function installFixture() {
   const catLayouts=[];
   for(const width of [320,375,390,430])for(const [active,trendCount,expected] of [[0,0,0],[1,10,1],[2,10,2],[3,5,1],[10,10,2],[15,15,3]]){
    await page.setViewportSize({width,height:844});
+   await settled();
    await page.evaluate(({active,trendCount})=>{
     HomePostFixture.at+=86400000;const now=HomePostFixture.at;
     shared.activeAwakePosts=Array.from({length:active},(_,i)=>({userId:String(i),time:now-1000}));
     shared.trend=[{time:now,awake:trendCount,sleeping:0}];
     shared.trendHistory=Array.from({length:7},(_,i)=>Array.from({length:10},(_,j)=>({userId:String(j),status:'awake',order:j+1,time:now-(i+1)*86400000,nightDate:SleepFlow.night(now-(i+1)*86400000)}))).flat();
+    HomePostFixture.trendCase={nightDate:SleepFlow.night(now),activeAwakePosts:shared.activeAwakePosts,trend:shared.trend,trendHistory:shared.trendHistory};
     go('home');
    },{active,trendCount});
    assert.equal(await page.locator('.roof-cat').count(),expected);

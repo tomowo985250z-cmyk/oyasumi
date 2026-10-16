@@ -34,7 +34,7 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   return {location:stage.dataset.location,place:stage.dataset.place,pose:cat.dataset.dayScene,night:stage.dataset.nightPose||null,coat:cat.dataset.catCoat,src:cat.getAttribute('src'),loaded:cat.complete&&cat.naturalWidth>0,overflow:document.documentElement.scrollWidth>innerWidth,relative:{x:c.x-r.x,y:c.y-r.y,width:c.width,height:c.height},stageWidth:r.width};
  });
  const cases=[],coats=await home.evaluate(()=>CatFaces.coats.map(c=>c.id));
- for(const width of [320,360,375,390,402,414,430]){
+ for(const width of process.argv.includes('--care-only')?[]:[320,360,375,390,402,414,430]){
   for(const p of pages)await p.setViewportSize({width,height:950});
   for(const coat of coats)for(const [place,at] of Object.entries(times)){
    for(const p of pages)await show(p,{at,coat});const a=await sample(home),b=await sample(peer);

@@ -63,7 +63,7 @@ let browser;
  }
  // Former absence intervals never hide the cat; preserve the seeded moods/places.
  await reset();assert(await page.evaluate(()=>{for(let i=0;i<360;i++)if(DayRoomState.at(Date.parse('2026-10-11T12:00:00+09:00')+i*60000,shared.userId).away)return false;return true;}));
- assert(await page.evaluate(()=>DayRoom.stage('calico','other-cat',{status:'sleep'}).includes('data-day-scene')),'Other profiles retain their time-of-day artwork');
+ assert(await page.evaluate(()=>DayRoom.stage('calico','other-cat',{status:'sleep'}).includes('data-cat-scene="sleeping"')),'Other sleeping cats retain their sleep posture during daytime');
  const scenes=[];
  for(const width of process.argv.includes('--interactions-only')?[]:[320,375,390,430]){
  await page.setViewportSize({width,height:844});
@@ -72,9 +72,10 @@ let browser;
   await page.evaluate(()=>{document.querySelector('[data-cat-meal]').click();document.querySelector('[data-cat-meal]').click();});
   await page.waitForSelector('.room-care-animation.care-playing');
   assert.equal(await page.evaluate(()=>HomePostFixture.mealCalls),1);
-  assert(await page.evaluate(async()=>{const s=document.querySelector('.care-playing'),a=s.querySelector('.care-munch').getAnimations()[0];refreshCareCards();await refreshShared();return s.isConnected&&s.querySelector('.care-munch').getAnimations()[0]===a;}));
+  assert(await page.evaluate(async()=>{const s=document.querySelector('.care-playing'),head=s.querySelector('.care-head');refreshCareCards();await refreshShared();return s.isConnected&&s.querySelector('.care-head')===head;}));
   for(const [time,selector] of [[500,'.care-idle'],[2500,'.care-munch'],[5000,'.care-joy-cat']]){
-   const result=await page.evaluate(async({time,selector})=>{const s=document.querySelector('.care-playing');for(const a of s.getAnimations({subtree:true})){a.pause();a.currentTime=time;}await new Promise(requestAnimationFrame);const el=s.querySelector(selector),r=el.getBoundingClientRect();return{opacity:+getComputedStyle(el).opacity,width:r.width,height:r.height,visible:getComputedStyle(el).visibility,loaded:[...s.querySelectorAll('img')].every(i=>i.naturalWidth>0)};},{time,selector});
+   await page.waitForSelector('.care-playing[data-care-stage='+({500:'plate',2500:'munch',5000:'joy'}[time])+']');
+   const result=await page.evaluate(({selector})=>{const s=document.querySelector('.care-playing'),el=s.querySelector(selector),r=el.getBoundingClientRect();return{opacity:+getComputedStyle(el).opacity,width:r.width,height:r.height,visible:getComputedStyle(el).visibility,loaded:[...s.querySelectorAll('img')].every(i=>i.naturalWidth>0)};},{selector});
    assert(result.opacity>.9&&result.width>0&&result.height>0&&result.visible==='visible'&&result.loaded,JSON.stringify({coat,time,result}));
    if(coat==='calico')await page.screenshot({path:path.join(output,`meal-${width}-${time}.png`)});
   }
@@ -96,7 +97,7 @@ let browser;
  await reset();
  await page.evaluate(()=>{globalThis.playbackMs=null;document.addEventListener('careplaybackend',e=>playbackMs=e.detail.visibleMs,{once:true});});
  await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing');
- const started=Date.now();await page.waitForFunction(()=>!document.querySelector('.care-playing'),{},{timeout:10000});
+ const started=Date.now();await page.waitForFunction(()=>DayRoom.playing===0,{},{timeout:10000});
  assert(Date.now()-started>=5500);assert(await page.evaluate(()=>playbackMs>=6000&&DayRoom.playing===0));
  assert(await page.locator('.room-resident').isVisible());assert.equal(await page.locator('[data-cat-meal]').count(),0);
  assert(await page.locator('[data-cat-meal-complete]').isVisible());
@@ -152,7 +153,7 @@ let browser;
  await page.evaluate(()=>{HomePostFixture.failMeal=false;HomePostFixture.meals.add(SleepFlow.night(HomePostFixture.at)+':'+CatCare.slot(HomePostFixture.at));document.querySelector('[data-cat-meal]').click();});await settle();assert.equal(await page.locator('.care-playing').count(),0);
  // Reduced motion follows the same three phases for the full six seconds.
  await page.emulateMedia({reducedMotion:'reduce'});await reset();await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-reduced[data-care-stage=plate]');
- await page.waitForSelector('.care-reduced[data-care-stage=munch]');await page.waitForSelector('.care-reduced[data-care-stage=joy]');await page.waitForFunction(()=>!document.querySelector('.care-reduced'));assert(await page.locator('.room-resident').isVisible());
+ await page.waitForSelector('.care-reduced[data-care-stage=munch]');await page.waitForSelector('.care-reduced[data-care-stage=joy]');await page.waitForFunction(()=>DayRoom.playing===0);assert(await page.locator('.room-resident').isVisible());
  await page.emulateMedia({reducedMotion:'no-preference'});
  // Slow image decode must keep the normal cat visible until food can be shown.
  await reset();
@@ -178,7 +179,7 @@ let browser;
  await page.locator('[data-cat-meal]').click();await settle();assert.equal(await page.locator('.care-playing').count(),0);
  assert((await page.locator('.care-feedback').innerText()).includes('おやすみ中'));await page.evaluate(()=>{OyasumiAPI.giveCatMeal=originalGive;});
  // Waiting for confirmed cat state after resume must not consume the six seconds.
- await reset();await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing[data-care-stage=plate]');
+ await reset();await page.locator('[data-cat-meal]').click();await page.waitForSelector('.care-playing[data-care-stage=munch]');
  await page.evaluate(()=>{
   globalThis.resumeSnapshot=OyasumiAPI.snapshot;globalThis.mealVisibleMs=null;
   OyasumiAPI.snapshot=async()=>{const s=await resumeSnapshot();await new Promise(resolve=>globalThis.releaseMealResume=resolve);return s;};
@@ -187,11 +188,11 @@ let browser;
   delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));
  });
  await page.waitForFunction(()=>typeof releaseMealResume==='function');await page.waitForSelector('.care-playing.care-paused');
- const pausedAt=await page.locator('.care-playing').evaluate(scene=>scene.getAnimations({subtree:true}).map(a=>a.currentTime));
+ const pausedAt=await page.locator('.care-playing').evaluate(scene=>[scene.dataset.careStage,scene.querySelector('.care-head').style.top,scene.querySelector('.care-food').style.opacity]);
  await page.waitForTimeout(800);
  assert(await page.locator('.care-playing.care-paused').count());
- const stillPaused=await page.locator('.care-playing').evaluate(scene=>scene.getAnimations({subtree:true}).map(a=>a.currentTime));
- assert(stillPaused.every((t,i)=>Math.abs(t-pausedAt[i])<80),'No animation time consumed during cat-state verification');
+ const stillPaused=await page.locator('.care-playing').evaluate(scene=>[scene.dataset.careStage,scene.querySelector('.care-head').style.top,scene.querySelector('.care-food').style.opacity]);
+ assert.deepEqual(stillPaused,pausedAt,'The phase, head and food must all pause during cat-state verification');
  await page.evaluate(()=>{OyasumiAPI.snapshot=resumeSnapshot;releaseMealResume();});
  await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-cat-state-pending')&&!document.querySelector('.care-paused'));
  await page.waitForFunction(()=>mealVisibleMs!==null);assert(await page.evaluate(()=>mealVisibleMs>=6000));

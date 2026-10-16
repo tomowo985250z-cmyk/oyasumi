@@ -12,7 +12,7 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   const f=HomePostFixture,api=OyasumiAPI,snapshot=api.snapshot;Date.now=()=>f.at;f.coat='calico';f.manualWrites=0;f.initial=true;f.at=Date.parse('2026-10-13T23:00:00+09:00');
   api.setCatExpression=async()=>{f.manualWrites++;throw Error('Manual expression writes are disabled');};
   api.setCatCoat=async coat=>{f.coat=coat;};
-  api.snapshot=async()=>{if(f.initial){f.initial=false;f.rows=[{...f.row('sleep'),id:'reload-stable',post_intent:'sleep'}];}const s=await snapshot();return{...s,expression:'surprised',coat:f.coat,ownPosts:s.ownPosts.map(p=>({...p,expression:'surprised',coat:f.coat})),feed:s.feed.map(p=>({...p,expression:'restless',coat:f.coat}))};};
+  api.snapshot=async()=>{if(f.initial){f.initial=false;f.rows=[{...f.row('sleep'),id:'reload-stable',post_intent:'sleep'}];}const s=await snapshot();return{...s,expression:'surprised',coat:f.coat,ownPosts:s.ownPosts.map(p=>({...p,expression:'surprised',coat:f.coat})),feed:s.feed.map(p=>({...p,expression:'restless',coat:f.coat,...(f.publicPeer?{self:false,userId:'00000000-0000-0000-0000-000000000002'}:{})}))};};
  });
  const page=await context.newPage(),errors=[],failed=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().includes('/assets/')&&r.status()>=400)failed.push(r.url());});
  await page.route('**/*',route=>{const u=new URL(route.request().url());if(!u.href.startsWith(base))return route.abort();if(/\/(?:vendor\/supabase|supabase-api|update-client)\.js$/.test(u.pathname))return route.fulfill({contentType:'text/javascript',body:''});return route.continue();});
@@ -23,16 +23,16 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  const reports=[];
  for(const width of [320,375,390,430]){
   await page.setViewportSize({width,height:568});
-  for(const [status,intent,allowed] of [['awake','relax',['calm','happy']],['awake','sleepless',['restless','surprised']],['sleep','sleep',['sleepy','sleeping']],['try-sleep','try-sleep',['yawn','sleepy']],['early-sleep','sleep',['sleepy','sleeping']]]){
+  for(const [status,intent,allowed] of [['awake','relax',['calm','happy']],['awake','sleepless',['restless','surprised']],['sleep','sleep',['sleeping']],['try-sleep','try-sleep',['sleeping']],['early-sleep','sleep',['sleeping']]]){
    // Exercise both candidates and the restored manul artwork explicitly.
-   for(const variant of [0,1]){
+   for(const variant of allowed.map((_,i)=>i)){
     const r=await page.evaluate(async({status,intent,variant,width})=>{
-     const f=HomePostFixture;f.coat=variant?'manul':'snow-leopard';let id;
+     const f=HomePostFixture;f.publicPeer=false;f.coat=variant?'manul':'snow-leopard';let id;
      for(let i=0;i<100;i++){const p={id:`auto-${width}-${i}`,status,intent};if(PostCatExpressions.forPost(p)===PostCatExpressions.candidates[PostCatExpressions.kind(p)][variant]){id=p.id;break;}}
      f.rows=[{...f.row(status),id,post_intent:intent}];await refreshShared();go('timeline');return{id,expected:PostCatExpressions.forPost(state.posts[0]),coat:f.coat};
     },{status,intent,variant,width});assert(allowed.includes(r.expected));
     const icon=page.locator('.post [data-own-cat-icon]');await icon.locator('img').evaluate(img=>img.decode());assert.equal(await face(icon),r.expected);await icon.tap();assert.equal(await page.locator('#public-profile-dialog').isVisible(),false);assert.equal(await page.evaluate(()=>view),'timeline');
-    await page.evaluate(id=>{const post=shared.feed.find(p=>p.id===id);post.self=false;post.userId='00000000-0000-0000-0000-000000000002';render();},r.id);
+    await page.evaluate(async()=>{HomePostFixture.publicPeer=true;await refreshShared();render();});
     await page.locator(`[data-public-profile="${r.id}"]`).tap();const publicIcon=page.locator('.public-profile-care-icon');assert.equal(await face(publicIcon),r.expected);assert.equal(await publicIcon.locator('[data-cat-coat]').getAttribute('data-cat-coat'),r.coat);await page.locator('#close-public-profile').click();
     await page.evaluate(()=>go('profile'));assert.equal(await face(page.locator('.profile-cat-button')),r.expected);assert.equal(await page.locator('[data-expression-picker],button[data-expression]').count(),0);assert(await page.locator('.profile-page [data-coat-picker]').isVisible());assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.evaluate(async()=>{state.expression='yawn';shared.expression='happy';await refreshShared();render();});assert.equal(await face(page.locator('.profile-cat-button')),r.expected);

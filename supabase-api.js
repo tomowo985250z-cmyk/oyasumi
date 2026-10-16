@@ -7,7 +7,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
         const timer = setTimeout(() => controller.abort(), 15000);
         const signal = options.signal && typeof AbortSignal.any === 'function'
           ? AbortSignal.any([options.signal, controller.signal]) : controller.signal;
-        try { return await fetch(input, { ...options, signal }); }
+        try { return await fetch(input, { ...options, cache:'no-store', signal }); }
         finally { clearTimeout(timer); }
       }
     }
@@ -17,6 +17,8 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   let needsNickname = false;
   let reactionVersion = 2;
   let historyCache;
+  let snapshotRequest=0;
+  const currentRead=request=>{if(request!==snapshotRequest)throw Object.assign(new Error('A newer snapshot superseded this read'),{code:'CAT_READ_SUPERSEDED'});};
   let initialAppearance;
   const timings=[];
   async function timed(stage,work) {
@@ -144,8 +146,12 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || '名無し',
       self: row.user_id === userId, color: row.user_id === userId ? 'peach' : 'slate', appearanceReady:allowedCoats.includes(coats.get(row.user_id)), expression:allowedExpressions.includes(expressions.get(row.user_id))?expressions.get(row.user_id):'calm', coat: coats.get(row.user_id) || 'calico', catRole: roles.get(row.user_id) || null, profileNote: notes.get(row.user_id) || '' };
   }
-  async function snapshot(attempt=0,progress) { return timed('snapshot',()=>snapshotData(attempt,progress)); }
-  async function snapshotData(attempt = 0,progress) {
+  async function snapshot(attempt=0,progress) {
+    const request=++snapshotRequest;
+    const guarded=progress&&Object.fromEntries(Object.entries(progress).map(([key,callback])=>[key,payload=>{if(request===snapshotRequest)callback(payload);} ]));
+    const result=await timed('snapshot',()=>snapshotData(attempt,guarded,request));currentRead(request);return result;
+  }
+  async function snapshotData(attempt = 0,progress,request) {
     await initialize();
     const snapshotUser=userId,initial=initialAppearance;initialAppearance=undefined;
     const ownRead=initial&&performance.now()-initial.at<1000?Promise.resolve(initial):timed('own-appearance',()=>readProfiles([snapshotUser],true));
@@ -177,7 +183,8 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     checked(sleepCountResult);
     const counts = countsRows[0];
     if (!counts) throw new Error('人数を取得できませんでした。');
-    if(counts.night_date!==clock.nightDate){if(attempt<2)return snapshot(attempt+1,progress);throw new Error('夜が切り替わりました。もう一度取得してください。');}
+    currentRead(request);
+    if(counts.night_date!==clock.nightDate){if(attempt<2)return snapshotData(attempt+1,progress,request);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     // 履歴は削除せず、最新順に読み、一人につき先頭の一件だけ公開フィードへ。
     // 投稿100件で先に切ると、連投の多い人によって他の人が欠落するためページを進める。
     const feedRows = [], seenAuthors = new Set();
@@ -185,6 +192,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       const rows = checked(await client.from('oyasumi_posts').select('*').eq('night_date', counts.night_date)
         .order('event_order', { ascending: false }).range(offset, offset + 99));
       for (const row of rows) {
+        if(!['awake','sleep','try-sleep','early-sleep'].includes(row.choice)||!Number.isFinite(Date.parse(row.created_at)))continue;
         if (!seenAuthors.has(row.user_id)) { seenAuthors.add(row.user_id); feedRows.push(row); }
         if (feedRows.length === 100) break;
       }
@@ -257,7 +265,8 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     await ownProgress;await assertIdentity(snapshotUser);
     const ownProfile=profiles.find(p=>p.user_id===userId);
     if(ownProfile)globalThis.CatImages?.confirmCoat?.(userId,catCacheScope,ownProfile.cat_coat,ownProfile.cat_expression,clock.serverNow+performance.now()-clock.monotonicAt);
-    if(clock.serverNow+performance.now()-clock.monotonicAt>=clock.resetAt){if(attempt<2)return snapshot(attempt+1,progress);throw new Error('夜が切り替わりました。もう一度取得してください。');}
+    currentRead(request);
+    if(clock.serverNow+performance.now()-clock.monotonicAt>=clock.resetAt){if(attempt<2)return snapshotData(attempt+1,progress,request);throw new Error('夜が切り替わりました。もう一度取得してください。');}
     return { userId, profileComplete: !needsNickname && !needsCat, needsNickname, needsCat, name: names.get(userId) || '', expression: expressions.get(userId) || 'calm', expressionSupported, coat: coats.get(userId) || 'calico', nightDate: counts.night_date,
       awakeCount: Number(counts.awake_count), activeAwakePosts, sleepingCount: Number(counts.sleeping_count), myState: counts.my_state, trend, trendSupported, tonightSummary, morningReactions, catRole: roles.get(userId) || null, roleSupported,
       profileNote: notes.get(userId) || '', clock, catCoatStatus, catCare, catStateResolved,

@@ -32,7 +32,7 @@ globalThis.DayRoom=(()=>{
   return {...room,location:visit.place,pose:visit.night?room.pose:visit.pose,since:visit.since,moodSince:visit.moodSince,nextAt:visit.nextAt};
  };
  const attrs=w=>`data-world-day="${w.day}" data-world-season="${w.season}" data-world-weather="${w.weather}" data-world-daylight="${w.daylight}"`;
- const artwork=(room,coat,status,w,home=false)=>home&&status==='sleep'?CatScenes.svg('sleeping',coat):w.daylight?DayCats.svg(room.pose,coat):CatScenes.svg(status==='awake'?'awake':'sleeping',coat);
+ const artwork=(room,coat,status,w,home=false)=>status==='sleep'?CatScenes.svg('sleeping',coat):w.daylight?DayCats.svg(room.pose,coat):CatScenes.svg(status==='awake'?'awake':'sleeping',coat);
  const location=(room,w,status)=>!w.daylight||status==='sleep'?'room':room.location;
  const placement=(room,w,where)=>where!=='room'?'cushion':w.daylight&&room.pose==='gaze'?'window':room.place;
  const homeKey=()=>{
@@ -44,6 +44,7 @@ globalThis.DayRoom=(()=>{
  const contactStyle=(place,where,html,coat)=>place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'';
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
+  if(cat?.status)cat={...cat,status:PostCatExpressions.state({status:cat.status})};
   const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true;
   const night=unselected?null:NightCats.frame(coat,NightClock.now(),user,cat?.status,cat?.home,w.daylight);
   const html=unselected?'<span data-cat-placeholder aria-hidden="true"></span>':night?.html||artwork(room,coat,cat?.status,w,cat?.home);
@@ -65,43 +66,68 @@ globalThis.DayRoom=(()=>{
   if(!unit?.isConnected||!stage||active.has(unit))return;
   const template=document.createElement('template');template.innerHTML=CatCare.visual(proxy.dataset.careCoat,proxy.dataset.careKind,{before:proxy.dataset.careBefore,after:proxy.dataset.careAfter});
   const animation=template.content.firstElementChild;animation.classList.add('room-care-animation');
+  const resident=stage.querySelector('.room-resident'),token={animation,cancelled:false};
+  let cancel;const cancelled=new Promise(resolve=>{cancel=()=>{token.cancelled=true;resolve(false);};});
   const size=()=>animation.style.setProperty('--room-care-scale',String(stage.classList.contains('day-room')?stage.clientWidth*.4/152:Math.min(208/152,stage.clientWidth/176)));
   // Keep the resident visible until the meal images have decoded and playback starts.
-  animation.style.visibility='hidden';
-  animation.addEventListener('careplaybackstart',()=>{animation.style.removeProperty('visibility');unit.dataset.feeding='true';},{once:true});
-  animation.addEventListener('careplaybackreturn',()=>{unit.classList.add('room-care-returning');},{once:true});
+  animation.hidden=true;unit.dataset.catPlayback='preparing';
+  animation.addEventListener('careplaybackstart',()=>{
+   resident.hidden=true;unit.dataset.catPlayback='meal';unit.dataset.feeding='true';animation.hidden=false;
+  },{once:true});
   stage.append(animation);size();const observer=new ResizeObserver(size);observer.observe(stage);
-  active.set(unit,animation);
-  try{await playOriginal(animation);}finally{
-   observer.disconnect();animation.remove();active.delete(unit);delete unit.dataset.feeding;unit.classList.remove('room-care-returning');delete stage.dataset.roomStamp;sync();
+  const detached=new MutationObserver(()=>{if(!unit.isConnected)cancel();});detached.observe(document.body,{childList:true,subtree:true});
+  active.set(unit,token);
+  const ready=()=>new Promise(resolve=>{
+   const check=()=>{if(token.cancelled||!unit.isConnected||(!document.hidden&&!document.documentElement.hasAttribute('data-cat-state-pending'))){document.removeEventListener('visibilitychange',check);document.removeEventListener('catvisibilitychange',check);resolve();}};
+   document.addEventListener('visibilitychange',check);document.addEventListener('catvisibilitychange',check);cancelled.then(check);check();
+  });
+  try{
+   await playOriginal(animation);
+   if(!unit.isConnected||token.cancelled)return;
+   unit.dataset.catPlayback='returning';
+   // Keep the last meal frame while the next resident decodes. Only the unit
+   // controller may swap meal -> resident, after the six visible seconds.
+   while(unit.isConnected&&!token.cancelled){
+    await ready();if(token.cancelled||!unit.isConnected)break;
+    const next=readStage(stage);CatImages.render(resident,next.html);
+    const decoded=await Promise.race([cancelled,Promise.allSettled([...resident.querySelectorAll('img')].map(img=>img.decode())).then(()=>true)]);
+    if(!decoded||!unit.isConnected||token.cancelled)break;
+    if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending'))continue;
+    const current=readStage(stage);if(current.html!==next.html)continue;
+    animation.hidden=true;applyStage(stage,current,true);
+    delete unit.dataset.feeding;unit.dataset.catPlayback='resident';resident.hidden=false;break;
+   }
+  }finally{
+   cancel();observer.disconnect();detached.disconnect();animation.hidden=true;animation.remove();
+   active.delete(unit);delete unit.dataset.feeding;delete unit.dataset.catPlayback;resident.hidden=false;sync();
    document.dispatchEvent(new Event('roomcareend'));
   }
+ }
+ function readStage(stage){
+  const status=stage.closest('.own-cat-room')?(CatCare.sleeping(shared.catCare)?'sleep':homeCatStatus()):stage.dataset.postStatus;
+  const room=DayRoom.snapshot(stage.dataset.roomUser),w=DayRoom.world();
+  const night=NightCats.frame(stage.dataset.coat,NightClock.now(),stage.dataset.roomUser,status,stage.dataset.roomHome==='true',w.daylight);
+  const where=location(room,w,status),place=night?.place||placement(room,w,where);
+  const stamp=[room.day,place,room.pose,room.away,where,stage.dataset.coat,status,w.day,w.season,w.weather,w.daylight,night?.pose].join(':');
+  return {room,w,night,where,place,status,stamp,html:night?.html||artwork(room,stage.dataset.coat,status,w,stage.dataset.roomHome==='true')};
+ }
+ function applyStage(stage,value,prepared=false){
+  const {room,w,night,where,place,status,stamp,html}=value,cat=stage.querySelector('.room-resident');
+  stage.dataset.roomStamp=stamp;stage.dataset.postStatus=status;stage.dataset.location=where;stage.dataset.place=place;stage.dataset.away=String(room.away);
+  if(night){stage.dataset.nightPose=night.pose;stage.style.cssText=night.style;}else{delete stage.dataset.nightPose;stage.removeAttribute('style');}
+  stage.dataset.worldDay=w.day;stage.dataset.worldSeason=w.season;stage.dataset.worldWeather=w.weather;stage.dataset.worldDaylight=String(w.daylight);
+  cat.style.cssText=contactStyle(place,where,html,stage.dataset.coat);if(!prepared)CatImages.render(cat,html);
+  cat.toggleAttribute('aria-hidden',room.away);if(cat.matches('button')){cat.disabled=room.away;if(room.away)cat.tabIndex=-1;else cat.removeAttribute('tabindex');}
+  const backgroundKey=sceneryKey(where,w);if(stage.dataset.sceneryKey!==backgroundKey){stage.dataset.sceneryKey=backgroundKey;stage.querySelector('.day-room-scenery').innerHTML=scenery(where,w);}
+  const hero=stage.closest('.day-room-hero'),heading=hero?.querySelector('h2');if(heading)heading.textContent=homeLabel(room,status);
+  const caption=hero?.querySelector('p');if(caption)caption.textContent=w.daylight?'また今夜 🌙':'ゆっくり、ひとやすみ 🌙';
  }
  function sync(){
   if(document.hidden)return;
   for(const stage of document.querySelectorAll('.day-room')){
    if(stage.closest('.own-cat-room')&&((typeof catsResolved==='function'&&!catsResolved())||(typeof shared!=='undefined'&&shared.needsCat===true)))continue;
    if(active.has(stage.closest('.profile-room-unit'))||stage.closest('[data-feeding=true]'))continue;
-   if(stage.closest('.own-cat-room'))stage.dataset.postStatus=CatCare.sleeping(shared.catCare)?'sleep':homeCatStatus();
-   const room=DayRoom.snapshot(stage.dataset.roomUser),w=DayRoom.world(),cat=stage.querySelector('.room-resident');
-   const night=NightCats.frame(stage.dataset.coat,NightClock.now(),stage.dataset.roomUser,stage.dataset.postStatus,stage.dataset.roomHome==='true',w.daylight);
-   const where=location(room,w,stage.dataset.postStatus),stamp=[room.day,room.place,room.pose,room.away,where,stage.dataset.coat,stage.dataset.postStatus,w.day,w.season,w.weather,w.daylight,night?.pose].join(':');
-   if(stage.dataset.roomStamp!==stamp){
-    stage.dataset.roomStamp=stamp;
-    stage.dataset.location=where;stage.dataset.place=night?.place||placement(room,w,where);stage.dataset.away=String(room.away);
-    if(night){stage.dataset.nightPose=night.pose;stage.style.cssText=night.style;}
-    else{delete stage.dataset.nightPose;stage.removeAttribute('style');}
-    stage.dataset.worldDay=w.day;stage.dataset.worldSeason=w.season;stage.dataset.worldWeather=w.weather;stage.dataset.worldDaylight=String(w.daylight);
-    const html=night?.html||artwork(room,stage.dataset.coat,stage.dataset.postStatus,w,stage.dataset.roomHome==='true');
-    cat.style.cssText=contactStyle(stage.dataset.place,where,html,stage.dataset.coat);
-    CatImages.render(cat,html);
-    cat.toggleAttribute('aria-hidden',room.away);
-    if(cat.matches('button')){cat.disabled=room.away;if(room.away)cat.tabIndex=-1;else cat.removeAttribute('tabindex');}
-    const backgroundKey=sceneryKey(where,w);
-    if(stage.dataset.sceneryKey!==backgroundKey){stage.dataset.sceneryKey=backgroundKey;stage.querySelector('.day-room-scenery').innerHTML=scenery(where,w);}
-    const hero=stage.closest('.day-room-hero'),heading=hero?.querySelector('h2');if(heading)heading.textContent=homeLabel(room,stage.dataset.postStatus);
-    const caption=hero?.querySelector('p');if(caption)caption.textContent=w.daylight?'また今夜 🌙':'ゆっくり、ひとやすみ 🌙';
-   }
+   const next=readStage(stage);if(stage.dataset.roomStamp!==next.stamp)applyStage(stage,next);
   }
  }
  return {world,snapshot,attrs,stage,homeKey,homeLabel,care,controls,unit,play,isPlaying,sync,get playing(){return active.size;}};

@@ -11,8 +11,8 @@ let browser;
  for(let i=0;i<100;i++){try{if((await fetch(base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
  browser=await(engine==='edge'?chromium:webkit).launch(engine==='edge'?{executablePath:process.env.EDGE_PATH||'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'}:{});
  const cases=[],errors=[];
- for(const standalone of process.argv.includes('--focused')?[true]:[false,true]){
-  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:'no-preference'});
+ for(const standalone of process.argv.includes('--focused')?[true]:[false,true])for(const reduced of [false,true]){
+  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:3,isMobile:true,hasTouch:true,reducedMotion:reduced?'reduce':'no-preference'});
   await context.addInitScript({content:fixture});
   await context.addInitScript(standalone=>{
    Object.defineProperty(navigator,'standalone',{value:standalone});
@@ -27,7 +27,7 @@ let browser;
    if(/\/(?:vendor\/supabase|supabase-api|update-client)\.js$/.test(url.pathname))return route.fulfill({contentType:'text/javascript',body:''});
    return route.continue();
   });
-  await page.goto(base);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy&&!document.documentElement.hasAttribute('data-cat-state-pending'));
+  await page.clock.install();await page.goto(base);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy&&!document.documentElement.hasAttribute('data-cat-state-pending'));
   if(published)assert.equal(await page.locator('meta[name="oyasumi-release"]').getAttribute('content'),JSON.parse(fs.readFileSync('release.json','utf8')).release);
   for(const width of process.argv.includes('--focused')?[390]:[320,375,390,430])for(const night of [false,true]){
    await page.setViewportSize({width,height:844});
@@ -35,39 +35,41 @@ let browser;
     go('home');HomePostFixture.at=Date.parse(`2026-10-11T${night?'23':'14'}:00:00+09:00`);NightClock.now=()=>HomePostFixture.at;
     await refreshShared();go('catMeal');void CatCare.play(document.querySelector('.room-care-proxy'));
    },night);
-   await page.waitForSelector('.room-care-animation.care-playing');
+   await page.waitForSelector('.room-care-animation:is(.care-playing,.care-reduced)[data-care-stage=munch]');
    const samples=await page.evaluate(async()=>{
-    const scene=document.querySelector('.care-playing'),head=scene.querySelector('.care-head'),body=scene.querySelector('.care-body'),animation=head.getAnimations()[0];
-    if(!animation)throw Error('Missing head animation');
+    const scene=document.querySelector('.room-care-animation'),head=scene.querySelector('.care-head'),body=scene.querySelector('.care-body');
     if(head.tagName!=='SPAN'||getComputedStyle(head).clipPath!=='none'||getComputedStyle(head.querySelector('.care-head-crop')).overflow!=='hidden'||head.querySelector('img').getAnimations().length)throw Error('Head motion and image crop must be separate');
-    while(animation.currentTime<1150)await new Promise(requestAnimationFrame);
-    const samples=[],start=animation.currentTime,end=performance.now()+3000;
-    while(animation.currentTime-start<680&&performance.now()<end){await new Promise(requestAnimationFrame);samples.push({time:animation.currentTime,headY:(head.getBoundingClientRect().top+head.getBoundingClientRect().bottom)/2,bodyY:body.getBoundingClientRect().top,transform:getComputedStyle(head).transform,playState:getComputedStyle(head).animationPlayState});}
+    const samples=[],start=performance.now();
+    while(performance.now()-start<1100){await new Promise(requestAnimationFrame);samples.push({time:performance.now(),headY:head.getBoundingClientRect().top,bodyY:body.getBoundingClientRect().top,stage:scene.dataset.careStage});}
     return samples;
    });
    assert(samples.length>=3,`Head must paint across multiple real animation frames: ${JSON.stringify(samples)}`);
-   assert(samples.every(s=>s.playState==='running'));
+   assert(samples.every(s=>s.stage==='munch'));
    assert(samples.at(-1).time-samples[0].time>400,JSON.stringify(samples));
-   assert(Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY))>1,`Head moves vertically: ${JSON.stringify(samples)}`);
+   assert(Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY))>1,`Head moves vertically, including reduced motion: ${JSON.stringify(samples)}`);
    assert(Math.max(...samples.map(s=>s.bodyY))-Math.min(...samples.map(s=>s.bodyY))<.1,'Body stays still');
-   const pose=async time=>page.evaluate(async time=>{
-    const scene=document.querySelector('.care-playing');for(const a of scene.getAnimations({subtree:true})){a.pause();a.currentTime=time;}
-    await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);
+   // Freeze only the screenshot timeline: these are browser-painted pixels from
+   // the real JS playback clock, after the live rAF samples above have passed.
+   await page.clock.pauseAt(await page.evaluate(()=>Date.now()+500));
+   const pose=()=>page.evaluate(()=>{
+    const scene=document.querySelector('.room-care-animation');
     const r=scene.getBoundingClientRect(),head=scene.querySelector('.care-head');
-    return{clip:{x:Math.ceil(r.left),y:Math.ceil(r.top),width:Math.floor(r.width),height:Math.floor(r.height*.52)},transform:getComputedStyle(head).transform};
-   },time);
-   const first=await pose(1320),down=await page.screenshot({clip:first.clip});
-   const second=await pose(1620),up=await page.screenshot({clip:first.clip});
-   assert.notEqual(first.transform,second.transform);
+    return{clip:{x:Math.ceil(r.left),y:Math.ceil(r.top),width:Math.floor(r.width),height:Math.floor(r.height*.52)},top:head.style.top,phase:scene.dataset.careStage,time:performance.now()};
+   });
+   const first=await pose(),down=await page.screenshot({clip:first.clip});
+   await page.clock.runFor(reduced?330:200);const second=await pose(),up=await page.screenshot({clip:first.clip});
+   await page.clock.runFor(reduced?330:200);const third=await pose(),last=await page.screenshot({clip:first.clip});
+   assert(new Set([first.top,second.top,third.top]).size>1,JSON.stringify({width,night,reduced,first,second,third}));
    const painted=await page.evaluate(async([first,second])=>{
     const pixels=async src=>{const img=new Image();img.src='data:image/png;base64,'+src;await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;});const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);return ctx.getImageData(0,0,c.width,c.height).data;};
     const a=await pixels(first),b=await pixels(second);let changed=0;for(let i=0;i<a.length;i+=4)if(Math.abs(a[i]-b[i])+Math.abs(a[i+1]-b[i+1])+Math.abs(a[i+2]-b[i+2])>20)changed++;return changed;
-   },[down.toString('base64'),up.toString('base64')]);
-   assert(painted>80,`Head pixels must repaint, not only computed transform: ${painted}`);
-   const name=`${width}-${standalone?'standalone':'browser'}-${night?'night':'day'}`;
-   fs.writeFileSync(path.join(output,name+'-down.png'),down);fs.writeFileSync(path.join(output,name+'-up.png'),up);
-   cases.push({width,standalone,night,frames:samples.length,headTravel:Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY)),changedPixels:painted});
+   },[down.toString('base64'),(first.top!==second.top?up:last).toString('base64')]);
+   assert(painted>80,`Head pixels must repaint, not only computed layout: ${painted}`);
+   const name=`${width}-${standalone?'standalone':'browser'}-${night?'night':'day'}-${reduced?'reduced':'normal'}`;
+   for(const [i,frame] of [down,up,last].entries())fs.writeFileSync(path.join(output,name+'-'+i+'.png'),frame);
+   cases.push({width,standalone,night,reduced,frames:samples.length,headTravel:Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY)),changedPixels:painted});
    await page.evaluate(()=>go('home'));await page.waitForFunction(()=>DayRoom.playing===0);
+   await page.clock.resume();
   }
   await context.close();
  }

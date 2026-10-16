@@ -29,9 +29,9 @@ globalThis.CatCare=(()=>{
  function syncNormal(){for(const scene of document.querySelectorAll('[data-care-normal="true"]'))if(!active.has(scene)){const idle=scene.querySelector('.care-idle');if(idle)CatImages.render(idle,normalCat(scene.dataset.careCoat,scene.dataset.roomUser));}}
  function visual(coat,kind='meal',options={}){
   coat=CatFaces.normalizeCoat(coat);kind=kind==='treat'?'treat':'meal';
-  const before=CatMealAssets.variant(options.before),after=CatMealAssets.variant(options.after),finished=options.finished===true;
+  const before=CatMealAssets.variant(options.before),after=CatMealAssets.variant(options.after),finished=options.finished===true,complete=finished&&!options.normal;
   const file=frame=>`assets/cat-refresh-v1/${coat}/${frame}.png`;
-  return `<div class="care-scene${finished&&!options.normal?' care-finished':''}" data-care-normal="${!!options.normal}" data-room-user="${options.user||''}" data-care-coat="${coat}" data-care-kind="${kind}" data-care-before="${before}" data-care-after="${after}" data-care-day="${day(NightClock.now())}" data-care-finished="${finished}" aria-hidden="true">${options.normal?`<span class="care-idle">${normalCat(coat,options.user)}</span>`:`<img class="care-idle" src="${CatMealAssets.src(coat,'before',before)}" alt="" width="152" height="152">`}<span class="care-munch"><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><span class="care-head"><span class="care-head-crop"><img src="${file('day-relax')}" alt="" width="152" height="152"></span></span></span><img class="care-joy-cat" src="${CatMealAssets.src(coat,'after',after)}" alt="" width="152" height="152"><span class="care-bowl"><span class="care-food"><i></i><i></i><i></i></span></span><span class="care-joy">♥</span></div>`;
+  return `<div class="care-scene${complete?' care-finished':''}" data-care-normal="${!!options.normal}" data-room-user="${options.user||''}" data-care-coat="${coat}" data-care-kind="${kind}" data-care-before="${before}" data-care-after="${after}" data-care-day="${day(NightClock.now())}" data-care-finished="${finished}" aria-hidden="true">${options.normal?`<span class="care-idle">${normalCat(coat,options.user)}</span>`:`<img class="care-idle"${complete?' hidden':''} src="${CatMealAssets.src(coat,'before',before)}" alt="" width="152" height="152">`}<span class="care-munch" hidden><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><span class="care-head"><span class="care-head-crop"><img src="${file('day-relax')}" alt="" width="152" height="152"></span></span></span><img class="care-joy-cat"${complete?'':' hidden'} src="${CatMealAssets.src(coat,'after',after)}" alt="" width="152" height="152"><span class="care-bowl"><span class="care-food"><i></i><i></i><i></i></span></span><span class="care-joy"${complete?'':' hidden'}>♥</span></div>`;
  }
  function sleeping(status,now=NightClock.now()){return fresh(status,now)&&status.sleepStateVersion===1?status.catState==='sleep':globalThis.homeCatStatus?.(now)==='sleep'||(fresh(status,now)&&status.mealSleeping===true);}
  function markup(status,coat,recipient,self,now=NightClock.now(),compact=false){
@@ -60,6 +60,23 @@ globalThis.CatCare=(()=>{
   token={};active.set(scene,token);
   scene.classList.remove('care-finished');scene.dataset.careFinished='false';
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const idle=scene.querySelector('.care-idle'),munch=scene.querySelector('.care-munch'),joy=scene.querySelector('.care-joy-cat'),head=scene.querySelector('.care-head'),heart=scene.querySelector('.care-joy'),bowl=scene.querySelector('.care-bowl'),food=scene.querySelector('.care-food');
+  // One visible cat per phase; no opacity crossfades between complete cats.
+  const draw=ms=>{
+   const phase=ms<1000?'plate':ms<4000?'munch':'joy';
+   if(scene.dataset.careStage!==phase){
+    for(const node of [idle,munch,joy,heart])node.hidden=true;
+    if(phase==='plate')idle.hidden=false;else if(phase==='munch')munch.hidden=false;else joy.hidden=heart.hidden=false;
+    scene.dataset.careStage=phase;
+   }
+   // A small functional nod remains in reduced-motion mode (no rotation/zoom).
+   // Layout-based top updates repaint the clipped head on WebKit, without a
+   // second CSS/GPU animation clock drifting away from the visible-time clock.
+   const chew=Math.max(0,ms-1000),offset=phase==='munch'?(reduced?3:12)*(1-Math.cos(chew*2*Math.PI/(reduced?1000:600)))/2:0;
+   head.style.top=offset.toFixed(3)+'px';
+   bowl.style.opacity=String(reduced?1:Math.min(1,ms/1000));
+   food.style.opacity=String(phase==='joy'?0:phase==='munch'?Math.max(0,1-chew/3000):1);
+  };
   let cancelPreparation;
   const preparationCancelled=new Promise(resolve=>{cancelPreparation=resolve;});
   const preparationObserver=new MutationObserver(()=>{if(!scene.isConnected)cancelPreparation();});
@@ -71,38 +88,50 @@ globalThis.CatCare=(()=>{
    img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true});
   })))]);
   if(!scene.isConnected||active.get(scene)!==token){active.delete(scene);return;}
-  // Commit the newly inserted scene's initial style before starting CSS animations.
+  // Commit the newly inserted scene's initial style before starting playback.
   // WebKit may otherwise coalesce insertion and playback into a single paint.
   scene.getBoundingClientRect();
   await Promise.race([preparationCancelled,new Promise(resolve=>requestAnimationFrame(resolve))]);
   if(!scene.isConnected||active.get(scene)!==token){active.delete(scene);return;}
   }finally{preparationObserver.disconnect();}
-  scene.classList.add(reduced?'care-reduced':'care-playing');
+  draw(0);scene.classList.add(reduced?'care-reduced':'care-playing');
   // Count visible time, including reduced-motion mode. Backgrounding Safari/PWA
   // must not consume the meal while the user cannot see it.
   await new Promise(resolve=>{
-   let elapsed=0,started=null,timer,finished=false,returning=false;
+   let elapsed=0,started=null,timer,frame,finished=false,returning=false;
+   const paused=()=>document.hidden||document.documentElement.hasAttribute('data-cat-state-pending');
+   const consume=()=>{if(started!==null){elapsed+=performance.now()-started;started=null;}};
    const finish=()=>{
     if(finished)return;finished=true;
-    clearTimeout(timer);detached.disconnect();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('catvisibilitychange',visibility);
-    scene.classList.remove('care-playing','care-reduced','care-paused');delete scene.dataset.careStage;
-    if(elapsed>=durationMs&&scene.isConnected){if(scene.dataset.careNormal!=='true')scene.classList.add('care-finished');scene.dataset.careFinished='true';}
+    clearTimeout(timer);cancelAnimationFrame(frame);detached.disconnect();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('catvisibilitychange',visibility);
+    scene.classList.remove('care-playing','care-reduced','care-paused');
+    if(elapsed>=durationMs&&scene.isConnected){
+     draw(durationMs);if(scene.dataset.careNormal!=='true')scene.classList.add('care-finished');
+     else{joy.hidden=heart.hidden=munch.hidden=true;idle.hidden=false;bowl.style.opacity='0';food.style.opacity='1';delete scene.dataset.careStage;}
+     scene.dataset.careFinished='true';
+    }
     scene.dispatchEvent(new CustomEvent('careplaybackend',{bubbles:true,detail:{visibleMs:elapsed}}));resolve();
    };
-   const schedule=()=>{
-    clearTimeout(timer);
+   const paint=()=>{
+    if(finished)return;
     if(!scene.isConnected||active.get(scene)!==token)return finish();
-    scene.dataset.careStage=elapsed<1000?'plate':elapsed<4000?'munch':'joy';
+    if(paused())return schedule();
+    draw(Math.min(durationMs,elapsed+(started===null?0:performance.now()-started)));
+    frame=requestAnimationFrame(paint);
+   };
+   const schedule=()=>{
+    clearTimeout(timer);cancelAnimationFrame(frame);consume();
+    if(!scene.isConnected||active.get(scene)!==token)return finish();
+    draw(Math.min(durationMs,elapsed));
     if(elapsed>=5800&&!returning){returning=true;scene.dispatchEvent(new CustomEvent('careplaybackreturn',{bubbles:true}));}
     if(elapsed>=durationMs)return finish();
-    if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')){scene.classList.add('care-paused');return;}
+    if(paused()){scene.classList.add('care-paused');return;}
     scene.classList.remove('care-paused');started=performance.now();
     const boundary=elapsed<1000?1000:elapsed<4000?4000:elapsed<5800?5800:durationMs;
-    timer=setTimeout(()=>{elapsed+=performance.now()-started;started=null;schedule();},Math.max(1,boundary-elapsed));
+    timer=setTimeout(schedule,Math.max(1,boundary-elapsed));frame=requestAnimationFrame(paint);
    };
    const visibility=()=>{
-    if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')){if(started!==null)elapsed+=performance.now()-started;started=null;clearTimeout(timer);scene.classList.add('care-paused');}
-    else schedule();
+    schedule();
    };
    // A hidden/detached screen has no phase timer to clean it up on its own.
    const detached=new MutationObserver(()=>{if(!scene.isConnected)finish();});

@@ -75,10 +75,10 @@ const timeLabel = date => new Date(date).toLocaleTimeString('ja-JP', { hour: '2-
 const dayKey = () => SleepFlow.day(NightClock.now());
 function save() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify({ name: state.name, morningDays: state.morningDays, light: state.light, lastSleep: state.lastSleep })); } catch { toast('端末の設定を保存できませんでした。'); } }
 function toast(message) { const el=document.querySelector('#toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),2800); }
-const allPosts = () => view==='timeline'&&previewFresh(timelinePreview)?timelinePreview.feed:shared.feed;
+const allPosts = () => PostCatExpressions.latest(view==='timeline'&&previewFresh(timelinePreview)?timelinePreview.feed:shared.feed,NightClock.now());
 const statusText = (status,intent) => status === 'awake' && intent === 'sleepless' ? 'まだ眠れない…' : POST_OPTIONS.find(option => option.id === status)?.text || '';
 const avatar = p => `<span class="avatar ${p.color || 'peach'}" ${p.appearanceReady===true?'data-cat-appearance-ready="true"':''} aria-hidden="true">${p.appearanceReady===false?'<span class="cat-face" data-cat-placeholder></span>':PostCatExpressions.svg(PostCatExpressions.forPost(p),p.coat)}</span>`;
-function ownIconPost(){const now=NightClock.now();return state.posts.find(post=>post.time<=now&&SleepFlow.night(post.time)===SleepFlow.night(now));}
+function ownIconPost(){return PostCatExpressions.latest(state.posts,NightClock.now())[0];}
 function ownIcon(){return avatar({...ownIconPost(),coat:state.coat,color:'peach'});}
 const isOwnCat = person => person.self===true || (!!shared.userId && person.userId===shared.userId);
 const staticCatIcon = (html,className,name) => `<span class="${className}" data-own-cat-icon role="img" aria-label="${escapeHTML(name)}の猫">${html}</span>`;
@@ -347,6 +347,7 @@ async function refreshShared() {
     if(!accepts(partial))return;
     timelinePreview={...partial,revision,catRevision};
     NightClock.sync(partial.clock);
+    syncPublicProfile();
     if(view==='timeline')renderPreservingPosition(true);
     syncCatVisibility();
    }
@@ -361,7 +362,7 @@ async function refreshShared() {
   scheduleNightBoundary();
   const confirming=catStatePending;
   ownCatPreview=timelinePreview=undefined;
-  ready=true;catStatePending=document.hidden;save();renderPreservingPosition(confirming);
+  ready=true;catStatePending=document.hidden;save();syncPublicProfile();renderPreservingPosition(confirming);
   const picker=document.querySelector('#expression-dialog[open]');if(picker&&appearanceChanged)renderCatPicker();
   syncCatVisibility();void refreshSentReactionPeople();
   if(document.querySelector('dialog[open]'))refreshCareCards();
@@ -399,7 +400,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
  if(button.hasAttribute('data-copy-place')){void copyPlaceURL();return;}
  if(button.hasAttribute('data-close-share')){document.querySelector('#share-dialog').close();return;}
  if(button.hasAttribute('data-finish-sleep')){finishSleep();return;}
- if(button.dataset.view){go(button.dataset.view);return;}
+ if(button.dataset.view){go(button.dataset.view);if(button.dataset.view==='timeline')refreshAfterSave(false);return;}
  if(button.dataset.post){const status=button.dataset.post;if(!POST_OPTIONS.some(option=>option.id===status))return;void mutation(async()=>{
   if(!shared.profileComplete){go('profile');toast('名前と猫の種類を設定してください');return;}
   const row=await OyasumiAPI.submitPost(status,button.dataset.homeChoice);
@@ -451,19 +452,21 @@ document.querySelector('#cancel-expression').addEventListener('click',()=>docume
 const roomWhispers=Object.freeze({steady:'今日も、ひとつずつ。',guardian:'安心して、ほっとひと息。',caring:'あなたにも、やさしい時間を。',watchful:'ここでは、ゆっくりしてね。',mechanic:'考えごとも、少しおやすみ。',maker:'積み重ねた日々に、ひと息。',welcoming:'いらっしゃい。くつろいでね。',foodie:'あたたかいものと、ひと息。',courier:'荷物をおろして、のんびり。',foresight:'先のことは、あとで考えよう。',creative:'ひらめきも、のんびり待とう。',independent:'自分のペースで、ゆっくり。',learner:'今日の学びに、ひとやすみ。',homely:'いつもの場所で、ひと息。',resting:'何もしない時間も、大切に。',carefree:'気の向くままに、のんびり。'});
 function roomTime(now=NightClock.now()) { const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));return hour>=6&&hour<12?'morning':hour>=12&&hour<18?'day':'night'; }
 function profileRoomCat(coat,now=NightClock.now(),status) {
+ status=PostCatExpressions.state({status});
  const period=roomTime(now);
  if(status==='awake'||status==='sleep'){const pose=status==='awake'?'awake':'sleeping';return {period,pose,html:CatScenes.svg(pose,coat)};}
  const day=period==='day'?DayCats.current(now):null;
  return {period,pose:day?.id||(period==='morning'?'awake':'sleeping'),html:day?DayCats.svg(day.id,coat):CatScenes.svg(period==='morning'?'awake':'sleeping',coat)};
 }
 function profileRoomMarkup(person) {
- const coat=CatFaces.normalizeCoat(person.coat),status=['awake','sleep'].includes(person.status)?person.status:'',cat=profileRoomCat(coat,NightClock.now(),status);
+ const coat=CatFaces.normalizeCoat(person.coat),status=PostCatExpressions.state(person),cat=profileRoomCat(coat,NightClock.now(),status);
  const whisper=CatRoles.label(person.catRole)?roomWhispers[person.catRole]:'ここで、一緒にひとやすみ。';
  const self=person.userId===shared.userId,stage=self?'':DayRoom.stage(coat,person.userId,{status},{profileCare:true,self});
  const room=`<section class="cat-room${self?' own-profile-whisper':''}" data-room-user="${person.userId||''}" data-time="${cat.period}" data-pose="${cat.pose}" data-coat="${coat}" data-post-status="${status}" aria-label="${self?'猫のつぶやき':'猫の小さなおへや'}">${stage}<p class="room-whisper">${escapeHTML(whisper)}</p><p class="room-whisper-label">おへやの猫のつぶやき</p></section>`;
  return DayRoom.unit(room,'',person.userId);
 }
 function syncProfileRoom() {
+ syncPublicProfile();
  CatCare.syncNormal();
  for(const room of document.querySelectorAll('.cat-room')){
   if(room.closest('[data-feeding=true]'))continue;
@@ -471,6 +474,15 @@ function syncProfileRoom() {
   room.dataset.time=cat.period;room.dataset.pose=cat.pose;
  }
  DayRoom.sync();
+}
+function syncPublicProfile(){
+ const dialog=document.querySelector('#public-profile-dialog');if(!dialog?.open||!publicProfilePerson)return;
+ if(publicProfileViewer!==shared.userId){dialog.close();publicProfilePerson=undefined;return;}
+ const current=allPosts().find(post=>post.userId===publicProfilePerson.userId);
+ if(!current){dialog.close();publicProfilePerson=undefined;return;}
+ if(current.appearanceReady===false||JSON.stringify(current)===JSON.stringify(publicProfilePerson))return;
+ if([...dialog.querySelectorAll('.care-scene')].some(scene=>CatCare.isPlaying(scene)))return;
+ publicProfilePerson={...current};CatImages.render(document.querySelector('#public-profile-content'),publicProfileRoom(current));
 }
 function publicProfileRoom(person) {
  const self=isOwnCat(person),icon=self?staticCatIcon(avatar(person),'public-profile-care-icon',person.name):`<button class="public-profile-care-icon" data-profile-care="${person.userId}" aria-label="この猫のおやつを開く">${avatar(person)}</button>`;

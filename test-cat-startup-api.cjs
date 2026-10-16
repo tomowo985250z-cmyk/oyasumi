@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const own='00000000-0000-0000-0000-000000000001',other='00000000-0000-0000-0000-000000000002';
 const at=Date.parse('2026-10-13T23:00:00+09:00'),calls=[],hints=[];
-let identity=own,failCare=false,failOptional=false,flipIdentity=false;
+let identity=own,failCare=false,failOptional=false,flipIdentity=false,clientFetch,fetchSettings;
 const profile={user_id:own,nickname:'test',cat_coat:'black',cat_expression:'surprised',cat_role:null,profile_note:''};
 async function delayed(label,result,ms=80){const start=performance.now();await new Promise(r=>setTimeout(r,ms));calls.push({label,start,ms:performance.now()-start});return result;}
 const client={auth:{getSession:()=>delayed('session',{data:{session:{user:{id:identity}}}},10)},rpc:async(name,args={})=>{
@@ -22,11 +22,12 @@ const client={auth:{getSession:()=>delayed('session',{data:{session:{user:{id:id
   return delayed(table+':'+fields+(single?':single':''),result).then(resolve,reject);
  }};return q;
 }};
-const sandbox={console,performance,setTimeout,clearTimeout,AbortController,AbortSignal,OyasumiConfig:{url:'https://isolated.invalid',publishableKey:'test'},supabase:{createClient:()=>client},CatImages:{primeCoat:(...a)=>hints.push(['prime',...a]),confirmCoat:(...a)=>hints.push(['confirm',...a])}};
+const sandbox={console,performance,setTimeout,clearTimeout,AbortController,AbortSignal,fetch:async(_input,options)=>{fetchSettings=options;return {};},OyasumiConfig:{url:'https://isolated.invalid',publishableKey:'test'},supabase:{createClient:(_url,_key,options)=>{clientFetch=options.global.fetch;return client;}},CatImages:{primeCoat:(...a)=>hints.push(['prime',...a]),confirmCoat:(...a)=>hints.push(['confirm',...a])}};
 vm.createContext(sandbox);vm.runInContext(fs.readFileSync('supabase-api.js','utf8'),sandbox);
 (async()=>{
  const api=sandbox.OyasumiAPI,start=performance.now(),snapshot=await api.snapshot(),ms=performance.now()-start;
  assert.equal(snapshot.coat,'black');assert.equal(snapshot.expression,'surprised');assert.equal(snapshot.catCare.catState,'sleep');assert(snapshot.catStateResolved);
+ await clientFetch('https://isolated.invalid/rest/v1/oyasumi_posts',{cache:'force-cache'});assert.equal(fetchSettings.cache,'no-store');
  const dir='output/cat-startup';fs.mkdirSync(dir,{recursive:true});
  fs.writeFileSync(`${dir}/api-${process.argv.includes('--baseline')?'baseline':'optimized'}.json`,JSON.stringify({ms,calls,timings:api.timings||[],mode:'isolated delayed reads, not production latency',productionWrites:0},null,2));
  if(process.argv.includes('--baseline'))return console.log(`BASELINE snapshot ${Math.round(ms)}ms; ${calls.length} reads`);

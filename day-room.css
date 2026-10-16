@@ -32,16 +32,11 @@
 .profile-room-unit{min-width:0}.profile-room-unit>.cat-room{margin-bottom:0}
 .room-care-controls{margin:12px 0 20px;padding:14px 12px}.room-care-controls .care-caption{margin:6px 0 10px}
 .room-care-proxy{display:none!important}
-.profile-room-unit[data-feeding=true] .room-cat,.profile-room-unit[data-feeding=true] .room-resident{visibility:hidden}
+.profile-room-unit:is([data-cat-playback=meal],[data-cat-playback=returning]) .room-resident,.room-resident[hidden],.room-care-animation[hidden]{display:none!important}
 .room-care-animation{position:absolute;left:50%;bottom:6px;width:176px;height:170px;margin:0;transform:translateX(-50%) scale(var(--room-care-scale,1));transform-origin:center bottom;z-index:4}
 .day-room .room-care-animation{bottom:calc(20% - 18px * var(--room-care-scale,1))}
-.room-care-returning .room-care-animation{animation:room-meal-out .2s linear both}
-.profile-room-unit[data-feeding=true].room-care-returning .room-resident{visibility:visible;animation:room-meal-in .2s linear both}
-@keyframes room-meal-out{to{opacity:0}}
-@keyframes room-meal-in{from{opacity:0}to{opacity:1}}
 .resting nav{z-index:11}
 .rest-screen{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
-@media(prefers-reduced-motion:reduce){.room-care-animation,.room-care-animation *,.room-care-returning .room-resident{animation:none!important}}
 
 .season-landscape{display:block;width:100%;height:100%;pointer-events:none}
 .day-room-world-window{position:absolute;left:12.75%;top:6.06%;width:26.5%;height:40.91%;border-radius:50% 50% 0 0 / 39.26% 39.26% 0 0;overflow:hidden;z-index:1;pointer-events:none}
