@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
-const {webkit,chromium}=require('./output/webkit-tools/core/package');
+const {webkit,chromium}=require(process.env.OYASUMI_PLAYWRIGHT_PATH||'./output/webkit-tools/core/package');
 const source=fs.readFileSync('test-home-post-choices.cjs','utf8');
 const fixture=source.slice(source.indexOf('function installFixture()'),source.indexOf('\n(async () =>'))+'\ninstallFixture();';
 const edge=process.argv.includes('--edge'),engine=edge?'edge':'webkit',published=process.argv.includes('--published');
@@ -38,7 +38,7 @@ function delayedFixture(options){
  f.expectedScene=()=>{
   if(f.catState==='sleep')return 'sleeping';
   const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tokyo',hour:'2-digit',hourCycle:'h23'}).format(f.at));
-  return hour>=6&&hour<18?'day:'+DayRoomState.at(f.at,'00000000-0000-0000-0000-000000000001').pose:'awake';
+  return hour>=6&&hour<18?'day:'+DayRoom.snapshot('00000000-0000-0000-0000-000000000001',f.at).pose:'awake';
  };
  function frame(){
   for(const image of document.querySelectorAll('#app img[data-asset-key]')){
@@ -85,7 +85,7 @@ let browser;
   assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-coat'),'black');
   if(scenario.endsWith('sleep'))assert.equal(await page.locator('.room-resident img').getAttribute('data-cat-scene'),'sleeping');
   assert.equal(await page.locator('.day-room').getAttribute('data-room-user'),'00000000-0000-0000-0000-000000000001');
-  if(scenario==='day-awake')assert.equal(await page.locator('.room-resident img').getAttribute('data-day-scene'),await page.evaluate(()=>DayRoomState.at(CatLoadingFixture.at,shared.userId).pose));
+  if(scenario==='day-awake')assert.equal(await page.locator('.room-resident img').getAttribute('data-day-scene'),await page.evaluate(()=>DayRoom.snapshot(shared.userId,CatLoadingFixture.at).pose));
   await page.evaluate(()=>{go('profile');});await page.waitForFunction(()=>document.querySelector('.profile-banner img')?.naturalWidth>0);
   assert.equal(await page.locator('.profile-banner img').getAttribute('data-cat-expression'),'calm');
   await page.evaluate(()=>go('home'));

@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{spawn}=require('node:child_process');
-const {webkit,chromium}=require('./output/webkit-tools/core/package'),installTransport=require('./test-support/timeline-cat-fixture.cjs');
+const {webkit,chromium}=require(process.env.OYASUMI_PLAYWRIGHT_PATH||'./output/webkit-tools/core/package'),installTransport=require('./test-support/timeline-cat-fixture.cjs');
 const edge=process.argv.includes('--edge'),engine=edge?'edge':'webkit',port=edge?9522:9521,base=`http://127.0.0.1:${port}/`,out=path.join(__dirname,'output/timeline-cat-state',engine);
 fs.mkdirSync(out,{recursive:true});
 const owner='00000000-0000-0000-0000-000000000001',peer='00000000-0000-0000-0000-000000000002';
@@ -87,21 +87,25 @@ const server=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:Stri
  for(const width of [320,375,390,430]){
   await viewer.setViewportSize({width,height:844});
   const cases=await viewer.evaluate(async()=>{
-   const cases=[],now=NightClock.now();
+   // Keep synthetic rows separate from periodic reads of the transport fixture.
+   const cases=[],now=NightClock.now(),clockNow=NightClock.now;NightClock.now=()=>now;busy=true;
+   const decode=async img=>{try{await img.decode();}catch(error){if(!img.isConnected||!img.complete||!img.naturalWidth)throw Error(JSON.stringify({message:error.message,src:img.getAttribute('src'),connected:img.isConnected,loaded:img.naturalWidth,html:img.outerHTML}));}};
+   try{
    for(const coat of CatFaces.coats.map(c=>c.id))for(const [status,intent] of [['awake','relax'],['awake','sleepless'],['sleep','sleep'],['try-sleep','try-sleep'],['early-sleep','sleep']]){
     const post={id:`matrix-${coat}-${intent}-${status}`,userId:TimelineFixture.user===shared.userId?'00000000-0000-0000-0000-000000000002':'',status,intent,time:now-1000,order:10,name:'となり',coat,appearanceReady:true};
     // Feed order and timestamps disagree; event_order must choose the newer
     // valid post rather than the first row or the profile's manual expression.
     shared.feed=[{...post,id:'older-'+post.id,status:'awake',order:9,time:now-500},{...post,expression:'surprised'},{...post,id:'invalid-'+post.id,status:'invalid',order:11}];
     timelinePreview=undefined;go('timeline');const node=document.querySelector('.post [data-cat-expression]');
-    if(!node)throw Error(JSON.stringify({coat,status,intent,now,current:NightClock.now(),view,feed:shared.feed,preview:timelinePreview,html:document.querySelector('#app').innerHTML.slice(0,1000)}));await node.decode();
+    if(!node)throw Error(JSON.stringify({coat,status,intent,now,current:NightClock.now(),view,feed:shared.feed,preview:timelinePreview,html:document.querySelector('#app').innerHTML.slice(0,1000)}));await decode(node);
     const expression=node.dataset.catExpression,expected=PostCatExpressions.state(post),html=publicProfileRoom(post),host=document.querySelector('#public-profile-content');CatImages.render(host,html);
-    await Promise.all([...host.querySelectorAll('img')].map(img=>img.decode()));
+    await Promise.all([...host.querySelectorAll('img')].map(decode));
     const stage=host.querySelector('.day-room'),image=stage.querySelector('.room-resident img');
     if(document.querySelectorAll('.post').length!==1||stage.dataset.postStatus!==expected||node.dataset.catCoat!==coat||expected==='sleep'&&(expression!=='sleeping'||image.dataset.catScene!=='sleeping'||stage.dataset.location!=='room'))throw Error(JSON.stringify({coat,status,intent,expression,expected,stage:stage.outerHTML}));
     if(document.documentElement.scrollWidth>innerWidth)throw Error('Horizontal overflow');cases.push({coat,status,intent,expression});
    }
    return cases;
+   }finally{NightClock.now=clockNow;busy=false;}
   });matrix.push(...cases.map(c=>({width,...c})));await viewer.screenshot({path:path.join(out,`timeline-${width}.png`)});
   console.log(`PASS ${engine} ${width}px: all 16 coats × 5 current/legacy choices, latest valid row and sleeping room`);
  }

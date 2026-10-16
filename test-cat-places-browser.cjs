@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{spawn}=require('node:child_process');
-const {webkit,chromium}=require('./output/webkit-tools/core/package'),installPlacesFixture=require('./test-support/cat-places-fixture.cjs');
+const {webkit,chromium}=require(process.env.OYASUMI_PLAYWRIGHT_PATH||'./output/webkit-tools/core/package'),installPlacesFixture=require('./test-support/cat-places-fixture.cjs');
 const edge=process.argv.includes('--edge'),published=process.argv.includes('--published'),engine=edge?'Edge':'WebKit',port=edge?9502:9501;
 const base=published?'https://tomowo985250z-cmyk.github.io/oyasumi/':`http://127.0.0.1:${port}/`,out=path.join(__dirname,'output/cat-places-production',`${published?'published':'local'}-${engine.toLowerCase()}`);fs.mkdirSync(out,{recursive:true});
 const source=fs.readFileSync('test-home-post-choices.cjs','utf8'),fixture=source.slice(source.indexOf('function installFixture()'),source.indexOf('\n(async () =>'))+'\ninstallFixture();';
@@ -23,8 +23,10 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   throw Error('No natural-weather day with all three places');
  });
  const show=async(p,{at,coat='calico',sleep=false,meal=false})=>{
-  await p.bringToFront();await settle(p);await p.evaluate(({at,coat,sleep,meal})=>{
-   const f=HomePostFixture;f.at=at;f.coat=coat;f.sleep=sleep;shared.catCare=f.care();document.querySelectorAll('dialog[open]').forEach(d=>d.close());
+  await p.bringToFront();await settle(p);await p.evaluate(async({at,coat,sleep,meal})=>{
+   const f=HomePostFixture;f.at=at;f.coat=coat;f.sleep=sleep;document.querySelectorAll('dialog[open]').forEach(d=>d.close());
+   // A coat change represents confirmed API data, including the cached feed.
+   await refreshShared();shared.catCare=f.care();
    if(f.viewer===f.owner){state.coat=coat;go(meal?'catMeal':'home');}
    else{go('timeline');publicProfilePerson=f.person();publicProfileViewer=shared.userId;CatImages.render(document.querySelector('#public-profile-content'),publicProfileRoom(publicProfilePerson));document.querySelector('#public-profile-dialog').showModal();}
   },{at,coat,sleep,meal});await decode(p);

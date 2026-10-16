@@ -39,8 +39,8 @@ globalThis.DayRoom=(()=>{
   const user=typeof shared!=='undefined'?shared.userId:null,room=snapshot(user);
   return room.day+':'+(world().daylight?[room.location,room.pose,room.moodSince].join(':'):NightCats.at(NightClock.now(),user)?.key||'night');
  };
- const scenery=(where,w)=>where==='room'?`<img class="day-room-art" src="assets/day-room/room.svg" alt=""><div class="day-room-night-light"></div><div class="day-room-world-window">${SeasonLandscape.art(w)}</div>`:`<div class="day-room-world-outdoors">${SeasonLandscape.art(w,'sky')}</div>${CatPlaceScenes.art(where,w)}`;
- const sceneryKey=(where,w)=>[where,w.day,w.season,w.weather,w.daylight].join(':');
+ const scenery=(where,w)=>RoomBackgrounds.markup(where,w);
+ const sceneryKey=(where,w)=>RoomBackgrounds.key(where,w);
  const contactStyle=(place,where,html,coat)=>place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'';
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
@@ -108,7 +108,7 @@ globalThis.DayRoom=(()=>{
   const room=DayRoom.snapshot(stage.dataset.roomUser),w=DayRoom.world();
   const night=NightCats.frame(stage.dataset.coat,NightClock.now(),stage.dataset.roomUser,status,stage.dataset.roomHome==='true',w.daylight);
   const where=location(room,w,status),place=night?.place||placement(room,w,where);
-  const stamp=[room.day,place,room.pose,room.away,where,stage.dataset.coat,status,w.day,w.season,w.weather,w.daylight,night?.pose].join(':');
+  const stamp=[room.day,place,room.pose,room.away,where,stage.dataset.coat,status,w.day,w.season,w.weather,w.daylight,SeasonLandscape.phase(w),night?.pose].join(':');
   return {room,w,night,where,place,status,stamp,html:night?.html||artwork(room,stage.dataset.coat,status,w,stage.dataset.roomHome==='true')};
  }
  function applyStage(stage,value,prepared=false){
@@ -118,7 +118,7 @@ globalThis.DayRoom=(()=>{
   stage.dataset.worldDay=w.day;stage.dataset.worldSeason=w.season;stage.dataset.worldWeather=w.weather;stage.dataset.worldDaylight=String(w.daylight);
   cat.style.cssText=contactStyle(place,where,html,stage.dataset.coat);if(!prepared)CatImages.render(cat,html);
   cat.toggleAttribute('aria-hidden',room.away);if(cat.matches('button')){cat.disabled=room.away;if(room.away)cat.tabIndex=-1;else cat.removeAttribute('tabindex');}
-  const backgroundKey=sceneryKey(where,w);if(stage.dataset.sceneryKey!==backgroundKey){stage.dataset.sceneryKey=backgroundKey;stage.querySelector('.day-room-scenery').innerHTML=scenery(where,w);}
+  void RoomBackgrounds.update(stage,where,w);
   const hero=stage.closest('.day-room-hero'),heading=hero?.querySelector('h2');if(heading)heading.textContent=homeLabel(room,status);
   const caption=hero?.querySelector('p');if(caption)caption.textContent=w.daylight?'また今夜 🌙':'ゆっくり、ひとやすみ 🌙';
  }
@@ -128,6 +128,7 @@ globalThis.DayRoom=(()=>{
    if(stage.closest('.own-cat-room')&&((typeof catsResolved==='function'&&!catsResolved())||(typeof shared!=='undefined'&&shared.needsCat===true)))continue;
    if(active.has(stage.closest('.profile-room-unit'))||stage.closest('[data-feeding=true]'))continue;
    const next=readStage(stage);if(stage.dataset.roomStamp!==next.stamp)applyStage(stage,next);
+   else void RoomBackgrounds.update(stage,next.where,next.w);
   }
  }
  return {world,snapshot,attrs,stage,homeKey,homeLabel,care,controls,unit,play,isPlaying,sync,get playing(){return active.size;}};
