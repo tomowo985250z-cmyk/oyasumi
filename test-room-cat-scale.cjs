@@ -59,7 +59,8 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  });
 
  await page.evaluate(focused=>{globalThis.scaleCoats=focused?['fishing','snow-leopard']:CatFaces.coats.map(c=>c.id);},process.argv.includes('--focused'));
- for(const width of [320,375,390,430]){
+ const selectedWidth=Number(process.argv.find(a=>a.startsWith('--width='))?.split('=')[1]);
+ for(const width of [320,375,390,430].filter(w=>!selectedWidth||w===selectedWidth)){
   await page.setViewportSize({width,height:844});
   const rows=await page.evaluate(async()=>{
    const rows=[];
@@ -86,5 +87,5 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   await page.evaluate(()=>makeScale('manul',scaleCases.find(c=>c.name==='night-curl')));await page.screenshot({path:path.join(out,`night-${width}.png`)});
   console.log(`PASS ${engine} ${width}px: ${rows.length} independent silhouette limits, unchanged small cats, aspect, feet and no clipping`);
  }
- assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({pass:true,engine,matrix,meals,reference:'fishing/day-groom at former indoor corner .9 scale',shrinkOnly:true,physicalIPhoneTested:false,productionDbWrites:0},null,2));console.log('PASS '+engine+': '+matrix.length+' actual silhouettes and '+meals.length+' meal frames, common body limit, fixed feet/dishes and no clipping');
+ assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);fs.writeFileSync(path.join(out,selectedWidth?`report-${selectedWidth}.json`:'report.json'),JSON.stringify({pass:true,engine,matrix,meals,reference:'fishing/day-groom at former indoor corner .9 scale',shrinkOnly:true,physicalIPhoneTested:false,productionDbWrites:0},null,2));console.log('PASS '+engine+': '+matrix.length+' actual silhouettes and '+meals.length+' meal frames, common body limit, fixed feet/dishes and no clipping');
 }finally{await browser?.close();server?.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});

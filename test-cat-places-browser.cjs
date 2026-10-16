@@ -36,10 +36,12 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   const resident=getComputedStyle(cat.parentElement),unrotatedWidth=parseFloat(resident.width)*new DOMMatrix(resident.transform).a;
   return {location:stage.dataset.location,place:stage.dataset.place,pose:cat.dataset.dayScene,night:stage.dataset.nightPose||null,coat:cat.dataset.catCoat,src:cat.getAttribute('src'),loaded:cat.complete&&cat.naturalWidth>0,overflow:document.documentElement.scrollWidth>innerWidth,relative:{x:c.x-r.x,y:c.y-r.y,width:c.width,height:c.height},unrotatedWidth,stageWidth:r.width};
  });
- const cases=[],coats=await home.evaluate(()=>CatFaces.coats.map(c=>c.id));
- for(const width of process.argv.includes('--care-only')?[]:[320,375,390,430]){
+ const checkpoint=path.join(out,'checkpoint.json'),saved=fs.existsSync(checkpoint)?JSON.parse(fs.readFileSync(checkpoint,'utf8')):null;if(saved)assert.equal(saved.release,release);
+ const selectedWidth=Number(process.argv.find(a=>a.startsWith('--width='))?.split('=')[1]),cases=saved?.cases||[],coats=await home.evaluate(()=>CatFaces.coats.map(c=>c.id));
+ for(const width of process.argv.includes('--care-only')?[]:[320,375,390,430].filter(w=>!selectedWidth||w===selectedWidth)){
   for(const p of pages)await p.setViewportSize({width,height:950});
   for(const coat of coats)for(const [place,at] of Object.entries(times)){
+   if(cases.some(c=>c.width===width&&c.coat===coat&&c.place===place))continue;
    for(const p of pages)await show(p,{at,coat});const a=await sample(home),b=await sample(peer);
    assert.equal(a.location,place);assert.equal(b.location,place);assert.equal(a.pose,b.pose);assert.equal(a.src,b.src);assert.equal(a.coat,coat);
    if(!(a.loaded&&b.loaded&&!a.overflow&&!b.overflow)){
@@ -52,10 +54,15 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
    // Keep that motion and compare uniform artwork scale before its rotation.
    assert(Math.abs(a.unrotatedWidth/a.stageWidth-b.unrotatedWidth/b.stageWidth)<.001,JSON.stringify({width,coat,place,a,b}));
    if(place!=='room'){assert.equal(a.place,'cushion');assert(a.relative.width/a.stageWidth<=.401);assert.notEqual(a.pose,'gaze');}
-   if(width===375){const scene=home.locator('.home-room-unit .day-room');await scene.waitFor({state:'visible'});await scene.screenshot({path:path.join(out,`${coat}-${place}-375.png`)});}
+   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.deepEqual(external,[]);
    cases.push({width,coat,place,at,home:a,profile:b});
+   fs.writeFileSync(checkpoint,JSON.stringify({release,cases},null,2));
+   // Periodic app rendering can detach a locator while WebKit captures it.
+   // The scene geometry was checked above; capture its viewport region.
+   if(width===375){const scene=home.locator('.home-room-unit .day-room');await scene.waitFor({state:'visible'});const clip=await scene.boundingBox();assert(clip);await home.screenshot({path:path.join(out,`${coat}-${place}-375.png`),clip});}
   }console.log(`PASS ${engine} ${width}px: 16 cats × 3 places on home and another viewer's profile`);
  }
+ if(selectedWidth){assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.deepEqual(external,[]);console.log('PASS split cat places '+engine+' '+selectedWidth);return;}
  // Fresh documents and independent viewer timezones retain a shared location/pose.
  for(let i=0;i<pages.length;i++){
   const p=pages[i];await p.goto(base+'?viewer='+(i?'other':'own')+'&at='+times.garden+'&coat=manul');await settle(p);await p.evaluate(()=>NightClock.now=()=>HomePostFixture.at);

@@ -12,7 +12,9 @@ let browser;
 (async()=>{try{
  for(let i=0;i<100;i++){try{if((await fetch(base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
  browser=await(engine==='edge'?chromium:webkit).launch(engine==='edge'?{executablePath:process.env.EDGE_PATH||'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'}:{});
- const cases=[],errors=[];
+ const release=JSON.parse(fs.readFileSync('release.json','utf8')).release,focused=process.argv.includes('--focused'),selectedWidth=Number(process.argv.find(a=>a.startsWith('--width='))?.split('=')[1]),checkpoint=path.join(output,focused?'checkpoint-focused.json':'checkpoint.json');
+ const saved=fs.existsSync(checkpoint)?JSON.parse(fs.readFileSync(checkpoint,'utf8')):null;if(saved)assert.equal(saved.release,release);
+ const cases=saved?.cases||[],errors=[];let ordinal=0;
  for(const standalone of process.argv.includes('--focused')?[true]:[false,true])for(const reduced of [false,true]){
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor,isMobile:true,hasTouch:true,reducedMotion:reduced?'reduce':'no-preference'});
   await context.addInitScript({content:fixture});
@@ -34,9 +36,10 @@ let browser;
   await page.goto(base);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy&&!document.documentElement.hasAttribute('data-cat-state-pending'));
   if(published)assert.equal(await page.locator('meta[name="oyasumi-release"]').getAttribute('content'),JSON.parse(fs.readFileSync('release.json','utf8')).release);
   for(const width of process.argv.includes('--focused')?[390]:[320,375,390,430])for(const night of [false,true]){
+   const index=ordinal++;if(selectedWidth&&width!==selectedWidth)continue;if(cases.some(c=>c.width===width&&c.night===night&&c.reduced===reduced&&c.standalone===standalone))continue;
    await page.bringToFront();
    await page.setViewportSize({width,height:844});
-   const coat=await page.evaluate(i=>CatFaces.coats[i%16].id,cases.length);
+   const coat=await page.evaluate(i=>CatFaces.coats[i%16].id,index);
    const name=`${width}-${coat}-${standalone?'standalone':'browser'}-${night?'night':'day'}-${reduced?'reduced':'normal'}`;
    await page.evaluate(async({night,coat})=>{
     go('home');HomePostFixture.coat=coat;HomePostFixture.at=Date.parse(`2026-10-11T${night?'23':'14'}:00:00+09:00`);NightClock.now=()=>HomePostFixture.at;
@@ -93,13 +96,15 @@ let browser;
    assert(lifetime.frames.length>=3);assert(lifetime.frames.every(f=>f.cats===1&&f.loaded),JSON.stringify({width,coat,night,reduced,standalone,bad:lifetime.frames.filter(f=>f.cats!==1||!f.loaded)}));
    for(const phase of ['plate','munch','joy','resident'])assert(lifetime.frames.some(f=>f.phase===phase),`${name}: painted ${phase}`);
    const start=lifetime.events.find(e=>e.type==='careplaybackstart'),end=lifetime.events.find(e=>e.type==='careplaybackend');assert(start&&end&&end.ms>=6000&&end.t-start.t>=5980,JSON.stringify(lifetime.events));
+   assert.deepEqual(errors,[]);
    cases.push({width,coat,standalone,night,reduced,frames:samples.length,lifetimeFrames:lifetime.frames.length,sixSecondMs:end.t-start.t,onePaintedCat:true,headTravel:Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY)),changedPixels:painted});
+   fs.writeFileSync(checkpoint,JSON.stringify({release,engine,cases},null,2));
    console.log(`PASS ${engine} ${width}px ${coat} ${night?'night':'day'} ${reduced?'reduced':'normal'}: ${lifetime.frames.length} live frames, one loaded cat, moving head and six visible seconds`);
    await page.evaluate(()=>go('home'));
   }
   await context.close();
  }
  assert.deepEqual(errors,[]);
- fs.writeFileSync(path.join(output,'report.json'),JSON.stringify({pass:true,engine,deviceScaleFactor,cases,physicalIPhoneTested:false,standaloneEmulated:true,productionDbWrites:0,errors},null,2));
+ const complete=cases.length===(focused?4:32);fs.writeFileSync(path.join(output,complete?'report.json':`report-${selectedWidth}.json`),JSON.stringify({pass:true,complete,release,engine,deviceScaleFactor,cases,physicalIPhoneTested:false,standaloneEmulated:true,productionDbWrites:0,errors},null,2));
  console.log(`PASS ${engine}: ${cases.length} browser/standalone, width and day/night combinations; live head movement, stationary body and painted pixel differences`);
 }finally{await browser?.close();server?.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});
