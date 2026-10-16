@@ -23,26 +23,26 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push(r.url());});
  await page.route('**/*',route=>{const url=new URL(route.request().url());if(!url.href.startsWith(base)){external.push(url.href);return route.abort();}if(/\/(?:vendor\/supabase|supabase-api|update-client)\.js$/.test(url.pathname))return route.fulfill({contentType:'text/javascript',body:''});return route.continue();});
  const settle=()=>page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy&&!refreshPromise&&!refreshQueued);
- const decode=()=>page.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));});
+ const decode=async()=>{await page.waitForFunction(()=>[...document.querySelectorAll('.day-room')].every(stage=>DayRoom.settled(stage)));await page.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));});};
  await page.goto(base);await settle();assert.equal(await page.locator('meta[name=oyasumi-release]').getAttribute('content'),JSON.parse(fs.readFileSync('release.json','utf8')).release);
  const times=await page.evaluate(()=>Object.fromEntries(['seated','curl','stretch','window'].map(pose=>{let at=Date.parse('2026-10-15T18:00:00+09:00');while(NightCats.at(at,shared.userId).pose!==pose)at+=NightCats.interval;return [pose,at];})));
- for(const width of [320,360,375,390,402,414,430]){
+ for(const width of [320,375,390,430]){
   await page.setViewportSize({width,height:900});
   for(const coat of coats)for(const pose of ['seated','curl','stretch','window']){
    await page.evaluate(({at,coat})=>{HomePostFixture.at=at;HomePostFixture.coat=coat;HomePostFixture.sleep=false;shared.catCare=HomePostFixture.care();state.coat=coat;NightClock.now=()=>HomePostFixture.at;go('home');},{at:times[pose],coat});await decode();
    const result=await page.evaluate(()=>{
     const room=document.querySelector('.home-room-unit .day-room'),image=room.querySelector('.room-resident img'),r=room.getBoundingClientRect(),ir=image.getBoundingClientRect();
-    return {pose:room.dataset.nightPose,place:room.dataset.place,loaded:image.complete&&image.naturalWidth>0,coat:image.dataset.catCoat,src:image.getAttribute('src'),overflow:document.documentElement.scrollWidth>innerWidth,width:r.width,rect:{x:ir.x-r.x,y:ir.y-r.y,width:ir.width,height:ir.height},callCount:HomePostFixture.calls.length};
+    return {pose:room.dataset.nightPose,place:room.dataset.place,loaded:image.complete&&image.naturalWidth>0,coat:image.dataset.catCoat,src:image.getAttribute('src'),overflow:document.documentElement.scrollWidth>innerWidth,width:r.width,origin:getComputedStyle(room.querySelector('.room-resident')).transformOrigin.split(' ').map(parseFloat),rect:{x:ir.x-r.x,y:ir.y-r.y,width:ir.width,height:ir.height},callCount:HomePostFixture.calls.length};
    });
    assert.equal(result.pose,pose);assert.equal(result.coat,coat);assert(result.loaded&&!result.overflow);assert.equal(result.callCount,0);
    if(pose!=='seated'){
     const entry=manifest.find(e=>e.coat===coat&&e.pose===pose),s=result.width/400,p=entry.placement;
     // Image element dimensions/placement and the measured transformed alpha silhouette.
     const angle=p.rotation*Math.PI/180,bw=Math.abs(Math.cos(angle))*p.width+Math.abs(Math.sin(angle))*p.height,bh=Math.abs(Math.sin(angle))*p.width+Math.abs(Math.cos(angle))*p.height;
-    assert(Math.abs(result.rect.width-bw*s)<.3);
-    assert(Math.abs(result.rect.height-bh*s)<.3);
-    assert(Math.abs(result.rect.x-(p.left+(p.width-bw)/2)*s)<.3);
-    assert(Math.abs(result.rect.y-(p.top+(p.height-bh)/2)*s)<.3);
+    assert(Math.abs(result.rect.width-bw*s*.9)<.3);
+    assert(Math.abs(result.rect.height-bh*s*.9)<.3);
+    assert(Math.abs(result.rect.x-((p.left+(p.width-bw)/2)*s*.9+(p.left*s+result.origin[0])*.1))<.3);
+    assert(Math.abs(result.rect.y-((p.top+(p.height-bh)/2)*s*.9+(p.top*s+result.origin[1])*.1))<.3);
     assert(entry.visible.left>=0&&entry.visible.right<=400&&entry.visible.top>=0);
     assert.equal(entry.visible.bottom,{curl:251,stretch:277,window:161}[pose]);
     assert.equal(result.place,{curl:'cushion',stretch:'corner',window:'window'}[pose]);

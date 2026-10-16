@@ -1,6 +1,6 @@
 // Shared room composition; gazing cats sit by the window during daylight.
 globalThis.DayRoom=(()=>{
- const active=new Map();
+ const active=new Map(),transitions=new WeakMap();
  // Bottom transparent padding (%) in the unchanged art: morning, night,
  // relax, play, groom, doze, window gaze. Keep visible feet on the SVG sill.
  const windowPadding={
@@ -41,7 +41,7 @@ globalThis.DayRoom=(()=>{
  };
  const scenery=(where,w)=>RoomBackgrounds.markup(where,w);
  const sceneryKey=(where,w)=>RoomBackgrounds.key(where,w);
- const contactStyle=(place,where,html,coat)=>place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'';
+ const contactStyle=(place,where,html,coat)=>IndoorCatScale.style(html,where)+(place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'');
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
   if(cat?.status)cat={...cat,status:PostCatExpressions.state({status:cat.status})};
@@ -65,7 +65,7 @@ globalThis.DayRoom=(()=>{
   const unit=proxy.closest('.profile-room-unit'),stage=unit?.querySelector('.room-scene');
   if(!unit?.isConnected||!stage||active.has(unit))return;
   const template=document.createElement('template');template.innerHTML=CatCare.visual(proxy.dataset.careCoat,proxy.dataset.careKind,{before:proxy.dataset.careBefore,after:proxy.dataset.careAfter});
-  const animation=template.content.firstElementChild;animation.classList.add('room-care-animation');
+  const animation=template.content.firstElementChild;animation.classList.add('room-care-animation');IndoorCatScale.prepareMeal(animation,stage.dataset.location);
   const resident=stage.querySelector('.room-resident'),token={animation,cancelled:false};
   let cancel;const cancelled=new Promise(resolve=>{cancel=()=>{token.cancelled=true;resolve(false);};});
   const size=()=>animation.style.setProperty('--room-care-scale',String(stage.classList.contains('day-room')?stage.clientWidth*.4/152:Math.min(208/152,stage.clientWidth/176)));
@@ -127,9 +127,29 @@ globalThis.DayRoom=(()=>{
   for(const stage of document.querySelectorAll('.day-room')){
    if(stage.closest('.own-cat-room')&&((typeof catsResolved==='function'&&!catsResolved())||(typeof shared!=='undefined'&&shared.needsCat===true)))continue;
    if(active.has(stage.closest('.profile-room-unit'))||stage.closest('[data-feeding=true]'))continue;
-   const next=readStage(stage);if(stage.dataset.roomStamp!==next.stamp)applyStage(stage,next);
+   const next=readStage(stage);if(stage.dataset.roomStamp!==next.stamp)void transition(stage,next);
    else void RoomBackgrounds.update(stage,next.where,next.w);
   }
  }
- return {world,snapshot,attrs,stage,homeKey,homeLabel,care,controls,unit,play,isPlaying,sync,get playing(){return active.size;}};
+ async function transition(stage,next){
+  if(transitions.get(stage)?.stamp===next.stamp)return;
+  const token={stamp:next.stamp};transitions.set(stage,token);
+  const resident=stage.querySelector('.room-resident'),template=document.createElement('div');
+  template.innerHTML=next.html;
+  const images=[...template.querySelectorAll('img')];
+  for(const image of images)image.loading='eager';
+  const unchanged=resident.innerHTML===template.innerHTML;
+  if(!unchanged){
+   try{await Promise.all(images.map(image=>image.decode()));}catch{if(transitions.get(stage)===token)transitions.delete(stage);return;}
+  }
+  if(transitions.get(stage)!==token||!stage.isConnected)return;
+  transitions.delete(stage);
+  if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')||isPlaying(stage))return;
+  const current=readStage(stage);
+  if(current.stamp!==next.stamp||current.html!==next.html){void transition(stage,current);return;}
+  // The decoded cat, placement and scenery become visible in the same task.
+  if(!unchanged)resident.replaceChildren(...template.childNodes);
+  applyStage(stage,current,true);CatImages.warm(stage);
+ }
+ return {world,snapshot,attrs,stage,homeKey,homeLabel,care,controls,unit,play,isPlaying,sync,settled:stage=>!transitions.has(stage),get playing(){return active.size;}};
 })();

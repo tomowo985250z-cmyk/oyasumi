@@ -22,7 +22,7 @@ let browser;
    Object.defineProperty(navigator,'standalone',{value:standalone});
    const mm=matchMedia.bind(window);window.matchMedia=q=>q==='(display-mode: standalone)'?{matches:standalone,media:q,addEventListener(){},removeEventListener(){}}:mm(q);
    const api=OyasumiAPI,snapshot=api.snapshot;
-   api.snapshot=async()=>({...await snapshot(),catCare:{allowanceVersion:2,sleepStateVersion:1,catState:'awake',mealSleeping:false,day:SleepFlow.night(HomePostFixture.at),mealSlot:CatCare.slot(HomePostFixture.at),mealEligible:true,mealDone:false,treatGiven:false,treatCount:0,treatRecipients:[],receivedToday:0,receivedTotal:0,receivedDays:[]}});
+   api.snapshot=async()=>({...await snapshot(),coat:HomePostFixture.coat||'calico',catCare:{allowanceVersion:2,sleepStateVersion:1,catState:'awake',mealSleeping:false,day:SleepFlow.night(HomePostFixture.at),mealSlot:CatCare.slot(HomePostFixture.at),mealEligible:true,mealDone:false,treatGiven:false,treatCount:0,treatRecipients:[],receivedToday:0,receivedTotal:0,receivedDays:[]}});
   },standalone);
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.route('**/*',route=>{
@@ -36,11 +36,21 @@ let browser;
   for(const width of process.argv.includes('--focused')?[390]:[320,375,390,430])for(const night of [false,true]){
    await page.bringToFront();
    await page.setViewportSize({width,height:844});
-   await page.evaluate(async night=>{
-    go('home');HomePostFixture.at=Date.parse(`2026-10-11T${night?'23':'14'}:00:00+09:00`);NightClock.now=()=>HomePostFixture.at;
-    await refreshShared();go('catMeal');void CatCare.play(document.querySelector('.room-care-proxy'));
-   },night);
+   const coat=await page.evaluate(i=>CatFaces.coats[i%16].id,cases.length);
+   const name=`${width}-${coat}-${standalone?'standalone':'browser'}-${night?'night':'day'}-${reduced?'reduced':'normal'}`;
+   await page.evaluate(async({night,coat})=>{
+    go('home');HomePostFixture.coat=coat;HomePostFixture.at=Date.parse(`2026-10-11T${night?'23':'14'}:00:00+09:00`);NightClock.now=()=>HomePostFixture.at;
+    await refreshShared();go('catMeal');await Promise.all([...document.querySelectorAll('.cat-meal-room .room-resident img')].map(i=>i.decode()));
+    const log=globalThis.MealPaint={running:true,frames:[],events:[]};
+    for(const type of ['careplaybackstart','careplaybackend'])document.addEventListener(type,e=>log.events.push({type,t:performance.now(),ms:e.detail?.visibleMs}),{once:true,capture:true});
+    const visible=el=>{for(let p=el;p&&p!==document;p=p.parentElement){const s=getComputedStyle(p);if(p.hidden||s.display==='none'||s.visibility==='hidden'||s.opacity==='0')return false;}return true;};
+    const tick=()=>{if(!log.running)return;const unit=document.querySelector('.cat-meal-room'),scene=unit?.querySelector('.room-care-animation'),groups=[...unit.querySelectorAll('.room-resident,.room-care-animation>.care-idle,.room-care-animation>.care-munch,.room-care-animation>.care-joy-cat')].filter(visible);
+     const loaded=groups.every(g=>[...(g.matches('img')?[g]:g.querySelectorAll('img'))].every(i=>i.complete&&i.naturalWidth>0));
+     log.frames.push({t:performance.now(),phase:scene?.dataset.careStage||unit.dataset.catPlayback||'resident',cats:groups.length,loaded});requestAnimationFrame(tick);};requestAnimationFrame(tick);
+    void CatCare.play(document.querySelector('.room-care-proxy'));
+   },{night,coat});
    await page.waitForSelector('.room-care-animation:is(.care-playing,.care-reduced)[data-care-stage=munch]');
+   assert.equal(await page.locator('.room-care-animation').getAttribute('data-care-coat'),coat);
    await page.locator('.room-care-animation').scrollIntoViewIfNeeded();
    const samples=await page.evaluate(async()=>{
     const scene=document.querySelector('.room-care-animation'),head=scene.querySelector('.care-head'),body=scene.querySelector('.care-body');
@@ -66,15 +76,24 @@ let browser;
    await page.waitForTimeout(reduced?210:130);const third=await pose(),last=await page.screenshot({clip:first.clip});
    assert([first,second,third].every(p=>p.phase==='munch'&&!p.paused&&!p.pending),JSON.stringify({first,second,third}));
    assert(new Set([first.top,second.top,third.top]).size>1,JSON.stringify({width,night,reduced,first,second,third}));
-   const name=`${width}-${standalone?'standalone':'browser'}-${night?'night':'day'}-${reduced?'reduced':'normal'}`;
    for(const [i,frame] of [down,up,last].entries())fs.writeFileSync(path.join(output,name+'-'+i+'.png'),frame);
    const painted=await page.evaluate(async sources=>{
     const pixels=async src=>{const img=new Image();img.src='data:image/png;base64,'+src;await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;});const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);return ctx.getImageData(0,0,c.width,c.height).data;};
     const frames=await Promise.all(sources.map(pixels));return Math.max(...frames.slice(1).map(b=>{const a=frames[0];let changed=0;for(let i=0;i<a.length;i+=4)if(Math.abs(a[i]-b[i])+Math.abs(a[i+1]-b[i+1])+Math.abs(a[i+2]-b[i+2])>20)changed++;return changed;}));
    },[down,up,last].map(frame=>frame.toString('base64')));
    assert(painted>Math.ceil(80*deviceScaleFactor**2/9),`Head pixels must repaint, not only computed layout: ${JSON.stringify({painted,width,night,reduced,standalone,first,second,third})}`);
-   cases.push({width,standalone,night,reduced,frames:samples.length,headTravel:Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY)),changedPixels:painted});
-   await page.evaluate(()=>go('home'));await page.waitForFunction(()=>DayRoom.playing===0);
+   await page.waitForSelector('.room-care-animation[data-care-stage=joy]');
+   await page.screenshot({path:path.join(output,name+'-joy-room.png'),clip:await page.locator('.cat-meal-room .day-room').boundingBox()});
+   await page.waitForFunction(()=>DayRoom.playing===0&&!document.querySelector('.room-care-animation'),{},{timeout:15000});
+   const lifetime=await page.evaluate(async()=>{await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);MealPaint.running=false;return {frames:MealPaint.frames,events:MealPaint.events};});
+   await page.screenshot({path:path.join(output,name+'-resident-room.png'),clip:await page.locator('.cat-meal-room .day-room').boundingBox()});
+   fs.writeFileSync(path.join(output,name+'-frames.json'),JSON.stringify(lifetime,null,2));
+   assert(lifetime.frames.length>=3);assert(lifetime.frames.every(f=>f.cats===1&&f.loaded),JSON.stringify({width,coat,night,reduced,standalone,bad:lifetime.frames.filter(f=>f.cats!==1||!f.loaded)}));
+   for(const phase of ['plate','munch','joy','resident'])assert(lifetime.frames.some(f=>f.phase===phase),`${name}: painted ${phase}`);
+   const start=lifetime.events.find(e=>e.type==='careplaybackstart'),end=lifetime.events.find(e=>e.type==='careplaybackend');assert(start&&end&&end.ms>=6000&&end.t-start.t>=5980,JSON.stringify(lifetime.events));
+   cases.push({width,coat,standalone,night,reduced,frames:samples.length,lifetimeFrames:lifetime.frames.length,sixSecondMs:end.t-start.t,onePaintedCat:true,headTravel:Math.max(...samples.map(s=>s.headY))-Math.min(...samples.map(s=>s.headY)),changedPixels:painted});
+   console.log(`PASS ${engine} ${width}px ${coat} ${night?'night':'day'} ${reduced?'reduced':'normal'}: ${lifetime.frames.length} live frames, one loaded cat, moving head and six visible seconds`);
+   await page.evaluate(()=>go('home'));
   }
   await context.close();
  }

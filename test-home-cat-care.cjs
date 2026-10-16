@@ -23,7 +23,7 @@ let browser;
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push(r.url());});
  await page.route('**/*',route=>{const url=new URL(route.request().url());if(!url.href.startsWith(base))return route.abort();if(/\/(?:vendor\/supabase|supabase-api|update-client)\.js$/.test(url.pathname))return route.fulfill({contentType:'text/javascript',body:''});return route.continue();});
  await page.goto(base);await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy);
- const settle=()=>page.waitForFunction(()=>!busy&&!CatCare.pending&&!refreshPromise&&!refreshQueued);
+ const settle=()=>page.waitForFunction(()=>!busy&&!CatCare.pending&&!refreshPromise&&!refreshQueued&&[...document.querySelectorAll('.day-room')].every(stage=>DayRoom.settled(stage)));
  const reset=async(time='2026-10-11T14:00:00+09:00',coat='calico')=>{
   await settle();await page.evaluate(async({time,coat})=>{HomePostFixture.reset();HomePostFixture.meals.clear();HomePostFixture.states.clear();HomePostFixture.treats=[];HomePostFixture.mealCalls=0;HomePostFixture.failMeal=false;HomePostFixture.delay=100;HomePostFixture.at=Date.parse(time);NightClock.now=()=>HomePostFixture.at;state.lastSleep=null;document.querySelectorAll('dialog[open]').forEach(d=>d.close());await refreshShared();state.coat=coat;go('catMeal');},{time,coat});
  };

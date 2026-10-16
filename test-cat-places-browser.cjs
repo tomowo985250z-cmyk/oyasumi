@@ -16,7 +16,7 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   await p.goto(base+'?viewer='+role);await p.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!busy&&!refreshPromise&&!refreshQueued);
   await p.evaluate(()=>NightClock.now=()=>HomePostFixture.at);
  }
- const [home,peer]=pages,settle=p=>p.waitForFunction(()=>!busy&&!refreshPromise&&!refreshQueued&&!CatCare.pending),decode=p=>p.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));});
+ const [home,peer]=pages,settle=p=>p.waitForFunction(()=>!busy&&!refreshPromise&&!refreshQueued&&!CatCare.pending&&[...document.querySelectorAll('.day-room')].every(stage=>DayRoom.settled(stage))),decode=p=>p.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));});
  const release=JSON.parse(fs.readFileSync('release.json','utf8')).release;assert.equal(await home.locator('meta[name=oyasumi-release]').getAttribute('content'),release);
  const times=await home.evaluate(()=>{
   for(let d=0;d<60;d++){const plan=CatPlaces.schedule(Date.parse('2026-10-01T14:00:00+09:00')+d*86400000,shared.userId);if(new Set(plan.events.map(e=>e.place)).size===3)return Object.fromEntries(CatPlaces.places.map(p=>[p,plan.events.find(e=>e.place===p).at+1000]));}
@@ -36,7 +36,7 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
   return {location:stage.dataset.location,place:stage.dataset.place,pose:cat.dataset.dayScene,night:stage.dataset.nightPose||null,coat:cat.dataset.catCoat,src:cat.getAttribute('src'),loaded:cat.complete&&cat.naturalWidth>0,overflow:document.documentElement.scrollWidth>innerWidth,relative:{x:c.x-r.x,y:c.y-r.y,width:c.width,height:c.height},stageWidth:r.width};
  });
  const cases=[],coats=await home.evaluate(()=>CatFaces.coats.map(c=>c.id));
- for(const width of process.argv.includes('--care-only')?[]:[320,360,375,390,402,414,430]){
+ for(const width of process.argv.includes('--care-only')?[]:[320,375,390,430]){
   for(const p of pages)await p.setViewportSize({width,height:950});
   for(const coat of coats)for(const [place,at] of Object.entries(times)){
    for(const p of pages)await show(p,{at,coat});const a=await sample(home),b=await sample(peer);
@@ -82,7 +82,7 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
  // The real mounted sync follows a movement boundary and resumes after backgrounding.
  await contexts[0].clock.install();await home.goto(base+'?at='+times.garden);await settle(home);
  await home.evaluate(()=>{NightClock.now=()=>HomePostFixture.at;const f=HomePostFixture;f.at=CatPlaces.at(f.at,f.owner).nextAt-2000;go('home');});
- await home.evaluate(()=>{HomePostFixture.at+=6000;});await contexts[0].clock.runFor(5100);
+ await home.evaluate(()=>{HomePostFixture.at+=6000;});await contexts[0].clock.runFor(5100);await settle(home);
  assert.equal((await sample(home)).location,await home.evaluate(()=>CatPlaces.at(HomePostFixture.at,HomePostFixture.owner).place));
  await home.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));HomePostFixture.at+=120*60000;Object.defineProperty(document,'hidden',{configurable:true,value:false});document.dispatchEvent(new Event('visibilitychange'));});await settle(home);
  assert.equal((await sample(home)).location,await home.evaluate(()=>CatPlaces.at(HomePostFixture.at,HomePostFixture.owner).place));

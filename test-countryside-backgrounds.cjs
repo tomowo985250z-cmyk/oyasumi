@@ -3,7 +3,7 @@ const {webkit,chromium}=require(process.env.OYASUMI_PLAYWRIGHT_PATH||'./output/w
 const edge=process.argv.includes('--edge'),published=process.argv.includes('--published'),engine=edge?'edge':'webkit',port=edge?9572:9571;
 const base=published?'https://tomowo985250z-cmyk.github.io/oyasumi/':`http://127.0.0.1:${port}/`,out=path.join(__dirname,'output/countryside-backgrounds',`${published?'published':'local'}-${engine}`);fs.mkdirSync(out,{recursive:true});
 const fixtureFile=fs.readFileSync(path.join(__dirname,'test-home-post-choices.cjs'),'utf8'),fixture=fixtureFile.slice(fixtureFile.indexOf('function installFixture()'),fixtureFile.indexOf('\n(async () =>'))+'\ninstallFixture();';
-const baseline=execFileSync('git',['show','3a16b8ca674fc5136e5b8e4fde9260853cf726ad:day-room.js'],{cwd:__dirname,encoding:'utf8'}).replace(/\bDayRoom\b/g,'BaselineDayRoom');
+const baseline=execFileSync('git',['show','f2aed746d0bc23ec6e8d2b12e40d93138866345a:day-room.js'],{cwd:__dirname,encoding:'utf8'}).replace(/\bDayRoom\b/g,'BaselineDayRoom');
 const server=published?null:spawn(process.execPath,['server.js'],{cwd:__dirname,env:{...process.env,PORT:String(port)},windowsHide:true,stdio:'ignore'});let browser;
 (async()=>{try{
  for(let i=0;i<100;i++){try{if((await fetch(base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
@@ -54,11 +54,11 @@ const server=published?null:spawn(process.execPath,['server.js'],{cwd:__dirname,
     for(const c of cases){
      f.set('summer',c.hour,'sunny',c.where,c.pose);host.innerHTML=DayRoom.stage(coat,f.owner,{home:true,status:c.status})+BaselineDayRoom.stage(coat,f.owner,{home:true,status:c.status});
      await Promise.all([...host.querySelectorAll('img')].map(i=>i.decode()));const [a,b]=host.querySelectorAll('.day-room'),x=a.querySelector('.room-resident'),y=b.querySelector('.room-resident');
-     const geo=(cat,stage)=>{const r=cat.getBoundingClientRect(),s=stage.getBoundingClientRect();return [r.x-s.x,r.y-s.y,r.width,r.height];};
-     rows.push({...c,coat,identical:x.outerHTML===y.outerHTML,a:geo(x,a),b:geo(y,b),samePlace:a.dataset.location===b.dataset.location&&a.dataset.place===b.dataset.place,loaded:[...host.querySelectorAll('img')].every(i=>i.complete&&i.naturalWidth>0)});
+     y.style.setProperty('--indoor-cat-scale','1');const geo=(cat,stage)=>{const r=cat.getBoundingClientRect(),s=stage.getBoundingClientRect();return [r.x-s.x,r.y-s.y,r.width,r.height];};
+     rows.push({...c,coat,identical:x.innerHTML.replace(/ loading="eager"/g,'')===y.innerHTML.replace(/ loading="eager"/g,''),a:geo(x,a),b:geo(y,b),samePlace:a.dataset.location===b.dataset.location&&a.dataset.place===b.dataset.place,loaded:[...host.querySelectorAll('img')].every(i=>i.complete&&i.naturalWidth>0)});
     }return rows;
    },coat);
-   for(const r of rows){assert(r.identical&&r.samePlace&&r.loaded,JSON.stringify(r));r.a.forEach((v,i)=>assert(Math.abs(v-r.b[i])<.02,JSON.stringify(r)));cats.push({width,...r});}
+   for(const r of rows){assert(r.identical&&r.samePlace&&r.loaded,JSON.stringify(r));for(const i of [2,3])assert(Math.abs(r.a[i]/r.b[i]-(r.where==='room'?.9:1))<.002,JSON.stringify(r));cats.push({width,...r});}
   }
   // Real mounted DayRoom.sync must update time independently of unchanged cat moods.
   await page.evaluate(()=>{const f=BackgroundCheck;f.set();const host=document.querySelector('#background-verification');host.innerHTML=DayRoom.stage('calico',f.owner,{status:'awake'});DayRoom.sync();});

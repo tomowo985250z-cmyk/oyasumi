@@ -106,6 +106,7 @@
     if (children.length === target.childNodes.length && children.every((node, i) => node.isEqualNode(target.childNodes[i]))) {
       warm(target); return;
     }
+    const content=document.createDocumentFragment();content.append(template.content);
     // Reuse identical cat nodes when only surrounding text/data changes.
     const existing = new Map();
     for (const cat of target.querySelectorAll(selector)) {
@@ -113,11 +114,11 @@
       if (!existing.has(key)) existing.set(key, []);
       existing.get(key).push(cat);
     }
-    for (const cat of template.content.querySelectorAll(selector)) {
+    for (const cat of content.querySelectorAll(selector)) {
       const previous = existing.get(cat.outerHTML)?.shift();
       if (previous) cat.replaceWith(previous);
     }
-    target.replaceChildren(template.content);
+    target.replaceChildren(content);
     // Cached images must not retain entire detached screens through their parents.
     for (const image of cache.values()) if (!image.isConnected) image.remove();
     warm(target);
