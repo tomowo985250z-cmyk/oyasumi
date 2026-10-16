@@ -52,7 +52,7 @@ const server=published?null:spawn(process.execPath,['server.js'],{env:{...proces
    // Keep that motion and compare uniform artwork scale before its rotation.
    assert(Math.abs(a.unrotatedWidth/a.stageWidth-b.unrotatedWidth/b.stageWidth)<.001,JSON.stringify({width,coat,place,a,b}));
    if(place!=='room'){assert.equal(a.place,'cushion');assert(a.relative.width/a.stageWidth<=.401);assert.notEqual(a.pose,'gaze');}
-   if(width===375){const clip=await home.locator('.home-room-unit .day-room').boundingBox();await home.screenshot({path:path.join(out,`${coat}-${place}-375.png`),clip});}
+   if(width===375){const scene=home.locator('.home-room-unit .day-room');await scene.waitFor({state:'visible'});await scene.screenshot({path:path.join(out,`${coat}-${place}-375.png`)});}
    cases.push({width,coat,place,at,home:a,profile:b});
   }console.log(`PASS ${engine} ${width}px: 16 cats × 3 places on home and another viewer's profile`);
  }

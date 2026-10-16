@@ -35,6 +35,7 @@ files['/roof-recline.js']='roof-recline.js';
 files['/night-cats.js']='night-cats.js';
 files['/cat-places.js']='cat-places.js';
 files['/cat-place-scenes.js']='cat-place-scenes.js';
+files['/first-use-guide.js']='first-use-guide.js';
 files['/solar-model.js']='solar-model.js';
 files['/solar-lighting.js']='solar-lighting.js';
 for(const file of fs.readdirSync(path.join(__dirname,'assets/night-gestures-v1')))if(/^[a-z-]+\.png$/.test(file))files['/assets/night-gestures-v1/'+file]='assets/night-gestures-v1/'+file;

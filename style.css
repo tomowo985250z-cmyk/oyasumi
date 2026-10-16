@@ -203,3 +203,20 @@ html[data-cat-state-pending][data-cat-timeline-ready] .post .avatar[data-cat-app
 /* A single visible-time clock owns phases and head layout, including PWA reduce mode. */
 .care-scene [hidden]{display:none!important}
 .care-head{transform:none;will-change:auto}
+
+/* Optional introduction stays in the page flow and leaves scene controls alone. */
+[data-first-guide-slot]:empty{display:none}
+.first-guide{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 22px;color:var(--text)}
+.first-guide-invitation{display:flex;align-items:center;justify-content:space-between;gap:4px 12px;flex-wrap:wrap}
+.first-guide-invitation>p{font-size:12px;color:var(--muted);margin:0}
+.first-guide-actions{display:flex;gap:8px;flex-wrap:wrap}
+.first-guide .text-button{min-height:44px;padding:8px 4px;font-size:12px;white-space:normal}
+.first-guide-actions [data-guide-action=skip]{color:var(--muted)}
+.first-guide-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.first-guide-heading h2{font-size:14px;font-weight:500;line-height:1.6;margin:0}
+.first-guide-topics{padding-left:20px;margin:12px 0 0;color:var(--muted);font-size:12px}
+.first-guide-topics li+li{margin-top:14px}
+.first-guide-topics h3{font-size:13px;font-weight:500;color:var(--text);margin:0 0 4px}
+.first-guide-topics p,.first-guide-note{font-size:12px;line-height:1.8;margin:0}
+.first-guide-note{color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:14px}
+.settings-section .first-guide{margin-bottom:0}

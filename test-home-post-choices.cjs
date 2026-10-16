@@ -105,7 +105,11 @@ function installFixture() {
     if (!light) { assert(result.backgrounds[0].image.includes('rgb(131, 152, 255)')); assert(result.backgrounds[1].image.includes('rgb(255, 172, 163)')); assert.deepEqual(result.backgrounds[2], result.backgrounds[3]); }
     await page.evaluate(() => window.scrollTo(0, window.scrollY + document.querySelector('.status-actions').getBoundingClientRect().top - 140));
     assert(await page.evaluate(() => [...document.querySelectorAll('[data-home-choice]')].every(button => button.getBoundingClientRect().bottom < document.querySelector('#navigation').getBoundingClientRect().top)), 'All four choices are visible above navigation');
-    await page.locator('.status-actions').screenshot({ path: path.join(output, `choices-${width}-${light ? 'light' : 'dark'}.png`) });
+    // Refresh can replace this node after screenshot's initial locator lookup.
+    for(let attempt=0;attempt<3;attempt++){
+     try{await page.locator('.status-actions').screenshot({ path: path.join(output, `choices-${width}-${light ? 'light' : 'dark'}.png`) });break;}
+     catch(error){if(attempt===2||!error.message.includes('not attached to the DOM'))throw error;await settled();}
+    }
     layouts.push({ width, light, ...result });
    }
    for (const [intent, choice, sleeping] of [['relax', 'awake', false], ['sleep', 'sleep', true], ['sleepless', 'awake', false], ['try-sleep', 'try-sleep', true]]) {
