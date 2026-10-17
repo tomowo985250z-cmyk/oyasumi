@@ -1,0 +1,38 @@
+// LOCAL ONLY. Synthetic in-memory PostgreSQL; no URL, SDK, auth session or network.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{PGlite}=require('@electric-sql/pglite');
+const root=path.join(__dirname,'..'),sql=fs.readFileSync(path.join(root,'supabase/security-readonly-inspect.sql'),'utf8');
+const unquoted=sql.replace(/--[^\n]*/g,'').replace(/'(?:''|[^'])*'/g,"''");assert(!/\b(?:insert|update|delete|create|alter|drop|grant|revoke|truncate|call|do|copy|execute)\b/i.test(unquoted));assert(!/\b(?:from|join)\s+(?:public|auth|storage)\s*\./i.test(unquoted));assert(sql.startsWith('-- Administrator')&&sql.includes('begin read only;')&&sql.trim().endsWith('rollback;'));
+(async()=>{const db=new PGlite();try{
+ await db.exec(`create role anon;create role authenticated;create role synthetic_parent;create role "SYNTHETIC_OWNER_CANARY";
+ grant synthetic_parent to authenticated;
+ create schema auth;
+ create function auth.uid() returns uuid language plpgsql as $$begin raise exception 'AUTH_MUST_NOT_RUN';end$$;
+ create table public.oyasumi_profiles(user_id uuid,hidden_note text default 'SYNTHETIC_DEFAULT_CANARY');
+ insert into public.oyasumi_profiles values('00000000-0000-0000-0000-000000000001','SYNTHETIC_PERSONAL_CANARY');
+ alter table public.oyasumi_profiles enable row level security;
+ create policy "SYNTHETIC_POLICY_CANARY" on public.oyasumi_profiles for select to synthetic_parent using(user_id=auth.uid());
+ create policy broad_write on public.oyasumi_profiles for update to authenticated using(true) with check(true);
+ grant select(hidden_note) on public.oyasumi_profiles to synthetic_parent;
+ create table public.oyasumi_posts(user_id uuid);
+ alter table public.oyasumi_posts owner to "SYNTHETIC_OWNER_CANARY";
+ create table public.oyasumi_reactions(user_id uuid);
+ alter table public.oyasumi_reactions enable row level security;
+ create policy shared_read on public.oyasumi_reactions for select to public using(true);
+ create table public.oyasumi_cat_meals(user_id uuid);
+ create table public.oyasumi_cat_treats(giver_id uuid,recipient_id uuid);
+ create table public.oyasumi_cat_post_states(user_id uuid);
+ create view public.synthetic_public_view as select hidden_note from public.oyasumi_profiles;
+ grant select on public.synthetic_public_view to anon;
+ create function public.oyasumi_probe(p_input text default 'SYNTHETIC_ARGUMENT_DEFAULT_CANARY') returns text language plpgsql security definer as $$begin raise exception 'SYNTHETIC_BODY_CANARY';end$$;
+ create function public.oyasumi_cat_care_status_at(p_now timestamptz) returns uuid language sql security definer set search_path='' as $$select auth.uid()$$;
+ revoke execute on function public.oyasumi_cat_care_status_at(timestamptz) from public,anon,authenticated;
+ alter default privileges in schema public grant execute on functions to anon;`);
+ const before=JSON.stringify((await db.query('select * from public.oyasumi_profiles')).rows),result=await db.exec(sql),rows=result.flatMap(r=>r.rows||[]),r=rows.find(row=>row.security_metadata)?.security_metadata;assert(r);assert.equal(r.transaction_read_only,'on');assert(r.verdict.startsWith('REVIEW_REQUIRED'));assert.equal(r.missing_tables.length,0);assert(r.missing_routines.includes('oyasumi_delete_post'),'Missing definitions remain visible');
+ const serialized=JSON.stringify(r);for(const secret of ['SYNTHETIC_PERSONAL_CANARY','SYNTHETIC_DEFAULT_CANARY','SYNTHETIC_ARGUMENT_DEFAULT_CANARY','SYNTHETIC_BODY_CANARY','SYNTHETIC_POLICY_CANARY','SYNTHETIC_OWNER_CANARY','00000000-0000-0000-0000-000000000001'])assert(!serialized.includes(secret),'No synthetic private literal/default/body/owner name in result');
+ assert(r.relations.some(x=>x.name==='oyasumi_profiles'&&x.rls_enabled));assert(r.relations.some(x=>x.name==='oyasumi_cat_post_states'&&!x.rls_enabled));assert(r.relations.some(x=>x.name==='oyasumi_posts'&&x.owner_class==='other_role'));
+ assert(r.table_permissions.some(x=>x.relation==='oyasumi_profiles'&&x.role==='authenticated'&&x.privilege==='SELECT'&&!x.allowed));assert(r.column_permissions.some(x=>x.relation==='oyasumi_profiles'&&x.column_name==='hidden_note'&&x.role==='authenticated'&&x.privilege==='SELECT'&&x.allowed),'Column/inherited grants cannot hide behind table grant denial');
+ assert(r.policies.some(x=>x.command==='SELECT'&&x.applies_authenticated&&x.using_mentions_auth_uid));assert(r.policies.some(x=>x.command==='UPDATE'&&x.using_literal_true&&x.check_literal_true));assert(r.policies.some(x=>x.relation==='oyasumi_reactions'&&x.applies_public&&x.applies_anon&&x.applies_authenticated&&x.using_literal_true),'PUBLIC policies apply to both client roles');
+ const exposed=r.routines.find(x=>x.signature==='public.oyasumi_probe(text)'),privateHelper=r.routines.find(x=>x.signature==='public.oyasumi_cat_care_status_at(timestamp with time zone)');assert(exposed&&exposed.security_definer&&exposed.public_execute&&exposed.anon_execute&&!exposed.search_path_explicit);assert(privateHelper&&privateHelper.search_path_empty&&!privateHelper.public_execute&&!privateHelper.anon_execute&&!privateHelper.authenticated_execute&&privateHelper.definition_mentions_auth_uid);
+ assert(r.explicit_default_acl.some(x=>x.grantee==='anon'&&x.privilege_type==='EXECUTE'));assert(r.view_dependencies.some(x=>x.view_name==='synthetic_public_view'&&x.referenced_relation==='oyasumi_profiles'));assert.equal(JSON.stringify((await db.query('select * from public.oyasumi_profiles')).rows),before);assert.equal((await db.query("select current_setting('transaction_read_only') as v")).rows[0].v,'off');
+ const dir=path.join(root,'output/supabase-security-readonly');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'sql-verification.json'),JSON.stringify({pass:true,mode:'synthetic local PostgreSQL only',metadataOnly:true,privateLiteralsAndDefinitionsAbsent:true,inheritedColumnGrantDetected:true,publicExecuteAndPrivateHelperDetected:true,viewDependencyDetected:true,readOnlyTransaction:true,dataUnchanged:true,applicationFunctionsInvoked:0,productionRequests:0},null,2));console.log('PASS metadata inspection: read-only catalogs, no rows/definitions/literals, inherited column grants, PUBLIC execute, private helpers, view dependency and unchanged local data. No production requests.');
+}finally{await db.close();}})().catch(e=>{console.error(e.message);process.exitCode=1;});

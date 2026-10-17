@@ -36,7 +36,9 @@
 
 ## 管理者向けの次の確認（提案、未実行）
 
-DashboardのSecurity Advisor、Authenticationの匿名認証・CAPTCHA・レート制限、DatabaseのBackupsを確認する。読み取り専用SQLは既存の`supabase/night-boundary-inspect.sql`・`supabase/cat-care-state-inspect.sql`を再利用できる。プロフィール・リアクションも含めた全体確認には、以下のSELECTで現在の状態を採取する。秘密キー、トークン、個人の行は出力しない。関数本文の確認が必要な場合は管理者の非公開レビューで行う。
+追補：[本番設定の読み取り点検・Dashboard手順・A/B所有者確認表](supabase-production-security-readonly.md)と[値・本文を返さない確認SQL](../supabase/security-readonly-inspect.sql)を追加。個人情報・秘密値の共有を避ける今回の管理者確認には、条件式の全文を返す下記の旧SQLより追補のSQLを使用する。本番の認証済み相互権限は引き続き未確認。
+
+以下は前回の一般的な構造確認SQLで、履歴として保持する。既存の`supabase/night-boundary-inspect.sql`・`supabase/cat-care-state-inspect.sql`も条件式や関数本文を返すため、今回の「秘密値・個人情報を取得・表示しない」点検には使用しない。追補のメタデータ専用SQLを使い、所有者条件の詳細は管理者が内部で確認して判定のみを記録する。
 
 ```sql
 begin read only;
