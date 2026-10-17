@@ -75,3 +75,11 @@
 .day-room[data-solar-light] .room-resident>img,.day-room[data-solar-light] .room-care-animation img{filter:var(--room-light-filter,none)}
 html[data-cat-state-pending] .room-cat-lighting{visibility:hidden}
 html[data-cat-own-ready] .own-cat-room .room-cat-lighting{visibility:visible}
+
+/* Quiet breathing: keep the measured size, transform and contact anchor intact. */
+.day-room .room-resident>img[data-cat-scene=sleeping]{animation:room-sleep-breath 8s ease-in-out infinite}
+@keyframes room-sleep-breath{0%,15%,85%,100%{translate:0 0}50%{translate:0 -.3px}}
+.profile-room-unit[data-cat-playback] .room-resident>img[data-cat-scene=sleeping],
+[data-morning-beg=true] .room-resident>img[data-cat-scene=sleeping]{animation:none}
+html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.day-room .room-resident>img[data-cat-scene=sleeping]{animation:none}}

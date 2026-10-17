@@ -1,6 +1,10 @@
 // Shared room composition; gazing cats sit by the window during daylight.
 globalThis.DayRoom=(()=>{
  const active=new Map(),transitions=new WeakMap();
+ const reducedMotion=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
+ reducedMotion?.addEventListener?.('change',()=>{
+  if(reducedMotion.matches)for(const stage of document.querySelectorAll('.day-room'))transitions.get(stage)?.animation?.cancel();
+ });
  // Bottom transparent padding (%) in the unchanged art: morning, night,
  // relax, play, groom, doze, window gaze. Keep visible feet on the SVG sill.
  const windowPadding={
@@ -64,6 +68,7 @@ globalThis.DayRoom=(()=>{
  async function play(proxy,playOriginal){
   const unit=proxy.closest('.profile-room-unit'),stage=unit?.querySelector('.room-scene');
   if(!unit?.isConnected||!stage||active.has(unit))return;
+  cancelTransition(stage);
   const template=document.createElement('template');template.innerHTML=CatCare.visual(proxy.dataset.careCoat,proxy.dataset.careKind,{before:proxy.dataset.careBefore,after:proxy.dataset.careAfter});
   const animation=template.content.firstElementChild;animation.classList.add('room-care-animation');IndoorCatScale.prepareMeal(animation,stage.dataset.location);
   const resident=stage.querySelector('.room-resident'),token={animation,cancelled:false};
@@ -131,25 +136,43 @@ globalThis.DayRoom=(()=>{
    else void RoomBackgrounds.update(stage,next.where,next.w);
   }
  }
+ function cancelTransition(stage){
+  const token=transitions.get(stage);transitions.delete(stage);token?.animation?.cancel();
+ }
  async function transition(stage,next){
   if(transitions.get(stage)?.stamp===next.stamp)return;
+  cancelTransition(stage);
   const token={stamp:next.stamp};transitions.set(stage,token);
   const resident=stage.querySelector('.room-resident'),template=document.createElement('div');
   template.innerHTML=next.html;
   const images=[...template.querySelectorAll('img')];
   for(const image of images)image.loading='eager';
   const unchanged=resident.innerHTML===template.innerHTML;
-  if(!unchanged){
-   try{await Promise.all(images.map(image=>image.decode()));}catch{if(transitions.get(stage)===token)transitions.delete(stage);return;}
+  const valid=()=>transitions.get(stage)===token&&stage.isConnected&&!document.hidden&&!document.documentElement.hasAttribute('data-cat-state-pending')&&!isPlaying(stage);
+  const fade=async(from,to,duration)=>{
+   if(reducedMotion?.matches||typeof resident.animate!=='function')return;
+   token.animation?.cancel();
+   token.animation=resident.animate([{opacity:from},{opacity:to}],{duration,easing:'ease-in-out',fill:'forwards'});
+   await token.animation.finished.catch(()=>{});
+  };
+  try{
+   if(!unchanged)try{await Promise.all(images.map(image=>image.decode()));}catch{return;}
+   if(!valid())return;
+   let current=readStage(stage);
+   if(current.stamp!==next.stamp||current.html!==next.html){void transition(stage,current);return;}
+   const changed=!unchanged||stage.dataset.place!==current.place||stage.dataset.location!==current.where;
+   if(changed)await fade(1,0,120);
+   if(!valid())return;
+   current=readStage(stage);
+   if(current.stamp!==next.stamp||current.html!==next.html){void transition(stage,current);return;}
+   // Swap only one decoded cat, together with its original placement/scenery.
+   if(!unchanged)resident.replaceChildren(...template.childNodes);
+   applyStage(stage,current,true);CatImages.warm(stage);
+   if(changed)await fade(0,1,200);
+  }finally{
+   token.animation?.cancel();
+   if(transitions.get(stage)===token)transitions.delete(stage);
   }
-  if(transitions.get(stage)!==token||!stage.isConnected)return;
-  transitions.delete(stage);
-  if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')||isPlaying(stage))return;
-  const current=readStage(stage);
-  if(current.stamp!==next.stamp||current.html!==next.html){void transition(stage,current);return;}
-  // The decoded cat, placement and scenery become visible in the same task.
-  if(!unchanged)resident.replaceChildren(...template.childNodes);
-  applyStage(stage,current,true);CatImages.warm(stage);
  }
  return {world,snapshot,attrs,stage,homeKey,homeLabel,care,controls,unit,play,isPlaying,sync,settled:stage=>!transitions.has(stage),get playing(){return active.size;}};
 })();
