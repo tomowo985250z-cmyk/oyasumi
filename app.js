@@ -49,6 +49,7 @@ for (const key of [STORAGE_KEY, LOCAL_KEY]) {
  try { localState = { ...localState, ...JSON.parse(localStorage.getItem(key) || '{}') }; } catch { /* Leave this storage entry untouched and read the next. */ }
 }
 let state = { ...freshState(), coat: CatFaces.normalizeCoat(localState.lastSleep?.coat), name: localState.name, morningDays: Array.isArray(localState.morningDays) ? localState.morningDays : [], light: !!localState.light, lastSleep: localState.lastSleep || null };
+state.skyRegion=SolarModel.setRegion(localState.skyRegion).id;
 const savedName = NicknameRules.validate(state.name);
 state.name = savedName.error ? freshState().name : savedName.name;
 let shared = { userId: null, feed: [], reactionCounts: {}, awakeCount: null, sleepingCount: null, ownSleepCount: null, nightDate: null, trend: [], trendSupported: false };
@@ -76,7 +77,7 @@ const icons = { home: '<path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/>', timeline:
 const escapeHTML = text => String(text).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const timeLabel = date => new Date(date).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', hour12: false });
 const dayKey = () => SleepFlow.day(NightClock.now());
-function save() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify({ name: state.name, morningDays: state.morningDays, light: state.light, lastSleep: state.lastSleep })); } catch { toast('端末の設定を保存できませんでした。'); } }
+function save() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify({ name: state.name, morningDays: state.morningDays, light: state.light, skyRegion: state.skyRegion, lastSleep: state.lastSleep })); } catch { toast('端末の設定を保存できませんでした。'); } }
 function toast(message) { const el=document.querySelector('#toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),2800); }
 const allPosts = () => PostCatExpressions.latest(view==='timeline'&&previewFresh(timelinePreview)?timelinePreview.feed:shared.feed,NightClock.now());
 const statusText = (status,intent) => status === 'awake' && intent === 'sleepless' ? 'まだ眠れない…' : POST_OPTIONS.find(option => option.id === status)?.text || '';
@@ -88,7 +89,15 @@ const staticCatIcon = (html,className,name) => `<span class="${className}" data-
 const postCatIcon = person => isOwnCat(person) ? staticCatIcon(avatar(person),'public-profile-cat',person.name) : `<button class="public-profile-cat" data-public-profile="${person.id}" aria-label="${escapeHTML(person.name)}のプロフィール">${avatar(person)}</button>`;
 const header = (title='おやすみ', back=false, backAction='data-view="home" aria-label="ホームに戻る"') => `<header class="header">${back?`<button class="icon-button" ${backAction}>‹</button>`:'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { const items=[['home','ホーム'],['timeline','タイムライン'],['stats','みんなの記録'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=false; }
-let roofMoonTimer,roofShootingTimer,roofNextShootingAt;
+let roofMoonTimer,roofShootingTimer,roofNextShootingAt,roofBoundaryTimer;
+function syncRoofSolar(){
+ const scene=document.querySelector('.awake-roof');if(document.hidden||!scene)return;
+ const w=DayRoom.world(),key=[SolarModel.region().id,Math.floor(w.at/60000),w.weather,w.season].join(':');
+ if(scene.dataset.solarKey===key)return;scene.dataset.solarKey=key;
+ const holder=document.createElementNS('http://www.w3.org/2000/svg','svg');holder.innerHTML=SolarSky.roof(w);
+ const current=scene.querySelector('[data-roof-solar]');if(current)current.replaceWith(holder.firstElementChild);else scene.insertBefore(holder.firstElementChild,scene.querySelector(':scope > path'));
+}
+
 function syncRoofMoon() {
  clearTimeout(roofMoonTimer);
  const moons=document.querySelectorAll('.roof-moon,.room-window-moon');
@@ -100,10 +109,15 @@ function syncRoofMoon() {
  roofMoonTimer=setTimeout(syncRoofMoon,1000);
 }
 function syncRoofSky() {
+ clearTimeout(roofBoundaryTimer);
+ if(!document.hidden&&view==='home'){
+  const now=NightClock.now();roofBoundaryTimer=setTimeout(()=>{refreshDayScene();syncRoofSky();},Math.max(25,SolarModel.sky(now).nextRoofAt-now));
+ }
+ syncRoofSolar();
  clearTimeout(roofShootingTimer);
  const scene=document.querySelector('.awake-roof');
  syncRoofMoon();
- if(DayRoom.world().daylight||document.hidden||!scene||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.roof-shooting-star').forEach(star=>{star.getAnimations().forEach(animation=>animation.cancel());star.remove();});roofNextShootingAt=undefined;return;}
+ if(SolarModel.phase(NightClock.now())!=='night'||document.hidden||!scene||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.roof-shooting-star').forEach(star=>{star.getAnimations().forEach(animation=>animation.cancel());star.remove();});roofNextShootingAt=undefined;return;}
  roofNextShootingAt??=performance.now()+15000+Math.random()*15000;
  roofShootingTimer=setTimeout(()=>{
   roofNextShootingAt=undefined;
@@ -143,7 +157,7 @@ function awakeCats() {
  if(!count)return '';
  const users=new Set(),coats=[];
  for(const post of TimelineVisibility.visible(shared.feed,NightClock.now())){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
-return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g>${RoofMoon.svg(NightClock.now())}</svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
+return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs>${SolarSky.roof(DayRoom.world())}<path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g>${RoofMoon.svg(NightClock.now())}</svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
 }
 function cardSkyStars() {
  // One gently jittered star per cell keeps the entire card balanced at every width.
@@ -162,7 +176,7 @@ function homeCopy(now=NightClock.now()) {
  const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));
  return hour>=6&&hour<18 ? {heading:'最近の投稿',comment:'ここには、誰かがいるみたい'} : {heading:'今夜まだ起きてる人',comment:'今夜も、ひとりじゃないみたい'};
 }
-function countCard() { const copy=homeCopy(),world=DayRoom.world();if(world.daylight)return '';return `<section class="card count-card roof-sky-card${world.daylight?' world-day-card':''}" ${DayRoom.attrs(world)}>${world.daylight?'<span class="world-sky" aria-hidden="true">'+SeasonLandscape.art(world,'sky')+'</span>':cardSkyStars()}<h2 class="awake-heading"><span>${copy.heading}</span><span class="count">${activeAwakeCount() ?? '—'}<small> 人</small></span></h2>${awakeCats()}<p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend)}">${copy.comment}</p></section>`; }
+function countCard() { const now=NightClock.now(),copy=homeCopy(now),world=DayRoom.world();if(!SolarModel.sky(now).roofVisible)return '';return `<section class="card count-card roof-sky-card" ${DayRoom.attrs(world)}>${cardSkyStars()}<h2 class="awake-heading"><span>${copy.heading}</span><span class="count">${activeAwakeCount() ?? '—'}<small> 人</small></span></h2>${awakeCats()}<p class="muted" data-trend-comment="${TonightTrend.classify(shared.trend)}">${copy.comment}</p></section>`; }
 function actions() {
  // Both awake choices use the existing DB status; keep legacy early-sleep in POST_OPTIONS for history and counts.
  return `<div class="status-actions"><button class="status-button awake" data-post="awake" data-home-choice="relax"><span class="status-symbol sun-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><circle cx="24" cy="24" r="11"/><path d="M24 5v4M24 39v4M5 24h4M39 24h4M10.5 10.5l2.8 2.8M34.7 34.7l2.8 2.8M10.5 37.5l2.8-2.8M34.7 13.3l2.8-2.8" fill="none" stroke="#fff0c2" stroke-width="3" stroke-linecap="round"/></svg></span><span><strong><span class="post-label-text">起きてるよ</span></strong><small>（のんびり中）</small></span></button><button class="status-button sleep" data-post="sleep" data-home-choice="sleep"><span class="status-symbol moon-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M39 5C23-1 6 10 6 25C6 40 24 49 39 41C41 40 41 37 38 37C25 37 18 28 20 17C22 11 29 8 37 8C40 8 41 6 39 5Z"/></svg></span><span><strong><span class="post-label-text">もう寝るよ</span></strong><small>（おやすみする）</small></span></button><div class="extra-post-options"><button class="extra-post-button" data-post="awake" data-home-choice="sleepless"><span><strong><span class="post-label-line">まだ眠れない…</span></strong><small>（起きてる）</small></span></button><button class="extra-post-button" data-post="try-sleep" data-home-choice="try-sleep"><span><strong><span class="post-label-line">眠れないけど</span><span class="post-label-line">寝てみる <span class="post-label-emoji">💤</span></span></strong></span></button></div><p class="choice-note">ひとつ選ぶだけ。<br>寝る報告のあとは、スマホを置いて。</p></div>`;
@@ -238,7 +252,7 @@ function renderCatPicker(){
  syncBusy();
 }
 function profile() { return `${header()}<section class="profile-page">${shared.profileComplete?'':'<section class="settings-section"><h2>投稿前にプロフィールを設定</h2><button class="setting-row" data-name>ニックネームを設定 ›</button><button class="setting-row" data-coat-picker>猫の種類を選ぶ ›</button></section>'}<div class="profile-banner">${staticCatIcon(shared.needsCat?'<span class="avatar peach" aria-hidden="true">🐾</span>':ownIcon(),'profile-cat-button',state.name||'自分')}<div><h1>${escapeHTML(state.name)||'ニックネーム未設定'}</h1>${roleTag(state.catRole)}<button class="profile-note-button" data-note-editor><span>そっとひとこと <small>編集 ›</small></span><span class="profile-note-text${state.profileNote ? '' : ' is-empty'}">${escapeHTML(state.profileNote)||'未入力'}</span></button></div></div>${catCoatSetting()}${roleSetting()}<div class="stats-grid profile-stats"><div class="stat">おやすみを伝えた回数<strong>${shared.ownSleepCount ?? '—'}<small> 回</small></strong></div><div class="stat">おはようした日数<strong>${state.morningDays.length}<small> 日</small></strong></div></div><details class="profile-history" data-history-user="${escapeHTML(shared.userId||'')}"><summary id="profile-history-summary">🐾 最近の記録を見る ＞</summary>${state.posts.length?state.posts.slice(0,12).map(p=>`<div class="history-row"><span>${new Date(p.time).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'})}</span><span class="history-status">${statusText(p.status,p.intent)}</span><time>${timeLabel(p.time)}</time></div>`).join(''):'<div class="card empty">まだ記録はありません。<br>今夜の「おやすみ」から始めましょう。</div>'}<p class="quiet-note">投稿の記録は、匿名アカウントに保存されます。</p></details></section>`; }
-function settings() { return `${header('設定',true)}<section class="settings-section"><h2>プロフィール</h2><button class="setting-row" data-name><span>ニックネーム</span><span class="setting-value">${escapeHTML(state.name)} ›</span></button><button class="setting-row" data-coat-picker ${CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())?'': 'disabled'} aria-label="猫の毛色を選ぶ"><span>猫の種類（毛色）</span><span class="expression-setting"><span class="avatar peach">${PostCatExpressions.svg(PostCatExpressions.forPost(ownIconPost()),state.coat)}</span><span class="setting-value">${shared.needsCat?'未設定':CatFaces.coatLabel(state.coat)} ›</span></span></button>${roleSetting()}</section><section class="settings-section"><h2>表示設定</h2><label class="setting-row"><span>ダークモード</span><input class="switch" type="checkbox" id="dark-switch" ${!state.light?'checked':''}></label><div class="setting-row"><span>言語</span><span class="setting-value">日本語</span></div></section><section class="settings-section"><h2>使い方</h2>${FirstUseGuide.slot('settings')}</section><section class="settings-section"><h2>この初期版について</h2><div class="card settings-info">投稿・リアクション・今夜の人数は、みんなで共有しています。朝の記録と表示設定は、この端末に保存されます。人数の推移は、今夜の投稿をもとに集計しています。<br><br><strong>データ削除・機種変更の前に</strong><br>ログイン情報は、このブラウザに保存されます。ブラウザのデータ削除や別のブラウザ・端末への変更でログイン情報を失うと、同じ匿名アカウントには戻れません。現在、復元・引き継ぎ機能はありません。<br><br>朝の記録もブラウザのデータ削除で失われます。Supabaseに残る投稿などは削除されません。詳しくは下のプライバシーポリシーをご覧ください。<br><br>通知は今後の対応予定です。</div></section><section class="settings-section safety-links"><h2>安心して使うために</h2><button class="setting-row" data-safety="privacy">プライバシーポリシー ›</button><button class="setting-row" data-safety="rules">利用規約・安全ルール ›</button></section><button class="text-button share-place-button" data-share-place>この場所を教える 🌙</button>`; }
+function settings() { return `${header('設定',true)}<section class="settings-section"><h2>プロフィール</h2><button class="setting-row" data-name><span>ニックネーム</span><span class="setting-value">${escapeHTML(state.name)} ›</span></button><button class="setting-row" data-coat-picker ${CatCoatCooldown.available(shared.catCoatStatus,NightClock.now())?'': 'disabled'} aria-label="猫の毛色を選ぶ"><span>猫の種類（毛色）</span><span class="expression-setting"><span class="avatar peach">${PostCatExpressions.svg(PostCatExpressions.forPost(ownIconPost()),state.coat)}</span><span class="setting-value">${shared.needsCat?'未設定':CatFaces.coatLabel(state.coat)} ›</span></span></button>${roleSetting()}</section><section class="settings-section"><h2>表示設定</h2><label class="setting-row"><span>ダークモード</span><input class="switch" type="checkbox" id="dark-switch" ${!state.light?'checked':''}></label><label class="setting-row"><span>空の地域</span><select class="solar-region-select" id="sky-region" aria-label="空の地域">${SolarModel.regions.map(region=>`<option value="${region.id}" ${region.id===SolarModel.region().id?'selected':''}>${region.label}</option>`).join('')}</select></label><div class="setting-row"><span>言語</span><span class="setting-value">日本語</span></div></section><section class="settings-section"><h2>使い方</h2>${FirstUseGuide.slot('settings')}</section><section class="settings-section"><h2>この初期版について</h2><div class="card settings-info">投稿・リアクション・今夜の人数は、みんなで共有しています。朝の記録と表示設定は、この端末に保存されます。人数の推移は、今夜の投稿をもとに集計しています。<br><br><strong>データ削除・機種変更の前に</strong><br>ログイン情報は、このブラウザに保存されます。ブラウザのデータ削除や別のブラウザ・端末への変更でログイン情報を失うと、同じ匿名アカウントには戻れません。現在、復元・引き継ぎ機能はありません。<br><br>朝の記録もブラウザのデータ削除で失われます。Supabaseに残る投稿などは削除されません。詳しくは下のプライバシーポリシーをご覧ください。<br><br>通知は今後の対応予定です。</div></section><section class="settings-section safety-links"><h2>安心して使うために</h2><button class="setting-row" data-safety="privacy">プライバシーポリシー ›</button><button class="setting-row" data-safety="rules">利用規約・安全ルール ›</button></section><button class="text-button share-place-button" data-share-place>この場所を教える 🌙</button>`; }
 function preloadCats(next) {
  if(!catsResolved()||(shared.needsCat&&next!=='timeline'&&next!=='stats'))return;
  let markup='';
@@ -449,7 +463,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
   document.querySelector('#expression-dialog').close();render();refreshAfterSave();toast('猫の毛色を保存しました');
  });return;}
 });
-document.addEventListener('change',event=>{if(event.target.id==='dark-switch'){state.light=!event.target.checked;save();render();}});
+document.addEventListener('change',event=>{if(event.target.id==='sky-region'){state.skyRegion=SolarModel.setRegion(event.target.value).id;save();render();}if(event.target.id==='dark-switch'){state.light=!event.target.checked;save();render();}});
 document.querySelector('#cancel-name').addEventListener('click',()=>document.querySelector('#nickname-dialog').close());
 document.querySelector('#cancel-expression').addEventListener('click',()=>document.querySelector('#expression-dialog').close());
 const roomWhispers=Object.freeze({steady:'今日も、ひとつずつ。',guardian:'安心して、ほっとひと息。',caring:'あなたにも、やさしい時間を。',watchful:'ここでは、ゆっくりしてね。',mechanic:'考えごとも、少しおやすみ。',maker:'積み重ねた日々に、ひと息。',welcoming:'いらっしゃい。くつろいでね。',foodie:'あたたかいものと、ひと息。',courier:'荷物をおろして、のんびり。',foresight:'先のことは、あとで考えよう。',creative:'ひらめきも、のんびり待とう。',independent:'自分のペースで、ゆっくり。',learner:'今日の学びに、ひとやすみ。',homely:'いつもの場所で、ひと息。',resting:'何もしない時間も、大切に。',carefree:'気の向くままに、のんびり。'});
@@ -593,9 +607,9 @@ render();syncSleepView();
 void ensureConnection().catch(()=>{if(view!=='rest')toast('共有データに接続できません。');});
 function refreshDayScene() {
  if(!catsResolved())return;
- DayRoom.sync();
+ DayRoom.sync();syncRoofSolar();
  const card=document.querySelector('.roof-sky-card'),world=DayRoom.world();
- const cardChanged=world.daylight?Boolean(card):!card||card.dataset.worldDay!==world.day;
+ const cardChanged=SolarModel.sky(NightClock.now()).roofVisible?(!card||card.dataset.worldDay!==world.day):Boolean(card);
  if(view==='home'&&((document.querySelector('.day-hero')?.dataset.dayBucket||null)!==DayRoom.homeKey()||cardChanged))renderPreservingPosition();
 }
 setInterval(()=>{if(!document.hidden)syncSleepView();if(!document.hidden&&view==='timeline')renderPreservingPosition(true);if(view==='rest'&&catsResolved())return;if(!document.hidden)refreshDayScene();if(!document.hidden&&!busy)void ensureConnection().then(()=>refreshShared()).catch(()=>{});},30000);

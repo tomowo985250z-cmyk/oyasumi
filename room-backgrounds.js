@@ -74,7 +74,7 @@ globalThis.RoomBackgrounds=(()=>{
    if(roomImages.size>=32)roomImages.delete(roomImages.keys().next().value);
    if(!roomImages.has(cacheKey))roomImages.set(cacheKey,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(room(source,w)));
    content='<img class="day-room-art" src="'+roomImages.get(cacheKey)+'" alt=""><div class="day-room-world-window">'+SolarLighting.landscape(w)+'</div>';
-  }else content='<div class="day-room-world-outdoors">'+SolarLighting.landscape(w,'sky')+'</div>'+place(where,w);
+  }else content='<div class="day-room-world-outdoors">'+SolarLighting.landscape(w,where)+'</div>'+place(where,w);
   const frame=SolarLighting.palette(w,phase=>({frame:phase==='night'?'#7d8989':'#ded8c8'})).frame;
   return '<div class="room-background-layer" data-background-location="'+where+'" data-light-at="'+w.at+'" data-light-weather="'+w.weather+'" data-light-season="'+w.season+'" data-background-phase="'+w.phase+'" style="--study-frame:'+frame+'">'+content+'</div>';
  }

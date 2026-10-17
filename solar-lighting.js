@@ -16,7 +16,7 @@ globalThis.SolarLighting=(()=>{
  function nodes(svg,html){const fragment=parse(`<svg xmlns="${ns}">${html}</svg>`);return [...fragment.childNodes].map(n=>svg.ownerDocument.importNode(n,true));}
  const floor=where=>where==='room'?'M0 236 309 228 400 258v72H0Z':where==='garden'?'M0 222q89-19 184-2t216-2v112H0Z':'M0 224h400v106H0Z';
  function room(source,w){
-  const svg=parse(source),s=SolarModel.at(w.at,w.weather),id='solar-room-'+(++sequence),v=s.shadow(90,150),strength=s.direct*s.southExposure;
+  const svg=parse(source),s=SolarModel.at(w.at,w.weather),id='solar-room-'+(++sequence),v=s.shadow(90,150),strength=s.source==='sun'&&globalThis.SolarSky?SolarSky.morningLight(w):s.direct*s.southExposure;
   const group=svg.querySelector('g[filter]'),insertion=[...group.childNodes].find(n=>n.nodeType===8&&n.textContent.includes('Rounded window'));
   const beam=[[49,233],[157,230],[174+v.x,258+v.y],[36+v.x,263+v.y]],center=104;
   const strips=[center,76,133].map((x,i)=>polygon([[x-2,232],[x+2,232],[x+v.x+4,261+v.y],[x+v.x-4,261+v.y]],'#334951',strength*(i?.065:.12))).join('');
@@ -45,6 +45,7 @@ globalThis.SolarLighting=(()=>{
   return stringify(svg);
  }
  function landscape(w,frame){
+  if(globalThis.SolarSky)return SolarSky.landscape(w,frame);
   const value={...w,phase:SolarModel.phase(w.at)},svg=parse(SeasonLandscape.art(value,frame,w.at)),s=SolarModel.at(w.at,w.weather);
   for(const circle of [...svg.children].filter(n=>n.localName==='circle'))circle.remove();
   if(s.source==='sun'&&w.weather==='sunny'){

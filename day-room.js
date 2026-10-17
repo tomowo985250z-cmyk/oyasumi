@@ -150,6 +150,7 @@ globalThis.DayRoom=(()=>{
    if(active.has(stage.closest('.profile-room-unit'))||stage.closest('[data-feeding=true]'))continue;
    const next=readStage(stage);if(stage.dataset.roomStamp!==next.stamp)void transition(stage,next);
    else void RoomBackgrounds.update(stage,next.where,next.w);
+   SolarSky.update(stage,next.w);
   }
  }
  function cancelTransition(stage){
