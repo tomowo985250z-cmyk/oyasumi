@@ -152,7 +152,7 @@ function cardSkyStars() {
  return `<span class="card-sky-stars" aria-hidden="true">${Array.from({length:48},(_,i)=>{
   const x=((i%8)+.22+((i*37+11)%101)/100*.56)/8*100,y=(Math.floor(i/8)+.22+((i*53+29)%103)/102*.56)/6*100;
   const tone=i%4===0?'cool':'warm',color=tone==='cool'?'#d2ddec':i%2?'#ece2bd':'#e9d6a7';
-  const size=cross.has(i)?2.8+(i%3)*.3:.8+(i%5)*.2,opacity=.18+(i%4)*.045;
+  const size=cross.has(i)?2.8+(i%3)*.3:.8+(i%5)*.2,opacity=.42+(i%4)*.1;
   const classes=[cross.has(i)?'card-star-cross':'',twinkle.has(i)?'roof-twinkle':''].filter(Boolean).join(' ');
   const motion=twinkle.has(i)?`animation-duration:${twinkle.get(i)}s;animation-delay:-${i*.37}s;`:'';
   return `<i class="${classes}" data-star-tone="${tone}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;width:${size}px;height:${size}px;--star-opacity:${opacity};opacity:${opacity};color:${color};${motion}"></i>`;

@@ -66,7 +66,7 @@ globalThis.RoofMoon = (() => {
   const window=frame==='window',radius=window?14/12:1,id='oyasumi-moon-lit-'+(++maskSequence);
   // The alpha mask is only the illuminated silhouette. No painted dark disk,
   // backing circle, shadow or sky-colored patch anywhere in the moon layer.
-  return `<defs><mask id="${id}" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="${-radius}" y="${-radius}" width="${radius*2}" height="${radius*2}" style="mask-type:alpha"><path d="${moon.path}" transform="${moon.facing}" fill="#fff"/></mask></defs><rect data-moon-light x="${-radius}" y="${-radius}" width="${radius*2}" height="${radius*2}" fill="${window?'#efe1be':'#ddd8bf'}" opacity="${window?'1':'.6'}" stroke="none" mask="url(#${id})"/>`;
+  return `<defs><mask id="${id}" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="${-radius}" y="${-radius}" width="${radius*2}" height="${radius*2}" style="mask-type:alpha"><path d="${moon.path}" transform="${moon.facing}" fill="#fff"/></mask></defs><rect data-moon-light x="${-radius}" y="${-radius}" width="${radius*2}" height="${radius*2}" fill="${window?'#efe1be':'#ddd8bf'}" opacity="1" stroke="none" mask="url(#${id})"/>`;
  }
  function svg(now,frame='roof') {
   const window=frame==='window',moon=drawing(now,frame);
