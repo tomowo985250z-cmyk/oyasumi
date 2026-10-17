@@ -45,6 +45,20 @@ globalThis.DayRoom=(()=>{
  };
  const scenery=(where,w)=>RoomBackgrounds.markup(where,w);
  const sceneryKey=(where,w)=>RoomBackgrounds.key(where,w);
+ const clockTime=(now=NightClock.now())=>{
+  const japan=new Date(now+9*3600000),minute=japan.getUTCMinutes();
+  return {stamp:Math.floor(now/60000),hour:(japan.getUTCHours()%12)*30+minute*.5,minute:minute*6};
+ };
+ function wallClock(){
+  const time=clockTime(),ticks=Array.from({length:12},(_,i)=>`<path d="M20 7v${i%3===0?2:1}" transform="rotate(${i*30} 20 20)"/>`).join('');
+  return `<svg class="room-wall-clock" viewBox="0 0 40 40" data-clock-minute="${time.stamp}" aria-hidden="true" focusable="false"><circle cx="20" cy="20.7" r="18" fill="#67594b" opacity=".12"/><circle cx="20" cy="20" r="18" fill="#b59a7e" stroke="#9e856c" stroke-width=".8"/><circle cx="20" cy="20" r="16.5" fill="none" stroke="#d1b99b" stroke-width=".6"/><circle cx="20" cy="20" r="14.5" fill="#e0d5bf" stroke="#a78f76" stroke-width=".7"/><g fill="none" stroke="#9a8d79" stroke-width=".8" stroke-linecap="round">${ticks}</g><path class="room-clock-hour" d="M20 21v-9" transform="rotate(${time.hour} 20 20)" stroke="#6b6053" stroke-width="1.7" stroke-linecap="round"/><path class="room-clock-minute" d="M20 21v-12" transform="rotate(${time.minute} 20 20)" stroke="#6b6053" stroke-width="1.1" stroke-linecap="round"/><circle cx="20" cy="20" r="1.3" fill="#88735c"/></svg>`;
+ }
+ function syncClock(stage,time){
+  const clock=stage.querySelector('.room-wall-clock');if(!clock||clock.dataset.clockMinute===String(time.stamp))return;
+  clock.querySelector('.room-clock-hour').setAttribute('transform',`rotate(${time.hour} 20 20)`);
+  clock.querySelector('.room-clock-minute').setAttribute('transform',`rotate(${time.minute} 20 20)`);
+  clock.dataset.clockMinute=time.stamp;
+ }
  const contactStyle=(place,where,html,coat,night)=>IndoorCatScale.style(html,where,place,night)+(place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'');
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
@@ -55,7 +69,7 @@ globalThis.DayRoom=(()=>{
   const where=location(room,w,cat?.status),tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
   const style=contactStyle(place,where,html,coat,night),contact=style?` style="${style}"`:'';
   const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
-  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${scenery(where,w)}</div><${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
+  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${scenery(where,w)}</div>${wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
  function controls(html){
   const template=document.createElement('template');template.innerHTML=html;
@@ -129,7 +143,9 @@ globalThis.DayRoom=(()=>{
  }
  function sync(){
   if(document.hidden)return;
+  const time=clockTime();
   for(const stage of document.querySelectorAll('.day-room')){
+   syncClock(stage,time);
    if(stage.closest('.own-cat-room')&&((typeof catsResolved==='function'&&!catsResolved())||(typeof shared!=='undefined'&&shared.needsCat===true)))continue;
    if(active.has(stage.closest('.profile-room-unit'))||stage.closest('[data-feeding=true]'))continue;
    const next=readStage(stage);if(stage.dataset.roomStamp!==next.stamp)void transition(stage,next);
