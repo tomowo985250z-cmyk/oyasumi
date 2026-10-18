@@ -34,6 +34,13 @@ globalThis.DayRoom=(()=>{
  // Local presentation preference, kept across view changes for each cat.
  // It never changes account, posting, care or cat-location state.
  const lamps=new Map(),curtains=new Map();let lampSequence=0;
+ // These preferences stay in this tab, never in the DB or browser storage.
+ // Check ownership again at the write, even if a disabled control is reenabled.
+ const canControlRoom=user=>{
+  const viewer=typeof shared!=='undefined'?shared.userId:null;
+  return typeof viewer==='string'&&!!viewer&&user===viewer&&
+   (typeof OyasumiAPI==='undefined'||!('userId' in OyasumiAPI)||OyasumiAPI.userId===viewer);
+ };
  function lampState(user,where,w){
   const at=SolarModel.time(w),sun=SolarModel.parameters(at),altitude=sun.altitude;
   // Anchor a manual override to its evening, across midnight and the whole
@@ -46,12 +53,12 @@ globalThis.DayRoom=(()=>{
  function lampMarkup(user,where,w){
   const s=lampState(user,where,w),id='room-lamp-'+(++lampSequence);
   // The rounded window is a real hole: moon, stars and glass are not tinted.
-  return `<svg class="room-warm-light" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="opacity:${s.level}"><defs><radialGradient id="${id}" cx=".53" cy=".13" r="1"><stop stop-color="#ffdcab" stop-opacity=".35"/><stop offset=".58" stop-color="#ffcf9f" stop-opacity=".24"/><stop offset="1" stop-color="#ffe3bd" stop-opacity=".12"/></radialGradient></defs><path fill="url(#${id})" fill-rule="evenodd" d="M0 0H400V330H0Z M51 155V73a53 53 0 0 1 106 0v82Z"/></svg><button type="button" class="room-light-switch" aria-label="${s.on?'部屋の明かりを消す':'部屋の明かりをつける'}" aria-pressed="${s.on}" ${s.available?'':'hidden disabled'}></button>`;
+  return `<svg class="room-warm-light" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="opacity:${s.level}"><defs><radialGradient id="${id}" cx=".53" cy=".13" r="1"><stop stop-color="#ffdcab" stop-opacity=".35"/><stop offset=".58" stop-color="#ffcf9f" stop-opacity=".24"/><stop offset="1" stop-color="#ffe3bd" stop-opacity=".12"/></radialGradient></defs><path fill="url(#${id})" fill-rule="evenodd" d="M0 0H400V330H0Z M51 155V73a53 53 0 0 1 106 0v82Z"/></svg><button type="button" class="room-light-switch" aria-label="${s.on?'部屋の明かりを消す':'部屋の明かりをつける'}" aria-pressed="${s.on}" ${s.available&&canControlRoom(user)?'':'hidden disabled'}></button>`;
  }
  function syncLamp(stage,w=DayRoom.world()){
   const s=lampState(stage.dataset.roomUser,stage.dataset.location,w),light=stage.querySelector('.room-warm-light'),button=stage.querySelector('.room-light-switch');
   if(light)light.style.opacity=String(s.level);
-  if(button){button.hidden=!s.available;button.disabled=!s.available;button.setAttribute('aria-pressed',String(s.on));button.setAttribute('aria-label',s.on?'部屋の明かりを消す':'部屋の明かりをつける');}
+  if(button){button.hidden=!(s.available&&canControlRoom(stage.dataset.roomUser));button.disabled=button.hidden;button.setAttribute('aria-pressed',String(s.on));button.setAttribute('aria-label',s.on?'部屋の明かりを消す':'部屋の明かりをつける');}
   syncCurtain(stage,w,s);
  }
  function curtainPalette(w,lamp){
@@ -71,25 +78,25 @@ globalThis.DayRoom=(()=>{
    right:'<path d="M113 10c7 41-3 99 3 151l10-1c-8-53 3-101-4-151Z" fill="#fff4db" opacity=".085"/><path d="M133 8c-3 49 9 106 3 153l9-2c5-50-7-100-3-150Z" fill="#30484b" opacity=".075"/><path d="M153 8c-6 43 0 102-1 151l7 2c-4-53-4-104 2-151Z" fill="#fff4db" opacity=".075"/>'
   };
   const panel=side=>`<g class="room-curtain-panel room-curtain-${side}"><path d="${shapes[side]}" fill="var(--curtain-${side})"/><path d="${shapes[side]}" fill="url(#${id}-shade)"/><g clip-path="url(#${id}-${side})">${folds[side]}<path d="${side==='left'?'M46 16q12-7 25-2t35 0':'M106 16q12-7 25-2t32 0'}" fill="none" stroke="#fff4db" stroke-opacity=".13" stroke-width="2.5"/></g></g>`;
-  return `<svg class="room-curtains" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="--curtain-left:${palette.left};--curtain-right:${palette.right}"><defs>${['left','right'].map(side=>`<clipPath id="${id}-${side}"><path d="${shapes[side]}"/></clipPath>`).join('')}<linearGradient id="${id}-shade" x2="1" y2=".08"><stop stop-color="#30484b" stop-opacity=".06"/><stop offset=".21" stop-color="#fff4db" stop-opacity=".07"/><stop offset=".48" stop-color="#30484b" stop-opacity=".05"/><stop offset=".76" stop-color="#fff4db" stop-opacity=".06"/><stop offset="1" stop-color="#30484b" stop-opacity=".10"/></linearGradient></defs>${panel('right')}${panel('left')}</svg><button type="button" class="room-curtain-switch" aria-label="${closed?'カーテンを開く':'カーテンを閉じる'}" aria-expanded="${!closed}" ${where==='room'?'':'hidden disabled'}></button>`;
+  return `<svg class="room-curtains" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="--curtain-left:${palette.left};--curtain-right:${palette.right}"><defs>${['left','right'].map(side=>`<clipPath id="${id}-${side}"><path d="${shapes[side]}"/></clipPath>`).join('')}<linearGradient id="${id}-shade" x2="1" y2=".08"><stop stop-color="#30484b" stop-opacity=".06"/><stop offset=".21" stop-color="#fff4db" stop-opacity=".07"/><stop offset=".48" stop-color="#30484b" stop-opacity=".05"/><stop offset=".76" stop-color="#fff4db" stop-opacity=".06"/><stop offset="1" stop-color="#30484b" stop-opacity=".10"/></linearGradient></defs>${panel('right')}${panel('left')}</svg><button type="button" class="room-curtain-switch" aria-label="${closed?'カーテンを開く':'カーテンを閉じる'}" aria-expanded="${!closed}" ${where==='room'&&canControlRoom(user)?'':'hidden disabled'}></button>`;
  }
  function syncCurtain(stage,w,lamp){
   const closed=curtains.get(stage.dataset.roomUser||'local-cat')===true,button=stage.querySelector('.room-curtain-switch');
   stage.dataset.curtainClosed=String(closed);
-  if(button){button.hidden=stage.dataset.location!=='room';button.disabled=button.hidden;button.setAttribute('aria-expanded',String(!closed));button.setAttribute('aria-label',closed?'カーテンを開く':'カーテンを閉じる');}
+  if(button){button.hidden=stage.dataset.location!=='room'||!canControlRoom(stage.dataset.roomUser);button.disabled=button.hidden;button.setAttribute('aria-expanded',String(!closed));button.setAttribute('aria-label',closed?'カーテンを開く':'カーテンを閉じる');}
   const palette=curtainPalette(w,lamp),panels=stage.querySelector('.room-curtains');
   if(panels)for(const side of ['left','right'])panels.style.setProperty('--curtain-'+side,palette[side]);
  }
  document.addEventListener('click',event=>{
   const curtain=event.target.closest?.('.room-curtain-switch'),curtainStage=curtain?.closest('.day-room');
   if(curtainStage){
-   if(curtain.disabled||curtainStage.dataset.location!=='room')return;
+   if(curtain.disabled||curtainStage.dataset.location!=='room'||!canControlRoom(curtainStage.dataset.roomUser))return;
    event.preventDefault();const user=curtainStage.dataset.roomUser||'local-cat';curtains.set(user,curtains.get(user)!==true);
    for(const item of document.querySelectorAll('.day-room'))if((item.dataset.roomUser||'local-cat')===user)syncLamp(item);
    return;
   }
   const button=event.target.closest?.('.room-light-switch'),stage=button?.closest('.day-room');if(!stage)return;
-  const w=DayRoom.world(),s=lampState(stage.dataset.roomUser,stage.dataset.location,w);if(!s.available)return;
+  const w=DayRoom.world(),s=lampState(stage.dataset.roomUser,stage.dataset.location,w);if(button.disabled||!s.available||!canControlRoom(stage.dataset.roomUser))return;
   event.preventDefault();lamps.set(stage.dataset.roomUser||'local-cat',{night:s.night,on:!s.on});
   for(const item of document.querySelectorAll('.day-room'))if(item.dataset.roomUser===stage.dataset.roomUser)syncLamp(item,w);
  });
