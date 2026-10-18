@@ -31,24 +31,39 @@ globalThis.DayRoom=(()=>{
   return windowPadding[CatFaces.normalizeCoat(coat)]?.[index]||0;
  }
  const world=()=>{const at=NightClock.now();return {...SeasonWeather.at(at),at};}
- // Local presentation preference, kept across view changes for each cat.
+ // Local presentation preferences, isolated by the authenticated account.
  // It never changes account, posting, care or cat-location state.
- const lamps=new Map(),curtains=new Map();let lampSequence=0;
- // These preferences stay in this tab, never in the DB or browser storage.
+ const lamps=new Map(),curtains=new Map(),restored=new Set();let lampSequence=0;
  // Check ownership again at the write, even if a disabled control is reenabled.
  const canControlRoom=user=>{
   const viewer=typeof shared!=='undefined'?shared.userId:null;
   return typeof viewer==='string'&&!!viewer&&user===viewer&&
    (typeof OyasumiAPI==='undefined'||!('userId' in OyasumiAPI)||OyasumiAPI.userId===viewer);
  };
+ const preferenceKey=user=>'oyasumi-room-preferences-v1:'+encodeURIComponent(user);
+ function restorePreferences(user){
+  if(!canControlRoom(user)||restored.has(user))return;
+  restored.add(user);
+  try{
+   const saved=JSON.parse(localStorage.getItem(preferenceKey(user))||'null');
+   if(saved?.version!==1)return;
+   if(typeof saved.curtainClosed==='boolean')curtains.set(user,saved.curtainClosed);
+   if(typeof saved.lampOn==='boolean')lamps.set(user,{on:saved.lampOn});
+  }catch{ /* Invalid or unavailable storage leaves this account's defaults intact. */ }
+ }
+ function savePreferences(user){
+  if(!canControlRoom(user))return;
+  try{localStorage.setItem(preferenceKey(user),JSON.stringify({version:1,curtainClosed:curtains.get(user)===true,lampOn:lamps.get(user)?.on}));}
+  catch{if(typeof toast==='function')toast('部屋の設定を端末に保存できませんでした。');}
+ }
  function lampState(user,where,w){
+  restorePreferences(user);
   const at=SolarModel.time(w),sun=SolarModel.parameters(at),altitude=sun.altitude;
-  // Anchor a manual override to its evening, across midnight and the whole
-  // dawn fade (daily sunrise estimates and instantaneous altitude can differ).
-  const evening=sun.hour*60<sun.noon?SolarModel.parameters(sun.dayStart-1):sun;
-  const available=where==='room'&&SolarModel.phase(at)==='night',night=evening.sunsetAt,saved=lamps.get(user||'local-cat');
-  const on=available&&(saved?.night!==night||saved.on);
-  return {available,on,night,level:on?SolarModel.smooth(-.833,-6,altitude):0};
+  // Daylight always wins. At night a saved manual choice wins over automatic
+  // dusk/dawn lighting, including following nights; daylight never clears it.
+  const available=where==='room'&&SolarModel.phase(at)==='night',saved=lamps.get(user||'local-cat');
+  const on=available&&(saved?.on??true);
+  return {available,on,level:on?SolarModel.smooth(-.833,-6,altitude):0};
  }
  function lampMarkup(user,where,w){
   const s=lampState(user,where,w),id='room-lamp-'+(++lampSequence);
@@ -57,6 +72,7 @@ globalThis.DayRoom=(()=>{
  }
  function syncLamp(stage,w=DayRoom.world()){
   const s=lampState(stage.dataset.roomUser,stage.dataset.location,w),light=stage.querySelector('.room-warm-light'),button=stage.querySelector('.room-light-switch');
+  stage.toggleAttribute('data-room-preferences-pending',stage.dataset.roomHome==='true'&&!canControlRoom(stage.dataset.roomUser));
   if(light)light.style.opacity=String(s.level);
   if(button){button.hidden=!(s.available&&canControlRoom(stage.dataset.roomUser));button.disabled=button.hidden;button.setAttribute('aria-pressed',String(s.on));button.setAttribute('aria-label',s.on?'部屋の明かりを消す':'部屋の明かりをつける');}
   syncCurtain(stage,w,s);
@@ -91,13 +107,13 @@ globalThis.DayRoom=(()=>{
   const curtain=event.target.closest?.('.room-curtain-switch'),curtainStage=curtain?.closest('.day-room');
   if(curtainStage){
    if(curtain.disabled||curtainStage.dataset.location!=='room'||!canControlRoom(curtainStage.dataset.roomUser))return;
-   event.preventDefault();const user=curtainStage.dataset.roomUser||'local-cat';curtains.set(user,curtains.get(user)!==true);
+   event.preventDefault();const user=curtainStage.dataset.roomUser;restorePreferences(user);curtains.set(user,curtains.get(user)!==true);savePreferences(user);
    for(const item of document.querySelectorAll('.day-room'))if((item.dataset.roomUser||'local-cat')===user)syncLamp(item);
    return;
   }
   const button=event.target.closest?.('.room-light-switch'),stage=button?.closest('.day-room');if(!stage)return;
   const w=DayRoom.world(),s=lampState(stage.dataset.roomUser,stage.dataset.location,w);if(button.disabled||!s.available||!canControlRoom(stage.dataset.roomUser))return;
-  event.preventDefault();lamps.set(stage.dataset.roomUser||'local-cat',{night:s.night,on:!s.on});
+  event.preventDefault();lamps.set(stage.dataset.roomUser,{on:!s.on});savePreferences(stage.dataset.roomUser);
   for(const item of document.querySelectorAll('.day-room'))if(item.dataset.roomUser===stage.dataset.roomUser)syncLamp(item,w);
  });
  const snapshot=(user,now=NightClock.now())=>{
@@ -131,6 +147,7 @@ globalThis.DayRoom=(()=>{
  const contactStyle=(place,where,html,coat,night)=>IndoorCatScale.style(html,where,place,night)+(place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'')+SceneryMaterials.contact(html,where,place,night,world());
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':room.restState==='sleeping'?'すやすや、ひとやすみ中':room.restState==='settling'?'お部屋で、ひとやすみ。':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
+  restorePreferences(user);
   if(cat?.status)cat={...cat,status:PostCatExpressions.state({status:cat.status})};
   const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true;
   const where=location(room,w,cat?.status);
@@ -139,7 +156,7 @@ globalThis.DayRoom=(()=>{
   const tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
   const style=contactStyle(place,where,html,coat,night),contact=style?` style="${style}"`:'';
   const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
-  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${scenery(where,w)}</div>${lampMarkup(user,where,w)}${curtainMarkup(user,where,w)}${wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
+  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${cat?.home&&!canControlRoom(user)?' data-room-preferences-pending':''}${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${scenery(where,w)}</div>${lampMarkup(user,where,w)}${curtainMarkup(user,where,w)}${wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
  function controls(html){
   const template=document.createElement('template');template.innerHTML=html;

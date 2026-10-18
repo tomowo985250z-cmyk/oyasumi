@@ -135,7 +135,6 @@ matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',syncRoo
 function activeAwakeCount() {
  return Array.isArray(shared.activeAwakePosts) ? TimelineVisibility.visible(shared.activeAwakePosts,NightClock.now()).length : shared.awakeCount;
 }
-const homeCatCount = TonightTrend.createCatIndicator();
 let sentReactionPeople, sentPeopleRequest=0;
 function sentKindness(){return sentReactionPeople?.nightDate===NightClock.night()&&sentReactionPeople.count>0?`<p class="quiet-note sent-kindness">今日は${sentReactionPeople.count}人に、やさしい気持ちを届けたよ 🐾</p>`:'';}
 async function refreshSentReactionPeople(){
@@ -153,10 +152,8 @@ async function refreshSentReactionPeople(){
  }catch{ /* Optional SQL may not be installed; never show a stale or false count. */ }
 }
 function awakeCats() {
- const activeCount=activeAwakeCount();
- const count=homeCatCount(activeCount,shared.trend,shared.trendHistory,NightClock.now());
- const users=new Set(),coats=[];
- for(const post of TimelineVisibility.visible(shared.feed,NightClock.now())){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
+ // The mounted row is fitted to the card by the existing solar update tick.
+ const count=1,coats=[];
 return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 150" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient><clipPath id="awake-roof-frame" clipPathUnits="userSpaceOnUse"><rect x="-256" y="0" width="720" height="150"/></clipPath></defs><g clip-path="url(#awake-roof-frame)">${SolarSky.roof(DayRoom.world())}${RoofRecline.surface()}</g></svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
 }
 function cardSkyStars() {
