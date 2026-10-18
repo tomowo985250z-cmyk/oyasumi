@@ -55,6 +55,7 @@ globalThis.SolarSky=(()=>{
   paint(svg,w,frame);return stringify(svg);
  }
  function roof(w){
+  w={...w,weather:'sunny'}; // The rooftop is a separate calm sky, not shared weather.
   const s=state(w),group=document.createElementNS(ns,'g');group.setAttribute('data-roof-solar','');
   const sky=parse(SeasonLandscape.art({...w,solar:true,skyFrame:'roof'},'sky',w.at)),clouds=sky.querySelector('[data-sky-clouds]');
   const veil=document.createElementNS(ns,'g');veil.setAttribute('transform','scale(.52 .42)');veil.append(clouds);group.append(veil);
@@ -62,6 +63,7 @@ globalThis.SolarSky=(()=>{
   return stringify(group);
  }
  function updateRoof(scene,w){
+  w={...w,weather:'sunny'};
   const card=scene.closest('.roof-sky-card');if(!card)return;
   const t=SolarModel.twilight(SolarModel.time(w),'roof'),p=SeasonLandscape.theme({...w,solar:true,skyFrame:'roof'});
   card.style.setProperty('--roof-sky',p.sky);card.style.setProperty('--roof-horizon',p.horizon);
