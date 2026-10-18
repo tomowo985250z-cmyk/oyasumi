@@ -65,15 +65,18 @@ globalThis.RoomBackgrounds=(()=>{
   // Put light on walls/floor behind the original furniture, not over the cat.
   return SolarLighting.room(out.replace('<!-- Rounded window',depth+'<!-- Rounded window'),w);
  }
- const world=w=>SolarModel.world(w);
+ const world=w=>({...SolarModel.world(w),cloudAt:w.cloudAt??SolarModel.time(w)});
  const key=(where,w)=>[where,w.day,w.season,w.weather,Math.floor(SolarModel.time(w)/60000)].join(':');
  function markup(where,value){
   const w=world(value),night=w.phase==='night',cacheKey=[w.season,w.weather,w.phase,w.at].join(':');
   let content;
   if(where==='room'){
    if(roomImages.size>=32)roomImages.delete(roomImages.keys().next().value);
-   if(!roomImages.has(cacheKey))roomImages.set(cacheKey,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(room(source,w)));
-   content='<img class="day-room-art" src="'+roomImages.get(cacheKey)+'" alt=""><div class="day-room-world-window">'+SolarLighting.landscape(w)+'</div>';
+   if(!roomImages.has(cacheKey))roomImages.set(cacheKey,room(source,w));
+   const art=roomImages.get(cacheKey),prefix='room-inline-'+(++uid)+'-';
+   // Keep moonlit artwork unchanged. Daylight SVG stays editable so moving
+   // clouds can dim the existing light without rebuilding the room image.
+   content=(night?'<img class="day-room-art" src="data:image/svg+xml;charset=utf-8,'+encodeURIComponent(art)+'" alt="">':art.replace('<svg ','<svg class="day-room-art" aria-hidden="true" ').replace(/\bid="/g,'id="'+prefix).replace(/url\(#/g,'url(#'+prefix))+'<div class="day-room-world-window">'+SolarLighting.landscape(w)+'</div>';
   }else content='<div class="day-room-world-outdoors">'+SolarLighting.landscape(w,where)+'</div>'+place(where,w);
   const frame=SolarLighting.palette(w,phase=>({frame:phase==='night'?'#7d8989':'#ded8c8'})).frame;
   return '<div class="room-background-layer" data-background-location="'+where+'" data-light-at="'+w.at+'" data-light-weather="'+w.weather+'" data-light-season="'+w.season+'" data-background-phase="'+w.phase+'" style="--study-frame:'+frame+'">'+content+'</div>';

@@ -12,6 +12,13 @@ globalThis.SolarModel=(()=>{
  const setRegion=id=>(region=regions.find(value=>value.id===id)||regions[0]);
  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
  const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t);};
+ const bearing=where=>({room:90,window:90,engawa:270,garden:180,sky:180}[where]??180);
+ const cast=(altitude,direction)=>(height,cap=300)=>{const factor=1/Math.tan(Math.max(altitude,7)*rad),x=direction.x*height*factor,y=direction.y*height*factor,scale=Math.min(1,cap/Math.max(.001,Math.hypot(x,y)));return {x:x*scale,y:y*scale};};
+ function facing(s,where){
+  const delta=((s.azimuth-bearing(where)+540)%360)-180,direction={x:-Math.sin(delta*rad),y:Math.cos(delta*rad)*.38};
+  return {...s,delta,sunPoint:{x:200+delta*400/180,y:153-s.altitude*1.58},inView:Math.abs(delta)<=90&&s.altitude>=-.833,
+   exposure:where==='garden'||where==='sky'?1:Math.max(0,Math.cos(delta*rad)),direction,shadow:cast(s.altitudeUsed,direction)};
+ }
  function parameters(at){
   const lat=region.latitude*rad,longitude=region.longitude;
   const local=new Date(at+zone*3600000),year=local.getUTCFullYear(),start=Date.UTC(year,0,1),days=(Date.UTC(year+1,0,1)-start)/86400000;
@@ -65,9 +72,9 @@ globalThis.SolarModel=(()=>{
   const azimuth=day?s.azimuth:180+Math.asin(clamp((moonScreen.x-200)/185,-1,1))/rad;
   const direction={x:Math.sin(azimuth*rad),y:-Math.cos(azimuth*rad)*.38};
   const direct=day?smooth(0,7,s.altitude)*opacity:(1-smooth(-8,-2,s.altitude))*moon.illumination*opacity*.23;
-  const shadow=(height,cap=300)=>{const factor=1/Math.tan(Math.max(altitude,7)*rad),x=direction.x*height*factor,y=direction.y*height*factor,scale=Math.min(1,cap/Math.max(.001,Math.hypot(x,y)));return {x:x*scale,y:y*scale};};
+  const shadow=cast(altitude,direction);
   return {...s,source,phase:phase(at),direct,dawn,altitudeUsed:altitude,azimuthUsed:azimuth,screen:day?sunScreen:moonScreen,sunScreen,sky:sky(at,s),direction,shadow,moonIllumination:moon.illumination,southExposure:day?smooth(0,.55,-Math.cos(s.azimuth*rad)):.55,softness:weather==='sunny'?1.1:weather==='cloudy'?3:5};
  }
  const clock=minutes=>{const n=Math.round(minutes);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');};
- return Object.freeze({at,parameters,phase,clock,clamp,smooth,time,world,weights,sky,regions,setRegion,region:()=>region,reference:{latitude:35.7,longitude:139.7,timezone:'Asia/Tokyo'}});
+ return Object.freeze({at,parameters,phase,clock,clamp,smooth,time,world,weights,sky,regions,setRegion,bearing,facing,region:()=>region,reference:{latitude:35.7,longitude:139.7,timezone:'Asia/Tokyo'}});
 })();

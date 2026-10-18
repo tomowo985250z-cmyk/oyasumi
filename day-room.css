@@ -89,3 +89,7 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 @media(prefers-reduced-motion:reduce){.day-room .room-resident>img[data-cat-scene=sleeping]{animation:none}}
 
 .solar-region-select{max-width:52%;min-height:36px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;padding:3px 8px}
+
+/* Clouds advance by subpixels; only the existing sunlight/shadows fade. */
+[data-solar-direct]{transition:opacity 2s linear}
+@media(prefers-reduced-motion:reduce){[data-solar-direct]{transition:none}}

@@ -8,20 +8,17 @@ globalThis.SolarSky=(()=>{
  };
  const stringify=node=>new XMLSerializer().serializeToString(node);
  let cached;
- function state(w){
+ function state(w,where='garden'){
   const at=Math.floor(SolarModel.time(w)/60000)*60000,key=[SolarModel.region().id,at,w.weather,w.season].join(':');
-  if(cached?.key===key)return cached.value;
-  const value=SolarModel.at(at,w.weather);
-  // South-facing 180-degree panorama: east at the left, west at the right.
-  // Never clamp the sun into an opening or lift it over the illustrated hills.
-  const sunPoint={x:200+(value.azimuth-180)*400/180,y:153-value.altitude*1.58};
-  const transmission=SeasonLandscape.cloudTransmission(w,sunPoint);
+  if(cached?.key!==key)cached={key,value:SolarModel.at(at,w.weather)};
+  const value=cached.value,view=SolarModel.facing(value,where),sun=value.source==='sun';
+  const transmission=SeasonLandscape.cloudTransmission(w,view.sunPoint,13,where),horizon=view.inView?SeasonLandscape.horizonTransmission(view.sunPoint):1;
   const weather=w.weather==='sunny'?1:w.weather==='cloudy'?.22:.035;
-  const result={...value,sunPoint,weatherOpacity:weather,inView:value.azimuth>=90&&value.azimuth<=270&&value.altitude>=-.833,direct:value.direct*transmission,cloudTransmission:transmission,sunOpacity:value.sky.sunOpacity*weather};
-  cached={key,value:result};return result;
+  return {...value,...(sun?view:{}),sunPoint:view.sunPoint,inView:view.inView,weatherOpacity:weather,cloudTransmission:transmission,horizonTransmission:horizon,
+   direct:sun?value.direct*view.exposure*transmission*horizon:value.direct,southExposure:sun?1:value.southExposure,sunOpacity:value.sky.sunOpacity*weather};
  }
  function disc(s,frame,width=400,height=260){
-  const opacity=(frame==='engawa'?s.sky.eveningOpacity:frame==='garden'||frame==='sky'?s.sky.gardenOpacity:0)*s.weatherOpacity;
+  const opacity=s.sky.gardenOpacity*s.weatherOpacity;
   if(opacity<=0||!s.inView)return null;
   const point={x:s.sunPoint.x*width/400,y:s.sunPoint.y*height/260};
   const node=document.createElementNS(ns,'circle');node.setAttribute('data-solar-disc','');
@@ -29,8 +26,7 @@ globalThis.SolarSky=(()=>{
   node.setAttribute('fill','#f4d6b0');node.setAttribute('opacity',String(opacity*s.cloudTransmission));return node;
  }
  function paint(svg,w,frame){
-  const s=state(w),key=[s.region,s.at,w.weather,w.season,frame].join(':');
-  if(svg.dataset.solarSkyKey===key)return;
+  const s=state(w,frame),key=[s.region,s.at,w.weather,w.season,frame].join(':');
   let group=svg.querySelector(':scope > [data-solar-sky]');
   if(!group){
    // The published sun/glow are direct circles. Stars and the moon are nested.
@@ -38,12 +34,18 @@ globalThis.SolarSky=(()=>{
    group=document.createElementNS(ns,'g');group.setAttribute('data-solar-sky','');
    svg.insertBefore(group,svg.querySelector(':scope > g')||svg.querySelector('[data-depth]'));
   }
-  const box=svg.viewBox.baseVal,node=disc(s,frame,box.width,box.height);group.replaceChildren(...(node?[node]:[]));
+  const box=svg.viewBox.baseVal,node=disc(s,frame,box.width,box.height),old=group.firstElementChild;
+  if(node&&old){for(const a of node.attributes)if(old.getAttribute(a.name)!==a.value)old.setAttribute(a.name,a.value);}
+  else if(node||old)group.replaceChildren(...(node?[node]:[]));
+  if(s.phase!=='night'){
+   const cloudGroup=svg.querySelector('[data-sky-clouds]');
+   if(cloudGroup)SeasonLandscape.clouds(w,frame).forEach((c,i)=>cloudGroup.children[i]?.setAttribute('transform',`translate(${c.x} ${c.y}) scale(${c.scale})`));
+  }
   svg.dataset.solarSkyKey=key;svg.dataset.solarSource=s.source;svg.dataset.solarAltitude=s.altitude;
   svg.dataset.solarRegion=s.region;svg.dataset.solarPeriod=s.sky.sunPeriod||'';
  }
  function landscape(w,frame='window'){
-  const value={...w,phase:SolarModel.phase(w.at)},svg=parse(SeasonLandscape.art(value,frame==='window'?'window':'sky',w.at));
+  const value={...w,phase:SolarModel.phase(w.at),skyFrame:frame},svg=parse(SeasonLandscape.art(value,frame==='window'?'window':'sky',w.at));
   paint(svg,w,frame);return stringify(svg);
  }
  function roof(w){
@@ -52,7 +54,7 @@ globalThis.SolarSky=(()=>{
   return stringify(group);
  }
  function morningLight(w){
-  const s=state(w);return s.source==='sun'?s.direct*s.sky.morningOpacity/.72:0;
+  const s=state(w,'room');return s.source==='sun'?s.direct:0;
  }
  function update(stage,w){
   if(document.hidden)return;

@@ -10,13 +10,29 @@ globalThis.SeasonLandscape=(()=>{
  };
  const phase=w=>w.phase||((w.daylight===false||w.hour<6||w.hour>=18)?'night':w.hour<10?'morning':w.hour>=16?'evening':'day');
  const cloudPath='M-62 18Q-82-1-60-12q-5-28 22-29 18-31 42-4 30-10 39 17 28 0 34 27Q86 20 55 22Z';
- const clouds=w=>[{x:65,y:76,scale:w.weather==='sunny'?.63:.93},{x:335,y:100,scale:w.weather==='sunny'?.53:1},...(w.season==='summer'&&w.weather==='sunny'?[{x:222,y:99,scale:.83}]:[]),...(w.weather!=='sunny'?[{x:220,y:25,scale:1.2}]:[])];
+ function clouds(w,frame=w.skyFrame||'sky'){
+  const reduced=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const at=w.cloudAt??SolarModel.time(w),day=SolarModel.phase(at)!=='night';
+  const drift=day&&!reduced?(at/1000*.04)%800:0,turn=day?(180-SolarModel.bearing(frame))*400/180:0;
+  return [{x:65,y:76,scale:w.weather==='sunny'?.63:.93},{x:335,y:100,scale:w.weather==='sunny'?.53:1},...(w.season==='summer'&&w.weather==='sunny'?[{x:222,y:99,scale:.83}]:[]),...(w.weather!=='sunny'?[{x:220,y:25,scale:1.2}]:[])].map(c=>({...c,x:((c.x+drift+turn+200)%800+800)%800-200}));
+ }
+ const terrain=[
+  'M-20 163 21 142 57 154 95 119 128 140 163 111 210 148 247 126 289 147 334 110 375 142 420 127v133H-20Z',
+  'M-20 190 22 163q30-29 55-14l35-30 39 39q26-34 49-26l25 22 35-23q22-14 48 10l43-27 69 53v93H-20Z',
+  'M-8 200q51-40 98-12 32-50 80-24 47-36 90-12 44-16 75 7 44-26 81 16v85H-8Z'
+ ];
  let cloudContext,cloudShape;
- function cloudTransmission(w,point,radius=13){
+ function cloudTransmission(w,point,radius=13,frame='sky'){
   if(typeof Path2D!=='function'||typeof document==='undefined')return 1;
   cloudContext??=document.createElement('canvas').getContext('2d');cloudShape??=new Path2D(cloudPath);
   const samples=[[0,0],[-.55,0],[.55,0],[0,-.55],[0,.55]];
-  return samples.reduce((sum,[dx,dy])=>sum+clouds(w).reduce((light,c)=>cloudContext.isPointInPath(cloudShape,(point.x+dx*radius-c.x)/c.scale,(point.y+dy*radius-c.y)/c.scale)?light*.18:light,1),0)/samples.length;
+  return samples.reduce((sum,[dx,dy])=>sum+clouds(w,frame).reduce((light,c)=>cloudContext.isPointInPath(cloudShape,(point.x+dx*radius-c.x)/c.scale,(point.y+dy*radius-c.y)/c.scale)?light*.18:light,1),0)/samples.length;
+ }
+ let hills;
+ function horizonTransmission(point,radius=13){
+  if(typeof Path2D!=='function'||typeof document==='undefined')return 1;
+  cloudContext??=document.createElement('canvas').getContext('2d');hills??=terrain.map(d=>new Path2D(d));
+  return [[0,0],[-.55,0],[.55,0],[0,-.55],[0,.55]].filter(([dx,dy])=>!hills.some(p=>cloudContext.isPointInPath(p,point.x+dx*radius,point.y+dy*radius))).length/5;
  }
  function theme(w){
   if(w.solar)return SolarLighting.theme(w);
@@ -39,7 +55,7 @@ globalThis.SeasonLandscape=(()=>{
   const stars=night&&!rain?`<g fill="#f2e5c7" opacity="${cloud?.23:.7}">${Array.from({length:20},(_,i)=>`<circle cx="${14+(i*71)%375}" cy="${12+(i*31)%115}" r="${i%4? .7:1.1}"/>`).join('')}</g>`:'';
   const moon=night?`<g opacity="${rain?.12:cloud?.4:.95}" transform="${wide?'translate(160 -12) scale(1.25)':'translate(0 0)'}">${RoofMoon.svg(now,'window')}</g>`:'';
   const sun=!night&&!cloud?`<circle cx="${w.phase==='evening'?295:304}" cy="${w.phase==='evening'?130:w.phase==='morning'?96:53}" r="${w.phase==='evening'?18:14}" fill="${p.sun}" opacity=".9"/><circle cx="${w.phase==='evening'?295:304}" cy="${w.phase==='evening'?130:w.phase==='morning'?96:53}" r="36" fill="url(#${id}-glow)"/>`:'';
-  const far=`<path data-depth="distant-ridge" d="M-20 163 21 142 57 154 95 119 128 140 163 111 210 148 247 126 289 147 334 110 375 142 420 127v133H-20Z" fill="${mix(p.far,p.sky,.34)}"/><path d="M-20 190 22 163q30-29 55-14l35-30 39 39q26-34 49-26l25 22 35-23q22-14 48 10l43-27 69 53v93H-20Z" fill="${p.far}"/><path d="M-8 200q51-40 98-12 32-50 80-24 47-36 90-12 44-16 75 7 44-26 81 16v85H-8Z" fill="${p.hill}"/>`;
+  const far=terrain.map((d,i)=>`<path${i===0?' data-depth="distant-ridge"':''} d="${d}" fill="${[mix(p.far,p.sky,.34),p.far,p.hill][i]}"/>`).join('');
   const fields=`<path d="M0 215q93-24 180-5t220-4v54H0Z" fill="${p.field}"/><path d="M90 220q87-6 153 5l-18 10q-75-14-166-2Z" fill="${mix(p.field,p.green,.3)}"/><path d="m190 219 25 41h8l-25-42Z" fill="${mix(p.field,night?'#364344':'#d5c5a4',.35)}"/><path d="M0 241q128-25 235 0t165-5v24H0Z" fill="${p.green}" opacity=".5"/><path d="M236 222h53v-16h-53Z" fill="${night?'#485254':'#d3c9b2'}"/><path d="m230 207 18-13h28l20 13Z" fill="${night?'#263744':'#6d7a79'}"/><path d="M246 213h7v9h-7Zm24-1h8v6h-8Z" fill="${night?'#948867':'#7b9994'}"/>`;
   const trees=branchTree(wide?14:112,260,wide?.72:.55)+branchTree(wide?388:302,265,wide?.82:.62);
   const rainfall=rain?`<g stroke="${night?'#b3c6ca':'#dce5e1'}" stroke-width=".8" opacity=".38">${Array.from({length:28},(_,i)=>`<path d="m${(i*61)%400} ${(i*37)%250} -3 11"/>`).join('')}</g>`:'';
@@ -51,5 +67,5 @@ globalThis.SeasonLandscape=(()=>{
   }
   return `<svg class="season-landscape country-landscape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${id}" x2="0" y2="1"><stop stop-color="${p.sky}"/><stop offset=".68" stop-color="${mix(p.sky,p.horizon,.55)}"/><stop offset="1" stop-color="${p.horizon}"/></linearGradient><radialGradient id="${id}-glow"><stop stop-color="${p.sun}" stop-opacity=".22"/><stop offset="1" stop-color="${p.sun}" stop-opacity="0"/></radialGradient></defs><path d="M0 0h400v260H0Z" fill="url(#${id})"/>${stars}${moon}${sun}<g data-sky-clouds opacity="${night?.35:1}">${clouds(w).map(cloudAt).join('')}</g>${far}${fields}${trees}${rainfall}</svg>`;
  }
- return Object.freeze({theme,art:landscape,mix,phase,cloudTransmission});
+ return Object.freeze({theme,art:landscape,mix,phase,cloudTransmission,clouds,horizonTransmission});
 })();
