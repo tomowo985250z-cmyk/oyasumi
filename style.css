@@ -234,3 +234,7 @@ html[data-cat-state-pending][data-cat-timeline-ready] .post .avatar[data-cat-app
 /* Softer posting surfaces keep white labels clear in the dark theme. */
 body:not(.light-mode) .status-actions .status-button.awake{background:linear-gradient(125deg,#455780,#39496e)}
 body:not(.light-mode) .status-actions .status-button.sleep{background:linear-gradient(125deg,#765064,#614355)}
+
+/* Card-sized moon camera; roof and cat coordinates stay unchanged. */
+.roof-sky-card .awake-roof{overflow:visible}
+.roof-moon-viewport{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:1}

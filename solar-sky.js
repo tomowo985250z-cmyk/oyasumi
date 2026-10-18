@@ -51,13 +51,12 @@ globalThis.SolarSky=(()=>{
   svg.dataset.solarRegion=s.region;svg.dataset.solarPeriod=s.sky.sunPeriod||'';
  }
  function landscape(w,frame='window'){
-  const value={...w,solar:true,phase:SolarModel.phase(w.at),skyFrame:frame},svg=parse(SeasonLandscape.art(value,frame==='window'?'window':'sky',w.at));
+  const value={...w,solar:true,phase:SolarModel.phase(w.at),skyFrame:frame},svg=parse(SceneryMaterials.art(SeasonLandscape.art(value,frame==='window'?'window':'sky',w.at),'landscape',value));
   paint(svg,w,frame);return stringify(svg);
  }
  function roof(w){
   const s=state(w),group=document.createElementNS(ns,'g');group.setAttribute('data-roof-solar','');
   const sky=parse(SeasonLandscape.art({...w,solar:true,skyFrame:'roof'},'sky',w.at)),clouds=sky.querySelector('[data-sky-clouds]');
-  group.innerHTML=RoofMoon.svg(w.at);
   const veil=document.createElementNS(ns,'g');veil.setAttribute('transform','scale(.52 .42)');veil.append(clouds);group.append(veil);
   group.dataset.solarRegion=s.region;group.dataset.solarPeriod=s.sky.sunPeriod||'';
   return stringify(group);

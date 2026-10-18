@@ -50,15 +50,17 @@ globalThis.RoofMoon = (() => {
   return {phase,illumination:(1-Math.cos(phase*Math.PI*2))/2,
    x:220-232*p,y:100-85*arc,scale:1,azimuth:90+180*p,altitude:48*arc,opacity,progress:p};
  }
- function drawing(now,frame='roof') {
+ function drawing(now,frame='roof',viewport) {
   const moon=snapshot(now),cosine=Math.cos(moon.phase*Math.PI*2),rx=Math.abs(cosine);
   // Outer limb plus elliptical terminator: right-lit waxing, left-lit waning.
   const terminator=rx<1e-8?'L0 -1':`A${rx} 1 0 0 ${cosine>=0?0:1} 0 -1`;
   const path=`M0 -1A1 1 0 0 1 0 1${terminator}Z`;
   const roof=frame==='roof',delta=((moon.azimuth-SolarModel.bearing(frame)+540)%360)-180;
-  const x=roof?moon.x:200+delta*400/180,y=roof?moon.y:153-moon.altitude*1.58;
+  const radius=roof&&viewport?7.5*viewport.scale:roof?7.5:12;
+  const x=roof?(viewport?(viewport.width+2*radius)*(1-moon.progress)-radius:moon.x):200+delta*400/180;
+  const y=roof?(viewport?viewport.top+moon.y*viewport.scale:moon.y):153-moon.altitude*1.58;
   const opacity=moon.opacity*(roof?1:SolarModel.smooth(0,6,90-Math.abs(delta)));
-  return {phase:moon.phase,opacity,transform:`translate(${x} ${y}) scale(${roof?7.5:12})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
+  return {phase:moon.phase,opacity,transform:`translate(${x} ${y}) scale(${radius})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
  }
  function surface(moon,frame){
   const window=frame==='window',radius=window?14/12:1,id='oyasumi-moon-lit-'+(++maskSequence);
@@ -71,7 +73,9 @@ globalThis.RoofMoon = (() => {
   return `<g class="${frame==='roof'?'roof-moon':'room-window-moon'}" data-moon-renderer="lit-mask-v2" data-moon-frame="${frame}" data-moon-phase="${moon.phase}" opacity="${moon.opacity}" transform="${moon.transform}" style="filter:none">${surface(moon,frame)}</g>`;
  }
  function update(element,now) {
-  const frame=element.dataset.moonFrame,moon=drawing(now,frame);
+  const frame=element.dataset.moonFrame,viewport=element.closest('.roof-moon-viewport');
+  const view=viewport?.getBoundingClientRect(),scene=viewport?.closest('.roof-sky-card')?.querySelector('.awake-scene')?.getBoundingClientRect();
+  const moon=drawing(now,frame,view&&scene?{width:view.width,top:scene.top-view.top,scale:scene.width/208}:undefined);
   // Migrate an already-mounted old moon too, instead of leaving its disk behind.
   if(element.dataset.moonRenderer!=='lit-mask-v2'||!element.querySelector('mask path')||!element.querySelector('[data-moon-light]')){
    element.innerHTML=surface(moon,frame);element.dataset.moonRenderer='lit-mask-v2';

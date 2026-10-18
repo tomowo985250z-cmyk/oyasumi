@@ -40,18 +40,30 @@
     <path d="M148 256q46 17 101 0" stroke="#d6ccdf" stroke-width="1.5" opacity=".7"/>
     <path d="m152 236 8 4m80-4-8 4" stroke="#dfd6e4" stroke-width="2" opacity=".6" stroke-linecap="round"/>
     <!-- A little shaded corner with a plant and a woven basket. -->
-    <ellipse cx="332" cy="252" rx="38" ry="12" fill="#756b79" opacity=".13" filter="url(#shadow)"/>
-    <path d="M338 212q-9-43-3-71m4 52 18-22m-20 10-17-23" stroke="#829281" stroke-width="3" stroke-linecap="round"/>
-    <g fill="#92a693"><path d="M336 158q-27-4-22-24 23 0 22 24Z"/><path d="M336 150q-12-26 4-38 17 18-4 38Z"/><path d="M341 183q2-25 27-24 2 24-27 24Z"/><path d="M333 183q-25-2-22-22 22-4 22 22Z"/></g>
-    <path d="m322 207 6 31q11 8 24 0l6-31Z" fill="#d7b4a4"/><ellipse cx="340" cy="208" rx="18" ry="5" fill="#e6c9b9"/>
-    <ellipse cx="286" cy="243" rx="27" ry="10" fill="#af9481"/>
-    <path d="M259 242q0 29 27 29 28 0 28-29" fill="#c4ab91"/>
-    <path d="M263 246q23 14 47 0m-45 10q21 11 42 0m-38 9q16 6 32 0" stroke="#e3c9ac" stroke-width="2"/>
-    <path d="m272 247 2 20m10-17v20m11-20-2 19m10-22-3 18" stroke="#a68c77" stroke-opacity=".4" stroke-width="1.5"/>
-    <path d="M270 76h38v43h-38Z" fill="#ece0cf" transform="rotate(4 289 97)"/>
-    <path d="M275 82h28v31h-28Z" fill="#b5bdc5" transform="rotate(4 289 97)"/>
+    <g data-scene-object="potted-plant" transform="translate(340 242)" data-support="0 0" data-root="0 -34">
+      <ellipse cx="0" cy="0" rx="21" ry="4" fill="#756b79" opacity=".13" filter="url(#shadow)"/>
+      <path d="M0-34C-1-44-2-52-4-59S-6-78-5-84V-101M-2-49Q0-55 3-59M-4-59-20-84" fill="none" stroke="#829281" stroke-width="3" stroke-linecap="round"/>
+      <g fill="#92a693"><path d="M-5-84q-27-4-22-24 23 0 22 24Z"/><path d="M-5-92q-12-26 4-38 17 18-4 38Z"/><path d="M3-59q2-25 27-24 2 24-27 24Z"/><path d="M-4-59q-25-2-22-22 22-4 22 22Z"/></g>
+      <path d="M-18-35-12-4Q0 4 12-4L18-35Z" fill="#d7b4a4"/>
+      <ellipse cx="0" cy="-34" rx="18" ry="5" fill="#e6c9b9"/>
+      <ellipse data-plant-soil="" cx="0" cy="-34" rx="14" ry="2.8" fill="#829281"/>
+      <!-- The root remains visible on the soil, behind the front lip. -->
+      <path data-plant-root="" d="M0-40V-33" stroke="#829281" stroke-width="3" stroke-linecap="round"/>
+      <path d="M-14-32Q0-28 14-32" stroke="#e6c9b9" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+    <g data-scene-object="basket" transform="translate(286 271)" data-support="0 0">
+      <ellipse cx="0" cy="0" rx="28" ry="4" fill="#756b79" opacity=".12" filter="url(#shadow)"/>
+      <ellipse cx="0" cy="-28" rx="27" ry="10" fill="#af9481"/>
+      <path d="M-27-29q0 29 27 29 28 0 28-29" fill="#c4ab91"/>
+      <path d="M-23-25q23 14 47 0M-21-15q21 11 42 0M-17-6q16 6 32 0" stroke="#e3c9ac" stroke-width="2"/>
+      <path d="M-14-24l2 20M-2-21v20M9-21l-2 19M17-24l-3 18" stroke="#a68c77" stroke-opacity=".4" stroke-width="1.5"/>
+    </g>
+    <g data-scene-object="picture" transform="rotate(4 289 97)">
+    <path d="M270 76h38v43h-38Z" fill="#ece0cf"/>
+    <path d="M275 82h28v31h-28Z" fill="#b5bdc5"/>
     <path d="m278 105 7-9 6 6 5-4 5 9" stroke="#e8dfcb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="294" cy="90" r="3" fill="#e9dac0"/>
+    </g>
     <path d="M214 143h34" stroke="#a5a4b2" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/>
     <ellipse cx="88" cy="287" rx="7" ry="6" fill="#b7a2ae"/><path d="M84 284q5 1 7 6m-5-9q-1 5 5 10" stroke="#e3cbd6" stroke-width="1"/>
   </g>

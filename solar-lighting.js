@@ -39,6 +39,7 @@ globalThis.SolarLighting=(()=>{
  }
  function place(source,where,w){
   const svg=parse(source),s=illumination(w,where),id='solar-place-'+(++sequence),group=svg.querySelector('g[filter]'),opacity=.17;
+  const support=(name,fallback)=>{const object=svg.querySelector(`[data-scene-object="${name}"]`),matrix=object?.transform.baseVal.consolidate()?.matrix;return matrix?{x:matrix.e,y:matrix.f,height:Number(object.dataset.height)||fallback.height}:fallback;};
   let casts='';
   const post=(x,y,width,height)=>{const v=s.shadow(height,330);return polygon([[x-width/2,y],[x+width/2,y],[x+width/2+v.x,y+v.y],[x-width/2+v.x,y+v.y]],'#344d52',opacity,`data-caster="pillar" data-vector="${v.x},${v.y}"`);};
   if(where==='engawa'){
@@ -46,11 +47,11 @@ globalThis.SolarLighting=(()=>{
    const face=s.direction.x>0?'left':'right',x=face==='left'?60:72;
    casts+=`<path d="M${x} 0v218" stroke="#e1d8c2" stroke-width="2" opacity="${.18}"/>`;
   }else{
-   const v=s.shadow(147,290),end={x:43+v.x,y:230+v.y};
-   casts=polygon([[39,230],[47,230],[end.x+4,end.y],[end.x-4,end.y]],'#324e50',opacity,`data-caster="tree" data-vector="${v.x},${v.y}"`);
+   const tree=support('garden-tree',{x:43,y:230,height:147}),v=s.shadow(tree.height,290),end={x:tree.x+v.x,y:tree.y+v.y};
+   casts=polygon([[tree.x-4,tree.y],[tree.x+4,tree.y],[end.x+4,end.y],[end.x-4,end.y]],'#324e50',opacity,`data-caster="tree" data-vector="${v.x},${v.y}"`);
    const angle=Math.atan2(v.y,v.x)*180/Math.PI,stretch=Math.min(105,30+Math.hypot(v.x,v.y)*.26);
-   casts+=w.season==='winter'?`<g stroke="#344d52" stroke-width="2" opacity="${opacity*.8}" data-caster="bare-branches"><path d="M${43+v.x*.55} ${230+v.y*.55}l${v.x*.36-20} ${v.y*.36+9}m20-9 20-7"/></g>`:`<g transform="translate(${end.x} ${end.y}) rotate(${angle})" opacity="${opacity*.85}" data-caster="canopy"><ellipse cx="-12" cy="0" rx="${stretch}" ry="${10+Math.abs(v.y)*.05}" fill="#344d52"/><ellipse cx="-38" cy="-5" rx="${stretch*.6}" ry="12" fill="#344d52"/></g>`;
-   const p=s.shadow(49,105);casts+=polygon([[339,260],[361,260],[358+p.x,260+p.y],[345+p.x,260+p.y]],'#344d52',opacity*.7,'data-caster="plant"');
+   casts+=w.season==='winter'?`<g stroke="#344d52" stroke-width="2" opacity="${opacity*.8}" data-caster="bare-branches"><path d="M${tree.x+v.x*.55} ${tree.y+v.y*.55}l${v.x*.36-20} ${v.y*.36+9}m20-9 20-7"/></g>`:`<g transform="translate(${end.x} ${end.y}) rotate(${angle})" opacity="${opacity*.85}" data-caster="canopy"><ellipse cx="-12" cy="0" rx="${stretch}" ry="${10+Math.abs(v.y)*.05}" fill="#344d52"/><ellipse cx="-38" cy="-5" rx="${stretch*.6}" ry="12" fill="#344d52"/></g>`;
+   const plant=support('potted-plant',{x:350,y:260,height:49}),p=s.shadow(plant.height,105);casts+=polygon([[plant.x-12,plant.y],[plant.x+12,plant.y],[plant.x+9+p.x,plant.y+p.y],[plant.x-7+p.x,plant.y+p.y]],'#344d52',opacity*.7,`data-caster="plant" data-vector="${p.x},${p.y}"`);
   }
   const markup=`<defs><clipPath id="${id}-ground"><path d="${floor(where)}"/></clipPath><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-structure-shadow="" data-solar-direct="" data-light-factor="1" opacity="${s.direct}" clip-path="url(#${id}-ground)" filter="url(#${id}-soft)">${casts}</g>`;
   const insertion=group.children[2]||null;for(const n of nodes(svg,markup))group.insertBefore(n,insertion);
@@ -84,7 +85,7 @@ globalThis.SolarLighting=(()=>{
   const sill=stage.dataset.place==='window',v=s.shadow(h,sill?27:140),id='solar-cat-'+(++sequence),c=-v.x/h,d=-v.y/h-.055,tx=fx-.82*ox-c*oy,ty=fy-d*oy;
   const imageTransform=meal?'none':getComputedStyle(img).transform,transform=imageTransform==='none'?'':`translate(${bw/2} ${bh/2}) ${imageTransform} translate(${-bw/2} ${-bh/2})`;
   // A masked ink silhouette on the support surface, never a second cat image node.
-  const clip=sill?'M30 157h150v15H30Z':floor(stage.dataset.location);
+  const clip=sill&&!meal?'M30 157h150v15H30Z':SceneryMaterials.support(stage,meal)||floor(stage.dataset.location);
   const opacity=s.direct*(stage.dataset.location==='room'?.065:.105)*(stage.dataset.location==='room'?s.southExposure:1);
   const svg=parse(`<svg xmlns="${ns}" class="solar-cat-shadow" viewBox="0 0 400 330" aria-hidden="true" data-vector="${v.x},${v.y}" data-source="${s.source}"><defs><clipPath id="${id}-support"><path d="${clip}"/></clipPath><mask id="${id}-alpha" maskUnits="userSpaceOnUse" x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" style="mask-type:alpha"><image href="${img.getAttribute('src').replace(/&/g,'&amp;')}" width="${bw}" height="${bh}" transform="${transform}"/></mask><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness*.8}"/></filter></defs><g clip-path="url(#${id}-support)" opacity="${opacity}"><g filter="url(#${id}-soft)"><g transform="matrix(.82 0 ${c} ${d} ${tx} ${ty})"><rect x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" fill="#283e48" mask="url(#${id}-alpha)"/></g></g></g></svg>`);
   {

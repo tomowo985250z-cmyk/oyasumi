@@ -1,4 +1,6 @@
 /* Approved 400:330 composition, shared by home and both profile surfaces. */
+/* Seasonal furniture changes the support anchor only; alpha scale is unchanged. */
+.day-room[data-location=room] .room-resident.day-room-cat.day-cat[style*="--season-cat-top"]{left:var(--season-cat-left);top:var(--season-cat-top);bottom:auto}
 .day-hero.day-room-hero{padding:0 0 25px;text-align:center}
 .day-room.room-scene{position:relative;aspect-ratio:400/330;width:100%;height:auto;overflow:hidden;border-radius:26px;background:#aeb9ca;isolation:isolate;box-shadow:0 12px 35px #00000012,inset 0 0 0 1px #ffffff15}
 .day-room-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none}
@@ -121,3 +123,6 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 @media(prefers-reduced-motion:reduce){
  .room-curtain-panel,.day-room[data-location=room] .day-room-scenery,.day-room[data-location=room] .room-cat-lighting{transition:none}
 }
+
+/* Meals use the same low tabletop as the resting cat in cold seasons. */
+.day-room[data-location=room]:is([data-world-season=autumn],[data-world-season=winter]) .room-care-animation{left:51.75%;bottom:calc(23.33% - 18px * var(--room-care-scale,1))}
