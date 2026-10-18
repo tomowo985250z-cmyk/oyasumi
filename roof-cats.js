@@ -40,27 +40,25 @@ globalThis.RoofCats = (() => {
 globalThis.RoofMoon = (() => {
  const cycleDays=29.530588853, dayMs=86400000;
  const epoch=Date.parse('2000-01-06T18:14:00Z'); // Reference new moon.
- const jst=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
  let maskSequence=0;
  function snapshot(now) {
   const age=(now-epoch)/(cycleDays*dayMs),phase=((age%1)+1)%1;
-  const parts=Object.fromEntries(jst.formatToParts(now).map(part=>[part.type,part.value]));
-  const hours=Number(parts.hour)+Number(parts.minute)/60+Number(parts.second)/3600+(now%1000)/3600000;
-  const angle=(hours-18)/24*Math.PI*2;
-  // Stay in the clear strip to the right of even the three-cat arrangement.
+  const night=SolarModel.nightSpan(now),p=night.progress,arc=Math.sin(Math.PI*p);
+  const opacity=night.visible?SolarModel.smooth(0,300000,now-night.start)*SolarModel.smooth(0,300000,night.end-now):0;
+  // North-facing roof: east on the right, west on the left. Lunar phase is
+  // real-time; the calm, shared nightly arc is explicitly decorative.
   return {phase,illumination:(1-Math.cos(phase*Math.PI*2))/2,
-   x:192+2.5*(1-Math.cos(angle)),y:26-11*Math.sin(angle),
-   scale:1.025+.125*Math.cos(angle-.7)};
+   x:220-232*p,y:100-85*arc,scale:1,azimuth:90+180*p,altitude:48*arc,opacity,progress:p};
  }
  function drawing(now,frame='roof') {
   const moon=snapshot(now),cosine=Math.cos(moon.phase*Math.PI*2),rx=Math.abs(cosine);
   // Outer limb plus elliptical terminator: right-lit waxing, left-lit waning.
   const terminator=rx<1e-8?'L0 -1':`A${rx} 1 0 0 ${cosine>=0?0:1} 0 -1`;
   const path=`M0 -1A1 1 0 0 1 0 1${terminator}Z`;
-  // The room's rounded right-hand pane has a different coordinate system.
-  // Preserve its original center/radius and map the same temporal trajectory.
-  const window=frame==='window',x=window?117+(moon.x-194.5)*2:moon.x,y=window?43+(moon.y-26)*.65:moon.y;
-  return {phase:moon.phase,transform:`translate(${x} ${y}) scale(${(window?12:7.5)*moon.scale})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
+  const roof=frame==='roof',delta=((moon.azimuth-SolarModel.bearing(frame)+540)%360)-180;
+  const x=roof?moon.x:200+delta*400/180,y=roof?moon.y:153-moon.altitude*1.58;
+  const opacity=moon.opacity*(roof?1:SolarModel.smooth(0,6,90-Math.abs(delta)));
+  return {phase:moon.phase,opacity,transform:`translate(${x} ${y}) scale(${roof?7.5:12})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
  }
  function surface(moon,frame){
   const window=frame==='window',radius=window?14/12:1,id='oyasumi-moon-lit-'+(++maskSequence);
@@ -70,7 +68,7 @@ globalThis.RoofMoon = (() => {
  }
  function svg(now,frame='roof') {
   const window=frame==='window',moon=drawing(now,frame);
-  return `<g class="${window?'room-window-moon':'roof-moon'}" data-moon-renderer="lit-mask-v2" data-moon-frame="${window?'window':'roof'}" data-moon-phase="${moon.phase}" transform="${moon.transform}" style="filter:none">${surface(moon,frame)}</g>`;
+  return `<g class="${frame==='roof'?'roof-moon':'room-window-moon'}" data-moon-renderer="lit-mask-v2" data-moon-frame="${frame}" data-moon-phase="${moon.phase}" opacity="${moon.opacity}" transform="${moon.transform}" style="filter:none">${surface(moon,frame)}</g>`;
  }
  function update(element,now) {
   const frame=element.dataset.moonFrame,moon=drawing(now,frame);
@@ -82,6 +80,7 @@ globalThis.RoofMoon = (() => {
   for(const child of [...element.children])if(child.localName!=='defs'&&child!==light)child.remove();
   element.style.filter='none';
   element.setAttribute('data-moon-phase',moon.phase);element.setAttribute('transform',moon.transform);
+  element.setAttribute('opacity',moon.opacity);
   path.setAttribute('d',moon.path);path.setAttribute('transform',moon.facing);
  }
  return Object.freeze({snapshot,svg,update});

@@ -93,3 +93,31 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 /* Clouds advance by subpixels; only the existing sunlight/shadows fade. */
 [data-solar-direct]{transition:opacity 2s linear}
 @media(prefers-reduced-motion:reduce){[data-solar-direct]{transition:none}}
+
+/* Warm light is behind the resident, with a cut-out for the untouched sky. */
+.room-warm-light{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;transition:opacity 2400ms ease-in-out}
+.day-room:not([data-location=room]) .room-warm-light{display:none}
+.room-light-switch{position:absolute;inset:0;width:100%;height:100%;z-index:1;padding:0;background:transparent;border:0;border-radius:inherit;touch-action:manipulation}
+.room-light-switch[hidden]{display:none}
+.room-light-switch:hover,.room-light-switch:active{background:transparent;filter:none;transform:none}
+@media(prefers-reduced-motion:reduce){.room-warm-light{transition:none}}
+
+/* Only the two linen panels remain. Gather beyond the glass at full opening. */
+.room-curtains{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.room-curtain-panel{transform-box:view-box;transform-origin:0 0;transition:transform 2s ease-in-out}
+.room-curtain-left{transform:translateX(16.66px) scaleX(.26)}
+.room-curtain-right{transform:translateX(136.22px) scaleX(.26)}
+.day-room[data-curtain-closed=true] .room-curtain-panel{transform:translateX(0) scaleX(1)}
+.room-curtain-switch{position:absolute;left:6.5%;top:1.5%;width:39%;height:48%;min-height:44px;z-index:1;padding:0;border:0;border-radius:0;background:transparent;touch-action:manipulation}
+.room-curtain-switch:hover,.room-curtain-switch:active{background:transparent;filter:none;transform:none}
+.room-curtain-switch:focus-visible{outline:2px solid #b6c1b7;outline-offset:-3px}
+.day-room:not([data-location=room]) :is(.room-curtains,.room-curtain-switch),.room-curtain-switch[hidden]{display:none}
+/* Keep cats above both controls. The closed window removes direct light and
+   its projected shadows while preserving enough ambient light to see the cat. */
+.day-room[data-location=room] .day-room-scenery{transition:filter 2s ease-in-out}
+.day-room[data-location=room] .room-cat-lighting{transition:opacity 2s ease-in-out}
+.day-room[data-location=room][data-curtain-closed=true] .day-room-scenery{filter:brightness(.78)}
+.day-room[data-location=room][data-curtain-closed=true] :is([data-solar-window-light],.room-cat-lighting){opacity:0}
+@media(prefers-reduced-motion:reduce){
+ .room-curtain-panel,.day-room[data-location=room] .day-room-scenery,.day-room[data-location=room] .room-cat-lighting{transition:none}
+}

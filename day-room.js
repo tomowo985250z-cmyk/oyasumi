@@ -31,17 +31,79 @@ globalThis.DayRoom=(()=>{
   return windowPadding[CatFaces.normalizeCoat(coat)]?.[index]||0;
  }
  const world=()=>{const at=NightClock.now();return {...SeasonWeather.at(at),at};}
+ // Local presentation preference, kept across view changes for each cat.
+ // It never changes account, posting, care or cat-location state.
+ const lamps=new Map(),curtains=new Map();let lampSequence=0;
+ function lampState(user,where,w){
+  const at=SolarModel.time(w),sun=SolarModel.parameters(at),altitude=sun.altitude;
+  // Anchor a manual override to its evening, across midnight and the whole
+  // dawn fade (daily sunrise estimates and instantaneous altitude can differ).
+  const evening=sun.hour*60<sun.noon?SolarModel.parameters(sun.dayStart-1):sun;
+  const available=where==='room'&&SolarModel.phase(at)==='night',night=evening.sunsetAt,saved=lamps.get(user||'local-cat');
+  const on=available&&(saved?.night!==night||saved.on);
+  return {available,on,night,level:on?SolarModel.smooth(-.833,-6,altitude):0};
+ }
+ function lampMarkup(user,where,w){
+  const s=lampState(user,where,w),id='room-lamp-'+(++lampSequence);
+  // The rounded window is a real hole: moon, stars and glass are not tinted.
+  return `<svg class="room-warm-light" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="opacity:${s.level}"><defs><radialGradient id="${id}" cx=".53" cy=".13" r="1"><stop stop-color="#ffdcab" stop-opacity=".35"/><stop offset=".58" stop-color="#ffcf9f" stop-opacity=".24"/><stop offset="1" stop-color="#ffe3bd" stop-opacity=".12"/></radialGradient></defs><path fill="url(#${id})" fill-rule="evenodd" d="M0 0H400V330H0Z M51 155V73a53 53 0 0 1 106 0v82Z"/></svg><button type="button" class="room-light-switch" aria-label="${s.on?'部屋の明かりを消す':'部屋の明かりをつける'}" aria-pressed="${s.on}" ${s.available?'':'hidden disabled'}></button>`;
+ }
+ function syncLamp(stage,w=DayRoom.world()){
+  const s=lampState(stage.dataset.roomUser,stage.dataset.location,w),light=stage.querySelector('.room-warm-light'),button=stage.querySelector('.room-light-switch');
+  if(light)light.style.opacity=String(s.level);
+  if(button){button.hidden=!s.available;button.disabled=!s.available;button.setAttribute('aria-pressed',String(s.on));button.setAttribute('aria-label',s.on?'部屋の明かりを消す':'部屋の明かりをつける');}
+  syncCurtain(stage,w,s);
+ }
+ function curtainPalette(w,lamp){
+  const palette=SolarLighting.palette(SolarModel.world(w),phase=>({left:phase==='night'?'#647477':'#d3d2c6',right:phase==='night'?'#54676e':'#c0c5bf'}));
+  return Object.fromEntries(['left','right'].map(side=>[side,SeasonLandscape.mix(palette[side],'#e3d1b3',lamp.level*.24)]));
+ }
+ function curtainMarkup(user,where,w){
+  const closed=curtains.get(user||'local-cat')===true,id='room-curtain-'+(++lampSequence),palette=curtainPalette(w,lampState(user,where,w));
+  // Unequal curved folds, a gathered crown and a loose hem, rather than ruled
+  // stripes. The same panels overlap at the centre and gather beside the frame.
+  const shapes={
+   left:'M44 12C60 4 79 9 89 7q12-2 20 5c-4 44 3 99-1 146q-9 5-21 1-12-3-22 1-13 3-21-2Z',
+   right:'M104 12q15-7 31-3 15-5 30 3c-1 47-6 101 0 147q-11 3-20-1-10-2-20 3-12 3-22-3c4-49-2-99 1-146Z'
+  };
+  const folds={
+   left:'<path d="M60 10c-7 46 4 90-2 150l9 1c7-49-5-100 1-152Z" fill="#30484b" opacity=".065"/><path d="M74 8c-6 48 7 103 0 151l9 2c4-51-6-101-2-153Z" fill="#fff4db" opacity=".10"/><path d="M94 8c-8 41 6 105-3 152l7 1c7-53-3-106 3-153Z" fill="#30484b" opacity=".075"/><path d="M108 14c-4 45 3 97 0 144" fill="none" stroke="#35494c" stroke-opacity=".16" stroke-width="1.4"/>',
+   right:'<path d="M113 10c7 41-3 99 3 151l10-1c-8-53 3-101-4-151Z" fill="#fff4db" opacity=".085"/><path d="M133 8c-3 49 9 106 3 153l9-2c5-50-7-100-3-150Z" fill="#30484b" opacity=".075"/><path d="M153 8c-6 43 0 102-1 151l7 2c-4-53-4-104 2-151Z" fill="#fff4db" opacity=".075"/>'
+  };
+  const panel=side=>`<g class="room-curtain-panel room-curtain-${side}"><path d="${shapes[side]}" fill="var(--curtain-${side})"/><path d="${shapes[side]}" fill="url(#${id}-shade)"/><g clip-path="url(#${id}-${side})">${folds[side]}<path d="${side==='left'?'M46 16q12-7 25-2t35 0':'M106 16q12-7 25-2t32 0'}" fill="none" stroke="#fff4db" stroke-opacity=".13" stroke-width="2.5"/></g></g>`;
+  return `<svg class="room-curtains" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="--curtain-left:${palette.left};--curtain-right:${palette.right}"><defs>${['left','right'].map(side=>`<clipPath id="${id}-${side}"><path d="${shapes[side]}"/></clipPath>`).join('')}<linearGradient id="${id}-shade" x2="1" y2=".08"><stop stop-color="#30484b" stop-opacity=".06"/><stop offset=".21" stop-color="#fff4db" stop-opacity=".07"/><stop offset=".48" stop-color="#30484b" stop-opacity=".05"/><stop offset=".76" stop-color="#fff4db" stop-opacity=".06"/><stop offset="1" stop-color="#30484b" stop-opacity=".10"/></linearGradient></defs>${panel('right')}${panel('left')}</svg><button type="button" class="room-curtain-switch" aria-label="${closed?'カーテンを開く':'カーテンを閉じる'}" aria-expanded="${!closed}" ${where==='room'?'':'hidden disabled'}></button>`;
+ }
+ function syncCurtain(stage,w,lamp){
+  const closed=curtains.get(stage.dataset.roomUser||'local-cat')===true,button=stage.querySelector('.room-curtain-switch');
+  stage.dataset.curtainClosed=String(closed);
+  if(button){button.hidden=stage.dataset.location!=='room';button.disabled=button.hidden;button.setAttribute('aria-expanded',String(!closed));button.setAttribute('aria-label',closed?'カーテンを開く':'カーテンを閉じる');}
+  const palette=curtainPalette(w,lamp),panels=stage.querySelector('.room-curtains');
+  if(panels)for(const side of ['left','right'])panels.style.setProperty('--curtain-'+side,palette[side]);
+ }
+ document.addEventListener('click',event=>{
+  const curtain=event.target.closest?.('.room-curtain-switch'),curtainStage=curtain?.closest('.day-room');
+  if(curtainStage){
+   if(curtain.disabled||curtainStage.dataset.location!=='room')return;
+   event.preventDefault();const user=curtainStage.dataset.roomUser||'local-cat';curtains.set(user,curtains.get(user)!==true);
+   for(const item of document.querySelectorAll('.day-room'))if((item.dataset.roomUser||'local-cat')===user)syncLamp(item);
+   return;
+  }
+  const button=event.target.closest?.('.room-light-switch'),stage=button?.closest('.day-room');if(!stage)return;
+  const w=DayRoom.world(),s=lampState(stage.dataset.roomUser,stage.dataset.location,w);if(!s.available)return;
+  event.preventDefault();lamps.set(stage.dataset.roomUser||'local-cat',{night:s.night,on:!s.on});
+  for(const item of document.querySelectorAll('.day-room'))if(item.dataset.roomUser===stage.dataset.roomUser)syncLamp(item,w);
+ });
  const snapshot=(user,now=NightClock.now())=>{
   user=user||'local-cat';const room=DayRoomState.at(now,user),visit=CatPlaces.at(now,user);
-  return {...room,location:visit.place,pose:visit.night?room.pose:visit.pose,since:visit.since,moodSince:visit.moodSince,nextAt:visit.nextAt};
+  return {...room,location:visit.place,place:visit.restState==='awake'?room.place:'cushion',pose:visit.pose,restState:visit.restState,since:visit.since,moodSince:visit.moodSince,nextAt:visit.nextAt};
  };
  const attrs=w=>`data-world-day="${w.day}" data-world-season="${w.season}" data-world-weather="${w.weather}" data-world-daylight="${w.daylight}"`;
- const artwork=(room,coat,status,w,home=false)=>status==='sleep'?CatScenes.svg('sleeping',coat):w.daylight?DayCats.svg(room.pose,coat):CatScenes.svg(status==='awake'?'awake':'sleeping',coat);
- const location=(room,w,status)=>!w.daylight||status==='sleep'?'room':room.location;
+ const artwork=(room,coat,status,w,home=false)=>status==='sleep'||room.restState==='sleeping'?CatScenes.svg('sleeping',coat):w.daylight?DayCats.svg(room.pose,coat):CatScenes.svg(status==='awake'?'awake':'sleeping',coat);
+ const location=(room,w,status)=>status==='sleep'?'room':room.location;
  const placement=(room,w,where)=>where!=='room'?'cushion':w.daylight&&room.pose==='gaze'?'window':room.place;
  const homeKey=()=>{
   const user=typeof shared!=='undefined'?shared.userId:null,room=snapshot(user);
-  return room.day+':'+(world().daylight?[room.location,room.pose,room.moodSince].join(':'):NightCats.at(NightClock.now(),user)?.key||'night');
+  return room.day+':'+[room.location,room.pose,room.moodSince,room.restState,...(world().daylight?[]:[NightCats.at(NightClock.now(),user)?.key||'night'])].join(':');
  };
  const scenery=(where,w)=>RoomBackgrounds.markup(where,w);
  const sceneryKey=(where,w)=>RoomBackgrounds.key(where,w);
@@ -60,16 +122,17 @@ globalThis.DayRoom=(()=>{
   clock.dataset.clockMinute=time.stamp;
  }
  const contactStyle=(place,where,html,coat,night)=>IndoorCatScale.style(html,where,place,night)+(place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'');
- const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
+ const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':room.restState==='sleeping'?'すやすや、ひとやすみ中':room.restState==='settling'?'お部屋で、ひとやすみ。':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
  function stage(coat,user,cat,interactive=false){
   if(cat?.status)cat={...cat,status:PostCatExpressions.state({status:cat.status})};
   const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true;
-  const night=unselected?null:NightCats.frame(coat,NightClock.now(),user,cat?.status,cat?.home,w.daylight);
+  const where=location(room,w,cat?.status);
+  const night=unselected?null:NightCats.frame(coat,NightClock.now(),user,room.restState==='sleeping'?'sleep':cat?.status,cat?.home,w.daylight,where,room.pose,room.restState==='settling');
   const html=unselected?'<span data-cat-placeholder aria-hidden="true"></span>':night?.html||artwork(room,coat,cat?.status,w,cat?.home);
-  const where=location(room,w,cat?.status),tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
+  const tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
   const style=contactStyle(place,where,html,coat,night),contact=style?` style="${style}"`:'';
   const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
-  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${scenery(where,w)}</div>${wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
+  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${scenery(where,w)}</div>${lampMarkup(user,where,w)}${curtainMarkup(user,where,w)}${wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
  function controls(html){
   const template=document.createElement('template');template.innerHTML=html;
@@ -125,16 +188,18 @@ globalThis.DayRoom=(()=>{
  function readStage(stage){
   const status=stage.closest('.own-cat-room')?(CatCare.sleeping(shared.catCare)?'sleep':homeCatStatus()):stage.dataset.postStatus;
   const room=DayRoom.snapshot(stage.dataset.roomUser),w=DayRoom.world();
-  const night=NightCats.frame(stage.dataset.coat,NightClock.now(),stage.dataset.roomUser,status,stage.dataset.roomHome==='true',w.daylight);
-  const where=location(room,w,status),place=night?.place||placement(room,w,where);
-  const stamp=[room.day,place,room.pose,room.away,where,stage.dataset.coat,status,w.day,w.season,w.weather,w.daylight,SeasonLandscape.phase(w),night?.pose].join(':');
+  const where=location(room,w,status),night=NightCats.frame(stage.dataset.coat,NightClock.now(),stage.dataset.roomUser,room.restState==='sleeping'?'sleep':status,stage.dataset.roomHome==='true',w.daylight,where,room.pose,room.restState==='settling');
+  const place=night?.place||placement(room,w,where);
+  const stamp=[room.day,place,room.pose,room.restState,room.away,where,stage.dataset.coat,status,w.day,w.season,w.weather,w.daylight,SeasonLandscape.phase(w),night?.pose].join(':');
   return {room,w,night,where,place,status,stamp,html:night?.html||artwork(room,stage.dataset.coat,status,w,stage.dataset.roomHome==='true')};
  }
  function applyStage(stage,value,prepared=false){
   const {room,w,night,where,place,status,stamp,html}=value,cat=stage.querySelector('.room-resident');
   stage.dataset.roomStamp=stamp;stage.dataset.postStatus=status;stage.dataset.location=where;stage.dataset.place=place;stage.dataset.away=String(room.away);
+  stage.dataset.catRest=room.restState;
   if(night){stage.dataset.nightPose=night.pose;stage.style.cssText=night.style;}else{delete stage.dataset.nightPose;stage.removeAttribute('style');}
   stage.dataset.worldDay=w.day;stage.dataset.worldSeason=w.season;stage.dataset.worldWeather=w.weather;stage.dataset.worldDaylight=String(w.daylight);
+  syncLamp(stage,w);
   cat.style.cssText=contactStyle(place,where,html,stage.dataset.coat,night);if(!prepared)CatImages.render(cat,html);
   cat.toggleAttribute('aria-hidden',room.away);if(cat.matches('button')){cat.disabled=room.away;if(room.away)cat.tabIndex=-1;else cat.removeAttribute('tabindex');}
   void RoomBackgrounds.update(stage,where,w);
@@ -146,8 +211,11 @@ globalThis.DayRoom=(()=>{
   const time=clockTime();
   for(const stage of document.querySelectorAll('.day-room')){
    syncClock(stage,time);
+   syncLamp(stage);
    if(stage.closest('.own-cat-room')&&((typeof catsResolved==='function'&&!catsResolved())||(typeof shared!=='undefined'&&shared.needsCat===true)))continue;
    if(active.has(stage.closest('.profile-room-unit'))||stage.closest('[data-feeding=true]'))continue;
+   // The existing home refresh must not replace the scene mid-transition.
+   const hero=stage.closest('.day-room-hero');if(hero)hero.dataset.dayBucket=homeKey();
    const next=readStage(stage);if(stage.dataset.roomStamp!==next.stamp)void transition(stage,next);
    else void RoomBackgrounds.update(stage,next.where,next.w);
    SolarSky.update(stage,next.w);
@@ -178,14 +246,15 @@ globalThis.DayRoom=(()=>{
    let current=readStage(stage);
    if(current.stamp!==next.stamp||current.html!==next.html){void transition(stage,current);return;}
    const changed=!unchanged||stage.dataset.place!==current.place||stage.dataset.location!==current.where;
-   if(changed)await fade(1,0,120);
+   const journey=stage.dataset.location!==current.where&&(!current.w.daylight||current.room.restState!=='awake'||stage.dataset.catRest!=='awake');
+   if(changed)await fade(1,0,journey?450:120);
    if(!valid())return;
    current=readStage(stage);
    if(current.stamp!==next.stamp||current.html!==next.html){void transition(stage,current);return;}
    // Swap only one decoded cat, together with its original placement/scenery.
    if(!unchanged)resident.replaceChildren(...template.childNodes);
    applyStage(stage,current,true);CatImages.warm(stage);
-   if(changed)await fade(0,1,200);
+   if(changed)await fade(0,1,journey?650:200);
   }finally{
    token.animation?.cancel();
    if(transitions.get(stage)===token)transitions.delete(stage);

@@ -12,7 +12,7 @@ globalThis.SolarModel=(()=>{
  const setRegion=id=>(region=regions.find(value=>value.id===id)||regions[0]);
  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
  const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t);};
- const bearing=where=>({room:90,window:90,engawa:270,garden:180,sky:180}[where]??180);
+ const bearing=where=>({room:90,window:90,engawa:270,garden:180,sky:180,roof:0}[where]??180);
  const cast=(altitude,direction)=>(height,cap=300)=>{const factor=1/Math.tan(Math.max(altitude,7)*rad),x=direction.x*height*factor,y=direction.y*height*factor,scale=Math.min(1,cap/Math.max(.001,Math.hypot(x,y)));return {x:x*scale,y:y*scale};};
  function facing(s,where){
   const delta=((s.azimuth-bearing(where)+540)%360)-180,direction={x:-Math.sin(delta*rad),y:Math.cos(delta*rad)*.38};
@@ -43,12 +43,28 @@ globalThis.SolarModel=(()=>{
   }
   return {at,hour,altitude,azimuth,...daily,sunriseAt:dayStart+daily.sunrise*minuteMs,sunsetAt:dayStart+daily.sunset*minuteMs,civilDawnAt:dayStart+daily.civilDawn*minuteMs,civilDuskAt:dayStart+daily.civilDusk*minuteMs};
  }
+ // One decorative night, continuous across JST midnight. Not an ephemeris for
+ // lunar rise/set: the illustrated moon deliberately spans sunset to sunrise.
+ function nightSpan(at){
+  const today=parameters(at),before=at<today.sunriseAt;
+  const evening=before?parameters(today.dayStart-1):today;
+  const morning=before?today:parameters(today.dayStart+dayMs);
+  const start=evening.sunsetAt,end=morning.sunriseAt;
+  return {start,end,dusk:evening.civilDuskAt,dawn:morning.civilDawnAt,progress:clamp((at-start)/(end-start)),visible:at>=start&&at<end};
+ }
+ function twilight(at,where='sky'){
+  const s=parameters(at),morning=s.hour*60<s.noon;
+  const facingGlow=(1+Math.cos((bearing(where)-(morning?90:270))*rad))/2;
+  const glow=smooth(-6,-1,s.altitude)*(1-smooth(5,16,s.altitude));
+  return {stars:1-smooth(-10,-3,s.altitude),blue:smooth(-12,-6,s.altitude)*(1-smooth(-3,2,s.altitude)),
+   warm:glow*(.12+.88*facingGlow),glow,morning};
+ }
  // Decoration only. Keep the cat activity and posting-day boundaries unchanged.
  function sky(at,s=parameters(at)){
   const dawnAge=(at-s.sunriseAt)/minuteMs,duskAge=(s.sunsetAt-at)/minuteMs;
   const edge=age=>smooth(0,8,age)*(1-smooth(30,60,age));
-  const morning=edge(dawnAge),evening=edge(duskAge),roofStart=s.sunsetAt,roofEnd=s.civilDawnAt;
-  const nextRoofAt=at<roofEnd?roofEnd:at<roofStart?roofStart:parameters(at+dayMs).civilDawnAt;
+  const morning=edge(dawnAge),evening=edge(duskAge),roofStart=s.sunsetAt,roofEnd=s.sunriseAt;
+  const nextRoofAt=at<roofEnd?roofEnd:at<roofStart?roofStart:parameters(at+dayMs).sunriseAt;
   const daylight=at>=s.sunriseAt&&at<s.sunsetAt?smooth(-.833,3,s.altitude):0;
   return {region:s.region,sunriseAt:s.sunriseAt,sunsetAt:s.sunsetAt,civilDawnAt:s.civilDawnAt,civilDuskAt:s.civilDuskAt,roofVisible:at<roofEnd||at>=roofStart,nextRoofAt,
    morningOpacity:.72*morning,eveningOpacity:.64*daylight*weights(at).evening,gardenOpacity:.64*daylight,
@@ -64,17 +80,16 @@ globalThis.SolarModel=(()=>{
  function at(at,weather='sunny'){
   const s=parameters(at),day=s.altitude>0,dawn=smooth(-5,5,s.altitude),moon=RoofMoon.snapshot(at);
   // Preserve the app's illustrated moon trajectory/phase, rather than inventing a second moon.
-  const moonX=117+(moon.x-194.5)*2,moonY=43+(moon.y-26)*.65;
   const sunScreen={x:200-185*Math.sin(s.azimuth*rad),y:153-s.altitude*1.58};
-  const moonScreen={x:160+moonX*1.25,y:-12+moonY*1.25};
+  const moonScreen={x:200+(moon.azimuth-180)*400/180,y:153-moon.altitude*1.58};
   const source=day?'sun':'moon',opacity=weather==='sunny'?1:weather==='cloudy'?.22:.035;
-  const altitude=day?s.altitude:clamp((153-moonScreen.y)/1.58,12,65);
-  const azimuth=day?s.azimuth:180+Math.asin(clamp((moonScreen.x-200)/185,-1,1))/rad;
+  const altitude=day?s.altitude:Math.max(0,moon.altitude);
+  const azimuth=day?s.azimuth:moon.azimuth;
   const direction={x:Math.sin(azimuth*rad),y:-Math.cos(azimuth*rad)*.38};
-  const direct=day?smooth(0,7,s.altitude)*opacity:(1-smooth(-8,-2,s.altitude))*moon.illumination*opacity*.23;
+  const direct=day?smooth(0,7,s.altitude)*opacity:(1-smooth(-8,-2,s.altitude))*moon.illumination*moon.opacity*opacity*.23;
   const shadow=cast(altitude,direction);
   return {...s,source,phase:phase(at),direct,dawn,altitudeUsed:altitude,azimuthUsed:azimuth,screen:day?sunScreen:moonScreen,sunScreen,sky:sky(at,s),direction,shadow,moonIllumination:moon.illumination,southExposure:day?smooth(0,.55,-Math.cos(s.azimuth*rad)):.55,softness:weather==='sunny'?1.1:weather==='cloudy'?3:5};
  }
  const clock=minutes=>{const n=Math.round(minutes);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');};
- return Object.freeze({at,parameters,phase,clock,clamp,smooth,time,world,weights,sky,regions,setRegion,bearing,facing,region:()=>region,reference:{latitude:35.7,longitude:139.7,timezone:'Asia/Tokyo'}});
+ return Object.freeze({at,parameters,phase,clock,clamp,smooth,time,world,weights,sky,nightSpan,twilight,regions,setRegion,bearing,facing,region:()=>region,reference:{latitude:35.7,longitude:139.7,timezone:'Asia/Tokyo'}});
 })();

@@ -6,7 +6,7 @@ globalThis.RoofRecline=(()=>{
  function plan(coats,count,night){
   count=Math.max(0,Math.min(3,Math.trunc(count)||0));
   const day=Math.floor(Date.parse(night+'T06:00:00+09:00')/86400000),phase=((day%4)+4)%4;
-  const cats=Array.from({length:count},(_,i)=>{const coat=CatFaces.normalizeCoat(coats[i]),reclining=(phase+i)%4===0;return {coat,reclining,width:reclining?(count===3?70:78):68*.765};});
+  const cats=Array.from({length:count},(_,i)=>{const coat=CatFaces.normalizeCoat(coats[i]),reclining=(phase+i)%4===0;return {coat,reclining,width:.9*(reclining?(count===3?70:78):68*.765)};});
   const gap=count===3?2:6,span=cats.reduce((sum,cat)=>sum+cat.width,0)+gap*Math.max(0,count-1);
   let left=Math.min(count===3?102:104,182-span/2)-span/2;
   for(const cat of cats){
@@ -18,13 +18,18 @@ globalThis.RoofRecline=(()=>{
   }
   return cats;
  }
- function group(coats,count,night){
-  return plan(coats,count,night).map(cat=>{
-   const style=`--roof-cat-x:${cat.left}px;--roof-cat-y:${cat.top}px;--roof-cat-width:${cat.width}px;--roof-cat-height:${cat.height}px`;
+ function presence(at,index){
+  const n=SolarModel.nightSpan(at),arrival=(at-n.start)/(n.dusk-n.start),departure=(n.dawn-at)/(n.end-n.dawn);
+  return n.visible?Math.min(SolarModel.smooth(index*.22,index*.22+.45,arrival),SolarModel.smooth(index*.22,index*.22+.45,departure)):0;
+ }
+ function update(group,at){for(const [i,cat] of [...group.children].entries())cat.style.opacity=presence(at,i);}
+ function group(coats,count,night,at=NightClock.now()){
+  return plan(coats,count,night).map((cat,i)=>{
+   const style=`--roof-cat-x:${cat.left}px;--roof-cat-y:${cat.top}px;--roof-cat-width:${cat.width}px;--roof-cat-height:${cat.height}px;opacity:${presence(at,i)}`;
    if(!cat.reclining)return RoofCats.svg(cat.coat).replace('>',` style="${style}">`);
    return `<img class="roof-cat" src="assets/roof-recline-v1/${cat.coat}.png?v=${assets[cat.coat].version}" alt="" aria-hidden="true" data-asset-key="recline/${cat.coat}" data-cat-coat="${cat.coat}" data-cat-pose="rear-reclining" style="${style}">`;
   }).join('');
  }
- return Object.freeze({plan,group,ridge});
+ return Object.freeze({plan,group,ridge,presence,update});
 })();
 if(typeof module!=='undefined')module.exports=RoofRecline;

@@ -12,28 +12,39 @@ globalThis.SolarLighting=(()=>{
   for(const key of Object.keys(maps[0].map))result[key]='#'+[1,3,5].map(i=>Math.round(maps.reduce((n,{map,weight})=>n+parseInt(map[key].slice(i,i+2),16)*weight,0)).toString(16).padStart(2,'0')).join('');
   return result;
  }
- const theme=w=>palette(w,phase=>SeasonLandscape.theme({...w,solar:false,phase}));
+ function theme(w){
+  const p=palette(w,phase=>SeasonLandscape.theme({...w,solar:false,phase}));
+  if(!w.solar)return p;
+  const t=SolarModel.twilight(SolarModel.time(w),w.skyFrame||'sky'),mix=SeasonLandscape.mix,weather=w.weather==='sunny'?1:w.weather==='cloudy'?.55:.25;
+  p.sky=mix(p.sky,'#233d62',t.blue*.8);p.horizon=mix(p.horizon,'#596e91',t.blue*.85);
+  p.sky=mix(p.sky,'#607b9d',(t.glow-t.warm)*.6*weather);
+  p.horizon=mix(p.horizon,'#90a4b8',(t.glow-t.warm)*.5*weather);
+  p.sky=mix(p.sky,t.morning?'#c6a9b1':'#ba929e',t.warm*.38*weather);
+  p.horizon=mix(p.horizon,t.morning?'#d7a297':'#e2a17f',t.warm*.78*weather);
+  p.cloud=mix(p.cloud,t.morning?'#b4b4ca':'#c6b0b0',t.warm*.45*weather);
+  return p;
+ }
  function nodes(svg,html){const fragment=parse(`<svg xmlns="${ns}">${html}</svg>`);return [...fragment.childNodes].map(n=>svg.ownerDocument.importNode(n,true));}
  const floor=where=>where==='room'?'M0 236 309 228 400 258v72H0Z':where==='garden'?'M0 222q89-19 184-2t216-2v112H0Z':'M0 224h400v106H0Z';
  const illumination=(w,where)=>globalThis.SolarSky?SolarSky.state(w,where):SolarModel.at(w.at,w.weather);
  function room(source,w){
-  const svg=parse(source),s=illumination(w,'room'),id='solar-room-'+(++sequence),v=s.shadow(90,150),strength=s.direct*s.southExposure,unit=s.source==='sun'?1:strength;
+  const svg=parse(source),s=illumination(w,'room'),id='solar-room-'+(++sequence),v=s.shadow(90,150),strength=s.direct*s.southExposure,unit=1;
   const group=svg.querySelector('g[filter]'),insertion=[...group.childNodes].find(n=>n.nodeType===8&&n.textContent.includes('Rounded window'));
   const beam=[[49,233],[157,230],[174+v.x,258+v.y],[36+v.x,263+v.y]],center=104;
   const strips=[center,76,133].map((x,i)=>polygon([[x-2,232],[x+2,232],[x+v.x+4,261+v.y],[x+v.x-4,261+v.y]],'#334951',unit*(i?.065:.12))).join('');
   const light=s.source==='moon'?'#bed0d5':s.altitude<22?'#edcfaa':'#efe8d5';
-  const markup=`<defs><clipPath id="${id}-floor"><path d="${floor('room')}"/></clipPath><clipPath id="${id}-beam"><polygon points="${points(beam)}"/></clipPath><linearGradient id="${id}-light" x2=".25" y2="1"><stop stop-color="${light}" stop-opacity="${unit*(s.source==='moon'?.17:.22)}"/><stop offset="1" stop-color="${light}" stop-opacity="${unit*.035}"/></linearGradient><filter id="${id}-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-window-light=""${s.source==='sun'?` data-solar-direct="" data-light-factor="1" opacity="${strength}"`:''} clip-path="url(#${id}-floor)"><polygon points="${points(beam)}" fill="url(#${id}-light)"/><g clip-path="url(#${id}-beam)" filter="url(#${id}-soft)">${strips}</g></g>`;
+  const markup=`<defs><clipPath id="${id}-floor"><path d="${floor('room')}"/></clipPath><clipPath id="${id}-beam"><polygon points="${points(beam)}"/></clipPath><linearGradient id="${id}-light" x2=".25" y2="1"><stop stop-color="${light}" stop-opacity="${unit*(s.source==='moon'?.17:.22)}"/><stop offset="1" stop-color="${light}" stop-opacity="${unit*.035}"/></linearGradient><filter id="${id}-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-window-light="" data-solar-direct="" data-light-factor="1" opacity="${strength}" clip-path="url(#${id}-floor)"><polygon points="${points(beam)}" fill="url(#${id}-light)"/><g clip-path="url(#${id}-beam)" filter="url(#${id}-soft)">${strips}</g></g>`;
   for(const n of nodes(svg,markup))group.insertBefore(n,insertion||null);
   return stringify(svg);
  }
  function place(source,where,w){
-  const svg=parse(source),s=illumination(w,where),id='solar-place-'+(++sequence),group=svg.querySelector('g[filter]'),opacity=(s.source==='sun'?1:s.direct)*.17;
+  const svg=parse(source),s=illumination(w,where),id='solar-place-'+(++sequence),group=svg.querySelector('g[filter]'),opacity=.17;
   let casts='';
   const post=(x,y,width,height)=>{const v=s.shadow(height,330);return polygon([[x-width/2,y],[x+width/2,y],[x+width/2+v.x,y+v.y],[x-width/2+v.x,y+v.y]],'#344d52',opacity,`data-caster="pillar" data-vector="${v.x},${v.y}"`);};
   if(where==='engawa'){
    casts=post(68,224,16,218)+post(375,224,13,218);
    const face=s.direction.x>0?'left':'right',x=face==='left'?60:72;
-   casts+=`<path d="M${x} 0v218" stroke="#e1d8c2" stroke-width="2" opacity="${(s.source==='sun'?1:s.direct)*.18}"/>`;
+   casts+=`<path d="M${x} 0v218" stroke="#e1d8c2" stroke-width="2" opacity="${.18}"/>`;
   }else{
    const v=s.shadow(147,290),end={x:43+v.x,y:230+v.y};
    casts=polygon([[39,230],[47,230],[end.x+4,end.y],[end.x-4,end.y]],'#324e50',opacity,`data-caster="tree" data-vector="${v.x},${v.y}"`);
@@ -41,7 +52,7 @@ globalThis.SolarLighting=(()=>{
    casts+=w.season==='winter'?`<g stroke="#344d52" stroke-width="2" opacity="${opacity*.8}" data-caster="bare-branches"><path d="M${43+v.x*.55} ${230+v.y*.55}l${v.x*.36-20} ${v.y*.36+9}m20-9 20-7"/></g>`:`<g transform="translate(${end.x} ${end.y}) rotate(${angle})" opacity="${opacity*.85}" data-caster="canopy"><ellipse cx="-12" cy="0" rx="${stretch}" ry="${10+Math.abs(v.y)*.05}" fill="#344d52"/><ellipse cx="-38" cy="-5" rx="${stretch*.6}" ry="12" fill="#344d52"/></g>`;
    const p=s.shadow(49,105);casts+=polygon([[339,260],[361,260],[358+p.x,260+p.y],[345+p.x,260+p.y]],'#344d52',opacity*.7,'data-caster="plant"');
   }
-  const markup=`<defs><clipPath id="${id}-ground"><path d="${floor(where)}"/></clipPath><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-structure-shadow=""${s.source==='sun'?` data-solar-direct="" data-light-factor="1" opacity="${s.direct}"`:''} clip-path="url(#${id}-ground)" filter="url(#${id}-soft)">${casts}</g>`;
+  const markup=`<defs><clipPath id="${id}-ground"><path d="${floor(where)}"/></clipPath><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-structure-shadow="" data-solar-direct="" data-light-factor="1" opacity="${s.direct}" clip-path="url(#${id}-ground)" filter="url(#${id}-soft)">${casts}</g>`;
   const insertion=group.children[2]||null;for(const n of nodes(svg,markup))group.insertBefore(n,insertion);
   return stringify(svg);
  }
@@ -76,7 +87,7 @@ globalThis.SolarLighting=(()=>{
   const clip=sill?'M30 157h150v15H30Z':floor(stage.dataset.location);
   const opacity=s.direct*(stage.dataset.location==='room'?.065:.105)*(stage.dataset.location==='room'?s.southExposure:1);
   const svg=parse(`<svg xmlns="${ns}" class="solar-cat-shadow" viewBox="0 0 400 330" aria-hidden="true" data-vector="${v.x},${v.y}" data-source="${s.source}"><defs><clipPath id="${id}-support"><path d="${clip}"/></clipPath><mask id="${id}-alpha" maskUnits="userSpaceOnUse" x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" style="mask-type:alpha"><image href="${img.getAttribute('src').replace(/&/g,'&amp;')}" width="${bw}" height="${bh}" transform="${transform}"/></mask><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness*.8}"/></filter></defs><g clip-path="url(#${id}-support)" opacity="${opacity}"><g filter="url(#${id}-soft)"><g transform="matrix(.82 0 ${c} ${d} ${tx} ${ty})"><rect x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" fill="#283e48" mask="url(#${id}-alpha)"/></g></g></g></svg>`);
-  if(s.source==='sun'){
+  {
    const group=svg.querySelector(':scope > g');group.dataset.solarDirect='';group.dataset.lightFactor=String(stage.dataset.location==='room'?.065:.105);
   }
   return stringify(svg);
@@ -124,7 +135,7 @@ globalThis.SolarLighting=(()=>{
     const bg=stage.querySelector('.room-background-layer:not([data-background-outgoing])');if(!bg)continue;
     const r=stage.getBoundingClientRect();if(!r.width||!r.height||r.bottom<0||r.top>innerHeight)continue;
     const w={at,cloudAt:at,weather:bg.dataset.lightWeather,season:bg.dataset.lightSeason};
-    if(SolarModel.phase(at)!=='night'){active=true;SolarSky.update(stage,w);update(stage,w);}
+    active=true;SolarSky.update(stage,w);update(stage,w);
    }
    if(!reduced.matches&&active)motionTimer=setTimeout(pulse,1000);
   };

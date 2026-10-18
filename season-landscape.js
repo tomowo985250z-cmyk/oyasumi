@@ -12,8 +12,8 @@ globalThis.SeasonLandscape=(()=>{
  const cloudPath='M-62 18Q-82-1-60-12q-5-28 22-29 18-31 42-4 30-10 39 17 28 0 34 27Q86 20 55 22Z';
  function clouds(w,frame=w.skyFrame||'sky'){
   const reduced=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  const at=w.cloudAt??SolarModel.time(w),day=SolarModel.phase(at)!=='night';
-  const drift=day&&!reduced?(at/1000*.04)%800:0,turn=day?(180-SolarModel.bearing(frame))*400/180:0;
+  const at=w.cloudAt??SolarModel.time(w);
+  const drift=!reduced?(at/1000*.04)%800:0,turn=(180-SolarModel.bearing(frame))*400/180;
   return [{x:65,y:76,scale:w.weather==='sunny'?.63:.93},{x:335,y:100,scale:w.weather==='sunny'?.53:1},...(w.season==='summer'&&w.weather==='sunny'?[{x:222,y:99,scale:.83}]:[]),...(w.weather!=='sunny'?[{x:220,y:25,scale:1.2}]:[])].map(c=>({...c,x:((c.x+drift+turn+200)%800+800)%800-200}));
  }
  const terrain=[
@@ -49,23 +49,25 @@ globalThis.SeasonLandscape=(()=>{
  function landscape(w,frame='window',now=globalThis.NightClock?.now()??Date.now()){
   w={...w,phase:phase(w)};
   const p=theme(w),wide=frame==='sky',id='country-'+(++uid),night=w.phase==='night',rain=w.weather==='rainy',cloud=w.weather!=='sunny';
+  const nightColor=(day,dark)=>mix(day,dark,w.solar?SolarModel.weights(now).night:night?1:0);
   // A common 400 × 260 landscape also reads naturally through the room window.
   const cloudAt=({x,y,scale})=>`<g transform="translate(${x} ${y}) scale(${scale})"><path d="${cloudPath}" fill="${p.cloud}"/><path d="M-67 12q27 8 52 3t46 2 40-7q-3 15-24 14h-97q-17-1-17-12Z" fill="${p.cloudShade}" opacity=".38"/></g>`;
   const branchTree=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0q5-43-3-89m3 58-25-29m26 13 25-31m-28 13-18-23m20 12 11-24" fill="none" stroke="${p.trunk}" stroke-width="4" stroke-linecap="round"/>${w.season==='winter'?'':`<path d="M-42-65q-17-20 4-32-4-23 20-22 17-21 37-3 26-8 33 16 23 7 15 27-9 20-36 16-28 13-47-2Z" fill="${p.leaf}"/><path d="M-41-88q6-16 23-13 7-20 24-12 19-7 29 10 22-3 22 16-20-5-32 3-21-6-33 2-18-10-33-6Z" fill="${p.leafLight}" opacity=".7"/>`}</g>`;
-  const stars=night&&!rain?`<g fill="#f2e5c7" opacity="${cloud?.23:.7}">${Array.from({length:20},(_,i)=>`<circle cx="${14+(i*71)%375}" cy="${12+(i*31)%115}" r="${i%4? .7:1.1}"/>`).join('')}</g>`:'';
-  const moon=night?`<g opacity="${rain?.12:cloud?.4:.95}" transform="${wide?'translate(160 -12) scale(1.25)':'translate(0 0)'}">${RoofMoon.svg(now,'window')}</g>`:'';
+  const darkness=w.solar?SolarModel.twilight(now,w.skyFrame).stars:night?1:0;
+  const stars=!rain?`<g data-landscape-stars fill="#f2e5c7" opacity="${darkness*(cloud?.23:.7)}">${Array.from({length:20},(_,i)=>`<circle cx="${14+(i*71)%375}" cy="${12+(i*31)%115}" r="${i%4? .7:1.1}"/>`).join('')}</g>`:'';
+  const moon=`<g opacity="${rain?.12:cloud?.4:.95}">${RoofMoon.svg(now,w.skyFrame||'window')}</g>`;
   const sun=!night&&!cloud?`<circle cx="${w.phase==='evening'?295:304}" cy="${w.phase==='evening'?130:w.phase==='morning'?96:53}" r="${w.phase==='evening'?18:14}" fill="${p.sun}" opacity=".9"/><circle cx="${w.phase==='evening'?295:304}" cy="${w.phase==='evening'?130:w.phase==='morning'?96:53}" r="36" fill="url(#${id}-glow)"/>`:'';
   const far=terrain.map((d,i)=>`<path${i===0?' data-depth="distant-ridge"':''} d="${d}" fill="${[mix(p.far,p.sky,.34),p.far,p.hill][i]}"/>`).join('');
-  const fields=`<path d="M0 215q93-24 180-5t220-4v54H0Z" fill="${p.field}"/><path d="M90 220q87-6 153 5l-18 10q-75-14-166-2Z" fill="${mix(p.field,p.green,.3)}"/><path d="m190 219 25 41h8l-25-42Z" fill="${mix(p.field,night?'#364344':'#d5c5a4',.35)}"/><path d="M0 241q128-25 235 0t165-5v24H0Z" fill="${p.green}" opacity=".5"/><path d="M236 222h53v-16h-53Z" fill="${night?'#485254':'#d3c9b2'}"/><path d="m230 207 18-13h28l20 13Z" fill="${night?'#263744':'#6d7a79'}"/><path d="M246 213h7v9h-7Zm24-1h8v6h-8Z" fill="${night?'#948867':'#7b9994'}"/>`;
+  const fields=`<path d="M0 215q93-24 180-5t220-4v54H0Z" fill="${p.field}"/><path d="M90 220q87-6 153 5l-18 10q-75-14-166-2Z" fill="${mix(p.field,p.green,.3)}"/><path d="m190 219 25 41h8l-25-42Z" fill="${mix(p.field,nightColor('#d5c5a4','#364344'),.35)}"/><path d="M0 241q128-25 235 0t165-5v24H0Z" fill="${p.green}" opacity=".5"/><path d="M236 222h53v-16h-53Z" fill="${nightColor('#d3c9b2','#485254')}"/><path d="m230 207 18-13h28l20 13Z" fill="${nightColor('#6d7a79','#263744')}"/><path d="M246 213h7v9h-7Zm24-1h8v6h-8Z" fill="${nightColor('#7b9994','#948867')}"/>`;
   const trees=branchTree(wide?14:112,260,wide?.72:.55)+branchTree(wide?388:302,265,wide?.82:.62);
-  const rainfall=rain?`<g stroke="${night?'#b3c6ca':'#dce5e1'}" stroke-width=".8" opacity=".38">${Array.from({length:28},(_,i)=>`<path d="m${(i*61)%400} ${(i*37)%250} -3 11"/>`).join('')}</g>`:'';
+  const rainfall=rain?`<g stroke="${nightColor('#dce5e1','#b3c6ca')}" stroke-width=".8" opacity=".38">${Array.from({length:28},(_,i)=>`<path d="m${(i*61)%400} ${(i*37)%250} -3 11"/>`).join('')}</g>`:'';
   // Keep the original window moon geometry in its own native viewport at night.
-  if(night&&!wide){
+  if(night&&!wide&&!w.solar){
    const branch=x=>`<g stroke="${p.trunk}" stroke-width="2" fill="none" stroke-linecap="round"><path d="M${x} 180v-42m0 23-11-14m11 5 10-16"/></g>`;
    return `<svg class="season-landscape room-night-sky" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" data-season="${w.season}" data-weather="${w.weather}" data-jst-day="${w.day}"><defs><linearGradient id="${id}-window" x2="0" y2="1"><stop stop-color="${p.sky}"/><stop offset="1" stop-color="${p.horizon}"/></linearGradient></defs><path d="M0 0h160v180H0Z" fill="url(#${id}-window)"/><g fill="#e5e3d3" opacity="${rain?.08:cloud?.2:.55}">${Array.from({length:20},(_,i)=>`<circle cx="${10+(i%4)*40+((i*17)%19)}" cy="${10+Math.floor(i/4)*27+((i*13)%15)}" r="${i%5?.7:1.1}"/>`).join('')}</g><g opacity="${rain?.12:cloud?.4:1}">${RoofMoon.svg(now,'window')}</g>${cloud?`<path d="M-10 34q22-17 47-3t56-2 75 6v12q-47-9-81 0t-66-1-31-2Z" fill="${p.cloud}" opacity="${rain?.55:.3}"/>`:''}<path data-depth="distant-ridge" d="M-10 151 14 137 37 145 61 124 86 144 111 130 139 144 171 132v48H-10Z" fill="${p.far}"/><path data-depth="middle-hills" d="M0 157q35-22 76-5t84-6v34H0Z" fill="${p.hill}"/><path data-depth="near-trees" d="M0 173q43-16 88-7t72-3v17H0Z" fill="${p.green}"/>${w.season==='winter'?branch(9)+branch(151):`<g fill="${p.leaf}"><path d="M0 180v-43q14-14 22 1 13 10 2 18-5 9-11 6l-2 18ZM160 180v-49q-14-10-20 4-13 9-2 19 1 8 12 8l1 18Z"/></g>`}${rain?'<g stroke="#a1b7c0" opacity=".22"><path d="m22 77-2 8m34-23-2 8m42 27-2 7m35-29-2 8"/></g>':''}</svg>`;
 
   }
-  return `<svg class="season-landscape country-landscape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${id}" x2="0" y2="1"><stop stop-color="${p.sky}"/><stop offset=".68" stop-color="${mix(p.sky,p.horizon,.55)}"/><stop offset="1" stop-color="${p.horizon}"/></linearGradient><radialGradient id="${id}-glow"><stop stop-color="${p.sun}" stop-opacity=".22"/><stop offset="1" stop-color="${p.sun}" stop-opacity="0"/></radialGradient></defs><path d="M0 0h400v260H0Z" fill="url(#${id})"/>${stars}${moon}${sun}<g data-sky-clouds opacity="${night?.35:1}">${clouds(w).map(cloudAt).join('')}</g>${far}${fields}${trees}${rainfall}</svg>`;
+  return `<svg class="season-landscape country-landscape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient data-landscape-gradient id="${id}" x2="0" y2="1"><stop stop-color="${p.sky}"/><stop offset=".68" stop-color="${mix(p.sky,p.horizon,.55)}"/><stop offset="1" stop-color="${p.horizon}"/></linearGradient><radialGradient id="${id}-glow"><stop stop-color="${p.sun}" stop-opacity=".22"/><stop offset="1" stop-color="${p.sun}" stop-opacity="0"/></radialGradient></defs><path d="M0 0h400v260H0Z" fill="url(#${id})"/>${stars}${moon}${sun}<g data-sky-clouds opacity="${1-darkness*.65}">${clouds(w).map(cloudAt).join('')}</g>${far}${fields}${trees}${rainfall}</svg>`;
  }
  return Object.freeze({theme,art:landscape,mix,phase,cloudTransmission,clouds,horizonTransmission});
 })();

@@ -106,6 +106,7 @@ function syncRoofMoon() {
  // network refresh or a full render. Keep the moon and cat nodes in place.
  const now=NightClock.now();
  for(const moon of moons)RoofMoon.update(moon,now);
+ const scene=document.querySelector('.awake-roof');if(scene)SolarSky.updateRoof(scene,{...DayRoom.world(),at:now,cloudAt:now});
  roofMoonTimer=setTimeout(syncRoofMoon,1000);
 }
 function syncRoofSky() {
@@ -117,7 +118,7 @@ function syncRoofSky() {
  clearTimeout(roofShootingTimer);
  const scene=document.querySelector('.awake-roof');
  syncRoofMoon();
- if(SolarModel.phase(NightClock.now())!=='night'||document.hidden||!scene||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.roof-shooting-star').forEach(star=>{star.getAnimations().forEach(animation=>animation.cancel());star.remove();});roofNextShootingAt=undefined;return;}
+ if(SolarModel.twilight(NightClock.now(),'roof').stars<.7||document.hidden||!scene||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.roof-shooting-star').forEach(star=>{star.getAnimations().forEach(animation=>animation.cancel());star.remove();});roofNextShootingAt=undefined;return;}
  roofNextShootingAt??=performance.now()+15000+Math.random()*15000;
  roofShootingTimer=setTimeout(()=>{
   roofNextShootingAt=undefined;
@@ -154,10 +155,9 @@ async function refreshSentReactionPeople(){
 function awakeCats() {
  const activeCount=activeAwakeCount();
  const count=homeCatCount(activeCount,shared.trend,shared.trendHistory,NightClock.now());
- if(!count)return '';
  const users=new Set(),coats=[];
  for(const post of TimelineVisibility.visible(shared.feed,NightClock.now())){if(post.status!=='awake'||users.has(post.userId))continue;users.add(post.userId);coats.push(post.coat);if(coats.length===count)break;}
-return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 110" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs>${SolarSky.roof(DayRoom.world())}<path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g>${RoofMoon.svg(NightClock.now())}</svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
+return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 150" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs>${SolarSky.roof(DayRoom.world())}<g transform="translate(0 40)"><path d="M-14 75Q96 76 222 83l-24 31H4Z" fill="url(#awake-roof-wash)"/><path d="M-8 75Q96 76 216 83" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="M2 86q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1M-12 99q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1m0 0q17 4 34 1"/><path d="m36 87-4 10m38-9-4 10m38-9-4 10m38-9-4 10m38-9-4 10"/></g></g></svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
 }
 function cardSkyStars() {
  // One gently jittered star per cell keeps the entire card balanced at every width.
@@ -284,6 +284,13 @@ let careRenderTimer;
 function renderPreservingPosition(allowDialog=false) {
  if(!allowDialog&&document.querySelector('dialog[open]'))return;
  clearTimeout(careRenderTimer);
+ // Let a homecoming finish before an automatic refresh replaces its scene.
+ if(!allowDialog&&view==='home'){
+  DayRoom.sync();
+  if([...app.querySelectorAll('.day-room')].some(stage=>!DayRoom.settled(stage))){
+   careRenderTimer=setTimeout(()=>{if(view==='home')renderPreservingPosition();},120);return;
+  }
+ }
  // Detaching even the same node restarts CSS animations in WebKit. Defer only
  // automatic full renders; explicit navigation still renders immediately.
  if([...app.querySelectorAll('.care-scene')].some(scene=>CatCare.isPlaying(scene))){

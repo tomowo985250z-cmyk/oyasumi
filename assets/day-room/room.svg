@@ -26,9 +26,6 @@
     <path d="M45 160V73a59 59 0 0 1 118 0v87Z" fill="#efe2cf"/>
     <g clip-path="url(#view)"><path fill="url(#sky)" d="M48 14h112v150H48z"/><circle cx="132" cy="53" r="13" fill="#fff4d3" opacity=".8"/><path d="M45 136q30-32 68-7 34-25 66-8v58H45" fill="#a9b9ab"/><path d="M43 151q26-18 55-6 26-23 70-4v30H43" fill="#8fa69b"/><path d="M64 70q7-9 14-4 7-9 13 2 12-4 15 5H61Z" fill="#fff9ef" opacity=".65"/></g>
     <path d="M104 20v138m-53-50h106" stroke="#eee1ce" stroke-width="5"/>
-    <path d="M42 25q-11 50-3 113l12 8q-2-60 10-115Z" fill="#e6dbce" opacity=".85"/>
-    <path d="M151 26q16 50 12 116l12-2q5-65-10-113Z" fill="#ded1c5"/>
-    <path d="m47 33-5 95m118-95 8 99" stroke="#c4b8b3" stroke-opacity=".4" stroke-width="2"/>
     <ellipse cx="105" cy="195" rx="76" ry="10" fill="#6f6d79" opacity=".12" filter="url(#shadow)"/>
     <rect x="30" y="158" width="150" height="12" rx="5" fill="url(#wood)"/>
     <path d="M45 170v43m119-43v42" stroke="#b69b85" stroke-width="8" stroke-linecap="round"/>
