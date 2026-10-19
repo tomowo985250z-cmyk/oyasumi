@@ -27,6 +27,27 @@ globalThis.SolarLighting=(()=>{
  function nodes(svg,html){const fragment=parse(`<svg xmlns="${ns}">${html}</svg>`);return [...fragment.childNodes].map(n=>svg.ownerDocument.importNode(n,true));}
  const floor=where=>where==='room'?'M0 236 309 228 400 258v72H0Z':where==='garden'?'M0 222q89-19 184-2t216-2v112H0Z':'M0 224h400v106H0Z';
  const illumination=(w,where)=>globalThis.SolarSky?SolarSky.state(w,where):SolarModel.at(w.at,w.weather);
+ // Reuse the existing sun, region/season, cloud and weather calculations.
+ function edgeLight(w,where){
+  if(!['room','engawa'].includes(where))return 0;
+  const at=w.cloudAt??SolarModel.time(w),p=SolarModel.parameters(at),age=(where==='room'?at-p.sunriseAt:p.sunsetAt-at)/60000;
+  const fade=SolarModel.smooth(0,15,age)*(1-SolarModel.smooth(75,135,age))*SolarModel.smooth(-.833,4,p.altitude);
+  if(!fade)return 0;
+  const sun=SolarModel.facing({...p,altitudeUsed:p.altitude},where),weather=illumination(w,where).weatherOpacity??(w.weather==='sunny'?1:w.weather==='cloudy'?.22:.035);
+  const cloud=SeasonLandscape.cloudTransmission(w,sun.sunPoint,13,where),horizon=SeasonLandscape.horizonTransmission(sun.sunPoint);
+  const strength=fade*sun.exposure*(.3+.7*cloud)*(.35+.65*horizon);
+  return (where==='room'?strength*(2-strength):strength)*weather;
+ }
+ function edgeMarkup(w,where,id,svg){
+  const level=edgeLight(w,where),morning=where==='room',color=morning?'#ffd17c':'#efa86c';
+  const beam=morning?'M49 235 157 232 392 346 128 360Z':'M78 225 352 225 344 329 37 313Z';
+  // Follow the existing seasonal cloth geometry, including the winter blanket.
+  const blanket=morning?svg.querySelector('[data-season-furniture="kotatsu"]'):null;
+  const cushion=blanket?.querySelector('path[d^="M136 250"]')||[...svg.querySelectorAll('path')].find(n=>n.getAttribute('d')?.startsWith(morning?'M143 259':'M138 262'));
+  const shadows=morning?[76,104,133].map(x=>polygon([[x-1.5,233],[x+1.5,233],[128+(x-49)*264/108+4,360],[128+(x-49)*264/108-4,360]],'#71553b',.22)).join(''):'';
+  const reflection=encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><linearGradient id="warm" x1="0" y1="0" x2="'+(morning?'1':'0')+'" y2="'+(morning?'.3':'1')+'"><stop stop-color="'+color+'" stop-opacity="'+(morning?'.38':'.14')+'"/><stop offset=".6" stop-color="'+color+'" stop-opacity="'+(morning?'.12':'.035')+'"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></linearGradient></defs><path fill="url(#warm)" d="M0 0h100v100H0Z"/></svg>');
+  return `<defs><clipPath id="${id}-edge-floor"><path d="${floor(where)}"/></clipPath><clipPath id="${id}-edge-band"><path d="${beam}"/></clipPath><linearGradient id="${id}-edge-beam" x1="0" y1="0" x2="${morning?'.6':'0'}" y2="1"><stop stop-color="${color}" stop-opacity="${morning?'.85':'.36'}"/><stop offset=".5" stop-color="${color}" stop-opacity="${morning?'.60':'.18'}"/><stop offset="1" stop-color="${color}" stop-opacity="${morning?'.20':'0'}"/></linearGradient><radialGradient id="${id}-edge-bounce" cx="${morning?'.2':'.5'}" cy="0" r="1"><stop stop-color="${color}" stop-opacity="${morning?'.28':'.12'}"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></radialGradient><filter id="${id}-edge-soft" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="${morning?'1.8':'3'}"/></filter><filter id="${id}-edge-cat" data-solar-edge-reflection="" x="0" y="0" width="100%" height="100%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,${reflection}" x="0" y="0" width="1" height="1" preserveAspectRatio="none"/><feComponentTransfer><feFuncA data-solar-edge-strength="" type="linear" slope="${level}"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in2="SourceGraphic" mode="screen"/></filter></defs><g data-solar-edge="" data-solar-window-light="" data-solar-direct="" data-light-factor="1" opacity="${level}" clip-path="url(#${id}-edge-floor)" pointer-events="none"><path d="${beam}" fill="url(#${id}-edge-beam)" filter="url(#${id}-edge-soft)"/><g data-solar-edge-shadow="" clip-path="url(#${id}-edge-band)" filter="url(#${id}-edge-soft)">${shadows}</g><path d="${cushion?.getAttribute('d')||''}" transform="${blanket?.getAttribute('transform')||''}" fill="url(#${id}-edge-bounce)"/></g>`;
+ }
  // Match the room's dusk threshold; share the existing clock, with no new timer.
  const lanternLevel=w=>SolarModel.smooth(-.833,-6,SolarModel.parameters(SolarModel.time(w)).altitude);
  function lantern(w,id){
@@ -42,6 +63,7 @@ globalThis.SolarLighting=(()=>{
   const light=s.source==='moon'?'#bed0d5':s.altitude<22?'#edcfaa':'#efe8d5';
   const markup=`<defs><clipPath id="${id}-floor"><path d="${floor('room')}"/></clipPath><clipPath id="${id}-beam"><polygon points="${points(beam)}"/></clipPath><linearGradient id="${id}-light" x2=".25" y2="1"><stop stop-color="${light}" stop-opacity="${unit*(s.source==='moon'?.17:.22)}"/><stop offset="1" stop-color="${light}" stop-opacity="${unit*.035}"/></linearGradient><filter id="${id}-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-window-light="" data-solar-direct="" data-light-factor="1" opacity="${strength}" clip-path="url(#${id}-floor)"><polygon points="${points(beam)}" fill="url(#${id}-light)"/><g clip-path="url(#${id}-beam)" filter="url(#${id}-soft)">${strips}</g></g>`;
   for(const n of nodes(svg,markup))group.insertBefore(n,insertion||null);
+  for(const n of nodes(svg,edgeMarkup(w,'room',id,svg)))group.append(n);
   return stringify(svg);
  }
  function place(source,where,w){
@@ -62,7 +84,7 @@ globalThis.SolarLighting=(()=>{
   }
   const markup=`<defs><clipPath id="${id}-ground"><path d="${floor(where)}"/></clipPath><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-structure-shadow="" data-solar-direct="" data-light-factor="1" opacity="${s.direct}" clip-path="url(#${id}-ground)" filter="url(#${id}-soft)">${casts}</g>`;
   const insertion=group.children[2]||null;for(const n of nodes(svg,markup))group.insertBefore(n,insertion);
-  if(where==='engawa')for(const n of nodes(svg,lantern(w,id)))group.append(n);
+  if(where==='engawa'){for(const n of nodes(svg,edgeMarkup(w,where,id,svg)))group.append(n);for(const n of nodes(svg,lantern(w,id)))group.append(n);}
   return stringify(svg);
  }
  function landscape(w,frame){
@@ -112,11 +134,15 @@ globalThis.SolarLighting=(()=>{
   let warmth=0;
   if(level&&source){const r=stage.getBoundingClientRect(),b=source.group.getBoundingClientRect();if(r.width)warmth=level*Math.max(0,1-Math.hypot((b.left+b.width/2-r.left)*400/r.width-37,(b.bottom-r.top)*400/r.width-268)/220);}
   for(const node of stage.querySelectorAll('[data-solar-direct]'))node.setAttribute('opacity',String(s.direct*Number(node.dataset.lightFactor)));
+  const edge=stage.dataset.location==='room'&&stage.dataset.curtainClosed==='true'?0:edgeLight(w,stage.dataset.location);
+  for(const node of stage.querySelectorAll('[data-solar-edge]'))node.setAttribute('opacity',String(edge));
   stage.dataset.solarLight=s.source;stage.style.setProperty('--room-light-brightness',String(.78+.22*day));stage.style.setProperty('--room-light-saturation',String(.90+.10*day));
   stage.style.setProperty('--room-light-filter',day===1?'none':`brightness(${.78+.22*day}) saturate(${.90+.10*day})`);
   if(warmth)stage.style.setProperty('--room-light-filter',`brightness(${.78+.22*day+.08*warmth}) saturate(${.90+.10*day+.04*warmth}) sepia(${.10*warmth})`);
   const reflection=bg?.querySelector('[data-engawa-reflection]');
   if(warmth&&reflection){reflection.querySelector('[data-engawa-reflection-strength]').setAttribute('slope',String(warmth));stage.style.setProperty('--room-light-filter',stage.style.getPropertyValue('--room-light-filter')+` url("#${reflection.id}")`);}
+  const sunlight=bg?.querySelector('[data-solar-edge-reflection]');
+  if(sunlight){sunlight.querySelector('[data-solar-edge-strength]').setAttribute('slope',String(edge));if(edge)stage.style.setProperty('--room-light-filter',stage.style.getPropertyValue('--room-light-filter').replace(/^none$/,'')+` url("#${sunlight.id}")`);}
   let entry=entries.get(stage);if(!entry){const holder=document.createElement('div');holder.className='room-cat-lighting';holder.setAttribute('aria-hidden','true');stage.append(holder);entry={holder};entries.set(stage,entry);resize?.observe(stage);}
   const signature=[w.at,w.weather,stage.dataset.location,stage.dataset.place,stage.clientWidth,source?.img.getAttribute('src'),source?.group.getAttribute('style'),stage.dataset.nightPose].join(':');
   if(entry.signature===signature)return;entry.signature=signature;const token={};entry.token=token;
@@ -138,7 +164,7 @@ globalThis.SolarLighting=(()=>{
   resize=new ResizeObserver(rows=>rows.forEach(row=>{const e=entries.get(row.target);if(e)e.signature=null;schedule(row.target);}));
   const stages=node=>node.nodeType===1?[...(node.matches('.day-room')?[node]:[]),...node.querySelectorAll('.day-room')]:[];
   observer=new MutationObserver(rows=>{for(const row of rows){if(row.target.closest?.('.room-cat-lighting'))continue;const stage=row.target.closest?.('.day-room');if(stage)schedule(stage);for(const node of row.addedNodes||[])for(const item of stages(node))schedule(item);for(const node of row.removedNodes||[])for(const item of stages(node))if(!item.isConnected){resize.unobserve(item);entries.get(item)?.fade?.cancel();entries.delete(item);}}});
-  observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','data-care-stage','data-location','data-place','data-coat','data-night-pose']});
+  observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','data-care-stage','data-location','data-place','data-coat','data-night-pose','data-curtain-closed']});
   new MutationObserver(()=>document.querySelectorAll('.day-room').forEach(schedule)).observe(document.documentElement,{attributes:true,attributeFilter:['data-cat-state-pending','data-cat-own-ready']});
   document.querySelectorAll('.day-room').forEach(schedule);
   // One shared 1 Hz clock: move existing cloud groups and update opacity only.
