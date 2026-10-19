@@ -27,6 +27,13 @@ globalThis.SolarLighting=(()=>{
  function nodes(svg,html){const fragment=parse(`<svg xmlns="${ns}">${html}</svg>`);return [...fragment.childNodes].map(n=>svg.ownerDocument.importNode(n,true));}
  const floor=where=>where==='room'?'M0 236 309 228 400 258v72H0Z':where==='garden'?'M0 222q89-19 184-2t216-2v112H0Z':'M0 224h400v106H0Z';
  const illumination=(w,where)=>globalThis.SolarSky?SolarSky.state(w,where):SolarModel.at(w.at,w.weather);
+ // Match the room's dusk threshold; share the existing clock, with no new timer.
+ const lanternLevel=w=>SolarModel.smooth(-.833,-6,SolarModel.parameters(SolarModel.time(w)).altitude);
+ function lantern(w,id){
+  const level=lanternLevel(w),p=palette(w,phase=>phase==='night'?{wood:'#695b49',paper:'#817760',edge:'#4d483e'}:{wood:'#a08869',paper:'#ded1b6',edge:'#806d55'});
+  const reflection=encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><linearGradient id="warm"><stop stop-color="#efbd78" stop-opacity=".16"/><stop offset=".55" stop-color="#efbd78" stop-opacity=".035"/><stop offset="1" stop-color="#efbd78" stop-opacity="0"/></linearGradient></defs><path fill="url(#warm)" d="M0 0h100v100H0Z"/></svg>');
+  return `<defs data-engawa-lantern-defs=""><filter id="${id}-lamp-reflection" data-engawa-reflection="" x="0" y="0" width="100%" height="100%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,${reflection}" x="0" y="0" width="1" height="1" preserveAspectRatio="none"/><feComponentTransfer><feFuncA data-engawa-reflection-strength="" type="linear" slope="0"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in2="SourceGraphic" mode="screen"/></filter><clipPath id="${id}-lamp-floor"><path d="${floor('engawa')}"/></clipPath><radialGradient id="${id}-lamp-glow"><stop stop-color="#e9bf7c" stop-opacity=".378"/><stop offset=".55" stop-color="#e9bf7c" stop-opacity=".126"/><stop offset="1" stop-color="#e9bf7c" stop-opacity="0"/></radialGradient><linearGradient id="${id}-paper" x2="0" y2="1"><stop stop-color="#efd6a4"/><stop offset=".5" stop-color="#ffe4b4"/><stop offset="1" stop-color="#cba26d"/></linearGradient></defs><g data-engawa-light="" opacity="${level}" pointer-events="none" clip-path="url(#${id}-lamp-floor)"><ellipse cx="48" cy="266" rx="164" ry="38" fill="url(#${id}-lamp-glow)"/></g><g data-engawa-lantern="" data-scene-object="andon" transform="translate(37 268)" pointer-events="none"><ellipse cy="1" rx="17" ry="3" fill="#354346" opacity=".19"/><path d="M-11-37 9-37 14-34V-3L9 1h-20Z" fill="${p.wood}"/><path d="M9-35 13-33V-4L9-1Z" fill="${p.edge}"/><path d="M-8-34H7V-4H-8Z" fill="${p.paper}"/><path data-engawa-light="" opacity="${level}" d="M-8-34H7V-4H-8Z" fill="url(#${id}-paper)"/><path d="M-1-34V-4M-8-19H7" fill="none" stroke="${p.wood}" stroke-width="1.2"/><path d="M-13-38 8-39 15-35 13-33-12-35ZM-13-3 10-3 15-1 11 2h-24Z" fill="${p.wood}"/><path d="M-11-37 8-38M-11-1H9" stroke="#e1c6a0" stroke-opacity=".3" stroke-width=".8"/></g>`;
+ }
  function room(source,w){
   const svg=parse(source),s=illumination(w,'room'),id='solar-room-'+(++sequence),v=s.shadow(90,150),strength=s.direct*s.southExposure,unit=1;
   const group=svg.querySelector('g[filter]'),insertion=[...group.childNodes].find(n=>n.nodeType===8&&n.textContent.includes('Rounded window'));
@@ -55,6 +62,7 @@ globalThis.SolarLighting=(()=>{
   }
   const markup=`<defs><clipPath id="${id}-ground"><path d="${floor(where)}"/></clipPath><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness}"/></filter></defs><g data-solar-structure-shadow="" data-solar-direct="" data-light-factor="1" opacity="${s.direct}" clip-path="url(#${id}-ground)" filter="url(#${id}-soft)">${casts}</g>`;
   const insertion=group.children[2]||null;for(const n of nodes(svg,markup))group.insertBefore(n,insertion);
+  if(where==='engawa')for(const n of nodes(svg,lantern(w,id)))group.append(n);
   return stringify(svg);
  }
  function landscape(w,frame){
@@ -99,11 +107,18 @@ globalThis.SolarLighting=(()=>{
   if(!value&&!bg?.dataset.lightAt)return;
   const input=value||{at:Number(bg.dataset.lightAt),cloudAt:NightClock.now(),weather:bg.dataset.lightWeather,season:bg.dataset.lightSeason};
   const w={...SolarModel.world(input),cloudAt:input.cloudAt??SolarModel.time(input)},s=illumination(w,stage.dataset.location),weights=SolarModel.weights(w.at),day=1-weights.night;
+  const source=actor(stage),level=stage.dataset.location==='engawa'?lanternLevel(w):0;
+  for(const node of stage.querySelectorAll('[data-engawa-light]'))node.setAttribute('opacity',String(level));
+  let warmth=0;
+  if(level&&source){const r=stage.getBoundingClientRect(),b=source.group.getBoundingClientRect();if(r.width)warmth=level*Math.max(0,1-Math.hypot((b.left+b.width/2-r.left)*400/r.width-37,(b.bottom-r.top)*400/r.width-268)/220);}
   for(const node of stage.querySelectorAll('[data-solar-direct]'))node.setAttribute('opacity',String(s.direct*Number(node.dataset.lightFactor)));
   stage.dataset.solarLight=s.source;stage.style.setProperty('--room-light-brightness',String(.78+.22*day));stage.style.setProperty('--room-light-saturation',String(.90+.10*day));
   stage.style.setProperty('--room-light-filter',day===1?'none':`brightness(${.78+.22*day}) saturate(${.90+.10*day})`);
+  if(warmth)stage.style.setProperty('--room-light-filter',`brightness(${.78+.22*day+.08*warmth}) saturate(${.90+.10*day+.04*warmth}) sepia(${.10*warmth})`);
+  const reflection=bg?.querySelector('[data-engawa-reflection]');
+  if(warmth&&reflection){reflection.querySelector('[data-engawa-reflection-strength]').setAttribute('slope',String(warmth));stage.style.setProperty('--room-light-filter',stage.style.getPropertyValue('--room-light-filter')+` url("#${reflection.id}")`);}
   let entry=entries.get(stage);if(!entry){const holder=document.createElement('div');holder.className='room-cat-lighting';holder.setAttribute('aria-hidden','true');stage.append(holder);entry={holder};entries.set(stage,entry);resize?.observe(stage);}
-  const source=actor(stage),signature=[w.at,w.weather,stage.dataset.location,stage.dataset.place,stage.clientWidth,source?.img.getAttribute('src'),source?.group.getAttribute('style'),stage.dataset.nightPose].join(':');
+  const signature=[w.at,w.weather,stage.dataset.location,stage.dataset.place,stage.clientWidth,source?.img.getAttribute('src'),source?.group.getAttribute('style'),stage.dataset.nightPose].join(':');
   if(entry.signature===signature)return;entry.signature=signature;const token={};entry.token=token;
   const draw=()=>{
    if(!stage.isConnected||entry.token!==token)return;
