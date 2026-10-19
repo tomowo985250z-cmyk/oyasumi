@@ -167,7 +167,7 @@ function cardSkyStars() {
   const classes=[cross.has(i)?'card-star-cross':'',twinkle.has(i)?'roof-twinkle':''].filter(Boolean).join(' ');
   const motion=twinkle.has(i)?`animation-duration:${twinkle.get(i)}s;animation-delay:-${i*.37}s;`:'';
   return `<i class="${classes}" data-star-tone="${tone}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;width:${size}px;height:${size}px;--star-opacity:${opacity};opacity:${opacity};color:${color};${motion}"></i>`;
- }).join('')}</span>`;
+ }).join('')}${SolarSky.northernStars(DayRoom.world())}</span>`;
 }
 function homeCopy(now=NightClock.now()) {
  const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));

@@ -7,6 +7,48 @@ globalThis.SolarSky=(()=>{
   if(doc.querySelector('parsererror'))throw Error(doc.querySelector('parsererror').textContent);return doc.documentElement;
  };
  const stringify=node=>new XMLSerializer().serializeToString(node);
+ // ICRS/J2000 RA degrees, declination degrees, visual magnitude:
+ // Polaris; Dubhe..Alkaid; Caph, Schedar, gamma Cas, Ruchbah, Segin.
+ // https://iauarchive.eso.org/public/themes/naming_stars/
+ // https://simbad.cds.unistra.fr/simbad/sim-id?Ident=gam+Cas
+ const northCatalog=[
+  [37.955,89.264,1.97],
+  [165.932,61.751,1.81],[165.460,56.382,2.34],[178.458,53.695,2.41],
+  [183.857,57.033,3.32],[193.507,55.960,1.76],[200.981,54.925,2.23],[206.885,49.313,1.85],
+  [2.295,59.150,2.28],[10.127,56.537,2.24],[14.177,60.717,2.39],[21.454,60.235,2.66],[28.599,63.670,3.35]
+ ];
+ function northState(w){
+  const at=Math.floor(SolarModel.time(w)/60000)*60000,region=SolarModel.region(),rad=Math.PI/180;
+  // UTC is sufficient for this decorative GMST; longitude is east-positive.
+  // https://aa.usno.navy.mil/faq/GAST
+  const days=(at-Date.UTC(2000,0,1,12))/86400000,lst=(280.460625+360.985647364185*days+region.longitude)%360;
+  const latitude=region.latitude*rad,cy=221-288*Math.tan(latitude/2);
+  // Stereographic view centred on the north celestial pole, east on the right.
+  // Isotropic SVG scaling retains both asterism shapes on narrow cards.
+  const points=northCatalog.map(([ra,dec,mag])=>{
+   const h=(lst-ra)*rad,d=dec*rad,r=288*Math.tan((90-dec)*rad/2);
+   const altitude=Math.asin(Math.sin(latitude)*Math.sin(d)+Math.cos(latitude)*Math.cos(d)*Math.cos(h))/rad;
+   return {x:200-r*Math.sin(h),y:cy-r*Math.cos(h),opacity:(.65+(3.5-mag)*.04)*SolarModel.smooth(0,5,altitude)};
+  });
+  return {key:region.id+':'+at,region:region.id,points};
+ }
+ function northernStars(w){
+  const s=northState(w);
+  return '<svg data-northern-stars="" data-north-key="'+s.key+'" data-north-region="'+s.region+'" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">'+s.points.map((p,i)=>{
+   const alpha=Number(p.opacity.toFixed(3)),twinkle=[0,6,10].includes(i);
+   return '<circle data-northern-star="'+i+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(i===0?1.05:.65+(3.5-northCatalog[i][2])*.12).toFixed(2)+'" fill="'+(i%4===0?'#ece2bd':'#d2ddec')+'" opacity="'+alpha+'"'+(twinkle?' class="roof-twinkle" style="--star-opacity:'+alpha+';animation-duration:'+(7+i*.2)+'s;animation-delay:-'+i+'s"':'')+'/>';
+  }).join('')+'</svg>';
+ }
+ function updateNorthernStars(card,w){
+  const sky=card.querySelector('[data-northern-stars]');if(!sky)return;
+  const region=SolarModel.region().id,key=region+':'+Math.floor(SolarModel.time(w)/60000)*60000;
+  // Keep the current sky still under reduced motion; explicit remount/region
+  // changes can show a new dated sky. Reuse the existing shared update tick.
+  if(sky.dataset.northKey===key||matchMedia('(prefers-reduced-motion: reduce)').matches&&sky.dataset.northRegion===region)return;
+  const s=northState(w);
+  [...sky.children].forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('opacity',p.opacity.toFixed(3));star.style.setProperty('--star-opacity',p.opacity.toFixed(3));});
+  sky.dataset.northKey=s.key;sky.dataset.northRegion=s.region;
+ }
  let cached;
  function state(w,where='garden'){
   const at=Math.floor(SolarModel.time(w)/60000)*60000,key=[SolarModel.region().id,at,w.weather,w.season].join(':');
@@ -65,6 +107,7 @@ globalThis.SolarSky=(()=>{
  function updateRoof(scene,w){
   w={...w,weather:'sunny'};
   const card=scene.closest('.roof-sky-card');if(!card)return;
+  updateNorthernStars(card,w);
   const t=SolarModel.twilight(SolarModel.time(w),'roof'),p=SeasonLandscape.theme({...w,solar:true,skyFrame:'roof'});
   card.style.setProperty('--roof-sky',p.sky);card.style.setProperty('--roof-horizon',p.horizon);
   card.style.setProperty('--roof-stars',String(t.stars*(w.weather==='sunny'?1:w.weather==='cloudy'?.4:.12)));
@@ -80,5 +123,5 @@ globalThis.SolarSky=(()=>{
   if(document.hidden)return;
   for(const svg of stage.querySelectorAll('.day-room-scenery .season-landscape'))paint(svg,w,svg.closest('.day-room-world-window')?'window':svg.closest('[data-background-location]')?.dataset.backgroundLocation||'sky');
  }
- return Object.freeze({state,landscape,roof,updateRoof,update,morningLight});
+ return Object.freeze({state,landscape,roof,updateRoof,update,morningLight,northernStars});
 })();
