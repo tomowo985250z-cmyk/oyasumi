@@ -226,7 +226,7 @@ function reactionButtons(post) {
 }
 function timeline() {
  const posts = TimelineVisibility.visible(allPosts(),NightClock.now()).filter(post => filter==='all' || (filter==='sleep' ? isSleeping(post.status) : post.status==='awake'));
- return `${header()}<div class="tabs" aria-label="投稿の絞り込み">${[['all','みんな'],['awake','まだ起きてる'],['sleep','もう寝た']].map(([key,label])=>`<button data-filter="${key}" class="${filter===key?'active':''}" aria-pressed="${filter===key}">${label}</button>`).join('')}</div><div>${posts.length?posts.map(p=>`<article class="post">${postCatIcon(p)}<div class="post-body"><div class="post-top"><h2 class="post-name"><span class="post-nickname">${escapeHTML(p.name)}</span>${roleTag(p.catRole)}${p.self?'<span class="self-tag">あなた</span>':''}</h2>${p.self?`<button class="text-button" data-delete="${p.id}" aria-label="自分の投稿を削除">削除</button>`:''}</div><p class="post-text ${p.status==='awake'?'awake-text':''}">${statusText(p.status,p.intent)}</p>${p.profileNote?`<p class="timeline-profile-note">${escapeHTML(p.profileNote)}</p>`:''}<div class="post-bottom"><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>${reactionButtons(p)}</div></article>`).join(''):'<p class="empty">まだ投稿がありません。<br>ホームから今の気持ちを伝えてみましょう。</p>'}</div>`;
+ return `${header()}<div class="tabs" aria-label="投稿の絞り込み">${[['all','みんな'],['awake','まだ起きてる'],['sleep','もう寝た']].map(([key,label])=>`<button data-filter="${key}" class="${filter===key?'active':''}" aria-pressed="${filter===key}">${label}</button>`).join('')}</div><div class="timeline-feed" aria-busy="${!ready}">${posts.length?posts.map(p=>`<article class="post">${postCatIcon(p)}<div class="post-body"><div class="post-top"><h2 class="post-name"><span class="post-nickname">${escapeHTML(p.name)}</span>${roleTag(p.catRole)}${p.self?'<span class="self-tag">あなた</span>':''}</h2>${p.self?`<button class="text-button" data-delete="${p.id}" aria-label="自分の投稿を削除">削除</button>`:''}</div><p class="post-text ${p.status==='awake'?'awake-text':''}">${statusText(p.status,p.intent)}</p>${p.profileNote?`<p class="timeline-profile-note">${escapeHTML(p.profileNote)}</p>`:''}<div class="post-bottom"><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>${reactionButtons(p)}</div></article>`).join(''):`<p class="empty"${ready?'':' role="status"'}>${ready?'まだ投稿がありません。<br>ホームから今の気持ちを伝えてみましょう。':'みんなの様子を読み込んでいます…'}</p>`}</div>`;
 }
 function sleep() { return `<section class="sleep-screen"><div class="sleep-art" aria-hidden="true"><span class="big-moon">☾</span><span class="star one">✦</span><span class="star two">✦</span><span class="star three">✦</span><span class="sleep-cat">${CatScenes.svg('sleeping',state.coat)}</span></div><h1>おやすみなさい<br>${escapeHTML(state.name)}さん 🌙</h1><div class="card">今夜は <strong>${state.lastSleep?.count ?? '—'}</strong> 人と一緒に<br>おやすみしました。</div><div data-sent-kindness>${sentKindness()}</div><p class="rest-message">今日もお疲れさまでした。<br>ゆっくり休んでくださいね。</p><button class="cream-button" data-finish-sleep>また明日 🌙</button><p class="quiet-note">これで今日のSNSは終了です。<br>スマホを置いて、ゆっくり休みましょう。</p><button class="text-button" data-view="home">ホームに戻る</button><p class="sample-tag">おやすみした時点の報告人数です</p></section>`; }
 function rest() { const elapsed=CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now()),settled=elapsed>=CatScenes.settleDurationMs;return `<section class="rest-screen" data-phase="${settled?'settled':'intro'}" style="--rest-duration:${CatScenes.settleDurationMs}ms;--rest-elapsed:-${elapsed}ms"><div class="rest-content"><div class="rest-cat" aria-hidden="true">${CatScenes.svg('sleeping',state.coat)}</div>${settled?'<h1>おやすみなさい 🌙</h1>':'<div class="rest-intro"><h1>また明日 🌙</h1><p class="rest-message">今日もおつかれさまでした<br>スマホを置いて、ゆっくり休もう</p></div>'}<div data-sent-kindness>${sentKindness()}</div><button class="cream-button" data-view="home">ホームに戻る</button></div></section>`; }
@@ -261,7 +261,8 @@ function preloadCats(next) {
  else if(next==='stats')markup=(shared.tonightSummary?.coats||[]).slice(0,4).map(p=>CatScenes.svg('sleeping',p.coat)).join('');
  CatImages.preload(markup);
 }
-function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');CatImages.render(app,({home,catMeal,catTreat,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
+let renderedTimeline;
+function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');renderedTimeline=view==='timeline'?timeline():undefined;CatImages.render(app,renderedTimeline??({home,catMeal,catTreat,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
 function go(next) { preloadCats(next);if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0);void refreshSentReactionPeople(); }
 function preloadCatDestination(event) {
  const button=event.target.closest('button');if(!button)return;
@@ -280,6 +281,8 @@ function syncBusy() {
 let careRenderTimer;
 function renderPreservingPosition(allowDialog=false) {
  if(!allowDialog&&document.querySelector('dialog[open]'))return;
+ // A completed, unchanged feed needs neither node replacement nor scroll restoration.
+ if(view==='timeline'&&ready&&!catStatePending&&renderedTimeline===timeline()){syncBusy();syncCatVisibility();scheduleTimelineExpiry();return;}
  clearTimeout(careRenderTimer);
  // Let a homecoming finish before an automatic refresh replaces its scene.
  if(!allowDialog&&view==='home'){
@@ -362,16 +365,10 @@ async function refreshShared() {
     NightClock.sync(own.clock);state.coat=own.coat;state.expression=own.expression;state.name=own.name||state.name;
     shared={...shared,userId:own.userId,clock:own.clock,nightDate:shared.nightDate||own.clock.nightDate,catCare:own.catCare,needsCat:false,needsNickname:!own.name,profileComplete:!!own.name};
     scheduleNightBoundary();
-    renderPreservingPosition(true);syncCatVisibility();
-   },
-   onTimeline:partial=>{
-    if(!accepts(partial))return;
-    timelinePreview={...partial,revision,catRevision};
-    NightClock.sync(partial.clock);
-    syncPublicProfile();
-    if(view==='timeline')renderPreservingPosition(true);
-    syncCatVisibility();
+    if(view!=='timeline')renderPreservingPosition(true);syncCatVisibility();
    }
+   // Keep the mounted feed until the complete snapshot has names, notes,
+   // roles and reactions. Cat-only progress must not publish provisional posts.
   });
   // A read started before a write/boundary must not overwrite the confirmed local result.
   if(revision!==stateRevision||catRevision!==catStateRevision||((busy||CatCare.pending)&&ready)||snapshot.clock&&snapshot.clock.serverNow+performance.now()-snapshot.clock.monotonicAt>=snapshot.clock.resetAt){refreshQueued=true;return;}

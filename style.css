@@ -238,3 +238,6 @@ body:not(.light-mode) .status-actions .status-button.sleep{background:linear-gra
 /* Card-sized moon camera; roof and cat coordinates stay unchanged. */
 .roof-sky-card .awake-roof{overflow:visible}
 .roof-moon-viewport{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:1}
+
+/* Reserve the initial feed viewport; cards mount only with complete profiles. */
+.timeline-feed{min-height:calc(100svh - 250px)}
