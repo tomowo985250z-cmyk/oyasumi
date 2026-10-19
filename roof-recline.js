@@ -17,12 +17,21 @@ globalThis.RoofRecline=(()=>{
   return `<g transform="translate(0 40)"><path data-roof-surface="" d="${curve(-14,220)}L${right} 114H${left}Z" fill="url(#awake-roof-wash)"/><path d="${curve(-8,208)}" fill="none" stroke="#586982" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><g fill="none" stroke="#465772" stroke-width=".8" stroke-linecap="round" opacity=".38"><path d="${rows}"/><path d="${joints}"/></g>${SceneryMaterials.roof(curve(-14,220)+`L${right} 114H${left}Z`)}</g>`;
  }
  const gapMinimum=6,edgeCrop=8,layouts=new WeakMap();
+ const coatGroups=['basic','wild','big'].map(id=>CatFaces.groups.find(group=>group.id===id).coats.map(coat=>coat.id));
  function plan(coats,count,night,width){
   count=Math.max(0,Math.min(Object.keys(assets).length,Math.trunc(count)||0));
   const day=Math.floor(Date.parse(night+'T06:00:00+09:00')/86400000),phase=((day%4)+4)%4;
   // Decorative coats/poses are stable for the solar night, independent of posts.
   // Keep each pose at its existing 90% size, even when the row fills up.
-  const palette=Object.keys(assets),cats=Array.from({length:count},(_,i)=>{const coat=CatFaces.normalizeCoat(coats[i]||palette[((day+i*5)%palette.length+palette.length)%palette.length]),reclining=(phase+i)%4===0;return {coat,reclining,width:.9*(reclining?78:68*.765)};});
+  // Reuse the seeded FNV/xorshift pattern used by the existing cat schedules.
+  let seed=2166136261;for(const c of 'roof-coats-v1:'+night)seed=Math.imul(seed^c.charCodeAt(0),16777619);seed=seed||1;
+  const random=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return(seed>>>0)/4294967296;},used=new Set();
+  const cats=Array.from({length:count},(_,i)=>{
+   // Choose the category first so duplicate avoidance never changes its odds.
+   const roll=random(),pool=coatGroups[roll<.85?0:roll<.97?1:2],fresh=pool.filter(coat=>!used.has(coat)),choices=fresh.length?fresh:pool;
+   const coat=CatFaces.normalizeCoat(coats[i]||choices[Math.floor(random()*choices.length)]),reclining=(phase+i)%4===0;used.add(coat);
+   return {coat,reclining,width:.9*(reclining?78:68*.765)};
+  });
   const bodyWidth=cats.reduce((sum,cat)=>sum+cat.width,0),gap=Number.isFinite(width)&&count>1?Math.max(gapMinimum,(width+2*edgeCrop-bodyWidth)/(count-1)):gapMinimum;
   const span=bodyWidth+gap*Math.max(0,count-1);let left=104-span/2;
   for(const cat of cats){
