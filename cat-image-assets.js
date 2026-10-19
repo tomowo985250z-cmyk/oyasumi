@@ -37,8 +37,8 @@
   }
   function warmCoat(userId,coat,expression,now=Date.now()) {
     if(!validCoat(coat))return;
-    const pose=globalThis.DayRoom?.snapshot(userId,now).pose||globalThis.DayRoomState?.at(now,userId).pose||'relax';
-    preload(CatScenes.svg('sleeping',coat)+CatScenes.svg('awake',coat)+DayCats.svg(pose,coat)+(expression&&faces.normalize(expression)===expression?CatFaces.svg(expression,coat):''));
+    // Use the existing scene selector; do not race four speculative poses against home.
+    preload(globalThis.DayRoom?.image?.(coat,userId,{home:true})||DayCats.svg(globalThis.DayRoomState?.at(now,userId).pose||'relax',coat),{priority:'high',max:1});
   }
   // A cached coat is an image-loading hint, never a source of rendered state.
   // Bind it to the authenticated user and project/auth-storage namespace.
@@ -58,15 +58,17 @@
     warmCoat(userId,coat,expression,now);
   }
   const selector = 'img[data-asset-key], svg.cat-face, .care-scene img';
-  function remember(src, image) {
+  function remember(src, image, priority='low') {
     if (!src) return;
     if (cache.has(src)) {
       const entry = cache.get(src); cache.delete(src); cache.set(src, entry);
+      if(priority==='high')entry.fetchPriority='high';
       return;
     }
     image ||= new Image();
     cache.set(src, image);
-    image.loading = 'eager';
+    if(image.loading!=='lazy')image.loading = 'eager';
+    image.fetchPriority=priority;image.decoding='async';
     const start=performance.now();
     if(image.complete&&image.naturalWidth)record('image-cached',src,start);
     else image.addEventListener('load',()=>record('image-load',src,start),{once:true});
@@ -75,21 +77,46 @@
     if (typeof image.decode === 'function') void image.decode().then(()=>record('image-decode',src,start)).catch(() => {});
     while (cache.size > limit) cache.delete(cache.keys().next().value);
   }
-  function warm(root) {
-    for (const cat of root.querySelectorAll(selector)) {
-      const image = cat.matches('img') ? cat : cat.querySelector('image');
-      if (image) remember(image.getAttribute('src') || image.getAttribute('href'), image.matches('img') ? image : undefined);
+  const watched=new Set(),feedIcon=cat=>!!cat.closest('.post .avatar,.mini-row .avatar');
+  const sources=cat=>cat.matches('img')?[cat]:[...cat.querySelectorAll('image')];
+  function loadCat(cat){
+    for(const image of sources(cat)){
+      const attribute=image.matches('img')?'src':'href';
+      if(image.dataset.catSrc&&image.getAttribute(attribute)!==image.dataset.catSrc)image.setAttribute(attribute,image.dataset.catSrc);
+      remember(image.getAttribute(attribute),image.matches('img')?image:undefined,cat.closest('.own-cat-room .room-resident')?'high':'low');
     }
   }
-  function preload(markup) {
+  const observer=typeof IntersectionObserver==='function'?new IntersectionObserver(entries=>{
+    for(const entry of entries)if(entry.isIntersecting){observer.unobserve(entry.target);watched.delete(entry.target);if(entry.target.isConnected)loadCat(entry.target);}
+  },{rootMargin:'180px 0px'}):null;
+  function warm(root) {
+    for(const cat of watched)if(!cat.isConnected){observer?.unobserve(cat);watched.delete(cat);}
+    for (const cat of root.querySelectorAll(selector)) {
+      if(observer&&feedIcon(cat)){
+        const r=cat.getBoundingClientRect();
+        if(!r.width||r.bottom< -180||r.top>innerHeight+180){if(!watched.has(cat)){watched.add(cat);observer.observe(cat);}continue;}
+      }
+      loadCat(cat);
+    }
+  }
+  function preload(markup,{priority='low',max=4}={}) {
     const template = document.createElement('template'); template.innerHTML = markup;
     const sources = new Set();
     for (const image of template.content.querySelectorAll('img, svg.cat-face image')) {
       const src = image.getAttribute('src') || image.getAttribute('href');
       if (src) sources.add(src);
-      if (sources.size === 4) break;
+      if (sources.size === max) break;
     }
-    for (const src of sources) remember(src);
+    for (const src of sources) remember(src,undefined,priority);
+  }
+  // Canonical sources keep the same icon node when its deferred image becomes visible.
+  function imageKey(cat){
+    if(!cat.matches('[data-cat-src]')&&!cat.querySelector('[data-cat-src]'))return cat.outerHTML;
+    // Cloning a live <img> and setting src can itself start another download.
+    const template=document.createElement('template');template.innerHTML=cat.outerHTML;
+    const copy=template.content.firstElementChild;
+    for(const image of [copy,...copy.querySelectorAll('[data-cat-src]')])if(image.dataset.catSrc){image.setAttribute(image.matches('img')?'src':'href',image.dataset.catSrc);image.removeAttribute('data-cat-src');}
+    return copy.outerHTML;
   }
   function render(target, markup, {resolved = true,confirmed = ''} = {}) {
     const template = document.createElement('template'); template.innerHTML = markup;
@@ -101,7 +128,14 @@
         image.removeAttribute('src'); image.removeAttribute('href');
       }
     }
-    for (const image of template.content.querySelectorAll('img[data-asset-key], .care-scene img')) image.loading = 'eager';
+    for(const cat of template.content.querySelectorAll(selector)){
+      const deferred=feedIcon(cat);
+      for(const image of sources(cat)){
+        if(image.matches('img')){image.loading='eager';image.decoding='async';image.fetchPriority=cat.closest('.own-cat-room .room-resident')?'high':'low';}
+        const attribute=image.matches('img')?'src':'href',src=image.getAttribute(attribute);
+        if(deferred&&src){image.dataset.catSrc=src;image.removeAttribute(attribute);}
+      }
+    }
     const children = [...template.content.childNodes];
     if (children.length === target.childNodes.length && children.every((node, i) => node.isEqualNode(target.childNodes[i]))) {
       warm(target); return;
@@ -110,13 +144,21 @@
     // Reuse identical cat nodes when only surrounding text/data changes.
     const existing = new Map();
     for (const cat of target.querySelectorAll(selector)) {
-      const key = cat.outerHTML;
+      const key = imageKey(cat);
       if (!existing.has(key)) existing.set(key, []);
       existing.get(key).push(cat);
     }
     for (const cat of content.querySelectorAll(selector)) {
-      const previous = existing.get(cat.outerHTML)?.shift();
+      const previous = existing.get(imageKey(cat))?.shift();
       if (previous) cat.replaceWith(previous);
+    }
+    // Reuse a decoded preloader/old-screen image, never steal one still shown elsewhere.
+    for(const cat of content.querySelectorAll('img[data-asset-key]')){
+      const src=cat.getAttribute('src')||cat.dataset.catSrc,cached=cache.get(src);
+      if(!cached?.matches('img')||cached===cat||!cached.complete||!cached.naturalWidth||content.contains(cached)||(cached.isConnected&&!target.contains(cached)))continue;
+      for(const attribute of [...cached.attributes])if(attribute.name!=='src'&&!cat.hasAttribute(attribute.name))cached.removeAttribute(attribute.name);
+      for(const attribute of [...cat.attributes])if(cached.getAttribute(attribute.name)!==attribute.value)cached.setAttribute(attribute.name,attribute.value);
+      cat.replaceWith(cached);
     }
     target.replaceChildren(content);
     // Cached images must not retain entire detached screens through their parents.

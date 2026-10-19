@@ -146,13 +146,14 @@ globalThis.DayRoom=(()=>{
  }
  const contactStyle=(place,where,html,coat,night)=>IndoorCatScale.style(html,where,place,night)+(place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'')+SceneryMaterials.contact(html,where,place,night,world());
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':room.restState==='sleeping'?'すやすや、ひとやすみ中':room.restState==='settling'?'お部屋で、ひとやすみ。':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
- function stage(coat,user,cat,interactive=false){
+ function stage(coat,user,cat,interactive=false,imageOnly=false){
   restorePreferences(user);
   if(cat?.status)cat={...cat,status:PostCatExpressions.state({status:cat.status})};
   const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true;
   const where=location(room,w,cat?.status);
   const night=unselected?null:NightCats.frame(coat,NightClock.now(),user,room.restState==='sleeping'?'sleep':cat?.status,cat?.home,w.daylight,where,room.pose,room.restState==='settling');
   const html=unselected?'<span data-cat-placeholder aria-hidden="true"></span>':night?.html||artwork(room,coat,cat?.status,w,cat?.home);
+  if(imageOnly)return html;
   const tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
   const style=contactStyle(place,where,html,coat,night),contact=style?` style="${style}"`:'';
   const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
@@ -252,11 +253,13 @@ globalThis.DayRoom=(()=>{
   if(transitions.get(stage)?.stamp===next.stamp)return;
   cancelTransition(stage);
   const token={stamp:next.stamp};transitions.set(stage,token);
-  const resident=stage.querySelector('.room-resident'),template=document.createElement('div');
+  const resident=stage.querySelector('.room-resident'),template=document.createElement('template');
   template.innerHTML=next.html;
-  const images=[...template.querySelectorAll('img')];
-  for(const image of images)image.loading='eager';
-  const unchanged=resident.innerHTML===template.innerHTML;
+  const images=[...template.content.querySelectorAll('img')];
+  for(const image of images){image.loading='eager';image.decoding='async';image.fetchPriority=stage.closest('.own-cat-room')?'high':'low';}
+  const visual=html=>html.replace(/\s(?:loading|decoding|fetchpriority)="[^"]*"/g,'');
+  const unchanged=visual(resident.innerHTML)===visual(template.innerHTML),content=document.createDocumentFragment();
+  if(!unchanged){content.append(template.content);for(const image of images)image.src=image.getAttribute('src');}
   const valid=()=>transitions.get(stage)===token&&stage.isConnected&&!document.hidden&&!document.documentElement.hasAttribute('data-cat-state-pending')&&!isPlaying(stage);
   const fade=async(from,to,duration)=>{
    if(reducedMotion?.matches||typeof resident.animate!=='function')return;
@@ -276,7 +279,7 @@ globalThis.DayRoom=(()=>{
    current=readStage(stage);
    if(current.stamp!==next.stamp||current.html!==next.html){void transition(stage,current);return;}
    // Swap only one decoded cat, together with its original placement/scenery.
-   if(!unchanged)resident.replaceChildren(...template.childNodes);
+   if(!unchanged)resident.replaceChildren(...content.childNodes);
    applyStage(stage,current,true);CatImages.warm(stage);
    if(changed)await fade(0,1,journey?650:200);
   }finally{
@@ -284,5 +287,5 @@ globalThis.DayRoom=(()=>{
    if(transitions.get(stage)===token)transitions.delete(stage);
   }
  }
- return {world,snapshot,attrs,stage,homeKey,homeLabel,care,controls,unit,play,isPlaying,sync,settled:stage=>!transitions.has(stage),get playing(){return active.size;}};
+ return {world,snapshot,attrs,stage,image:(coat,user,cat)=>stage(coat,user,cat,false,true),homeKey,homeLabel,care,controls,unit,play,isPlaying,sync,settled:stage=>!transitions.has(stage),get playing(){return active.size;}};
 })();

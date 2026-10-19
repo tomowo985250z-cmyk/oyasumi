@@ -61,19 +61,25 @@ globalThis.RoofRecline=(()=>{
  }
  function update(element,at){
   if(!element)return;
+  if(document.documentElement.hasAttribute('data-cat-state-pending'))return;
   const scene=element.closest('.awake-scene'),card=element.closest('.roof-sky-card');if(!scene||!card)return;
   const scale=scene.getBoundingClientRect().width/208;if(!scale)return;
   const width=card.clientWidth/scale,n=SolarModel.nightSpan(at),night=new Date(n.start+9*3600000).toISOString().slice(0,10),key=night+':'+width.toFixed(2);
   if(layouts.get(element)!==key){
    const count=capacity(width,night);element.innerHTML=group([],count,night,at,width);element.dataset.catCount=String(count);layouts.set(element,key);
   }
-  for(const cat of element.children)cat.style.opacity=presence(at,Number(cat.dataset.roofRank),element.children.length);
+  for(const cat of element.children){
+   const rank=Number(cat.dataset.roofRank),count=element.children.length;cat.style.opacity=presence(at,rank,count);
+   // The existing clock tick warms only cats arriving within two minutes.
+   if(cat.dataset.roofSrc&&(presence(at,rank,count)>0||presence(at+120000,rank,count)>0)){cat.src=cat.dataset.roofSrc;delete cat.dataset.roofSrc;globalThis.CatImages?.warm(element);}
+  }
  }
  function group(coats,count,night,at=NightClock.now(),width){
   return plan(coats,count,night,width).map(cat=>{
    const style=`--roof-cat-x:${cat.left}px;--roof-cat-y:${cat.top}px;--roof-cat-width:${cat.width}px;--roof-cat-height:${cat.height}px;opacity:${presence(at,cat.rank,count)}`;
-   if(!cat.reclining)return RoofCats.svg(cat.coat).replace('>',` data-roof-rank="${cat.rank}" style="${style}">`);
-   return `<img class="roof-cat" src="assets/roof-recline-v1/${cat.coat}.png?v=${assets[cat.coat].version}" alt="" aria-hidden="true" data-asset-key="recline/${cat.coat}" data-cat-coat="${cat.coat}" data-cat-pose="rear-reclining" data-roof-rank="${cat.rank}" style="${style}">`;
+   let html=!cat.reclining?RoofCats.svg(cat.coat).replace('>',` data-roof-rank="${cat.rank}" style="${style}">`):`<img class="roof-cat" src="assets/roof-recline-v1/${cat.coat}.png?v=${assets[cat.coat].version}" alt="" aria-hidden="true" data-asset-key="recline/${cat.coat}" data-cat-coat="${cat.coat}" data-cat-pose="rear-reclining" data-roof-rank="${cat.rank}" style="${style}">`;
+   html=html.replace('<img ','<img loading="eager" decoding="async" fetchpriority="low" ');
+   return presence(at,cat.rank,count)>0||presence(at+120000,cat.rank,count)>0?html:html.replace(' src="',' data-roof-src="');
   }).join('');
  }
  return Object.freeze({plan,group,ridge,presence,update,surface,capacity});
