@@ -7,6 +7,37 @@ globalThis.SolarSky=(()=>{
   if(doc.querySelector('parsererror'))throw Error(doc.querySelector('parsererror').textContent);return doc.documentElement;
  };
  const stringify=node=>new XMLSerializer().serializeToString(node);
+ // Original, prebuilt SVG: one shared decode, requested on entering the roof.
+ const starFieldImage='assets/roof-deep-sky-69add6de01f676a4.svg';
+ let starFieldDecode,starFieldReady=false,starFieldNode;
+ const pendingFields=new WeakSet();
+ function updateStarField(card){
+  if(scrollY<=0)return;
+  const layer=card.querySelector('.card-sky-stars'),own=card.closest('#app')?.querySelector('.home-room-unit .room-resident img');
+  const available=()=>{
+   if(!card.isConnected||document.hidden||scrollY<=0||document.documentElement.hasAttribute('data-cat-state-pending')||own&&(!own.complete||!own.naturalWidth))return false;
+   const rect=card.getBoundingClientRect();return rect.width>0&&rect.top<innerHeight/2&&rect.bottom>0;
+  };
+  if(!layer||layer.hasAttribute('data-deep-field-ready')||pendingFields.has(layer)||!available())return;
+  const mount=()=>{
+   if(!available())return;
+   if(!starFieldNode){
+    starFieldNode=document.createElement('span');starFieldNode.className='roof-star-field';starFieldNode.style.cssText='position:absolute;inset:0;background:center/cover no-repeat url("'+starFieldImage+'")';
+    const app=card.closest('#app');if(app)new MutationObserver(()=>{if(!starFieldNode.isConnected)starFieldNode.remove();}).observe(app,{childList:true});
+   }
+   layer.querySelectorAll('.roof-twinkle').forEach(star=>{star.style.animation='none';});
+   layer.querySelectorAll(':scope > i').forEach(star=>star.remove());layer.prepend(starFieldNode);layer.setAttribute('data-deep-field-ready','');
+  };
+  if(starFieldReady){mount();return;}
+  pendingFields.add(layer);
+  // Yield a paint to the cat; retry through the existing sky tick if hidden.
+  requestAnimationFrame(()=>setTimeout(()=>{
+   if(!available()){pendingFields.delete(layer);return;}
+   if(!starFieldDecode){const image=new Image();image.decoding='async';image.src=starFieldImage;starFieldDecode=image.decode().then(()=>{starFieldReady=true;return image;});}
+   void starFieldDecode.then(()=>{pendingFields.delete(layer);mount();},()=>{pendingFields.delete(layer);starFieldDecode=undefined;});
+  },0));
+ }
+ window.addEventListener('scroll',()=>{const card=document.querySelector('.roof-sky-card');if(card)updateStarField(card);},{passive:true});
  // ICRS/J2000 RA degrees, declination degrees, visual magnitude:
  // Polaris; Dubhe..Alkaid; Caph, Schedar, gamma Cas, Ruchbah, Segin.
  // https://iauarchive.eso.org/public/themes/naming_stars/
@@ -99,8 +130,7 @@ globalThis.SolarSky=(()=>{
  function roof(w){
   w={...w,weather:'sunny'}; // The rooftop is a separate calm sky, not shared weather.
   const s=state(w),group=document.createElementNS(ns,'g');group.setAttribute('data-roof-solar','');
-  const sky=parse(SeasonLandscape.art({...w,solar:true,skyFrame:'roof'},'sky',w.at)),clouds=sky.querySelector('[data-sky-clouds]');
-  const veil=document.createElementNS(ns,'g');veil.setAttribute('transform','scale(.52 .42)');veil.append(clouds);group.append(veil);
+  // This special clear sky has no clouds at any hour, independent of weather.
   group.dataset.solarRegion=s.region;group.dataset.solarPeriod=s.sky.sunPeriod||'';
   return stringify(group);
  }
@@ -109,11 +139,10 @@ globalThis.SolarSky=(()=>{
   const card=scene.closest('.roof-sky-card');if(!card)return;
   updateNorthernStars(card,w);
   const t=SolarModel.twilight(SolarModel.time(w),'roof'),p=SeasonLandscape.theme({...w,solar:true,skyFrame:'roof'});
-  card.style.setProperty('--roof-sky',p.sky);card.style.setProperty('--roof-horizon',p.horizon);
+  const depth=SolarModel.smooth(.35,1,t.stars);
+  card.style.setProperty('--roof-sky',SeasonLandscape.mix(p.sky,'#02050e',depth));card.style.setProperty('--roof-horizon',SeasonLandscape.mix(p.horizon,'#070e1c',depth));
   card.style.setProperty('--roof-stars',String(t.stars*(w.weather==='sunny'?1:w.weather==='cloudy'?.4:.12)));
-  const group=scene.querySelector('[data-sky-clouds]');
-  group?.setAttribute('opacity',String(1-t.stars*.65));
-  if(group)SeasonLandscape.clouds(w,'roof').forEach((c,i)=>group.children[i]?.setAttribute('transform',`translate(${c.x} ${c.y}) scale(${c.scale})`));
+  updateStarField(card);
   RoofRecline.update(card.querySelector('.roof-cat-group'),SolarModel.time(w));
  }
  function morningLight(w){
