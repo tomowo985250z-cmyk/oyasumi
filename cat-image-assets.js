@@ -38,7 +38,7 @@
   function warmCoat(userId,coat,expression,now=Date.now()) {
     if(!validCoat(coat))return;
     // Use the existing scene selector; do not race four speculative poses against home.
-    preload(globalThis.DayRoom?.image?.(coat,userId,{home:true})||DayCats.svg(globalThis.DayRoomState?.at(now,userId).pose||'relax',coat),{priority:'high',max:1});
+    preload(globalThis.DayRoom?.image?.(coat,userId,{home:true})||DayCats.svg(globalThis.DayRoomState?.at(now,userId).pose||'relax',coat),{priority:'low',max:1});
   }
   // A cached coat is an image-loading hint, never a source of rendered state.
   // Bind it to the authenticated user and project/auth-storage namespace.
@@ -152,10 +152,11 @@
       const previous = existing.get(imageKey(cat))?.shift();
       if (previous) cat.replaceWith(previous);
     }
-    // Reuse a decoded preloader/old-screen image, never steal one still shown elsewhere.
+    // Home can also adopt its in-flight preloader, keeping one load/decode owner.
     for(const cat of content.querySelectorAll('img[data-asset-key]')){
       const src=cat.getAttribute('src')||cat.dataset.catSrc,cached=cache.get(src);
-      if(!cached?.matches('img')||cached===cat||!cached.complete||!cached.naturalWidth||content.contains(cached)||(cached.isConnected&&!target.contains(cached)))continue;
+      if(!cached?.matches('img')||cached===cat||content.contains(cached)||(cached.isConnected&&!target.contains(cached)))continue;
+      if((!cached.complete||!cached.naturalWidth)&&!cat.closest('.own-cat-room .room-resident'))continue;
       for(const attribute of [...cached.attributes])if(attribute.name!=='src'&&!cat.hasAttribute(attribute.name))cached.removeAttribute(attribute.name);
       for(const attribute of [...cat.attributes])if(cached.getAttribute(attribute.name)!==attribute.value)cached.setAttribute(attribute.name,attribute.value);
       cat.replaceWith(cached);

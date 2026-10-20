@@ -149,7 +149,7 @@ globalThis.DayRoom=(()=>{
  function stage(coat,user,cat,interactive=false,imageOnly=false){
   restorePreferences(user);
   if(cat?.status)cat={...cat,status:PostCatExpressions.state({status:cat.status})};
-  const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true;
+  const room=DayRoom.snapshot(user),w=DayRoom.world(),unselected=cat?.home&&typeof shared!=='undefined'&&shared.needsCat===true,pending=cat?.home&&!canControlRoom(user);
   const where=location(room,w,cat?.status);
   const night=unselected?null:NightCats.frame(coat,NightClock.now(),user,room.restState==='sleeping'?'sleep':cat?.status,cat?.home,w.daylight,where,room.pose,room.restState==='settling');
   const html=unselected?'<span data-cat-placeholder aria-hidden="true"></span>':night?.html||artwork(room,coat,cat?.status,w,cat?.home);
@@ -157,7 +157,7 @@ globalThis.DayRoom=(()=>{
   const tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
   const style=contactStyle(place,where,html,coat,night),contact=style?` style="${style}"`:'';
   const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
-  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${cat?.home&&!canControlRoom(user)?' data-room-preferences-pending':''}${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${scenery(where,w)}</div>${lampMarkup(user,where,w)}${curtainMarkup(user,where,w)}${wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
+  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${pending?' data-room-preferences-pending':''}${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${pending?'':scenery(where,w)}</div>${pending?'':lampMarkup(user,where,w)+curtainMarkup(user,where,w)+wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
  function controls(html){
   const template=document.createElement('template');template.innerHTML=html;
@@ -237,6 +237,7 @@ globalThis.DayRoom=(()=>{
   for(const stage of document.querySelectorAll('.day-room')){
    syncClock(stage,time);
    syncLamp(stage);
+   if(stage.hasAttribute('data-room-preferences-pending'))continue;
    if(stage.closest('.own-cat-room')&&((typeof catsResolved==='function'&&!catsResolved())||(typeof shared!=='undefined'&&shared.needsCat===true)))continue;
    if(active.has(stage.closest('.profile-room-unit'))||stage.closest('[data-feeding=true]'))continue;
    // The existing home refresh must not replace the scene mid-transition.

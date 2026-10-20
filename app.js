@@ -256,10 +256,10 @@ function preloadCats(next) {
  if(next==='profile'||next==='settings')markup=PostCatExpressions.svg(PostCatExpressions.forPost(ownIconPost()),state.coat);
  else if(next==='sleep'||next==='rest')markup=CatScenes.svg('sleeping',state.coat);
  else if(next==='morning')markup=CatScenes.svg('awake',state.coat);
- else if(next==='home'||next==='catMeal')markup=DayRoom.stage(state.coat,shared.userId,{status:homeCatStatus(),home:true});
+ else if(next==='home'||next==='catMeal')markup=DayRoom.image(state.coat,shared.userId,{status:homeCatStatus(),home:true});
  else if(next==='timeline')markup=TimelineVisibility.visible(allPosts(),NightClock.now()).filter(p=>p.appearanceReady!==false&&(filter==='all'||(filter==='sleep'?isSleeping(p.status):p.status==='awake'))).slice(0,4).map(p=>PostCatExpressions.svg(PostCatExpressions.forPost(p),p.coat)).join('');
  else if(next==='stats')markup=(shared.tonightSummary?.coats||[]).slice(0,4).map(p=>CatScenes.svg('sleeping',p.coat)).join('');
- CatImages.preload(markup);
+ CatImages.preload(markup,['home','catMeal'].includes(next)?{priority:'high',max:1}:{});
 }
 let renderedTimeline;
 function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');renderedTimeline=view==='timeline'?timeline():undefined;CatImages.render(app,renderedTimeline??({home,catMeal,catTreat,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
@@ -306,7 +306,7 @@ function renderPreservingPosition(allowDialog=false) {
  if(openReceipt&&receiptDetails?.dataset.receiptNight===openReceipt)receiptDetails.open=true;
  const historyDetails=app.querySelector('.profile-history');
  if(openHistory&&historyDetails?.dataset.historyUser===openHistory)historyDetails.open=true;
- window.scrollTo(x,y);
+ if(window.scrollX!==x||window.scrollY!==y)window.scrollTo(x,y);
  if(selector)document.querySelector(selector)?.focus({preventScroll:true});
 }
 let nightBoundaryTimer;
@@ -361,11 +361,13 @@ async function refreshShared() {
    onOwnCat:own=>{
     if(!accepts(own)||!CatFaces.coats.some(c=>c.id===own.coat)||CatFaces.normalize(own.expression)!==own.expression||!CatCare.fresh(own.catCare,own.clock.serverNow+performance.now()-own.clock.monotonicAt)||!own.catCare.mealEligible)return;
     const appearanceChanged=state.coat!==own.coat||state.expression!==own.expression;
+    const ownChanged=!catsResolved()||appearanceChanged||shared.userId!==own.userId||homeCatStatus()!==(own.catCare.catState||'');
     ownCatPreview={revision,catRevision,appearanceChanged,clock:own.clock,catCare:own.catCare};
     NightClock.sync(own.clock);state.coat=own.coat;state.expression=own.expression;state.name=own.name||state.name;
     shared={...shared,userId:own.userId,clock:own.clock,nightDate:shared.nightDate||own.clock.nightDate,catCare:own.catCare,needsCat:false,needsNickname:!own.name,profileComplete:!!own.name};
+    if(view==='home'||view==='catMeal')CatImages.preload(DayRoom.image(state.coat,shared.userId,{status:homeCatStatus(),home:true}),{priority:'high',max:1});
     scheduleNightBoundary();
-    if(view!=='timeline')renderPreservingPosition(true);syncCatVisibility();
+    if(ownChanged&&(view==='home'||view==='catMeal'))renderPreservingPosition(true);syncCatVisibility();
    }
    // Keep the mounted feed until the complete snapshot has names, notes,
    // roles and reactions. Cat-only progress must not publish provisional posts.
@@ -380,7 +382,7 @@ async function refreshShared() {
   scheduleNightBoundary();
   const confirming=catStatePending;
   ownCatPreview=timelinePreview=undefined;
-  ready=true;catStatePending=document.hidden;save();syncPublicProfile();renderPreservingPosition(confirming);
+  ready=true;catStatePending=document.hidden;save();syncPublicProfile();if(view==='home')preloadCats('home');renderPreservingPosition(confirming);
   const picker=document.querySelector('#expression-dialog[open]');if(picker&&appearanceChanged)renderCatPicker();
   syncCatVisibility();void refreshSentReactionPeople();
   if(document.querySelector('dialog[open]'))refreshCareCards();
@@ -448,7 +450,7 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
   state.posts=state.posts.filter(p=>p.id!==id);shared.feed=shared.feed.filter(p=>p.id!==id);delete state.reactions[id];
   renderPreservingPosition();refreshAfterSave();toast('投稿を削除しました');
  });return;}
- if(button.hasAttribute('data-morning')){if(!state.morningDays.includes(dayKey()))state.morningDays.push(dayKey());save();render();toast('おはよう。今日も良い一日を ☀️');return;}
+ if(button.hasAttribute('data-morning')){if(state.morningDays.includes(dayKey()))return;state.morningDays.push(dayKey());save();button.textContent='おはようを記録しました ✓';button.disabled=true;toast('おはよう。今日も良い一日を ☀️');return;}
  if(button.hasAttribute('data-name')){document.querySelector('#nickname').value=OyasumiAPI.needsNickname?'':state.name;clearNicknameError();document.querySelector('#nickname-dialog').showModal();document.querySelector('#nickname').focus();}
  if(button.hasAttribute('data-coat-picker')){
   if(!CatCoatCooldown.available(shared.catCoatStatus,NightClock.now()))return;
