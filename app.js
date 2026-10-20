@@ -90,9 +90,10 @@ const postCatIcon = person => isOwnCat(person) ? staticCatIcon(avatar(person),'p
 const header = (title='おやすみ', back=false, backAction='data-view="home" aria-label="ホームに戻る"') => `<header class="header">${back?`<button class="icon-button" ${backAction}>‹</button>`:'<span class="eyebrow">GOOD NIGHT</span>'}<h1 class="wordmark">${title}</h1><button class="icon-button" data-view="settings" aria-label="設定">⚙</button></header>`;
 function navigation() { const items=[['home','ホーム'],['timeline','タイムライン'],['stats','みんなの記録'],['profile','マイページ']];nav.innerHTML=items.map(([id,label])=>`<button data-view="${id}" class="${view===id?'active':''}" ${view===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${icons[id]}</svg>${label}</button>`).join('');nav.hidden=false; }
 let roofMoonTimer,roofShootingTimer,roofNextShootingAt,roofBoundaryTimer;
+const roofSolarKey=w=>[SolarModel.region().id,Math.floor(w.at/60000),w.weather,w.season].join(':');
 function syncRoofSolar(){
  const scene=document.querySelector('.awake-roof');if(document.hidden||!scene)return;
- const w=DayRoom.world(),key=[SolarModel.region().id,Math.floor(w.at/60000),w.weather,w.season].join(':');
+ const w=DayRoom.world(),key=roofSolarKey(w);
  if(scene.dataset.solarKey===key)return;scene.dataset.solarKey=key;
  const holder=document.createElementNS('http://www.w3.org/2000/svg','svg');holder.innerHTML=SolarSky.roof(w);
  const current=scene.querySelector('[data-roof-solar]');if(current)current.replaceWith(holder.firstElementChild);else scene.insertBefore(holder.firstElementChild,scene.querySelector(':scope > path'));
@@ -110,6 +111,7 @@ function syncRoofMoon() {
  roofMoonTimer=setTimeout(syncRoofMoon,1000);
 }
 function syncRoofSky() {
+ if(view==='home'&&!catsResolved()){clearTimeout(roofBoundaryTimer);clearTimeout(roofMoonTimer);clearTimeout(roofShootingTimer);return;}
  clearTimeout(roofBoundaryTimer);
  if(!document.hidden&&view==='home'){
   const now=NightClock.now();roofBoundaryTimer=setTimeout(()=>{refreshDayScene();syncRoofSky();},Math.max(25,SolarModel.sky(now).nextRoofAt-now));
@@ -153,8 +155,8 @@ async function refreshSentReactionPeople(){
 }
 function awakeCats() {
  // The mounted row is fitted to the card by the existing solar update tick.
- const count=1,coats=[];
-return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof" viewBox="0 0 208 150" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient><clipPath id="awake-roof-frame" clipPathUnits="userSpaceOnUse"><rect x="-256" y="0" width="720" height="150"/></clipPath></defs><g clip-path="url(#awake-roof-frame)">${SolarSky.roof(DayRoom.world())}${RoofRecline.surface()}</g></svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
+ const count=1,coats=[],w=DayRoom.world(),sky=catsResolved();
+return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof"${sky?` data-solar-key="${roofSolarKey(w)}"`:''} viewBox="0 0 208 150" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient><clipPath id="awake-roof-frame" clipPathUnits="userSpaceOnUse"><rect x="-256" y="0" width="720" height="150"/></clipPath></defs><g clip-path="url(#awake-roof-frame)">${sky?SolarSky.roof(w):'<g data-roof-solar=""></g>'}${RoofRecline.surface()}</g></svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
 }
 function cardSkyStars() {
  // One gently jittered star per cell keeps the entire card balanced at every width.
@@ -214,7 +216,13 @@ function catTreat() {
 function roleTag(role) { const label=CatRoles.label(role);return label?`<span class="cat-role-tag">${escapeHTML(label)}</span>`:''; }
 function homeNote() { return `<section class="card home-note"><button class="profile-note-button" data-note-editor aria-label="自分のそっとひとことを編集"><span>そっとひとこと <small>編集 ›</small></span><span class="profile-note-text${state.profileNote?'':' is-empty'}">${escapeHTML(state.profileNote)||'タップして、ひとこと'}</span></button></section>`; }
 function roleSetting() { return `<button class="setting-row role-setting" data-role-picker><span>職業 <small>任意</small></span><span class="setting-value">${CatRoles.label(state.catRole)||(state.catRole==='private'?'表示なし':'未設定')} ›</span></button>`; }
-function home() { return `<div class="home-heading">${header()}${darkHint()}</div>${dayHero()}${FirstUseGuide.slot('home')}${countCard()}${homeNote()}${actions()}<section><div class="section-heading"><h2>みんなの様子</h2><small><span class="live-dot"></span>今夜のタイムライン</small></div><div class="mini-feed">${allPosts().slice(0,5).map(p=>`<div class="mini-row">${avatar(p)}<span class="mini-name">${escapeHTML(p.name)}</span><span class="mini-status ${isSleeping(p.status)?'sleeping':''}">${statusText(p.status,p.intent)}</span><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>`).join('')}</div></section><p class="quiet-note">眠れない夜も、ここではひとりじゃない。</p>`; }
+let homeMarkupKey;
+function homeDisplayKey(){
+ const now=NightClock.now(),w=DayRoom.world();let preferences;
+ try{preferences=localStorage.getItem('oyasumi-room-preferences-v1:'+encodeURIComponent(shared.userId));}catch{}
+ return JSON.stringify([ready,shared.userId,shared.needsCat,shared.profileComplete,state.coat,state.expression,state.profileNote,state.light,state.skyRegion,homeCatStatus(),shared.catCare,activeAwakeCount(),TonightTrend.classify(shared.trend),DayRoom.homeKey(),Math.floor(now/60000),w.day,w.season,w.weather,w.daylight,SolarModel.region().id,SolarModel.sky(now).roofVisible,allPosts().slice(0,5),FirstUseGuide.slot('home'),CatCare.morningBeg(shared.catCare,shared.userId),preferences,darkHintEligible&&darkHintStarted!==undefined&&performance.now()-darkHintStarted<4000?performance.now():0]);
+}
+function home() { homeMarkupKey=homeDisplayKey();return `<div class="home-heading">${header()}${darkHint()}</div>${dayHero()}${FirstUseGuide.slot('home')}${countCard()}${homeNote()}${actions()}<section><div class="section-heading"><h2>みんなの様子</h2><small><span class="live-dot"></span>今夜のタイムライン</small></div><div class="mini-feed">${allPosts().slice(0,5).map(p=>`<div class="mini-row">${avatar(p)}<span class="mini-name">${escapeHTML(p.name)}</span><span class="mini-status ${isSleeping(p.status)?'sleeping':''}">${statusText(p.status,p.intent)}</span><time datetime="${new Date(p.time).toISOString()}">${timeLabel(p.time)}</time></div>`).join('')}</div></section><p class="quiet-note">眠れない夜も、ここではひとりじゃない。</p>`; }
 function reactionButtons(post) {
  const counts = PostReactions.counts(shared.reactionCounts[post.id]);
  const old = shared.reactionVersion === 3 ? PostReactions.legacy.filter(option => counts[option.id] || state.reactions[post.id] === option.id) : [];
@@ -284,6 +292,8 @@ function renderPreservingPosition(allowDialog=false) {
  // A completed, unchanged feed needs neither node replacement nor scroll restoration.
  if(view==='timeline'&&ready&&!catStatePending&&renderedTimeline===timeline()){syncBusy();syncCatVisibility();scheduleTimelineExpiry();return;}
  clearTimeout(careRenderTimer);
+ // Visibility still depends on a fresh authenticated read; matching content can stay mounted.
+ if(view==='home'&&app.querySelector('.home-heading')&&homeMarkupKey===homeDisplayKey()){DayRoom.sync();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();return;}
  // Let a homecoming finish before an automatic refresh replaces its scene.
  if(!allowDialog&&view==='home'){
   DayRoom.sync();
@@ -392,7 +402,7 @@ async function refreshShared() {
 }
 async function ensureConnection() {
  if(!connectionPromise)connectionPromise=(async()=>{
-  const userId=await OyasumiAPI.initialize();
+  const userId=await OyasumiAPI.initialize(true);
   if(state.lastSleep?.userId&&state.lastSleep.userId!==userId){state.lastSleep=null;if(view==='rest'||view==='morning')go('home');}
   await refreshShared();
  })().catch(error=>{connectionPromise=undefined;throw error;});
@@ -606,7 +616,10 @@ document.querySelector('#nickname-form').addEventListener('submit',event=>{
   save();document.querySelector('#nickname-dialog').close();render();refreshAfterSave();toast('名前を保存しました');
  });
 });
-render();syncSleepView();
+// Let the authenticated cat read start before painting a provisional home.
+// A slow/offline connection still gets the existing pending screen promptly.
+if(view==='home')setTimeout(()=>{if(!app.firstChild){render();syncSleepView();}},500);
+else {render();syncSleepView();}
 void ensureConnection().catch(()=>{if(view!=='rest')toast('共有データに接続できません。');});
 function refreshDayScene() {
  if(!catsResolved())return;

@@ -258,8 +258,13 @@ globalThis.DayRoom=(()=>{
   template.innerHTML=next.html;
   const images=[...template.content.querySelectorAll('img')];
   for(const image of images){image.loading='eager';image.decoding='async';image.fetchPriority=stage.closest('.own-cat-room')?'high':'low';}
-  const visual=html=>html.replace(/\s(?:loading|decoding|fetchpriority)="[^"]*"/g,'');
-  const unchanged=visual(resident.innerHTML)===visual(template.innerHTML),content=document.createDocumentFragment();
+  const visual=html=>{
+   const copy=document.createElement('template');copy.innerHTML=html.replace(/\s(?:loading|decoding|fetchpriority)="[^"]*"/g,'');
+   copy.content.querySelectorAll('.cat-idle-detail').forEach(node=>node.remove());
+   return copy.content;
+  };
+  // Cached image attributes may be ordered differently; idle detail is additive.
+  const unchanged=visual(resident.innerHTML).isEqualNode(visual(template.innerHTML)),content=document.createDocumentFragment();
   if(!unchanged){content.append(template.content);for(const image of images)image.src=image.getAttribute('src');}
   const valid=()=>transitions.get(stage)===token&&stage.isConnected&&!document.hidden&&!document.documentElement.hasAttribute('data-cat-state-pending')&&!isPlaying(stage);
   const fade=async(from,to,duration)=>{

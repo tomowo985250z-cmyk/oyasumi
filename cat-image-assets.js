@@ -55,7 +55,8 @@
     if(!userId)return;
     if(!validCoat(coat)){try{localStorage.removeItem(coatKey(scope));}catch{}return;}
     try{localStorage.setItem(coatKey(scope),JSON.stringify({version:1,userId,coat,at:Date.now()}));}catch{}
-    warmCoat(userId,coat,expression,now);
+    // The authenticated home path preloads its confirmed state at high priority.
+    // Persist the hint without speculating another pose before that state arrives.
   }
   const selector = 'img[data-asset-key], svg.cat-face, .care-scene img';
   function remember(src, image, priority='low') {

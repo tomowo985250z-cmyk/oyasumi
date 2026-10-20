@@ -19,7 +19,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   let historyCache;
   let snapshotRequest=0;
   const currentRead=request=>{if(request!==snapshotRequest)throw Object.assign(new Error('A newer snapshot superseded this read'),{code:'CAT_READ_SUPERSEDED'});};
-  let initialAppearance;
+  let initialAppearance,initialSnapshot;
   const timings=[];
   async function timed(stage,work) {
     const start=performance.now();
@@ -78,7 +78,7 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   }
   async function rpc(name, args = {}) { return timed(name,async()=>checked(await client.rpc(name,args))); }
   const normalizeCounts = values => Object.fromEntries(Object.entries({goodnight:0,dream:0,tomorrow:0,comfort:0,...values}).map(([id,count]) => [id,Number.isSafeInteger(Number(count)) && Number(count)>0 ? Number(count) : 0]));
-  async function initialize() {
+  async function initialize(prefetch=false) {
     if (!initialization) {
       const initializeSession = async () => {
       let session = checked(await timed('session',()=>client.auth.getSession())).session;
@@ -87,6 +87,10 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       userId = session.user.id;
       // Cache hints only warm images after this session's identity is known.
       globalThis.CatImages?.primeCoat?.(userId,catCacheScope);
+      if(prefetch){
+        initialSnapshot={userId,at:performance.now(),care:readCare(),clock:readClock()};
+        void initialSnapshot.clock.catch(()=>{});
+      }
       const appearance=await timed('initial-appearance',()=>readProfiles([userId],true)),profile=appearance.profiles;
       initialAppearance={...appearance,at:performance.now()};
       needsNickname = !profile?.nickname;
@@ -96,13 +100,13 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
       // Serialize first-time sign-in across tabs sharing the same origin.
       initialization = (globalThis.navigator?.locks
         ? navigator.locks.request(storageKey + '-initialize', initializeSession)
-        : initializeSession()).catch(error => { initialization = undefined; throw error; });
+        : initializeSession()).catch(error => { initialization = undefined;initialSnapshot=undefined;throw error; });
     }
     return initialization;
   }
   async function assertIdentity(expected) {
     const session=checked(await client.auth.getSession()).session;
-    if(session?.user?.id!==expected){initialization=undefined;initialAppearance=undefined;userId=undefined;throw Object.assign(new Error('Authentication changed during cat read'),{code:'CAT_AUTH_CHANGED'});}
+    if(session?.user?.id!==expected){initialization=undefined;initialAppearance=initialSnapshot=undefined;userId=undefined;throw Object.assign(new Error('Authentication changed during cat read'),{code:'CAT_AUTH_CHANGED'});}
   }
   async function publish(progress,key,payload,clock,expected) {
     if(typeof progress?.[key]!=='function')return;
@@ -141,6 +145,12 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
     try {const catCare=await rpc('oyasumi_cat_care_status');return {catCare,catStateResolved:catCare!==null};}
     catch(error){return {catCare:null,catStateResolved:error.code==='PGRST202'};}
   }
+  async function readClock(){
+    const start=performance.now(),context=(await rpc('oyasumi_night_context'))[0];
+    if(!context)throw new Error('夜の区切りを取得できませんでした。');
+    return {serverNow:Date.parse(context.server_now),monotonicAt:(start+performance.now())/2,
+      resetAt:Date.parse(context.next_reset_at),nightDate:context.night_date,morningNightDate:context.morning_night_date};
+  }
   function mapPost(row, names, expressions, coats, roles, notes) {
     return { id: row.id, userId: row.user_id, status: row.choice, intent: row.post_intent, time: Date.parse(row.created_at),
       order: row.event_order, nightDate: row.night_date, name: names.get(row.user_id) || '名無し',
@@ -154,15 +164,11 @@ globalThis.createOyasumiConnection = function createOyasumiConnection(storageKey
   async function snapshotData(attempt = 0,progress,request) {
     await initialize();
     const snapshotUser=userId,initial=initialAppearance;initialAppearance=undefined;
+    const prefetched=initialSnapshot?.userId===snapshotUser&&performance.now()-initialSnapshot.at<1000?initialSnapshot:null;initialSnapshot=undefined;
     const ownRead=initial&&performance.now()-initial.at<1000?Promise.resolve(initial):timed('own-appearance',()=>readProfiles([snapshotUser],true));
     void ownRead.catch(()=>{}); // Attach a handler while the clock read is pending.
     // Sleep is read afresh even when the coat hint and images are cached.
-    const careRead=readCare();
-    const contextStart=performance.now();
-    const context=(await rpc('oyasumi_night_context'))[0];
-    if(!context)throw new Error('夜の区切りを取得できませんでした。');
-    const clock={serverNow:Date.parse(context.server_now),monotonicAt:(contextStart+performance.now())/2,
-      resetAt:Date.parse(context.next_reset_at),nightDate:context.night_date,morningNightDate:context.morning_night_date};
+    const careRead=prefetched?.care||readCare(),clock=await(prefetched?.clock||readClock());
     // This early path contains only authenticated, current cat/time/sleep data.
     // It never releases a cached coat, cached expression or cached sleep state.
     const ownProgress=Promise.all([ownRead,careRead]).then(async([appearance,care])=>{
