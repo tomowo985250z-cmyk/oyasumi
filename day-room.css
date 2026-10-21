@@ -148,3 +148,7 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 
 /* Meals use the same low tabletop as the resting cat in cold seasons. */
 .day-room[data-location=room]:is([data-world-season=autumn],[data-world-season=winter]) .room-care-animation{left:51.75%;bottom:calc(23.33% - 18px * var(--room-care-scale,1))}
+
+/* Nature audio controls live in settings, outside the cat and shoji scene. */
+.nature-sounds-volume{width:45%;max-width:160px;min-width:90px;accent-color:#b7c8c0}
+.nature-sounds-settings output{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
