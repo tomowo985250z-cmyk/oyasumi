@@ -134,8 +134,8 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 /* Sliding shoji cover the garden opening only; the resident and floor stay in front. */
 .engawa-shoji{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .engawa-shoji-panel{transform-box:view-box;transform-origin:0 0;transition:transform 2s cubic-bezier(.45,0,.2,1)}
-.engawa-shoji-left{transform:translateX(-146.5px)}
-.engawa-shoji-right{transform:translateX(293px)}
+.engawa-shoji-left{transform:translateX(-143.3px)}
+.engawa-shoji-right{transform:translateX(289.8px)}
 .day-room[data-shoji-closed=true] .engawa-shoji-left{transform:translateX(0)}
 .day-room[data-shoji-closed=true] .engawa-shoji-right{transform:translateX(146.5px)}
 .engawa-shoji-switch{position:absolute;top:13.424%;height:50.455%;width:44px;min-width:44px;min-height:44px;z-index:1;padding:0;border:0;border-radius:0;background:transparent;touch-action:manipulation}
