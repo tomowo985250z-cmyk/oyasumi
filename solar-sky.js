@@ -26,7 +26,7 @@ globalThis.SolarSky=(()=>{
     const app=card.closest('#app');if(app)new MutationObserver(()=>{if(!starFieldNode.isConnected)starFieldNode.remove();}).observe(app,{childList:true});
    }
    layer.querySelectorAll('.roof-twinkle').forEach(star=>{star.style.animation='none';});
-   layer.querySelectorAll(':scope > i').forEach(star=>star.remove());layer.prepend(starFieldNode);layer.setAttribute('data-deep-field-ready','');
+   layer.querySelectorAll(':scope > i').forEach(star=>star.remove());layer.prepend(starFieldNode);layer.setAttribute('data-deep-field-ready','');RoofMoon.detail?.(card);
   };
   if(starFieldReady){mount();return;}
   pendingFields.add(layer);

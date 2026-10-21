@@ -72,6 +72,28 @@ globalThis.RoofMoon = (() => {
   const window=frame==='window',moon=drawing(now,frame);
   return `<g class="${frame==='roof'?'roof-moon':'room-window-moon'}" data-moon-renderer="lit-mask-v2" data-moon-frame="${frame}" data-moon-phase="${moon.phase}" opacity="${moon.opacity}" transform="${moon.transform}" style="filter:none">${surface(moon,frame)}</g>`;
  }
+ // Shared, prebuilt lunar material; the existing roof visibility gate loads it.
+ const surfaceImage='assets/roof-moon-surface-26ae58b2610e23e4.svg';
+ let surfaceDecode,surfaceReady=false;
+ const pendingSurfaces=new WeakSet();
+ function detail(card){
+  const element=card.querySelector('.roof-moon');
+  const visible=()=>{const r=card.getBoundingClientRect();return card.isConnected&&!document.hidden&&scrollY>0&&r.top<innerHeight/2&&r.bottom>0&&!!card.querySelector('.roof-star-field');};
+  if(!element||element.dataset.moonDetail||pendingSurfaces.has(element)||!visible())return;
+  const mount=()=>{
+   if(!visible()||!element.isConnected)return;
+   const mask=element.querySelector('mask'),light=element.querySelector('[data-moon-light]');if(!mask||!light)return;
+   const id=mask.id+'-surface',holder=document.createElementNS('http://www.w3.org/2000/svg','svg');
+   holder.innerHTML=`<defs data-moon-material=""><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".13"/></filter><filter id="${id}-edge" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation=".008"/></filter><linearGradient id="${id}-shade" data-moon-shade="" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#102334" stop-opacity=".86"/><stop offset=".45" stop-color="#102334" stop-opacity=".25"/><stop offset="1" stop-color="#102334" stop-opacity="0"/></linearGradient><pattern id="${id}" patternUnits="userSpaceOnUse" x="-1" y="-1" width="2" height="2" viewBox="-1 -1 2 2"><image href="${surfaceImage}" x="-1" y="-1" width="2" height="2"/><rect data-moon-shading="" x="-1" y="-1" width="2" height="2" fill="url(#${id}-shade)"/></pattern></defs><path data-moon-halo="" fill="#a9c8e5" filter="url(#${id}-soft)"/>`;
+   element.insertBefore(holder.firstElementChild,light);element.insertBefore(holder.firstElementChild,light);
+   mask.querySelector('path').setAttribute('filter',`url(#${id}-edge)`);light.setAttribute('fill',`url(#${id})`);element.dataset.moonDetail='surface-v1';
+   update(element,NightClock.now());
+  };
+  if(surfaceReady){mount();return;}
+  pendingSurfaces.add(element);
+  if(!surfaceDecode){const image=new Image();image.decoding='async';image.src=surfaceImage;surfaceDecode=image.decode().then(()=>{surfaceReady=true;return image;});}
+  void surfaceDecode.then(()=>{pendingSurfaces.delete(element);mount();},()=>{pendingSurfaces.delete(element);surfaceDecode=undefined;});
+ }
  function update(element,now) {
   const frame=element.dataset.moonFrame,viewport=element.closest('.roof-moon-viewport');
   const view=viewport?.getBoundingClientRect(),scene=viewport?.closest('.roof-sky-card')?.querySelector('.awake-scene')?.getBoundingClientRect();
@@ -81,11 +103,20 @@ globalThis.RoofMoon = (() => {
    element.innerHTML=surface(moon,frame);element.dataset.moonRenderer='lit-mask-v2';
   }
   const path=element.querySelector('mask path'),light=element.querySelector('[data-moon-light]');
-  for(const child of [...element.children])if(child.localName!=='defs'&&child!==light)child.remove();
+  for(const child of [...element.children])if(child.localName!=='defs'&&child!==light&&!child.hasAttribute('data-moon-halo'))child.remove();
   element.style.filter='none';
   element.setAttribute('data-moon-phase',moon.phase);element.setAttribute('transform',moon.transform);
   element.setAttribute('opacity',moon.opacity);
   path.setAttribute('d',moon.path);path.setAttribute('transform',moon.facing);
+  if(frame==='roof'){
+   const halo=element.querySelector('[data-moon-halo]');
+   if(halo){
+    const cosine=Math.cos(moon.phase*Math.PI*2),illumination=(1-cosine)/2,shade=element.querySelector('[data-moon-shade]'),strength=element.querySelector('[data-moon-shading]');
+    halo.setAttribute('d',moon.path);halo.setAttribute('transform',moon.facing);halo.setAttribute('opacity',(.045+.095*illumination).toFixed(3));
+    const x=cosine.toFixed(4),facing=moon.facing,opacity=(.85*(1-illumination)).toFixed(3);
+    if(shade.getAttribute('x1')!==x)shade.setAttribute('x1',x);if(shade.getAttribute('gradientTransform')!==facing)shade.setAttribute('gradientTransform',facing);if(strength.getAttribute('opacity')!==opacity)strength.setAttribute('opacity',opacity);
+   }else{const card=element.closest('.roof-sky-card');if(card?.querySelector('.roof-star-field'))detail(card);}
+  }
  }
- return Object.freeze({snapshot,svg,update});
+ return Object.freeze({snapshot,svg,update,detail});
 })();
