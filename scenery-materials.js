@@ -55,7 +55,14 @@ globalThis.SceneryMaterials=(()=>{
    const basket=svg.querySelector('[data-scene-object="basket"]');
    if(basket){if(cold(w))basket.setAttribute('transform','translate(84 284)');shade(basket.querySelector('path'),'horizontal',.28);add(basket,`<path d="M-23-20q23 12 47 0m-44 10q20 9 40 0m-36 8q15 5 30 0" stroke="${p.woodLight}" stroke-opacity=".22" stroke-width=".65" fill="none"/>`);}
   }else if(where==='engawa'){
-   const g=details(`<path d="${grain(19,228,5.5,430)}" fill="none" stroke="${p.trunk}" stroke-width=".55" stroke-opacity=".16"/><path d="M38 249q9-5 23-1t22 0m151 41q13-5 29-1t22 0" fill="none" stroke="${p.woodLight}" stroke-width=".7" stroke-opacity=".35"/>`,'M0 226h400v104H0Z');
+   // Only the floor changes material; keep the sill, posts and furniture.
+   const tatami=SolarLighting.palette(w,phase=>({base:phase==='night'?'#49584e':phase==='evening'?'#acb18a':'#b8c69c',light:phase==='night'?'#5c6c59':phase==='evening'?'#c6c39b':'#cbd5b0',edge:phase==='night'?'#35463e':'#637357'}));
+   const mat=id+'-tatami',weave=mat+'-weave';
+   add(defs,`<linearGradient id="${mat}" x2="0" y2="1"><stop stop-color="${mix(tatami.base,p.green,.05)}"/><stop offset="1" stop-color="${tatami.light}"/></linearGradient><pattern id="${weave}" patternUnits="userSpaceOnUse" width="7" height="3"><path d="M0 .5H7" stroke="${tatami.edge}" stroke-opacity=".14" stroke-width=".45"/><path d="M1 .5v1M4.5 2v1" stroke="${tatami.light}" stroke-opacity=".25" stroke-width=".5"/></pattern>`);
+   const matFloor=find('M0 220h400v110');matFloor?.setAttribute('fill',`url(#${mat})`);
+   find('M0 262h400')?.parentElement.remove();
+   const rim=find('M0 226h400');rim?.setAttribute('stroke',tatami.light);rim?.setAttribute('stroke-width','1.5');
+   const g=details(`<path d="M0 226h400v104H0Z" fill="url(#${weave})"/><path d="M0 276h400v2.5H0ZM199 226h2v50h-2Zm0 52.5h2V330h-2Z" fill="${tatami.edge}" opacity=".38"/>`,'M0 226h400v104H0Z');
    main.insertBefore(g,main.children[3]);
    for(const d of ['M60 0h16','M369 0h13','M0 0h400v31'])shade(find(d),'horizontal',.34);
    const grainPosts=details(`<path d="M62 36q4 42 1 84t2 94m6-157q-3 45 0 86m300-99q5 45 0 82t1 83M12 8q70 3 137 0t114 1 124 0M26 18q85-3 169 0t172-1" fill="none" stroke="${p.trunk}" stroke-width=".5" stroke-opacity=".18"/>`);main.append(grainPosts);
