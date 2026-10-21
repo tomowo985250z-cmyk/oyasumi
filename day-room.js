@@ -33,7 +33,7 @@ globalThis.DayRoom=(()=>{
  const world=()=>{const at=NightClock.now();return {...SeasonWeather.at(at),at};}
  // Local presentation preferences, isolated by the authenticated account.
  // It never changes account, posting, care or cat-location state.
- const lamps=new Map(),curtains=new Map(),shojis=new Map(),restored=new Set();let lampSequence=0;
+ const lamps=new Map(),curtains=new Map(),shojis=new Map(),shojiMotions=new Map(),restored=new Set();let lampSequence=0;
  // Check ownership again at the write, even if a disabled control is reenabled.
  const canControlRoom=user=>{
   const viewer=typeof shared!=='undefined'?shared.userId:null;
@@ -121,7 +121,7 @@ globalThis.DayRoom=(()=>{
   // Side pockets are part of the surround, rather than extra narrow shoji leaves.
   const pockets='<path d="M0 35H57.35V218H0Z M342.65 35H400V218H342.65Z" fill="var(--shoji-sideBack)"/>';
   const header='<path data-shoji-header d="M57.35 34.5H342.65V41.8H57.35Z" fill="var(--shoji-wood)"/><path d="M57.35 35H342.65" fill="none" stroke="#fff3d7" stroke-opacity=".24" stroke-width=".65"/>';
-  return `<svg id="${id}" class="engawa-shoji" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="--shoji-paper:${p.paper};--shoji-light:${p.light};--shoji-wood:${p.wood};--shoji-sidePaper:${p.sidePaper};--shoji-sideBack:${p.sideBack}"><defs><clipPath id="${id}-opening"><path d="M76 35H369V220H76Z"/></clipPath><radialGradient id="${id}-light" cx=".5" cy=".3" r=".8"><stop stop-color="var(--shoji-light)" stop-opacity=".36"/><stop offset="1" stop-color="var(--shoji-light)" stop-opacity=".06"/></radialGradient><filter id="${id}-contact" x="-10%" y="-150%" width="120%" height="400%"><feGaussianBlur stdDeviation="1.2"/></filter></defs>${pockets}${header}<g class="engawa-shoji-assembly" transform="translate(.65 12.8) scale(.9)"><ellipse cx="221.5" cy="226.5" rx="158.5" ry="2.2" fill="#344243" opacity=".12" filter="url(#${id}-contact)"/><g clip-path="url(#${id}-opening)">${panel('left',false)}${panel('right',false)}${panel('left')}${panel('right')}</g>${frame}</g></svg>${['left','right'].map(side=>`<button type="button" class="engawa-shoji-switch engawa-shoji-switch-${side}" aria-controls="${id}" aria-label="${closed?'障子を開く':'障子を閉じる'}" aria-expanded="${!closed}" ${enabled?'':'hidden disabled'}></button>`).join('')}`;
+  return `<svg id="${id}" class="engawa-shoji" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="--shoji-paper:${p.paper};--shoji-light:${p.light};--shoji-wood:${p.wood};--shoji-sidePaper:${p.sidePaper};--shoji-sideBack:${p.sideBack}"><defs><clipPath id="${id}-opening"><path d="M76 35H369V220H76Z"/></clipPath><radialGradient id="${id}-light" cx=".5" cy=".3" r=".8"><stop stop-color="var(--shoji-light)" stop-opacity=".36"/><stop offset="1" stop-color="var(--shoji-light)" stop-opacity=".06"/></radialGradient><filter id="${id}-contact" x="-10%" y="-150%" width="120%" height="400%"><feGaussianBlur stdDeviation="1.2"/></filter></defs>${pockets}${header}<g class="engawa-shoji-assembly" transform="translate(.65 12.8) scale(.9)"><ellipse cx="221.5" cy="226.5" rx="158.5" ry="2.2" fill="#344243" opacity=".12" filter="url(#${id}-contact)"/><g clip-path="url(#${id}-opening)">${panel('left',false)}${panel('right',false)}${panel('left')}${panel('right')}</g>${frame}</g></svg><button type="button" class="engawa-shoji-switch" aria-controls="${id}" aria-label="${closed?'障子を開く':'障子を閉じる'}" aria-expanded="${!closed}" ${enabled?'':'hidden disabled'}></button>`;
  }
  function syncShoji(stage,w){
   if(stage.hasAttribute('data-room-preferences-pending'))return;
@@ -134,9 +134,13 @@ globalThis.DayRoom=(()=>{
  document.addEventListener('click',event=>{
   const shoji=event.target.closest?.('.engawa-shoji-switch'),shojiStage=shoji?.closest('.day-room');
   if(shojiStage){
-   const user=shojiStage.dataset.roomUser;if(shoji.disabled||shojiStage.dataset.location!=='engawa'||!canControlRoom(user))return;
-   event.preventDefault();restorePreferences(user);shojis.set(user,!shojiClosed(user));savePreferences(user);
-   for(const item of document.querySelectorAll('.day-room'))if(item.dataset.roomUser===user)syncShoji(item,DayRoom.world());
+   const user=shojiStage.dataset.roomUser;if(shoji.disabled||shojiStage.dataset.location!=='engawa'||!canControlRoom(user)||shojiMotions.has(user))return;
+   event.preventDefault();const motion={};shojiMotions.set(user,motion);
+   restorePreferences(user);shojis.set(user,!shojiClosed(user));savePreferences(user);
+   const rooms=[...document.querySelectorAll('.day-room')].filter(item=>item.dataset.roomUser===user);
+   for(const item of rooms)syncShoji(item,DayRoom.world());
+   const animations=rooms.flatMap(item=>[...item.querySelectorAll('.engawa-shoji-panel')].flatMap(panel=>panel.getAnimations()));
+   Promise.allSettled(animations.map(animation=>animation.finished)).then(()=>{if(shojiMotions.get(user)===motion)shojiMotions.delete(user);});
    return;
   }
   const curtain=event.target.closest?.('.room-curtain-switch'),curtainStage=curtain?.closest('.day-room');
