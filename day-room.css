@@ -131,5 +131,21 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
  .room-curtain-panel,.day-room[data-location=room] .day-room-scenery,.day-room[data-location=room] .room-cat-lighting{transition:none}
 }
 
+/* Sliding shoji cover the garden opening only; the resident and floor stay in front. */
+.engawa-shoji{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.engawa-shoji-panel{transform-box:view-box;transform-origin:0 0;transition:transform 2s cubic-bezier(.45,0,.2,1)}
+.engawa-shoji-left{transform:translateX(-146.5px)}
+.engawa-shoji-right{transform:translateX(293px)}
+.day-room[data-shoji-closed=true] .engawa-shoji-left{transform:translateX(0)}
+.day-room[data-shoji-closed=true] .engawa-shoji-right{transform:translateX(146.5px)}
+.engawa-shoji-switch{position:absolute;top:10.606%;height:56.061%;width:44px;min-width:44px;min-height:44px;z-index:1;padding:0;border:0;border-radius:0;background:transparent;touch-action:manipulation}
+.engawa-shoji-switch-left{left:15%}.engawa-shoji-switch-right{right:4.5%}
+.day-room[data-shoji-closed=true] .engawa-shoji-switch-left{width:40.625%}
+.day-room[data-shoji-closed=true] .engawa-shoji-switch-right{width:39.875%}
+.engawa-shoji-switch:hover,.engawa-shoji-switch:active{background:transparent;filter:none;transform:none}
+.engawa-shoji-switch:focus-visible{outline:2px solid #b6c1b7;outline-offset:-3px}
+.day-room:not([data-location=engawa]) :is(.engawa-shoji,.engawa-shoji-switch),.engawa-shoji-switch[hidden]{display:none}
+@media(prefers-reduced-motion:reduce){.engawa-shoji-panel{transition:none}}
+
 /* Meals use the same low tabletop as the resting cat in cold seasons. */
 .day-room[data-location=room]:is([data-world-season=autumn],[data-world-season=winter]) .room-care-animation{left:51.75%;bottom:calc(23.33% - 18px * var(--room-care-scale,1))}

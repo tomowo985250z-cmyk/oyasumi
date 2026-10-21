@@ -33,7 +33,7 @@ globalThis.DayRoom=(()=>{
  const world=()=>{const at=NightClock.now();return {...SeasonWeather.at(at),at};}
  // Local presentation preferences, isolated by the authenticated account.
  // It never changes account, posting, care or cat-location state.
- const lamps=new Map(),curtains=new Map(),restored=new Set();let lampSequence=0;
+ const lamps=new Map(),curtains=new Map(),shojis=new Map(),restored=new Set();let lampSequence=0;
  // Check ownership again at the write, even if a disabled control is reenabled.
  const canControlRoom=user=>{
   const viewer=typeof shared!=='undefined'?shared.userId:null;
@@ -48,12 +48,13 @@ globalThis.DayRoom=(()=>{
    const saved=JSON.parse(localStorage.getItem(preferenceKey(user))||'null');
    if(saved?.version!==1)return;
    if(typeof saved.curtainClosed==='boolean')curtains.set(user,saved.curtainClosed);
+   if(typeof saved.shojiClosed==='boolean')shojis.set(user,saved.shojiClosed);
    if(typeof saved.lampOn==='boolean')lamps.set(user,{on:saved.lampOn});
   }catch{ /* Invalid or unavailable storage leaves this account's defaults intact. */ }
  }
  function savePreferences(user){
   if(!canControlRoom(user))return;
-  try{localStorage.setItem(preferenceKey(user),JSON.stringify({version:1,curtainClosed:curtains.get(user)===true,lampOn:lamps.get(user)?.on}));}
+  try{localStorage.setItem(preferenceKey(user),JSON.stringify({version:1,curtainClosed:curtains.get(user)===true,shojiClosed:shojis.get(user)===true,lampOn:lamps.get(user)?.on}));}
   catch{if(typeof toast==='function')toast('部屋の設定を端末に保存できませんでした。');}
  }
  function lampState(user,where,w){
@@ -76,6 +77,7 @@ globalThis.DayRoom=(()=>{
   if(light)light.style.opacity=String(s.level);
   if(button){button.hidden=!(s.available&&canControlRoom(stage.dataset.roomUser));button.disabled=button.hidden;button.setAttribute('aria-pressed',String(s.on));button.setAttribute('aria-label',s.on?'部屋の明かりを消す':'部屋の明かりをつける');}
   syncCurtain(stage,w,s);
+  syncShoji(stage,w);
  }
  function curtainPalette(w,lamp){
   const palette=SolarLighting.palette(SolarModel.world(w),phase=>({left:phase==='night'?'#647477':'#d3d2c6',right:phase==='night'?'#54676e':'#c0c5bf'}));
@@ -103,7 +105,39 @@ globalThis.DayRoom=(()=>{
   const palette=curtainPalette(w,lamp),panels=stage.querySelector('.room-curtains');
   if(panels)for(const side of ['left','right'])panels.style.setProperty('--curtain-'+side,palette[side]);
  }
+ const shojiClosed=user=>canControlRoom(user)&&shojis.get(user)===true;
+ function shojiPalette(w){
+  const colors=SolarLighting.palette(SolarModel.world(w),phase=>({paper:phase==='night'?'#647782':phase==='evening'?'#d7bea0':'#dedfca',light:phase==='night'?'#a4b7c1':phase==='evening'?'#f6c68e':'#f3eed7',wood:phase==='night'?'#53636a':phase==='evening'?'#ac8e70':'#b29d82',sidePaper:phase==='night'?'#637371':'#dad8c8',sideBack:phase==='night'?'#536365':'#c6c8bc'}));
+  const wet=w.weather==='rainy'?.18:w.weather==='cloudy'?.08:0;
+  colors.paper=SeasonLandscape.mix(colors.paper,'#869a9d',wet);return colors;
+ }
+ function shojiMarkup(user,where,w){
+  if(where!=='engawa')return '';
+  const id='engawa-shoji-'+(++lampSequence),p=shojiPalette(w),closed=shojiClosed(user),enabled=canControlRoom(user);
+  // Hikiwake: the two leaves meet on one track, then slide into side pockets.
+  // Keep the thick stiles/rails separate from the fine kumiko and paper.
+  const panel=side=>`<g class="engawa-shoji-panel engawa-shoji-${side}"><rect x="76" y="35" width="146.5" height="185" fill="var(--shoji-paper)"/><rect x="80" y="40" width="138.5" height="171" fill="url(#${id}-light)"/><path d="M124.8 40V211M173.7 40V211M80 81.25H218.5M80 127.5H218.5M80 173.75H218.5" fill="none" stroke="var(--shoji-wood)" stroke-width="1.05"/><path d="M83 49H215M82 96H217M84 143H215M82 190H216" fill="none" stroke="#f5eedc" stroke-opacity=".12" stroke-width=".45"/><path d="M76 35H222.5V220H76Z M80 40V211H218.5V40Z" fill="var(--shoji-wood)" fill-rule="evenodd"/><path d="M76.5 35.5H222M76.5 35.5V219.5M80.5 211.5H218" fill="none" stroke="#fff3d7" stroke-opacity=".25" stroke-width=".7"/><path d="M222 36V219.5H76.5M80 40H218.5V211" fill="none" stroke="#344243" stroke-opacity=".26" stroke-width=".7"/><rect x="${side==='left'?'219.5':'77.1'}" y="122" width="1.8" height="13" rx=".65" fill="#36413c" fill-opacity=".5"/><path d="M${side==='left'?'221':'78.6'} 123v11" stroke="#f5eedc" stroke-opacity=".22" stroke-width=".4"/></g>`;
+  // Only the meeting stiles remain visible when open. Fixed pocket mouths,
+  // head groove and sill sit in front of the moving leaves, below the cat.
+  const frame=`<g fill="var(--shoji-wood)"><path d="M60 30H382V37H60Z M60 218H400V226H60Z"/><path d="M60 37H72V218H60Z M373 37H382V218H373Z"/></g><path d="M72 37H373M72 219H373M72 37V218M373 37V218" fill="none" stroke="#344243" stroke-opacity=".42" stroke-width="1.1"/><path d="M61 31H381M61 224H399M70.5 38V217M374.5 38V217" fill="none" stroke="#fff3d7" stroke-opacity=".24" stroke-width=".8"/><g data-shoji-side="right"><path d="M382 35H400V218H382Z" fill="var(--shoji-sideBack)"/><path d="M382 35H400V196H382Z" fill="var(--shoji-sidePaper)"/><path d="M393 35V195M382 73H400M382 117H400M382 161H400" fill="none" stroke="var(--shoji-wood)" stroke-width="1.5"/></g>`;
+  return `<svg id="${id}" class="engawa-shoji" viewBox="0 0 400 330" aria-hidden="true" focusable="false" style="--shoji-paper:${p.paper};--shoji-light:${p.light};--shoji-wood:${p.wood};--shoji-sidePaper:${p.sidePaper};--shoji-sideBack:${p.sideBack}"><defs><clipPath id="${id}-opening"><path d="M72 35H373V220H72Z"/></clipPath><radialGradient id="${id}-light" cx=".5" cy=".3" r=".8"><stop stop-color="var(--shoji-light)" stop-opacity=".36"/><stop offset="1" stop-color="var(--shoji-light)" stop-opacity=".06"/></radialGradient></defs><g clip-path="url(#${id}-opening)">${panel('left')}${panel('right')}</g>${frame}</svg>${['left','right'].map(side=>`<button type="button" class="engawa-shoji-switch engawa-shoji-switch-${side}" aria-controls="${id}" aria-label="${closed?'障子を開く':'障子を閉じる'}" aria-expanded="${!closed}" ${enabled?'':'hidden disabled'}></button>`).join('')}`;
+ }
+ function syncShoji(stage,w){
+  if(stage.hasAttribute('data-room-preferences-pending'))return;
+  const user=stage.dataset.roomUser,available=stage.dataset.location==='engawa',closed=shojiClosed(user);
+  stage.dataset.shojiClosed=String(closed);
+  if(available&&!stage.querySelector('.engawa-shoji'))stage.querySelector('.room-resident')?.insertAdjacentHTML('beforebegin',shojiMarkup(user,'engawa',w));
+  for(const button of stage.querySelectorAll('.engawa-shoji-switch')){button.hidden=!available||!canControlRoom(user);button.disabled=button.hidden;button.setAttribute('aria-expanded',String(!closed));button.setAttribute('aria-label',closed?'障子を開く':'障子を閉じる');}
+  const panels=stage.querySelector('.engawa-shoji');if(available&&panels)for(const [key,color]of Object.entries(shojiPalette(w)))panels.style.setProperty('--shoji-'+key,color);
+ }
  document.addEventListener('click',event=>{
+  const shoji=event.target.closest?.('.engawa-shoji-switch'),shojiStage=shoji?.closest('.day-room');
+  if(shojiStage){
+   const user=shojiStage.dataset.roomUser;if(shoji.disabled||shojiStage.dataset.location!=='engawa'||!canControlRoom(user))return;
+   event.preventDefault();restorePreferences(user);shojis.set(user,!shojiClosed(user));savePreferences(user);
+   for(const item of document.querySelectorAll('.day-room'))if(item.dataset.roomUser===user)syncShoji(item,DayRoom.world());
+   return;
+  }
   const curtain=event.target.closest?.('.room-curtain-switch'),curtainStage=curtain?.closest('.day-room');
   if(curtainStage){
    if(curtain.disabled||curtainStage.dataset.location!=='room'||!canControlRoom(curtainStage.dataset.roomUser))return;
@@ -157,7 +191,7 @@ globalThis.DayRoom=(()=>{
   const tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
   const style=contactStyle(place,where,html,coat,night),contact=style?` style="${style}"`:'';
   const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
-  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${pending?' data-room-preferences-pending':''}${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${pending?'':scenery(where,w)}</div>${pending?'':lampMarkup(user,where,w)+curtainMarkup(user,where,w)+wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
+  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-shoji-closed="${shojiClosed(user)}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${pending?' data-room-preferences-pending':''}${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${pending?'':scenery(where,w)}</div>${pending?'':lampMarkup(user,where,w)+curtainMarkup(user,where,w)+shojiMarkup(user,where,w)+wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
  function controls(html){
   const template=document.createElement('template');template.innerHTML=html;
