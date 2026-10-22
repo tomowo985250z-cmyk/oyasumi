@@ -67,23 +67,55 @@ globalThis.RoofRecline=(()=>{
  if(typeof document!=='undefined')document.addEventListener('catvisibilitychange',()=>{
   if(document.documentElement.hasAttribute('data-cat-state-pending'))for(const element of document.querySelectorAll('.roof-cat-group'))invalidate(element);
  });
+ function measured(element,at){
+  const scene=element.closest('.awake-scene'),card=element.closest('.roof-sky-card');if(!scene||!card)return;
+  const scale=scene.getBoundingClientRect().width/208;if(!scale)return;
+  const width=card.clientWidth/scale,n=SolarModel.nightSpan(at),night=new Date(n.start+9*3600000).toISOString().slice(0,10);
+  return {width,night,key:night+':'+width.toFixed(2)};
+ }
+ const current=(element,entry)=>element.isConnected&&layouts.get(element)===entry&&!document.hidden&&!document.documentElement.hasAttribute('data-cat-state-pending');
+ function publish(element,entry){
+  if(!current(element,entry))return;
+  const at=NightClock.now(),layout=measured(element,at);
+  // A decode may finish after a resize, a clock correction, or the next night.
+  if(!layout||layout.key!==entry.key){update(element,at);return;}
+  const visible=entry.images.filter(image=>presence(at,Number(image.dataset.roofRank),entry.images.length)>0);
+  if(visible.every(image=>entry.decodes.get(image)?.ready))element.removeAttribute('data-cat-placeholder');
+ }
+ function prepare(element,entry,image){
+  const source=image.getAttribute('src');if(!source||entry.decodes.get(image)?.source===source)return;
+  image.setAttribute('data-cat-placeholder','');
+  const operation={source,ready:false};entry.decodes.set(image,operation);
+  // Cached network bytes are not necessarily decoded pixels. Only this row's
+  // selected images participate; future arrivals never hold up its first paint.
+  const decoded=typeof image.decode==='function'?image.decode():new Promise((resolve,reject)=>{
+   if(image.complete){image.naturalWidth?resolve():reject();return;}
+   image.addEventListener('load',resolve,{once:true});image.addEventListener('error',reject,{once:true});
+  });
+  void decoded.then(()=>{
+   if(!current(element,entry)||entry.decodes.get(image)!==operation||image.getAttribute('src')!==source||!image.naturalWidth)return;
+   operation.ready=true;image.removeAttribute('data-cat-placeholder');publish(element,entry);
+  },()=>{/* Failed or superseded images stay hidden; never fall back to an old row. */});
+ }
  function update(element,at){
   if(!element?.isConnected)return;
   if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')){invalidate(element);return;}
-  const scene=element.closest('.awake-scene'),card=element.closest('.roof-sky-card');if(!scene||!card)return;
-  const scale=scene.getBoundingClientRect().width/208;if(!scale){invalidate(element);return;}
-  const width=card.clientWidth/scale,n=SolarModel.nightSpan(at),night=new Date(n.start+9*3600000).toISOString().slice(0,10),key=night+':'+width.toFixed(2);
-  if(layouts.get(element)!==key){
+  const layout=measured(element,at);if(!layout){invalidate(element);return;}
+  const {width,night,key}=layout;let entry=layouts.get(element);
+  if(entry?.key!==key){
    element.setAttribute('data-cat-placeholder','');
-   const count=capacity(width,night);element.innerHTML=group([],count,night,at,width);element.dataset.catCount=String(count);layouts.set(element,key);
+   const count=capacity(width,night);element.innerHTML=group([],count,night,at,width);element.dataset.catCount=String(count);
+   entry={key,images:[...element.children],decodes:new Map()};layouts.set(element,entry);
+   for(const image of entry.images)image.setAttribute('data-cat-placeholder','');
   }
   for(const cat of element.children){
    const rank=Number(cat.dataset.roofRank),count=element.children.length;cat.style.opacity=presence(at,rank,count);
    // The existing clock tick warms only cats arriving within two minutes.
    if(cat.dataset.roofSrc&&(presence(at,rank,count)>0||presence(at+120000,rank,count)>0)){cat.src=cat.dataset.roofSrc;delete cat.dataset.roofSrc;globalThis.CatImages?.warm(element);}
+   prepare(element,entry,cat);
   }
-  // Commit synchronously: late image decodes never publish an earlier row.
-  element.removeAttribute('data-cat-placeholder');
+  // Reveal the initial composition together, never the cache-hit cat by itself.
+  publish(element,entry);
  }
  function group(coats,count,night,at=NightClock.now(),width){
   return plan(coats,count,night,width).map(cat=>{

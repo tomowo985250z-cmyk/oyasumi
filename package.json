@@ -17,6 +17,7 @@
     "test:cat-loading": "node test-cat-loading.cjs && node test-cat-loading.cjs --edge",
     "test:cat-startup": "node test-cat-startup-api.cjs && node test-cat-startup-browser.cjs && node test-cat-startup-security.cjs && node test-cat-startup-browser.cjs --edge && node test-cat-startup-security.cjs --edge",
     "test:home-post-choices": "node test-home-post-choices.cjs",
+    "test:roof-readiness": "node test-roof-readiness.cjs && node test-roof-readiness.cjs --edge",
     "test:roof-startup": "node test-roof-startup.cjs && node test-roof-startup.cjs --edge",
     "test:roof-moon": "node test-roof-moon.js && node test-roof-moon-browser.cjs && node test-roof-moon-browser.cjs --edge && node test-roof-moon-updates.cjs && node test-roof-moon-updates.cjs --edge",
     "test:room-moon": "node test-room-moon.js && node test-room-moon-browser.cjs && node test-room-moon-browser.cjs --edge",
