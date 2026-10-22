@@ -59,13 +59,22 @@ globalThis.RoofRecline=(()=>{
   const fade=rank===0?Math.min(10*minute,(n.end-n.dawn)*.75):10*minute;
   return n.visible?Math.min(SolarModel.smooth(arrival,arrival+fade,at),1-SolarModel.smooth(departure,departure+fade,at)):0;
  }
+ function invalidate(element){
+  element.setAttribute('data-cat-placeholder','');element.replaceChildren();
+  element.dataset.catCount='0';layouts.delete(element);
+ }
+ // Restored DOM cannot become visible between clock confirmation and layout.
+ if(typeof document!=='undefined')document.addEventListener('catvisibilitychange',()=>{
+  if(document.documentElement.hasAttribute('data-cat-state-pending'))for(const element of document.querySelectorAll('.roof-cat-group'))invalidate(element);
+ });
  function update(element,at){
-  if(!element)return;
-  if(document.documentElement.hasAttribute('data-cat-state-pending'))return;
+  if(!element?.isConnected)return;
+  if(document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')){invalidate(element);return;}
   const scene=element.closest('.awake-scene'),card=element.closest('.roof-sky-card');if(!scene||!card)return;
-  const scale=scene.getBoundingClientRect().width/208;if(!scale)return;
+  const scale=scene.getBoundingClientRect().width/208;if(!scale){invalidate(element);return;}
   const width=card.clientWidth/scale,n=SolarModel.nightSpan(at),night=new Date(n.start+9*3600000).toISOString().slice(0,10),key=night+':'+width.toFixed(2);
   if(layouts.get(element)!==key){
+   element.setAttribute('data-cat-placeholder','');
    const count=capacity(width,night);element.innerHTML=group([],count,night,at,width);element.dataset.catCount=String(count);layouts.set(element,key);
   }
   for(const cat of element.children){
@@ -73,6 +82,8 @@ globalThis.RoofRecline=(()=>{
    // The existing clock tick warms only cats arriving within two minutes.
    if(cat.dataset.roofSrc&&(presence(at,rank,count)>0||presence(at+120000,rank,count)>0)){cat.src=cat.dataset.roofSrc;delete cat.dataset.roofSrc;globalThis.CatImages?.warm(element);}
   }
+  // Commit synchronously: late image decodes never publish an earlier row.
+  element.removeAttribute('data-cat-placeholder');
  }
  function group(coats,count,night,at=NightClock.now(),width){
   return plan(coats,count,night,width).map(cat=>{

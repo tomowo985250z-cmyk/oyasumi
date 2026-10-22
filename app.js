@@ -154,9 +154,9 @@ async function refreshSentReactionPeople(){
  }catch{ /* Optional SQL may not be installed; never show a stale or false count. */ }
 }
 function awakeCats() {
- // The mounted row is fitted to the card by the existing solar update tick.
- const count=1,coats=[],w=DayRoom.world(),sky=catsResolved();
-return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof"${sky?` data-solar-key="${roofSolarKey(w)}"`:''} viewBox="0 0 208 150" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient><clipPath id="awake-roof-frame" clipPathUnits="userSpaceOnUse"><rect x="-256" y="0" width="720" height="150"/></clipPath></defs><g clip-path="url(#awake-roof-frame)">${sky?SolarSky.roof(w):'<g data-roof-solar=""></g>'}${RoofRecline.surface()}</g></svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="${count}">${RoofRecline.group(coats,count,NightClock.night())}</span></span></span>`;
+ // Only the mounted, measured row may choose cats for the confirmed solar night.
+ const w=DayRoom.world(),sky=catsResolved();
+return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof"${sky?` data-solar-key="${roofSolarKey(w)}"`:''} viewBox="0 0 208 150" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient><clipPath id="awake-roof-frame" clipPathUnits="userSpaceOnUse"><rect x="-256" y="0" width="720" height="150"/></clipPath></defs><g clip-path="url(#awake-roof-frame)">${sky?SolarSky.roof(w):'<g data-roof-solar=""></g>'}${RoofRecline.surface()}</g></svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="0" data-cat-placeholder></span></span></span>`;
 }
 function cardSkyStars() {
  // One gently jittered star per cell keeps the entire card balanced at every width.
