@@ -111,21 +111,61 @@ globalThis.SolarSky=(()=>{
   if(node&&old){for(const a of node.attributes)if(old.getAttribute(a.name)!==a.value)old.setAttribute(a.name,a.value);}
   else if(node||old)group.replaceChildren(...(node?[node]:[]));
   {
-   const cloudGroup=svg.querySelector('[data-sky-clouds]');
-   if(cloudGroup)SeasonLandscape.clouds(w,frame).forEach((c,i)=>cloudGroup.children[i]?.setAttribute('transform',`translate(${c.x} ${c.y}) scale(${c.scale})`));
+   const cloudGroups=svg.querySelectorAll('[data-sky-clouds]');
+   for(const cloudGroup of cloudGroups)SeasonLandscape.clouds(w,frame).forEach((c,i)=>cloudGroup.children[i]?.setAttribute('transform',`translate(${c.x} ${c.y}) scale(${c.scale})`));
    const t=SolarModel.twilight(SolarModel.time(w),frame),p=SeasonLandscape.theme({...w,solar:true,skyFrame:frame});
    svg.querySelector('[data-landscape-stars]')?.setAttribute('opacity',String(t.stars*(w.weather==='sunny'?.7:.23)));
-   cloudGroup?.setAttribute('opacity',String(1-t.stars*.65));
+   for(const cloudGroup of cloudGroups)cloudGroup.setAttribute('opacity',String(1-t.stars*.65));
    const stops=svg.querySelector('[data-landscape-gradient]')?.children;
    if(stops)[p.sky,SeasonLandscape.mix(p.sky,p.horizon,.55),p.horizon].forEach((color,i)=>stops[i].setAttribute('stop-color',color));
    svg.querySelectorAll('.room-window-moon').forEach(moon=>RoofMoon.update(moon,SolarModel.time(w)));
   }
+  paintEngawa(svg,w);
   svg.dataset.solarSkyKey=key;svg.dataset.solarSource=s.source;svg.dataset.solarAltitude=s.altitude;
   svg.dataset.solarRegion=s.region;svg.dataset.solarPeriod=s.sky.sunPeriod||'';
  }
+ // Approved sky55 study: terrain and cloud material only; all room geometry stays upstream.
+ const engawaAssets={"assets":{"spring":{"file":"assets/engawa-sky55/country-spring-2147d2624e4261cf.webp","placement":{"x":69.05,"y":76.13653386454183,"width":263.7,"height":155.31346613545816}},"summer":{"file":"assets/engawa-sky55/country-summer-878d1971ea5ddf11.webp","placement":{"x":69.05,"y":75.82652694610778,"width":263.7,"height":155.6234730538922}},"autumn":{"file":"assets/engawa-sky55/country-autumn-a987b36d6c101218.webp","placement":{"x":69.05,"y":76.44530815109343,"width":263.7,"height":155.00469184890656}},"winter":{"file":"assets/engawa-sky55/country-winter-12a7ab239d7514a0.webp","placement":{"x":69.05,"y":76.75285714285712,"width":263.7,"height":154.69714285714286}}},"cloud":{"file":"assets/engawa-sky55/cloud-2b6c0afbfb51844e.webp"}};
+ function engawaMatrix(brightness,saturation,t){
+  const l=[.2126,.7152,.0722],temperature=[1+t.evening*.16-t.night*.20,1-t.evening*.025,1-t.evening*.19+t.night*.15];
+  return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,0]).concat([0,0,0,1,0]).join(' ');
+ }
+ function paintEngawa(svg,w){
+  if(!svg.hasAttribute('data-sky55'))return;
+  const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.86:1;
+  svg.querySelector('[data-sky55-tone="terrain"]').setAttribute('values',engawaMatrix((t.day+t.morning*.90+t.evening*.67+t.night*.24)*wet,t.day*.90+t.morning*.86+t.evening*.79+t.night*.38,t));
+  svg.querySelector('[data-sky55-tone="cloud"]').setAttribute('values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
+ }
+ function engawa(svg,w){
+  // The complete original vector background remains available for restoration.
+  if(new URLSearchParams(location.search).get('background')==='original')return svg;
+  const asset=engawaAssets.assets[w.season]||engawaAssets.assets.summer,defs=svg.querySelector('defs'),id=defs.querySelector('[id]').id+'-sky55';
+  const opening='<rect x="69.05" y="62.25" width="263.7" height="169.2"/>';
+  defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-opening">${opening}</clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/>${opening.replace('/>',' fill="black"/>')}</mask>`+['terrain','cloud'].map(name=>`<filter id="${id}-${name}" color-interpolation-filters="sRGB"><feColorMatrix data-sky55-tone="${name}" type="matrix"/></filter>`).join(''));
+  const outside='url(#'+id+'-outside)';
+  // Preserve the old scene under translucent room pixels and outside the opening.
+  const rain=svg.querySelector(':scope > .weather-rain');
+  let terrain=svg.querySelector(':scope > [data-depth="distant-ridge"]');
+  while(terrain&&terrain!==rain){terrain.setAttribute('mask',outside);terrain=terrain.nextElementSibling;}
+  const clouds=svg.querySelector('[data-sky-clouds]');
+  if(clouds){
+   const photographic=clouds.cloneNode(false);
+   for(const original of clouds.children){
+    const cloud=document.createElementNS(ns,'g');cloud.setAttribute('transform',original.getAttribute('transform'));
+    cloud.innerHTML=`<image href="${engawaAssets.cloud.file}" x="-115" y="-70" width="230" height="130" preserveAspectRatio="xMidYMid meet" filter="url(#${id}-cloud)"/>`;photographic.append(cloud);
+   }
+   const layer=document.createElementNS(ns,'g');layer.setAttribute('clip-path','url(#'+id+'-opening)');layer.append(photographic);clouds.after(layer);clouds.setAttribute('mask',outside);
+  }
+  const photo=document.createElementNS(ns,'image');
+  for(const [key,value]of Object.entries(asset.placement))photo.setAttribute(key,value);
+  photo.setAttribute('href',asset.file);photo.setAttribute('preserveAspectRatio','none');photo.setAttribute('filter','url(#'+id+'-terrain)');photo.setAttribute('data-sky55-terrain',w.season);
+  if(rain)svg.insertBefore(photo,rain);else svg.append(photo);
+  svg.setAttribute('data-sky55','');paintEngawa(svg,w);return svg;
+ }
+
  function landscape(w,frame='window'){
   const value={...w,solar:true,phase:SolarModel.phase(w.at),skyFrame:frame},svg=parse(SceneryMaterials.art(SeasonLandscape.art(value,frame==='window'?'window':'sky',w.at),'landscape',value));
-  paint(svg,w,frame);return stringify(svg);
+  paint(svg,w,frame);return stringify(frame==='engawa'?engawa(svg,w):svg);
  }
  function roof(w){
   w={...w,weather:'sunny'}; // The rooftop is a separate calm sky, not shared weather.

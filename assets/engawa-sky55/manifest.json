@@ -1,0 +1,67 @@
+{
+  "sourceStudy": "output/engawa-sky55-study-v7",
+  "encoding": "Existing approved PNGs exported as 768x512 WebP, quality .86; no crop, generation, recoloring or composition changes.",
+  "assets": {
+    "spring": {
+      "file": "assets/engawa-sky55/country-spring-2147d2624e4261cf.webp",
+      "sha256": "2147d2624e4261cf3b651b7730664b63b802a59f5c792c5133dc240f9cf38b8f",
+      "sourceSha256": "0e0cc6f7c0156724b43eff426a01733a74e4689024fa95e6ad0df8f7bb6dbc08",
+      "bytes": 77196,
+      "width": 768,
+      "height": 512,
+      "placement": {
+        "x": 69.05,
+        "y": 76.13653386454183,
+        "width": 263.7,
+        "height": 155.31346613545816
+      }
+    },
+    "summer": {
+      "file": "assets/engawa-sky55/country-summer-878d1971ea5ddf11.webp",
+      "sha256": "878d1971ea5ddf11cb3b87c8d1cd2dbd726760195aad6815ef07bb3c5c6e145d",
+      "sourceSha256": "7f3fa245eccb6da8a14971c0127d1374ee1f95def1450f73a368886bcaba085a",
+      "bytes": 102230,
+      "width": 768,
+      "height": 512,
+      "placement": {
+        "x": 69.05,
+        "y": 75.82652694610778,
+        "width": 263.7,
+        "height": 155.6234730538922
+      }
+    },
+    "autumn": {
+      "file": "assets/engawa-sky55/country-autumn-a987b36d6c101218.webp",
+      "sha256": "a987b36d6c101218820cac0cba89ad2249736cad25b540afa49d27a3ee2b3c65",
+      "sourceSha256": "cc8745906b40cead850d7c36b140d9944a3e91e8e6b3927ee5c2c7d566404c4c",
+      "bytes": 85252,
+      "width": 768,
+      "height": 512,
+      "placement": {
+        "x": 69.05,
+        "y": 76.44530815109343,
+        "width": 263.7,
+        "height": 155.00469184890656
+      }
+    },
+    "winter": {
+      "file": "assets/engawa-sky55/country-winter-12a7ab239d7514a0.webp",
+      "sha256": "12a7ab239d7514a0d89656c74d9ef84c9292e2856955267e5b709cb2906d781a",
+      "sourceSha256": "0f9aa310c9b3565b2be0547a5424b1325beb04639000c31838d46715c6686afd",
+      "bytes": 89152,
+      "width": 768,
+      "height": 512,
+      "placement": {
+        "x": 69.05,
+        "y": 76.75285714285712,
+        "width": 263.7,
+        "height": 154.69714285714286
+      }
+    }
+  },
+  "cloud": {
+    "file": "assets/engawa-sky55/cloud-2b6c0afbfb51844e.webp",
+    "sha256": "2b6c0afbfb51844e8ff7bf301c2ca59eeda3ee5405f86087cabf3ac932faaa30",
+    "bytes": 14298
+  }
+}
