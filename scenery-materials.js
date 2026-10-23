@@ -116,3 +116,58 @@ globalThis.SceneryMaterials=(()=>{
  }
  return Object.freeze({art,contact,support,roof});
 })();
+
+// Isolated material study: static SVG only, existing clock and lighting retained.
+(()=>{
+ if(new URLSearchParams(location.search).get('interior')==='existing')return;
+ const baseMaterials=SceneryMaterials,baseLighting=SolarLighting,ns='http://www.w3.org/2000/svg';let serial=0;
+ const mix=SeasonLandscape.mix;
+ const palette=w=>{
+  const p=baseLighting.palette(w,phase=>phase==='night'?{wood:'#635b4b',light:'#82715a',dark:'#393e37',fiber:'#999887',fade:'#969785'}:phase==='evening'?{wood:'#aa8358',light:'#cfac7a',dark:'#695b43',fiber:'#dbd6af',fade:'#d4d2a9'}:{wood:'#aa845c',light:'#d1b18a',dark:'#746046',fiber:'#e0e4c6',fade:'#d5d8b5'});
+  const wet=w.weather==='rainy'?.15:w.weather==='cloudy'?.07:0;
+  for(const k of ['wood','light','dark'])p[k]=mix(p[k],'#6b7977',wet);
+  return p;
+ };
+ const parse=source=>new DOMParser().parseFromString(source,'image/svg+xml').documentElement;
+ const html=(svg,source)=>{const g=svg.ownerDocument.createElementNS(ns,'g');g.innerHTML=source;return [...g.childNodes];};
+ const woodDefs=(id,p)=>`<linearGradient id="${id}-wood" x2="1" y2="0"><stop stop-color="${p.dark}"/><stop offset=".18" stop-color="${p.wood}"/><stop offset=".46" stop-color="${p.light}"/><stop offset=".69" stop-color="${p.wood}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient><linearGradient id="${id}-beam" x2="0" y2="1"><stop stop-color="${p.dark}"/><stop offset=".24" stop-color="${p.wood}"/><stop offset=".76" stop-color="${mix(p.wood,p.light,.28)}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient>`;
+ const grain=(id,p,vertical,horizontal)=>`<path d="${vertical}" fill="none" stroke="${p.dark}" stroke-width=".48" stroke-opacity=".24"/><path d="${horizontal}" fill="none" stroke="${p.dark}" stroke-width=".43" stroke-opacity=".23"/>`;
+ function art(source,where,w){
+  const original=baseMaterials.art(source,where,w);if(where!=='engawa')return original;
+  const svg=parse(original),defs=svg.querySelector('defs'),main=svg.querySelector('g[filter]'),id='interior-'+(++serial),p=palette(w),paths=[...main.querySelectorAll('path')],find=d=>paths.find(n=>n.getAttribute('d')?.startsWith(d));
+  defs.append(...html(svg,woodDefs(id,p)));
+  for(const d of ['M60 0h16','M369 0h13'])find(d)?.setAttribute('fill',`url(#${id}-wood)`);
+  for(const d of ['M0 0h400v31','M0 215h400','M57.35 220.7'])find(d)?.setAttribute('fill',`url(#${id}-beam)`);
+  for(const d of ['M64 0h6','M372 0h5','M0 26h400']){const n=find(d);if(n){n.setAttribute('fill',p.light);n.setAttribute('fill-opacity','.34');}}
+  const woodClip='M60 0h16v224H60Z M369 0h13v224h-13Z M0 0h400v31H0Z M0 215h400v9H0Z M57.35 220.7h285.3V228H57.35Z';
+  let vertical='';for(const [left,right]of [[60,76],[369,382]])for(let i=0;i<8;i++){const x=left+1+i*(right-left-2)/8;vertical+=`M${x} 2q${i%2?1.1:-.7} 39 .2 75t.1 80 .4 65`;}
+  // SVG filters use the un-clipped geometry bounds. Keep grain inside the
+  // original 0..400 extent so the shared paper texture stays unchanged outdoors.
+  let horizontal='';for(let i=0;i<13;i++){const y=i<8?2+i*3.65:216+(i-8)*2.3;horizontal+=`M0 ${y}q43 ${i%2?1:-.8} 89 .1t100 -.2 109 .3 102 -.1`;}
+  defs.append(...html(svg,`<clipPath id="${id}-wood-clip"><path d="${woodClip}"/></clipPath><radialGradient id="${id}-fade" cx=".72" cy=".12" r=".86"><stop stop-color="${p.fade}" stop-opacity=".27"/><stop offset=".58" stop-color="${p.fade}" stop-opacity=".06"/><stop offset="1" stop-color="${p.fade}" stop-opacity="0"/></radialGradient>`));
+  main.append(...html(svg,`<g data-interior-study="wood" pointer-events="none" clip-path="url(#${id}-wood-clip)">${grain(id,p,vertical,horizontal)}<path d="M61 36v174M370 39v170M7 27q72-1 137 .2t149 -.3 99 .1M82 222.7h244" fill="none" stroke="${p.light}" stroke-width=".65" stroke-opacity=".28"/></g>`));
+  const weave=defs.querySelector('pattern[id$="-weave"]');if(weave){weave.setAttribute('width','5.8');weave.setAttribute('height','2.4');weave.innerHTML=`<path d="M0 .5h5.8M0 1.65h5.8" stroke="${p.dark}" stroke-opacity=".075" stroke-width=".33"/><path d="M.8 .5v.65M2.65 1.65v.7M4.7 .5v.65" stroke="${p.fiber}" stroke-opacity=".32" stroke-width=".48"/>`;}
+  const mat=[...main.querySelectorAll('[data-material="surface"]')].find(g=>g.querySelector('path[fill$="-weave)"]'));
+  if(mat)mat.prepend(...html(svg,`<path data-interior-study="tatami-fade" d="M0 226h400v104H0Z" fill="url(#${id}-fade)"/><path d="M0 232q87 2 198 0t202 .5M0 289q71-1 199 .3t201 -.5M16 317q81 1 181 -.2t189 .3" fill="none" stroke="${p.fiber}" stroke-width=".5" stroke-opacity=".16"/>`));
+  return new XMLSerializer().serializeToString(svg);
+ }
+ function place(source,where,w){
+  const original=baseLighting.place(source,where,w);if(where!=='engawa')return original;
+  const svg=parse(original),s=SolarSky.state(w,where),night=SolarModel.weights(SolarModel.time(w)).night;
+  // Use the unchanged sun vectors, weather transmission and existing light groups.
+  if(s.source==='sun')for(const n of svg.querySelectorAll('[data-caster="pillar"]')){n.setAttribute('opacity',String(.17+.045*(1-night)));n.setAttribute('fill','#454d41');}
+  for(const g of svg.querySelectorAll('radialGradient[id$="-lamp-glow"]'))for(const stop of g.querySelectorAll('stop'))stop.setAttribute('stop-opacity',String(Number(stop.getAttribute('stop-opacity'))*1.22));
+  for(const g of svg.querySelectorAll('linearGradient[id$="-edge-beam"]'))for(const stop of g.querySelectorAll('stop'))stop.setAttribute('stop-opacity',String(Number(stop.getAttribute('stop-opacity'))*1.18));
+  return new XMLSerializer().serializeToString(svg);
+ }
+ function surround(w,key,header=false){
+  const id=key+'-interior'+(header?'-header':''),p=palette(SolarModel.world(w));
+  const clip=header?'M57.35 34.5H342.65V41.8H57.35Z':'M63 32H380V37H63Z M63 225H380V231H63Z M63 37H76V225H63Z M369 37H380V225H369Z';
+  let v='';if(!header)for(const [x,width]of [[63,13],[369,11]])for(let i=0;i<6;i++)v+=`M${x+.8+i*width/6} 37q${i%2?-.7:.6} 39 .2 79t-.1 108`;
+  const ys=header?[35.4,37,39.5,41]:[32.6,34.4,36.2,225.7,227.6,229.7];let h='';for(let i=0;i<ys.length;i++)h+=`M55 ${ys[i]}q42 ${i%2?.4:-.35} 92 .05t110 -.1 130 .1`;
+  return `<defs>${woodDefs(id,p)}<clipPath id="${id}-clip"><path d="${clip}"/></clipPath></defs><g data-interior-study="${header?'header':'surround'}" clip-path="url(#${id}-clip)" pointer-events="none"><path d="${clip}" fill="url(#${id}-${header?'beam':'wood'})"/>${!header?`<path d="M63 32H380V37H63Z M63 225H380V231H63Z" fill="url(#${id}-beam)"/>`:''}${grain(id,p,v,h)}<path d="${header?'M60 35h279':'M64 33H379M64 229.5H379M74.5 38V224M370.5 38V224'}" fill="none" stroke="${p.light}" stroke-width=".65" stroke-opacity=".34"/></g>`;
+ }
+ globalThis.SceneryMaterials=Object.freeze({...baseMaterials,art});
+ globalThis.SolarLighting=Object.freeze({...baseLighting,place});
+ globalThis.EngawaInteriorStudy=Object.freeze({frame:(w,id)=>surround(w,id),header:(w,id)=>surround(w,id,true),baseMaterials,baseLighting});
+})();
