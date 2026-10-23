@@ -1,0 +1,26 @@
+{
+  "url": "https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/stars.6.json",
+  "source": "d3-celestial magnitude <=6 GeoJSON, compacted without changing RA/Dec or magnitude",
+  "count": 5044,
+  "sha256": "a154f0df99454d3d42243baea8a485f3ec83ab8fc3fa330beac8a6310b2731bc",
+  "samples": [
+    [
+      0.2691,
+      -48.8099,
+      5.71,
+      "0.911"
+    ],
+    [
+      0.3338,
+      -50.3374,
+      5.53,
+      "1.615"
+    ],
+    [
+      0.3988,
+      -77.0657,
+      4.78,
+      "1.254"
+    ]
+  ]
+}
