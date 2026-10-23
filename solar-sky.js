@@ -306,3 +306,38 @@ globalThis.EngawaNightSky=(()=>{
  },update(stage,w){base.update(stage,w);updateStage(stage,w);}});
  return Object.freeze({enabled,ready,state,project:(ra,dec,w,where='engawa')=>projectVector(vector(ra,dec),basis(w),where),basis,galactic,base,active});
 })();
+
+// Approved engawa cloud material; the night sky and roof retain their existing rendering.
+globalThis.EngawaCloudStudy=(()=>{
+ const base=SolarSky,ns='http://www.w3.org/2000/svg',enabled=new URLSearchParams(location.search).get('clouds')!=='existing';let serial=0;
+ const active=w=>SolarModel.phase(SolarModel.time(w))!=='night';let textureReady=false,loading;
+ function ready(){if(!enabled)return Promise.resolve();return loading??=(async()=>{const image=new Image();image.decoding='async';image.fetchPriority='low';image.src='assets/engawa-clouds/cloud-atlas-4520be7164e53700.webp';await image.decode();textureReady=true;for(const stage of document.querySelectorAll('.day-room[data-location="engawa"]'))updateStage(stage,DayRoom.world());})();}
+ function layout(w,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const at=SolarModel.time(w),wind=reduced?0:(at-Date.parse('2026-08-13T12:00:00+09:00'))/1000*.004;
+  const clear=w.weather==='sunny',groups=clear?[[1,146,86,133,80,.60,1],[3,276,120,96,51,.34,.62]]:[[2,106,77,239,127,.64,.75],[0,298,90,160,101,.52,1],[1,210,113,178,94,.33,.52]];
+  return groups.map(([tile,x,y,width,height,opacity,speed])=>({tile,x:((x+wind*speed+160)%640+640)%640-160,y,width,height,opacity}));
+ }
+ function cleanup(svg){
+  svg.querySelector('[data-engawa-cloud-study]')?.remove();svg.querySelectorAll('[data-engawa-cloud-def]').forEach(n=>n.remove());
+  const original=svg.querySelector('[data-engawa-cloud-original]');if(original){original.style.removeProperty('display');if(!original.getAttribute('style'))original.removeAttribute('style');original.removeAttribute('data-engawa-cloud-original');}
+ }
+ function decorate(svg,w){
+  let layer=svg.querySelector('[data-engawa-cloud-study]');
+  if(!layer){const original=[...svg.querySelectorAll('[data-sky-clouds]')].find(g=>!g.hasAttribute('mask')&&g.parentElement.hasAttribute('clip-path'));if(!original)return;
+   const id='cloud-study-'+(++serial),defs=svg.querySelector('defs');
+   defs.insertAdjacentHTML('beforeend',`<filter data-engawa-cloud-def="" id="${id}-tone" color-interpolation-filters="sRGB" x="-10%" y="-15%" width="120%" height="130%"><feColorMatrix data-engawa-cloud-tone="" type="matrix"/><feGaussianBlur stdDeviation=".32"/></filter><linearGradient data-engawa-cloud-def="" id="${id}-feather"><stop stop-color="white" stop-opacity="0"/><stop offset=".07" stop-color="white"/><stop offset=".93" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient><mask data-engawa-cloud-def="" id="${id}-mask" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#${id}-feather)"/></mask>`);
+   layer=document.createElementNS(ns,'g');layer.setAttribute('data-engawa-cloud-study','');layer.setAttribute('pointer-events','none');layer.dataset.id=id;
+   original.dataset.engawaCloudOriginal='';original.style.display='none';original.after(layer);
+  }
+  const shapes=layout(w),id=layer.dataset.id,key=w.weather+':'+shapes.length;
+  if(layer.dataset.material!==key){layer.innerHTML=shapes.map((s,i)=>`<g data-cloud-item="${i}" filter="url(#${id}-tone)" mask="url(#${id}-mask)"><svg data-cloud-viewport="" viewBox="0 0 320 320" preserveAspectRatio="none" overflow="hidden"><image href="assets/engawa-clouds/cloud-atlas-4520be7164e53700.webp" x="${-(s.tile%2)*320}" y="${-Math.floor(s.tile/2)*320}" width="640" height="640"/></svg></g>`).join('');layer.dataset.material=key;}
+  shapes.forEach((s,i)=>{const g=layer.children[i],v=g.firstElementChild;g.setAttribute('opacity',String(s.opacity));g.setAttribute('transform',`translate(${s.x.toFixed(3)} ${s.y})`);for(const [k,n]of Object.entries({x:-s.width/2,y:-s.height/2,width:s.width,height:s.height}))v.setAttribute(k,n);});
+  const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.80:w.weather==='cloudy'?.93:1;
+  const bright=(t.day+t.morning*.98+t.evening*.89+t.night*.28)*wet,l=[.2126,.7152,.0722],temp=[1+t.evening*.12+t.morning*.025,1-t.evening*.02,1-t.evening*.14];
+  const matrix=[0,1,2].flatMap(row=>[...l.map((n,col)=>+(bright*.80*temp[row]*(n*.78+(row===col?.22:0))).toFixed(5)),0,+(bright*.16*temp[row]).toFixed(5)]).concat([0,0,0,1,0]).join(' ');
+  svg.querySelector('[data-engawa-cloud-tone]').setAttribute('values',matrix);
+ }
+ function updateStage(stage,w){if(!enabled||stage.dataset.location!=='engawa')return;if(active(w)&&!textureReady){void ready();return;}for(const svg of stage.querySelectorAll('.country-landscape'))active(w)?decorate(svg,w):cleanup(svg);}
+ globalThis.SolarSky=Object.freeze({...base,landscape(w,frame){const source=base.landscape(w,frame);if(!enabled||frame!=='engawa'||!active(w))return source;void ready();if(!textureReady)return source;const svg=new DOMParser().parseFromString(source,'image/svg+xml').documentElement;decorate(svg,w);return new XMLSerializer().serializeToString(svg);},update(stage,w){if(enabled&&stage.dataset.location==='engawa'&&!active(w))for(const svg of stage.querySelectorAll('.country-landscape'))cleanup(svg);base.update(stage,w);updateStage(stage,w);}});
+ return Object.freeze({enabled,ready,active,layout,base});
+})();
