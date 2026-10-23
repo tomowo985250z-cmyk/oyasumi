@@ -163,9 +163,25 @@ globalThis.SolarSky=(()=>{
   svg.setAttribute('data-sky55','');paintEngawa(svg,w);return svg;
  }
 
+ const villageAssets={"summer":{"file":"assets/village-world/summer-99ca9901877f7fb3.webp","width":2172,"height":724,"sha256":"99ca9901877f7fb3a0c70825cf1654f3d9f7eeb797567bf82cb0fb26ef2fb680","sourceSha256":"ba57bd20859e9fb36ffcafaa4ae322a2b287b1c5f1c31e25eff51fc68d792822"},"spring":{"file":"assets/village-world/spring-11246b324c900fcd.webp","width":2172,"height":724,"sha256":"11246b324c900fcd7be3984f72d4199fb71c41e91c861c9dfc43883982c3ba13","sourceSha256":"d8f4489012a9bd1fa4922b34a558dd7954cc2a686ba0b589ea3c6ab20188201c"},"autumn":{"file":"assets/village-world/autumn-cf7e918c3553880e.webp","width":2172,"height":724,"sha256":"cf7e918c3553880e827eb177916b3d8f79e50ab6c5c805fd7e39d475b164ef5f","sourceSha256":"0c759a4c5e02225d501ded0e2d6d208f6b123e398a13fda53f46790436ec35ac"},"winter":{"file":"assets/village-world/winter-5363dd264f58d617.webp","width":2172,"height":724,"sha256":"5363dd264f58d6172a39d4c5c79bdb518d1f448c8ce4544f951f93c7bc51fef2","sourceSha256":"8772212a2af0a6a4e2d7c0dd778f655ec653d1449874d220c6123841e01135e9"}};
+// One north-origin panorama, projected with the same 180-degree map as the sun.
+function village(svg,w,frame){
+ if(new URLSearchParams(location.search).get('village')==='existing')return svg;
+ const asset=villageAssets[w.season]||villageAssets.summer,defs=svg.querySelector('defs'),id=defs.querySelector('[id]').id+'-village';
+ defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect width="400" height="260"/></clipPath>`+['terrain','cloud'].map(name=>`<filter id="${id}-${name}" color-interpolation-filters="sRGB"><feColorMatrix data-sky55-tone="${name}" type="matrix"/></filter>`).join(''));
+ const rain=svg.querySelector(':scope > .weather-rain');let old=svg.querySelector(':scope > [data-depth="distant-ridge"]');while(old&&old!==rain){old.style.display='none';old=old.nextElementSibling;}
+ const clouds=svg.querySelector('[data-sky-clouds]');if(clouds){
+  clouds.style.display='none';const layer=document.createElementNS(ns,'g'),photoClouds=clouds.cloneNode(false);photoClouds.style.removeProperty('display');photoClouds.removeAttribute('style');layer.setAttribute('clip-path',`url(#${id}-view)`);
+  for(const original of clouds.children){const cloud=document.createElementNS(ns,'g');cloud.setAttribute('transform',original.getAttribute('transform'));cloud.innerHTML=`<image href="${engawaAssets.cloud.file}" x="-115" y="-70" width="230" height="130" preserveAspectRatio="xMidYMid meet" filter="url(#${id}-cloud)"/>`;photoClouds.append(cloud);}layer.append(photoClouds);clouds.after(layer);
+ }
+ const photo=document.createElementNS(ns,'image'),height=800*asset.height/asset.width;
+ for(const [key,value]of Object.entries({x:200-SolarModel.bearing(frame)*400/180,y:260-height,width:800,height,href:asset.file,preserveAspectRatio:'none',filter:`url(#${id}-terrain)`,'data-village-terrain':w.season}))photo.setAttribute(key,value);
+ if(rain)svg.insertBefore(photo,rain);else svg.append(photo);svg.setAttribute('data-sky55','');svg.dataset.villageFrame=frame;svg.dataset.viewBearing=SolarModel.bearing(frame);paintEngawa(svg,w);return svg;
+}
+
  function landscape(w,frame='window'){
   const value={...w,solar:true,phase:SolarModel.phase(w.at),skyFrame:frame},svg=parse(SceneryMaterials.art(SeasonLandscape.art(value,frame==='window'?'window':'sky',w.at),'landscape',value));
-  paint(svg,w,frame);return stringify(frame==='engawa'?engawa(svg,w):svg);
+  paint(svg,w,frame);return stringify(frame==='engawa'?engawa(svg,w):['window','garden'].includes(frame)?village(svg,w,frame):svg);
  }
  function roof(w){
   w={...w,weather:'sunny'}; // The rooftop is a separate calm sky, not shared weather.
@@ -212,7 +228,7 @@ globalThis.EngawaNightSky=(()=>{
  }
  function projectVector(p,b,where='engawa',visibleOnly=false){
   const meridian=b.cos*p[0]+b.sin*p[1],east=b.sin*-p[0]+b.cos*p[1],north=b.cl*p[2]-b.sl*meridian,up=b.sl*p[2]+b.cl*meridian;
-  if(visibleOnly&&(up<.01396218||up>.85716731||east>=0))return null;
+  if(visibleOnly&&(up<.01396218||up>.9999||(where==='engawa'&&(up>.85716731||east>=0))))return null;
   const altitude=Math.asin(Math.max(-1,Math.min(1,up)))/rad,azimuth=(Math.atan2(east,north)/rad+360)%360;
   // Same angular-to-screen map as SolarModel.facing/RoofMoon.drawing, without
   // allocating a shadow-casting closure for each faint point.
@@ -239,22 +255,22 @@ globalThis.EngawaNightSky=(()=>{
   return loading;
  }
  async function refresh(){
-  const stages=[...document.querySelectorAll('.day-room[data-location="engawa"]')];
+  const stages=[...document.querySelectorAll('.day-room[data-location="engawa"],.day-room[data-location="room"],.day-room[data-location="garden"]')];
   for(const stage of stages){const cat=stage.querySelector('.room-resident img');try{if(cat&&!cat.complete)await cat.decode();}catch{}if(!stage.isConnected)continue;
    const bg=stage.querySelector('.room-background-layer:not([data-background-outgoing])');if(!bg)continue;
    const w={at:NightClock.now(),weather:bg.dataset.lightWeather,season:bg.dataset.lightSeason};
    updateStage(stage,w);
   }
  }
- function state(w){
-  const b=basis(w),key=[b.region.id,b.at,w.weather].join(':');if(cache.has(key))return cache.get(key);
-  const moon=RoofMoon.snapshot(b.at),darkness=SolarModel.twilight(b.at,'engawa').stars;
+ function state(w,where='engawa'){
+  const b=basis(w),key=[b.region.id,b.at,w.weather].join(':')+(where==='engawa'?'':':'+where);if(cache.has(key))return cache.get(key);
+  const moon=RoofMoon.snapshot(b.at),darkness=SolarModel.twilight(b.at,where).stars;
   const glare=moon.illumination*moon.opacity*SolarModel.smooth(0,18,moon.altitude);
   const weather=w.weather==='rainy'?.002:w.weather==='cloudy'?.075:1;
   const strength=weather*(1-.72*glare),milkyStrength=(w.weather==='sunny'?1:w.weather==='cloudy'?.012:0)*(1-.90*glare);
   const sizes=[.16,.24,.34,.48,.68,.94],paths=Array.from({length:12},()=>[]);let visible=0,realVisible=0;
   if(stars)for(const s of stars){
-   const p=projectVector(s.p,b,'engawa',true);if(!p||p.altitude<.8||p.x<67||p.x>335||p.y<60||p.y>158)continue;
+   const p=projectVector(s.p,b,where,true);if(!p||p.altitude<.8||p.x<(where==='engawa'?67:0)||p.x>(where==='engawa'?335:400)||p.y<(where==='engawa'?60:0)||p.y>158)continue;
    const bin=Math.max(0,Math.min(5,Math.floor((7.8-s.mag)*.72))),k=bin+(s.warm?6:0);
    paths[k].push(`M${p.x.toFixed(2)} ${p.y.toFixed(2)}h.01`);visible++;if(s.real)realVisible++;
   }
@@ -262,7 +278,7 @@ globalThis.EngawaNightSky=(()=>{
    for(let l=0;l<360;l+=3){
     if(noise(l+.9)<.14)continue;
     const latitude=(noise(l+.17)*2-1)*(layer===0?8:layer===3?3:5)+2.2*Math.sin(l*rad*3);
-    const p=projectVector(galactic(l,latitude),b);if(p.altitude<-5||Math.abs(p.delta)>98)continue;
+    const p=projectVector(galactic(l,latitude),b,where);if(p.altitude<-5||Math.abs(p.delta)>98)continue;
     const scale=layer===0?1:layer===1?.53:layer===2?.32:.24,rx=(10+noise(l+.31)*10)*scale,ry=(5+noise(l+.64)*5)*scale;
     path+=`M${(p.x-rx).toFixed(2)} ${p.y.toFixed(2)}a${rx.toFixed(2)} ${ry.toFixed(2)} 0 1 0 ${(rx*2).toFixed(2)} 0a${rx.toFixed(2)} ${ry.toFixed(2)} 0 1 0 ${(-rx*2).toFixed(2)} 0Z`;
    }return path;
@@ -270,12 +286,12 @@ globalThis.EngawaNightSky=(()=>{
   const result={...b,key,darkness,glare,strength,milkyStrength,sizes,paths:paths.map(p=>p.join('')),bands:[band(0),band(1),band(2),band(3)],visible,realVisible};
   if(cache.size>12)cache.delete(cache.keys().next().value);cache.set(key,result);return result;
  }
- function active(w){const at=SolarModel.time(w);return SolarModel.phase(at)==='night'&&SolarModel.twilight(at,'engawa').stars>0;}
- function sync(svg,w){
+ function active(w,where='engawa'){const at=SolarModel.time(w);return SolarModel.phase(at)==='night'&&SolarModel.twilight(at,where).stars>0;}
+ function sync(svg,w,where='engawa'){
   const layer=svg.querySelector('[data-engawa-night-study]');if(!layer)return;
-  const s=state(w);layer.setAttribute('opacity',active(w)?s.darkness:0);
+  const s=state(w,where);layer.setAttribute('opacity',active(w,where)?s.darkness:0);
   if(layer.dataset.skyKey===s.key)return;
-  layer.dataset.skyKey=s.key;layer.dataset.facing=SolarModel.bearing('engawa');layer.dataset.visibleStars=s.visible;layer.dataset.realStars=s.realVisible;layer.dataset.glare=s.glare.toFixed(4);
+  layer.dataset.skyKey=s.key;layer.dataset.facing=SolarModel.bearing(where);layer.dataset.visibleStars=s.visible;layer.dataset.realStars=s.realVisible;layer.dataset.glare=s.glare.toFixed(4);
   layer.querySelector('[data-night-fine-stars]').setAttribute('opacity',s.strength.toFixed(4));
   layer.querySelectorAll('[data-night-star-bin]').forEach((p,i)=>p.setAttribute('d',s.paths[i]));
   layer.querySelector('[data-night-milky-way]').setAttribute('opacity',s.milkyStrength.toFixed(4));
@@ -283,8 +299,8 @@ globalThis.EngawaNightSky=(()=>{
   // A moonlit sky has less deep contrast, without changing the existing moon.
   layer.querySelector('[data-night-haze]').setAttribute('opacity',(.03+s.glare*.075+(w.weather==='cloudy'?.10:w.weather==='rainy'?.12:0)).toFixed(4));
  }
- function decorate(svg,w){
-  if(svg.querySelector('[data-engawa-night-study]')){sync(svg,w);return svg;}
+ function decorate(svg,w,where='engawa'){
+  if(svg.querySelector('[data-engawa-night-study]')){sync(svg,w,where);return svg;}
   const id='engawa-night-'+(++sequence),defs=svg.querySelector('defs');
   defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect x="69.05" y="62.25" width="263.7" height="169.2"/></clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/><rect x="69.05" y="62.25" width="263.7" height="169.2" fill="black"/></mask><linearGradient id="${id}-blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#030916"/><stop offset=".64" stop-color="#071225"/><stop offset="1" stop-color="#192b3b"/></linearGradient><filter id="${id}-soft" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3.6"/></filter>`);
   const layer=document.createElementNS(ns,'g');layer.setAttribute('data-engawa-night-study','');layer.setAttribute('clip-path',`url(#${id}-view)`);layer.setAttribute('pointer-events','none');
@@ -292,17 +308,19 @@ globalThis.EngawaNightSky=(()=>{
   layer.innerHTML=`<rect x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-blue)"/><rect data-night-haze="" x="69.05" y="62.25" width="263.7" height="169.2" fill="#6e849a"/><g data-night-milky-way="" filter="url(#${id}-soft)"><path data-milky-band="" fill="#a8b9cc" opacity=".10"/><path data-milky-band="" fill="#c2c8cc" opacity=".12"/><path data-milky-band="" fill="#839bb6" opacity=".09"/><path data-milky-band="" fill="#030b1a" opacity=".09"/></g><g data-night-fine-stars="" fill="none" stroke-linecap="round">${Array.from({length:12},(_,i)=>`<path data-night-star-bin="${i}" stroke="${i<6?'#ccdbed':'#e1d8c4'}" stroke-width="${sizes[i%6]*2}" opacity="${alphas[i%6]}"/>`).join('')}</g>`;
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);
   const anchor=oldStars||[...svg.children].find(n=>n.querySelector?.('.room-window-moon'))||svg.querySelector('[data-sky-clouds]');
-  if(anchor)svg.insertBefore(layer,anchor);else svg.append(layer);sync(svg,w);return svg;
+  if(where!=='engawa'){for(const n of [...defs.querySelectorAll(`[id^="${id}"] rect`),...layer.querySelectorAll('rect')]){n.setAttribute('x',0);n.setAttribute('y',0);n.setAttribute('width',400);n.setAttribute('height',260);}}
+  if(anchor)svg.insertBefore(layer,anchor);else svg.append(layer);sync(svg,w,where);return svg;
  }
  function updateStage(stage,w){
-  if(!enabled||stage.dataset.location!=='engawa')return;
-  if(!stars){if(active(w))void ready();return;}
-  for(const svg of stage.querySelectorAll('.country-landscape')){if(active(w))decorate(svg,w);else sync(svg,w);}
+  if(!enabled||!['engawa','room','garden'].includes(stage.dataset.location)||(stage.dataset.location!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing'))return;
+  const where=stage.dataset.location==='room'?'window':stage.dataset.location;
+  if(!stars){if(active(w,where))void ready();return;}
+  for(const svg of stage.querySelectorAll('.country-landscape')){if(active(w,where))decorate(svg,w,where);else sync(svg,w,where);}
  }
- globalThis.SolarSky=Object.freeze({...base,landscape(w,frame){
-  const source=base.landscape(w,frame);if(!enabled||frame!=='engawa'||!active(w))return source;
+ globalThis.SolarSky=Object.freeze({...base,landscape(w,frame='window'){
+  const source=base.landscape(w,frame);if(!enabled||!['engawa','window','garden'].includes(frame)||(frame!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing')||!active(w,frame))return source;
   void ready();if(!stars)return source;
-  const svg=new DOMParser().parseFromString(source,'image/svg+xml').documentElement;return new XMLSerializer().serializeToString(decorate(svg,w));
+  const svg=new DOMParser().parseFromString(source,'image/svg+xml').documentElement;return new XMLSerializer().serializeToString(decorate(svg,w,frame));
  },update(stage,w){base.update(stage,w);updateStage(stage,w);}});
  return Object.freeze({enabled,ready,state,project:(ra,dec,w,where='engawa')=>projectVector(vector(ra,dec),basis(w),where),basis,galactic,base,active});
 })();
@@ -311,11 +329,11 @@ globalThis.EngawaNightSky=(()=>{
 globalThis.EngawaCloudStudy=(()=>{
  const base=SolarSky,ns='http://www.w3.org/2000/svg',enabled=new URLSearchParams(location.search).get('clouds')!=='existing';let serial=0;
  const active=w=>SolarModel.phase(SolarModel.time(w))!=='night';let textureReady=false,loading;
- function ready(){if(!enabled)return Promise.resolve();return loading??=(async()=>{const image=new Image();image.decoding='async';image.fetchPriority='low';image.src='assets/engawa-clouds/cloud-atlas-4520be7164e53700.webp';await image.decode();textureReady=true;for(const stage of document.querySelectorAll('.day-room[data-location="engawa"]'))updateStage(stage,DayRoom.world());})();}
- function layout(w,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches){
+ function ready(){if(!enabled)return Promise.resolve();return loading??=(async()=>{const image=new Image();image.decoding='async';image.fetchPriority='low';image.src='assets/engawa-clouds/cloud-atlas-4520be7164e53700.webp';await image.decode();textureReady=true;for(const stage of document.querySelectorAll('.day-room[data-location="engawa"],.day-room[data-location="room"],.day-room[data-location="garden"]'))updateStage(stage,DayRoom.world());})();}
+ function layout(w,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,where='engawa'){
   const at=SolarModel.time(w),wind=reduced?0:(at-Date.parse('2026-08-13T12:00:00+09:00'))/1000*.004;
   const clear=w.weather==='sunny',groups=clear?[[1,146,86,133,80,.60,1],[3,276,120,96,51,.34,.62]]:[[2,106,77,239,127,.64,.75],[0,298,90,160,101,.52,1],[1,210,113,178,94,.33,.52]];
-  return groups.map(([tile,x,y,width,height,opacity,speed])=>({tile,x:((x+wind*speed+160)%640+640)%640-160,y,width,height,opacity}));
+  return groups.map(([tile,x,y,width,height,opacity,speed])=>({tile,x:((x+(270-SolarModel.bearing(where))*400/180+wind*speed+160)%640+640)%640-160,y,width,height,opacity}));
  }
  function cleanup(svg){
   svg.querySelector('[data-engawa-cloud-study]')?.remove();svg.querySelectorAll('[data-engawa-cloud-def]').forEach(n=>n.remove());
@@ -329,7 +347,7 @@ globalThis.EngawaCloudStudy=(()=>{
    layer=document.createElementNS(ns,'g');layer.setAttribute('data-engawa-cloud-study','');layer.setAttribute('pointer-events','none');layer.dataset.id=id;
    original.dataset.engawaCloudOriginal='';original.style.display='none';original.after(layer);
   }
-  const shapes=layout(w),id=layer.dataset.id,key=w.weather+':'+shapes.length;
+  const shapes=layout(w,undefined,svg.dataset.villageFrame||'engawa'),id=layer.dataset.id,key=w.weather+':'+shapes.length;
   if(layer.dataset.material!==key){layer.innerHTML=shapes.map((s,i)=>`<g data-cloud-item="${i}" filter="url(#${id}-tone)" mask="url(#${id}-mask)"><svg data-cloud-viewport="" viewBox="0 0 320 320" preserveAspectRatio="none" overflow="hidden"><image href="assets/engawa-clouds/cloud-atlas-4520be7164e53700.webp" x="${-(s.tile%2)*320}" y="${-Math.floor(s.tile/2)*320}" width="640" height="640"/></svg></g>`).join('');layer.dataset.material=key;}
   shapes.forEach((s,i)=>{const g=layer.children[i],v=g.firstElementChild;g.setAttribute('opacity',String(s.opacity));g.setAttribute('transform',`translate(${s.x.toFixed(3)} ${s.y})`);for(const [k,n]of Object.entries({x:-s.width/2,y:-s.height/2,width:s.width,height:s.height}))v.setAttribute(k,n);});
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.80:w.weather==='cloudy'?.93:1;
@@ -337,7 +355,7 @@ globalThis.EngawaCloudStudy=(()=>{
   const matrix=[0,1,2].flatMap(row=>[...l.map((n,col)=>+(bright*.80*temp[row]*(n*.78+(row===col?.22:0))).toFixed(5)),0,+(bright*.16*temp[row]).toFixed(5)]).concat([0,0,0,1,0]).join(' ');
   svg.querySelector('[data-engawa-cloud-tone]').setAttribute('values',matrix);
  }
- function updateStage(stage,w){if(!enabled||stage.dataset.location!=='engawa')return;if(active(w)&&!textureReady){void ready();return;}for(const svg of stage.querySelectorAll('.country-landscape'))active(w)?decorate(svg,w):cleanup(svg);}
- globalThis.SolarSky=Object.freeze({...base,landscape(w,frame){const source=base.landscape(w,frame);if(!enabled||frame!=='engawa'||!active(w))return source;void ready();if(!textureReady)return source;const svg=new DOMParser().parseFromString(source,'image/svg+xml').documentElement;decorate(svg,w);return new XMLSerializer().serializeToString(svg);},update(stage,w){if(enabled&&stage.dataset.location==='engawa'&&!active(w))for(const svg of stage.querySelectorAll('.country-landscape'))cleanup(svg);base.update(stage,w);updateStage(stage,w);}});
+ function updateStage(stage,w){if(!enabled||!['engawa','room','garden'].includes(stage.dataset.location)||(stage.dataset.location!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing'))return;if(active(w)&&!textureReady){void ready();return;}for(const svg of stage.querySelectorAll('.country-landscape'))active(w)?decorate(svg,w):cleanup(svg);}
+ globalThis.SolarSky=Object.freeze({...base,landscape(w,frame='window'){const source=base.landscape(w,frame);if(!enabled||!['engawa','window','garden'].includes(frame)||(frame!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing')||!active(w))return source;void ready();if(!textureReady)return source;const svg=new DOMParser().parseFromString(source,'image/svg+xml').documentElement;decorate(svg,w);return new XMLSerializer().serializeToString(svg);},update(stage,w){if(enabled&&['engawa','room','garden'].includes(stage.dataset.location)&&!active(w))for(const svg of stage.querySelectorAll('.country-landscape'))cleanup(svg);base.update(stage,w);updateStage(stage,w);}});
  return Object.freeze({enabled,ready,active,layout,base});
 })();

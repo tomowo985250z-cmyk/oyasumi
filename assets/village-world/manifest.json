@@ -1,0 +1,34 @@
+{
+  "projection": "360 degrees; north origin; east room / south garden / west engawa retained",
+  "assets": {
+    "summer": {
+      "file": "assets/village-world/summer-99ca9901877f7fb3.webp",
+      "width": 2172,
+      "height": 724,
+      "sha256": "99ca9901877f7fb3a0c70825cf1654f3d9f7eeb797567bf82cb0fb26ef2fb680",
+      "sourceSha256": "ba57bd20859e9fb36ffcafaa4ae322a2b287b1c5f1c31e25eff51fc68d792822"
+    },
+    "spring": {
+      "file": "assets/village-world/spring-11246b324c900fcd.webp",
+      "width": 2172,
+      "height": 724,
+      "sha256": "11246b324c900fcd7be3984f72d4199fb71c41e91c861c9dfc43883982c3ba13",
+      "sourceSha256": "d8f4489012a9bd1fa4922b34a558dd7954cc2a686ba0b589ea3c6ab20188201c"
+    },
+    "autumn": {
+      "file": "assets/village-world/autumn-cf7e918c3553880e.webp",
+      "width": 2172,
+      "height": 724,
+      "sha256": "cf7e918c3553880e827eb177916b3d8f79e50ab6c5c805fd7e39d475b164ef5f",
+      "sourceSha256": "0c759a4c5e02225d501ded0e2d6d208f6b123e398a13fda53f46790436ec35ac"
+    },
+    "winter": {
+      "file": "assets/village-world/winter-5363dd264f58d617.webp",
+      "width": 2172,
+      "height": 724,
+      "sha256": "5363dd264f58d6172a39d4c5c79bdb518d1f448c8ce4544f951f93c7bc51fef2",
+      "sourceSha256": "8772212a2af0a6a4e2d7c0dd778f655ec653d1449874d220c6123841e01135e9"
+    }
+  },
+  "restoration": "?village=existing"
+}
