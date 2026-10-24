@@ -1,147 +1,52 @@
 function initNatureSounds(){
-// Real nature recordings only. No audio context or media request before a trusted gesture.
 globalThis.NatureSounds=(()=>{
- const key='oyasumi-nature-sounds-v1',defaults={enabled:false,volume:.25},Audio=globalThis.AudioContext||globalThis.webkitAudioContext;
- let prefs={...defaults},context,master,unlocked=false,revision=0,planKey='',chimeTimer,queued=false;
- const buffers=new Map(),active=new Map(),playing=new Set();
- try{const value=JSON.parse(localStorage.getItem(key)||'null');if(value?.version===1)prefs={enabled:value.enabled===true,volume:typeof value.volume==='number'&&Number.isFinite(value.volume)?Math.max(0,Math.min(1,value.volume)):defaults.volume};}catch{}
- const versions={"wind":"e41143ddeb52921a","rain":"7882131803a89de3","insects":"aa57fb0ce1f73392","chime":"aef1cd2c5d0da541"};
- function settingsMarkup(){
-  const percent=Math.round(prefs.volume*100);
-  return '<section class="settings-section nature-sounds-settings"><h2>自然音</h2><label class="setting-row"><span>縁側の自然音</span><input class="switch" type="checkbox" data-nature-sounds-toggle aria-label="縁側の自然音" '+(prefs.enabled?'checked ':'')+(Audio?'':'disabled')+'></label><label class="setting-row"><span>音量 <output data-nature-sounds-level>'+percent+'%</output></span><input class="nature-sounds-volume" type="range" min="0" max="100" step="1" value="'+percent+'" data-nature-sounds-volume aria-label="自然音の音量" aria-valuetext="'+percent+'%"></label><p class="quiet-note" data-nature-sounds-status aria-live="polite">'+(Audio?'縁側で、季節や天気に合う自然音が流れます。':'このブラウザでは自然音を再生できません。')+'</p></section>';
+ const key='oyasumi-nature-sounds-v1',Audio=globalThis.AudioContext||globalThis.webkitAudioContext;
+ const names={room:'寝室',engawa:'縁側',garden:'庭',roof:'屋根'},distance={room:[.28,1900],engawa:[.68,3800],garden:[.9,5600],roof:[.56,4600]};
+ const gaps={wind:[28,65],bird:[38,95],insects:[34,80],higurashi:[50,110],chime:[75,160]};
+ let prefs={enabled:false,volume:.25},context,master,limiter,unlocked=false,timer,offTimer,queued=false,lastScene=null,focused=null,currentPlan=null,revision=0,sequence=0;
+ const buffers=new Map(),pending=new Set(),layers=new Set(),due=new Map(),ramps=new WeakMap();
+ try{const p=JSON.parse(localStorage.getItem(key)||'null');if(p?.version===1)prefs={enabled:p.enabled===true,volume:Number.isFinite(p.volume)?Math.max(0,Math.min(1,p.volume)):.25};}catch{}
+ const random=(a,b)=>a+Math.random()*(b-a),now=()=>context?.currentTime||0;
+ function ramp(param,target,seconds=3){const t=now(),old=ramps.get(param),value=old?(t>=old.end?old.target:old.value+(old.target-old.value)*Math.max(0,(t-old.start)/(old.end-old.start))):param.value;param.cancelScheduledValues(t);param.setValueAtTime(value,t);param.linearRampToValueAtTime(target,t+seconds);ramps.set(param,{value,target,start:t,end:t+seconds});}
+ function save(){try{localStorage.setItem(key,JSON.stringify({version:1,...prefs}));}catch{status('この端末に音の設定を保存できませんでした。');}}
+ function status(text){for(const n of document.querySelectorAll('[data-nature-sounds-status]'))if(n.textContent!==text)n.textContent=text;}
+ function settingsMarkup(){return '<section class="settings-section nature-sounds-settings"><h2>自然音</h2><label class="setting-row"><span>田舎の自然音</span><input class="switch" type="checkbox" data-nature-sounds-toggle aria-label="自然音" '+(prefs.enabled?'checked ':'')+(Audio?'':'disabled')+'></label><label class="setting-row"><span>音量 <output data-nature-sounds-level>'+Math.round(prefs.volume*100)+'%</output></span><input class="nature-sounds-volume" type="range" min="0" max="100" step="1" value="'+Math.round(prefs.volume*100)+'" data-nature-sounds-volume aria-label="自然音の音量"></label><p class="quiet-note" data-nature-sounds-status aria-live="polite">'+(Audio?'静けさの間に、遠くの鳥や風。画面を移動しても続きます。':'このブラウザでは自然音を再生できません。')+'</p><p class="quiet-note"><a href="assets/countryside-audio-v1/credits.html" target="_blank" rel="noopener">自然音の出典</a></p></section>';}
+ function visible(el){if(!el?.isConnected)return 0;const b=el.getBoundingClientRect();if(!b.width||!b.height)return 0;return Math.max(0,Math.min(b.right,innerWidth)-Math.max(b.left,0))*Math.max(0,Math.min(b.bottom,innerHeight)-Math.max(b.top,0));}
+ function detect(){const modal=document.querySelector('dialog[open]'),root=modal||document.querySelector('#app');const candidates=[...(root?.querySelectorAll('.day-room:not([data-room-preferences-pending]),.roof-sky-card')||[])];let selected=focused&&candidates.includes(focused)&&visible(focused)>0?focused:null;if(!selected)selected=candidates.map(el=>({el,area:visible(el)})).filter(n=>n.area>0).sort((a,b)=>b.area-a.area)[0]?.el;
+  if(selected){const place=selected.matches('.roof-sky-card')?'roof':selected.dataset.location;if(names[place])lastScene={place,element:selected};}
+  return lastScene?.place||'room';
  }
- function status(text){
-  for(const node of document.querySelectorAll('[data-nature-sounds-status]'))if(node.textContent!==text)node.textContent=text;
+ function environment(){const place=detect(),w=globalThis.DayRoom?.world?.()||{season:'winter',weather:'sunny',phase:'night',at:Date.now()},phase=globalThis.SolarModel?.phase?.(w.at)||w.phase||'night';return {place,season:w.season,weather:w.weather,phase};}
+ function planFor(e){const rain=e.weather==='rainy',night=e.phase==='night',summer=e.season==='summer',autumn=e.season==='autumn';const levels={};if(rain)levels.rain=.33;else{levels.wind=e.season==='winter'?.27:.3;if(!night&&e.phase!=='evening'&&e.season!=='winter')levels.bird=e.phase==='morning'?.6:.4;if((summer||autumn)&&(night||e.phase==='evening'))levels.insects=night?.36:.27;if(summer&&(e.phase==='morning'||e.phase==='evening'))levels.higurashi=.48;if(summer&&['engawa','garden'].includes(e.place))levels.chime=e.place==='engawa'?.48:.22;}const [gain,cutoff]=distance[e.place];return {...e,levels,gain:gain*(night?.65:1),cutoff:night?cutoff*.82:cutoff};}
+ function load(name){if(!buffers.has(name)){const task=fetch(new URL('assets/countryside-audio-v1/'+name+'.wav',document.baseURI)).then(r=>{if(!r.ok)throw Error('Audio unavailable '+name);return r.arrayBuffer();}).then(bytes=>context.decodeAudioData(bytes));buffers.set(name,task);task.catch(()=>{if(buffers.get(name)===task)buffers.delete(name);});}return buffers.get(name);}
+ function disconnect(layer){layers.delete(layer);for(const node of [layer.source,layer.envelope,layer.filter,layer.gain,layer.pan])node?.disconnect();}
+ function level(layer,p,seconds=3){ramp(layer.gain.gain,(p.levels[layer.name]||0)*p.gain,seconds);ramp(layer.filter.frequency,p.cutoff,seconds);}
+ function retire(layer,seconds=3){if(layer.retiring)return;layer.retiring=true;ramp(layer.gain.gain,0,seconds);layer.source.stop(now()+seconds);}
+ function start(name,buffer,p,loop=false){if([...layers].some(l=>l.name===name&&!l.retiring))return;const source=context.createBufferSource(),envelope=context.createGain(),filter=context.createBiquadFilter(),gain=context.createGain(),pan=context.createStereoPanner?.(),layer={id:++sequence,name,source,envelope,filter,gain,pan,loop,started:now()};source.buffer=buffer;source.loop=loop;gain.gain.value=0;filter.type='lowpass';filter.Q.value=.4;filter.frequency.value=p.cutoff;source.connect(envelope);envelope.connect(filter);filter.connect(gain);if(pan){gain.connect(pan);pan.connect(master);pan.pan.value=name==='wind'?-.08:random(-.18,.18);}else gain.connect(master);layers.add(layer);
+  if(!loop){const t=now(),fade=Math.min(1.4,buffer.duration*.22);envelope.gain.setValueAtTime(0,t);envelope.gain.linearRampToValueAtTime(1,t+fade);envelope.gain.setValueAtTime(1,t+Math.max(fade,buffer.duration-fade));envelope.gain.linearRampToValueAtTime(0,t+buffer.duration);}
+  source.onended=()=>{disconnect(layer);if(!loop&&currentPlan?.levels[name])due.set(name,now()+random(...gaps[name]));schedule();};source.start(0,loop?now()%buffer.duration:0);level(layer,p,loop?3:.6);
  }
- function save(){
-  try{localStorage.setItem(key,JSON.stringify({version:1,...prefs}));}
-  catch{status('この端末に自然音の設定を保存できませんでした。');}
+ function request(name,p,loop=false){if(pending.has(name)||[...layers].some(l=>l.name===name&&!l.retiring))return;pending.add(name);const token=revision;load(name).then(buffer=>{if(token===revision&&prefs.enabled&&unlocked&&!document.hidden&&context.state==='running'&&currentPlan?.levels[name]&&(!loop?[...layers].filter(l=>!l.loop&&!l.retiring).length<2:true))start(name,buffer,currentPlan,loop);}).catch(()=>status('音を読み込めませんでした。もう一度ONにしてください。')).finally(()=>{pending.delete(name);schedule();});}
+ function clearTimer(){clearTimeout(timer);timer=undefined;}
+ function schedule(){clearTimer();if(!prefs.enabled||!unlocked||prefs.volume===0||document.hidden||context?.state!=='running')return;let delay=20000;for(const [name,t]of due)if(currentPlan?.levels[name]&&!pending.has(name)&&![...layers].some(l=>l.name===name&&!l.retiring))delay=Math.min(delay,Math.max(500,(t-now())*1000));timer=setTimeout(sync,delay);}
+ function sync(){detect();if(!prefs.enabled||!unlocked||prefs.volume===0||document.hidden||context?.state!=='running'){clearTimer();return;}const p=planFor(environment());if(JSON.stringify(p)!==JSON.stringify(currentPlan)){currentPlan=p;for(const layer of layers)if(!p.levels[layer.name])retire(layer);else if(!layer.retiring)level(layer,p);for(const name of due.keys())if(!p.levels[name])due.delete(name);status(names[p.place]+'の音。静けさをはさみながら流れます。');}
+  if(p.levels.rain)request('rain',p,true);
+  for(const name of Object.keys(p.levels).filter(n=>n!=='rain')){if(!due.has(name))due.set(name,now()+(name==='chime'?random(65,100):name==='wind'?random(9,17):random(2,6)));if(now()>=due.get(name)){if([...layers].filter(l=>!l.loop&&!l.retiring).length<2)request(name,p);due.set(name,now()+random(...gaps[name]));}}
+  schedule();
  }
- function ramp(param,target,seconds){
-  const now=context.currentTime,value=param.value;
-  param.cancelScheduledValues(now);param.setValueAtTime(value,now);param.linearRampToValueAtTime(target,now+seconds);
- }
- function retire(layer,seconds){
-  ramp(layer.gain.gain,0,seconds);
-  layer.source.stop(context.currentTime+seconds);
- }
- function halt(seconds=1.4){
-  revision++;planKey='';clearTimeout(chimeTimer);chimeTimer=undefined;
-  for(const layer of playing)retire(layer,seconds);
-  active.clear();
- }
- function scene(){
-  if(document.hidden)return null;
-  const modal=document.querySelector('dialog[open]'),root=modal||document.querySelector('#app');
-  const stage=root?.querySelector('.day-room[data-location="engawa"]:not([data-room-preferences-pending])');
-  return stage&&stage.getClientRects().length?stage:null;
- }
- function environment(){
-  if(!scene())return null;
-  const w=DayRoom.world(),night=SolarModel.phase(w.at)==='night',rain=w.weather==='rainy';
-  return {tracks:rain?[['rain',1]]:[['wind',night?.55:1],...((w.season==='summer'||w.season==='autumn')&&night?[['insects',.65]]:[])],chime:w.season==='summer'&&!rain,night};
- }
- function load(name){
-  if(!buffers.has(name)){
-   const url=new URL('assets/nature-sounds-v1/'+name+'.mp3?v='+versions[name],document.baseURI);
-   const promise=fetch(url).then(response=>{if(!response.ok)throw Error('Audio unavailable');return response.arrayBuffer();}).then(data=>context.decodeAudioData(data));
-   buffers.set(name,promise);promise.catch(()=>{if(buffers.get(name)===promise)buffers.delete(name);});
-  }
-  return buffers.get(name);
- }
- function start(name,buffer,level,loop){
-  const source=context.createBufferSource(),gain=context.createGain(),layer={name,source,gain};
-  source.buffer=buffer;source.loop=loop;gain.gain.value=0;source.connect(gain);gain.connect(master);
-  source.onended=()=>{playing.delete(layer);if(active.get(name)===layer)active.delete(name);source.disconnect();gain.disconnect();};
-  playing.add(layer);if(loop)active.set(name,layer);
-  source.start();ramp(gain.gain,level,loop?1.4:.08);
- }
- function error(token){
-  if(token===revision&&prefs.enabled)status('自然音を再生できませんでした。もう一度ONにしてください。');
- }
- function scheduleChime(token){
-  clearTimeout(chimeTimer);
-  chimeTimer=setTimeout(()=>{
-   chimeTimer=undefined;
-   const next=unlocked&&prefs.enabled&&prefs.volume>0&&environment();
-   if(token!==revision||!next?.chime)return;
-   load('chime').then(buffer=>{
-    if(token!==revision||!unlocked||!prefs.enabled||!environment()?.chime)return;
-    start('chime',buffer,next.night?.3:.5,false);scheduleChime(token);
-   }).catch(()=>error(token));
-  },45000+Math.random()*45000);
- }
- function sync(){
-  if(!prefs.enabled||!unlocked||!context||context.state!=='running'||prefs.volume===0){if(planKey)halt(.18);return;}
-  const next=environment();
-  if(!next){if(planKey)halt();return;}
-  const id=JSON.stringify(next);if(id===planKey)return;
-  const token=++revision;planKey=id;clearTimeout(chimeTimer);
-  for(const [name,layer]of active)if(!next.tracks.some(([wanted])=>wanted===name)){retire(layer,1.4);active.delete(name);}
-  if(!next.chime)for(const layer of playing)if(layer.name==='chime')retire(layer,1.4);
-  for(const [name,level]of next.tracks){
-   const layer=active.get(name);
-   if(layer){ramp(layer.gain.gain,level,1.4);continue;}
-   load(name).then(buffer=>{if(token===revision&&prefs.enabled&&unlocked&&context.state==='running'&&JSON.stringify(environment())===id)start(name,buffer,level,true);}).catch(()=>error(token));
-  }
-  if(next.chime)scheduleChime(token);
- }
- function unlock(){
-  if(!prefs.enabled||prefs.volume===0||document.hidden||!Audio)return;
-  try{
-   if(!context){
-    context=new Audio();master=context.createGain();master.gain.value=.5*prefs.volume;master.connect(context.destination);
-    context.addEventListener('statechange',()=>{if(context.state!=='running'){unlocked=false;halt(0);}});
-   }
-   // Resume synchronously inside the user event, before fetching or decoding audio.
-   context.resume().then(()=>{
-    if(!prefs.enabled||document.hidden)return;
-    unlocked=context.state==='running';
-    if(unlocked){ramp(master.gain,.5*prefs.volume,.18);sync();}
-   }).catch(()=>status('画面を操作して、自然音をもう一度お試しください。'));
-  }catch{status('このブラウザでは自然音を再生できません。');}
- }
- document.addEventListener('change',event=>{
-  if(!event.target.matches('[data-nature-sounds-toggle]'))return;
-  prefs.enabled=event.target.checked;save();
-  if(prefs.enabled){if(event.isTrusted)unlock();}
-  else{
-   halt(.18);unlocked=false;
-   const current=context;
-   setTimeout(()=>{if(!prefs.enabled&&current?.state==='running')void current.suspend().catch(()=>{});},200);
-  }
- });
- document.addEventListener('input',event=>{
-  if(!event.target.matches('[data-nature-sounds-volume]'))return;
-  prefs.volume=Math.max(0,Math.min(1,Number(event.target.value)/100));save();
-  const percent=Math.round(prefs.volume*100);
-  event.target.setAttribute('aria-valuetext',percent+'%');
-  for(const node of document.querySelectorAll('[data-nature-sounds-level]'))node.textContent=percent+'%';
-  if(master)ramp(master.gain,.5*prefs.volume,.18);
-  if(event.isTrusted)unlock();
-  if(prefs.volume===0)halt(.18);
- });
- const gesture=event=>{
-  if(event.isTrusted&&prefs.enabled&&!event.target.closest('[data-nature-sounds-toggle]')&&!event.target.closest('label')?.querySelector('[data-nature-sounds-toggle]'))unlock();
- };
- document.addEventListener('click',gesture,{capture:true,passive:true});
- document.addEventListener('pointerup',gesture,{capture:true,passive:true});
- document.addEventListener('keydown',event=>{if(['Enter',' ','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))gesture(event);},{capture:true});
- function pause(){
-  unlocked=false;halt(0);
-  if(context?.state==='running')void context.suspend().catch(()=>{});
- }
- document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
- window.addEventListener('pagehide',pause);
- // Observe scene changes, not shoji state. Door acoustics belong to the next phase.
- new MutationObserver(()=>{
-  if(!prefs.enabled||!unlocked||queued)return;
-  queued=true;requestAnimationFrame(()=>{queued=false;sync();});
- }).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['data-location','data-world-season','data-world-weather','data-world-daylight','data-solar-light','open']});
- setInterval(()=>{if(prefs.enabled&&unlocked)sync();},30000);
- return {settingsMarkup};
+ function requestSync(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});}
+ function unlock(){if(!prefs.enabled||prefs.volume===0||document.hidden||!Audio)return;clearTimeout(offTimer);try{if(!context){context=new Audio();master=context.createGain();master.gain.value=0;limiter=context.createDynamicsCompressor();limiter.threshold.value=-16;limiter.knee.value=8;limiter.ratio.value=8;limiter.attack.value=.006;limiter.release.value=.25;master.connect(limiter);limiter.connect(context.destination);context.addEventListener('statechange',()=>{if(context.state!=='running'){unlocked=false;clearTimer();}else if(prefs.enabled){unlocked=true;sync();}});}const finish=()=>{if(!prefs.enabled||document.hidden)return;unlocked=context.state==='running';if(unlocked){ramp(master.gain,.8*prefs.volume,.4);sync();}};if(context.state==='running')finish();else context.resume().then(finish).catch(()=>status('画面をタップすると自然音を再開できます。'));}catch{status('このブラウザでは自然音を再生できません。');}}
+ function off(){revision++;clearTimer();due.clear();currentPlan=null;for(const layer of layers)retire(layer,.18);if(master)ramp(master.gain,0,.18);unlocked=false;const saved=context;clearTimeout(offTimer);offTimer=setTimeout(()=>{if(!prefs.enabled&&saved?.state==='running')void saved.suspend().catch(()=>{});},220);}
+ function ui(){for(const n of document.querySelectorAll('[data-nature-sounds-toggle]'))n.checked=prefs.enabled;for(const n of document.querySelectorAll('[data-nature-sounds-level]'))n.textContent=Math.round(prefs.volume*100)+'%';}
+ document.addEventListener('change',e=>{if(!e.target.matches('[data-nature-sounds-toggle]'))return;prefs.enabled=e.target.checked;save();ui();if(prefs.enabled){if(e.isTrusted)unlock();}else off();});
+ document.addEventListener('input',e=>{if(!e.target.matches('[data-nature-sounds-volume]'))return;prefs.volume=Math.max(0,Math.min(1,Number(e.target.value)/100));save();ui();if(master)ramp(master.gain,.8*prefs.volume,.3);if(prefs.volume===0){clearTimer();if(context?.state==='running')void context.suspend().catch(()=>{});}else if(e.isTrusted)unlock();});
+ const gesture=e=>{if(!e.isTrusted)return;focused=e.target.closest?.('.day-room,.roof-sky-card')||focused;if(prefs.enabled&&!e.target.matches('[data-nature-sounds-toggle]'))unlock();else requestSync();};document.addEventListener('pointerup',gesture,{capture:true,passive:true});document.addEventListener('click',gesture,{capture:true,passive:true});document.addEventListener('keydown',e=>{if(['Enter',' ','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))gesture(e);},{capture:true});
+ function pause(){unlocked=false;clearTimer();if(context?.state==='running')void context.suspend().catch(()=>{});}
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();else requestSync();});window.addEventListener('pagehide',pause);document.addEventListener('scroll',()=>{focused=null;requestSync();},{passive:true,capture:true});window.addEventListener('resize',requestSync);
+ new MutationObserver(requestSync).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['data-location','data-world-season','data-world-weather','data-world-daylight','open']});
+ requestSync();
+ return {settingsMarkup,planFor,inspect:()=>({prefs:{...prefs},unlocked,state:context?.state||'none',environment:environment(),plan:currentPlan,playing:[...layers].map(l=>({id:l.id,name:l.name,loop:l.loop,started:l.started,retiring:!!l.retiring})),pending:[...pending],due:Object.fromEntries(due),timer:timer!==undefined,buffers:[...buffers.keys()]})};
 })();
-
- for(const node of document.querySelectorAll("[data-nature-sounds-pending]"))node.outerHTML=NatureSounds.settingsMarkup();
+for(const node of document.querySelectorAll('[data-nature-sounds-pending]'))node.outerHTML=NatureSounds.settingsMarkup();
 }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initNatureSounds,{once:true});else initNatureSounds();
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initNatureSounds,{once:true});else initNatureSounds();
