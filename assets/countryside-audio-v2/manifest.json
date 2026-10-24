@@ -1,0 +1,154 @@
+{
+  "version": 2,
+  "gameAudioUsed": false,
+  "processing": "既存の利用許諾済み録音を帯域制限し、固定配置の重ね合わせと循環窓で16秒の継ぎ目のない素材に加工。音量をオフラインで平滑化。鳥・虫・ひぐらしは遠い風の床へ薄く混合。風鈴は夏の風に10%混合。実行中のランダム処理・周期的な音量操作・単発発音は行わない。",
+  "sources": [
+    {
+      "title": "Soft Wind",
+      "author": "florianreichelt",
+      "source": "https://freesound.org/people/florianreichelt/sounds/459977/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceFile": "assets/countryside-audio-v1/wind.wav",
+      "sourceSha256": "bffdd576f4651d26f82887224a27476e596f0638e21737996786ad8975599c10"
+    },
+    {
+      "title": "Japanese bush warbler (uguisu) in a city ambiance",
+      "author": "warukunai",
+      "source": "https://freesound.org/people/warukunai/sounds/524526/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceFile": "assets/countryside-audio-v1/bird.wav",
+      "sourceSha256": "65452a086be0cd1d87a9885d2edfa04c2d026d561b52b29108a8fbf794a8e706"
+    },
+    {
+      "title": "Tanna japonensis v01.ogg",
+      "author": "Σ64",
+      "source": "https://commons.wikimedia.org/wiki/File:Tanna_japonensis_v01.ogg",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceFile": "assets/countryside-audio-v1/higurashi.wav",
+      "sourceSha256": "216f7806f282546ac536fa854e57a78e140a355434462a8d5cb920df7f3e4822"
+    },
+    {
+      "title": "Rain Loop (unfiltered)",
+      "author": "hargissssound",
+      "source": "https://freesound.org/people/hargissssound/sounds/321647/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceFile": "assets/countryside-audio-v1/rain.wav",
+      "sourceSha256": "39ed34fa4c0dcba9caf48e517a717f8fc48fae440e68b8cba0bfa5e56a19b912"
+    },
+    {
+      "title": "Soft, Chilled Crickets Field Recording",
+      "author": "rayjensen",
+      "source": "https://freesound.org/people/rayjensen/sounds/202749/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceFile": "assets/countryside-audio-v1/insects.wav",
+      "sourceSha256": "fb9113c7a1a24160887f8abd1287ca69bd457f7cac2881e28545b289c70e780b"
+    },
+    {
+      "title": "Furin japanese wind chime.wav",
+      "author": "ayustat2001",
+      "source": "https://freesound.org/people/ayustat2001/sounds/501168/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceFile": "assets/countryside-audio-v1/chime.wav",
+      "sourceSha256": "db82660b3be90978851bf0d3b732303b3d8d4d1895064a5cb035fb6c9186a65d"
+    }
+  ],
+  "files": [
+    {
+      "file": "assets/countryside-audio-v2/wind.wav",
+      "name": "wind",
+      "seconds": 16,
+      "rate": 16000,
+      "bytes": 512044,
+      "sha256": "ebf73460d4e5261c5b4ca0bf06a36d7545996421374c081ddc638aa6ddbacfe5",
+      "rmsDb": -34.000000000000114,
+      "peakDb": -25.37151118765188,
+      "halfSecondRangeDb": 0.8329550599513311,
+      "seamStep": 0.0013811779723475685,
+      "normalStep99": 0.0035881036104950283
+    },
+    {
+      "file": "assets/countryside-audio-v2/rain.wav",
+      "name": "rain",
+      "seconds": 16,
+      "rate": 16000,
+      "bytes": 512044,
+      "sha256": "882d423a5ae0ded5ec154ccdf31c54bdbe0829ac6af239c338554556a4b3f3e1",
+      "rmsDb": -33.99999999999996,
+      "peakDb": -24.398636383046444,
+      "halfSecondRangeDb": 0.20334209814885895,
+      "seamStep": 0.0007642716930829014,
+      "normalStep99": 0.015389433832974442
+    },
+    {
+      "file": "assets/countryside-audio-v2/bird.wav",
+      "name": "bird",
+      "seconds": 16,
+      "rate": 16000,
+      "bytes": 512044,
+      "sha256": "7bfc1e602fe46b4ec37e2b225f9325014a9c74e30c42fcfeeb1c75d7bff83b06",
+      "rmsDb": -33.99999999999996,
+      "peakDb": -24.678226475642955,
+      "halfSecondRangeDb": 0.7864134200647186,
+      "seamStep": 0.006513402574601132,
+      "normalStep99": 0.010624075299041337
+    },
+    {
+      "file": "assets/countryside-audio-v2/higurashi.wav",
+      "name": "higurashi",
+      "seconds": 16,
+      "rate": 16000,
+      "bytes": 512044,
+      "sha256": "bca42addab196ef91090ef5f7916dc4cc0aed90484ed45c477cd0355dce90f7e",
+      "rmsDb": -33.9999999999999,
+      "peakDb": -24.235347360570294,
+      "halfSecondRangeDb": 0.5147121289151286,
+      "seamStep": 0.004420845082392397,
+      "normalStep99": 0.03379572751550782
+    },
+    {
+      "file": "assets/countryside-audio-v2/insects.wav",
+      "name": "insects",
+      "seconds": 16,
+      "rate": 16000,
+      "bytes": 512044,
+      "sha256": "2836b3a815add39b9259477e92c4a3fa2dc5c207a2d7069ee8bce8708adf7b35",
+      "rmsDb": -33.99999999999998,
+      "peakDb": -24.37188418794434,
+      "halfSecondRangeDb": 0.7435417022954169,
+      "seamStep": 0.005736413052611834,
+      "normalStep99": 0.040347891926324236
+    },
+    {
+      "file": "assets/countryside-audio-v2/wind-chime.wav",
+      "name": "wind-chime",
+      "seconds": 16,
+      "rate": 16000,
+      "bytes": 512044,
+      "sha256": "b652734e1b0206d0f4cf1369dadfcba36f510d804e19a72522a381b6fad9657d",
+      "rmsDb": -34.00000000000007,
+      "peakDb": -25.208285806815113,
+      "halfSecondRangeDb": 0.8250726808907913,
+      "seamStep": 0.0010567678157598634,
+      "normalStep99": 0.003910763882558961
+    },
+    {
+      "file": "assets/countryside-audio-v2/summer-dawn.wav",
+      "name": "summer-dawn",
+      "seconds": 16,
+      "rate": 16000,
+      "bytes": 512044,
+      "sha256": "78acd19577cda3bf3612c7ea7fc01e5857ae1b9e093838e28e7e53fc0e6a7710",
+      "rmsDb": -33.99999999999993,
+      "peakDb": -24.133202971945682,
+      "halfSecondRangeDb": 0.5230637505614979,
+      "seamStep": 0.001211208066967584,
+      "normalStep99": 0.035603620422976136
+    }
+  ]
+}
