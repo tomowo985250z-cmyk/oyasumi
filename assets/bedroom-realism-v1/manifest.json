@@ -1,0 +1,140 @@
+{
+  "created": "2026-10-25",
+  "method": "Original assets generated with built-in image_gen; alpha-preserving mechanical trim, resize and WebP compression only.",
+  "rugReference": "#89917A",
+  "files": [
+    {
+      "file": "assets/bedroom-realism-v1/shell.webp",
+      "bytes": 131406,
+      "sha256": "2f42a3a271647c66d461fdd47cd0d1e6746f385867d561b6e9caa2ba83ad03bb",
+      "dimensions": [
+        1000,
+        825
+      ],
+      "sourceSize": [
+        1381,
+        1139
+      ],
+      "alphaBox": [
+        0,
+        0,
+        1381,
+        1139
+      ]
+    },
+    {
+      "file": "assets/bedroom-realism-v1/plant.webp",
+      "bytes": 21060,
+      "sha256": "77a03d9ccf788652c699f5ee24ef1b4c63d49cb10e9a182d66636e70d4fed0a9",
+      "dimensions": [
+        180,
+        402
+      ],
+      "sourceSize": [
+        839,
+        1875
+      ],
+      "alphaBox": [
+        20,
+        11,
+        802,
+        1849
+      ]
+    },
+    {
+      "file": "assets/bedroom-realism-v1/basket.webp",
+      "bytes": 11972,
+      "sha256": "b669ddfa1519452f08c7e5360ccce036cc5fa069defbcbd4ea4c3202af90c558",
+      "dimensions": [
+        165,
+        114
+      ],
+      "sourceSize": [
+        1509,
+        1042
+      ],
+      "alphaBox": [
+        18,
+        45,
+        1482,
+        975
+      ]
+    },
+    {
+      "file": "assets/bedroom-realism-v1/picture.webp",
+      "bytes": 6240,
+      "sha256": "9d2f4fb7d570448145f9bb9eb0d9365f1a46badebf348542a6b0ff6fa7ab13d8",
+      "dimensions": [
+        114,
+        129
+      ],
+      "sourceSize": [
+        1179,
+        1334
+      ],
+      "alphaBox": [
+        40,
+        49,
+        1103,
+        1237
+      ]
+    },
+    {
+      "file": "assets/bedroom-realism-v1/clock.webp",
+      "bytes": 7736,
+      "sha256": "62a1bc44e8b59215d00aba51bc61b8c07e122affeeb1f839db359f3ea732688e",
+      "dimensions": [
+        144,
+        144
+      ],
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "alphaBox": [
+        0,
+        0,
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "assets/bedroom-realism-v1/cushion.webp",
+      "bytes": 20384,
+      "sha256": "cb80c85472605d47b11262cbb7d6751e9106c61f9888de03dadb43df3ef70984",
+      "dimensions": [
+        360,
+        150
+      ],
+      "sourceSize": [
+        1942,
+        809
+      ],
+      "alphaBox": [
+        3,
+        10,
+        1939,
+        790
+      ]
+    },
+    {
+      "file": "assets/bedroom-realism-v1/kotatsu.webp",
+      "bytes": 35932,
+      "sha256": "93561d8cff0c1c1b8c16533ced7e0488924345e4140adc233d3dd82240d7b3ef",
+      "dimensions": [
+        510,
+        204
+      ],
+      "sourceSize": [
+        1983,
+        793
+      ],
+      "alphaBox": [
+        22,
+        51,
+        1944,
+        697
+      ]
+    }
+  ]
+}

@@ -69,6 +69,7 @@ html[data-cat-state-pending] .weather-rain-band{animation-play-state:paused}
 .room-background-layer{position:absolute;inset:0;pointer-events:none;isolation:isolate}
 .day-room .room-background-layer .day-room-art,.day-room .room-background-layer .day-room-place-art{filter:none}
 .day-room .room-background-layer .day-room-world-window:before,.day-room .room-background-layer .day-room-world-window:after{background:var(--study-frame)}
+.day-room[data-location=room] .day-room-world-window:before,.day-room[data-location=room] .day-room-world-window:after{display:none}
 .day-room.room-scene:after{box-shadow:inset 0 0 22px #183e400c}
 /* Keep the same artwork and geometry; ambient night light reaches cats and meals equally. */
 .day-room[data-world-daylight=false] .room-resident>img,.day-room[data-world-daylight=false] .room-care-animation img{filter:brightness(.78) saturate(.90)}
@@ -147,7 +148,8 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 @media(prefers-reduced-motion:reduce){.engawa-shoji-panel{transition:none}}
 
 /* Meals use the same low tabletop as the resting cat in cold seasons. */
-.day-room[data-location=room]:is([data-world-season=autumn],[data-world-season=winter]) .room-care-animation{left:51.75%;bottom:calc(23.33% - 18px * var(--room-care-scale,1))}
+.day-room[data-location=room]:is([data-world-season=autumn],[data-world-season=winter]) .room-care-animation{left:51.75%;bottom:calc(26.36% - 18px * var(--room-care-scale,1))}
+.day-room[data-location=room]:is([data-world-season=spring],[data-world-season=summer]) .room-care-animation{left:51.75%;bottom:calc(14.4% - 18px * var(--room-care-scale,1))}
 
 /* Nature audio controls live in settings, outside the cat and shoji scene. */
 .nature-sounds-volume{width:45%;max-width:160px;min-width:90px;accent-color:#b7c8c0}
