@@ -1,0 +1,43 @@
+{
+  "sourceStudies": [
+    "garden-foreground-study-v2",
+    "fence-removal-study-v1",
+    "cherry-full-bloom-study-v1"
+  ],
+  "springOnlyFullBloom": true,
+  "assets": [
+    {
+      "file": "assets/garden-foreground-v1/ground-v1.webp",
+      "sha256": "7375e6de5838abf1900d581b859d76f671224528c40048766708b4fc7142fe84"
+    },
+    {
+      "file": "assets/garden-foreground-v2/wood.webp",
+      "sha256": "8fcf9c65227e0c150610e731a6c24d5332cf12aa0ced08d57e01b44aa7b96800"
+    },
+    {
+      "file": "assets/garden-foreground-v2/natural-rock.webp",
+      "sha256": "055dfab02a14cb1f8006f629b42e84bcdd4e8c5a87a682bd7de7088940a488f8"
+    },
+    {
+      "file": "assets/garden-foreground-v2/cherry-spring.webp",
+      "sha256": "033fb34df0d49cbc2f610dc1b7a22472e9ed8e561fe13e7f2fb08360b424fb22"
+    },
+    {
+      "file": "assets/garden-foreground-v2/cherry-summer.webp",
+      "sha256": "f6e5f40a4d64a26c632424f27b4a176c5e92fd116ec928f95039c06757b607a6"
+    },
+    {
+      "file": "assets/garden-foreground-v2/cherry-autumn.webp",
+      "sha256": "ac50e8170409664009ef4681317a8df9e773e2f7a6ba16e194a3ceb10454b6ea"
+    },
+    {
+      "file": "assets/garden-foreground-v2/cherry-winter.webp",
+      "sha256": "6414f4ec041ec4ebb4a79e7d899d7c71055657aa855f750ec64419cd596e3e96"
+    },
+    {
+      "file": "assets/cherry-full-bloom-v1/spring.webp",
+      "sha256": "115435aea3931a16494d99c774838e700fb97454547e9e60af9d65e80fee73c5"
+    }
+  ],
+  "originalSourcesPreserved": true
+}
