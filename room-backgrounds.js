@@ -221,7 +221,7 @@ globalThis.RoomBackgrounds=(()=>{
  // No centre bars, full-pane wash, extra animation, or sunlight/shadow changes.
  function glass(w){
   const t=SolarModel.weights(SolarModel.time(w)),light=SolarSky.state(w,'room'),moon=light.source==='moon'?Math.max(0,Math.min(1,light.direct)):0;
-  const color=SolarLighting.palette(w,phase=>({color:phase==='night'?'#cadce6':phase==='evening'?'#efd4b6':phase==='morning'?'#f4e9d6':'#f4f4e6'})).color;
+  const color=SolarLighting.palette(w,phase=>({color:phase==='night'?'#cadce6':phase==='evening'?'#efd4b6':phase==='morning'?'#e5eef4':'#dfedf6'})).color;
   const wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.84:1,level=Number(((t.morning*.075+t.day*.065+t.evening*.07+t.night*(.075+.035*moon))*wet).toFixed(5));
   const recess=Number(((t.morning*.065+t.day*.075+t.evening*.08+t.night*.095)*wet).toFixed(5));
   return '<svg class="room-window-glass" viewBox="0 0 106 135" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g data-glass-recess="" fill="none" stroke="#1c2524" stroke-opacity="'+recess+'" stroke-linecap="round"><path d="M.55 132V53a52.45 52.45 0 0 1 104.9 0V132" stroke-width="1"/></g><g data-glass-reflection="" fill="none" stroke="'+color+'" stroke-opacity="'+level+'" stroke-linecap="round"><path d="M1.1 126V53a51.9 51.9 0 0 1 10.3-31.1" stroke-width=".85"/><path d="M104.9 117V53a51.9 51.9 0 0 0-10.3-31.1" stroke-width=".8"/><path d="M18.1 14.6a51.9 51.9 0 0 1 49.3-11.5M7.5 133.6H20.5" stroke-width=".55" opacity=".55"/></g></svg>';
