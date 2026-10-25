@@ -3,7 +3,7 @@
     "coat": "calico",
     "pose": "curl",
     "file": "assets/night-gestures-v1/calico-curl.png",
-    "sha256": "56dcd05c7a985414631898e80e79ed1aec3b46f6ac7cd5d3d4872189a1b0c254",
+    "sha256": "cca80c36dec8c253b603aca001675d9c5c863dba61b52beadf6d7cd0de8fcb85",
     "width": 1448,
     "height": 1086,
     "alphaBounds": {
@@ -32,7 +32,7 @@
     "coat": "calico",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/calico-stretch.png",
-    "sha256": "bb394377fcc759cfa7280c9a2f78d8e8632a617236fca0adbffababa219eff3b",
+    "sha256": "da79d69ab2e5bbf1887be116034c53e16cff20ca4886564f549ea06c95eef256",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -90,7 +90,7 @@
     "coat": "orange",
     "pose": "curl",
     "file": "assets/night-gestures-v1/orange-curl.png",
-    "sha256": "56346ded1495a133f86b2e842957482d7564014544ee39eedbc4ca58e5ad03b0",
+    "sha256": "8a528d4a8cc9ff84bc7e2b97806f31db07975078b3ad48ee63f2a89cca915b3a",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -119,7 +119,7 @@
     "coat": "orange",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/orange-stretch.png",
-    "sha256": "bfece46719c020ac37993d7408c6843b8b1eb945c7b630bd20c96b4b60a8b240",
+    "sha256": "e52dd0f80d6f79172065b9cb530a760ba7f6dc6d6ab368fa2250ca0ad4f1d460",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -177,7 +177,7 @@
     "coat": "brown",
     "pose": "curl",
     "file": "assets/night-gestures-v1/brown-curl.png",
-    "sha256": "0230336f2c445ed4bbc3c9acee456ca75f5500158c8db94cf41f7261ebf5f639",
+    "sha256": "bf27af12f674e49278ceb8e31419043e4ab7caf315d1d3591778739fe8979cb4",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -206,7 +206,7 @@
     "coat": "brown",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/brown-stretch.png",
-    "sha256": "8a22b90596ea1e2023b9ec8ce64954c1604588a3dfc8dc47f2285f2dc67d65f6",
+    "sha256": "0db625d221df6a79b947ac7ec27148032269ded3436a67450e76c6c24494ba99",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -264,7 +264,7 @@
     "coat": "silver",
     "pose": "curl",
     "file": "assets/night-gestures-v1/silver-curl.png",
-    "sha256": "44e2cef58251733fd3865c5aae40772fcbb5004673db83100f9990efabe2ea0b",
+    "sha256": "cdca896d804220449fa47b0dc7aa7552952b4397ac4ba15493e0172713ce9c93",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -293,7 +293,7 @@
     "coat": "silver",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/silver-stretch.png",
-    "sha256": "364038491e2cf11fc8679f5ad9bfe6a6b7bfca97c7acc777670313ebaf5d48e5",
+    "sha256": "000e149dd66466a8bd62f6459940566004c8704ddacbfe36d88b9cacb1e33da8",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -351,7 +351,7 @@
     "coat": "black",
     "pose": "curl",
     "file": "assets/night-gestures-v1/black-curl.png",
-    "sha256": "cc095f40a331b0e11e97b1dd6f8c001c3410e3e45dba6a805055fb286e1f33a3",
+    "sha256": "d7570a2c24fcf1c3a8ce5ac2d0b3160c132f1ed4ba9ecfadd227432bc7e575b9",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -380,7 +380,7 @@
     "coat": "black",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/black-stretch.png",
-    "sha256": "e32bb56bf6b95ecf1082908c045f7e56612f94f4b1279e47385d51af089f1a50",
+    "sha256": "160ec757b08400f5c7850287e3bd81078ce5b530821ae0afa2c78fbb57e8ffc5",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -438,7 +438,7 @@
     "coat": "white",
     "pose": "curl",
     "file": "assets/night-gestures-v1/white-curl.png",
-    "sha256": "bc75383434813b4790978e404d1086c4c43c0fde9dc9641bf06090afdd72af60",
+    "sha256": "eb1fad7be630a7deeedce581433b82ceee630599e6e919ba0b0de5f520bd52a8",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -467,7 +467,7 @@
     "coat": "white",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/white-stretch.png",
-    "sha256": "f3870a72c64a6672cd8e1f32b1a4af928a12d16d092f03e9c542efeecded701b",
+    "sha256": "7a46f90361a8bef0e475f6445ce1f204e657d3f814d2971a127a0d7d13fed2d8",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -525,7 +525,7 @@
     "coat": "tuxedo",
     "pose": "curl",
     "file": "assets/night-gestures-v1/tuxedo-curl.png",
-    "sha256": "6ee2ac6448e1eced30f1fdec4a061b335aa8c40ba53050e7a021643dfc90f9a4",
+    "sha256": "d019d62a3872517370bcb9c9372cec769afb3d7f5502a3f430dd4a160f5c0333",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -554,7 +554,7 @@
     "coat": "tuxedo",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/tuxedo-stretch.png",
-    "sha256": "6f2582b0ce20c636065fac6d65fb5a2c869955f89874ea1566568a9fa7670303",
+    "sha256": "5316d7ca419c0ff8c60fe993b6cb821d11d6f077a14952626d1b9510af6d509d",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -612,7 +612,7 @@
     "coat": "gray",
     "pose": "curl",
     "file": "assets/night-gestures-v1/gray-curl.png",
-    "sha256": "af4df9f2aab79c124e1a86a03044b686d9e91d85c4ddf60c74c529a933f24d53",
+    "sha256": "dceec1d017f6a8a0fef6318db0769f63d5a7e6d9ace1b4767695d4f78974bdee",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -641,7 +641,7 @@
     "coat": "gray",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/gray-stretch.png",
-    "sha256": "762dd5511af1c04202e1331c98037551cb626bc725e8ebdde0506f6166f49b68",
+    "sha256": "1ff932c27981efaecbd53563ee461a78e2eb8eb66c6705385f80da8d6bb4bc21",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -699,7 +699,7 @@
     "coat": "manul",
     "pose": "curl",
     "file": "assets/night-gestures-v1/manul-curl.png",
-    "sha256": "a3f217d8e14dc016722d87bb536ef3c2cb62be9b9e989ba37f57b7875e770586",
+    "sha256": "c285eeb174dc1552be9bfdef85e8bb69d6237c7eb7e7d7534ded0915ad931cc8",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -728,7 +728,7 @@
     "coat": "manul",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/manul-stretch.png",
-    "sha256": "dcaaffca181b17da521b73a01f486e2da66076b79939c871d9e0adc0b1aa0a25",
+    "sha256": "23f4acfda5f383c189465e30de6fec825e5f68a40dd15d8fe637c2c7d99d9500",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -786,7 +786,7 @@
     "coat": "sand",
     "pose": "curl",
     "file": "assets/night-gestures-v1/sand-curl.png",
-    "sha256": "c1632ee1be4e8f8db9a29ae6247b19179e6d878a33a54bc45e739a7bed9793f1",
+    "sha256": "b09125c08e0f4878f6e2da97420a9954ada8054c9b32fa782c883e7c12384dc1",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -815,7 +815,7 @@
     "coat": "sand",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/sand-stretch.png",
-    "sha256": "33beaac5421be2d30ba7106ca6608e4eef3576e2a6e1eda3983ae6d7aa0f6b16",
+    "sha256": "8fdc5c938e17028faf066dc343b9e902902848062cb24aa907a97faced616e4f",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -873,7 +873,7 @@
     "coat": "black-footed",
     "pose": "curl",
     "file": "assets/night-gestures-v1/black-footed-curl.png",
-    "sha256": "7596d737ef85101dac9b4a3b9e9d02f7a61d47239f78cb2cb71aa13ac59adfce",
+    "sha256": "df7fcf75c1c00053115a9cd1da417f8402bc34d53e11f889aeb230a684a32f61",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -902,7 +902,7 @@
     "coat": "black-footed",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/black-footed-stretch.png",
-    "sha256": "151cd42403f8bf6e63382ee7be382568a18a30f71e5888079d7dbe2e91baffcf",
+    "sha256": "8d4b3be3b27054c9c4833534e6a172d67996fc26f324208f5eec258c7e032edf",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -960,7 +960,7 @@
     "coat": "fishing",
     "pose": "curl",
     "file": "assets/night-gestures-v1/fishing-curl.png",
-    "sha256": "1d53ec7b0de0dd97b2fdd22a383fed564e3b7e64797dd9271bf1d631e61987ac",
+    "sha256": "e4e32a87f9b7599c88580c112c79bc6ab945f43e825f475405bb1df2077f4803",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -989,7 +989,7 @@
     "coat": "fishing",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/fishing-stretch.png",
-    "sha256": "54471387171be1a6a73c0f3cbc136b9331f1f21e7939882a642820e82ea33c2c",
+    "sha256": "11b67ef9638fd1a36719f09db134f7e4c96ef3d592f1be5897be358f9adc953a",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1047,7 +1047,7 @@
     "coat": "snow-leopard",
     "pose": "curl",
     "file": "assets/night-gestures-v1/snow-leopard-curl.png",
-    "sha256": "bb1ff612787507d9e934cdb740f84348ece949e75e8226a640fb3a3020566824",
+    "sha256": "facbe5c10c0339101fd4c8c624c482e7f9fc1d18ab031ed0ee8ffe296ecb6094",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1076,7 +1076,7 @@
     "coat": "snow-leopard",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/snow-leopard-stretch.png",
-    "sha256": "a9c19bdaeccb313362928bdcee74523490432bd33c9d73b20fc9f3e814319878",
+    "sha256": "aec825b79029f67fd6718d7677b57d988e6025e8710d7822e416e663600ac21d",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1134,7 +1134,7 @@
     "coat": "leopard",
     "pose": "curl",
     "file": "assets/night-gestures-v1/leopard-curl.png",
-    "sha256": "4078898413a0300bf312f73c52ff9f4766d2f018af0a2f0905f42899df71a13d",
+    "sha256": "66f08173fe4ea9692b8d017d9384e17cf2cf70fc4bd7180af6c45f9598bfbbc5",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1163,7 +1163,7 @@
     "coat": "leopard",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/leopard-stretch.png",
-    "sha256": "bcaafccb279328980a34e86c7bd38fa269557e9924287fdb25ec68fced338b00",
+    "sha256": "2a5e2638f9009a93436f92b045f8b2ee506d61ac9f99cbd5b3f44eb53e8b1700",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1221,7 +1221,7 @@
     "coat": "cheetah",
     "pose": "curl",
     "file": "assets/night-gestures-v1/cheetah-curl.png",
-    "sha256": "bbbcb160166146fc40157d88f2d6bc06601132e0eb86959e134cefa228333958",
+    "sha256": "cda05ba6c37d63ffe03d92b91fce3ef99d6fd45b15c791af792024d7e8174d5e",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1250,7 +1250,7 @@
     "coat": "cheetah",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/cheetah-stretch.png",
-    "sha256": "24b1700ea005ba3e2816c3a1d5f781d9670d68c9045ae393193c84fa01d7e317",
+    "sha256": "34fef58ba53f831a421e2b48860f2d4ab23e26337ae78dffaa5f92c2bab07684",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1308,7 +1308,7 @@
     "coat": "jaguar",
     "pose": "curl",
     "file": "assets/night-gestures-v1/jaguar-curl.png",
-    "sha256": "22882c932f406366ce1d218e9dfd7c46ca80bba8cb3b4ede60a01540362a5b1a",
+    "sha256": "4cd273aff4541989df245b1c8d8d918a872708c41fb4696e3275dc878c372a37",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -1337,7 +1337,7 @@
     "coat": "jaguar",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/jaguar-stretch.png",
-    "sha256": "d4d664bf5757f9d0e284ba4ba47dea720d4dea9d41582eca2e6630b48c32034b",
+    "sha256": "1dab41a688e77685da4fe29895965b1f676f504c7b406d9fce39f7055e97d548",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {

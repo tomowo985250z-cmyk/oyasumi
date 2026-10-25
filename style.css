@@ -241,3 +241,10 @@ body:not(.light-mode) .status-actions .status-button.sleep{background:linear-gra
 
 /* Reserve the initial feed viewport; cards mount only with complete profiles. */
 .timeline-feed{min-height:calc(100svh - 250px)}
+
+/* Only the approved roof field and decoded lunar material may reach a paint. */
+.roof-star-field{position:absolute;inset:0}
+.roof-sky-card .card-sky-stars:not([data-deep-field-ready]),
+.roof-sky-card .roof-moon:not([data-moon-detail="surface-v1"]),
+html[data-cat-state-pending] .roof-sky-card :is(.card-sky-stars,.roof-moon){visibility:hidden}
+html[data-cat-state-pending] .roof-sky-card{visibility:hidden}

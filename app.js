@@ -159,18 +159,10 @@ function awakeCats() {
 return `<span class="awake-cats" aria-hidden="true"><span class="awake-scene"><svg class="awake-roof"${sky?` data-solar-key="${roofSolarKey(w)}"`:''} viewBox="0 0 208 150" focusable="false"><defs><linearGradient id="awake-roof-wash" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#23324b"/><stop offset="1" stop-color="#14213a"/></linearGradient><clipPath id="awake-roof-frame" clipPathUnits="userSpaceOnUse"><rect x="-256" y="0" width="720" height="150"/></clipPath></defs><g clip-path="url(#awake-roof-frame)">${sky?SolarSky.roof(w):'<g data-roof-solar=""></g>'}${RoofRecline.surface()}</g></svg><span class="roof-cat-group" data-layout="mixed" data-cat-count="0" data-cat-placeholder></span></span></span>`;
 }
 function cardSkyStars() {
- // One gently jittered star per cell keeps the entire card balanced at every width.
- // Deterministic offsets prevent stars from jumping when counts refresh.
- const twinkle=new Map([[2,3.8],[13,4.7],[30,5.6],[45,4.2]]),cross=new Set([6,24,39]);
- return `<span class="card-sky-stars" aria-hidden="true">${Array.from({length:48},(_,i)=>{
-  const x=((i%8)+.22+((i*37+11)%101)/100*.56)/8*100,y=(Math.floor(i/8)+.22+((i*53+29)%103)/102*.56)/6*100;
-  const tone=i%4===0?'cool':'warm',color=tone==='cool'?'#d2ddec':i%2?'#ece2bd':'#e9d6a7';
-  const size=cross.has(i)?2.8+(i%3)*.3:.8+(i%5)*.2,opacity=.42+(i%4)*.1;
-  const classes=[cross.has(i)?'card-star-cross':'',twinkle.has(i)?'roof-twinkle':''].filter(Boolean).join(' ');
-  const motion=twinkle.has(i)?`animation-duration:${twinkle.get(i)}s;animation-delay:-${i*.37}s;`:'';
-  return `<i class="${classes}" data-star-tone="${tone}" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;width:${size}px;height:${size}px;--star-opacity:${opacity};opacity:${opacity};color:${color};${motion}"></i>`;
- }).join('')}${SolarSky.northernStars(DayRoom.world())}</span>`;
+ // Render only the approved field. Decode on approach; never paint legacy dots.
+ return '<span class="card-sky-stars" aria-hidden="true"><span class="roof-star-field" data-roof-field-source="assets/roof-deep-sky-69add6de01f676a4.svg"></span>'+SolarSky.northernStars(DayRoom.world())+'</span>';
 }
+
 function homeCopy(now=NightClock.now()) {
  const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:SleepFlow.rules.timeZone,hour:'2-digit',hourCycle:'h23'}).format(now));
  return hour>=6&&hour<18 ? {heading:'最近の投稿',comment:'ここには、誰かがいるみたい'} : {heading:'今夜まだ起きてる人',comment:'今夜も、ひとりじゃないみたい'};
@@ -270,7 +262,7 @@ function preloadCats(next) {
  CatImages.preload(markup,['home','catMeal'].includes(next)?{priority:'high',max:1}:{});
 }
 let renderedTimeline;
-function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');renderedTimeline=view==='timeline'?timeline():undefined;CatImages.render(app,renderedTimeline??({home,catMeal,catTreat,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='home'){preloadCats('profile');preloadCats('sleep');}if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
+function render() { if(view!=='timeline')clearReactionEffect();clearTimeout(restTimer);document.body.classList.toggle('resting',view==='rest');document.body.classList.toggle('light-mode',state.light&&view!=='morning');renderedTimeline=view==='timeline'?timeline():undefined;CatImages.render(app,renderedTimeline??({home,catMeal,catTreat,timeline,sleep,rest,morning,profile,settings,stats}[view]||home)(),{resolved:ready,confirmed:[previewFresh(ownCatPreview)?'.own-cat-room .room-resident':'',previewFresh(timelinePreview)?'.post .avatar[data-cat-appearance-ready=true]':''].filter(Boolean).join(',')});navigation();syncBusy();syncCatVisibility();syncRoofSky();scheduleTimelineExpiry();if(view==='sleep'||view==='rest')preloadCats('morning');if(view==='sleep'){sleepShownAt??=NightClock.now();const pendingSleep=state.lastSleep;const remaining=Math.max(0,CatScenes.settleDurationMs-(NightClock.now()-sleepShownAt));restTimer=setTimeout(()=>{if(view==='sleep'&&state.lastSleep===pendingSleep)finishSleep(sleepShownAt);},remaining);}if(view==='rest'){const remaining=CatScenes.settleDurationMs-CatScenes.elapsed(state.lastSleep?.finishedAt,NightClock.now());if(remaining>0)restTimer=setTimeout(()=>{if(view==='rest')renderPreservingPosition();},remaining+20);} }
 function go(next) { preloadCats(next);if(next==='sleep'&&view!=='sleep')sleepShownAt=NightClock.now();if(next!=='sleep')sleepShownAt=undefined;view=next;render();window.scrollTo(0,0);void refreshSentReactionPeople(); }
 function preloadCatDestination(event) {
  const button=event.target.closest('button');if(!button)return;

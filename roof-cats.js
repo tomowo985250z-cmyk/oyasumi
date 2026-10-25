@@ -76,7 +76,7 @@ globalThis.RoofMoon = (() => {
  const surfaceImage='assets/roof-moon-surface-26ae58b2610e23e4.svg';
  let surfaceDecode,surfaceReady=false;
  const pendingSurfaces=new WeakSet();
- function detail(card){const element=card.querySelector('.roof-moon');return detailElement(element,()=>{const r=card.getBoundingClientRect();return card.isConnected&&!document.hidden&&scrollY>0&&r.top<innerHeight/2&&r.bottom>0&&!!card.querySelector('.roof-star-field');});}
+ function detail(card){const element=card.querySelector('.roof-moon');return detailElement(element,()=>{const r=card.getBoundingClientRect();return card.isConnected&&!document.hidden&&!document.documentElement.hasAttribute('data-cat-state-pending')&&r.top<innerHeight+120&&r.bottom>0&&!!card.querySelector('[data-deep-field-ready]');});}
  function detailElement(element,visible){
   if(!element||element.dataset.moonDetail||pendingSurfaces.has(element)||!visible())return;
   const mount=()=>{

@@ -2,112 +2,112 @@
   {
     "coat": "calico",
     "file": "assets/window-gaze-v1/calico.png",
-    "sha256": "b739e57ec2c565159630fda7f2e68f2759d26275a7c6e1b301028cc057557ec1",
+    "sha256": "c0b7d6678ae8c62ab6d5c3ab2c2ce1c1f964226b81e2828260a0d22d2db88be8",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "orange",
     "file": "assets/window-gaze-v1/orange.png",
-    "sha256": "9f0e402d9d8e6cf98ba33c771487372afef5243987ece77fd62a77f2adfa380b",
+    "sha256": "b4bccac537ccbdc30f7ad691d7b8053768625f74fda1eea2951b6163215a05ab",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "brown",
     "file": "assets/window-gaze-v1/brown.png",
-    "sha256": "a581f68092e43db255f5d5da90a2e07ec3db1dd90bfadbefd480ec0172e09686",
+    "sha256": "6c9368f3abdc28a4592cf0af43ca19f93fea80cc043078da5c2e2c29f5e882d3",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "silver",
     "file": "assets/window-gaze-v1/silver.png",
-    "sha256": "6b01535d7e2364a87ca9f75a35e30695fa6713a5bf1d3f9d51c13de06bcd1c48",
+    "sha256": "adda4dd08b94a4104ffcd6a44600018e7221da20ef25cef378183428d1e1ec50",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "black",
     "file": "assets/window-gaze-v1/black.png",
-    "sha256": "e23645d01106fe3425e37c45deaa974426cedafe33809413a2902bd5ff33ad63",
+    "sha256": "2be3d0be582a375ed89dbfb9598de8bf2c13a5b390179ef709134f0504f4f746",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "white",
     "file": "assets/window-gaze-v1/white.png",
-    "sha256": "625b24f729b6996970e4bf08d83c9a55e3dc31f04aad31b22e461c7e808ce70b",
+    "sha256": "8c28923e3e27523d24784439c6a11acd7d11eae6c7de1e8488609f075a62d6eb",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "tuxedo",
     "file": "assets/window-gaze-v1/tuxedo.png",
-    "sha256": "c51a4a333880707d5998ae7925100ed17cb347fa33a3e0e6aae2fa0ff3380d36",
+    "sha256": "a2ff32fb3dba1adf7ca8586d7382212b2ad0d7d28aafd5b6fd89f9de7d43f5f8",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "gray",
     "file": "assets/window-gaze-v1/gray.png",
-    "sha256": "c4d9c7fdc504a2f2e112e295a9b401160a6885a99ff60afa26c9dbafb0084613",
+    "sha256": "8ff201b042f5c610658a83d7b1e77aa1ceafb2c48866044290eb1e0ad0cbc819",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "manul",
     "file": "assets/window-gaze-v1/manul.png",
-    "sha256": "3fafcafddca89335ef3549c5d3f87991b3ee9a601aec8c4db0619762819522dd",
+    "sha256": "01f12b4d497967a53c7f1dfd1b1d2cbe0ade937d2e1bd142a8c19548eaa0e1fa",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "sand",
     "file": "assets/window-gaze-v1/sand.png",
-    "sha256": "d151653203de3552f6ee0bc2851c4b39cd43d37e896ffea1e6225df5b433b128",
+    "sha256": "6f58014d21e2e5f3f2acbb8e21576bcd8a95932dfba542aa030d92d23619da1e",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "black-footed",
     "file": "assets/window-gaze-v1/black-footed.png",
-    "sha256": "fbaaeb9453cbdf26fc96756d5a9cb07db23992d110ac652962565da6c34986cd",
+    "sha256": "5d647b9e78e8eca325b5c3231596e32f10f8d5f3f97f3905f7f5767c1e4ea4c5",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "fishing",
     "file": "assets/window-gaze-v1/fishing.png",
-    "sha256": "b8ef195344a629e1c446158cd1473d93b224933bf022857387850e4dafc9a74b",
+    "sha256": "fa91913718bfeee05392a55c2fea33b6960d1531b11d6d3f498dfa4cccb5567e",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "snow-leopard",
     "file": "assets/window-gaze-v1/snow-leopard.png",
-    "sha256": "e5045f0fa54281807066008d3861964d6abfe3da9ddceffcfd067c15651cebc1",
+    "sha256": "74e2b93ee80fd31a121ee09ebc003267467fdfe256830be8377e984ebb9c6a0e",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "leopard",
     "file": "assets/window-gaze-v1/leopard.png",
-    "sha256": "b4c45cd466d10afc267d2da6b921719224dc27875d7bf1dcd4d4513ef65818e8",
+    "sha256": "a6337baf8eb85a4af98a39c4e8b96f25b666f688ff042cfcd917824553186e50",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "cheetah",
     "file": "assets/window-gaze-v1/cheetah.png",
-    "sha256": "eebb0505132e4c735406eaa8018592a62c961da687e8315fc8b6e7e6cbb282ed",
+    "sha256": "e357c35b457832191453a6954bbd4d8af4aadf7a7a329583452be4dc4af6a943",
     "width": 1254,
     "height": 1254
   },
   {
     "coat": "jaguar",
     "file": "assets/window-gaze-v1/jaguar.png",
-    "sha256": "00fa618e47234b14f29be9e3a2ddd2d2ce5a33d133cffa7a6adc092edccb7a8d",
+    "sha256": "423de060b2d01883d5b789e12c3bd52cb4df5b9fa944d5a83cd67f5ec7fa8606",
     "width": 1254,
     "height": 1254
   }

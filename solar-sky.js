@@ -9,33 +9,27 @@ globalThis.SolarSky=(()=>{
  const stringify=node=>new XMLSerializer().serializeToString(node);
  // Original, prebuilt SVG: one shared decode, requested on entering the roof.
  const starFieldImage='assets/roof-deep-sky-69add6de01f676a4.svg';
- let starFieldDecode,starFieldReady=false,starFieldNode;
+ let starFieldDecode,starFieldReady=false;
  const pendingFields=new WeakSet();
  function updateStarField(card){
-  if(scrollY<=0)return;
-  const layer=card.querySelector('.card-sky-stars'),own=card.closest('#app')?.querySelector('.home-room-unit .room-resident img');
+  const layer=card.querySelector('.card-sky-stars'),field=layer?.querySelector('.roof-star-field');
   const available=()=>{
-   if(!card.isConnected||document.hidden||scrollY<=0||document.documentElement.hasAttribute('data-cat-state-pending')||own&&(!own.complete||!own.naturalWidth))return false;
-   const rect=card.getBoundingClientRect();return rect.width>0&&rect.top<innerHeight/2&&rect.bottom>0;
+   if(!card.isConnected||document.hidden||document.documentElement.hasAttribute('data-cat-state-pending'))return false;
+   const r=card.getBoundingClientRect();return r.width>0&&r.top<innerHeight+120&&r.bottom>0;
   };
-  if(!layer||layer.hasAttribute('data-deep-field-ready')||pendingFields.has(layer)||!available())return;
+  if(!field||!available())return;
+  if(layer.hasAttribute('data-deep-field-ready')){RoofMoon.detail?.(card);return;}
+  if(pendingFields.has(layer))return;
   const mount=()=>{
    if(!available())return;
-   if(!starFieldNode){
-    starFieldNode=document.createElement('span');starFieldNode.className='roof-star-field';starFieldNode.style.cssText='position:absolute;inset:0;background:center/cover no-repeat url("'+starFieldImage+'")';
-    const app=card.closest('#app');if(app)new MutationObserver(()=>{if(!starFieldNode.isConnected)starFieldNode.remove();}).observe(app,{childList:true});
-   }
    layer.querySelectorAll('.roof-twinkle').forEach(star=>{star.style.animation='none';});
-   layer.querySelectorAll(':scope > i').forEach(star=>star.remove());layer.prepend(starFieldNode);layer.setAttribute('data-deep-field-ready','');RoofMoon.detail?.(card);
+   field.style.background='center / cover no-repeat url("'+starFieldImage+'")';
+   field.removeAttribute('data-roof-field-source');layer.setAttribute('data-deep-field-ready','');RoofMoon.detail?.(card);
   };
   if(starFieldReady){mount();return;}
   pendingFields.add(layer);
-  // Yield a paint to the cat; retry through the existing sky tick if hidden.
-  requestAnimationFrame(()=>setTimeout(()=>{
-   if(!available()){pendingFields.delete(layer);return;}
-   if(!starFieldDecode){const image=new Image();image.decoding='async';image.src=starFieldImage;starFieldDecode=image.decode().then(()=>{starFieldReady=true;return image;});}
-   void starFieldDecode.then(()=>{pendingFields.delete(layer);mount();},()=>{pendingFields.delete(layer);starFieldDecode=undefined;});
-  },0));
+  if(!starFieldDecode){const image=new Image();image.decoding='async';image.fetchPriority='low';image.src=starFieldImage;starFieldDecode=image.decode().then(()=>{starFieldReady=true;return image;});}
+  void starFieldDecode.then(()=>{pendingFields.delete(layer);mount();},()=>{pendingFields.delete(layer);starFieldDecode=undefined;});
  }
  window.addEventListener('scroll',()=>{const card=document.querySelector('.roof-sky-card');if(card)updateStarField(card);},{passive:true});
  // ICRS/J2000 RA degrees, declination degrees, visual magnitude:
