@@ -20,3 +20,10 @@
 .day-room[data-cat-harmony][data-location=engawa][data-shoji-closed=true] :is([data-solar-window-light],[data-solar-structure-shadow],.room-cat-lighting){opacity:0}
 /* Restore a little night luminance only to the white rooftop coat. */
 .roof-sky-card[data-cat-harmony] .roof-cat[data-cat-coat=white]{filter:var(--harmony-white,var(--harmony-ambient))}
+
+/* The existing foot-anchored patch and subtle edge shadow, for these places only. */
+.day-room[data-cat-harmony]:is([data-location=engawa],[data-location=garden]) .day-room-cat.day-cat,
+.day-room[data-cat-harmony]:is([data-location=engawa],[data-location=garden]) .day-room-cat.day-cat:hover{filter:drop-shadow(0 3px 2px #6157690b)}
+.day-room[data-cat-harmony]:is([data-location=engawa],[data-location=garden])>.room-resident[style*="--harmony-contact-x"]::before{
+ background:radial-gradient(ellipse at center,#3d3930b8 0%,#48473c73 30%,#51504420 52%,#51504400 74%);
+}

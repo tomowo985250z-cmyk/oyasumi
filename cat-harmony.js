@@ -27,6 +27,12 @@ globalThis.CatLightHarmony=(()=>{
    result[0]+=.105*night;result[1]+=.01*night;result[3]+=.031*night;result[5]-=.044*night;
   }
   result[0]=clamp(.73,.995,result[0]);result[1]=clamp(.90,.98,result[1]);result[2]=clamp(.95,.99,result[2]);
+  // The tatami and shaded garden need quieter highlights than open-sky cats.
+  // Keep the bedroom/roof response and native moon/lantern/shade calculation.
+  if(where==='engawa'||where==='garden'){
+   result[0]-=(where==='garden'?.020:.014)*day+.002*night;
+   result[1]-=where==='garden'?.035:.025;result[2]-=where==='garden'?.022:.014;
+  }
   return result.map(round);
  }
  function element(tag,attrs={}){const n=document.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;}
@@ -62,8 +68,14 @@ globalThis.CatLightHarmony=(()=>{
    for(const mode of ['ambient','shade','lamp']){
     const p=parameters(w,where,mode,warmth),f=e.filters[mode];f.saturation.setAttribute('values',p[1]);for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}
    }
-   const weights=SolarModel.weights(SolarModel.time(w)),night=weights.night||0;
-   stage.style.setProperty('--harmony-contact-opacity',round(.18-.045*night));stage.style.setProperty('--harmony-cast-opacity',round(.79-.16*night));e.stamp=stamp;
+   const weights=SolarModel.weights(SolarModel.time(w)),night=weights.night||0,soften=where==='engawa'||where==='garden';
+   const curve=soften?[0,.25,.5,.74+.005*night,.95+.025*night]:[0,.25,.5,.75,1];
+   for(const f of Object.values(e.filters)){
+    if(soften&&!f.highlights){f.highlights=element('feComponentTransfer');for(const c of ['R','G','B'])f.highlights.append(element('feFunc'+c,{type:'table'}));f.filter.append(f.highlights);}
+    if(!soften&&f.highlights){f.highlights.remove();delete f.highlights;}
+    if(f.highlights)for(const n of f.highlights.children)n.setAttribute('tableValues',curve.join(' '));
+   }
+   stage.style.setProperty('--harmony-contact-opacity',round(soften?.23-.06*night:.18-.045*night));stage.style.setProperty('--harmony-cast-opacity',round(.79-.16*night));e.stamp=stamp;
   }
   contact(stage);
  }

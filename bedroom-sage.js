@@ -1,4 +1,4 @@
-// Isolated bedroom comparison: existing production lighting remains installed.
+// Bedroom ambient response: existing production lighting remains installed.
 // The room selects one replacement RGB filter, never a stack of ambient filters.
 globalThis.BedroomSageStudy=(()=>{
  const solar=SolarLighting,backgrounds=RoomBackgrounds,entries=new WeakMap(),ns='http://www.w3.org/2000/svg';let serial=0;
@@ -8,8 +8,8 @@ globalThis.BedroomSageStudy=(()=>{
   let e=entries.get(stage);if(e)return e;
   const svg=element('svg',{'data-bedroom-sage-defs':'','aria-hidden':'true',focusable:'false',width:0,height:0,style:'position:absolute;width:0;height:0;overflow:hidden;pointer-events:none'}),defs=element('defs'),id='bedroom-sage-'+(++serial),filters={};svg.append(defs);
   for(const mode of ['ambient','shade','lamp']){
-   const f=element('filter',{id:id+'-'+mode,x:0,y:0,width:'100%',height:'100%','color-interpolation-filters':'sRGB'}),saturation=element('feColorMatrix',{type:'saturate',values:1}),rgb=element('feComponentTransfer');
-   for(const c of ['R','G','B'])rgb.append(element('feFunc'+c,{type:'linear',slope:1,intercept:0}));f.append(saturation,rgb);defs.append(f);filters[mode]={saturation,rgb};stage.style.setProperty('--bedroom-sage-'+mode,'url("#'+f.id+'")');
+   const f=element('filter',{id:id+'-'+mode,x:0,y:0,width:'100%',height:'100%','color-interpolation-filters':'sRGB'}),saturation=element('feColorMatrix',{type:'saturate',values:1}),rgb=element('feComponentTransfer'),highlights=element('feComponentTransfer');
+   for(const c of ['R','G','B'])rgb.append(element('feFunc'+c,{type:'linear',slope:1,intercept:0}));for(const c of ['R','G','B'])highlights.append(element('feFunc'+c,{type:'table',tableValues:'0 .25 .5 .735 .94'}));f.append(saturation,rgb,highlights);defs.append(f);filters[mode]={saturation,rgb,highlights};stage.style.setProperty('--bedroom-sage-'+mode,'url("#'+f.id+'")');
   }
   // Map the two existing daytime cloth bases to #B8BEA5. Existing folds,
   // night/lamp palette, alpha, shapes and open/close transforms remain native.
@@ -27,12 +27,15 @@ globalThis.BedroomSageStudy=(()=>{
   const night=SolarModel.weights(SolarModel.time(w)).night||0;
   for(const mode of ['ambient','shade','lamp']){
    const p=CatLightHarmony.parameters(w,'room',mode); // Adopted seasonal, moon, shade and lamp response.
-   p[0]+=-.002*(1-night)+.004*night;p[1]-=.008;p[2]-=.012;
+   // Match the subdued room materials without losing dark coat markings.
+   // A gentle highlight shoulder restrains white and orange fur, not alpha.
+   p[0]-=.026*(1-night)+.010*night;p[1]-=.038;p[2]-=.026;
    const f=e.filters[mode];f.saturation.setAttribute('values',round(p[1]));
    for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}
+   for(const n of f.highlights.children)n.setAttribute('tableValues',[0,.25,.5,.735+.005*night,.94+.03*night].map(round).join(' '));
    e.parameters[mode]=p.map(round);
   }
-  stage.style.setProperty('--bedroom-sage-contact-opacity',round(.195-.05*night));e.stamp=stamp;
+  stage.style.setProperty('--bedroom-sage-contact-opacity',round(.25-.055*night));e.stamp=stamp;
  }
  globalThis.SolarLighting=Object.freeze({...solar,update(stage,w){const result=solar.update(stage,w);apply(stage,w);return result;}});
  globalThis.RoomBackgrounds=Object.freeze({...backgrounds,update(stage,where,w){const result=backgrounds.update(stage,where,w);apply(stage,w);return result;}});

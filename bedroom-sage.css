@@ -5,10 +5,10 @@
 .day-room[data-location=room][data-cat-harmony][data-bedroom-sage][data-curtain-closed=true] :is(.room-resident>img,.room-care-animation .care-body,img.care-idle,img.care-joy-cat,.cat-idle-detail){filter:var(--bedroom-sage-shade)}
 .day-room[data-location=room][data-cat-harmony][data-bedroom-sage]:has(.room-light-switch:not([hidden])[aria-pressed=true]) :is(.room-resident>img,.room-care-animation .care-body,img.care-idle,img.care-joy-cat,.cat-idle-detail){filter:var(--bedroom-sage-lamp)}
 .day-room[data-location=room][data-bedroom-sage] .day-room-cat.day-cat,
-.day-room[data-location=room][data-bedroom-sage] .day-room-cat.day-cat:hover{filter:drop-shadow(0 3px 2px #61576911)}
+.day-room[data-location=room][data-bedroom-sage] .day-room-cat.day-cat:hover{filter:drop-shadow(0 3px 2px #6157690b)}
 /* Refine the existing alpha-anchored contact patch, without adding a second
    shadow or moving its anchor from the cushion/floor/kotatsu support surface. */
 .day-room[data-location=room][data-cat-harmony][data-bedroom-sage]>.room-resident[style*="--harmony-contact-x"]::before{
- background:radial-gradient(ellipse at center,#403b31aa 0%,#4b473b61 30%,#57504420 52%,#57504400 74%);
+ background:radial-gradient(ellipse at center,#403b31bd 0%,#4b473b78 30%,#57504425 52%,#57504400 74%);
  opacity:var(--bedroom-sage-contact-opacity);filter:blur(.8px);
 }
