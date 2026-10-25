@@ -1,0 +1,2 @@
+.moon-ambient-light{position:absolute;inset:0;z-index:4;pointer-events:none!important;user-select:none;contain:paint;background:radial-gradient(ellipse at 48% 15%,#c7dced 0%,#a1beca 45%,#849b9b 100%);mix-blend-mode:screen}
+.moon-ambient-light[hidden]{display:none}

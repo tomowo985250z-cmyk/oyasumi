@@ -58,6 +58,8 @@ files['/nature-sounds.js']='nature-sounds.js';
 for(const name of ['wind','rain','insects','chime'])files['/assets/nature-sounds-v1/'+name+'.mp3']='assets/nature-sounds-v1/'+name+'.mp3';
 types['.mp3']='audio/mpeg';
 types['.webp']='image/webp';
+files['/moon-unity.js']='moon-unity.js';
+files['/moon-unity.css']='moon-unity.css';
 http.createServer((req, res) => {
   const file = files[new URL(req.url, 'http://localhost').pathname];
   if (!file) { res.writeHead(404); return res.end('Not found'); }

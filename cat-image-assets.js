@@ -2,12 +2,14 @@
 (() => {
   const faces = CatFaces, scenes = CatScenes, day = DayCats;
   const windowGazeVersions = {"black-footed":"fbaaeb9453cbdf26","black":"e23645d01106fe34","brown":"a581f68092e43db2","calico":"b739e57ec2c56515","cheetah":"eebb0505132e4c73","fishing":"b8ef195344a629e1","gray":"c4d9c7fdc504a2f2","jaguar":"00fa618e47234b14","leopard":"b4c45cd466d10afc","manul":"3fafcafddca89335","orange":"9f0e402d9d8e6cf9","sand":"d151653203de3552","silver":"6b01535d7e2364a8","snow-leopard":"e5045f0fa5428180","tuxedo":"c51a4a333880707d","white":"625b24f729b69969"};
+  const manulVersions = {"face-happy":"37da44072d2fb471","face-sleepy":"8985bc4dac026b8f","face-yawn":"7ae3928ef73ac37e","face-restless":"cec5657221e20ece","face-surprised":"6b15a3556979fb0c","day-relax":"15086b61997dcb34","morning":"da8c617a9f80e5e9","night":"2a9e68e28809589c","day-play":"5e5f01eb122ee04a","day-groom":"1e6fa89aa5e6de59","day-doze":"41da789f5ab7ac25","face-calm":"17fa1f567688573e"};
   const image = (coat, frame, classes, extra = '') => {
     coat = faces.normalizeCoat(coat);
     // Keep the restored calm icon; its five expression edits share that identity.
     if (coat === 'manul' && frame === 'face-calm') return faces.svg('calm', 'manul');
-    if (coat === 'manul' && frame.startsWith('face-')) return `<img class="${classes}" src="assets/manul-expressions-v2/${frame}.png" alt="" aria-hidden="true" data-asset-key="${coat}/${frame}" data-cat-coat="${coat}" ${extra}>`;
-    return `<img class="${classes}" src="assets/cat-refresh-v1/${coat}/${frame}.png" alt="" aria-hidden="true" data-asset-key="${coat}/${frame}" data-cat-coat="${coat}" ${extra}>`;
+    if (coat === 'manul' && frame.startsWith('face-')) return `<img class="${classes}" src="assets/manul-expressions-v2/${frame}.png?v=${manulVersions[frame]}" alt="" aria-hidden="true" data-asset-key="${coat}/${frame}" data-cat-coat="${coat}" ${extra}>`;
+    const version=coat==='manul'&&manulVersions[frame]?'?v='+manulVersions[frame]:'';
+    return `<img class="${classes}" src="assets/cat-refresh-v1/${coat}/${frame}.png${version}" alt="" aria-hidden="true" data-asset-key="${coat}/${frame}" data-cat-coat="${coat}" ${extra}>`;
   };
   globalThis.CatFaces = Object.freeze({...faces, svg: (expression, coat) => {
     expression = faces.normalize(expression);

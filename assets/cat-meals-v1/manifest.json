@@ -363,37 +363,37 @@
         "coat":  "manul",
         "id":  "before-1",
         "file":  "assets/cat-meals-v1/manul/before-1.png",
-        "sha256":  "da2a39118f420e101211998d777276ee089c2d8ed02a71f0ca86121ab8d058ed"
+        "sha256":  "0a5e0a160b92f2567fda2d584b4d73aa41a2aadbde5f0279602ee66bd0aafcf0"
     },
     {
         "coat":  "manul",
         "id":  "before-2",
         "file":  "assets/cat-meals-v1/manul/before-2.png",
-        "sha256":  "d0af7358216a44017d895c330b48fe3355ac8c89a5a558a85b16e58d4795c5ac"
+        "sha256":  "f869826ac9f3a4e994c32e84437b2004a0b5c3c87ac117240e107df3deb64996"
     },
     {
         "coat":  "manul",
         "id":  "before-3",
         "file":  "assets/cat-meals-v1/manul/before-3.png",
-        "sha256":  "ac056fea93b513a416c72045aad6a069d508c82229bf274734706f8b9a3d2fbb"
+        "sha256":  "953040157a30f076ffa42b14e584a7af40447ecb287395080887a284ca926426"
     },
     {
         "coat":  "manul",
         "id":  "after-1",
         "file":  "assets/cat-meals-v1/manul/after-1.png",
-        "sha256":  "37076f41178bfccedf4a5aac2c026dbceda885ca0806ae5fb67f824e6d03f0e8"
+        "sha256":  "95be91e142751a6f393ef2e7ecf0708b6fa99350166da6e7f2b8e333e61e9f52"
     },
     {
         "coat":  "manul",
         "id":  "after-2",
         "file":  "assets/cat-meals-v1/manul/after-2.png",
-        "sha256":  "1c2bc4038bcad342d9e6eb9f4ff708782f7dd8b683e8f61ca571b9677019946a"
+        "sha256":  "a3ea9a7a5fe9fdb3d674f58e6011630ed49e7c765f6f212419e211ee212ded62"
     },
     {
         "coat":  "manul",
         "id":  "after-3",
         "file":  "assets/cat-meals-v1/manul/after-3.png",
-        "sha256":  "c262b5227c82a05ce63dbb3d1b4e18f9b883ca7b8e817d9e68b3ffde14587be9"
+        "sha256":  "4dc57a72573769144e5dba018c2fc9031d59b6ffe97693b8e836d4c368f205f1"
     },
     {
         "coat":  "fishing",

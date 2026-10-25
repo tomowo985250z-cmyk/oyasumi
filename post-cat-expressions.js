@@ -40,7 +40,7 @@ globalThis.PostCatExpressions=(()=>{
   coat=CatFaces.normalizeCoat(coat);
   // Sleep alone uses the existing closed-eye manul artwork; preserve its
   // restored open-eye calm icon for awake reports and unposted profiles.
-  const face=coat==='manul'?`<img class="cat-face" src="assets/cat-refresh-v1/manul/face-calm.png" alt="" aria-hidden="true" data-asset-key="manul/face-calm" data-cat-coat="manul" data-cat-expression="calm" data-expression="calm">`:CatFaces.svg('calm',coat);
+  const face=coat==='manul'?`<img class="cat-face" src="assets/cat-refresh-v1/manul/face-calm.png?v=17fa1f567688573e" alt="" aria-hidden="true" data-asset-key="manul/face-calm" data-cat-coat="manul" data-cat-expression="calm" data-expression="calm">`:CatFaces.svg('calm',coat);
   return face.replaceAll('data-cat-expression="calm"','data-cat-expression="sleeping"').replaceAll('data-expression="calm"','data-expression="sleeping"');
  }
  return Object.freeze({candidates,kind,state,latest,compare,forPost,svg});

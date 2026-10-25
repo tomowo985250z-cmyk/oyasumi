@@ -699,7 +699,7 @@
     "coat": "manul",
     "pose": "curl",
     "file": "assets/night-gestures-v1/manul-curl.png",
-    "sha256": "53188fb9dc369d1d7b5155002a8d7c1bd0f73c6eb90b8dda315880148904ebfe",
+    "sha256": "a3f217d8e14dc016722d87bb536ef3c2cb62be9b9e989ba37f57b7875e770586",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {
@@ -728,7 +728,7 @@
     "coat": "manul",
     "pose": "stretch",
     "file": "assets/night-gestures-v1/manul-stretch.png",
-    "sha256": "f792cd2a02434c0a43a56df47e3687e5fd1506ede83d754cf74d1f08640918ff",
+    "sha256": "dcaaffca181b17da521b73a01f486e2da66076b79939c871d9e0adc0b1aa0a25",
     "width": 1536,
     "height": 1024,
     "alphaBounds": {

@@ -76,15 +76,14 @@ globalThis.RoofMoon = (() => {
  const surfaceImage='assets/roof-moon-surface-26ae58b2610e23e4.svg';
  let surfaceDecode,surfaceReady=false;
  const pendingSurfaces=new WeakSet();
- function detail(card){
-  const element=card.querySelector('.roof-moon');
-  const visible=()=>{const r=card.getBoundingClientRect();return card.isConnected&&!document.hidden&&scrollY>0&&r.top<innerHeight/2&&r.bottom>0&&!!card.querySelector('.roof-star-field');};
+ function detail(card){const element=card.querySelector('.roof-moon');return detailElement(element,()=>{const r=card.getBoundingClientRect();return card.isConnected&&!document.hidden&&scrollY>0&&r.top<innerHeight/2&&r.bottom>0&&!!card.querySelector('.roof-star-field');});}
+ function detailElement(element,visible){
   if(!element||element.dataset.moonDetail||pendingSurfaces.has(element)||!visible())return;
   const mount=()=>{
    if(!visible()||!element.isConnected)return;
    const mask=element.querySelector('mask'),light=element.querySelector('[data-moon-light]');if(!mask||!light)return;
    const id=mask.id+'-surface',holder=document.createElementNS('http://www.w3.org/2000/svg','svg');
-   holder.innerHTML=`<defs data-moon-material=""><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".13"/></filter><filter id="${id}-edge" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation=".008"/></filter><linearGradient id="${id}-shade" data-moon-shade="" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#102334" stop-opacity=".86"/><stop offset=".45" stop-color="#102334" stop-opacity=".25"/><stop offset="1" stop-color="#102334" stop-opacity="0"/></linearGradient><pattern id="${id}" patternUnits="userSpaceOnUse" x="-1" y="-1" width="2" height="2" viewBox="-1 -1 2 2"><image href="${surfaceImage}" x="-1" y="-1" width="2" height="2"/><rect data-moon-shading="" x="-1" y="-1" width="2" height="2" fill="url(#${id}-shade)"/></pattern></defs><path data-moon-halo="" fill="#a9c8e5" filter="url(#${id}-soft)"/>`;
+   holder.innerHTML=`<defs data-moon-material=""><filter id="${id}-tone" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="gamma" amplitude="1.10" exponent=".90" offset=".02"/><feFuncG type="gamma" amplitude="1.10" exponent=".90" offset=".02"/><feFuncB type="gamma" amplitude="1.10" exponent=".90" offset=".02"/></feComponentTransfer></filter><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".13"/></filter><filter id="${id}-edge" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation=".008"/></filter><linearGradient id="${id}-shade" data-moon-shade="" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#102334" stop-opacity=".86"/><stop offset=".45" stop-color="#102334" stop-opacity=".25"/><stop offset="1" stop-color="#102334" stop-opacity="0"/></linearGradient><pattern id="${id}" patternUnits="userSpaceOnUse" x="-1" y="-1" width="2" height="2" viewBox="-1 -1 2 2"><image href="${surfaceImage}" filter="url(#${id}-tone)" x="-1" y="-1" width="2" height="2"/><rect data-moon-shading="" x="-1" y="-1" width="2" height="2" fill="url(#${id}-shade)"/></pattern></defs><path data-moon-halo="" fill="#a9c8e5" filter="url(#${id}-soft)"/>`;
    element.insertBefore(holder.firstElementChild,light);element.insertBefore(holder.firstElementChild,light);
    mask.querySelector('path').setAttribute('filter',`url(#${id}-edge)`);light.setAttribute('fill',`url(#${id})`);element.dataset.moonDetail='surface-v1';
    update(element,NightClock.now());
@@ -108,7 +107,7 @@ globalThis.RoofMoon = (() => {
   element.setAttribute('data-moon-phase',moon.phase);element.setAttribute('transform',moon.transform);
   element.setAttribute('opacity',moon.opacity);
   path.setAttribute('d',moon.path);path.setAttribute('transform',moon.facing);
-  if(frame==='roof'){
+  if(frame==='roof'||element.dataset.moonDetail){
    const halo=element.querySelector('[data-moon-halo]');
    if(halo){
     const cosine=Math.cos(moon.phase*Math.PI*2),illumination=(1-cosine)/2,shade=element.querySelector('[data-moon-shade]'),strength=element.querySelector('[data-moon-shading]');
@@ -118,5 +117,5 @@ globalThis.RoofMoon = (() => {
    }else{const card=element.closest('.roof-sky-card');if(card?.querySelector('.roof-star-field'))detail(card);}
   }
  }
- return Object.freeze({snapshot,svg,update,detail});
+ return Object.freeze({snapshot,svg,update,detail,detailElement,material:surfaceImage});
 })();
