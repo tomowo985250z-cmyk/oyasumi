@@ -1,0 +1,31 @@
+{
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "asset": "andon.webp",
+      "sha256": "b5a994fc29222f3470a51a06e454ace5078044683ac612394b161e0bd2fe7dc0",
+      "sourceStudy": "room-garden-semi-real-study-v1",
+      "prompt": "Use case: stylized-concept. Asset type: single transparent background object sprite for an existing Japanese rural interior, warm semi-real rendering. One small traditional Showa floor andon lantern, slender rectangular proportions about 28 wide by 41 high. View front and a narrow right-hand side, camera slightly above at 15 degrees. Simple warm aged cedar wooden frame, four square corner posts, small projecting flat square top and foot, cream washi paper panels with a single slim central vertical strip and a single middle horizontal strip. Subtle real wood fibres, translucent paper fibres, soft rounded edge highlights and gentle natural dimensional shading. It should harmonize with a softly realistic nostalgic wood-and-plaster bedroom rather than a flat vector drawing; not ultra-photoreal. Daytime neutral diffuse lighting, lamp UNLIT, no inner glow, no glow around it, no cast shadow outside the object. Entire lantern centered and fully visible with small even transparent margins. Absolutely no floor, background, other objects, cats, decorative symbols, hanging handle, cord, text or watermark. Genuine alpha transparency."
+    },
+    {
+      "asset": "bowl.webp",
+      "sha256": "12daf3306d75356a028aafb35e8762b2be0268ba948c7232adc266e43df11999",
+      "sourceStudy": "room-garden-semi-real-study-v1",
+      "prompt": "Use case: stylized-concept. Asset type: transparent background single object sprite in a warm semi-real Japanese countryside game. A small shallow round handmade ceramic cat water bowl, muted soft celadon gray-green matte glaze. View from slightly above about 28 degrees: clearly elliptical rounded rim and visible quiet blue-gray water inside. Short gently curved thick ceramic sides tapering to a modest flat foot. Shape is broad and low: width about 38 units and height 21 units. Natural curved highlights, subtle uneven hand-thrown glaze and soft shading give convincing volume. Soft natural diffuse daytime light, low contrast, nostalgic simple Showa household object, not a luxury product and not a flat cartoon. Entire bowl centered on a genuinely transparent canvas, with small even margins. No floor, no background, no cast shadow outside the object, no spill, no food, no cats, no logos, no text, no extra objects, no strong reflections or chrome-like shine."
+    },
+    {
+      "asset": "wood.webp",
+      "sha256": "0ee8d8588835c769b251ff6b769dbfd555a1e61a1820b3597ff1bc569870c0c3",
+      "sourceStudy": "room-garden-semi-real-study-v1",
+      "prompt": "Use case: stylized-concept. Asset type: seamless material texture for existing wooden pillars and frames in a Showa countryside home game. Flat straight-on warm medium brown aged Japanese sugi / cedar wood, mellow oak-brown and honey-beige fibres, fine flowing horizontal wood grain and subtle old hand-polished pores. A quiet lived-in Japanese rural house, warm semi-real material rendering with natural depth but about 20 percent softer contrast and detail than a photograph. Same warmth as a nostalgic oak floor, restrained and calm. Even diffuse neutral lighting, matte finish, no glare or hard shadows, no vignette. Seamless continuous wood surface across the square, no board seams, no frame, no planks, no objects, no knots dominating the image, no cracks, no rot, no lettering. Fill every edge. Avoid cartoon outlines and plastic smoothness."
+    },
+    {
+      "asset": "cushion.webp",
+      "sha256": "cb80c85472605d47b11262cbb7d6751e9106c61f9888de03dadb43df3ef70984",
+      "source": "assets/bedroom-realism-v1/cushion.webp",
+      "note": "公開済み寝室の生成布素材を、元の縁側クッション形状内にクリップして再利用。"
+    }
+  ],
+  "rug": "既存形状を使った手続き型SVGの編み目・陰影。",
+  "note": "既存の生成素材を再利用。第三者の写真やゲーム画像は取り込んでいません。"
+}

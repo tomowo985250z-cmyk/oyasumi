@@ -44,6 +44,12 @@ files['/solar-sky.js']='solar-sky.js';
 for(const file of fs.readdirSync(path.join(__dirname,'assets/night-gestures-v1')))if(/^[a-z-]+\.png$/.test(file))files['/assets/night-gestures-v1/'+file]='assets/night-gestures-v1/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/roof-recline-v1')))if(/^[a-z-]+\.png$/.test(file))files['/assets/roof-recline-v1/'+file]='assets/roof-recline-v1/'+file;
 for(const file of ['indoor-cat-scale.js','day-room.js','day-room.css','day-room-state.js','season-weather.js','season-landscape.js','room-backgrounds.js','assets/day-room/room.svg'])files['/'+file]=file;
+files['/engawa-tatami-wall.js']='engawa-tatami-wall.js';
+files['/assets/engawa-semi-real-v1/cushion.webp']='assets/engawa-semi-real-v1/cushion.webp';
+files['/assets/engawa-semi-real-v1/wood.webp']='assets/engawa-semi-real-v1/wood.webp';
+files['/assets/engawa-semi-real-v1/bowl.webp']='assets/engawa-semi-real-v1/bowl.webp';
+files['/assets/engawa-semi-real-v1/andon.webp']='assets/engawa-semi-real-v1/andon.webp';
+files['/assets/engawa-semi-real-v1/provenance.json']='assets/engawa-semi-real-v1/provenance.json';
 files['/bedroom-sage.js']='bedroom-sage.js';
 files['/bedroom-sage.css']='bedroom-sage.css';
 files['/cat-harmony.js']='cat-harmony.js';
@@ -51,11 +57,12 @@ files['/cat-harmony.css']='cat-harmony.css';
 files['/nature-sounds.js']='nature-sounds.js';
 for(const name of ['wind','rain','insects','chime'])files['/assets/nature-sounds-v1/'+name+'.mp3']='assets/nature-sounds-v1/'+name+'.mp3';
 types['.mp3']='audio/mpeg';
+types['.webp']='image/webp';
 http.createServer((req, res) => {
   const file = files[new URL(req.url, 'http://localhost').pathname];
   if (!file) { res.writeHead(404); return res.end('Not found'); }
   const extension=path.extname(file);
-  res.setHeader('Content-Type', types[extension] + (['.png','.woff2','.mp3'].includes(extension)?'':'; charset=utf-8'));
+  res.setHeader('Content-Type', types[extension] + (['.png','.webp','.woff2','.mp3'].includes(extension)?'':'; charset=utf-8'));
   if(extension==='.woff2')res.setHeader('Cache-Control','public, max-age=31536000, immutable');
   fs.createReadStream(path.join(__dirname, file)).pipe(res);
 }).listen(Number(process.env.PORT) || 3000, '127.0.0.1', function () { console.log(`おやすみ: http://localhost:${this.address().port}`); });
