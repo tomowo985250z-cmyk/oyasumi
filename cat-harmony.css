@@ -1,0 +1,22 @@
+/* RGB affects the cats only. No opacity, blur, geometry or motion changes. */
+.day-room[data-cat-harmony] :is(.room-resident>img,.room-care-animation .care-body,img.care-idle,img.care-joy-cat,.cat-idle-detail){filter:var(--harmony-ambient)}
+.day-room[data-cat-harmony]:is([data-location=room][data-curtain-closed=true],[data-location=engawa][data-shoji-closed=true]) :is(.room-resident>img,.room-care-animation .care-body,img.care-idle,img.care-joy-cat,.cat-idle-detail){filter:var(--harmony-shade)}
+.day-room[data-cat-harmony][data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]) :is(.room-resident>img,.room-care-animation .care-body,img.care-idle,img.care-joy-cat,.cat-idle-detail){filter:var(--harmony-lamp)}
+.day-room[data-cat-harmony]>.room-resident[style*="--harmony-contact-x"]::before{
+ content:"";position:absolute;pointer-events:none;z-index:-1;
+ left:var(--harmony-contact-x);top:var(--harmony-contact-y);
+ width:var(--harmony-contact-width);height:var(--harmony-contact-height);
+ transform:translate(-50%,-45%);border-radius:50%;
+ background:radial-gradient(ellipse at center,#3d3930a8 0%,#48473c63 32%,#51504400 72%);
+ opacity:var(--harmony-contact-opacity);filter:blur(.65px);
+}
+.day-room[data-cat-harmony] .solar-cat-shadow{filter:blur(.45px);opacity:var(--harmony-cast-opacity)}
+.roof-sky-card[data-cat-harmony] .roof-cat{filter:var(--harmony-ambient)}
+.roof-sky-card[data-cat-harmony] .roof-contact{fill:#132130;opacity:.18;filter:blur(.4px)}
+[data-cat-harmony-roof-contact]{position:absolute;inset:0;pointer-events:none;z-index:0}
+[data-cat-harmony-roof-contact]>span{position:absolute;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(ellipse,#13202fc9 0%,#16213300 72%);filter:blur(.6px)}
+
+/* Interior ambient light remains when closed shoji block direct cast shadows. */
+.day-room[data-cat-harmony][data-location=engawa][data-shoji-closed=true] :is([data-solar-window-light],[data-solar-structure-shadow],.room-cat-lighting){opacity:0}
+/* Restore a little night luminance only to the white rooftop coat. */
+.roof-sky-card[data-cat-harmony] .roof-cat[data-cat-coat=white]{filter:var(--harmony-white,var(--harmony-ambient))}
