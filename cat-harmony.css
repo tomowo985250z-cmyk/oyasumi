@@ -27,3 +27,6 @@
 .day-room[data-cat-harmony]:is([data-location=engawa],[data-location=garden])>.room-resident[style*="--harmony-contact-x"]::before{
  background:radial-gradient(ellipse at center,#3d3930b8 0%,#48473c73 30%,#51504420 52%,#51504400 74%);
 }
+
+/* Existing rooftop contact receives a short, moon-away blue-gray extension. */
+[data-cat-harmony-roof-contact]>span::after{content:"";position:absolute;left:50%;top:50%;width:115%;height:4px;transform:translate(calc(-50% + var(--roof-cast-x,0px)),-10%);border-radius:50%;background:radial-gradient(ellipse,#263a50b3,transparent 72%);opacity:var(--roof-cast-level,0);pointer-events:none}

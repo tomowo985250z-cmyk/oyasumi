@@ -123,12 +123,52 @@ globalThis.SolarLighting=(()=>{
   }
   return stringify(svg);
  }
+
+ // Thin support-surface ink only: no cat filter, image, pose or lamp brightness.
+ // Reuse the existing actor/contact table, moon vector and lighting update tick.
+ const nightEntries=new WeakMap();
+ function nightShadows(stage,w){
+  const where=stage.dataset.location,at=SolarModel.time(w),night=SolarModel.phase(at)==='night',moon=illumination(w,where);
+  const lamp=where==='room'?stage.querySelector('.room-light-switch:not([hidden])')?.getAttribute('aria-pressed')==='true':where==='engawa'&&stage.dataset.engawaPendant==='on';
+  const level=night?(where==='garden'?(moon.source==='moon'?moon.direct:0):lamp?1:0):0;
+  let e=nightEntries.get(stage);if(!e){e={};nightEntries.set(stage,e);}
+  const light=where==='room'?{x:342,y:65}:{x:200,y:20},color=where==='garden'?'#26394d':'#574331';
+  const vector=(x,y,length)=>{if(where==='garden')return moon.shadow(length,30);const dx=x-light.x,dy=(y-light.y)*.36,n=Math.hypot(dx,dy)||1;return{x:dx/n*length,y:dy/n*length};};
+  const oval=(x,y,width,length)=>{const v=vector(x,y,length);return '<ellipse cx="'+(x+v.x*.45)+'" cy="'+(y+v.y*.45)+'" rx="'+width+'" ry="'+(2+length*.10)+'" fill="'+color+'"/>';};
+  const bg=stage.querySelector('.room-background-layer:not([data-background-outgoing])'),svg=bg?.querySelector('svg[data-bedroom-realism],svg[data-garden-revision]');
+  if(svg&&e.background!==svg){
+   e.background=svg;const id='night-support-'+(++sequence),defs=svg.querySelector('defs');
+   defs.insertAdjacentHTML('beforeend','<filter id="'+id+'" x="-35%" y="-200%" width="170%" height="500%"><feGaussianBlur stdDeviation="2.1"/></filter>');
+   const add=(object,x,y,width,length)=>{if(!object)return;const g=document.createElementNS(ns,'g');g.dataset.nightObjectShadow='';g.style.cssText='pointer-events:none;transition:opacity 260ms ease';g.setAttribute('filter','url(#'+id+')');g.dataset.nightAnchor=[x,y,width,length].join(',');g.setAttribute('opacity','0');object.before(g);};
+   if(where==='room'){
+    add(svg.querySelector('[data-scene-object="potted-plant"]'),340,246,16,14);
+    add(svg.querySelector('[data-season-furniture="kotatsu"]'),207,296,78,17);
+   }else if(where==='garden'){
+    for(const stone of svg.querySelectorAll('[data-garden-stone]')){const image=stone.querySelector('image'),x=+image.getAttribute('x'),y=+image.getAttribute('y'),width=+image.getAttribute('width'),height=+image.getAttribute('height');add(stone,x+width/2,y+height-2,width*.43,10);}
+   }
+  }
+  // The existing tree projection already follows the moon. Keep its geometry;
+  // only use cool shadow ink at night, restoring its original daytime ink.
+  for(const n of svg?.querySelectorAll('[data-caster="cherry-photo"] rect')||[])n.setAttribute('fill',night?'#293e50':'#293d36');
+  const directionKey=[where,moon.source,Math.round(moon.azimuthUsed),Math.round(moon.altitudeUsed)].join(':');
+  for(const n of svg?.querySelectorAll('[data-night-object-shadow]')||[]){if(n.dataset.nightDirection!==directionKey){n.innerHTML=oval(...n.dataset.nightAnchor.split(',').map(Number));n.dataset.nightDirection=directionKey;}n.setAttribute('opacity',String(level*(where==='garden'?.50:.12)));}
+  const a=actor(stage),contact=a&&IndoorCatScale.contact(assetKey(a.img)),r=stage.getBoundingClientRect();
+  const b=a?.img.getBoundingClientRect(),key=[where,level,stage.dataset.place,stage.dataset.nightPose,b?.x,b?.y,b?.width,b?.height,a?.img.getAttribute('src')].join(':');if(e.key===key)return;e.key=key;
+  if(!e.holder){const holder=document.createElement('div');holder.className='room-night-shadows';holder.setAttribute('aria-hidden','true');stage.append(holder);e.holder=holder;}
+  e.holder.style.opacity=String(level*(where==='garden'?.40:.13));
+  if(!level||!contact||!r.width||!b?.width){e.holder.replaceChildren();return;}
+  const k=400/r.width,matrix=new DOMMatrix(getComputedStyle(a.img).transform),u=(contact[2]+contact[4])/2/contact[0],x=(b.left-r.left+b.width*(matrix.a<0?1-u:u))*k,y=(b.top-r.top+b.height*contact[5]/contact[1])*k;
+  const width=Math.max(8,Math.min(29,(contact[4]-contact[2])/contact[0]*b.width*k*.34)),id='night-contact-'+(++sequence),support=stage.dataset.place==='window'&&!a.meal?'M30 157h150v15H30Z':SceneryMaterials.support(stage,a.meal)||floor(where);
+  e.holder.innerHTML='<svg viewBox="0 0 400 330" focusable="false" data-night-source="'+(where==='garden'?'moon':'lamp')+'"><defs><clipPath id="'+id+'-floor"><path d="'+support+'"/></clipPath><filter id="'+id+'" x="-100%" y="-200%" width="300%" height="500%"><feGaussianBlur stdDeviation="1.6"/></filter></defs><g clip-path="url(#'+id+'-floor)"><g filter="url(#'+id+')">'+oval(x,y,width,where==='engawa'?4:7)+'</g></g></svg>';
+ }
+
  const entries=new WeakMap();let observer,resize,motionTimer;
  function update(stage,value){
   const bg=stage.querySelector('.room-background-layer:not([data-background-outgoing])');
   if(!value&&!bg?.dataset.lightAt)return;
   const input=value||{at:Number(bg.dataset.lightAt),cloudAt:NightClock.now(),weather:bg.dataset.lightWeather,season:bg.dataset.lightSeason};
   const w={...SolarModel.world(input),cloudAt:input.cloudAt??SolarModel.time(input)},s=illumination(w,stage.dataset.location),weights=SolarModel.weights(w.at),day=1-weights.night;
+  nightShadows(stage,w);
   const source=actor(stage),level=stage.dataset.location==='engawa'?lanternLevel(w):0;
   for(const node of stage.querySelectorAll('[data-engawa-light]'))node.setAttribute('opacity',String(level));
   let warmth=0;
@@ -163,8 +203,8 @@ globalThis.SolarLighting=(()=>{
   const schedule=stage=>{if(!stage?.isConnected)return;queued.add(stage);wakeMotion();if(!frame)frame=requestAnimationFrame(()=>{frame=null;for(const item of queued)update(item);queued.clear();});};
   resize=new ResizeObserver(rows=>rows.forEach(row=>{const e=entries.get(row.target);if(e)e.signature=null;schedule(row.target);}));
   const stages=node=>node.nodeType===1?[...(node.matches('.day-room')?[node]:[]),...node.querySelectorAll('.day-room')]:[];
-  observer=new MutationObserver(rows=>{for(const row of rows){if(row.target.closest?.('.room-cat-lighting'))continue;const stage=row.target.closest?.('.day-room');if(stage)schedule(stage);for(const node of row.addedNodes||[])for(const item of stages(node))schedule(item);for(const node of row.removedNodes||[])for(const item of stages(node))if(!item.isConnected){resize.unobserve(item);entries.get(item)?.fade?.cancel();entries.delete(item);}}});
-  observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','data-care-stage','data-location','data-place','data-coat','data-night-pose','data-curtain-closed']});
+  observer=new MutationObserver(rows=>{for(const row of rows){if(row.target.closest?.('.room-cat-lighting,.room-night-shadows,[data-night-object-shadow]'))continue;const stage=row.target.closest?.('.day-room');if(stage)schedule(stage);for(const node of row.addedNodes||[])for(const item of stages(node))schedule(item);for(const node of row.removedNodes||[])for(const item of stages(node))if(!item.isConnected){resize.unobserve(item);entries.get(item)?.fade?.cancel();entries.delete(item);}}});
+  observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','data-care-stage','data-location','data-place','data-coat','data-night-pose','data-curtain-closed','data-engawa-pendant','aria-pressed']});
   new MutationObserver(()=>document.querySelectorAll('.day-room').forEach(schedule)).observe(document.documentElement,{attributes:true,attributeFilter:['data-cat-state-pending','data-cat-own-ready']});
   document.querySelectorAll('.day-room').forEach(schedule);
   // One shared 1 Hz clock: move existing cloud groups and update opacity only.

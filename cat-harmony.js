@@ -84,6 +84,7 @@ globalThis.CatLightHarmony=(()=>{
  function applyRoof(card,w){
   if(!card?.isConnected)return;const e=install(card),stamp=[Math.floor(SolarModel.time(w)/60000),w.season].join(':');
   if(e.stamp!==stamp){for(const mode of Object.keys(e.filters)){const p=parameters({...w,weather:'sunny'},'roof',mode),f=e.filters[mode];f.saturation.setAttribute('values',p[1]);for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}}e.stamp=stamp;}
+  const moonInk=RoofMoon.snapshot(SolarModel.time(w));card.style.setProperty('--roof-night-ink',SolarModel.phase(SolarModel.time(w))==='night'?moonInk.opacity*moonInk.illumination:0);
   const group=card.querySelector('.roof-cat-group'),scene=group?.parentElement;if(!group||!scene)return;
   let contacts=scene.querySelector(':scope > [data-cat-harmony-roof-contact]');if(!contacts){contacts=document.createElement('span');contacts.dataset.catHarmonyRoofContact='';contacts.setAttribute('aria-hidden','true');scene.insertBefore(contacts,group);}
   contacts.style.transform=getComputedStyle(group).transform;
@@ -91,7 +92,8 @@ globalThis.CatLightHarmony=(()=>{
   for(const[i,cat]of cats.entries()){
    let spot=contacts.children[i];if(!spot){spot=document.createElement('span');contacts.append(spot);}
    const x=parseFloat(cat.style.getPropertyValue('--roof-cat-x')),width=parseFloat(cat.style.getPropertyValue('--roof-cat-width')),reclining=cat.dataset.catPose==='rear-reclining',y=roof.ridge(x+width/2)+(reclining?18:12);
-   spot.style.cssText=`left:${x+width/2}px;top:${y-1}px;width:${width*(reclining?.62:.46)}px;height:3px;opacity:${Number(cat.style.opacity)*.16}`;
+   const moon=RoofMoon.snapshot(SolarModel.time(w)),lightX=104+(.5-moon.progress)*(card.clientWidth/(scene.getBoundingClientRect().width/208)+15),dx=Math.max(-5,Math.min(5,(x+width/2-lightX)*.035)),level=SolarModel.phase(SolarModel.time(w))==='night'?moon.opacity*moon.illumination:0;
+   spot.style.cssText=`left:${x+width/2}px;top:${y-1}px;width:${width*(reclining?.62:.46)}px;height:3px;opacity:${Number(cat.style.opacity)*.16};--roof-cast-x:${dx}px;--roof-cast-level:${level}`;
   }
  }
  function roofUpdate(element,at){const result=roof.update(element,at);applyRoof(element?.closest('.roof-sky-card'),{...DayRoom.world(),at});return result;}

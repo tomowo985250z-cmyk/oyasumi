@@ -166,3 +166,10 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 .day-room[data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]) .room-sconce-lit{opacity:1}
 .room-light-switch:focus-visible{outline:2px solid #dfc493;outline-offset:1px}
 @media(prefers-reduced-motion:reduce){.room-sconce-lit{transition:none}}
+
+/* Night source shadows are support ink, independent of RGB and window occlusion. */
+.day-room>.room-night-shadows{position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity 260ms ease}
+.room-night-shadows>svg{display:block;width:100%;height:100%;pointer-events:none}
+html[data-cat-state-pending] .room-night-shadows{visibility:hidden}
+html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
+@media(prefers-reduced-motion:reduce){.room-night-shadows,[data-night-object-shadow]{transition:none!important}}
