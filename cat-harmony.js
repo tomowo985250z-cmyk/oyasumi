@@ -81,6 +81,30 @@ globalThis.CatLightHarmony=(()=>{
  }
  function update(stage,w){const result=solar.update(stage,w);apply(stage,w);return result;}
  function backgroundUpdate(stage,where,w){const pending=backgrounds.update(stage,where,w);apply(stage,w);return pending;}
+ // Reuse each original image's alpha, projected behind its measured feet.
+ // The shared moon is in front of the cats: all casts extend down the roof plane.
+ function roofCasts(card,w,cats,e){
+  const surface=card.querySelector('[data-roof-surface]');if(!surface)return;
+  const at=SolarModel.time(w),moon=RoofMoon.snapshot(at),night=SolarModel.phase(at)==='night',candidates=cats.filter(c=>c.getAttribute('src')&&c.complete&&c.naturalWidth&&!c.hasAttribute('data-cat-placeholder'));
+  const chosen=candidates;
+  let cast=e.roofCasts;
+  if(!cast||cast.layer.parentNode!==surface.parentNode){
+   const id=e.filters.ambient.filter.id+'-roof-cast',layer=element('g',{'data-roof-moon-casts':'','pointer-events':'none'}),defs=element('defs'),clip=element('clipPath',{id:id+'-plane'}),soft=element('filter',{id:id+'-soft',x:'-30%',y:'-60%',width:'160%',height:'220%'});
+   clip.append(element('path',{d:surface.getAttribute('d')}));soft.append(element('feGaussianBlur',{stdDeviation:'.55'}));defs.append(clip,soft);layer.append(defs);const ink=element('g',{'clip-path':'url(#'+clip.id+')'});layer.append(ink);surface.parentNode.append(layer);cast={id,layer,defs,ink,entries:new Map()};e.roofCasts=cast;
+  }
+  cast.layer.style.opacity=night?String(moon.opacity*moon.illumination*.22):'0';
+  card.toggleAttribute('data-roof-cat-cast',night&&chosen.length>0);
+  for(const [cat,item]of cast.entries)if(!chosen.includes(cat)){item.group.remove();item.mask.remove();cast.entries.delete(cat);}
+  const scene=card.querySelector('.awake-scene'),scale=scene.getBoundingClientRect().width/208,lightX=104+(.5-moon.progress)*(card.clientWidth/scale+15);
+  for(const cat of chosen){
+   let item=cast.entries.get(cat);if(!item){const id=cast.id+'-'+cat.dataset.roofRank,mask=element('mask',{id,x:0,y:0,maskUnits:'userSpaceOnUse',maskContentUnits:'userSpaceOnUse',style:'mask-type:alpha'}),image=element('image',{x:0,y:0,preserveAspectRatio:'none'});mask.append(image);cast.defs.append(mask);const group=element('g',{'data-roof-cat-cast':cat.dataset.roofRank}),blur=element('g',{filter:'url(#'+cast.id+'-soft)'}),body=element('rect',{x:0,y:0,fill:'#101c2d',mask:'url(#'+id+')'});blur.append(body);group.append(blur);cast.ink.append(group);item={group,mask,image,body};cast.entries.set(cat,item);}
+   const x=parseFloat(cat.style.getPropertyValue('--roof-cat-x')),top=parseFloat(cat.style.getPropertyValue('--roof-cat-y')),width=parseFloat(cat.style.getPropertyValue('--roof-cat-width')),height=parseFloat(cat.style.getPropertyValue('--roof-cat-height')),cx=x+width/2,reclining=cat.dataset.catPose==='rear-reclining',foot=roof.ridge(cx)+(reclining?18:12),fy=foot-top;
+   const length=clamp(8,18,height*.22*(1.25-.4*moon.altitude/48)),dx=clamp(-7,7,(cx-lightX)*.05),a=.88,b=(roof.ridge(cx+1)-roof.ridge(cx-1))*.44,c=-dx/fy,d=-length/fy,tx=cx-a*width/2-c*fy,ty=foot-b*width/2-d*fy;
+   const key=[cat.getAttribute('src'),x,top,width,height,length,dx].join(':');
+   if(item.key!==key){item.key=key;for(const n of [item.mask,item.image,item.body]){n.setAttribute('width',width);n.setAttribute('height',height);}item.image.setAttribute('href',cat.getAttribute('src'));item.body.setAttribute('transform','matrix('+[a,b,c,d,tx,ty].join(' ')+')');item.group.dataset.castVector=dx+','+length;}
+   item.group.style.opacity=cat.style.opacity;
+  }
+ }
  function applyRoof(card,w){
   if(!card?.isConnected)return;const e=install(card),stamp=[Math.floor(SolarModel.time(w)/60000),w.season].join(':');
   if(e.stamp!==stamp){for(const mode of Object.keys(e.filters)){const p=parameters({...w,weather:'sunny'},'roof',mode),f=e.filters[mode];f.saturation.setAttribute('values',p[1]);for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}}e.stamp=stamp;}
@@ -95,6 +119,7 @@ globalThis.CatLightHarmony=(()=>{
    const moon=RoofMoon.snapshot(SolarModel.time(w)),lightX=104+(.5-moon.progress)*(card.clientWidth/(scene.getBoundingClientRect().width/208)+15),dx=Math.max(-5,Math.min(5,(x+width/2-lightX)*.035)),level=SolarModel.phase(SolarModel.time(w))==='night'?moon.opacity*moon.illumination:0;
    spot.style.cssText=`left:${x+width/2}px;top:${y-1}px;width:${width*(reclining?.62:.46)}px;height:3px;opacity:${Number(cat.style.opacity)*.16};--roof-cast-x:${dx}px;--roof-cast-level:${level}`;
   }
+  roofCasts(card,w,cats,e);
  }
  function roofUpdate(element,at){const result=roof.update(element,at);applyRoof(element?.closest('.roof-sky-card'),{...DayRoom.world(),at});return result;}
  function skyRoofUpdate(scene,w){const result=sky.updateRoof(scene,w);applyRoof(scene?.closest('.roof-sky-card'),w);return result;}
