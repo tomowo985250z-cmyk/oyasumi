@@ -124,11 +124,38 @@ globalThis.SolarSky=(()=>{
   const l=[.2126,.7152,.0722],temperature=[1+t.evening*.16-t.night*.20,1-t.evening*.025,1-t.evening*.19+t.night*.15];
   return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,0]).concat([0,0,0,1,0]).join(' ');
  }
+ // Window anchors in the unchanged seasonal photo pixels, below the roof eaves.
+ // Project through each image's existing geometry; no extra buildings or timers.
+ const homeWindowAnchors={
+  spring:{village:[[323,489],[1234,490]],engawa:[[207,324]]},
+  summer:{village:[[323,489],[1234,490]],engawa:[[207,324]]},
+  autumn:{village:[[323,489],[1234,490]],engawa:[[207,324]]},
+  winter:{village:[[323,482],[1234,487]],engawa:[[205,320]]}
+ };
+ function distantHomes(svg,w){
+  const photo=svg.querySelector('[data-village-terrain],[data-sky55-terrain]');if(!photo)return;
+  let lights=svg.querySelector(':scope > [data-distant-home-lights]');
+  if(!lights){lights=document.createElementNS(ns,'g');lights.setAttribute('data-distant-home-lights','');lights.setAttribute('pointer-events','none');lights.setAttribute('aria-hidden','true');photo.after(lights);}
+  const panoramic=photo.hasAttribute('data-village-terrain'),kind=panoramic?'village':'engawa',width=panoramic?2172:768,height=panoramic?724:512,
+   x=Number(photo.getAttribute('x')),y=Number(photo.getAttribute('y')),sx=Number(photo.getAttribute('width'))/width,sy=Number(photo.getAttribute('height'))/height,key=w.season+':'+kind+':'+x+':'+y;
+  if(lights.dataset.windows!==key){
+   lights.replaceChildren();for(const [px,py] of (homeWindowAnchors[w.season]||homeWindowAnchors.summer)[kind]){
+    const cx=x+px*sx,cy=y+py*sy;if(cx<2||cx>398||cy<0||cy>260)continue;
+    const window=document.createElementNS(ns,'g');window.setAttribute('data-distant-home-window','');
+    const halo=document.createElementNS(ns,'ellipse');for(const [k,v]of Object.entries({cx,cy,rx:5*sx,ry:3*sy,fill:'#dfb474',opacity:'.12'}))halo.setAttribute(k,v);
+    const pane=document.createElementNS(ns,'rect');for(const [k,v]of Object.entries({x:cx-1.6*sx,y:cy-1.15*sy,width:3.2*sx,height:2.3*sy,rx:.3*sx,fill:'#efc58a',opacity:'.9'}))pane.setAttribute(k,v);
+    window.append(halo,pane);lights.append(window);
+   }lights.dataset.windows=key;
+  }
+  const at=SolarModel.time(w),night=SolarModel.phase(at)==='night',level=night?SolarModel.smooth(-.833,-6,SolarModel.parameters(at).altitude):0;
+  lights.setAttribute('opacity',String(.68*level*(w.weather==='rainy'?.6:w.weather==='cloudy'?.85:1)));
+ }
  function paintEngawa(svg,w){
   if(!svg.hasAttribute('data-sky55'))return;
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.86:1;
   svg.querySelector('[data-sky55-tone="terrain"]').setAttribute('values',engawaMatrix((t.day+t.morning*.90+t.evening*.67+t.night*.24)*wet,t.day*.90+t.morning*.86+t.evening*.79+t.night*.38,t));
   svg.querySelector('[data-sky55-tone="cloud"]').setAttribute('values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
+  distantHomes(svg,w);
  }
  function engawa(svg,w){
   // The complete original vector background remains available for restoration.
