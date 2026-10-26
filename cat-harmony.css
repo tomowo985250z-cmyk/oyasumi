@@ -40,3 +40,10 @@
 /* Local roof-only posture warp follows the unchanged ambient RGB filter. */
 .roof-sky-card[data-cat-harmony] .roof-cat{filter:var(--harmony-ambient) var(--roof-posture-filter,brightness(1))}
 .roof-sky-card[data-cat-harmony] .roof-cat[data-cat-coat=white]{filter:var(--harmony-white,var(--harmony-ambient)) var(--roof-posture-filter,brightness(1))}
+
+/* One native, actor-attached foot contact; only its night response changes. */
+.day-room[data-cat-harmony][data-night-shadow-source=lamp]>.room-resident[style*="--harmony-contact-x"]::before{opacity:calc(var(--harmony-contact-opacity) * var(--night-contact-strength,1));background:radial-gradient(ellipse,#47382bb8,#4c403363 34%,transparent 74%)}
+.day-room[data-cat-harmony][data-night-shadow-source=moon]>.room-resident[style*="--harmony-contact-x"]::before{opacity:calc(var(--harmony-contact-opacity) * var(--night-contact-strength,1));background:radial-gradient(ellipse,#1c2e40b8,#293c4c63 34%,transparent 74%)}
+/* Short pendant casts replace the existing direct-moon pillar casts while ON. */
+.day-room[data-location=engawa][data-night-shadow-source=lamp] [data-caster=pillar]{display:none}
+.roof-sky-card [data-night-tile-shadow]{filter:blur(.25px)}

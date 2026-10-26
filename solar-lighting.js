@@ -107,19 +107,21 @@ globalThis.SolarLighting=(()=>{
  const assetKey=img=>img.dataset.assetKey||img.getAttribute('src')?.split('?')[0].replace('assets/cat-meals-v1/','meal/').replace('assets/cat-refresh-v1/','').replace(/\.png$/,'');
  function cat(stage,w,value=actor(stage)){
   if(!value)return '';const {group,img,meal}=value,a=IndoorCatScale.contact(assetKey(img));if(!a)return '';
+  const night=SolarModel.phase(SolarModel.time(w))==='night';
+  if(night&&(stage.dataset.nightShadowSource==='lamp'||stage.dataset.nightShadowActor==='care'))return '';
   const s=illumination(w,stage.dataset.location),r=stage.getBoundingClientRect();if(!r.width)return '';const k=400/r.width;
   let bw,bh,fx,fy;
   if(meal){const b=img.getBoundingClientRect();bw=b.width*k;bh=b.height*k;fx=(b.left-r.left)*k+(a[2]+a[4])/2/a[0]*bw;fy=(b.top-r.top)*k+a[5]/a[1]*bh;}
   else{const css=getComputedStyle(group),matrix=new DOMMatrix(css.transform),origin=css.transformOrigin.split(' ').map(parseFloat);bw=parseFloat(css.width)*matrix.a*k;bh=parseFloat(css.height)*matrix.d*k;fx=(group.offsetLeft+origin[0]+matrix.e)*k;fy=(group.offsetTop+origin[1]+matrix.f)*k;}
   const ox=(a[2]+a[4])/2/a[0]*bw,oy=a[5]/a[1]*bh,h=(a[5]-a[3])/a[1]*bh;
-  const sill=stage.dataset.place==='window',v=s.shadow(h,sill?27:140),id='solar-cat-'+(++sequence),c=-v.x/h,d=-v.y/h-.055,tx=fx-.82*ox-c*oy,ty=fy-d*oy;
+  const sill=stage.dataset.place==='window',v=s.shadow(h,sill?27:night?38:140),id='solar-cat-'+(++sequence),c=-v.x/h,d=-v.y/h-.055,tx=fx-.82*ox-c*oy,ty=fy-d*oy;
   const imageTransform=meal?'none':getComputedStyle(img).transform,transform=imageTransform==='none'?'':`translate(${bw/2} ${bh/2}) ${imageTransform} translate(${-bw/2} ${-bh/2})`;
   // A masked ink silhouette on the support surface, never a second cat image node.
   const clip=sill&&!meal?'M30 157h150v15H30Z':SceneryMaterials.support(stage,meal)||floor(stage.dataset.location);
-  const opacity=s.direct*(stage.dataset.location==='room'?.065:.105)*(stage.dataset.location==='room'?s.southExposure:1);
-  const svg=parse(`<svg xmlns="${ns}" class="solar-cat-shadow" viewBox="0 0 400 330" aria-hidden="true" data-vector="${v.x},${v.y}" data-source="${s.source}"><defs><clipPath id="${id}-support"><path d="${clip}"/></clipPath><mask id="${id}-alpha" maskUnits="userSpaceOnUse" x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" style="mask-type:alpha"><image href="${img.getAttribute('src').replace(/&/g,'&amp;')}" width="${bw}" height="${bh}" transform="${transform}"/></mask><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${s.softness*.8}"/></filter></defs><g clip-path="url(#${id}-support)" opacity="${opacity}"><g filter="url(#${id}-soft)"><g transform="matrix(.82 0 ${c} ${d} ${tx} ${ty})"><rect x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" fill="#283e48" mask="url(#${id}-alpha)"/></g></g></g></svg>`);
+  const factor=night&&stage.dataset.location==='garden'?.18:stage.dataset.location==='room'?.065:.105,opacity=s.direct*factor*(stage.dataset.location==='room'?s.southExposure:1);
+  const svg=parse(`<svg xmlns="${ns}" class="solar-cat-shadow" viewBox="0 0 400 330" aria-hidden="true" data-vector="${v.x},${v.y}" data-source="${s.source}"><defs><clipPath id="${id}-support"><path d="${clip}"/></clipPath><mask id="${id}-alpha" maskUnits="userSpaceOnUse" x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" style="mask-type:alpha"><image href="${img.getAttribute('src').replace(/&/g,'&amp;')}" width="${bw}" height="${bh}" transform="${transform}"/></mask><filter id="${id}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${night?Math.max(1.4,s.softness):s.softness*.8}"/></filter>${night?`<linearGradient id="${id}-fade" x2="0" y1="1" y2="0"><stop stop-color="#24394b" stop-opacity=".95"/><stop offset=".55" stop-color="#24394b" stop-opacity=".45"/><stop offset="1" stop-color="#24394b" stop-opacity=".08"/></linearGradient>`:''}</defs><g clip-path="url(#${id}-support)" opacity="${opacity}"><g filter="url(#${id}-soft)"><g transform="matrix(.82 0 ${c} ${d} ${tx} ${ty})"><rect x="${-bw}" y="${-bh}" width="${bw*3}" height="${bh*3}" fill="${night?`url(#${id}-fade)`:'#283e48'}" mask="url(#${id}-alpha)"/></g></g></g></svg>`);
   {
-   const group=svg.querySelector(':scope > g');group.dataset.solarDirect='';group.dataset.lightFactor=String(stage.dataset.location==='room'?.065:.105);
+   const group=svg.querySelector(':scope > g');group.dataset.solarDirect='';group.dataset.lightFactor=String(factor);
   }
   return stringify(svg);
  }
@@ -134,25 +136,38 @@ globalThis.SolarLighting=(()=>{
   let e=nightEntries.get(stage);if(!e){e={};nightEntries.set(stage,e);}
   const light=where==='room'?{x:342,y:65}:{x:200,y:20},color=where==='garden'?'#26394d':'#574331';
   const vector=(x,y,length)=>{if(where==='garden')return moon.shadow(length,30);const dx=x-light.x,dy=(y-light.y)*.36,n=Math.hypot(dx,dy)||1;return{x:dx/n*length,y:dy/n*length};};
-  const oval=(x,y,width,length)=>{const v=vector(x,y,length);return '<ellipse cx="'+(x+v.x*.45)+'" cy="'+(y+v.y*.45)+'" rx="'+width+'" ry="'+(2+length*.10)+'" fill="'+color+'"/>';};
-  const bg=stage.querySelector('.room-background-layer:not([data-background-outgoing])'),svg=bg?.querySelector('svg[data-bedroom-realism],svg[data-garden-revision]');
+  const oval=(x,y,width,length)=>{
+   const v=vector(x,y,length),id='night-fade-'+(++sequence),end={x:x+v.x,y:y+v.y};
+   return '<defs><linearGradient id="'+id+'" gradientUnits="userSpaceOnUse" x1="'+x+'" y1="'+y+'" x2="'+end.x+'" y2="'+end.y+'"><stop stop-color="'+color+'" stop-opacity=".85"/><stop offset=".6" stop-color="'+color+'" stop-opacity=".34"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></linearGradient></defs><path d="M'+(x-width)+' '+y+'Q'+x+' '+(y-2)+' '+(x+width)+' '+y+'Q'+(x+width+v.x*.6)+' '+(y+v.y*.6)+' '+(end.x+width*.55)+' '+end.y+'Q'+end.x+' '+(end.y+2)+' '+(end.x-width*.55)+' '+end.y+'Q'+(x-width+v.x*.6)+' '+(y+v.y*.6)+' '+(x-width)+' '+y+'Z" fill="url(#'+id+')"/>';
+  };
+  const bg=stage.querySelector('.room-background-layer:not([data-background-outgoing])'),svg=bg?.querySelector('svg[data-bedroom-realism],svg[data-garden-revision],svg[data-tatami-wall-study]');
   if(svg&&e.background!==svg){
    e.background=svg;const id='night-support-'+(++sequence),defs=svg.querySelector('defs');
-   defs.insertAdjacentHTML('beforeend','<filter id="'+id+'" x="-35%" y="-200%" width="170%" height="500%"><feGaussianBlur stdDeviation="2.1"/></filter>');
-   const add=(object,x,y,width,length)=>{if(!object)return;const g=document.createElementNS(ns,'g');g.dataset.nightObjectShadow='';g.style.cssText='pointer-events:none;transition:opacity 260ms ease';g.setAttribute('filter','url(#'+id+')');g.dataset.nightAnchor=[x,y,width,length].join(',');g.setAttribute('opacity','0');object.before(g);};
+   defs.insertAdjacentHTML('beforeend','<filter id="'+id+'" x="-35%" y="-200%" width="170%" height="500%"><feGaussianBlur stdDeviation="2.1"/></filter><clipPath id="'+id+'-plane"><path d="'+(where==='engawa'?'M0 228H400V330H0Z':floor(where))+'"/></clipPath>');
+   const add=(object,x,y,width,length)=>{if(!object)return;const g=document.createElementNS(ns,'g');g.dataset.nightObjectShadow='';g.style.cssText='pointer-events:none;transition:opacity 260ms ease';g.setAttribute('filter','url(#'+id+')');g.setAttribute('clip-path','url(#'+id+'-plane)');g.dataset.nightAnchor=[x,y,width,length].join(',');g.setAttribute('opacity','0');object.before(g);};
    if(where==='room'){
     add(svg.querySelector('[data-scene-object="potted-plant"]'),340,246,16,14);
     add(svg.querySelector('[data-season-furniture="kotatsu"]'),207,296,78,17);
+    const basket=svg.querySelector('[data-scene-object="basket"]');if(basket){const m=basket.transform.baseVal.consolidate()?.matrix;if(m)add(basket,m.e,m.f,23,9);}
+   }else if(where==='engawa'){
+    add(svg.querySelector('[data-scene-object="andon"]'),37,270,12,5);
+    add(svg.querySelector('[data-scene-object="water-bowl"]'),322,266,17,6);
+    add(svg.querySelector('path[d^="M60 0h16"]'),68,228,8,7);
+    add(svg.querySelector('path[d^="M369 0h13"]'),375.5,228,6.5,7);
    }else if(where==='garden'){
+    const fade=document.createElementNS(ns,'linearGradient');fade.id=id+'-tree';for(const [k,v]of Object.entries({gradientUnits:'userSpaceOnUse',x1:0,y1:-252,x2:0,y2:0}))fade.setAttribute(k,v);fade.innerHTML='<stop stop-color="#293e50" stop-opacity=".12"/><stop offset=".6" stop-color="#293e50" stop-opacity=".38"/><stop offset="1" stop-color="#293e50" stop-opacity=".9"/>';defs.append(fade);e.treeFade=fade.id;
     for(const stone of svg.querySelectorAll('[data-garden-stone]')){const image=stone.querySelector('image'),x=+image.getAttribute('x'),y=+image.getAttribute('y'),width=+image.getAttribute('width'),height=+image.getAttribute('height');add(stone,x+width/2,y+height-2,width*.43,10);}
    }
   }
   // The existing tree projection already follows the moon. Keep its geometry;
   // only use cool shadow ink at night, restoring its original daytime ink.
-  for(const n of svg?.querySelectorAll('[data-caster="cherry-photo"] rect')||[])n.setAttribute('fill',night?'#293e50':'#293d36');
+  for(const n of svg?.querySelectorAll('[data-caster="cherry-photo"] rect')||[])n.setAttribute('fill',night&&e.treeFade?'url(#'+e.treeFade+')':'#293d36');
   const directionKey=[where,moon.source,Math.round(moon.azimuthUsed),Math.round(moon.altitudeUsed)].join(':');
   for(const n of svg?.querySelectorAll('[data-night-object-shadow]')||[]){if(n.dataset.nightDirection!==directionKey){n.innerHTML=oval(...n.dataset.nightAnchor.split(',').map(Number));n.dataset.nightDirection=directionKey;}n.setAttribute('opacity',String(level*(where==='garden'?.50:.12)));}
-  const a=actor(stage),contact=a&&IndoorCatScale.contact(assetKey(a.img)),r=stage.getBoundingClientRect();
+  stage.dataset.nightShadowSource=level>0?(where==='garden'?'moon':'lamp'):'';stage.style.setProperty('--night-contact-strength',String(1+.16*level));
+  const a=actor(stage);stage.dataset.nightShadowActor=level>0&&a?.meal?'care':'';
+  if(!a?.meal){if(e.holder){e.holder.style.opacity='0';e.holder.replaceChildren();}return;}
+  const contact=a&&IndoorCatScale.contact(assetKey(a.img)),r=stage.getBoundingClientRect();
   const b=a?.img.getBoundingClientRect(),key=[where,level,stage.dataset.place,stage.dataset.nightPose,b?.x,b?.y,b?.width,b?.height,a?.img.getAttribute('src')].join(':');if(e.key===key)return;e.key=key;
   if(!e.holder){const holder=document.createElement('div');holder.className='room-night-shadows';holder.setAttribute('aria-hidden','true');stage.append(holder);e.holder=holder;}
   e.holder.style.opacity=String(level*(where==='garden'?.40:.13));
@@ -184,7 +199,7 @@ globalThis.SolarLighting=(()=>{
   const sunlight=bg?.querySelector('[data-solar-edge-reflection]');
   if(sunlight){sunlight.querySelector('[data-solar-edge-strength]').setAttribute('slope',String(edge));if(edge)stage.style.setProperty('--room-light-filter',stage.style.getPropertyValue('--room-light-filter').replace(/^none$/,'')+` url("#${sunlight.id}")`);}
   let entry=entries.get(stage);if(!entry){const holder=document.createElement('div');holder.className='room-cat-lighting';holder.setAttribute('aria-hidden','true');stage.append(holder);entry={holder};entries.set(stage,entry);resize?.observe(stage);}
-  const signature=[w.at,w.weather,stage.dataset.location,stage.dataset.place,stage.clientWidth,source?.img.getAttribute('src'),source?.group.getAttribute('style'),stage.dataset.nightPose].join(':');
+  const signature=[w.at,w.weather,stage.dataset.location,stage.dataset.place,stage.clientWidth,source?.img.getAttribute('src'),source?.group.getAttribute('style'),stage.dataset.nightPose,stage.dataset.nightShadowSource,stage.dataset.nightShadowActor].join(':');
   if(entry.signature===signature)return;entry.signature=signature;const token={};entry.token=token;
   const draw=()=>{
    if(!stage.isConnected||entry.token!==token)return;
