@@ -126,12 +126,17 @@ globalThis.SolarSky=(()=>{
  }
  // Window anchors in the unchanged seasonal photo pixels, below the roof eaves.
  // Project through each image's existing geometry; no extra buildings or timers.
- const homeWindowAnchors={
-  spring:{village:[[323,489],[1234,490]],engawa:[[207,324]]},
-  summer:{village:[[323,489],[1234,490]],engawa:[[207,324]]},
-  autumn:{village:[[323,489],[1234,490]],engawa:[[207,324]]},
-  winter:{village:[[323,482],[1234,487]],engawa:[[205,320]]}
+ // Fixed photo-window locations: 1–2 panes per house, with restrained distance variation.
+ const commonHomeWindows={
+  room:[[323,489,1,.92],[342,489,.92,.82],[548,488,.73,.72],[672,489,.65,.64]],
+  garden:[[929,488,.68,.69],[1018,488,.72,.75],[1110,489,.65,.63],[1234,490,.83,.8],[1251,490,.72,.69],[1517,486,.9,.83],[1532,486,.76,.73]],
+  engawa:[[207,324,1,.92],[223,324,.88,.79],[345,322,.65,.65]]
  };
+ const homeWindowAnchors={spring:commonHomeWindows,summer:commonHomeWindows,autumn:commonHomeWindows,winter:{
+  room:[[323,482,1,.92],[342,482,.92,.82],[548,483,.73,.72],[672,486,.65,.64]],
+  garden:[[929,484,.68,.69],[1018,485,.72,.75],[1110,486,.65,.63],[1234,487,.83,.8],[1251,487,.72,.69],[1517,483,.9,.83],[1532,483,.76,.73]],
+  engawa:[[205,320,1,.92],[221,320,.88,.79],[345,320,.65,.65]]
+ }};
  function distantHomes(svg,w){
   const photo=svg.querySelector('[data-village-terrain],[data-sky55-terrain]');if(!photo)return;
   let lights=svg.querySelector(':scope > [data-distant-home-lights]');
@@ -139,11 +144,13 @@ globalThis.SolarSky=(()=>{
   const panoramic=photo.hasAttribute('data-village-terrain'),kind=panoramic?'village':'engawa',width=panoramic?2172:768,height=panoramic?724:512,
    x=Number(photo.getAttribute('x')),y=Number(photo.getAttribute('y')),sx=Number(photo.getAttribute('width'))/width,sy=Number(photo.getAttribute('height'))/height,key=w.season+':'+kind+':'+x+':'+y;
   if(lights.dataset.windows!==key){
-   lights.replaceChildren();for(const [px,py] of (homeWindowAnchors[w.season]||homeWindowAnchors.summer)[kind]){
+   const defs=svg.querySelector('defs'),id=photo.getAttribute('filter').match(/#([^)'"]+)/)[1]+'-home-soft',view=panoramic?(svg.dataset.villageFrame==='window'?'room':'garden'):'engawa';
+   if(!defs.querySelector('[id="'+id+'-glow"]'))defs.insertAdjacentHTML('beforeend','<radialGradient id="'+id+'-glow"><stop stop-color="#e7b777" stop-opacity=".13"/><stop offset=".5" stop-color="#dfad6d" stop-opacity=".045"/><stop offset="1" stop-color="#dfad6d" stop-opacity="0"/></radialGradient><filter id="'+id+'-edge" x="-65%" y="-95%" width="230%" height="290%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="'+(.52*sx)+' '+(.52*sy)+'"/></filter>');
+   lights.replaceChildren();for(const [px,py,size,strength] of (homeWindowAnchors[w.season]||commonHomeWindows)[view]){
     const cx=x+px*sx,cy=y+py*sy;if(cx<2||cx>398||cy<0||cy>260)continue;
-    const window=document.createElementNS(ns,'g');window.setAttribute('data-distant-home-window','');
-    const halo=document.createElementNS(ns,'ellipse');for(const [k,v]of Object.entries({cx,cy,rx:5*sx,ry:3*sy,fill:'#dfb474',opacity:'.12'}))halo.setAttribute(k,v);
-    const pane=document.createElementNS(ns,'rect');for(const [k,v]of Object.entries({x:cx-1.6*sx,y:cy-1.15*sy,width:3.2*sx,height:2.3*sy,rx:.3*sx,fill:'#efc58a',opacity:'.9'}))pane.setAttribute(k,v);
+    const window=document.createElementNS(ns,'g');window.setAttribute('data-distant-home-window','');window.setAttribute('opacity',strength);
+    const halo=document.createElementNS(ns,'ellipse');for(const [k,v]of Object.entries({cx,cy,rx:4.6*sx*size,ry:3.1*sy*size,fill:'url(#'+id+'-glow)'}))halo.setAttribute(k,v);
+    const pane=document.createElementNS(ns,'rect');for(const [k,v]of Object.entries({x:cx-1.6*sx*size,y:cy-1.15*sy*size,width:3.2*sx*size,height:2.3*sy*size,rx:.7*sx*size,ry:.65*sy*size,fill:'#efc58a',opacity:'.92',filter:'url(#'+id+'-edge)'}))pane.setAttribute(k,v);
     window.append(halo,pane);lights.append(window);
    }lights.dataset.windows=key;
   }
