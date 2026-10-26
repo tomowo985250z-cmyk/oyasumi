@@ -105,9 +105,9 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 @media(prefers-reduced-motion:reduce){[data-solar-direct]{transition:none}}
 
 /* Warm light is behind the resident, with a cut-out for the untouched sky. */
-.room-warm-light{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;transition:opacity 2400ms ease-in-out}
+.room-warm-light{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;transition:opacity 360ms ease-in-out}
 .day-room:not([data-location=room]) .room-warm-light{display:none}
-.room-light-switch{position:absolute;inset:0;width:100%;height:100%;z-index:1;padding:0;background:transparent;border:0;border-radius:inherit;touch-action:manipulation}
+.room-light-switch{position:absolute;left:80%;top:7.5%;width:13%;height:16%;min-width:44px;min-height:44px;z-index:5;margin:0;padding:0;background:transparent;border:0;border-radius:12px;touch-action:manipulation}
 .room-light-switch[hidden]{display:none}
 .room-light-switch:hover,.room-light-switch:active{background:transparent;filter:none;transform:none}
 @media(prefers-reduced-motion:reduce){.room-warm-light{transition:none}}
@@ -157,3 +157,12 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 
 /* Edge reflections stay inside the existing glass aperture, behind curtains. */
 .day-room[data-location=room] .day-room-world-window>.room-window-glass{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+
+/* Small milk-glass wall lamp; existing night switch and cat RGB remain native. */
+.room-sconce-art{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;--sconce-milk-top:#f0ede2;--sconce-milk-edge:#c6c4b6}
+.day-room:not([data-location=room]) .room-sconce-art{display:none}
+.day-room[data-world-daylight=false] .room-sconce-art{--sconce-milk-top:#a7b1a7;--sconce-milk-edge:#75847c}
+.room-sconce-lit{opacity:0;transition:opacity 360ms ease-in-out}
+.day-room[data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]) .room-sconce-lit{opacity:1}
+.room-light-switch:focus-visible{outline:2px solid #dfc493;outline-offset:1px}
+@media(prefers-reduced-motion:reduce){.room-sconce-lit{transition:none}}
