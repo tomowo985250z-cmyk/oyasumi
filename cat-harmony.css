@@ -36,3 +36,7 @@
 [data-roof-moon-casts] [data-roof-cat-cast]{transition:opacity 4s linear}
 .roof-sky-card:has(.roof-cat-group[data-cat-placeholder]) [data-roof-moon-casts],html[data-cat-state-pending] [data-roof-moon-casts]{visibility:hidden}
 @media(prefers-reduced-motion:reduce){[data-roof-moon-casts] [data-roof-cat-cast]{transition:none}}
+
+/* Local roof-only posture warp follows the unchanged ambient RGB filter. */
+.roof-sky-card[data-cat-harmony] .roof-cat{filter:var(--harmony-ambient) var(--roof-posture-filter,brightness(1))}
+.roof-sky-card[data-cat-harmony] .roof-cat[data-cat-coat=white]{filter:var(--harmony-white,var(--harmony-ambient)) var(--roof-posture-filter,brightness(1))}
