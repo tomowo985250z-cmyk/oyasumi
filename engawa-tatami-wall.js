@@ -39,6 +39,21 @@ globalThis.TatamiWallStudy=(()=>{
     const rx=81-i*3.45,ry=rx*13/83;
     cloth.append(node('ellipse',{cx:204,cy:262,rx,ry,fill:'none',stroke:i%2?light:dark,'stroke-width':i%2?'.36':'.52',opacity:'.31'}));
    }
+   // Quiet woven fibres and a rounded braided rim, in the same floor plane.
+   // All detail stays inside the original oval; size, palette and placement stay native.
+   const fibre=node('pattern',{id:id+'-rug-fibre',patternUnits:'userSpaceOnUse',x:121,y:249,width:7.5,height:3.6});
+   fibre.innerHTML='<path d="M-.8 1q2-.9 4 .1t4-.1M-.8 2.8q2 .8 4-.1t4 .1" fill="none" stroke="'+dark+'" stroke-width=".48" stroke-opacity=".28"/><path d="M.8 .2q-.5 1.5 .1 2.9m3.6-2.6q.6 1.3-.1 3" fill="none" stroke="'+light+'" stroke-width=".55" stroke-opacity=".46"/>';defs.append(fibre);
+   cloth.append(node('ellipse',{cx:204,cy:262,rx:81,ry:12.7,fill:'url(#'+fibre.id+')'}));
+   const stitches=[],glints=[];
+   for(let i=0;i<112;i++){
+    const t=i*Math.PI*2/112,point=(r,a)=>[204+r*Math.cos(a),262+r*13/83*Math.sin(a)].map(number).join(' ');
+    stitches.push('M'+point(82,t-.012)+'Q'+point(80.2,t+.018)+' '+point(78.4,t-.012));
+    if(i%3!==0)glints.push('M'+point(81.6,t-.017)+'Q'+point(80.1,t+.008)+' '+point(79,t-.012));
+   }
+   cloth.append(node('path',{d:stitches.join(''),fill:'none',stroke:dark,'stroke-width':'.65','stroke-linecap':'round',opacity:'.40'}));
+   cloth.append(node('path',{d:glints.join(''),fill:'none',stroke:light,'stroke-width':'.4','stroke-linecap':'round',opacity:'.56'}));
+   cloth.append(node('path',{d:'M122 262q82 23.6 164 0',fill:'none',stroke:dark,'stroke-width':'1.25',opacity:'.20'}));
+
    const weave=node('filter',{id:id+'-linen',x:0,y:0,width:'100%',height:'100%'});weave.innerHTML='<feTurbulence type="fractalNoise" baseFrequency=".55 .28" numOctaves="2" seed="41"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".07"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/>';defs.append(weave);
    cloth.style.filter='url(#'+weave.id+')';rug.after(cloth);if(oldRim){oldRim.setAttribute('data-engawa-soft-legacy','rim');oldRim.setAttribute('opacity','0');}
   }
