@@ -267,7 +267,14 @@ globalThis.DayRoom=(()=>{
   const {room,w,night,where,place,status,stamp,html}=value,cat=stage.querySelector('.room-resident');
   stage.dataset.roomStamp=stamp;stage.dataset.postStatus=status;stage.dataset.location=where;stage.dataset.place=place;stage.dataset.away=String(room.away);
   stage.dataset.catRest=room.restState;
-  if(night){stage.dataset.nightPose=night.pose;stage.style.cssText=night.style;}else{delete stage.dataset.nightPose;stage.removeAttribute('style');}
+  // A pose owns only its placement. Keep ambient RGB, cloth and contact-shadow
+  // properties installed by the lighting modules, including same-minute swaps.
+  const placement=document.createElement('div').style;placement.cssText=night?.style||'';
+  for(const key of ['left','top','width','height','rotation','flip']){
+   const name='--night-'+key,value=placement.getPropertyValue(name);
+   if(value)stage.style.setProperty(name,value);else stage.style.removeProperty(name);
+  }
+  if(night)stage.dataset.nightPose=night.pose;else delete stage.dataset.nightPose;
   stage.dataset.worldDay=w.day;stage.dataset.worldSeason=w.season;stage.dataset.worldWeather=w.weather;stage.dataset.worldDaylight=String(w.daylight);
   syncLamp(stage,w);
   cat.style.cssText=contactStyle(place,where,html,stage.dataset.coat,night);if(!prepared)CatImages.render(cat,html);

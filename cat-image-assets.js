@@ -162,6 +162,12 @@
       cat.replaceWith(cached);
     }
     target.replaceChildren(content);
+    // Reused, decoded cats can paint immediately. Install this scene's RGB and
+    // shadow state synchronously, before observers or a later clock tick run.
+    if (globalThis.SolarLighting && globalThis.DayRoom) {
+      const world=DayRoom.world();
+      for (const stage of target.querySelectorAll('.day-room')) SolarLighting.update(stage,world);
+    }
     // Cached images must not retain entire detached screens through their parents.
     for (const image of cache.values()) if (!image.isConnected) image.remove();
     warm(target);
