@@ -1,3 +1,40 @@
+// Shared major stars: subset of the existing d3-celestial catalog; its BSD-3
+// license and provenance remain in assets/engawa-night-sky/. J2000 RA/Dec degrees.
+// No catalog request, constellation lines or labels are needed for these anchors.
+globalThis.NightConstellations=(()=>{
+ const rad=Math.PI/180;
+ const rows=[["Polaris","north",37.9545,89.2641,1.97,0.636],["Dubhe","dipper",165.932,61.751,1.81,1.061],["Merak","dipper",165.4603,56.3824,2.34,0.033],["Phecda","dipper",178.4577,53.6948,2.41,0.044],["Megrez","dipper",-176.1435,57.0326,3.32,0.077],["Alioth","dipper",-166.4927,55.9598,1.76,-0.022],["Mizar","dipper",-159.0186,54.9254,2.23,0.057],["Alkaid","dipper",-153.1148,49.3133,1.85,-0.099],["Caph","cassiopeia",2.2945,59.1498,2.28,0.38],["Schedar","cassiopeia",10.1268,56.5373,2.24,1.17],["Gamma-Cas","cassiopeia",14.1772,60.7167,2.15,-0.046],["Ruchbah","cassiopeia",21.454,60.2353,2.66,0.16],["Segin","cassiopeia",28.5989,63.6701,3.35,-0.15],["Betelgeuse","orion",88.7929,7.4071,0.45,1.5],["Rigel","orion",78.6345,-8.2016,0.18,-0.03],["Bellatrix","orion",81.2828,6.3497,1.64,-0.224],["Saiph","orion",86.9391,-9.6696,2.07,-0.168],["Alnitak","orion",85.1897,-1.9426,1.74,-0.199],["Alnilam","orion",84.0534,-1.2019,1.69,-0.184],["Mintaka","orion",83.0017,-0.2991,2.25,-0.175],["Antares","scorpius",-112.6481,-26.432,1.06,1.865],["Acrab","scorpius",-118.6407,-19.8055,2.56,-0.065],["Dschubba","scorpius",-119.9166,-22.6217,2.29,-0.117],["Pi-Sco","scorpius",-120.287,-26.1141,2.89,-0.18],["Shaula","scorpius",-96.5978,-37.1038,1.62,-0.231],["Lesath","scorpius",-97.309,-37.2958,2.7,-0.179],["Sargas","scorpius",-95.6703,-42.9978,1.86,0.406],["Epsilon-Sco","scorpius",-107.4591,-34.2932,2.29,1.144],["Mu-Sco","scorpius",-107.0324,-38.0474,3,-0.2],["Zeta-Sco","scorpius",-106.5011,-42.362,4.7,0.444],["Eta-Sco","scorpius",-101.9617,-43.2392,3.32,0.441],["Vega","lyra",-80.7653,38.7837,0.03,-0.001],["Deneb","cygnus",-49.642,45.2803,1.25,0.092],["Altair","aquila",-62.3042,8.8683,0.76,0.221],["Sadr","cygnus",-54.4429,40.2567,2.23,0.673],["Gienah","cygnus",-48.4472,33.9703,2.48,1.021],["Delta-Cyg","cygnus",-63.7563,45.1308,2.86,-0.002],["Albireo","cygnus",-67.3197,27.9597,3.05,1.088],["Sheliak","lyra",-77.48,33.3627,3.52,0.003],["Sulafat","lyra",-75.2641,32.6896,3.25,-0.049],["Tarazed","aquila",-63.4351,10.6133,2.72,1.507],["Alshain","aquila",-61.1717,6.4068,3.71,0.855],["Regulus","leo",152.093,11.9672,1.36,-0.087],["Denebola","leo",177.2649,14.5721,2.14,0.09],["Algieba","leo",154.9931,19.8415,2.01,1.128],["Zosma","leo",168.5271,20.5237,2.56,0.128],["Chertan","leo",168.56,15.4296,3.33,-0.003],["Adhafera","leo",154.1726,23.4173,3.43,0.307],["Epsilon-Leo","leo",146.4628,23.7743,2.97,0.808],["Arcturus","bootes",-146.0847,19.1824,-0.05,1.239],["Spica","virgo",-158.7018,-11.1613,0.98,-0.235],["Markab","pegasus",-13.8098,15.2053,2.49,-0.002],["Scheat","pegasus",-14.0564,28.0828,2.44,1.655],["Algenib","pegasus",3.309,15.1836,2.83,-0.19],["Alpheratz","andromeda",2.0969,29.0904,2.07,-0.038],["Mirach","andromeda",17.433,35.6206,2.07,1.576],["Almach","andromeda",30.9748,42.3297,2.1,1.37],["Sirius","canis-major",101.2872,-16.7161,-1.44,0.009],["Procyon","canis-minor",114.8255,5.225,0.4,0.432],["Aldebaran","taurus",68.9802,16.5093,0.87,1.538],["Capella","auriga",79.1723,45.998,0.08,0.795],["Pollux","gemini",116.329,28.0262,1.16,0.991],["Castor","gemini",113.6494,31.8883,1.58,0.034],["Elnath","taurus",81.573,28.6075,1.65,-0.13]];
+ const vector=(ra,dec)=>[Math.cos(dec*rad)*Math.cos(ra*rad),Math.cos(dec*rad)*Math.sin(ra*rad),Math.sin(dec*rad)];
+ const catalog=Object.freeze(rows.map(([id,group,ra,dec,mag,bv])=>Object.freeze({id,group,ra,dec,mag,bv,p:Object.freeze(vector(ra,dec))})));
+ function basis(w){
+  const at=Math.floor(SolarModel.time(w)/60000)*60000,region=SolarModel.region(),days=(at-Date.UTC(2000,0,1,12))/86400000,t=days/36525;
+  // Existing local sidereal time convention (UTC, east-positive longitude).
+  // https://aa.usno.navy.mil/faq/GAST and /faq/alt_az
+  const lst=(280.460625+360.985647364185*days+region.longitude)%360;
+  // J2000 to mean equator/equinox of date, IAU 1976 precession angles.
+  const zeta=(2306.2181*t+.30188*t*t+.017998*t*t*t)*rad/3600,z=(2306.2181*t+1.09468*t*t+.018203*t*t*t)*rad/3600,theta=(2004.3109*t-.42665*t*t-.041833*t*t*t)*rad/3600;
+  return {at,lst,region,cos:Math.cos(lst*rad),sin:Math.sin(lst*rad),cl:Math.cos(region.latitude*rad),sl:Math.sin(region.latitude*rad),cz:Math.cos(z),sz:Math.sin(z),cze:Math.cos(zeta),sze:Math.sin(zeta),ct:Math.cos(theta),st:Math.sin(theta)};
+ }
+ function horizontal(p,b){
+  const a=b.cze*p[0]-b.sze*p[1],c=b.sze*p[0]+b.cze*p[1],d=b.ct*a-b.st*p[2],q=[b.cz*d-b.sz*c,b.sz*d+b.cz*c,b.st*a+b.ct*p[2]];
+  const meridian=b.cos*q[0]+b.sin*q[1],east=-b.sin*q[0]+b.cos*q[1],north=b.cl*q[2]-b.sl*meridian,up=b.sl*q[2]+b.cl*meridian;
+  return {east,north,up,altitude:Math.asin(Math.max(-1,Math.min(1,up)))/rad,azimuth:(Math.atan2(east,north)/rad+360)%360};
+ }
+ function project(p,b,where='engawa',visibleOnly=false){
+  const h=horizontal(p,b),bearing=SolarModel.bearing(where)*rad,forward=h.north*Math.cos(bearing)+h.east*Math.sin(bearing),right=h.east*Math.cos(bearing)-h.north*Math.sin(bearing);
+  const delta=((h.azimuth-SolarModel.bearing(where)+540)%360)-180,scale=where==='roof'?288:200,horizon=where==='roof'?221:153,denominator=1+forward;
+  // One conformal stereographic camera; equal x/y scale preserves local shapes.
+  const x=200+scale*right/Math.max(.000001,denominator),y=horizon-scale*h.up/Math.max(.000001,denominator);
+  const inView=h.altitude>0&&Math.abs(delta)<=90&&x>=0&&x<=400&&y>=0&&y<horizon;
+  return visibleOnly&&!inView?null:{...h,delta,x,y,inView};
+ }
+ function state(w,where){const b=basis(w);return {key:b.region.id+':'+b.at+':'+where,b,points:catalog.map(s=>({...s,...project(s.p,b,where)}))};}
+ function opacity(s){return s.inView?(.32+.56*Math.max(0,Math.min(1,(4-s.mag)/4)))*SolarModel.smooth(0,5,s.altitude):0;}
+ function markup(w,where){const s=state(w,where);return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+s.points.map(p=>'<circle data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(.55+Math.max(0,Math.min(1,(4-p.mag)/5))*.58).toFixed(3)+'" fill="'+(p.bv>.8?'#e7d9bf':'#d5e3f3')+'" opacity="'+opacity(p).toFixed(4)+'"/>').join('')+'</g>';}
+ function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('opacity',opacity(p).toFixed(4));});layer.dataset.majorKey=s.key;}
+ return Object.freeze({catalog,vector,basis,horizontal,project,state,markup,sync});
+})();
+
 // Sunrise/sunset decoration only. No cat geometry, shadows or background manager.
 globalThis.SolarSky=(()=>{
  const ns='http://www.w3.org/2000/svg';
@@ -32,48 +69,9 @@ globalThis.SolarSky=(()=>{
   void starFieldDecode.then(()=>{pendingFields.delete(layer);mount();},()=>{pendingFields.delete(layer);starFieldDecode=undefined;});
  }
  window.addEventListener('scroll',()=>{const card=document.querySelector('.roof-sky-card');if(card)updateStarField(card);},{passive:true});
- // ICRS/J2000 RA degrees, declination degrees, visual magnitude:
- // Polaris; Dubhe..Alkaid; Caph, Schedar, gamma Cas, Ruchbah, Segin.
- // https://iauarchive.eso.org/public/themes/naming_stars/
- // https://simbad.cds.unistra.fr/simbad/sim-id?Ident=gam+Cas
- const northCatalog=[
-  [37.955,89.264,1.97],
-  [165.932,61.751,1.81],[165.460,56.382,2.34],[178.458,53.695,2.41],
-  [183.857,57.033,3.32],[193.507,55.960,1.76],[200.981,54.925,2.23],[206.885,49.313,1.85],
-  [2.295,59.150,2.28],[10.127,56.537,2.24],[14.177,60.717,2.39],[21.454,60.235,2.66],[28.599,63.670,3.35]
- ];
- function northState(w){
-  const at=Math.floor(SolarModel.time(w)/60000)*60000,region=SolarModel.region(),rad=Math.PI/180;
-  // UTC is sufficient for this decorative GMST; longitude is east-positive.
-  // https://aa.usno.navy.mil/faq/GAST
-  const days=(at-Date.UTC(2000,0,1,12))/86400000,lst=(280.460625+360.985647364185*days+region.longitude)%360;
-  const latitude=region.latitude*rad,cy=221-288*Math.tan(latitude/2);
-  // Stereographic view centred on the north celestial pole, east on the right.
-  // Isotropic SVG scaling retains both asterism shapes on narrow cards.
-  const points=northCatalog.map(([ra,dec,mag])=>{
-   const h=(lst-ra)*rad,d=dec*rad,r=288*Math.tan((90-dec)*rad/2);
-   const altitude=Math.asin(Math.sin(latitude)*Math.sin(d)+Math.cos(latitude)*Math.cos(d)*Math.cos(h))/rad;
-   return {x:200-r*Math.sin(h),y:cy-r*Math.cos(h),opacity:(.65+(3.5-mag)*.04)*SolarModel.smooth(0,5,altitude)};
-  });
-  return {key:region.id+':'+at,region:region.id,points};
- }
- function northernStars(w){
-  const s=northState(w);
-  return '<svg data-northern-stars="" data-north-key="'+s.key+'" data-north-region="'+s.region+'" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">'+s.points.map((p,i)=>{
-   const alpha=Number(p.opacity.toFixed(3)),twinkle=[0,6,10].includes(i);
-   return '<circle data-northern-star="'+i+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(i===0?1.05:.65+(3.5-northCatalog[i][2])*.12).toFixed(2)+'" fill="'+(i%4===0?'#ece2bd':'#d2ddec')+'" opacity="'+alpha+'"'+(twinkle?' class="roof-twinkle" style="--star-opacity:'+alpha+';animation-duration:'+(7+i*.2)+'s;animation-delay:-'+i+'s"':'')+'/>';
-  }).join('')+'</svg>';
- }
- function updateNorthernStars(card,w){
-  const sky=card.querySelector('[data-northern-stars]');if(!sky)return;
-  const region=SolarModel.region().id,key=region+':'+Math.floor(SolarModel.time(w)/60000)*60000;
-  // Keep the current sky still under reduced motion; explicit remount/region
-  // changes can show a new dated sky. Reuse the existing shared update tick.
-  if(sky.dataset.northKey===key||matchMedia('(prefers-reduced-motion: reduce)').matches&&sky.dataset.northRegion===region)return;
-  const s=northState(w);
-  [...sky.children].forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('opacity',p.opacity.toFixed(3));star.style.setProperty('--star-opacity',p.opacity.toFixed(3));});
-  sky.dataset.northKey=s.key;sky.dataset.northRegion=s.region;
- }
+ // Same major-star calculation as the three window/outdoor scenes.
+ function northernStars(w){return '<svg data-northern-stars="" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">'+NightConstellations.markup(w,'roof')+'</svg>';}
+ function updateNorthernStars(card,w){const layer=card.querySelector('[data-northern-stars] [data-major-stars]');if(layer)NightConstellations.sync(layer,w,'roof');}
  let cached;
  function state(w,where='garden'){
   const at=Math.floor(SolarModel.time(w)/60000)*60000,key=[SolarModel.region().id,at,w.weather,w.season].join(':');
@@ -248,26 +246,12 @@ globalThis.EngawaNightSky=(()=>{
  const pole=vector(192.8594812065348,27.12825118085622),alpha=192.8594812065348*rad;
  const u=[-Math.sin(alpha),Math.cos(alpha),0],v=[-pole[2]*Math.cos(alpha),-pole[2]*Math.sin(alpha),Math.cos(27.12825118085622*rad)];
  function galactic(l,b=0){const t=(l-32.9319185680026)*rad,c=Math.cos(b*rad);return u.map((a,i)=>c*(Math.cos(t)*a+Math.sin(t)*v[i])+Math.sin(b*rad)*pole[i]);}
- function basis(w){
-  // Exactly the GMST expression and longitude convention used by roof northState.
-  const at=Math.floor(SolarModel.time(w)/60000)*60000,region=SolarModel.region(),days=(at-Date.UTC(2000,0,1,12))/86400000;
-  const lst=(280.460625+360.985647364185*days+region.longitude)%360;
-  return {at,lst,region,cos:Math.cos(lst*rad),sin:Math.sin(lst*rad),cl:Math.cos(region.latitude*rad),sl:Math.sin(region.latitude*rad)};
- }
- function projectVector(p,b,where='engawa',visibleOnly=false){
-  const meridian=b.cos*p[0]+b.sin*p[1],east=b.sin*-p[0]+b.cos*p[1],north=b.cl*p[2]-b.sl*meridian,up=b.sl*p[2]+b.cl*meridian;
-  if(visibleOnly&&(up<.01396218||up>.9999||(where==='engawa'&&(up>.85716731||east>=0))))return null;
-  const altitude=Math.asin(Math.max(-1,Math.min(1,up)))/rad,azimuth=(Math.atan2(east,north)/rad+360)%360;
-  // Same angular-to-screen map as SolarModel.facing/RoofMoon.drawing, without
-  // allocating a shadow-casting closure for each faint point.
-  const delta=((azimuth-SolarModel.bearing(where)+540)%360)-180;
-  return {x:200+delta*400/180,y:153-altitude*1.58,altitude,azimuth,delta};
- }
+ const basis=NightConstellations.basis;
+ const projectVector=NightConstellations.project;
  function makeCatalog(catalog){
   const output=catalog.map(([ra,dec,mag,bv])=>({p:vector(ra,dec),mag,warm:bv>.8,real:true}));
-  // Keep the existing roof's named-star anchors at the exact same coordinates.
-  const anchors=[[37.955,89.264,1.97],[165.932,61.751,1.81],[165.460,56.382,2.34],[178.458,53.695,2.41],[183.857,57.033,3.32],[193.507,55.960,1.76],[200.981,54.925,2.23],[206.885,49.313,1.85],[2.295,59.150,2.28],[10.127,56.537,2.24],[14.177,60.717,2.39],[21.454,60.235,2.66],[28.599,63.670,3.35]];
-  for(const [ra,dec,mag]of anchors){const p=vector(ra,dec);let near=-1,best=0;output.forEach((s,i)=>{const d=s.p.reduce((n,x,k)=>n+x*p[k],0);if(d>best){best=d;near=i;}});if(best>.9999)output[near]={...output[near],p,mag};}
+  // Major anchors are drawn once, separately from the existing faint catalog.
+  for(let i=output.length-1;i>=0;i--)if(NightConstellations.catalog.some(s=>s.p.reduce((n,x,k)=>n+x*output[i].p[k],0)>.9999999))output.splice(i,1);
   let seed=0x534b5937;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
   // Decorative faint stars are fixed in celestial coordinates, never screen noise.
   for(let i=0;i<9200;i++){
@@ -320,6 +304,7 @@ globalThis.EngawaNightSky=(()=>{
   const s=state(w,where);layer.setAttribute('opacity',active(w,where)?s.darkness:0);
   if(layer.dataset.skyKey===s.key)return;
   layer.dataset.skyKey=s.key;layer.dataset.facing=SolarModel.bearing(where);layer.dataset.visibleStars=s.visible;layer.dataset.realStars=s.realVisible;layer.dataset.glare=s.glare.toFixed(4);
+  const major=layer.querySelector('[data-major-stars]');if(major){NightConstellations.sync(major,w,where);major.setAttribute('opacity',(s.strength).toFixed(4));}
   layer.querySelector('[data-night-fine-stars]').setAttribute('opacity',s.strength.toFixed(4));
   layer.querySelectorAll('[data-night-star-bin]').forEach((p,i)=>p.setAttribute('d',s.paths[i]));
   layer.querySelector('[data-night-milky-way]').setAttribute('opacity',s.milkyStrength.toFixed(4));
@@ -334,6 +319,7 @@ globalThis.EngawaNightSky=(()=>{
   const layer=document.createElementNS(ns,'g');layer.setAttribute('data-engawa-night-study','');layer.setAttribute('clip-path',`url(#${id}-view)`);layer.setAttribute('pointer-events','none');
   const sizes=[.20,.29,.38,.48,.68,.94],alphas=[.30,.38,.46,.51,.68,.83];
   layer.innerHTML=`<rect x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-blue)"/><rect data-night-haze="" x="69.05" y="62.25" width="263.7" height="169.2" fill="#6e849a"/><g data-night-milky-way="" filter="url(#${id}-soft)"><path data-milky-band="" fill="#a8b9cc" opacity=".10"/><path data-milky-band="" fill="#c2c8cc" opacity=".12"/><path data-milky-band="" fill="#839bb6" opacity=".09"/><path data-milky-band="" fill="#030b1a" opacity=".09"/></g><g data-night-fine-stars="" fill="none" stroke-linecap="round">${Array.from({length:12},(_,i)=>`<path data-night-star-bin="${i}" stroke="${i<6?'#ccdbed':'#e1d8c4'}" stroke-width="${sizes[i%6]*2}" opacity="${alphas[i%6]}"/>`).join('')}</g>`;
+  layer.insertAdjacentHTML('beforeend',NightConstellations.markup(w,where));
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);
   const anchor=oldStars||[...svg.children].find(n=>n.querySelector?.('.room-window-moon'))||svg.querySelector('[data-sky-clouds]');
   if(where!=='engawa'){for(const n of [...defs.querySelectorAll(`[id^="${id}"] rect`),...layer.querySelectorAll('rect')]){n.setAttribute('x',0);n.setAttribute('y',0);n.setAttribute('width',400);n.setAttribute('height',260);}}
