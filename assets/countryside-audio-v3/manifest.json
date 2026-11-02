@@ -1,0 +1,44 @@
+{
+  "version": 3,
+  "gameAudioUsed": false,
+  "syntheticAudioUsed": false,
+  "sources": [
+    {
+      "title": "Night time crickets call",
+      "author": "Clearwavsound",
+      "source": "https://freesound.org/people/Clearwavsound/sounds/523439/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/523/523439_11502151-hq.mp3",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "sourceDescription": "Field recording of crickets calling at night. No wind.",
+      "retrievedAt": "2026-11-02T22:14:43.656Z",
+      "bytes": 3683088,
+      "sha256": "3c5ac247c552cad5bb330d365c610136225c22942b660f0da92da2551a5ce465",
+      "recordingLocation": "Not specified; not represented as a Japanese recording or identified as suzumushi."
+    }
+  ],
+  "files": [
+    {
+      "file": "assets/countryside-audio-v3/crickets.wav",
+      "name": "crickets",
+      "sourceSeconds": 165.72216666666668,
+      "seconds": 164.47216666666668,
+      "rate": 24000,
+      "channels": 1,
+      "bits": 16,
+      "bytes": 7894708,
+      "boundaryCrossfadeSeconds": 1.25,
+      "constantGain": 2.603615686631048,
+      "rmsDb": -34,
+      "peakDb": -20.32200047237083,
+      "seamStep": 0.01195687631685038,
+      "ordinaryStep99": 0.04853568563980225,
+      "processing": "Whole recording downmixed/resampled to mono 24 kHz PCM. Single constant gain; only end/start overlap 1.25 s. No internal editing, time stretching, denoising, wind removal, added sounds or runtime virtual loops.",
+      "windAssessment": "Author explicitly describes recording as no wind; not independently verified by human listening.",
+      "subjectiveListeningVerified": false,
+      "sha256": "fc0be1a746405c2601cb42afe01943d9ed1cebe96b6653e5d765263b91e96b52"
+    }
+  ],
+  "processing": "録音全体を使用。モノラル24 kHz PCMへの変換と一定の音量調整。始端・終端のみ1.25秒クロスフェード。録音途中の切り貼り・風の除去加工・合成音の追加なし。",
+  "playback": "Single continuous native buffer loop, no random excerpts or virtual loop. Summer/autumn evening/night only; silence otherwise. Existing distance gain, user volume, crossfade and lifecycle retained. Legacy wind-mixed assets preserved but never requested."
+}
