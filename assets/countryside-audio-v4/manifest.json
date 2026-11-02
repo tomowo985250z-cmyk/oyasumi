@@ -1,0 +1,191 @@
+{
+  "version": 4,
+  "gameAudioUsed": false,
+  "syntheticAudioUsed": false,
+  "sources": [
+    {
+      "title": "song_thrush_2007_05_17.wav",
+      "author": "reinsamba",
+      "source": "https://freesound.org/people/reinsamba/sounds/35054/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/35/35054_18799-hq.mp3",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "recordingLocation": "Natural wetland reserve north of Cologne, Germany; not a Japanese recording.",
+      "sourceDescription": "Very close song-thrush singing on a May evening; other birds in background.",
+      "qualityEvidence": {
+        "type": "community review",
+        "page": "https://freesound.org/people/reinsamba/sounds/35054/?page=3",
+        "reviewer": "dobroide",
+        "summary": "Reviewer describes clean background without wind or rumble. Independent human listening not performed."
+      },
+      "retrievedAt": "2026-11-02T23:18:18.409Z",
+      "bytes": 4201403,
+      "sha256": "a5ea67217a9c9895e581942b8b498b1b15f8e86f5a725dc6a7397c54fc309a8c"
+    },
+    {
+      "title": "Night time crickets call",
+      "author": "Clearwavsound",
+      "source": "https://freesound.org/people/Clearwavsound/sounds/523439/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/523/523439_11502151-hq.mp3",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "sourceDescription": "Field recording of crickets calling at night. No wind.",
+      "retrievedAt": "2026-11-02T22:14:43.656Z",
+      "bytes": 3683088,
+      "sha256": "3c5ac247c552cad5bb330d365c610136225c22942b660f0da92da2551a5ce465",
+      "recordingLocation": "Not specified; not represented as a Japanese recording or identified as suzumushi."
+    }
+  ],
+  "files": [
+    {
+      "file": "assets/countryside-audio-v4/birds.wav",
+      "name": "birds",
+      "sourceSeconds": 182.18895833333335,
+      "seconds": 180.93895833333335,
+      "rate": 24000,
+      "channels": 1,
+      "bits": 16,
+      "bytes": 8685114,
+      "boundaryCrossfadeSeconds": 1.25,
+      "constantGain": 0.1356342377251059,
+      "rmsDb": -47.133420363589416,
+      "peakDb": -20,
+      "seamStep": 0.0002568094645426476,
+      "ordinaryStep99": 0.024877350093435804,
+      "processing": "Whole recording downmixed/resampled to mono 24 kHz PCM. Single constant gain; only end/start overlap 1.25 s. No internal editing, time stretching, denoising, wind removal, added sounds or runtime virtual loops.",
+      "windAssessment": "A community review describes clean background with no wind/rumble; not independently verified by human listening.",
+      "subjectiveListeningVerified": false,
+      "sha256": "910c7a9e4263091c90670b343fbd7fc4e8b0483ea4dce46b7a4c33a4c404a693"
+    },
+    {
+      "file": "assets/countryside-audio-v3/crickets.wav",
+      "name": "crickets",
+      "sourceSeconds": 165.72216666666668,
+      "seconds": 164.47216666666668,
+      "rate": 24000,
+      "channels": 1,
+      "bits": 16,
+      "bytes": 7894708,
+      "boundaryCrossfadeSeconds": 1.25,
+      "constantGain": 2.603615686631048,
+      "rmsDb": -34,
+      "peakDb": -20.32200047237083,
+      "seamStep": 0.01195687631685038,
+      "ordinaryStep99": 0.04853568563980225,
+      "processing": "Whole recording downmixed/resampled to mono 24 kHz PCM. Single constant gain; only end/start overlap 1.25 s. No internal editing, time stretching, denoising, wind removal, added sounds or runtime virtual loops.",
+      "windAssessment": "Author explicitly describes recording as no wind; not independently verified by human listening.",
+      "subjectiveListeningVerified": false,
+      "sha256": "fc0be1a746405c2601cb42afe01943d9ed1cebe96b6653e5d765263b91e96b52"
+    }
+  ],
+  "places": [
+    "room",
+    "engawa",
+    "garden",
+    "roof"
+  ],
+  "coverage": [
+    {
+      "season": "spring",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "spring",
+      "phase": "day",
+      "available": true
+    },
+    {
+      "season": "spring",
+      "phase": "evening",
+      "available": true
+    },
+    {
+      "season": "spring",
+      "phase": "night",
+      "available": true
+    },
+    {
+      "season": "summer",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "summer",
+      "phase": "day",
+      "available": false
+    },
+    {
+      "season": "summer",
+      "phase": "evening",
+      "available": true
+    },
+    {
+      "season": "summer",
+      "phase": "night",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "day",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "evening",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "night",
+      "available": true
+    },
+    {
+      "season": "winter",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "winter",
+      "phase": "day",
+      "available": true
+    },
+    {
+      "season": "winter",
+      "phase": "evening",
+      "available": false
+    },
+    {
+      "season": "winter",
+      "phase": "night",
+      "available": false
+    }
+  ],
+  "unsupported": [
+    {
+      "season": "summer",
+      "phase": "day",
+      "available": false,
+      "reason": "No suitable >=2min free commercial-use recording confirmed without wind, noise or voices. No substitute used."
+    },
+    {
+      "season": "winter",
+      "phase": "evening",
+      "available": false,
+      "reason": "No suitable >=2min free commercial-use recording confirmed without wind, noise or voices. No substitute used."
+    },
+    {
+      "season": "winter",
+      "phase": "night",
+      "available": false,
+      "reason": "No suitable >=2min free commercial-use recording confirmed without wind, noise or voices. No substitute used."
+    }
+  ],
+  "processing": "Whole recordings; mono 24kHz PCM and constant gain. Only 1.25s end/start crossfade. No interior edits, random excerpts, virtual cycles, generated sounds or wind-removal processing. Prior cricket WAV is byte-identical.",
+  "playback": "One lazily fetched native loop per plan; same-track scene/phase changes retain source and adjust gain/filter over 4s. Morning/day winter bird level is lower. Indoor room/engawa gains .28/.42; outdoor roof/garden .72/.9."
+}
