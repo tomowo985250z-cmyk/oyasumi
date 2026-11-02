@@ -158,7 +158,7 @@
     {
       "season": "winter",
       "phase": "evening",
-      "available": false
+      "available": true
     },
     {
       "season": "winter",
@@ -175,17 +175,11 @@
     },
     {
       "season": "winter",
-      "phase": "evening",
-      "available": false,
-      "reason": "No suitable >=2min free commercial-use recording confirmed without wind, noise or voices. No substitute used."
-    },
-    {
-      "season": "winter",
       "phase": "night",
       "available": false,
       "reason": "No suitable >=2min free commercial-use recording confirmed without wind, noise or voices. No substitute used."
     }
   ],
   "processing": "Whole recordings; mono 24kHz PCM and constant gain. Only 1.25s end/start crossfade. No interior edits, random excerpts, virtual cycles, generated sounds or wind-removal processing. Prior cricket WAV is byte-identical.",
-  "playback": "One lazily fetched native loop per plan; same-track scene/phase changes retain source and adjust gain/filter over 4s. Morning/day winter bird level is lower. Indoor room/engawa gains .28/.42; outdoor roof/garden .72/.9."
+  "playback": "One lazily fetched native loop per plan; same-track scene/phase changes retain source and adjust gain/filter over 4s. Morning/day winter bird level is lower. Indoor room/engawa gains .28/.42; outdoor roof/garden .72/.9. Winter evening reuses the full existing bird recording at .08 versus winter daytime .12; no added recording, edits or download size."
 }
