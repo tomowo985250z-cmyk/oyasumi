@@ -16,28 +16,53 @@ globalThis.NatureSounds=(()=>{
  const calls=new Set(['bird','summer-dawn','higurashi','insects']);
  function planFor(e){const night=e.phase==='night',summer=e.season==='summer',autumn=e.season==='autumn',levels={};if(e.weather==='rainy')levels.rain=.38;else{levels[summer&&['engawa','garden'].includes(e.place)?'wind-chime':'wind']=.38;if(summer&&e.phase==='morning')levels['summer-dawn']=.16;else if(summer&&e.phase==='evening')levels.higurashi=.14;else if((summer||autumn)&&(night||e.phase==='evening'))levels.insects=night?.14:.12;else if(e.season!=='winter'&&['morning','day'].includes(e.phase))levels.bird=e.phase==='morning'?.18:.12;}for(const name of calls)if(levels[name])levels[name]*=.8;const [gain,cutoff]=distance[e.place];return {...e,levels,gain:gain*(night?.65:1),cutoff:night?cutoff*.82:cutoff};}
  function load(name){if(!buffers.has(name)){pending.add(name);const task=fetch(new URL('assets/countryside-audio-v2/'+name+'.wav',document.baseURI)).then(r=>{if(!r.ok)throw Error('Audio unavailable '+name);return r.arrayBuffer();}).then(bytes=>context.decodeAudioData(bytes));buffers.set(name,task);task.catch(()=>{if(buffers.get(name)===task)buffers.delete(name);}).finally(()=>pending.delete(name));}return buffers.get(name);}
- // Sparse call windows have their own gain. The continuous wind/rain bed and
- // scene crossfades keep their existing nodes; no sources are retriggered.
- function callWindows(layer){
-  if(!layer.activity||layer.retiring)return;
-  const t=now(),settings=layer.name==='insects'?[14,7,18,26]:layer.name==='higurashi'?[10,4,26,28]:[8,4,26,34];
-  const pick=()=>{layer.seed=(Math.imul(layer.seed,1664525)+1013904223)>>>0;return layer.seed/4294967296;};
-  if(layer.nextCall===undefined||layer.nextCall<t)layer.nextCall=t+5+pick()*7;
-  // Reuse the existing 20-second tick, scheduling only a short look-ahead.
-  while(layer.nextCall<t+45){
-   const start=layer.nextCall,duration=settings[0]+pick()*settings[1],end=start+duration,a=layer.activity.gain;
-   a.setValueAtTime(0,start);a.linearRampToValueAtTime(1,start+3);
-   a.setValueAtTime(1,end-4);a.linearRampToValueAtTime(0,end);
-   layer.nextCall=end+settings[2]+pick()*settings[3];
+ // Four-minute virtual loops reuse the decoded short buffers. No long WAV,
+ // time stretching, new voices, workers or additional scheduling timers.
+ const loopSeconds=240,patterns=new Map();
+ function longPattern(name,bufferSeconds){
+  const key=name+':'+bufferSeconds;if(patterns.has(key))return patterns.get(key);
+  let seed=2166136261;for(const c of name)seed=Math.imul(seed^c.charCodeAt(0),16777619)>>>0;
+  const pick=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;},out=[];
+  if(!calls.has(name)){
+   const intervals=Array.from({length:28},()=>7+pick()*3),total=intervals.reduce((a,b)=>a+b,0);let at=0;
+   for(const value of intervals){const span=value*loopSeconds/total,duration=span+3;out.push({at,duration,offset:pick()*Math.max(0,bufferSeconds-duration),gain:.96+pick()*.08,fadeIn:3,fadeOut:3});at+=span;}
+  }else{
+   const insect=name==='insects';let at=7+pick()*10;
+   while(at<loopSeconds-18){const duration=(insect?10:8)+pick()*(insect?4:3);out.push({at,duration,offset:pick()*Math.max(0,bufferSeconds-duration),gain:.85+pick()*.15,fadeIn:3,fadeOut:4});at+=duration+(insect?24:32)+pick()*29;}
+  }
+  patterns.set(key,out);return out;
+ }
+ function segmentLevel(clip,t){if(t<0||t>=clip.duration)return 0;return clip.gain*Math.sin(Math.min(1,t/clip.fadeIn)*Math.PI/2)*Math.sin(Math.min(1,(clip.duration-t)/clip.fadeOut)*Math.PI/2);}
+ function segment(layer,clip,at){
+  const t=now(),elapsed=Math.max(0,t-at),remaining=clip.duration-elapsed;if(remaining<=.02)return;
+  const source=context.createBufferSource(),gain=context.createGain(),start=Math.max(t,at),grain={source,gain,start,end:at+clip.duration};
+  source.buffer=layer.buffer;source.loop=false;source.connect(gain);gain.connect(layer.filter);gain.gain.setValueAtTime(segmentLevel(clip,elapsed),start);
+  // Equal-power entry/exit, sampled as short native ramps (iPhone compatible).
+  const marks=[clip.fadeIn,clip.duration-clip.fadeOut,clip.duration];for(let i=1;i<16;i++){marks.push(clip.fadeIn*i/16,clip.duration-clip.fadeOut+clip.fadeOut*i/16);}
+  for(const mark of [...new Set(marks)].sort((a,b)=>a-b))if(mark>elapsed)gain.gain.linearRampToValueAtTime(segmentLevel(clip,mark),at+mark);
+  layer.grains.add(grain);source.onended=()=>{source.disconnect();gain.disconnect();layer.grains.delete(grain);if(layer.retiring&&!layer.grains.size)disconnect(layer);};
+  source.start(start,clip.offset+elapsed,remaining);
+ }
+ function fill(layer){
+  if(layer.retiring)return;const t=now(),until=t+45,pattern=longPattern(layer.name,layer.buffer.duration);
+  for(let cycle=Math.floor((t-layer.buffer.duration)/loopSeconds);cycle<=Math.floor(until/loopSeconds);cycle++)for(const clip of pattern){
+   const at=cycle*loopSeconds+clip.at;if(at<=layer.scheduledUntil||at>=until||at+clip.duration<=t)continue;
+   segment(layer,clip,at);layer.scheduledUntil=at;
   }
  }
- function disconnect(layer){layers.delete(layer);for(const node of [layer.source,layer.filter,layer.activity,layer.gain,layer.pan])node?.disconnect();}
+ function disconnect(layer){layers.delete(layer);for(const g of [...layer.grains]){g.source.onended=null;g.source.stop();g.source.disconnect();g.gain.disconnect();}layer.grains.clear();for(const node of [layer.filter,layer.gain,layer.pan])node?.disconnect();}
  function level(layer,p,seconds=4){ramp(layer.gain.gain,(p.levels[layer.name]||0)*p.gain,seconds);ramp(layer.filter.frequency,p.cutoff,seconds);}
- function retire(layer,seconds=4){if(layer.retiring)return;layer.retiring=true;ramp(layer.gain.gain,0,seconds);layer.source.stop(now()+seconds);}
- function start(name,buffer,p){if([...layers].some(l=>l.name===name&&!l.retiring))return;let initial=0,cutoff=p.cutoff;for(const old of [...layers])if(old.name===name){initial=valueAt(old.gain.gain);cutoff=valueAt(old.filter.frequency);old.source.stop();disconnect(old);}const source=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain(),pan=context.createStereoPanner?.(),activity=calls.has(name)?context.createGain():null,layer={id:++sequence,name,source,filter,gain,pan,activity,seed:(sequence*2654435761)>>>0,loop:true,started:now()};source.buffer=buffer;source.loop=true;gain.gain.value=initial;filter.type='lowpass';filter.Q.value=.4;filter.frequency.value=cutoff;source.connect(filter);if(activity){activity.gain.value=0;filter.connect(activity);activity.connect(gain);}else filter.connect(gain);if(pan){gain.connect(pan);pan.connect(master);pan.pan.value=name.startsWith('wind')?-.05:.06;}else gain.connect(master);layers.add(layer);source.onended=()=>disconnect(layer);source.start(0,now()%buffer.duration);level(layer,p);callWindows(layer);}
+ function retire(layer,seconds=4){if(layer.retiring)return;layer.retiring=true;ramp(layer.gain.gain,0,seconds);const t=now();for(const grain of [...layer.grains]){if(grain.start>t){grain.source.onended=null;grain.source.stop();grain.source.disconnect();grain.gain.disconnect();layer.grains.delete(grain);}else grain.source.stop(t+seconds);}if(!layer.grains.size)disconnect(layer);}
+ function start(name,buffer,p){
+  if([...layers].some(l=>l.name===name&&!l.retiring))return;
+  const filter=context.createBiquadFilter(),gain=context.createGain(),pan=context.createStereoPanner?.(),layer={id:++sequence,name,buffer,filter,gain,pan,grains:new Set(),scheduledUntil:-Infinity,started:now()};
+  gain.gain.value=0;filter.type='lowpass';filter.Q.value=.4;filter.frequency.value=p.cutoff;filter.connect(gain);
+  if(pan){gain.connect(pan);pan.connect(master);pan.pan.value=name.startsWith('wind')?-.05:.06;}else gain.connect(master);
+  layers.add(layer);level(layer,p);fill(layer);
+ }
  function clearTimer(){clearTimeout(timer);timer=undefined;}
  function schedule(){clearTimer();if(prefs.enabled&&unlocked&&prefs.volume>0&&!document.hidden&&context?.state==='running')timer=setTimeout(sync,20000);}
- function sync(){detect();if(!prefs.enabled||!unlocked||prefs.volume===0||document.hidden||context?.state!=='running'){clearTimer();return;}const p=planFor(environment()),key=JSON.stringify(p);if(pendingKey&&pendingKey!==key){revision++;pendingKey=null;}if(key!==JSON.stringify(currentPlan)&&key!==pendingKey){const token=++revision;pendingKey=key;const tracks=Object.keys(p.levels);Promise.all(tracks.map(name=>load(name))).then(decoded=>{if(token!==revision||!prefs.enabled||!unlocked||prefs.volume===0||document.hidden||context.state!=='running')return;currentPlan=p;pendingKey=null;for(const layer of layers)if(!p.levels[layer.name])retire(layer);else if(!layer.retiring)level(layer,p);tracks.forEach((name,i)=>start(name,decoded[i],p));status(names[p.place]+'の音。風を残し、遠くの声が穏やかに聞こえます。');}).catch(()=>{if(token===revision){pendingKey=null;status('音を読み込めませんでした。もう一度ONにしてください。');}});}for(const layer of layers)callWindows(layer);schedule();}
+ function sync(){detect();if(!prefs.enabled||!unlocked||prefs.volume===0||document.hidden||context?.state!=='running'){clearTimer();return;}const p=planFor(environment()),key=JSON.stringify(p);if(pendingKey&&pendingKey!==key){revision++;pendingKey=null;}if(key!==JSON.stringify(currentPlan)&&key!==pendingKey){const token=++revision;pendingKey=key;const tracks=Object.keys(p.levels);Promise.all(tracks.map(name=>load(name))).then(decoded=>{if(token!==revision||!prefs.enabled||!unlocked||prefs.volume===0||document.hidden||context.state!=='running')return;currentPlan=p;pendingKey=null;for(const layer of layers)if(!p.levels[layer.name])retire(layer);else if(!layer.retiring)level(layer,p);tracks.forEach((name,i)=>start(name,decoded[i],p));status(names[p.place]+'の音。風を残し、遠くの声が穏やかに聞こえます。');}).catch(()=>{if(token===revision){pendingKey=null;status('音を読み込めませんでした。もう一度ONにしてください。');}});}for(const layer of layers)fill(layer);schedule();}
  function requestSync(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync();});}
  function unlock(){if(!prefs.enabled||prefs.volume===0||document.hidden||!Audio)return;clearTimeout(offTimer);try{if(!context){context=new Audio();master=context.createGain();master.gain.value=0;limiter=context.createDynamicsCompressor();limiter.threshold.value=-16;limiter.knee.value=8;limiter.ratio.value=8;limiter.attack.value=.006;limiter.release.value=.25;master.connect(limiter);limiter.connect(context.destination);context.addEventListener('statechange',()=>{if(context.state!=='running'){unlocked=false;clearTimer();}else if(prefs.enabled){unlocked=true;sync();}});}const finish=()=>{if(!prefs.enabled||document.hidden)return;unlocked=context.state==='running';if(unlocked){ramp(master.gain,.68*prefs.volume,.4);sync();}};if(context.state==='running')finish();else context.resume().then(finish).catch(()=>status('画面をタップすると自然音を再開できます。'));}catch{status('このブラウザでは自然音を再生できません。');}}
  function off(){revision++;pendingKey=null;clearTimer();currentPlan=null;for(const layer of layers)retire(layer,.18);if(master)ramp(master.gain,0,.18);unlocked=false;const saved=context;clearTimeout(offTimer);offTimer=setTimeout(()=>{if(!prefs.enabled&&saved?.state==='running')void saved.suspend().catch(()=>{});},220);}
@@ -48,7 +73,7 @@ globalThis.NatureSounds=(()=>{
  function pause(){revision++;pendingKey=null;unlocked=false;clearTimer();if(master){master.gain.cancelScheduledValues(now());master.gain.setValueAtTime(0,now());ramps.delete(master.gain);}if(context?.state==='running')void context.suspend().catch(()=>{});}
  document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();else requestSync();});window.addEventListener('pagehide',pause);document.addEventListener('scroll',()=>{focused=null;requestSync();},{passive:true,capture:true});window.addEventListener('resize',requestSync);
  new MutationObserver(requestSync).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['data-location','data-world-season','data-world-weather','data-world-daylight','open']});requestSync();
- return {settingsMarkup,planFor,inspect:()=>({prefs:{...prefs},unlocked,state:context?.state||'none',environment:environment(),plan:currentPlan,playing:[...layers].map(l=>({id:l.id,name:l.name,loop:true,started:l.started,retiring:!!l.retiring,gain:valueAt(l.gain.gain),activity:l.activity?.gain.value??1,nextCall:l.nextCall??null})),pending:[...pending],timer:timer!==undefined,buffers:[...buffers.keys()]})};
+ return {settingsMarkup,planFor,inspect:()=>({prefs:{...prefs},unlocked,state:context?.state||'none',environment:environment(),plan:currentPlan,playing:[...layers].map(l=>({id:l.id,name:l.name,loop:true,loopSeconds,bufferSeconds:l.buffer.duration,scheduledGrains:l.grains.size,activeGrains:[...l.grains].filter(g=>g.start<=now()&&g.end>now()).length,started:l.started,retiring:!!l.retiring,gain:valueAt(l.gain.gain)})),pending:[...pending],timer:timer!==undefined,buffers:[...buffers.keys()]})};
 })();
 for(const node of document.querySelectorAll('[data-nature-sounds-pending]'))node.outerHTML=NatureSounds.settingsMarkup();
 }
