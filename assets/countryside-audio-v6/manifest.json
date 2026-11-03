@@ -1,0 +1,71 @@
+{
+  "version": 6,
+  "source": {
+    "title": "Tokyo-cicadas.wav",
+    "author": "xserra",
+    "source": "https://freesound.org/people/xserra/sounds/320519/",
+    "acquisitionUrl": "https://cdn.freesound.org/previews/320/320519_43-hq.mp3",
+    "license": "CC-BY-4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "recordingLocation": "Tokyo park, Japan",
+    "recordedAt": "2013-08-18 evening; playback assigned to summer daytime, not claimed to be a daytime recording.",
+    "qualityEvidence": {
+      "type": "community review",
+      "reviewer": "motivecap",
+      "source": "https://freesound.org/people/xserra/sounds/320519/?page=2",
+      "description": "Very clean recording; no independent subjective listening or guarantee of no wind/voices/noise."
+    },
+    "retrievedAt": "2026-11-03T10:23:23.899Z",
+    "bytes": 3185135,
+    "sha256": "8af3f5e98a6db2ce68dd0eb1851a71c2145a2bdae43ebbdf0bc3795b5aacf3d2",
+    "subjectiveListeningVerified": false
+  },
+  "file": "assets/countryside-audio-v6/cicadas.wav",
+  "sourceSeconds": 138.66954166666667,
+  "seconds": 137.41954166666667,
+  "rate": 24000,
+  "channels": 1,
+  "bits": 16,
+  "bytes": 6596182,
+  "boundaryCrossfadeSeconds": 1.25,
+  "constantGain": 0.038296204870463355,
+  "rmsDb": -48.59254614084679,
+  "peakDb": -32,
+  "sourcePeakDb": -3.6631147558836057,
+  "sourceClippedSamples": 0,
+  "processing": "Whole recording mono 24kHz/16-bit, constant quiet gain (RMS target -46dBFS / peak ceiling -32dBFS), end/start overlap 1.25s only. No internal cuts, time stretch, generated calls or runtime changes. Existing place filters and distance gains retained.",
+  "subjectiveListeningVerified": false,
+  "metrics": {
+    "seconds": 137.41954166666667,
+    "rate": 24000,
+    "peakDb": -32.001001994948965,
+    "rmsDb": -48.59279222183911,
+    "crestDb": 16.591790226890147,
+    "clippedSamples": 0,
+    "approxBelow100HzEnergyPercent": 1.1440162905058304,
+    "window100msDb": {
+      "p10": -51.68208087474308,
+      "median": -48.932374118582594,
+      "p90": -46.40743719037053,
+      "p99": -45.713597207524394,
+      "max": -45.171089345731474
+    },
+    "largestAdjacentSampleStep": 0.032470703125,
+    "boundaryStep": 0.000823974609375
+  },
+  "sha256": "0658670049a6157e24ea74b5cb74212589cef152c50a9fe3a43afe4a07caeeef",
+  "assignment": {
+    "season": "summer",
+    "phase": "day",
+    "level": 0.18,
+    "places": [
+      "room",
+      "engawa",
+      "garden",
+      "roof"
+    ]
+  },
+  "winterNight": "silent, unchanged",
+  "otherPlans": "unchanged",
+  "limitations": "Noise quality supported by a public clean-recording review, not independent listening. Recorded in Tokyo park in evening, not claimed to be distant/rural/daytime recording; low playback level expresses distance."
+}
