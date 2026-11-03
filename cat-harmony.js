@@ -60,6 +60,16 @@ globalThis.CatLightHarmony=(()=>{
   const b=actor.getBoundingClientRect(),x=(b.left+b.width/2-r.left)*400/r.width,y=(b.bottom-r.top)*400/r.width;
   return round(level*Math.max(0,1-Math.hypot(x-37,y-268)/220));
  }
+ function careMaterials(stage,w,warmth=0){
+  const world=SolarModel.world(w),night=SolarModel.weights(SolarModel.time(world)).night||0;
+  const p=solar.palette(world,phase=>phase==='night'?{bowl:'#61736e',rim:'#7d8c80',shade:'#4b5e59',food:'#715d45',light:'#897453',treat:'#526c70',contact:'#253b32'}:phase==='evening'?{bowl:'#b4ae94',rim:'#cec3a8',shade:'#999b81',food:'#967851',light:'#b09165',treat:'#98a49a',contact:'#594f3e'}:phase==='morning'?{bowl:'#bfc4ae',rim:'#d7d8bd',shade:'#a5b099',food:'#ad8d62',light:'#c4aa81',treat:'#a4b8b3',contact:'#485740'}:{bowl:'#b6bfaf',rim:'#ced2be',shade:'#9ba996',food:'#a3855e',light:'#b79b75',treat:'#8faeaf',contact:'#384c40'});
+  const lamp={bowl:'#aaa68e',rim:'#c8c4a5',shade:'#89937c',food:'#aa8b61',light:'#bda37a',treat:'#8faaa4',contact:'#493e2e'},warm=night*warmth,wet=(w.weather==='rainy'?.10:w.weather==='cloudy'?.04:0)*(1-night);
+  for(const [key,color]of Object.entries(p)){
+   const ambient=SeasonLandscape.mix(color,'#697b72',wet),alpha=key==='contact'?'38':'',value=SeasonLandscape.mix(ambient,lamp[key],warm)+alpha,name='--care-material-'+key;
+   if(stage.style.getPropertyValue(name)!==value)stage.style.setProperty(name,value);
+   if(stage.dataset.location==='room'){const lit=SeasonLandscape.mix(ambient,lamp[key],night*.8)+alpha,name='--care-lamp-'+key;if(stage.style.getPropertyValue(name)!==lit)stage.style.setProperty(name,lit);}
+  }
+ }
  function apply(stage,value){
   if(!stage?.isConnected||!values[stage.dataset.location])return;
   const bg=stage.querySelector('.room-background-layer:not([data-background-outgoing])'),w=value||{at:+bg?.dataset.lightAt,season:bg?.dataset.lightSeason,weather:bg?.dataset.lightWeather};if(!Number.isFinite(SolarModel.time(w)))return;
@@ -77,7 +87,7 @@ globalThis.CatLightHarmony=(()=>{
    }
    stage.style.setProperty('--harmony-contact-opacity',round(soften?.23-.06*night:.18-.045*night));stage.style.setProperty('--harmony-cast-opacity',round(.79-.16*night));e.stamp=stamp;
   }
-  contact(stage);
+  careMaterials(stage,w,warmth);contact(stage);
  }
  function update(stage,w){const result=solar.update(stage,w);apply(stage,w);return result;}
  function backgroundUpdate(stage,where,w){const pending=backgrounds.update(stage,where,w);apply(stage,w);return pending;}

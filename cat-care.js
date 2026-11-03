@@ -27,11 +27,16 @@ globalThis.CatCare=(()=>{
  }
  function normalCat(coat,user){return DayRoom.world().daylight?DayCats.svg(DayRoom.snapshot(user).pose,coat):CatScenes.svg('sleeping',coat);}
  function syncNormal(){for(const scene of document.querySelectorAll('[data-care-normal="true"]'))if(!active.has(scene)){const idle=scene.querySelector('.care-idle');if(idle)CatImages.render(idle,normalCat(scene.dataset.careCoat,scene.dataset.roomUser));}}
+ function bowl(kind){
+  // One shared perspective: the food sits inside the ceramic lip.
+  const food=kind==='treat'?'<path d="M20 8l6 2c4-3 12-3 19 1-7 4-15 4-19 1l-6 2 2-3Z" fill="var(--care-material-treat,#8faeaf)"/><path d="M29 9.5q6-1.5 12 1" fill="none" stroke="var(--care-material-rim,#ced2be)" stroke-opacity=".45" stroke-width="1"/><circle cx="40" cy="10.5" r=".7" fill="var(--care-material-shade,#9ba996)"/>':'<g fill="var(--care-material-food,#a3855e)"><path d="M18 9q2-2 6-1l2 3-2 2-6-1Z"/><path d="M28 8q3-2 6 0l2 3-3 2-5-1Z"/><path d="M38 9q3-2 6 0l2 3-3 1-5-1Z"/></g><path d="M19 9l4-.2m7-.4l3 .5m7 .6l3 .2" fill="none" stroke="var(--care-material-light,#b79b75)" stroke-width="1.1" stroke-linecap="round"/>';
+  return `<span class="care-bowl"><svg viewBox="0 0 64 32" aria-hidden="true" focusable="false"><g fill="var(--care-material-contact,#384c4038)"><ellipse cx="32" cy="30" rx="28" ry="1.8" opacity=".4"/><ellipse cx="32" cy="29.5" rx="23" ry="1.2" opacity=".65"/></g><path d="M2 10C3 20 11 27 24 28h16C53 27 61 20 62 10Z" fill="var(--care-material-bowl,#b6bfaf)"/><path d="M55 12q-3 12-17 16h3c12-1 19-8 21-18Z" fill="var(--care-material-shade,#9ba996)" opacity=".6"/><path d="M5 14q3 8 16 11l-5-4-4-6Z" fill="var(--care-material-rim,#ced2be)" opacity=".35"/><ellipse cx="32" cy="10" rx="30" ry="6.5" fill="var(--care-material-rim,#ced2be)"/><ellipse cx="32" cy="10" rx="26.5" ry="4.5" fill="var(--care-material-shade,#9ba996)"/><ellipse cx="32" cy="11" rx="24" ry="3" fill="var(--care-material-bowl,#b6bfaf)" opacity=".4"/><g class="care-food">${food}</g><path d="M5 13q27 9 54 0" fill="none" stroke="var(--care-material-rim,#ced2be)" stroke-width="1.4" stroke-linecap="round"/></svg></span>`;
+ }
  function visual(coat,kind='meal',options={}){
   coat=CatFaces.normalizeCoat(coat);kind=kind==='treat'?'treat':'meal';
   const before=CatMealAssets.variant(options.before),after=CatMealAssets.variant(options.after),finished=options.finished===true,complete=finished&&!options.normal;
   const file=frame=>`assets/cat-refresh-v1/${coat}/${frame}.png`;
-  return `<div class="care-scene${complete?' care-finished':''}" data-care-normal="${!!options.normal}" data-room-user="${options.user||''}" data-care-coat="${coat}" data-care-kind="${kind}" data-care-before="${before}" data-care-after="${after}" data-care-day="${day(NightClock.now())}" data-care-finished="${finished}" aria-hidden="true">${options.normal?`<span class="care-idle">${normalCat(coat,options.user)}</span>`:`<img class="care-idle"${complete?' hidden':''} src="${CatMealAssets.src(coat,'before',before)}" alt="" width="152" height="152">`}<span class="care-munch" hidden><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><span class="care-head"><span class="care-head-crop"><img src="${file('day-relax')}" alt="" width="152" height="152"></span></span></span><img class="care-joy-cat"${complete?'':' hidden'} src="${CatMealAssets.src(coat,'after',after)}" alt="" width="152" height="152"><span class="care-bowl"><span class="care-food"><i></i><i></i><i></i></span></span><span class="care-joy"${complete?'':' hidden'}>♥</span></div>`;
+  return `<div class="care-scene${complete?' care-finished':''}" data-care-normal="${!!options.normal}" data-room-user="${options.user||''}" data-care-coat="${coat}" data-care-kind="${kind}" data-care-before="${before}" data-care-after="${after}" data-care-day="${day(NightClock.now())}" data-care-finished="${finished}" aria-hidden="true">${options.normal?`<span class="care-idle">${normalCat(coat,options.user)}</span>`:`<img class="care-idle"${complete?' hidden':''} src="${CatMealAssets.src(coat,'before',before)}" alt="" width="152" height="152">`}<span class="care-munch" hidden><img class="care-body" src="${file('day-relax')}" alt="" width="152" height="152"><span class="care-head"><span class="care-head-crop"><img src="${file('day-relax')}" alt="" width="152" height="152"></span></span></span><img class="care-joy-cat"${complete?'':' hidden'} src="${CatMealAssets.src(coat,'after',after)}" alt="" width="152" height="152">${bowl(kind)}<span class="care-joy"${complete?'':' hidden'}>♥</span></div>`;
  }
  function sleeping(status,now=NightClock.now()){return fresh(status,now)&&status.sleepStateVersion===1?status.catState==='sleep':globalThis.homeCatStatus?.(now)==='sleep'||(fresh(status,now)&&status.mealSleeping===true);}
  function markup(status,coat,recipient,self,now=NightClock.now(),compact=false){
@@ -61,6 +66,17 @@ globalThis.CatCare=(()=>{
   scene.classList.remove('care-finished');scene.dataset.careFinished='false';
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const idle=scene.querySelector('.care-idle'),munch=scene.querySelector('.care-munch'),joy=scene.querySelector('.care-joy-cat'),head=scene.querySelector('.care-head'),heart=scene.querySelector('.care-joy'),bowl=scene.querySelector('.care-bowl'),food=scene.querySelector('.care-food');
+  const faceKey=joy.getAttribute('src').split('?')[0].replace('assets/cat-meals-v1/','meal/').replace(/\.png$/,''),face=globalThis.IndoorCatScale?.head(faceKey)||[1,1,.22,.18,.79,.63];
+  const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
+  const drawHeart=ms=>{
+   // Measure the painted cat, including its own scale and the scene's scale.
+   // Reuse the visible-time clock so resizing and background pauses stay aligned.
+   const cat=joy.getBoundingClientRect(),box=scene.getBoundingClientRect();
+   if(cat.width&&box.width&&box.height){heart.style.left=((cat.left-box.left+cat.width*(face[4]+.2*(face[4]-face[2]))/face[0])*scene.offsetWidth/box.width).toFixed(3)+'px';heart.style.top=((cat.top-box.top+cat.height*(face[3]+.18*(face[5]-face[3]))/face[1])*scene.offsetHeight/box.height).toFixed(3)+'px';}
+   const t=Math.max(0,Math.min(1,(ms-4000)/2000)),rise=reduced?0:24*smooth(t),sway=reduced?0:2*Math.sin(t*Math.PI*2);
+   heart.style.transform=`translate(-50%,-50%) translate(${sway.toFixed(3)}px,${(-rise).toFixed(3)}px)`;
+   heart.style.opacity=String(smooth(t/.18)*(1-smooth((t-.55)/.45)));
+  };
   // One visible cat per phase; no opacity crossfades between complete cats.
   const draw=ms=>{
    const phase=ms<1000?'plate':ms<4000?'munch':'joy';
@@ -76,6 +92,7 @@ globalThis.CatCare=(()=>{
    head.style.top=offset.toFixed(3)+'px';
    bowl.style.opacity=String(reduced?1:Math.min(1,ms/1000));
    food.style.opacity=String(phase==='joy'?0:phase==='munch'?Math.max(0,1-chew/3000):1);
+   if(phase==='joy')drawHeart(ms);
   };
   let cancelPreparation;
   const preparationCancelled=new Promise(resolve=>{cancelPreparation=resolve;});
