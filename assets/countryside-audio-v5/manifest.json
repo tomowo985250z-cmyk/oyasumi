@@ -1,0 +1,244 @@
+{
+  "version": 5,
+  "gameAudioUsed": false,
+  "syntheticAudioUsed": false,
+  "sources": [
+    {
+      "title": "song_thrush_2007_05_17.wav",
+      "author": "reinsamba",
+      "source": "https://freesound.org/people/reinsamba/sounds/35054/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/35/35054_18799-hq.mp3",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "recordingLocation": "Natural wetland reserve north of Cologne, Germany; not a Japanese recording.",
+      "sourceDescription": "Very close song-thrush singing on a May evening; other birds in background.",
+      "qualityEvidence": {
+        "type": "community review",
+        "page": "https://freesound.org/people/reinsamba/sounds/35054/?page=3",
+        "reviewer": "dobroide",
+        "summary": "Reviewer describes clean background without wind or rumble. Independent human listening not performed."
+      },
+      "retrievedAt": "2026-11-02T23:18:18.409Z",
+      "bytes": 4201403,
+      "sha256": "a5ea67217a9c9895e581942b8b498b1b15f8e86f5a725dc6a7397c54fc309a8c"
+    },
+    {
+      "title": "Night time crickets call",
+      "author": "Clearwavsound",
+      "source": "https://freesound.org/people/Clearwavsound/sounds/523439/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/523/523439_11502151-hq.mp3",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "sourceDescription": "Field recording of crickets calling at night. No wind.",
+      "retrievedAt": "2026-11-02T22:14:43.656Z",
+      "bytes": 3683088,
+      "sha256": "3c5ac247c552cad5bb330d365c610136225c22942b660f0da92da2551a5ce465",
+      "recordingLocation": "Not specified; not represented as a Japanese recording or identified as suzumushi."
+    }
+  ],
+  "files": [
+    {
+      "file": "assets/countryside-audio-v4/birds.wav",
+      "name": "birds",
+      "sourceSeconds": 182.18895833333335,
+      "seconds": 180.93895833333335,
+      "rate": 24000,
+      "channels": 1,
+      "bits": 16,
+      "bytes": 8685114,
+      "boundaryCrossfadeSeconds": 1.25,
+      "constantGain": 0.1356342377251059,
+      "rmsDb": -47.133420363589416,
+      "peakDb": -20,
+      "seamStep": 0.0002568094645426476,
+      "ordinaryStep99": 0.024877350093435804,
+      "processing": "Whole recording downmixed/resampled to mono 24 kHz PCM. Single constant gain; only end/start overlap 1.25 s. No internal editing, time stretching, denoising, wind removal, added sounds or runtime virtual loops.",
+      "windAssessment": "A community review describes clean background with no wind/rumble; not independently verified by human listening.",
+      "subjectiveListeningVerified": false,
+      "sha256": "910c7a9e4263091c90670b343fbd7fc4e8b0483ea4dce46b7a4c33a4c404a693"
+    },
+    {
+      "file": "assets/countryside-audio-v5/crickets.wav",
+      "name": "crickets",
+      "sourceSeconds": 165.72216666666668,
+      "seconds": 164.47216666666668,
+      "rate": 24000,
+      "channels": 1,
+      "bits": 16,
+      "bytes": 7894708,
+      "boundaryCrossfadeSeconds": 1.25,
+      "constantGain": 0.6539986916114029,
+      "rmsDb": -46.00023751831715,
+      "peakDb": -32.32353495284228,
+      "seamStep": 0.00299072265625,
+      "processing": "Existing full 164.472s loop attenuated by a single constant -12dB gain, quantized to 16-bit PCM. Duration, natural timing and existing 1.25s boundary overlap retained. No denoising, wind removal, transient classification, internal edits, gating, time stretching or added sounds.",
+      "windAssessment": "Author explicitly describes recording as no wind; not independently verified by human listening.",
+      "subjectiveListeningVerified": false,
+      "sha256": "d1d4691b16d249869d831043f406bdaf91c6d8b188502a2ef48ccf05c34c8832",
+      "additionalGainDb": -12,
+      "derivedFrom": "assets/countryside-audio-v3/crickets.wav"
+    }
+  ],
+  "places": [
+    "room",
+    "engawa",
+    "garden",
+    "roof"
+  ],
+  "coverage": [
+    {
+      "season": "spring",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "spring",
+      "phase": "day",
+      "available": true
+    },
+    {
+      "season": "spring",
+      "phase": "evening",
+      "available": true
+    },
+    {
+      "season": "spring",
+      "phase": "night",
+      "available": true
+    },
+    {
+      "season": "summer",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "summer",
+      "phase": "day",
+      "available": false
+    },
+    {
+      "season": "summer",
+      "phase": "evening",
+      "available": true
+    },
+    {
+      "season": "summer",
+      "phase": "night",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "day",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "evening",
+      "available": true
+    },
+    {
+      "season": "autumn",
+      "phase": "night",
+      "available": true
+    },
+    {
+      "season": "winter",
+      "phase": "morning",
+      "available": true
+    },
+    {
+      "season": "winter",
+      "phase": "day",
+      "available": true
+    },
+    {
+      "season": "winter",
+      "phase": "evening",
+      "available": true
+    },
+    {
+      "season": "winter",
+      "phase": "night",
+      "available": false
+    }
+  ],
+  "unsupported": [
+    {
+      "season": "summer",
+      "phase": "day",
+      "available": false,
+      "reason": "No suitable >=2min free commercial-use recording confirmed without wind, noise or voices. No substitute used."
+    },
+    {
+      "season": "winter",
+      "phase": "night",
+      "available": false,
+      "reason": "No suitable >=2min free commercial-use recording confirmed without wind, noise or voices. No substitute used."
+    }
+  ],
+  "processing": "Bird WAV unchanged. Existing cricket WAV lowered by a constant 12dB only; same duration, sample rate and existing boundary crossfade. No noise-removal claims. Playback, filters, plans, fades and preferences unchanged.",
+  "playback": "One lazily fetched native loop per plan; same-track scene/phase changes retain source and adjust gain/filter over 4s. Morning/day winter bird level is lower. Indoor room/engawa gains .28/.42; outdoor roof/garden .72/.9. Winter evening reuses the full existing bird recording at .08 versus winter daytime .12; no added recording, edits or download size.",
+  "analysis": {
+    "birds": {
+      "seconds": 180.93895833333335,
+      "rate": 24000,
+      "peakDb": -19.999469871546843,
+      "rmsDb": -47.133661972237505,
+      "crestDb": 27.13419210069066,
+      "clippedSamples": 0,
+      "approxBelow100HzEnergyPercent": 0.06203450226230283,
+      "window100msDb": {
+        "p10": -78.58309099903643,
+        "median": -60.225916322120085,
+        "p90": -42.813719259394944,
+        "p99": -36.23718890471973,
+        "max": -32.34636518059989
+      },
+      "largestAdjacentSampleStep": 0.135223388671875,
+      "boundaryStep": 0.000274658203125
+    },
+    "cricketsBefore": {
+      "seconds": 164.47216666666668,
+      "rate": 24000,
+      "peakDb": -20.323507061350014,
+      "rmsDb": -34.00026339772667,
+      "crestDb": 13.676756336376656,
+      "clippedSamples": 0,
+      "approxBelow100HzEnergyPercent": 0.12791696247886486,
+      "window100msDb": {
+        "p10": -37.06503308103724,
+        "median": -33.52820370853256,
+        "p90": -33.03761801614564,
+        "p99": -32.73954640667621,
+        "max": -32.524126734334494
+      },
+      "largestAdjacentSampleStep": 0.107086181640625,
+      "boundaryStep": 0.011932373046875
+    },
+    "cricketsAfter": {
+      "seconds": 164.47216666666668,
+      "rate": 24000,
+      "peakDb": -32.32353495284228,
+      "rmsDb": -46.00023751831715,
+      "crestDb": 13.67670256547487,
+      "clippedSamples": 0,
+      "approxBelow100HzEnergyPercent": 0.1279205001254129,
+      "window100msDb": {
+        "p10": -49.06460057711299,
+        "median": -45.52806101104406,
+        "p90": -45.03726744602373,
+        "p99": -44.739236698834794,
+        "max": -44.52390151148147
+      },
+      "largestAdjacentSampleStep": 0.026885986328125,
+      "boundaryStep": 0.00299072265625
+    },
+    "interpretation": "Cricket full-file RMS was 13.13dB above birds, now 1.13dB above. Numeric evidence only, not equal perceived loudness or absence of noise. Low-frequency energy alone cannot rule out wind/voices. No clipping detected.",
+    "subjectiveListeningVerified": false
+  }
+}
