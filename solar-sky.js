@@ -29,9 +29,9 @@ globalThis.NightConstellations=(()=>{
   return visibleOnly&&!inView?null:{...h,delta,x,y,inView};
  }
  function state(w,where){const b=basis(w);return {key:b.region.id+':'+b.at+':'+where,b,points:catalog.map(s=>({...s,...project(s.p,b,where)}))};}
- function opacity(s){return s.inView?(.32+.56*Math.max(0,Math.min(1,(4-s.mag)/4)))*SolarModel.smooth(0,5,s.altitude):0;}
- function markup(w,where){const s=state(w,where);return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+s.points.map(p=>'<circle data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(.55+Math.max(0,Math.min(1,(4-p.mag)/5))*.58).toFixed(3)+'" fill="'+(p.bv>.8?'#e7d9bf':'#d5e3f3')+'" opacity="'+opacity(p).toFixed(4)+'"/>').join('')+'</g>';}
- function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('opacity',opacity(p).toFixed(4));});layer.dataset.majorKey=s.key;}
+ function opacity(s){return s.inView?(.22+.70*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*SolarModel.smooth(0,5,s.altitude):0;}
+ function markup(w,where){const s=state(w,where);return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+s.points.map(p=>'<circle data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(.55+Math.max(0,Math.min(1,(4-p.mag)/5))*.58).toFixed(3)+'" fill="'+(p.bv>.8?'#e7d9bf':'#d5e3f3')+'" opacity="'+opacity(p).toFixed(4)+'" style="--night-star-alpha:'+opacity(p).toFixed(4)+'"/>').join('')+'</g>';}
+ function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('opacity',opacity(p).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p).toFixed(4));});layer.dataset.majorKey=s.key;}
  return Object.freeze({catalog,vector,basis,horizontal,project,state,markup,sync});
 })();
 
@@ -222,7 +222,7 @@ function village(svg,w,frame){
   updateNorthernStars(card,w);
   const t=SolarModel.twilight(SolarModel.time(w),'roof'),p=SeasonLandscape.theme({...w,solar:true,skyFrame:'roof'});
   const depth=SolarModel.smooth(.35,1,t.stars);
-  card.style.setProperty('--roof-sky',SeasonLandscape.mix(p.sky,'#02050e',depth));card.style.setProperty('--roof-horizon',SeasonLandscape.mix(p.horizon,'#070e1c',depth));
+  card.style.setProperty('--roof-sky',SeasonLandscape.mix(p.sky,'#010411',depth));card.style.setProperty('--roof-horizon',SeasonLandscape.mix(p.horizon,'#060d20',depth));
   card.style.setProperty('--roof-stars',String(t.stars*(w.weather==='sunny'?1:w.weather==='cloudy'?.4:.12)));
   updateStarField(card);
   RoofRecline.update(card.querySelector('.roof-cat-group'),SolarModel.time(w));
@@ -315,9 +315,9 @@ globalThis.EngawaNightSky=(()=>{
  function decorate(svg,w,where='engawa'){
   if(svg.querySelector('[data-engawa-night-study]')){sync(svg,w,where);return svg;}
   const id='engawa-night-'+(++sequence),defs=svg.querySelector('defs');
-  defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect x="69.05" y="62.25" width="263.7" height="169.2"/></clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/><rect x="69.05" y="62.25" width="263.7" height="169.2" fill="black"/></mask><linearGradient id="${id}-blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#030916"/><stop offset=".64" stop-color="#071225"/><stop offset="1" stop-color="#192b3b"/></linearGradient><filter id="${id}-soft" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3.6"/></filter>`);
+  defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect x="69.05" y="62.25" width="263.7" height="169.2"/></clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/><rect x="69.05" y="62.25" width="263.7" height="169.2" fill="black"/></mask><linearGradient id="${id}-blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#02091b"/><stop offset=".64" stop-color="#050f24"/><stop offset="1" stop-color="#152638"/></linearGradient><filter id="${id}-soft" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3.6"/></filter>`);
   const layer=document.createElementNS(ns,'g');layer.setAttribute('data-engawa-night-study','');layer.setAttribute('clip-path',`url(#${id}-view)`);layer.setAttribute('pointer-events','none');
-  const sizes=[.20,.29,.38,.48,.68,.94],alphas=[.30,.38,.46,.51,.68,.83];
+  const sizes=[.20,.29,.38,.48,.68,.94],alphas=[.20,.31,.43,.56,.74,.94];
   layer.innerHTML=`<rect x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-blue)"/><rect data-night-haze="" x="69.05" y="62.25" width="263.7" height="169.2" fill="#6e849a"/><g data-night-milky-way="" filter="url(#${id}-soft)"><path data-milky-band="" fill="#a8b9cc" opacity=".10"/><path data-milky-band="" fill="#c2c8cc" opacity=".12"/><path data-milky-band="" fill="#839bb6" opacity=".09"/><path data-milky-band="" fill="#030b1a" opacity=".09"/></g><g data-night-fine-stars="" fill="none" stroke-linecap="round">${Array.from({length:12},(_,i)=>`<path data-night-star-bin="${i}" stroke="${i<6?'#ccdbed':'#e1d8c4'}" stroke-width="${sizes[i%6]*2}" opacity="${alphas[i%6]}"/>`).join('')}</g>`;
   layer.insertAdjacentHTML('beforeend',NightConstellations.markup(w,where));
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);

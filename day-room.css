@@ -173,3 +173,20 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 html[data-cat-state-pending] .room-night-shadows{visibility:hidden}
 html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 @media(prefers-reduced-motion:reduce){.room-night-shadows,[data-night-object-shadow]{transition:none!important}}
+
+/* Unlit interiors keep cool moonlit silhouettes; windows and controls stay clear.
+   Native amber lighting and daytime rules are unchanged. */
+.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) .day-room-art{filter:brightness(.43) saturate(.76)}
+.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) :is(.room-curtains,.room-sconce-art){filter:brightness(.68)}
+.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) .room-wall-clock{filter:brightness(.43) saturate(.76)}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .day-room-place-art{filter:brightness(.58) saturate(.90)}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .engawa-shoji{filter:brightness(.66)}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(.64)}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(.64)}
+
+/* Sparse, asynchronous scintillation preserves the astronomical alpha and size. */
+.roof-sky-card .roof-star-field{filter:contrast(1.12) brightness(1.08)}
+:is(.roof-sky-card,.day-room[data-solar-light=moon]) [data-major-star]:nth-child(3n+1){animation:country-star-glimmer 11s ease-in-out infinite;animation-delay:-3s}
+:is(.roof-sky-card,.day-room[data-solar-light=moon]) [data-major-star]:nth-child(5n+1){animation-duration:15s;animation-delay:-9s}
+@keyframes country-star-glimmer{0%,100%{opacity:calc(var(--night-star-alpha) * .88)}45%{opacity:var(--night-star-alpha)}70%{opacity:calc(var(--night-star-alpha) * .95)}}
+@media(prefers-reduced-motion:reduce){:is(.roof-sky-card,.day-room) [data-major-star]{animation:none!important}}

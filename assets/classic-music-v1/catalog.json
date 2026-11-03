@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "timbre": "Exact analytic v6 signal path; all new source note pitches and measured onsets/durations/tempo retained. MIDI repeats follow source playback encoding. MusicXML ties and unmeasured grace realization recorded per arrangement.",
+  "version": 2,
+  "timbre": "Existing five recordings unchanged; seven new recordings use the same analytic v6 tine/modal-decay/wood-body/low-harmonic synthesis. Source pitches and relative rhythm retained; initial tempos above66 quarter-BPM slowed uniformly. Average decoded RMS aligned with v6.",
   "tracks": [
     {
       "id": "clair-de-lune",
@@ -37,63 +37,143 @@
       "sha256": "f3b834f254601f8a84e380ae5cb733b2550cac665cb47e69a09699244e781f81"
     },
     {
-      "id": "gymnopedie-1",
-      "title": "ジムノペディ第1番",
-      "url": "assets/classic-music-v1/gymnopedie-1.mp3",
+      "id": "canon-d",
+      "title": "カノン",
+      "url": "assets/classic-music-v1/canon-d.mp3",
       "loopStart": 0.04604166666666667,
-      "loopEnd": 145.04604166666667,
-      "level": 1.0526171091540804,
-      "bytes": 1740672,
+      "loopEnd": 249.50058333333334,
+      "level": 1.0526004901779962,
+      "bytes": 2994048,
       "source": {
-        "id": 37,
-        "key": "gymnopedie-1",
-        "title": "ジムノペディ第1番",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=37",
-        "license": "Public Domain",
-        "credit": "Evin Robertson",
-        "edition": "Dover Edition",
-        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+        "id": 2047,
+        "key": "canon-d",
+        "title": "カノン",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=2047",
+        "license": "Creative Commons Attribution 4.0",
+        "credit": "Michael Fischer v. Mollard",
+        "edition": "IMSLP",
+        "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
         "downloads": [
           {
-            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.ly",
-            "file": "37-gymnopedie_1.ly",
-            "bytes": 5588,
-            "sha256": "420a52244e9fbe106dd33ba2cac84414fd66e0d01c6d472205bad39678d4ce04"
+            "url": "https://www.mutopiaproject.org/ftp/PachelbelJ/Canon_per_3_Violini_e_Basso/Canon_per_3_Violini_e_Basso-lys.zip",
+            "file": "canon-d-Canon_per_3_Violini_e_Basso-lys.zip",
+            "bytes": 7161,
+            "sha256": "ff8ff9c026f3596844929a5c1a88ba19318c466be5005978f5acbeea81e16272"
           },
           {
-            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.mid",
-            "file": "37-gymnopedie_1.mid",
-            "bytes": 2892,
-            "sha256": "09ce7337b4bf42ba12e1aa64b4c7dc7fcfa6455f1070cb12f8880a755df97384"
+            "url": "https://www.mutopiaproject.org/ftp/PachelbelJ/Canon_per_3_Violini_e_Basso/Canon_per_3_Violini_e_Basso-mids.zip",
+            "file": "canon-d-Canon_per_3_Violini_e_Basso-mids.zip",
+            "bytes": 7021,
+            "sha256": "d05d47d19130688728d43476ee30d7e6c41dfc5369e40f2a1dd50a69d389b29c"
           }
         ]
       },
-      "license": "Public Domain",
-      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
-      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
-      "seconds": 145,
+      "license": "Creative Commons Attribution 4.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "recordingLicense": "Creative Commons Attribution 4.0",
+      "arrangement": "All score events from the stated edition, original pitches and relative rhythm; uniform tempo slowdown only when initial quarter tempo exceeds66BPM. No recorded samples. Duplicate unison note-ons merged; quiet register/dynamic weighting; native repeated notation follows source MIDI playback. Noctave Going Home is the licensed simplified Largo-theme arrangement, not the full symphony movement. Separate original analytic-v6 recording, normalized to existing v6 average level.",
+      "seconds": 249.45454166666667,
       "rmsDb": -41.94697391707476,
-      "peakDb": -24.38662966154512,
-      "seamStep": 0.0000027078389287924035,
-      "sha256": "b2bb80f35778db2130d5d9d05c3c13e365157009c73161d0e9bb8f0636af40d7",
-      "eventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+      "peakDb": -24.616554006559337,
+      "seamStep": 0.0000025249086560625926,
+      "sha256": "7ae49b128ba4d1d105c066d30b737e9f450856a0a887c89cbb308bd4af8df7f6",
+      "eventHash": "72eaa1b83d35a38647fceea19f5d72ea338dcc2f42aed32a753bbffa0057e547",
       "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
       "decoderAnalysis": {
-        "key": "gymnopedie-1",
+        "key": "canon-d",
         "decodedRate": 24000,
-        "decodedSeconds": 145.056,
-        "period": 145,
+        "decodedSeconds": 249.504,
+        "period": 249.45454166666667,
         "alignmentSamples": 1105,
-        "alignmentCorrelation": 0.9999995301199018,
+        "alignmentCorrelation": 0.9999965776522478,
         "loopStart": 0.04604166666666667,
-        "loopEnd": 145.04604166666667,
-        "level": 1.0526171091540804,
-        "rmsDb": -42.39238241160094,
+        "loopEnd": 249.50058333333334,
+        "level": 1.0526004901779962,
+        "rmsDb": -42.392245275570716,
         "normalizedRmsDb": -41.94697391707476,
-        "normalizedPeakDb": -24.38662966154512,
+        "normalizedPeakDb": -24.616554006559337,
         "clipped": 0,
-        "boundaryStep": 0.0000027078389287924035,
+        "boundaryStep": 0.0000025249086560625926,
+        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
+        "subjectiveListeningVerified": false
+      }
+    },
+    {
+      "id": "air-g-string",
+      "title": "G線上のアリア",
+      "url": "assets/classic-music-v1/air-g-string.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 156.04604166666667,
+      "level": 1.0526292642123498,
+      "bytes": 1872576,
+      "source": {
+        "id": 242,
+        "key": "air-g-string",
+        "title": "G線上のアリア",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=242",
+        "license": "Creative Commons Attribution-ShareAlike 3.0",
+        "credit": "Jeff Covey",
+        "edition": "Bach-Gesellschaft",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-lys.zip",
+            "file": "air-g-string-bach-air-lys.zip",
+            "bytes": 4288,
+            "sha256": "e54bfbf7c15cc1e101b3d4359ac8da2af728c7b38323fb083f93b0e3cb299388"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-mids.zip",
+            "file": "air-g-string-bach-air-mids.zip",
+            "bytes": 3826,
+            "sha256": "af2a0b1c1649cf212f7d358d48f0a591a48c4ac907aaa26773c422d039860bf2"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-35.mid",
+            "file": "air-g-string-bach-air-jlh-35.mid",
+            "bytes": 8431,
+            "sha256": "5087b39d9497687457ead7dd431fe1b9b3a4297934449b1094549916181c6dbe"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-70.mid",
+            "file": "air-g-string-bach-air-jlh-70.mid",
+            "bytes": 8431,
+            "sha256": "2a00f6dff4a64acd50031ddd9d9ade35a5c2bf07fa8eee6460c289e7090f8226"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-40-organ.mid",
+            "file": "air-g-string-bach-air-jlh-40-organ.mid",
+            "bytes": 8431,
+            "sha256": "78cd9132781300c54b76a2d63ce7bb604dd4fabddb34ca9f136265949117c3a4"
+          }
+        ]
+      },
+      "license": "Creative Commons Attribution-ShareAlike 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "recordingLicense": "Creative Commons Attribution-ShareAlike 3.0",
+      "arrangement": "All score events from the stated edition, original pitches and relative rhythm; uniform tempo slowdown only when initial quarter tempo exceeds66BPM. No recorded samples. Duplicate unison note-ons merged; quiet register/dynamic weighting; native repeated notation follows source MIDI playback. Noctave Going Home is the licensed simplified Largo-theme arrangement, not the full symphony movement. Separate original analytic-v6 recording, normalized to existing v6 average level.",
+      "seconds": 156,
+      "rmsDb": -41.94697391707476,
+      "peakDb": -26.63664393324523,
+      "seamStep": 0.0000012180802247523345,
+      "sha256": "4b1047314cd1bcce336fae2e4ff713bc78f19f8bc49a46629c9c75b08afaba92",
+      "eventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
+      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
+      "decoderAnalysis": {
+        "key": "air-g-string",
+        "decodedRate": 24000,
+        "decodedSeconds": 156.048,
+        "period": 156,
+        "alignmentSamples": 1105,
+        "alignmentCorrelation": 0.9999904737462005,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 156.04604166666667,
+        "level": 1.0526292642123498,
+        "rmsDb": -42.392482711020534,
+        "normalizedRmsDb": -41.94697391707476,
+        "normalizedPeakDb": -26.63664393324523,
+        "clipped": 0,
+        "boundaryStep": 0.0000012180802247523345,
         "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
         "subjectiveListeningVerified": false
       }
@@ -161,6 +241,68 @@
       }
     },
     {
+      "id": "fur-elise",
+      "title": "エリーゼのために",
+      "url": "assets/classic-music-v1/fur-elise.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 146.31875,
+      "level": 1.0526358875586552,
+      "bytes": 1755936,
+      "source": {
+        "id": 931,
+        "key": "fur-elise",
+        "title": "エリーゼのために",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=931",
+        "license": "Public Domain",
+        "credit": "Stelios Samelis",
+        "edition": "Breitkopf &amp; Härtel, 1888",
+        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/WoO59/fur_Elise_WoO59/fur_Elise_WoO59.ly",
+            "file": "fur-elise-fur_Elise_WoO59.ly",
+            "bytes": 8800,
+            "sha256": "828a7bd1b42e441fe1b0eb0389ba46f1502dab28bbe488389e635fb446ba7a67"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/WoO59/fur_Elise_WoO59/fur_Elise_WoO59.mid",
+            "file": "fur-elise-fur_Elise_WoO59.mid",
+            "bytes": 7590,
+            "sha256": "1c12c21c7bbf4cf163896732672648a69d497636059837abd153c71abe50215a"
+          }
+        ]
+      },
+      "license": "Public Domain",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "recordingLicense": "Original analytic-v6 synthesis from PD/CC0 score; no third-party recording",
+      "arrangement": "All score events from the stated edition, original pitches and relative rhythm; uniform tempo slowdown only when initial quarter tempo exceeds66BPM. No recorded samples. Duplicate unison note-ons merged; quiet register/dynamic weighting; native repeated notation follows source MIDI playback. Noctave Going Home is the licensed simplified Largo-theme arrangement, not the full symphony movement. Separate original analytic-v6 recording, normalized to existing v6 average level.",
+      "seconds": 146.27270833333333,
+      "rmsDb": -41.94697391707476,
+      "peakDb": -25.50643767276045,
+      "seamStep": 0.000028925640024431523,
+      "sha256": "a730deb886bab64441bfd5fd3cffbd8c82a12cf1cc1bac786e25c993ae3be881",
+      "eventHash": "616451d6dca1dbbf86602556441cfdc88ff027566af4df2dc50e6224193518c6",
+      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
+      "decoderAnalysis": {
+        "key": "fur-elise",
+        "decodedRate": 24000,
+        "decodedSeconds": 146.328,
+        "period": 146.27270833333333,
+        "alignmentSamples": 1105,
+        "alignmentCorrelation": 0.9999971708177308,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 146.31875,
+        "level": 1.0526358875586552,
+        "rmsDb": -42.39253736414106,
+        "normalizedRmsDb": -41.94697391707476,
+        "normalizedPeakDb": -25.50643767276045,
+        "clipped": 0,
+        "boundaryStep": 0.000028925640024431523,
+        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
+        "subjectiveListeningVerified": false
+      }
+    },
+    {
       "id": "traumerei",
       "title": "トロイメライ",
       "url": "assets/classic-music-v1/traumerei.mp3",
@@ -218,316 +360,6 @@
         "normalizedPeakDb": -26.608052127026923,
         "clipped": 0,
         "boundaryStep": 0.00000662093417467176,
-        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
-        "subjectiveListeningVerified": false
-      }
-    },
-    {
-      "id": "arabesque-1",
-      "title": "アラベスク第1番",
-      "url": "assets/classic-music-v1/arabesque-1.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 180.29575,
-      "level": 1.0526381401827358,
-      "bytes": 2163744,
-      "source": {
-        "id": 1777,
-        "key": "arabesque-1",
-        "title": "アラベスク第1番",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1777",
-        "license": "Public Domain",
-        "credit": "Keith OHara",
-        "edition": "Durand et Fils (1904)",
-        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-        "downloads": [
-          {
-            "url": "https://www.mutopiaproject.org/ftp/DebussyC/L66/debussy_Arabesque_1/debussy_Arabesque_1.ly",
-            "file": "1777-debussy_Arabesque_1.ly",
-            "bytes": 16862,
-            "sha256": "b3ddf344b94e48f90e9a4337f597463c9740249590538c7c3ab64803a9f09e69"
-          },
-          {
-            "url": "https://www.mutopiaproject.org/ftp/DebussyC/L66/debussy_Arabesque_1/debussy_Arabesque_1.mid",
-            "file": "1777-debussy_Arabesque_1.mid",
-            "bytes": 13154,
-            "sha256": "6732dc10799ec0af47d19d9095562d0671864a750129e0279901def169a34757"
-          }
-        ]
-      },
-      "license": "Public Domain",
-      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
-      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
-      "seconds": 180.24970833333333,
-      "rmsDb": -41.94697391707476,
-      "peakDb": -26.623949246299624,
-      "seamStep": 0.000015865240219976772,
-      "sha256": "6e71397d0d2a95fcc700bb0b37a0ffbc27f4f85eb949bb6daec630df2a716733",
-      "eventHash": "b8999dd453d26936c82a907dde918b6603b624d53511ed24275f4992b486f80d",
-      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
-      "decoderAnalysis": {
-        "key": "arabesque-1",
-        "decodedRate": 24000,
-        "decodedSeconds": 180.312,
-        "period": 180.24970833333333,
-        "alignmentSamples": 1105,
-        "alignmentCorrelation": 0.9999993373496062,
-        "loopStart": 0.04604166666666667,
-        "loopEnd": 180.29575,
-        "level": 1.0526381401827358,
-        "rmsDb": -42.392555951787045,
-        "normalizedRmsDb": -41.94697391707476,
-        "normalizedPeakDb": -26.623949246299624,
-        "clipped": 0,
-        "boundaryStep": 0.000015865240219976772,
-        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
-        "subjectiveListeningVerified": false
-      }
-    },
-    {
-      "id": "moonlight-1",
-      "title": "月光ソナタ第1楽章",
-      "url": "assets/classic-music-v1/moonlight-1.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 280.04604166666667,
-      "level": 1.0526222625426014,
-      "bytes": 3360672,
-      "source": {
-        "id": 276,
-        "key": "moonlight-1",
-        "title": "月光ソナタ第1楽章",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=276",
-        "license": "Creative Commons Attribution-ShareAlike 2.5",
-        "credit": "Stewart Holmes",
-        "edition": "Berners, 1908 (edited by A. Winterberger)",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/2.5/",
-        "downloads": [
-          {
-            "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-lys.zip",
-            "file": "276-moonlight-lys.zip",
-            "bytes": 37285,
-            "sha256": "3863df81f0a3141f3ea7dd901efd9929f90e32c577377b99a7f7ff81b6b33990"
-          },
-          {
-            "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-mids.zip",
-            "file": "276-moonlight-mids.zip",
-            "bytes": 9522,
-            "sha256": "94915b176f0b999919a6cd1025a45ec8dd0a454dab33b2b332c5026291ea91f5"
-          }
-        ]
-      },
-      "license": "Creative Commons Attribution-ShareAlike 2.5",
-      "licenseUrl": "http://creativecommons.org/licenses/by-sa/2.5/",
-      "recordingLicense": "Creative Commons Attribution-ShareAlike 2.5",
-      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
-      "seconds": 280,
-      "rmsDb": -41.94697391707476,
-      "peakDb": -28.190433057506215,
-      "seamStep": 0.000013941517062358533,
-      "sha256": "779a4668a73c8c1c84de3394fab1819f1906d4967054e3251ec9f993e5e027b1",
-      "eventHash": "061f9303974bc291f70a39816cfe934362cf38e1fbc4eb8ec4f7df1f041191b6",
-      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
-      "decoderAnalysis": {
-        "key": "moonlight-1",
-        "decodedRate": 24000,
-        "decodedSeconds": 280.056,
-        "period": 280,
-        "alignmentSamples": 1105,
-        "alignmentCorrelation": 0.999998460873244,
-        "loopStart": 0.04604166666666667,
-        "loopEnd": 280.04604166666667,
-        "level": 1.0526222625426014,
-        "rmsDb": -42.392424935757155,
-        "normalizedRmsDb": -41.94697391707476,
-        "normalizedPeakDb": -28.190433057506215,
-        "clipped": 0,
-        "boundaryStep": 0.000013941517062358533,
-        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
-        "subjectiveListeningVerified": false
-      }
-    },
-    {
-      "id": "bach-prelude-1",
-      "title": "平均律 第1巻 前奏曲第1番",
-      "url": "assets/classic-music-v1/bach-prelude-1.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 144.04604166666667,
-      "level": 1.0526458381304389,
-      "bytes": 1728576,
-      "source": {
-        "id": 5,
-        "key": "bach-prelude-1",
-        "title": "平均律 第1巻 前奏曲第1番",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=5",
-        "license": "Public Domain",
-        "credit": "Tobias Erbsland",
-        "edition": "Unknown",
-        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-        "downloads": [
-          {
-            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV846/wtk1-prelude1/wtk1-prelude1.ly",
-            "file": "5-wtk1-prelude1.ly",
-            "bytes": 6449,
-            "sha256": "afa237b10637ca7839b4c9e98b64ba89c781e2cfc1b980679b2632a31951aacd"
-          },
-          {
-            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV846/wtk1-prelude1/wtk1-prelude1.mid",
-            "file": "5-wtk1-prelude1.mid",
-            "bytes": 4676,
-            "sha256": "874e07d0479542971bfceaf420d6117da8d602d89d26eea4610e7dd1ef58bf26"
-          }
-        ]
-      },
-      "license": "Public Domain",
-      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
-      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
-      "seconds": 144,
-      "rmsDb": -41.94697391707476,
-      "peakDb": -26.645002185758887,
-      "seamStep": 0.000003298551719881358,
-      "sha256": "2b0dbaaa2a90bcb89e253181d2c0f33e19404c13716102db5c9a0ff45269e4a0",
-      "eventHash": "b08bd76ad549e6dc59dd0bb9ca139bba04cb56897828326573c121c2785ac96b",
-      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
-      "decoderAnalysis": {
-        "key": "bach-prelude-1",
-        "decodedRate": 24000,
-        "decodedSeconds": 144.048,
-        "period": 144,
-        "alignmentSamples": 1105,
-        "alignmentCorrelation": 0.9999986648989743,
-        "loopStart": 0.04604166666666667,
-        "loopEnd": 144.04604166666667,
-        "level": 1.0526458381304389,
-        "rmsDb": -42.39261947150683,
-        "normalizedRmsDb": -41.94697391707476,
-        "normalizedPeakDb": -26.645002185758887,
-        "clipped": 0,
-        "boundaryStep": 0.000003298551719881358,
-        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
-        "subjectiveListeningVerified": false
-      }
-    },
-    {
-      "id": "gymnopedie-2",
-      "title": "ジムノペディ第2番",
-      "url": "assets/classic-music-v1/gymnopedie-2.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 199.04604166666667,
-      "level": 1.0526491153218103,
-      "bytes": 2388672,
-      "source": {
-        "id": 38,
-        "key": "gymnopedie-2",
-        "title": "ジムノペディ第2番",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=38",
-        "license": "Public Domain",
-        "credit": "Evin Robertson",
-        "edition": "Dover Edition",
-        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-        "downloads": [
-          {
-            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_2/gymnopedie_2.ly",
-            "file": "38-gymnopedie_2.ly",
-            "bytes": 4902,
-            "sha256": "54182340c4be942ea2ebbe2fcefd0734bfb29d02bd76672fd3751c8600c27d8c"
-          },
-          {
-            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_2/gymnopedie_2.mid",
-            "file": "38-gymnopedie_2.mid",
-            "bytes": 3613,
-            "sha256": "02e8ae8d7e1f6073f12f62a61a63cf07b260a1cf49f4a9008ee4e3f8e1934d30"
-          }
-        ]
-      },
-      "license": "Public Domain",
-      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
-      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
-      "seconds": 199,
-      "rmsDb": -41.94697391707476,
-      "peakDb": -24.752823425388506,
-      "seamStep": 3.15072702647868e-7,
-      "sha256": "3eab8c537efb76b92ade81d83304ef820d1554c2e12d9858714158493b2af621",
-      "eventHash": "e695a8cc650c6fef47cb95a030ca01d6ba6491f9330c55ec741d520b78d4b5de",
-      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
-      "decoderAnalysis": {
-        "key": "gymnopedie-2",
-        "decodedRate": 24000,
-        "decodedSeconds": 199.056,
-        "period": 199,
-        "alignmentSamples": 1105,
-        "alignmentCorrelation": 0.9999992975550703,
-        "loopStart": 0.04604166666666667,
-        "loopEnd": 199.04604166666667,
-        "level": 1.0526491153218103,
-        "rmsDb": -42.39264651315487,
-        "normalizedRmsDb": -41.94697391707476,
-        "normalizedPeakDb": -24.752823425388506,
-        "clipped": 0,
-        "boundaryStep": 3.15072702647868e-7,
-        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
-        "subjectiveListeningVerified": false
-      }
-    },
-    {
-      "id": "nocturne-9-1",
-      "title": "ノクターン第1番 Op.9-1",
-      "url": "assets/classic-music-v1/nocturne-9-1.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 268.3562083333333,
-      "level": 1.052634890921007,
-      "bytes": 3220416,
-      "source": {
-        "id": 582,
-        "key": "nocturne-9-1",
-        "title": "ノクターン第1番 Op.9-1",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=582",
-        "license": "Creative Commons Attribution-ShareAlike 2.5",
-        "credit": "Benjamin D. Esham",
-        "edition": "Schirmer, 1915, Ed. R. Joseffy",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/2.5/",
-        "downloads": [
-          {
-            "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/nocturne_in_b-flat_minor/nocturne_in_b-flat_minor.ly",
-            "file": "582-nocturne_in_b-flat_minor.ly",
-            "bytes": 17660,
-            "sha256": "16f561852483be12ac49f3f1976118b3e0e8a6e95e3877c1a6d642ea5de98838"
-          },
-          {
-            "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/nocturne_in_b-flat_minor/nocturne_in_b-flat_minor.mid",
-            "file": "582-nocturne_in_b-flat_minor.mid",
-            "bytes": 17485,
-            "sha256": "97194fec7586ca37280a3a5641db96f09f515c8358ccba9a9dd6a0f427ff9330"
-          }
-        ]
-      },
-      "license": "Creative Commons Attribution-ShareAlike 2.5",
-      "licenseUrl": "http://creativecommons.org/licenses/by-sa/2.5/",
-      "recordingLicense": "Creative Commons Attribution-ShareAlike 2.5",
-      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
-      "seconds": 268.31016666666665,
-      "rmsDb": -41.94697391707476,
-      "peakDb": -26.094820134156237,
-      "seamStep": 0.000014144800017070191,
-      "sha256": "27c0d4d30b67b67606184d6f9749c140f7db1a33ef0e15c35a4b9a49621ee79b",
-      "eventHash": "eb085e17af119f7f12fce7c8e66014714d213701ba38c3e99c8a1f573a5dbe0e",
-      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
-      "decoderAnalysis": {
-        "key": "nocturne-9-1",
-        "decodedRate": 24000,
-        "decodedSeconds": 268.368,
-        "period": 268.31016666666665,
-        "alignmentSamples": 1105,
-        "alignmentCorrelation": 0.9999767560903912,
-        "loopStart": 0.04604166666666667,
-        "loopEnd": 268.3562083333333,
-        "level": 1.052634890921007,
-        "rmsDb": -42.39252914032044,
-        "normalizedRmsDb": -41.94697391707476,
-        "normalizedPeakDb": -26.094820134156237,
-        "clipped": 0,
-        "boundaryStep": 0.000014144800017070191,
         "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
         "subjectiveListeningVerified": false
       }
@@ -595,68 +427,339 @@
       }
     },
     {
-      "id": "flaxen-haired-girl",
-      "title": "亜麻色の髪の乙女",
-      "url": "assets/classic-music-v1/flaxen-haired-girl.mp3",
+      "id": "schubert-lullaby",
+      "title": "シューベルトの子守唄",
+      "url": "assets/classic-music-v1/schubert-lullaby.mp3",
       "loopStart": 0.04604166666666667,
-      "loopEnd": 110.40966666666667,
-      "level": 1.052604268905479,
-      "bytes": 1325088,
+      "loopEnd": 44.04604166666667,
+      "level": 1.0526165024019705,
+      "bytes": 528768,
       "source": {
-        "key": "flaxen-haired-girl",
-        "title": "亜麻色の髪の乙女",
-        "page": "https://noctavepiano.com/partitions/debussy-fille-aux-cheveux-de-lin/",
-        "url": "https://noctavepiano.com/partitions/debussy-fille-aux-cheveux-de-lin/debussy-fille-aux-cheveux-de-lin.mxl",
-        "license": "CC0 1.0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "credit": "Noctave / Matthias Vogel, transcription after A. Durand & Fils1910; source editor declares CC0; see score rights.",
-        "edition": "Préludes Premier livre,1910,Noctave transcription",
+        "id": 1040,
+        "key": "schubert-lullaby",
+        "title": "シューベルトの子守唄",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1040",
+        "license": "Public Domain",
+        "credit": "Shogo Mori",
+        "edition": "Indiana Edu. Web",
+        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
         "downloads": [
           {
-            "url": "https://noctavepiano.com/partitions/debussy-fille-aux-cheveux-de-lin/debussy-fille-aux-cheveux-de-lin.mxl",
-            "file": "flaxen-haired-girl.mxl",
-            "bytes": 7010,
-            "sha256": "9cbf605e4af69a4f1b1ae913d5d08f2be0fb8d76e5c2a07d0c1886c2bfbadac3"
+            "url": "https://www.mutopiaproject.org/ftp/SchubertF/D498/schubert_wiegen_lied/schubert_wiegen_lied.ly",
+            "file": "schubert-lullaby-schubert_wiegen_lied.ly",
+            "bytes": 4124,
+            "sha256": "40a1c8465eda28d74f37646535d3ba9fae0676362e41c369da58f24535272776"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SchubertF/D498/schubert_wiegen_lied/schubert_wiegen_lied.mid",
+            "file": "schubert-lullaby-schubert_wiegen_lied.mid",
+            "bytes": 3078,
+            "sha256": "c23c9ad4a9604cc0cdd502689c37c95a194c5b1d0bd21dd75ad6e6832bf0d692"
+          }
+        ]
+      },
+      "license": "Public Domain",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "recordingLicense": "Original analytic-v6 synthesis from PD/CC0 score; no third-party recording",
+      "arrangement": "All score events from the stated edition, original pitches and relative rhythm; uniform tempo slowdown only when initial quarter tempo exceeds66BPM. No recorded samples. Duplicate unison note-ons merged; quiet register/dynamic weighting; native repeated notation follows source MIDI playback. Noctave Going Home is the licensed simplified Largo-theme arrangement, not the full symphony movement. Separate original analytic-v6 recording, normalized to existing v6 average level.",
+      "seconds": 44,
+      "rmsDb": -41.94697391707476,
+      "peakDb": -28.14024517082416,
+      "seamStep": 0.0000013323190962602631,
+      "sha256": "6cfeb66b098027717914fdef150eb8ba8f5825f47eac441e1b8c73be42b59cf6",
+      "eventHash": "a2245bb1b5a0fb02ae1d8d3bec8f5af884a8ff69de501ce123c27f227d80b49e",
+      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
+      "decoderAnalysis": {
+        "key": "schubert-lullaby",
+        "decodedRate": 24000,
+        "decodedSeconds": 44.064,
+        "period": 44,
+        "alignmentSamples": 1105,
+        "alignmentCorrelation": 0.9999541143853149,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 44.04604166666667,
+        "level": 1.0526165024019705,
+        "rmsDb": -42.3923774048579,
+        "normalizedRmsDb": -41.94697391707476,
+        "normalizedPeakDb": -28.14024517082416,
+        "clipped": 0,
+        "boundaryStep": 0.0000013323190962602631,
+        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
+        "subjectiveListeningVerified": false
+      }
+    },
+    {
+      "id": "twinkle-star",
+      "title": "きらきら星",
+      "url": "assets/classic-music-v1/twinkle-star.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 47.68241666666667,
+      "level": 1.0526427816114003,
+      "bytes": 572256,
+      "source": {
+        "key": "twinkle-star",
+        "title": "きらきら星",
+        "slug": "trad-ah-vous-dirai-je-maman",
+        "license": "CC0 1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "credit": "Noctave, traditional melody; original CC0 arrangement",
+        "page": "https://noctavepiano.com/partitions/trad-ah-vous-dirai-je-maman/",
+        "downloads": [
+          {
+            "url": "https://noctavepiano.com/partitions/trad-ah-vous-dirai-je-maman/trad-ah-vous-dirai-je-maman.mxl",
+            "file": "twinkle-star-trad-ah-vous-dirai-je-maman.mxl",
+            "bytes": 1723,
+            "sha256": "be713b283134680e81901607cf9fdf733ea4a149c51a85b4c28153648c3bd636"
           }
         ]
       },
       "license": "CC0 1.0",
       "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
-      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
-      "seconds": 110.363625,
+      "recordingLicense": "Original analytic-v6 synthesis from PD/CC0 score; no third-party recording",
+      "arrangement": "All score events from the stated edition, original pitches and relative rhythm; uniform tempo slowdown only when initial quarter tempo exceeds66BPM. No recorded samples. Duplicate unison note-ons merged; quiet register/dynamic weighting; native repeated notation follows source MIDI playback. Noctave Going Home is the licensed simplified Largo-theme arrangement, not the full symphony movement. Separate original analytic-v6 recording, normalized to existing v6 average level.",
+      "seconds": 47.636375,
       "rmsDb": -41.94697391707476,
-      "peakDb": -24.350154184855413,
-      "seamStep": 0.000008665750869302391,
-      "sha256": "bce315cab21440f604c2c1b96c75a43e4a615318cd1d76fa9672faebb309776b",
-      "eventHash": "fc09398d6ca55d76069dc9ebcc4da2bafacf04af0513227d58bd9dcde091c2de",
+      "peakDb": -29.727100526984913,
+      "seamStep": 0.000006568601000275136,
+      "sha256": "7fbf6a2f573270f7afd27f67ee12b0e1e359f60875474fccb3ce06e6dc07f0f7",
+      "eventHash": "a0b68f8a2c67c1c7103cbde09fda3deff933790be80238fad6c421e0d92c1010",
       "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
       "decoderAnalysis": {
-        "key": "flaxen-haired-girl",
+        "key": "twinkle-star",
         "decodedRate": 24000,
-        "decodedSeconds": 110.424,
-        "period": 110.363625,
+        "decodedSeconds": 47.688,
+        "period": 47.636375,
         "alignmentSamples": 1105,
-        "alignmentCorrelation": 0.9999995094116589,
+        "alignmentCorrelation": 0.9999998683026016,
         "loopStart": 0.04604166666666667,
-        "loopEnd": 110.40966666666667,
-        "level": 1.052604268905479,
-        "rmsDb": -42.392276456965064,
+        "loopEnd": 47.68241666666667,
+        "level": 1.0526427816114003,
+        "rmsDb": -42.39259425065417,
         "normalizedRmsDb": -41.94697391707476,
-        "normalizedPeakDb": -24.350154184855413,
+        "normalizedPeakDb": -29.727100526984913,
         "clipped": 0,
-        "boundaryStep": 0.000008665750869302391,
+        "boundaryStep": 0.000006568601000275136,
+        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
+        "subjectiveListeningVerified": false
+      }
+    },
+    {
+      "id": "ave-maria-schubert",
+      "title": "アヴェ・マリア（シューベルト）",
+      "url": "assets/classic-music-v1/ave-maria-schubert.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 436.54604166666667,
+      "level": 1.0525914752956804,
+      "bytes": 5238720,
+      "source": {
+        "id": 1054,
+        "key": "ave-maria-schubert",
+        "title": "アヴェ・マリア（シューベルト）",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1054",
+        "license": "Public Domain",
+        "credit": "Ph. Raynaud",
+        "edition": "C.F. Peters (Band I)",
+        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SchubertF/D839/SchubertF-D839_AveMaria/SchubertF-D839_AveMaria.ly",
+            "file": "ave-maria-schubert-SchubertF-D839_AveMaria.ly",
+            "bytes": 25755,
+            "sha256": "9613b077f9fd0e34a0fe4ce5e3aa065b471fd3d091794c007eb3b9ced144f521"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SchubertF/D839/SchubertF-D839_AveMaria/SchubertF-D839_AveMaria.mid",
+            "file": "ave-maria-schubert-SchubertF-D839_AveMaria.mid",
+            "bytes": 22997,
+            "sha256": "289d1d2c8f5a16f1b1732bc1a60652e662f24e09531ebb0d8017b49712724684"
+          }
+        ]
+      },
+      "license": "Public Domain",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "recordingLicense": "Original analytic-v6 synthesis from PD/CC0 score; no third-party recording",
+      "arrangement": "All score events from the stated edition, original pitches and relative rhythm; uniform tempo slowdown only when initial quarter tempo exceeds66BPM. No recorded samples. Duplicate unison note-ons merged; quiet register/dynamic weighting; native repeated notation follows source MIDI playback. Noctave Going Home is the licensed simplified Largo-theme arrangement, not the full symphony movement. Separate original analytic-v6 recording, normalized to existing v6 average level.",
+      "seconds": 436.5,
+      "rmsDb": -41.94697391707476,
+      "peakDb": -27.43312018012325,
+      "seamStep": 0,
+      "sha256": "c5951c15961cf922a6d4f1755dd0b3908162c298e6e54bb8a11af1b33599ad9d",
+      "eventHash": "654ec8807da140744569d63598e355c9b9d9693802d9d9ec9262137221bad245",
+      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
+      "decoderAnalysis": {
+        "key": "ave-maria-schubert",
+        "decodedRate": 24000,
+        "decodedSeconds": 436.56,
+        "period": 436.5,
+        "alignmentSamples": 1105,
+        "alignmentCorrelation": 0.9999986600903503,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 436.54604166666667,
+        "level": 1.0525914752956804,
+        "rmsDb": -42.39217088589587,
+        "normalizedRmsDb": -41.94697391707476,
+        "normalizedPeakDb": -27.43312018012325,
+        "clipped": 0,
+        "boundaryStep": 0,
+        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
+        "subjectiveListeningVerified": false
+      }
+    },
+    {
+      "id": "gymnopedie-1",
+      "title": "ジムノペディ第1番",
+      "url": "assets/classic-music-v1/gymnopedie-1.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 145.04604166666667,
+      "level": 1.0526171091540804,
+      "bytes": 1740672,
+      "source": {
+        "id": 37,
+        "key": "gymnopedie-1",
+        "title": "ジムノペディ第1番",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=37",
+        "license": "Public Domain",
+        "credit": "Evin Robertson",
+        "edition": "Dover Edition",
+        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.ly",
+            "file": "37-gymnopedie_1.ly",
+            "bytes": 5588,
+            "sha256": "420a52244e9fbe106dd33ba2cac84414fd66e0d01c6d472205bad39678d4ce04"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.mid",
+            "file": "37-gymnopedie_1.mid",
+            "bytes": 2892,
+            "sha256": "09ce7337b4bf42ba12e1aa64b4c7dc7fcfa6455f1070cb12f8880a755df97384"
+          }
+        ]
+      },
+      "license": "Public Domain",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
+      "arrangement": "All encoded score events; no excerpt, added cadence, octave transposition or random timing. Duplicate unison note-ons at identical score ticks merged. Original tempo map and onset rhythm retained; register/dynamic balance adjusted for quiet music-box rendering. MIDI repeats follow source playback encoding. MusicXML ties merged; unmeasured grace placed1/16 quarter beat before its anchor without moving measured notes; unsupported navigation rejected.",
+      "seconds": 145,
+      "rmsDb": -41.94697391707476,
+      "peakDb": -24.38662966154512,
+      "seamStep": 0.0000027078389287924035,
+      "sha256": "b2bb80f35778db2130d5d9d05c3c13e365157009c73161d0e9bb8f0636af40d7",
+      "eventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
+      "decoderAnalysis": {
+        "key": "gymnopedie-1",
+        "decodedRate": 24000,
+        "decodedSeconds": 145.056,
+        "period": 145,
+        "alignmentSamples": 1105,
+        "alignmentCorrelation": 0.9999995301199018,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 145.04604166666667,
+        "level": 1.0526171091540804,
+        "rmsDb": -42.39238241160094,
+        "normalizedRmsDb": -41.94697391707476,
+        "normalizedPeakDb": -24.38662966154512,
+        "clipped": 0,
+        "boundaryStep": 0.0000027078389287924035,
+        "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
+        "subjectiveListeningVerified": false
+      }
+    },
+    {
+      "id": "going-home",
+      "title": "新世界より「家路」",
+      "url": "assets/classic-music-v1/going-home.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 59.43066666666667,
+      "level": 1.052631604348398,
+      "bytes": 713376,
+      "source": {
+        "key": "going-home",
+        "title": "新世界より「家路」",
+        "slug": "dvorak-nouveau-monde-largo-facile",
+        "license": "Creative Commons Attribution-ShareAlike 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "credit": "Noctave, d’après Keith OHara / Mutopia Project, CC BY-SA 3.0",
+        "page": "https://noctavepiano.com/partitions/dvorak-nouveau-monde-largo-facile/",
+        "downloads": [
+          {
+            "url": "https://noctavepiano.com/partitions/dvorak-nouveau-monde-largo-facile/dvorak-nouveau-monde-largo-facile.mxl",
+            "file": "going-home-dvorak-nouveau-monde-largo-facile.mxl",
+            "bytes": 2505,
+            "sha256": "adec51cabd50f66f95c67dd3ecc7e832d9d8909625ddc74ea9e18ad3464e31b7"
+          }
+        ]
+      },
+      "license": "Creative Commons Attribution-ShareAlike 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "recordingLicense": "Creative Commons Attribution-ShareAlike 4.0",
+      "arrangement": "All score events from the stated edition, original pitches and relative rhythm; uniform tempo slowdown only when initial quarter tempo exceeds66BPM. No recorded samples. Duplicate unison note-ons merged; quiet register/dynamic weighting; native repeated notation follows source MIDI playback. Noctave Going Home is the licensed simplified Largo-theme arrangement, not the full symphony movement. Separate original analytic-v6 recording, normalized to existing v6 average level.",
+      "seconds": 59.384625,
+      "rmsDb": -41.94697391707476,
+      "peakDb": -28.48379119901553,
+      "seamStep": 0.000005876179351916607,
+      "sha256": "dc33ef7cdd146dfa90da98a86fb91aeb77610c130753b85d81469aac67edd9b1",
+      "eventHash": "0cd8159ccb0dc9846cd1b7e7067710c88d1d84d776fc0428f4b9de68f5981cf0",
+      "processing": "96kbps mono24kHz MP3; offline LAMEJS tool not shipped in app",
+      "decoderAnalysis": {
+        "key": "going-home",
+        "decodedRate": 24000,
+        "decodedSeconds": 59.448,
+        "period": 59.384625,
+        "alignmentSamples": 1105,
+        "alignmentCorrelation": 0.9999998137015382,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 59.43066666666667,
+        "level": 1.052631604348398,
+        "rmsDb": -42.39250202089681,
+        "normalizedRmsDb": -41.94697391707476,
+        "normalizedPeakDb": -28.48379119901553,
+        "clipped": 0,
+        "boundaryStep": 0.000005876179351916607,
         "compressedBoundaryHandling": "Native AudioBufferSource loop points exclude measured codec delay/padding; one constant per-track level correction after decoding.",
         "subjectiveListeningVerified": false
       }
     }
   ],
-  "missing": [
+  "missing": [],
+  "retiredSelection": [
     {
-      "id": "song-without-words-19-1",
-      "title": "無言歌 Op.19-1",
-      "reason": "CC0-labelled candidate was found, but both ordinary HTTP and browser requests returned HTTP429. No score obtained or substituted; excluded from selection.",
-      "candidate": "https://pianosoloist.app/songs/mendelssohn-sww-op19no1"
+      "id": "arabesque-1",
+      "title": "アラベスク第1番",
+      "url": "assets/classic-music-v1/arabesque-1.mp3",
+      "preserved": true
+    },
+    {
+      "id": "moonlight-1",
+      "title": "月光ソナタ第1楽章",
+      "url": "assets/classic-music-v1/moonlight-1.mp3",
+      "preserved": true
+    },
+    {
+      "id": "bach-prelude-1",
+      "title": "平均律 第1巻 前奏曲第1番",
+      "url": "assets/classic-music-v1/bach-prelude-1.mp3",
+      "preserved": true
+    },
+    {
+      "id": "gymnopedie-2",
+      "title": "ジムノペディ第2番",
+      "url": "assets/classic-music-v1/gymnopedie-2.mp3",
+      "preserved": true
+    },
+    {
+      "id": "nocturne-9-1",
+      "title": "ノクターン第1番 Op.9-1",
+      "url": "assets/classic-music-v1/nocturne-9-1.mp3",
+      "preserved": true
+    },
+    {
+      "id": "flaxen-haired-girl",
+      "title": "亜麻色の髪の乙女",
+      "url": "assets/classic-music-v1/flaxen-haired-girl.mp3",
+      "preserved": true
     }
   ],
   "subjectiveListeningVerified": false,
