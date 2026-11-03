@@ -1,0 +1,51 @@
+{
+  "title": "月の光 — 屋根のオルゴール",
+  "composer": "Claude Debussy",
+  "source": {
+    "composer": "Claude Debussy (1862–1918)",
+    "title": "Clair de lune (Suite bergamasque)",
+    "edition": "E. Fromont, 1905; Keith OHara / Mutopia-1778 public-domain engraving and mechanically generated score MIDI, not a performance recording",
+    "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1778",
+    "license": "Public Domain",
+    "sources": [
+      {
+        "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.ly",
+        "file": "original.ly",
+        "bytes": 17978,
+        "sha256": "c1c58f806a8939fc5a157707ea479403abb9655a4820b25bb6b98e39fd781e7a"
+      },
+      {
+        "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.mid",
+        "file": "original.mid",
+        "bytes": 12476,
+        "sha256": "4eee9a1546ffde1ff74cb9824ba0e57cbc821185a15185bfea9faed97820bf8c"
+      }
+    ]
+  },
+  "arrangement": "Opening 26 measures, lower register lightly raised into music-box range, own quiet D-flat cadence, gently varied timing and dynamics. Original synthesized music-box tines; no soundfont, recording or paid service.",
+  "seconds": 125.18,
+  "rate": 24000,
+  "channels": 1,
+  "bits": 16,
+  "bytes": 6008684,
+  "notes": 542,
+  "sourceNotes": 1468,
+  "peakDb": -23.85200077349723,
+  "rmsDb": -41.946713090719825,
+  "seamStep": 0.000011389931552808036,
+  "loop": "Circular note tails, reflections and warmed filter; no repeated short clips or abrupt end trim.",
+  "sha256": "c62ede8d53138d2161a2976b0fc702093098e5d65416f2c59f636820df28245c",
+  "subjectiveListeningVerified": false,
+  "version": 4,
+  "eventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+  "unchanged": "Exact same 542 pitches/onsets/durations/velocities, 125.18s period, melody, tempo and cadence. Runtime gain/fades/player unchanged.",
+  "timbre": "v4 reuses all v3 note events, pitch and timing. Deterministic per-tine/strike upper-mode colour +/-3.5%, modal decay +/-3%, attack parameter +/-2.5%, no pitch drift, no velocity edits. Note-driven low-level broad wooden-body bands at 270/620/1040Hz (0.7/0.4/0.2% coefficients), same v3 transparent high-mode damping/4.2kHz lowpass/reflections. No mechanical sounds, noise, added notes, samples, recordings or new libraries. Constant gain matches v3 RMS; runtime volume/player unchanged",
+  "comparison": {
+    "previousVersion": 3,
+    "previousRmsDb": -41.946713090719825,
+    "previousPeakDb": -23.844862350559787,
+    "playerLevelUnchanged": true,
+    "previousAssetPreserved": true,
+    "subjectiveEqualLoudnessVerified": false
+  }
+}
