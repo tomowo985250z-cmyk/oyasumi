@@ -119,8 +119,9 @@ globalThis.SolarSky=(()=>{
  // Approved sky55 study: terrain and cloud material only; all room geometry stays upstream.
  const engawaAssets={"assets":{"spring":{"file":"assets/engawa-sky55/country-spring-2147d2624e4261cf.webp","placement":{"x":69.05,"y":76.13653386454183,"width":263.7,"height":155.31346613545816}},"summer":{"file":"assets/engawa-sky55/country-summer-878d1971ea5ddf11.webp","placement":{"x":69.05,"y":75.82652694610778,"width":263.7,"height":155.6234730538922}},"autumn":{"file":"assets/engawa-sky55/country-autumn-a987b36d6c101218.webp","placement":{"x":69.05,"y":76.44530815109343,"width":263.7,"height":155.00469184890656}},"winter":{"file":"assets/engawa-sky55/country-winter-12a7ab239d7514a0.webp","placement":{"x":69.05,"y":76.75285714285712,"width":263.7,"height":154.69714285714286}}},"cloud":{"file":"assets/engawa-sky55/cloud-2b6c0afbfb51844e.webp"}};
  function engawaMatrix(brightness,saturation,t){
-  const l=[.2126,.7152,.0722],temperature=[1+t.evening*.16-t.night*.20,1-t.evening*.025,1-t.evening*.19+t.night*.15];
-  return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,0]).concat([0,0,0,1,0]).join(' ');
+  // Subtle air/patina in the existing photographs; retain seasonal colour and detail.
+  const l=[.2126,.7152,.0722],temperature=[1+t.evening*.12-t.night*.18,1-t.evening*.018,1-t.evening*.15+t.night*.12];
+  return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*.97*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,Number((brightness*temperature[row]*.012).toFixed(5))]).concat([0,0,0,1,0]).join(' ');
  }
  // Window anchors in the unchanged seasonal photo pixels, below the roof eaves.
  // Project through each image's existing geometry; no extra buildings or timers.
@@ -158,7 +159,7 @@ globalThis.SolarSky=(()=>{
  function paintEngawa(svg,w){
   if(!svg.hasAttribute('data-sky55'))return;
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.86:1;
-  svg.querySelector('[data-sky55-tone="terrain"]').setAttribute('values',engawaMatrix((t.day+t.morning*.90+t.evening*.67+t.night*.24)*wet,t.day*.90+t.morning*.86+t.evening*.79+t.night*.38,t));
+  svg.querySelector('[data-sky55-tone="terrain"]').setAttribute('values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.25)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t));
   svg.querySelector('[data-sky55-tone="cloud"]').setAttribute('values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
   distantHomes(svg,w);
  }

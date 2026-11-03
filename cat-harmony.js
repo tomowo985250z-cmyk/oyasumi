@@ -4,10 +4,10 @@ globalThis.CatLightHarmony=(()=>{
  const solar=SolarLighting,backgrounds=RoomBackgrounds,roof=RoofRecline,sky=SolarSky,ns='http://www.w3.org/2000/svg',entries=new WeakMap();let serial=0;
  const clamp=(a,b,v)=>Math.max(a,Math.min(b,v)),round=n=>Number(n.toFixed(5));
  const values={
-  room:{morning:[.965,.955,.975,1.014,1,.986],day:[.96,.95,.975,1.008,1,.99],evening:[.94,.945,.965,1.022,1,.972],night:[.765,.925,.96,.985,1,1.017]},
-  engawa:{morning:[.95,.955,.975,1.012,1,.99],day:[.945,.95,.975,1.005,1.003,.996],evening:[.93,.945,.965,1.024,1,.972],night:[.765,.925,.96,.991,1,1.012]},
-  garden:{morning:[.975,.965,.98,1.013,1.002,.989],day:[.975,.965,.98,1,1.004,1],evening:[.945,.95,.97,1.027,1,.97],night:[.745,.93,.96,.985,1.002,1.019]},
-  roof:{morning:[.98,.97,.985,1.015,1,.988],day:[.98,.97,.985,1,1,1.003],evening:[.95,.955,.975,1.025,1,.972],night:[.755,.935,.965,.985,1,1.021]}
+  room:{morning:[.965,.955,.975,1.018,1,.980],day:[.96,.95,.975,1.015,1,.980],evening:[.94,.94,.965,1.034,1,.958],night:[.765,.925,.96,.985,1,1.017]},
+  engawa:{morning:[.95,.955,.975,1.015,1,.985],day:[.945,.95,.975,1.010,1.003,.988],evening:[.93,.94,.965,1.036,1,.956],night:[.765,.925,.96,.991,1,1.012]},
+  garden:{morning:[.975,.955,.975,1.013,1.002,.989],day:[.975,.95,.975,1.005,1.004,.995],evening:[.945,.94,.965,1.041,1,.952],night:[.745,.93,.96,.985,1.002,1.019]},
+  roof:{morning:[.975,.96,.975,1.015,1,.988],day:[.975,.96,.975,1.005,1,1],evening:[.95,.945,.965,1.040,1,.952],night:[.755,.93,.96,.985,1,1.021]}
  };
  function parameters(w,where,mode='ambient',warmth=0){
   const world=SolarModel.world(w),weights=SolarModel.weights(SolarModel.time(world)),light=SolarSky.state(world,where),base=values[where]||values.room;
@@ -22,7 +22,7 @@ globalThis.CatLightHarmony=(()=>{
    result[0]-=.035*day;result[3]=1+(result[3]-1)*.25;result[5]=1+(result[5]-1)*.35;
   }
   if(where==='engawa'){result[0]+=.05*warmth;result[3]+=.036*warmth;result[5]-=.035*warmth;}
-  if(mode==='white'&&where==='roof')result[0]+=.055*night;
+  if(mode==='white'&&where==='roof')result[0]+=.028*night;
   if(mode==='lamp'&&where==='room'){
    result[0]+=.105*night;result[1]+=.01*night;result[3]+=.031*night;result[5]-=.044*night;
   }
@@ -133,7 +133,7 @@ globalThis.CatLightHarmony=(()=>{
  }
  function applyRoof(card,w){
   if(!card?.isConnected)return;const e=install(card),stamp=[Math.floor(SolarModel.time(w)/60000),w.season].join(':');
-  if(e.stamp!==stamp){for(const mode of Object.keys(e.filters)){const p=parameters({...w,weather:'sunny'},'roof',mode),f=e.filters[mode];f.saturation.setAttribute('values',p[1]);for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}}e.stamp=stamp;}
+  if(e.stamp!==stamp){for(const mode of Object.keys(e.filters)){const p=parameters({...w,weather:'sunny'},'roof',mode),f=e.filters[mode];f.saturation.setAttribute('values',p[1]);for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}if(!f.highlights){f.highlights=element('feComponentTransfer');for(const c of ['R','G','B'])f.highlights.append(element('feFunc'+c,{type:'table',tableValues:'0 .25 .5 .74 .96'}));f.filter.append(f.highlights);}}e.stamp=stamp;}
   const moonInk=RoofMoon.snapshot(SolarModel.time(w));card.style.setProperty('--roof-night-ink',SolarModel.phase(SolarModel.time(w))==='night'?moonInk.opacity*moonInk.illumination:0);
   const group=card.querySelector('.roof-cat-group'),scene=group?.parentElement;if(!group||!scene)return;
   let contacts=scene.querySelector(':scope > [data-cat-harmony-roof-contact]');if(!contacts){contacts=document.createElement('span');contacts.dataset.catHarmonyRoofContact='';contacts.setAttribute('aria-hidden','true');scene.insertBefore(contacts,group);}

@@ -4,7 +4,7 @@ globalThis.SeasonLandscape=(()=>{
  const mix=(a,b,t)=>'#'+[1,3,5].map(i=>Math.round(parseInt(a.slice(i,i+2),16)*(1-t)+parseInt(b.slice(i,i+2),16)*t).toString(16).padStart(2,'0')).join('');
  const seasons={
   spring:{sky:'#77bad6',horizon:'#d6e4ce',far:'#82a6a6',hill:'#658d77',field:'#9cb775',leaf:'#d99aab',leafLight:'#f2cdd1',green:'#668d5d',trunk:'#82715e'},
-  summer:{sky:'#60acd3',horizon:'#cee1ce',far:'#739ca7',hill:'#4e806b',field:'#87a65d',leaf:'#507f58',leafLight:'#92ac69',green:'#5a854e',trunk:'#756d53'},
+  summer:{sky:'#68accb',horizon:'#d1dfcc',far:'#739ca7',hill:'#4e806b',field:'#87a65d',leaf:'#507f58',leafLight:'#92ac69',green:'#5a854e',trunk:'#756d53'},
   autumn:{sky:'#7cacc4',horizon:'#e3d6af',far:'#91a2a1',hill:'#7c8a64',field:'#c1ae6d',leaf:'#b77344',leafLight:'#dca76a',green:'#7d8d50',trunk:'#80634e'},
   winter:{sky:'#87b3cd',horizon:'#d5ded9',far:'#91a6b3',hill:'#89988c',field:'#b5b29a',leaf:'#8a9387',leafLight:'#c3c7b6',green:'#8a997b',trunk:'#7a7c77'}
  };
@@ -39,7 +39,7 @@ globalThis.SeasonLandscape=(()=>{
   const p={...(seasons[w.season]||seasons.summer)},phase=SeasonLandscape.phase(w),cloud=w.weather!=='sunny',rain=w.weather==='rainy';
   if(cloud){p.sky=rain?'#718c9e':'#9cb3c0';p.horizon=rain?'#b5c6c2':'#d8dfd7';for(const key of ['far','hill','field','green','leaf','leafLight'])p[key]=mix(p[key],rain?'#52746d':'#8b9e92',rain?.24:.12);}
   if(phase==='morning'){p.sky=mix(p.sky,'#b9d8e6',.42);p.horizon=mix(p.horizon,'#e6e4cc',.18);}
-  if(phase==='evening'){p.sky=rain?'#787f91':cloud?'#a99caa':'#b390a0';p.horizon=rain?'#afa6a0':cloud?'#d2b5a1':'#eeae78';for(const key of ['far','hill','field','green','leaf','leafLight'])p[key]=mix(p[key],'#997854',.24);}
+  if(phase==='evening'){p.sky=rain?'#82818a':cloud?'#ad9e9b':'#bc9b94';p.horizon=rain?'#b0a79b':cloud?'#d0b69e':'#e9b88b';for(const key of ['far','hill','field','green','leaf','leafLight'])p[key]=mix(p[key],'#a38560',.22);}
   if(phase==='night'){p.sky=rain?'#142432':cloud?'#182b3b':'#0d2035';p.horizon=rain?'#2c424c':'#354c59';for(const key of ['far','hill','field','green','leaf','leafLight','trunk'])p[key]=mix(p[key],'#102532',.79);}
   p.cloud=phase==='night'?'#3b4e5d':rain?'#9eafb6':cloud?'#dce2df':phase==='evening'?'#eac19e':'#f2f4e9';p.cloudShade=phase==='night'?'#253948':rain?'#6e8b9d':cloud?'#a8bbc2':phase==='evening'?'#a68e9e':'#b7ced0';
   p.sun=phase==='evening'?'#ffe0a1':'#fff2cb';p.shadow=phase==='night'?'#0d2333':rain?'#425e6a':'#637b7d';

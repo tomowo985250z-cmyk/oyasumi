@@ -9,10 +9,10 @@ globalThis.BedroomRealism=(()=>{
   const doc=new DOMParser().parseFromString(original,'image/svg+xml');if(doc.querySelector('parsererror'))throw Error('Invalid photographic bedroom SVG');
   const svg=doc.documentElement,defs=svg.querySelector('defs'),main=svg.querySelector('g[filter]'),id='bedroom-realism-'+(++serial),cold=w.season==='autumn'||w.season==='winter';
   const node=(tag,attrs={})=>{const n=doc.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;};
-  const tone=SolarLighting.palette(w,phase=>({rgb:phase==='night'?'#9da9ae':phase==='evening'?'#efd1ad':phase==='morning'?'#f1f8f0':'#ffffff'})).rgb;
+  const tone=SolarLighting.palette(w,phase=>({rgb:phase==='night'?'#9da9ae':phase==='evening'?'#efd1ad':phase==='morning'?'#f3f5e9':'#f7f4eb'})).rgb;
   const [r,g,b]=[1,3,5].map(i=>(parseInt(tone.slice(i,i+2),16)/255).toFixed(5));
-  const filter=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});filter.innerHTML=`<feColorMatrix type="matrix" values="${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0"/>`;defs.append(filter);
-  const objects=node('filter',{id:id+'-objects','color-interpolation-filters':'sRGB'});objects.innerHTML=`<feColorMatrix type="saturate" values=".88"/><feColorMatrix type="matrix" values="${r*.96} 0 0 0 ${r*.015} 0 ${g*.96} 0 0 ${g*.015} 0 0 ${b*.96} 0 ${b*.015} 0 0 0 1 0"/>`;defs.append(objects);
+  const filter=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});filter.innerHTML=`<feColorMatrix type="saturate" values=".96"/><feColorMatrix type="matrix" values="${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0"/>`;defs.append(filter);
+  const objects=node('filter',{id:id+'-objects','color-interpolation-filters':'sRGB'});objects.innerHTML=`<feColorMatrix type="saturate" values=".86"/><feColorMatrix type="matrix" values="${r*.96} 0 0 0 ${r*.015} 0 ${g*.96} 0 0 ${g*.015} 0 0 ${b*.96} 0 ${b*.015} 0 0 0 1 0"/>`;defs.append(objects);
   const image=(name,x,y,width,height)=>node('image',{href:root+name+'.webp',x,y,width,height,preserveAspectRatio:'none',filter:`url(#${id}-${name==='shell'?'tone':'objects'})`,'data-bedroom-photo':name});
   const plant=svg.querySelector('[data-scene-object="potted-plant"]'),basket=svg.querySelector('[data-scene-object="basket"]'),picture=svg.querySelector('[data-scene-object="picture"]'),kotatsu=svg.querySelector('[data-season-furniture="kotatsu"]');
   const marker=[...main.childNodes].find(n=>n.nodeType===8&&n.textContent.includes('Rounded window'))||doc.createComment('Rounded window, live landscape');
