@@ -1,0 +1,414 @@
+{
+  "version": 1,
+  "policy": "Independent composition-specific instrument and performance choices. No dissonance filter, pitch/detune limit, integer-harmonic requirement, universal tempo ceiling, decay ceiling, dynamic limiter or common loudness target. Only finite/alias-safe PCM, codec validity and unclipped playback are technical requirements.",
+  "voices": [
+    {
+      "id": "clair-de-lune",
+      "nativeTimeScale": 1.03,
+      "decay": 1.65,
+      "decaySpan": 45,
+      "metal": [
+        0.205,
+        0.041,
+        0.006
+      ],
+      "tineCents": 1.1,
+      "driftCents": 0.3,
+      "reflection": 0.025,
+      "dynamicExponent": 1,
+      "bassWeight": 0.64,
+      "lidHz": 4900,
+      "nominalLufs": -41.7,
+      "reason": "月の光：分散和音の重なりを長めの二段減衰と木箱の奥行きで表現。従来の句内の揺れを残す。",
+      "modes": [
+        1,
+        2.7571149999999998,
+        5.40482,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.23,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.009500000000000001,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "canon-d",
+      "nativeTimeScale": 0.98,
+      "decay": 1.24,
+      "decaySpan": 49,
+      "metal": [
+        0.225,
+        0.038,
+        0.005
+      ],
+      "tineCents": 0.85,
+      "driftCents": 0.15,
+      "reflection": 0.018,
+      "dynamicExponent": 1.08,
+      "bassWeight": 0.55,
+      "lidHz": 6200,
+      "nominalLufs": -42.5,
+      "reason": "カノン：低音主題と三声の受け渡しを生かす明瞭な櫛歯。変奏が停滞しない流れに戻す。",
+      "modes": [
+        1,
+        2.757175,
+        5.40476,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.00684,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "air-g-string",
+      "nativeTimeScale": 0.94,
+      "decay": 1.9,
+      "decaySpan": 52,
+      "metal": [
+        0.155,
+        0.03,
+        0.004
+      ],
+      "tineCents": 0.65,
+      "driftCents": 0.18,
+      "reflection": 0.032,
+      "dynamicExponent": 0.92,
+      "bassWeight": 0.72,
+      "lidHz": 4600,
+      "nominalLufs": -42.6,
+      "reason": "G線上のアリア：長い旋律線を、丸いアタックと豊かな基音の残響でつなぐ。",
+      "modes": [
+        1,
+        2.756965,
+        5.4046,
+        8.933
+      ],
+      "attackMs": 2.4,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.01216,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "nocturne-9-2",
+      "nativeTimeScale": 1,
+      "decay": 1.48,
+      "decaySpan": 47,
+      "metal": [
+        0.185,
+        0.044,
+        0.007
+      ],
+      "tineCents": 1.35,
+      "driftCents": 0.35,
+      "reflection": 0.022,
+      "dynamicExponent": 1.18,
+      "bassWeight": 0.52,
+      "lidHz": 5700,
+      "nominalLufs": -41.5,
+      "reason": "ノクターン：装飾音と歌う旋律の対比を回復。低音伴奏を支えに譜面の抑揚を広げる。",
+      "modes": [
+        1,
+        2.757055,
+        5.40488,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.00836,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "fur-elise",
+      "nativeTimeScale": 1.06,
+      "decay": 1.12,
+      "decaySpan": 44,
+      "metal": [
+        0.24,
+        0.046,
+        0.007
+      ],
+      "tineCents": 1.15,
+      "driftCents": 0.2,
+      "reflection": 0.016,
+      "dynamicExponent": 1.16,
+      "bassWeight": 0.63,
+      "lidHz": 6500,
+      "nominalLufs": -41.6,
+      "reason": "エリーゼのために：交互音の透明な粒立ちと中間部の強弱を回復。旧66BPM上限を解除。",
+      "modes": [
+        1,
+        2.75722,
+        5.40492,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.00608,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "traumerei",
+      "nativeTimeScale": 1,
+      "decay": 1.82,
+      "decaySpan": 50,
+      "metal": [
+        0.165,
+        0.029,
+        0.004
+      ],
+      "tineCents": 1.45,
+      "driftCents": 0.25,
+      "reflection": 0.035,
+      "dynamicExponent": 1.08,
+      "bassWeight": 0.78,
+      "lidHz": 4500,
+      "nominalLufs": -42.5,
+      "reason": "トロイメライ：原譜のルバートと内声を保ち、木箱の厚みと呼吸する余韻を重視。",
+      "modes": [
+        1,
+        2.756995,
+        5.40458,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.013300000000000001,
+      "pairedTineWeight": 0.018
+    },
+    {
+      "id": "brahms-lullaby",
+      "nativeTimeScale": 1.02,
+      "decay": 1.5,
+      "decaySpan": 48,
+      "metal": [
+        0.175,
+        0.032,
+        0.004
+      ],
+      "tineCents": 0.75,
+      "driftCents": 0.12,
+      "reflection": 0.026,
+      "dynamicExponent": 0.9,
+      "bassWeight": 0.75,
+      "lidHz": 4800,
+      "nominalLufs": -42.8,
+      "reason": "ブラームスの子守歌：三拍子の揺りかごを、丸い発音と自然な譜面の強弱で表現。",
+      "modes": [
+        1,
+        2.757025,
+        5.40464,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.00988,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "schubert-lullaby",
+      "nativeTimeScale": 0.98,
+      "decay": 1.68,
+      "decaySpan": 49,
+      "metal": [
+        0.16,
+        0.03,
+        0.004
+      ],
+      "tineCents": 0.95,
+      "driftCents": 0.2,
+      "reflection": 0.029,
+      "dynamicExponent": 1,
+      "bassWeight": 0.8,
+      "lidHz": 4700,
+      "nominalLufs": -42.8,
+      "reason": "シューベルトの子守歌：息の長い歌に、基音を支える柔らかな共鳴を添える。",
+      "modes": [
+        1,
+        2.75698,
+        5.4046,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.01102,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "twinkle-star",
+      "nativeTimeScale": 1.18,
+      "decay": 1.26,
+      "decaySpan": 44,
+      "metal": [
+        0.23,
+        0.042,
+        0.006
+      ],
+      "tineCents": 1.55,
+      "driftCents": 0.28,
+      "reflection": 0.018,
+      "dynamicExponent": 0.86,
+      "bassWeight": 0.76,
+      "lidHz": 6600,
+      "nominalLufs": -42,
+      "reason": "きらきら星：明るい小さな櫛歯と簡潔な余韻。旧66BPM上限を外し、元の100BPMから個別に整える。",
+      "modes": [
+        1,
+        2.75719,
+        5.40484,
+        8.933
+      ],
+      "attackMs": 1.05,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.00684,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "ave-maria-schubert",
+      "nativeTimeScale": 0.92,
+      "decay": 1.96,
+      "decaySpan": 54,
+      "metal": [
+        0.145,
+        0.027,
+        0.0035
+      ],
+      "tineCents": 0.7,
+      "driftCents": 0.16,
+      "reflection": 0.038,
+      "dynamicExponent": 1.05,
+      "bassWeight": 0.67,
+      "lidHz": 4400,
+      "nominalLufs": -42.1,
+      "reason": "アヴェ・マリア：細かな伴奏と長い旋律をつなぐ深い箱鳴り。過度に間延びしない流れ。",
+      "modes": [
+        1,
+        2.756935,
+        5.40454,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.01444,
+      "pairedTineWeight": 0.012
+    },
+    {
+      "id": "gymnopedie-1",
+      "nativeTimeScale": 1,
+      "decay": 2.08,
+      "decaySpan": 55,
+      "metal": [
+        0.2,
+        0.033,
+        0.0045
+      ],
+      "tineCents": 1.9,
+      "driftCents": 0.4,
+      "reflection": 0.04,
+      "dynamicExponent": 1.12,
+      "bassWeight": 0.86,
+      "lidHz": 5200,
+      "nominalLufs": -43,
+      "reason": "ジムノペディ：原曲の解決しない和音をそのまま響かせ、広い間と低音の余韻を生かす。",
+      "modes": [
+        1,
+        2.7571,
+        5.40466,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.25,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.0152,
+      "pairedTineWeight": 0.025
+    },
+    {
+      "id": "going-home",
+      "nativeTimeScale": 1,
+      "decay": 1.76,
+      "decaySpan": 51,
+      "metal": [
+        0.18,
+        0.035,
+        0.005
+      ],
+      "tineCents": 1.2,
+      "driftCents": 0.22,
+      "reflection": 0.034,
+      "dynamicExponent": 1.04,
+      "bassWeight": 0.82,
+      "lidHz": 5000,
+      "nominalLufs": -42.1,
+      "reason": "家路：低音から旋律への温かな広がり。元のLargoの歩みとフレーズの強弱を尊重。",
+      "modes": [
+        1,
+        2.75704,
+        5.4047,
+        8.933
+      ],
+      "attackMs": 1.5,
+      "slowWeight": 0.19,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.012920000000000001,
+      "pairedTineWeight": 0.012
+    }
+  ]
+}
