@@ -29,8 +29,8 @@ globalThis.NightConstellations=(()=>{
   return visibleOnly&&!inView?null:{...h,delta,x,y,inView};
  }
  function state(w,where){const b=basis(w);return {key:b.region.id+':'+b.at+':'+where,b,points:catalog.map(s=>({...s,...project(s.p,b,where)}))};}
- function opacity(s){return s.inView?(.22+.70*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*SolarModel.smooth(0,5,s.altitude):0;}
- function markup(w,where){const s=state(w,where);return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+s.points.map(p=>'<circle data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(.55+Math.max(0,Math.min(1,(4-p.mag)/5))*.58).toFixed(3)+'" fill="'+(p.bv>.8?'#e7d9bf':'#d5e3f3')+'" opacity="'+opacity(p).toFixed(4)+'" style="--night-star-alpha:'+opacity(p).toFixed(4)+'"/>').join('')+'</g>';}
+ function opacity(s){return s.inView?(.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*SolarModel.smooth(0,5,s.altitude):0;}
+ function markup(w,where){const s=state(w,where);return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+s.points.map(p=>'<circle data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(.52+Math.max(0,Math.min(1,(4-p.mag)/5))*.70).toFixed(3)+'" fill="'+(p.bv>.8?'#e7d9bf':'#d5e3f3')+'" opacity="'+opacity(p).toFixed(4)+'" style="--night-star-alpha:'+opacity(p).toFixed(4)+'"/>').join('')+'</g>';}
  function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('opacity',opacity(p).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p).toFixed(4));});layer.dataset.majorKey=s.key;}
  return Object.freeze({catalog,vector,basis,horizontal,project,state,markup,sync});
 })();
@@ -310,16 +310,16 @@ globalThis.EngawaNightSky=(()=>{
   layer.querySelector('[data-night-milky-way]').setAttribute('opacity',s.milkyStrength.toFixed(4));
   layer.querySelectorAll('[data-milky-band]').forEach((p,i)=>p.setAttribute('d',s.bands[i]));
   // A moonlit sky has less deep contrast, without changing the existing moon.
-  layer.querySelector('[data-night-haze]').setAttribute('opacity',(.03+s.glare*.075+(w.weather==='cloudy'?.10:w.weather==='rainy'?.12:0)).toFixed(4));
+  layer.querySelector('[data-night-haze]').setAttribute('opacity',(.018+s.glare*.055+(w.weather==='cloudy'?.10:w.weather==='rainy'?.12:0)).toFixed(4));
  }
  function decorate(svg,w,where='engawa'){
   if(svg.querySelector('[data-engawa-night-study]')){sync(svg,w,where);return svg;}
   const id='engawa-night-'+(++sequence),defs=svg.querySelector('defs');
-  defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect x="69.05" y="62.25" width="263.7" height="169.2"/></clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/><rect x="69.05" y="62.25" width="263.7" height="169.2" fill="black"/></mask><linearGradient id="${id}-blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#02091b"/><stop offset=".64" stop-color="#050f24"/><stop offset="1" stop-color="#152638"/></linearGradient><filter id="${id}-soft" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3.6"/></filter>`);
+  defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect x="69.05" y="62.25" width="263.7" height="169.2"/></clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/><rect x="69.05" y="62.25" width="263.7" height="169.2" fill="black"/></mask><linearGradient id="${id}-blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#010411"/><stop offset=".64" stop-color="#03091a"/><stop offset="1" stop-color="#060d20"/></linearGradient><radialGradient id="${id}-reflection" cx="${where==='window'?1:.5}" cy="0" r="1"><stop stop-color="#efc28e" stop-opacity=".7"/><stop offset=".52" stop-color="#d8a971" stop-opacity=".28"/><stop offset="1" stop-color="#c99460" stop-opacity="0"/></radialGradient><filter id="${id}-soft" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3.6"/></filter>`);
   const layer=document.createElementNS(ns,'g');layer.setAttribute('data-engawa-night-study','');layer.setAttribute('clip-path',`url(#${id}-view)`);layer.setAttribute('pointer-events','none');
-  const sizes=[.20,.29,.38,.48,.68,.94],alphas=[.20,.31,.43,.56,.74,.94];
+  const sizes=[.18,.27,.38,.52,.74,1],alphas=[.16,.27,.43,.60,.80,.96];
   layer.innerHTML=`<rect x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-blue)"/><rect data-night-haze="" x="69.05" y="62.25" width="263.7" height="169.2" fill="#6e849a"/><g data-night-milky-way="" filter="url(#${id}-soft)"><path data-milky-band="" fill="#a8b9cc" opacity=".10"/><path data-milky-band="" fill="#c2c8cc" opacity=".12"/><path data-milky-band="" fill="#839bb6" opacity=".09"/><path data-milky-band="" fill="#030b1a" opacity=".09"/></g><g data-night-fine-stars="" fill="none" stroke-linecap="round">${Array.from({length:12},(_,i)=>`<path data-night-star-bin="${i}" stroke="${i<6?'#ccdbed':'#e1d8c4'}" stroke-width="${sizes[i%6]*2}" opacity="${alphas[i%6]}"/>`).join('')}</g>`;
-  layer.insertAdjacentHTML('beforeend',NightConstellations.markup(w,where));
+  layer.insertAdjacentHTML('beforeend',NightConstellations.markup(w,where)+'<rect data-night-room-reflection="" x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#'+id+'-reflection)"/>');
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);
   const anchor=oldStars||[...svg.children].find(n=>n.querySelector?.('.room-window-moon'))||svg.querySelector('[data-sky-clouds]');
   if(where!=='engawa'){for(const n of [...defs.querySelectorAll(`[id^="${id}"] rect`),...layer.querySelectorAll('rect')]){n.setAttribute('x',0);n.setAttribute('y',0);n.setAttribute('width',400);n.setAttribute('height',260);}}

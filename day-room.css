@@ -194,7 +194,13 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 
 /* Sparse, asynchronous scintillation preserves the astronomical alpha and size. */
 .roof-sky-card .roof-star-field{filter:contrast(1.12) brightness(1.08)}
-:is(.roof-sky-card,.day-room[data-solar-light=moon]) [data-major-star]:nth-child(3n+1){animation:country-star-glimmer 11s ease-in-out infinite;animation-delay:-3s}
-:is(.roof-sky-card,.day-room[data-solar-light=moon]) [data-major-star]:nth-child(5n+1){animation-duration:15s;animation-delay:-9s}
+:is(.roof-sky-card,.day-room[data-solar-light=moon]) [data-major-star]:nth-child(5n+1){animation:country-star-glimmer 13s ease-in-out infinite;animation-delay:-3s}
+:is(.roof-sky-card,.day-room[data-solar-light=moon]) [data-major-star]:nth-child(11n+3){animation:country-star-glimmer 19s ease-in-out infinite;animation-delay:-11s}
 @keyframes country-star-glimmer{0%,100%{opacity:calc(var(--night-star-alpha) * .88)}45%{opacity:var(--night-star-alpha)}70%{opacity:calc(var(--night-star-alpha) * .95)}}
 @media(prefers-reduced-motion:reduce){:is(.roof-sky-card,.day-room) [data-major-star]{animation:none!important}}
+
+/* Night-only glass glare stays inside the existing sky, behind terrain and panes. */
+[data-night-room-reflection]{opacity:0;transition:opacity 500ms ease-in-out}
+.day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) [data-night-room-reflection]{opacity:.22}
+.day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) :is([data-major-stars],[data-night-fine-stars]){filter:brightness(.78)}
+@media(prefers-reduced-motion:reduce){[data-night-room-reflection]{transition:none}}
