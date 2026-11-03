@@ -1,0 +1,1345 @@
+{
+  "title": "月の光 — 屋根のオルゴール",
+  "composer": "Claude Debussy",
+  "source": {
+    "composer": "Claude Debussy (1862–1918)",
+    "title": "Clair de lune (Suite bergamasque)",
+    "edition": "E. Fromont, 1905; Keith OHara / Mutopia-1778 public-domain engraving and mechanically generated score MIDI, not a performance recording",
+    "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1778",
+    "license": "Public Domain",
+    "sources": [
+      {
+        "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.ly",
+        "file": "original.ly",
+        "bytes": 17978,
+        "sha256": "c1c58f806a8939fc5a157707ea479403abb9655a4820b25bb6b98e39fd781e7a"
+      },
+      {
+        "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.mid",
+        "file": "original.mid",
+        "bytes": 12476,
+        "sha256": "4eee9a1546ffde1ff74cb9824ba0e57cbc821185a15185bfea9faed97820bf8c"
+      }
+    ]
+  },
+  "arrangement": "Opening 26 measures, lower register lightly raised into music-box range, own quiet D-flat cadence, gently varied timing and dynamics. Original synthesized music-box tines; no soundfont, recording or paid service.",
+  "seconds": 125.18,
+  "rate": 24000,
+  "channels": 1,
+  "bits": 16,
+  "bytes": 6008684,
+  "notes": 542,
+  "sourceNotes": 1468,
+  "peakDb": -23.893299015822457,
+  "rmsDb": -41.946713090719825,
+  "seamStep": 0.000009685079783784701,
+  "loop": "Circular note tails, reflections and warmed filter; no repeated short clips or abrupt end trim.",
+  "sha256": "f3b834f254601f8a84e380ae5cb733b2550cac665cb47e69a09699244e781f81",
+  "subjectiveListeningVerified": false,
+  "version": 6,
+  "eventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+  "unchanged": "Exact same 542 pitches/onsets/durations/velocities, 125.18s period, melody, tempo and cadence. Runtime gain/fades/player unchanged.",
+  "timbre": "v6 uses original analytic synthesis only. Physical CC0/BY reference spectra show a dominant tuned component, quieter2f/3f and pitch-dependent partial/decay differences, not one strong fixed upper ring. Keep fundamental frequencies/envelopes and1.2ms attack. Reduce2.7565f mode from.235 to.215 and5.404f from.044 to.040, with up to6% additional upper-register taper; shorten their relative decay from.42/.19 to.37/.17. Low-note support below280Hz uses smoothstep taper and up to.125/.045 amplitude2f/3f, compared with v5 below250Hz .10/.038. Preserve wood-body filters and reflections because recorded wood/room/mic response cannot be isolated. No pitch/timing changes, sampled audio, IRs, mechanical noise, modulation, added notes or processing in runtime. Constant gain matches v5 RMS; speaker analysis is generic bandwidth only, not real hardware",
+  "comparison": {
+    "previousVersion": 5,
+    "previousRmsDb": -41.946713090719825,
+    "previousPeakDb": -23.860113956185884,
+    "playerLevelUnchanged": true,
+    "previousAssetPreserved": true,
+    "subjectiveEqualLoudnessVerified": false
+  },
+  "references": [
+    {
+      "id": 70177,
+      "author": "folkman",
+      "title": "MUSIC BOX B 1.wav",
+      "kind": "isolated physical music-box tine, lower of selected pair",
+      "source": "https://freesound.org/people/folkman/sounds/70177/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/70/70177_1022894-hq.mp3",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "retrievedAt": "2026-11-03T12:34:06.765Z",
+      "bytes": 51294,
+      "sha256": "2c9ff0c324b1f9040f61c0b7f0e1e28467e5c2a9b94cdf409581a9a7954f2b99",
+      "analysisOnly": true,
+      "recordedWaveformReusedInV6": false,
+      "limitation": "HQ MP3 preview; onset/transient and high-frequency precision limited by compression. Recording/microphone/room effects cannot be separated from box resonance."
+    },
+    {
+      "id": 70187,
+      "author": "folkman",
+      "title": "MUSIC BOX F# 2.wav",
+      "kind": "isolated physical music-box tine, higher of selected pair",
+      "source": "https://freesound.org/people/folkman/sounds/70187/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/70/70187_1022894-hq.mp3",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "retrievedAt": "2026-11-03T12:34:08.687Z",
+      "bytes": 142762,
+      "sha256": "10b3d6a1e0e8541e19d0ca8fcc4da369242ecf3571a416d64dbf9abd7f0e8b04",
+      "analysisOnly": true,
+      "recordedWaveformReusedInV6": false,
+      "limitation": "HQ MP3 preview; onset/transient and high-frequency precision limited by compression. Recording/microphone/room effects cannot be separated from box resonance."
+    },
+    {
+      "id": 673109,
+      "author": "untilltomorrow",
+      "title": "untilltomorrow_MusicBox_Close.wav",
+      "kind": "independent perforated physical music box; close Zoom H4 recording with room reverb; composed by recorder",
+      "source": "https://freesound.org/people/untilltomorrow/sounds/673109/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/673/673109_3856233-hq.mp3",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "retrievedAt": "2026-11-03T12:34:41.394Z",
+      "bytes": 2528059,
+      "sha256": "51ede96313bad7027731ee6d883ca6d79883d498760a4ea65891e8fadf2872a5",
+      "analysisOnly": true,
+      "recordedWaveformReusedInV6": false,
+      "limitation": "HQ MP3 preview; onset/transient and high-frequency precision limited by compression. Recording/microphone/room effects cannot be separated from box resonance."
+    },
+    {
+      "id": 180384,
+      "author": "mrmccormack",
+      "title": "Hand Crank Music Box Amazing Grace",
+      "kind": "physical hand-crank box resting on3x5inch wood, USB Yeti in recording booth; numerical body-resonance reference only",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "source": "https://freesound.org/people/mrmccormack/sounds/180384/",
+      "acquisitionUrl": "https://cdn.freesound.org/previews/180/180384_2073257-hq.mp3",
+      "retrievedAt": "2026-11-03T12:38:16.552Z",
+      "bytes": 759072,
+      "sha256": "ffbbec19909130a91ce929f07fc09e05e2ae7aaf6f409a7a413b212edd27af9d",
+      "analysisOnly": true,
+      "recordedWaveformReusedInV6": false,
+      "limitation": "HQ MP3 preview; onset/transient and high-frequency precision limited by compression. Recording/microphone/room effects cannot be separated from box resonance."
+    }
+  ],
+  "referenceAnalysis": {
+    "method": "Numerical comparison of four CC0/CC-BY physical-instrument HQ MP3 previews from three recordists; raw references kept private and never read by the v6 renderer. Two isolated pitches, up to8 spaced attacks from an independent instrument, and short spectra from a hand-crank box on wood. Values are recording-dependent observations, not a calibrated instrument model.",
+    "singleNotes": [
+      {
+        "id": 70177,
+        "seconds": 2.186462585034014,
+        "onsetSeconds": 0,
+        "analysisUntil": 2.186462585034014,
+        "dominantHz": 986.4337220877275,
+        "attack10to90Ms": null,
+        "attackLimitation": "File starts at attack; rise may be truncated. Null means unresolved, not instantaneous.",
+        "dominantDecayTauSeconds": 0.2762362231698921,
+        "decayFitPoints": 35,
+        "partials": [
+          {
+            "hz": 986.4337220877275,
+            "ratioToDominant": 1,
+            "dbRelative": 0
+          },
+          {
+            "hz": 1972.7595793872185,
+            "ratioToDominant": 1.9998906517631938,
+            "dbRelative": -16.88877596833334
+          },
+          {
+            "hz": 1507.8265445255536,
+            "ratioToDominant": 1.5285634612473809,
+            "dbRelative": -17.291970406107428
+          },
+          {
+            "hz": 2960.1266676483115,
+            "ratioToDominant": 3.0008368543842785,
+            "dbRelative": -17.48274467129431
+          },
+          {
+            "hz": 976.4436191852702,
+            "ratioToDominant": 0.9898725046814967,
+            "dbRelative": -19.640367410423607
+          },
+          {
+            "hz": 1483.2677170883505,
+            "ratioToDominant": 1.5036668798681212,
+            "dbRelative": -22.82559740879353
+          },
+          {
+            "hz": 1455.1467219721324,
+            "ratioToDominant": 1.475159140841619,
+            "dbRelative": -28.414612243365074
+          },
+          {
+            "hz": 2462.247272631838,
+            "ratioToDominant": 2.496110197267628,
+            "dbRelative": -28.456216831395235
+          },
+          {
+            "hz": 2442.5812973680986,
+            "ratioToDominant": 2.4761737587382178,
+            "dbRelative": -29.57389131958676
+          },
+          {
+            "hz": 1537.0749974410737,
+            "ratioToDominant": 1.5582141638344917,
+            "dbRelative": -30.241121646622272
+          },
+          {
+            "hz": 1383.118310027239,
+            "ratioToDominant": 1.4021401327399396,
+            "dbRelative": -30.337181819232917
+          },
+          {
+            "hz": 961.4505264266267,
+            "ratioToDominant": 0.9746732141230681,
+            "dbRelative": -30.72548795927615
+          }
+        ],
+        "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+      },
+      {
+        "id": 70187,
+        "seconds": 6.225124716553288,
+        "onsetSeconds": 0,
+        "analysisUntil": 6.225124716553288,
+        "dominantHz": 1477.72319695348,
+        "attack10to90Ms": 0.997732426303855,
+        "attackLimitation": "File starts at attack; rise may be truncated. Null means unresolved, not instantaneous.",
+        "dominantDecayTauSeconds": 0.8149618611022091,
+        "decayFitPoints": 59,
+        "partials": [
+          {
+            "hz": 1477.72319695348,
+            "ratioToDominant": 1,
+            "dbRelative": 0
+          },
+          {
+            "hz": 1319.3500710584324,
+            "ratioToDominant": 0.8928262571626712,
+            "dbRelative": -28.655138359810245
+          },
+          {
+            "hz": 1507.605088165986,
+            "ratioToDominant": 1.0202215755116462,
+            "dbRelative": -29.810709039367794
+          },
+          {
+            "hz": 2962.96334325209,
+            "ratioToDominant": 2.005086845331133,
+            "dbRelative": -30.420660599299367
+          },
+          {
+            "hz": 1430.9322391283586,
+            "ratioToDominant": 0.9683357763337632,
+            "dbRelative": -33.87951309733783
+          },
+          {
+            "hz": 1464.9883749387045,
+            "ratioToDominant": 0.9913821329725148,
+            "dbRelative": -37.45349720514794
+          },
+          {
+            "hz": 1383.5544739350878,
+            "ratioToDominant": 0.9362744503080594,
+            "dbRelative": -38.90699036737936
+          },
+          {
+            "hz": 1443.4864363368608,
+            "ratioToDominant": 0.9768314115341745,
+            "dbRelative": -39.870895872155465
+          }
+        ],
+        "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+      }
+    ],
+    "independent": {
+      "id": 673109,
+      "seconds": 106,
+      "detectedAttacks": 43,
+      "notes": [
+        {
+          "onsetSeconds": 1.8800000000000001,
+          "analysisUntil": 2.59,
+          "dominantHz": 393.2671014436316,
+          "attack10to90Ms": 15.96371882086168,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": 0.31862615376326636,
+          "decayFitPoints": 25,
+          "partials": [
+            {
+              "hz": 393.2671014436316,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 330.4125448353644,
+              "ratioToDominant": 0.8401733672164886,
+              "dbRelative": -7.809602096472057
+            },
+            {
+              "hz": 406.2540246966848,
+              "ratioToDominant": 1.0330231621342847,
+              "dbRelative": -16.988721216330543
+            },
+            {
+              "hz": 786.9418155737293,
+              "ratioToDominant": 2.0010364779687135,
+              "dbRelative": -22.87874339018434
+            },
+            {
+              "hz": 427.83155910646246,
+              "ratioToDominant": 1.0878905393712042,
+              "dbRelative": -24.931414390633314
+            },
+            {
+              "hz": 416.2648857631957,
+              "ratioToDominant": 1.0584787902042716,
+              "dbRelative": -27.35913495460805
+            },
+            {
+              "hz": 1722.4171891154162,
+              "ratioToDominant": 4.379764243672176,
+              "dbRelative": -27.60441952694952
+            },
+            {
+              "hz": 358.9464652351604,
+              "ratioToDominant": 0.9127294500798957,
+              "dbRelative": -29.34491584398696
+            },
+            {
+              "hz": 342.1718798693415,
+              "ratioToDominant": 0.8700750167335984,
+              "dbRelative": -31.27145698927442
+            },
+            {
+              "hz": 441.41619746548224,
+              "ratioToDominant": 1.1224335721068497,
+              "dbRelative": -32.145353736998466
+            },
+            {
+              "hz": 351.0773255425967,
+              "ratioToDominant": 0.8927197933766599,
+              "dbRelative": -32.56411418283575
+            },
+            {
+              "hz": 464.7503537356811,
+              "ratioToDominant": 1.1817676892616849,
+              "dbRelative": -33.47082395791908
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        },
+        {
+          "onsetSeconds": 4.760000000000001,
+          "analysisUntil": 5.470000000000001,
+          "dominantHz": 524.1788982804337,
+          "attack10to90Ms": 9.977324263038549,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": 0.6266691233872831,
+          "decayFitPoints": 25,
+          "partials": [
+            {
+              "hz": 524.1788982804337,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 511.44180706853376,
+              "ratioToDominant": 0.9757008699631292,
+              "dbRelative": -28.292895121161592
+            },
+            {
+              "hz": 1048.7298815460267,
+              "ratioToDominant": 2.0007098435026283,
+              "dbRelative": -29.21650630131903
+            },
+            {
+              "hz": 503.82209754810174,
+              "ratioToDominant": 0.9611644024604723,
+              "dbRelative": -31.382361313057174
+            },
+            {
+              "hz": 555.1258377941298,
+              "ratioToDominant": 1.0590388884695996,
+              "dbRelative": -34.580800428100304
+            },
+            {
+              "hz": 543.6359718287297,
+              "ratioToDominant": 1.037119146940338,
+              "dbRelative": -35.32290377257419
+            },
+            {
+              "hz": 575.6965745566387,
+              "ratioToDominant": 1.0982826215347632,
+              "dbRelative": -36.89845449168975
+            },
+            {
+              "hz": 538.7964263112339,
+              "ratioToDominant": 1.027886525151533,
+              "dbRelative": -37.76546004388748
+            },
+            {
+              "hz": 562.8863099880097,
+              "ratioToDominant": 1.0738438953467135,
+              "dbRelative": -39.11472752450406
+            },
+            {
+              "hz": 483.10348810543917,
+              "ratioToDominant": 0.9216385659366636,
+              "dbRelative": -39.50497408201851
+            },
+            {
+              "hz": 582.9617219168495,
+              "ratioToDominant": 1.1121426746274077,
+              "dbRelative": -39.99413371833673
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        },
+        {
+          "onsetSeconds": 6.5,
+          "analysisUntil": 7.21,
+          "dominantHz": 494.63626334709124,
+          "attack10to90Ms": 54.87528344671202,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": 0.24353276905800453,
+          "decayFitPoints": 25,
+          "partials": [
+            {
+              "hz": 494.63626334709124,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 524.1870885840889,
+              "ratioToDominant": 1.059742536944287,
+              "dbRelative": -23.828292840926007
+            },
+            {
+              "hz": 989.2328310278523,
+              "ratioToDominant": 1.9999197477636161,
+              "dbRelative": -26.42745155053809
+            },
+            {
+              "hz": 504.62297347696574,
+              "ratioToDominant": 1.0201900080319561,
+              "dbRelative": -27.049156112906072
+            },
+            {
+              "hz": 511.7418701607295,
+              "ratioToDominant": 1.0345821931814876,
+              "dbRelative": -29.84073433393714
+            },
+            {
+              "hz": 465.72904720580175,
+              "ratioToDominant": 0.9415586395835984,
+              "dbRelative": -30.62186721486657
+            },
+            {
+              "hz": 517.9840906245134,
+              "ratioToDominant": 1.0472020128880821,
+              "dbRelative": -35.41913977778165
+            },
+            {
+              "hz": 1485.343389346984,
+              "ratioToDominant": 3.0029003116269775,
+              "dbRelative": -35.67352135632356
+            },
+            {
+              "hz": 440.6265003481894,
+              "ratioToDominant": 0.8908091318791913,
+              "dbRelative": -35.9843463626703
+            },
+            {
+              "hz": 554.6817801007743,
+              "ratioToDominant": 1.1213932766420494,
+              "dbRelative": -38.600527874731995
+            },
+            {
+              "hz": 576.6225020561989,
+              "ratioToDominant": 1.165750562149094,
+              "dbRelative": -39.42490770689987
+            },
+            {
+              "hz": 1758.8891177439684,
+              "ratioToDominant": 3.5559243186942364,
+              "dbRelative": -39.50198543084777
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        },
+        {
+          "onsetSeconds": 13.05,
+          "analysisUntil": 13.76,
+          "dominantHz": 524.254734459767,
+          "attack10to90Ms": 29.931972789115648,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": 0.4835101598294989,
+          "decayFitPoints": 25,
+          "partials": [
+            {
+              "hz": 524.254734459767,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1048.7209757951168,
+              "ratioToDominant": 2.000403442948018,
+              "dbRelative": -28.909963419384084
+            },
+            {
+              "hz": 511.39829074790543,
+              "ratioToDominant": 0.9754767236864159,
+              "dbRelative": -30.531767476199345
+            },
+            {
+              "hz": 504.4346064598756,
+              "ratioToDominant": 0.9621937071864205,
+              "dbRelative": -31.3597811423791
+            },
+            {
+              "hz": 544.2504490483384,
+              "ratioToDominant": 1.0381412189041586,
+              "dbRelative": -32.83141492744345
+            },
+            {
+              "hz": 555.4139234813686,
+              "ratioToDominant": 1.059435207683361,
+              "dbRelative": -33.70250650750731
+            },
+            {
+              "hz": 576.1561230790637,
+              "ratioToDominant": 1.099000324093935,
+              "dbRelative": -36.05959916584816
+            },
+            {
+              "hz": 497.46654950142477,
+              "ratioToDominant": 0.9489023499502645,
+              "dbRelative": -36.07409826897798
+            },
+            {
+              "hz": 538.6091703645717,
+              "ratioToDominant": 1.0273806509722734,
+              "dbRelative": -36.2037448553199
+            },
+            {
+              "hz": 484.02515428808005,
+              "ratioToDominant": 0.9232632963951339,
+              "dbRelative": -38.85185151612367
+            },
+            {
+              "hz": 564.3925411299197,
+              "ratioToDominant": 1.076561648435114,
+              "dbRelative": -39.30642250593336
+            },
+            {
+              "hz": 1588.0048748263316,
+              "ratioToDominant": 3.0290711183805255,
+              "dbRelative": -39.93289908654651
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        },
+        {
+          "onsetSeconds": 14.97,
+          "analysisUntil": 15.68,
+          "dominantHz": 494.5526127091628,
+          "attack10to90Ms": 55.87301587301588,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": 0.21719459084054493,
+          "decayFitPoints": 25,
+          "partials": [
+            {
+              "hz": 494.5526127091628,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 989.4659655896656,
+              "ratioToDominant": 2.0007294272885625,
+              "dbRelative": -27.318220543532192
+            },
+            {
+              "hz": 510.9385256927512,
+              "ratioToDominant": 1.0331328003583407,
+              "dbRelative": -30.882560681943065
+            },
+            {
+              "hz": 481.710208384922,
+              "ratioToDominant": 0.9740322788835549,
+              "dbRelative": -31.10671233713486
+            },
+            {
+              "hz": 506.2274809338855,
+              "ratioToDominant": 1.0236069286152745,
+              "dbRelative": -32.80292960630125
+            },
+            {
+              "hz": 466.6392937886179,
+              "ratioToDominant": 0.9435584441306749,
+              "dbRelative": -33.019334331097035
+            },
+            {
+              "hz": 440.1505110556974,
+              "ratioToDominant": 0.8899973425366206,
+              "dbRelative": -35.42880884075548
+            },
+            {
+              "hz": 516.5400547516863,
+              "ratioToDominant": 1.04445925767549,
+              "dbRelative": -35.754413396895494
+            },
+            {
+              "hz": 1484.4266619390019,
+              "ratioToDominant": 3.0015545844704,
+              "dbRelative": -38.17785519589367
+            },
+            {
+              "hz": 477.72270477880465,
+              "ratioToDominant": 0.9659694287364821,
+              "dbRelative": -38.792394933491984
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        },
+        {
+          "onsetSeconds": 20.22,
+          "analysisUntil": 20.93,
+          "dominantHz": 494.50221785609904,
+          "attack10to90Ms": 20.952380952380956,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": 0.24167803409130656,
+          "decayFitPoints": 25,
+          "partials": [
+            {
+              "hz": 494.50221785609904,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 502.48600166470516,
+              "ratioToDominant": 1.0161450920143889,
+              "dbRelative": -25.737074321942707
+            },
+            {
+              "hz": 990.294817251693,
+              "ratioToDominant": 2.0026094555148597,
+              "dbRelative": -26.037588998113456
+            },
+            {
+              "hz": 511.3622999531604,
+              "ratioToDominant": 1.0340950586028872,
+              "dbRelative": -30.080555701831663
+            },
+            {
+              "hz": 465.75943498072064,
+              "ratioToDominant": 0.9418753206001947,
+              "dbRelative": -30.816494498924072
+            },
+            {
+              "hz": 1484.6844035822664,
+              "ratioToDominant": 3.002381688031806,
+              "dbRelative": -31.438183625869538
+            },
+            {
+              "hz": 482.79424941793525,
+              "ratioToDominant": 0.9763237291656176,
+              "dbRelative": -31.796884156128264
+            },
+            {
+              "hz": 524.080975850515,
+              "ratioToDominant": 1.0598152180644484,
+              "dbRelative": -33.070573903249574
+            },
+            {
+              "hz": 440.4041507887816,
+              "ratioToDominant": 0.8906009617067884,
+              "dbRelative": -37.30776419824259
+            },
+            {
+              "hz": 458.1963234138756,
+              "ratioToDominant": 0.9265809269781909,
+              "dbRelative": -38.07372237772668
+            },
+            {
+              "hz": 330.48843086065284,
+              "ratioToDominant": 0.6683254774740475,
+              "dbRelative": -39.23464190716464
+            },
+            {
+              "hz": 1758.8408454749735,
+              "ratioToDominant": 3.556790610768907,
+              "dbRelative": -39.36295217329172
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        },
+        {
+          "onsetSeconds": 21.759999999999998,
+          "analysisUntil": 22.47,
+          "dominantHz": 1062.1142449221652,
+          "attack10to90Ms": 20.952380952380956,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": 0.25781400601053933,
+          "decayFitPoints": 25,
+          "partials": [
+            {
+              "hz": 1062.1142449221652,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 524.2425365639913,
+              "ratioToDominant": 0.4935839426599624,
+              "dbRelative": -11.766183986988484
+            },
+            {
+              "hz": 1051.6021138302951,
+              "ratioToDominant": 0.9901026361880304,
+              "dbRelative": -27.545260429036816
+            },
+            {
+              "hz": 1084.7341990185375,
+              "ratioToDominant": 1.021297100763421,
+              "dbRelative": -32.83054758633961
+            },
+            {
+              "hz": 1040.932825529571,
+              "ratioToDominant": 0.9800573059876939,
+              "dbRelative": -35.273967801267005
+            },
+            {
+              "hz": 495.09565525835495,
+              "ratioToDominant": 0.4661416204757116,
+              "dbRelative": -37.326552502887566
+            },
+            {
+              "hz": 504.6680988353038,
+              "ratioToDominant": 0.475154251294584,
+              "dbRelative": -39.16979148087311
+            },
+            {
+              "hz": 1117.4905567297214,
+              "ratioToDominant": 1.0521378110427417,
+              "dbRelative": -39.323063649073354
+            },
+            {
+              "hz": 1018.8812896729806,
+              "ratioToDominant": 0.9592953813999993,
+              "dbRelative": -39.85970047608792
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        },
+        {
+          "onsetSeconds": 23.419999999999998,
+          "analysisUntil": 24.13,
+          "dominantHz": 494.05873291029906,
+          "attack10to90Ms": 6.984126984126985,
+          "attackLimitation": "Polyphonic rise can include previous/next note.",
+          "dominantDecayTauSeconds": null,
+          "decayFitPoints": 13,
+          "partials": [
+            {
+              "hz": 494.05873291029906,
+              "ratioToDominant": 1,
+              "dbRelative": 0
+            },
+            {
+              "hz": 998.1504960998832,
+              "ratioToDominant": 2.020307363499446,
+              "dbRelative": -5.053222102795399
+            },
+            {
+              "hz": 1061.7917987399337,
+              "ratioToDominant": 2.1491205964225144,
+              "dbRelative": -22.55755728343102
+            },
+            {
+              "hz": 517.7035204845511,
+              "ratioToDominant": 1.0478582524692361,
+              "dbRelative": -22.61213481027398
+            },
+            {
+              "hz": 1008.3500496840177,
+              "ratioToDominant": 2.040951778636191,
+              "dbRelative": -24.480398069916156
+            },
+            {
+              "hz": 976.0969400137703,
+              "ratioToDominant": 1.9756698444818095,
+              "dbRelative": -27.448413275704766
+            },
+            {
+              "hz": 476.71341329456135,
+              "ratioToDominant": 0.9648921910284564,
+              "dbRelative": -28.998284746578932
+            },
+            {
+              "hz": 4640.632023292304,
+              "ratioToDominant": 9.392875207277946,
+              "dbRelative": -29.39423018558077
+            },
+            {
+              "hz": 959.9445331812177,
+              "ratioToDominant": 1.942976551647159,
+              "dbRelative": -29.71673118643192
+            },
+            {
+              "hz": 570.7493803793094,
+              "ratioToDominant": 1.155225770461048,
+              "dbRelative": -31.413989096345574
+            },
+            {
+              "hz": 1021.7545793927817,
+              "ratioToDominant": 2.0680832284332693,
+              "dbRelative": -32.594589424600365
+            },
+            {
+              "hz": 969.9658459203491,
+              "ratioToDominant": 1.9632601982494566,
+              "dbRelative": -32.61835224407609
+            }
+          ],
+          "bandNote": "Strongest spectral peak is called dominant, not assumed to be the fundamental. FFT16k Hann, log parabolic interpolation; short notes/polyphony compromise ratios and envelope fit."
+        }
+      ]
+    },
+    "woodSupport": {
+      "id": 180384,
+      "seconds": 33.53573696145125,
+      "description": "Recorder explicitly places box on3x5inch wood; USB Yeti, booth. This is wood-supported music-box recording, not a dry-versus-wood transfer-function measurement.",
+      "frames": [
+        {
+          "at": 0.25,
+          "below900HzPeakEnergyPercent": 86.33048619663735,
+          "strongestPeaks": [
+            {
+              "hz": 106.42307112751682,
+              "dbRelative": 0
+            },
+            {
+              "hz": 116.3121337014122,
+              "dbRelative": -9.05011850124634
+            },
+            {
+              "hz": 150.53398280654378,
+              "dbRelative": -18.06435504105749
+            },
+            {
+              "hz": 225.17752330134974,
+              "dbRelative": -20.717530271679884
+            },
+            {
+              "hz": 156.4264996753994,
+              "dbRelative": -20.724908771200624
+            }
+          ]
+        },
+        {
+          "at": 0.75,
+          "below900HzPeakEnergyPercent": 0.0003535582681806757,
+          "strongestPeaks": [
+            {
+              "hz": 1180.960683817142,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1171.826916562447,
+              "dbRelative": -32.45519916797893
+            },
+            {
+              "hz": 1199.1670363388982,
+              "dbRelative": -33.56227702969103
+            },
+            {
+              "hz": 1163.3103549857697,
+              "dbRelative": -35.58565679218228
+            },
+            {
+              "hz": 2362.2908122216927,
+              "dbRelative": -36.48390551761568
+            }
+          ]
+        },
+        {
+          "at": 1.25,
+          "below900HzPeakEnergyPercent": 0.0068608907039992995,
+          "strongestPeaks": [
+            {
+              "hz": 1569.5330776538658,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1181.431288459764,
+              "dbRelative": -10.80204969794551
+            },
+            {
+              "hz": 1488.330016126881,
+              "dbRelative": -24.708617348729554
+            },
+            {
+              "hz": 1593.5349794595138,
+              "dbRelative": -25.539544140262134
+            },
+            {
+              "hz": 986.184862598526,
+              "dbRelative": -26.224180910736898
+            }
+          ]
+        },
+        {
+          "at": 1.75,
+          "below900HzPeakEnergyPercent": 0.1929330760111191,
+          "strongestPeaks": [
+            {
+              "hz": 985.7043910579843,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1181.2469386498683,
+              "dbRelative": -7.111439605825744
+            },
+            {
+              "hz": 1579.3315798157355,
+              "dbRelative": -10.708809241935612
+            },
+            {
+              "hz": 1566.6212299940528,
+              "dbRelative": -12.564245340041536
+            },
+            {
+              "hz": 1571.1705409539477,
+              "dbRelative": -14.570701738644177
+            }
+          ]
+        },
+        {
+          "at": 2.25,
+          "below900HzPeakEnergyPercent": 0.0041534400586610565,
+          "strongestPeaks": [
+            {
+              "hz": 1185.920023593322,
+              "dbRelative": 0
+            },
+            {
+              "hz": 985.7052455738548,
+              "dbRelative": -21.5182741860213
+            },
+            {
+              "hz": 1571.6808632706106,
+              "dbRelative": -33.25353089735602
+            },
+            {
+              "hz": 2372.985878365145,
+              "dbRelative": -41.06821431307005
+            },
+            {
+              "hz": 1055.1083000244046,
+              "dbRelative": -41.35811339040744
+            }
+          ]
+        },
+        {
+          "at": 2.75,
+          "below900HzPeakEnergyPercent": 0.0029634381069055518,
+          "strongestPeaks": [
+            {
+              "hz": 1568.2668067907678,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1578.6472781888276,
+              "dbRelative": -4.4682285069263
+            },
+            {
+              "hz": 1185.9338189769187,
+              "dbRelative": -9.189559244413536
+            },
+            {
+              "hz": 1487.7568054980823,
+              "dbRelative": -22.16086995596683
+            },
+            {
+              "hz": 1623.9197455319782,
+              "dbRelative": -25.220492334675008
+            }
+          ]
+        },
+        {
+          "at": 3.25,
+          "below900HzPeakEnergyPercent": 0.43781890562274306,
+          "strongestPeaks": [
+            {
+              "hz": 1180.642110351797,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1577.830475422549,
+              "dbRelative": -18.90296063244221
+            },
+            {
+              "hz": 789.5943768688951,
+              "dbRelative": -23.605736239307507
+            },
+            {
+              "hz": 1569.8671461424167,
+              "dbRelative": -35.01701427302944
+            },
+            {
+              "hz": 1169.3781812260138,
+              "dbRelative": -37.550046109704745
+            }
+          ]
+        },
+        {
+          "at": 3.75,
+          "below900HzPeakEnergyPercent": 0.1005777647379835,
+          "strongestPeaks": [
+            {
+              "hz": 985.5735958107205,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1181.235794447619,
+              "dbRelative": -1.207577187650371
+            },
+            {
+              "hz": 1577.5937245226346,
+              "dbRelative": -15.226281976483833
+            },
+            {
+              "hz": 1052.592950911911,
+              "dbRelative": -24.336335888434032
+            },
+            {
+              "hz": 2344.231699001446,
+              "dbRelative": -25.007163355498143
+            }
+          ]
+        },
+        {
+          "at": 4.25,
+          "below900HzPeakEnergyPercent": 0.013109003433829805,
+          "strongestPeaks": [
+            {
+              "hz": 1765.3036128335136,
+              "dbRelative": 0
+            },
+            {
+              "hz": 985.5292064443971,
+              "dbRelative": -11.880010183623632
+            },
+            {
+              "hz": 1181.298107023485,
+              "dbRelative": -16.944170895927964
+            },
+            {
+              "hz": 1575.4305262045534,
+              "dbRelative": -22.81644756054765
+            },
+            {
+              "hz": 5296.316600903336,
+              "dbRelative": -24.91055113695099
+            }
+          ]
+        },
+        {
+          "at": 4.75,
+          "below900HzPeakEnergyPercent": 0.003908944244349662,
+          "strongestPeaks": [
+            {
+              "hz": 1569.5999410064028,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1331.8520890684672,
+              "dbRelative": -1.5923570176306372
+            },
+            {
+              "hz": 1303.6307452782723,
+              "dbRelative": -17.40662419265947
+            },
+            {
+              "hz": 1586.4554492209554,
+              "dbRelative": -17.66199270386362
+            },
+            {
+              "hz": 1361.5621968062158,
+              "dbRelative": -19.4609353216473
+            }
+          ]
+        },
+        {
+          "at": 5.25,
+          "below900HzPeakEnergyPercent": 0.38612248201866156,
+          "strongestPeaks": [
+            {
+              "hz": 1332.3488647330796,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1577.6769312376096,
+              "dbRelative": -12.060535456281498
+            },
+            {
+              "hz": 1569.5396056602808,
+              "dbRelative": -12.250879127833818
+            },
+            {
+              "hz": 533.3773946068604,
+              "dbRelative": -23.6289226403704
+            },
+            {
+              "hz": 1489.9036724617354,
+              "dbRelative": -27.97485700488453
+            }
+          ]
+        },
+        {
+          "at": 5.75,
+          "below900HzPeakEnergyPercent": 0.02876453218671428,
+          "strongestPeaks": [
+            {
+              "hz": 1054.7464968574043,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1332.430819160742,
+              "dbRelative": -12.386218327218268
+            },
+            {
+              "hz": 1577.9256533199866,
+              "dbRelative": -22.18566940715991
+            },
+            {
+              "hz": 1047.0324578583095,
+              "dbRelative": -28.99164302250434
+            },
+            {
+              "hz": 1181.4423738797811,
+              "dbRelative": -34.88531101579808
+            }
+          ]
+        },
+        {
+          "at": 6.25,
+          "below900HzPeakEnergyPercent": 0.0032520288046829844,
+          "strongestPeaks": [
+            {
+              "hz": 1328.9740532828073,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1333.9978372589455,
+              "dbRelative": -11.761031512346525
+            },
+            {
+              "hz": 1054.744760158069,
+              "dbRelative": -13.497803767239443
+            },
+            {
+              "hz": 1577.7046727639977,
+              "dbRelative": -32.74247659559203
+            },
+            {
+              "hz": 1489.7604521154715,
+              "dbRelative": -37.256096757952704
+            }
+          ]
+        },
+        {
+          "at": 6.75,
+          "below900HzPeakEnergyPercent": 0.06921614541877227,
+          "strongestPeaks": [
+            {
+              "hz": 1185.7553295902644,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1329.1097818850733,
+              "dbRelative": -21.72872579249632
+            },
+            {
+              "hz": 1334.6755219604229,
+              "dbRelative": -24.35003690429908
+            },
+            {
+              "hz": 1054.7244573489381,
+              "dbRelative": -27.751302973712477
+            },
+            {
+              "hz": 588.0701440670755,
+              "dbRelative": -31.6514832578089
+            }
+          ]
+        },
+        {
+          "at": 7.25,
+          "below900HzPeakEnergyPercent": 0.05484692480182777,
+          "strongestPeaks": [
+            {
+              "hz": 1185.9592378880475,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1333.8121047119716,
+              "dbRelative": -20.135949063097062
+            },
+            {
+              "hz": 1054.8678708481,
+              "dbRelative": -26.475058895720164
+            },
+            {
+              "hz": 588.1320088050902,
+              "dbRelative": -34.22338579689267
+            },
+            {
+              "hz": 1196.7308535483758,
+              "dbRelative": -36.21328335196742
+            }
+          ]
+        },
+        {
+          "at": 7.75,
+          "below900HzPeakEnergyPercent": 0.0038608240128568576,
+          "strongestPeaks": [
+            {
+              "hz": 1181.2948132899494,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1208.9418824754073,
+              "dbRelative": -20.286580884866435
+            },
+            {
+              "hz": 1137.2009878423714,
+              "dbRelative": -25.985417944778785
+            },
+            {
+              "hz": 1235.2975634407676,
+              "dbRelative": -26.50718189166565
+            },
+            {
+              "hz": 1264.2439766821476,
+              "dbRelative": -29.868778513670044
+            }
+          ]
+        },
+        {
+          "at": 8.25,
+          "below900HzPeakEnergyPercent": 0.007980251974270972,
+          "strongestPeaks": [
+            {
+              "hz": 1181.2882911561933,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1568.3585647667264,
+              "dbRelative": -4.31554862654563
+            },
+            {
+              "hz": 1579.0977932348092,
+              "dbRelative": -7.427051327551126
+            },
+            {
+              "hz": 1486.4025129020565,
+              "dbRelative": -25.934746839918198
+            },
+            {
+              "hz": 1454.1136243485182,
+              "dbRelative": -30.313929803276064
+            }
+          ]
+        },
+        {
+          "at": 8.75,
+          "below900HzPeakEnergyPercent": 3.3893719418494306,
+          "strongestPeaks": [
+            {
+              "hz": 1577.3023151034683,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1181.34099876737,
+              "dbRelative": -2.555912375289113
+            },
+            {
+              "hz": 1567.6886732560758,
+              "dbRelative": -12.014782205591805
+            },
+            {
+              "hz": 789.337022149217,
+              "dbRelative": -12.414450130017862
+            },
+            {
+              "hz": 1559.2091472953286,
+              "dbRelative": -21.041395769960598
+            }
+          ]
+        },
+        {
+          "at": 9.25,
+          "below900HzPeakEnergyPercent": 0.009190177759267391,
+          "strongestPeaks": [
+            {
+              "hz": 1186.2348916768015,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1575.929076240248,
+              "dbRelative": -22.705263264851364
+            },
+            {
+              "hz": 1618.8626348016303,
+              "dbRelative": -35.47081624625628
+            },
+            {
+              "hz": 2372.4780342318586,
+              "dbRelative": -40.881130107839695
+            },
+            {
+              "hz": 1198.0969581009626,
+              "dbRelative": -41.411157151247664
+            }
+          ]
+        },
+        {
+          "at": 9.75,
+          "below900HzPeakEnergyPercent": 0.004364673260934257,
+          "strongestPeaks": [
+            {
+              "hz": 1569.2634154074397,
+              "dbRelative": 0
+            },
+            {
+              "hz": 1186.5071835134618,
+              "dbRelative": -7.302876881937744
+            },
+            {
+              "hz": 1487.2340206982117,
+              "dbRelative": -23.188112833502444
+            },
+            {
+              "hz": 2133.322737681285,
+              "dbRelative": -26.310269211309752
+            },
+            {
+              "hz": 1982.001281680177,
+              "dbRelative": -27.249126295293276
+            }
+          ]
+        }
+      ],
+      "metric": "Sum of resolved spectral-peak powers below900Hz relative to100–8000Hz peaks; note/music/mic contributions remain. Not a broadband sound-power or wood-only energy measure."
+    },
+    "woodBoxAssessment": "Inspect low/mid peak distributions of wood-supported recording and other records. Wood resonances cannot be uniquely identified without dry/boxed paired recordings; room reverb, notes and mic coloration remain confounds. Keep prior subtle body filters, rather than copying a recorded resonance curve or claiming measured wood frequencies.",
+    "designDecision": {
+      "attack": "Keep existing1.2ms synthetic attack; single-note onset is about1ms or truncated, independent recordings are polyphonic and rise times not directly comparable.",
+      "partials": "Dominant986/1478Hz tines differ in2f strength (about-17/-30dB). Independent instrument also has weaker2f around-23 to-29dB on several attacks. Reduce overly fixed upper inharmonic ringing slightly; retain tonal transparency.",
+      "decay": "Single-note fitted dominant taus about.28/.81s differ greatly by tine. Do not force all notes to one decay constant. Keep fundamental envelopes and small deterministic differences; shorten upper-mode tails modestly.",
+      "lowRegister": "Modest pitch-tapered2f/3f support is an engineering extrapolation for small speakers, NOT a directly measured real-instrument low register. Validate with band-limited model; human listening still required."
+    },
+    "limitations": [
+      "Compressed previews can smear transients and bias high modes.",
+      "Unspecified housing for single notes; independent recording explicitly reverberant.",
+      "Polyphonic snippets do not provide isolated decay constants.",
+      "No semantic listening, real iPhone SE or calibrated acoustic measurement."
+    ],
+    "subjectiveListeningVerified": false
+  }
+}
