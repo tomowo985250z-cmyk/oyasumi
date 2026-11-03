@@ -1,0 +1,1642 @@
+{
+  "checkedDate": "2026-11-04",
+  "method": "Two official public catalog previews per current composition, fetched and decoded in memory only. Source recordings are not saved, sampled, transcribed or passed to synthesis. YouTube engagement references are separately documented.",
+  "engagementNote": "Indexed public view/like counts are a popularity indicator, not a sleep-effect or acoustic-quality rating. Some secondary arrangements have few views and are marked as secondary references.",
+  "comparisonScope": "24 approximately30-second official previews measured, plus public YouTube engagement/context and previously measured CC0/BY physical-instrument references. No reference recording saved, reused, sampled or transcribed. Preview pulse candidates are ambiguous envelope periodicities, not authoritative score BPM.",
+  "decisions": {
+    "version": 1,
+    "tuning": "A440 equal temperament; exact integer harmonic modes; no pitch modulation or random timing",
+    "instrument": {
+      "attackMs": 1.7,
+      "decayBaseSeconds": 1.05,
+      "decayMaxSeconds": 1.65,
+      "fastWeight": 0.88,
+      "slowWeight": 0.12,
+      "fastDecayScale": 0.86,
+      "slowDecayScale": 1.4,
+      "modes": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          2,
+          0.055,
+          0.42
+        ],
+        [
+          3,
+          0.105,
+          0.29
+        ],
+        [
+          5,
+          0.018,
+          0.13
+        ],
+        [
+          9,
+          0.0025,
+          0.065
+        ]
+      ],
+      "lowHarmonicSupport": [
+        0.07,
+        0.02
+      ],
+      "highpassHz": 65,
+      "lowpassHz": 3600,
+      "earlyReflections": [
+        [
+          0.011,
+          0.018
+        ],
+        [
+          0.027,
+          0.009
+        ]
+      ],
+      "woodBody": [
+        [
+          270,
+          1.4,
+          0.004
+        ],
+        [
+          620,
+          1.7,
+          0.002
+        ],
+        [
+          1040,
+          1.8,
+          0.001
+        ]
+      ],
+      "tailSeconds": 4.5
+    },
+    "tempo": [
+      {
+        "id": "clair-de-lune",
+        "timeScale": 1.12,
+        "reason": "Slightly more space around rolling figures; preserve existing phrase timing and melody."
+      },
+      {
+        "id": "canon-d",
+        "timeScale": 1.1,
+        "reason": "Ease the busy variation passages; retain the steady ground bass and note ordering."
+      },
+      {
+        "id": "air-g-string",
+        "timeScale": 1.04,
+        "reason": "Already slow quarter-note pulse; only a small relaxation to preserve the long melodic line."
+      },
+      {
+        "id": "nocturne-9-2",
+        "timeScale": 1.1,
+        "reason": "Give ornaments breathing space while preserving the compound-meter flow and source rubato."
+      },
+      {
+        "id": "fur-elise",
+        "timeScale": 1.18,
+        "reason": "Reduce the repeated high-note figure's urgency; retain relative rhythm and all original sections."
+      },
+      {
+        "id": "traumerei",
+        "timeScale": 1.08,
+        "reason": "Gentle broadening of lyrical phrases; keep the existing expressive tempo map."
+      },
+      {
+        "id": "brahms-lullaby",
+        "timeScale": 1.07,
+        "reason": "Retain the cradle-like three-beat motion with a modestly calmer pulse."
+      },
+      {
+        "id": "schubert-lullaby",
+        "timeScale": 1.1,
+        "reason": "Widen breathing space between the simple vocal phrases without altering note durations relative to the beat."
+      },
+      {
+        "id": "twinkle-star",
+        "timeScale": 1.18,
+        "reason": "Use an unhurried single-note pulse; preserve the familiar phrase shapes and rests."
+      },
+      {
+        "id": "ave-maria-schubert",
+        "timeScale": 0.96,
+        "reason": "Already the longest, slowest quarter-note source; a small increase in flow avoids over-stretching sustained melody."
+      },
+      {
+        "id": "gymnopedie-1",
+        "timeScale": 1.12,
+        "reason": "Leave more room after bass/chord attacks while preserving the three-beat phrase and original voicing."
+      },
+      {
+        "id": "going-home",
+        "timeScale": 1.04,
+        "reason": "Already a relaxed Largo arrangement; keep a natural singing line with only slight slowing."
+      }
+    ],
+    "decisionNote": "Tempo choices are conservative engineering/artistic inferences from the source score and multiple preview comparisons, not claimed BPM transcriptions or clinically validated sleep settings. Relative source timing, pitches, velocities and voicing stay intact. Static per-recording K-weighted gated loudness normalization uses the previous twelve-recording median, preserving the existing master volume mapping and avoiding dynamic pumping."
+  },
+  "physicalInstrumentReferences": [
+    {
+      "source": "https://freesound.org/people/folkman/sounds/70177/",
+      "title": "MUSIC BOX B 1.wav",
+      "author": "folkman",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "source": "https://freesound.org/people/folkman/sounds/70187/",
+      "title": "MUSIC BOX F# 2.wav",
+      "author": "folkman",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "source": "https://freesound.org/people/untilltomorrow/sounds/673109/",
+      "title": "untilltomorrow_MusicBox_Close.wav",
+      "author": "untilltomorrow",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "source": "https://freesound.org/people/mrmccormack/sounds/180384/",
+      "title": "Hand Crank Music Box Amazing Grace",
+      "author": "mrmccormack",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  ],
+  "measurementReferences": [
+    "https://tech.ebu.ch/loudness/",
+    "https://tech.ebu.ch/publications/r128",
+    "https://github.com/jiixyj/libebur128/blob/master/ebur128/ebur128.c"
+  ],
+  "validation": {
+    "targetLufs": -42.292552045801955,
+    "loudnessSpreadLu": 0,
+    "worstCaseMixedHeadroomDb": 19.38735448256452,
+    "exactHarmonics": true,
+    "referenceAudioReused": false,
+    "subjectiveListeningVerified": false,
+    "physicalDeviceListeningVerified": false
+  },
+  "tracks": [
+    {
+      "id": "clair-de-lune",
+      "title": "月の光",
+      "officialPreviewComparisons": [
+        {
+          "id": 1725415286,
+          "title": "Clair de Lune (Music Box Ver.)",
+          "artist": "Musicbox Collection",
+          "url": "https://music.apple.com/us/album/clair-de-lune-music-box-ver/1725414807?i=1725415286&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -19.18697985033514,
+            "peakDb": -0.7889924284146604,
+            "crestDb": 18.39798742192048,
+            "activeWindowDynamicRangeDb": 20.54006728100996,
+            "detectedAttacks": 167,
+            "attacksPerSecond": 5.571216493469667,
+            "pulseCandidates": [
+              {
+                "bpm": 131.86813186813185,
+                "correlation": 0.3206644086673829
+              },
+              {
+                "bpm": 126.3157894736842,
+                "correlation": 0.31543338320349723
+              },
+              {
+                "bpm": 113.20754716981132,
+                "correlation": 0.3040160130497733
+              }
+            ],
+            "centroidHz": 941.9624783429816,
+            "above4kHzEnergyPercent": 0.2689603520943046,
+            "below180HzEnergyPercent": 2.204211626581304,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1078136909,
+          "title": "Clair De Lune Music Box",
+          "artist": "RELAX WORLD",
+          "url": "https://music.apple.com/us/album/clair-de-lune-music-box/1078136901?i=1078136909&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -29.692558316104346,
+            "peakDb": -13.004897804122466,
+            "crestDb": 16.68766051198188,
+            "activeWindowDynamicRangeDb": 16.250953609620744,
+            "detectedAttacks": 206,
+            "attacksPerSecond": 6.882946747654522,
+            "pulseCandidates": [
+              {
+                "bpm": 131.86813186813185,
+                "correlation": 0.3216526128357113
+              },
+              {
+                "bpm": 65.93406593406593,
+                "correlation": 0.2751846778670344
+              },
+              {
+                "bpm": 117.6470588235294,
+                "correlation": 0.24284459844296083
+              }
+            ],
+            "centroidHz": 981.6481411345032,
+            "above4kHzEnergyPercent": 0.6398247427396225,
+            "below180HzEnergyPercent": 0.03457850113045696,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=co-fVmEKAQw",
+          "title": "Clair de lune/Debussy [Music Box]",
+          "artist": "R3 Music Box",
+          "indexedViews": 451635,
+          "indexedLikes": 11000,
+          "published": "2018-01-23",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=BAj4FD1pYnk",
+          "title": "☆ 4 HOURS ☆ CLAIR DE LUNE Debussy ♫ MUSIC BOX ☆",
+          "artist": "Lullaby Baby",
+          "indexedViews": 126649,
+          "indexedLikes": 842,
+          "published": "2016-03-20",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.12,
+        "relativePlaybackSpeed": 0.8928571428571428,
+        "previousSeconds": 125.18,
+        "seconds": 140.20158333333333,
+        "reason": "Slightly more space around rolling figures; preserve existing phrase timing and melody."
+      },
+      "beforeSpectrum": {
+        "frames": 251,
+        "centroidHz": 590.2522508671527,
+        "above4kHzEnergyPercent": 0.007348807508373379,
+        "below180HzEnergyPercent": 0.1815545419391981
+      },
+      "afterSpectrum": {
+        "centroidHz": 581.049369334889,
+        "above4kHzEnergyPercent": 0.0005130725070247122,
+        "below180HzEnergyPercent": 0.1748707945902913
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -26.50356489693895
+    },
+    {
+      "id": "canon-d",
+      "title": "カノン",
+      "officialPreviewComparisons": [
+        {
+          "id": 1783792398,
+          "title": "Canon in D (Music Box Version)",
+          "artist": "The Countdown Kids",
+          "url": "https://music.apple.com/us/album/canon-in-d-music-box-version/1783792372?i=1783792398&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -19.165640198037757,
+            "peakDb": -3.613190700710318,
+            "crestDb": 15.552449497327439,
+            "activeWindowDynamicRangeDb": 12.850157241745245,
+            "detectedAttacks": 245,
+            "attacksPerSecond": 8.173341562275859,
+            "pulseCandidates": [
+              {
+                "bpm": 107.14285714285714,
+                "correlation": 0.31686896997817526
+              },
+              {
+                "bpm": 55.55555555555555,
+                "correlation": 0.30533785918642486
+              },
+              {
+                "bpm": 112.14953271028037,
+                "correlation": 0.28771012576021815
+              }
+            ],
+            "centroidHz": 832.9852091944763,
+            "above4kHzEnergyPercent": 0.06543817296754269,
+            "below180HzEnergyPercent": 9.545022862261977,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1455772362,
+          "title": "Canon in D (Music Box)",
+          "artist": "Frozen Silence & Johann Pachelbel",
+          "url": "https://music.apple.com/us/album/canon-in-d-music-box/1455772361?i=1455772362&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -30.498327942380058,
+            "peakDb": -9.256575274245115,
+            "crestDb": 21.241752668134946,
+            "activeWindowDynamicRangeDb": 17.85971917641584,
+            "detectedAttacks": 82,
+            "attacksPerSecond": 2.739813753920732,
+            "pulseCandidates": [
+              {
+                "bpm": 69.76744186046511,
+                "correlation": 0.2639957634916972
+              },
+              {
+                "bpm": 46.51162790697674,
+                "correlation": 0.22510290626562038
+              },
+              {
+                "bpm": 133.33333333333334,
+                "correlation": 0.14344864152329218
+              }
+            ],
+            "centroidHz": 1371.7118658460363,
+            "above4kHzEnergyPercent": 1.3676697137663496,
+            "below180HzEnergyPercent": 0.4381317428749694,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=R2a0L5vQb7A",
+          "title": "Canon in D (Music Box Version)",
+          "artist": "The Countdown Kids",
+          "indexedViews": 1395,
+          "indexedLikes": 9,
+          "published": "2025-01-02",
+          "role": "Supplementary context; limited or unknown engagement",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=BHm8gqM2lpo",
+          "title": "[Music Box] Canon in D",
+          "artist": "Yealt",
+          "indexedViews": 22349,
+          "indexedLikes": 665,
+          "published": "2020-07-28",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.1,
+        "relativePlaybackSpeed": 0.9090909090909091,
+        "previousSeconds": 249.45454166666667,
+        "seconds": 274.4,
+        "reason": "Ease the busy variation passages; retain the steady ground bass and note ordering."
+      },
+      "beforeSpectrum": {
+        "frames": 499,
+        "centroidHz": 496.99217930947395,
+        "above4kHzEnergyPercent": 0.00021624167546107438,
+        "below180HzEnergyPercent": 0.8981202297192304
+      },
+      "afterSpectrum": {
+        "centroidHz": 502.6470083713837,
+        "above4kHzEnergyPercent": 0.00010042157210543354,
+        "below180HzEnergyPercent": 0.6777594377152397
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -27.705055528555697
+    },
+    {
+      "id": "air-g-string",
+      "title": "G線上のアリア",
+      "officialPreviewComparisons": [
+        {
+          "id": 1078136905,
+          "title": "G線上のアリア-オルゴール",
+          "artist": "RELAX WORLD",
+          "url": "https://music.apple.com/jp/album/g%E7%B7%9A%E4%B8%8A%E3%81%AE%E3%82%A2%E3%83%AA%E3%82%A2-%E3%82%AA%E3%83%AB%E3%82%B4%E3%83%BC%E3%83%AB/1078136901?i=1078136905&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -21.185423059832328,
+            "peakDb": -6.393453440654662,
+            "crestDb": 14.791969619177666,
+            "activeWindowDynamicRangeDb": 13.317431684304532,
+            "detectedAttacks": 226,
+            "attacksPerSecond": 7.551194004708359,
+            "pulseCandidates": [
+              {
+                "bpm": 82.19178082191782,
+                "correlation": 0.27569337287709794
+              },
+              {
+                "bpm": 76.43312101910827,
+                "correlation": 0.2594825705028592
+              },
+              {
+                "bpm": 42.857142857142854,
+                "correlation": 0.2449219377068866
+              }
+            ],
+            "centroidHz": 1018.0783391872652,
+            "above4kHzEnergyPercent": 0.12147820719610328,
+            "below180HzEnergyPercent": 11.415548663426451,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1704249554,
+          "title": "Overture Nr 3 Bwv 1068 (Sleeping Music Box Ver.)",
+          "artist": "Relaxing Orgel",
+          "url": "https://music.apple.com/us/album/overture-nr-3-bwv-1068-sleeping-music-box-ver/1704249536?i=1704249554&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -17.161740825131613,
+            "peakDb": -1.4817616849024073,
+            "crestDb": 15.679979140229205,
+            "activeWindowDynamicRangeDb": 10.236971413487357,
+            "detectedAttacks": 219,
+            "attacksPerSecond": 7.305966539340461,
+            "pulseCandidates": [
+              {
+                "bpm": 71.8562874251497,
+                "correlation": 0.3437010188061156
+              },
+              {
+                "bpm": 48,
+                "correlation": 0.31380320542644075
+              },
+              {
+                "bpm": 129.03225806451613,
+                "correlation": 0.2795345811785831
+              }
+            ],
+            "centroidHz": 844.6501035467497,
+            "above4kHzEnergyPercent": 0.011082844601570455,
+            "below180HzEnergyPercent": 8.39089896479446,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=CHfiJnGtW7c",
+          "title": "Air on the G String/Johann Sebastian Bach [Music Box]",
+          "artist": "R3 Music Box",
+          "indexedViews": 155197,
+          "indexedLikes": 2000,
+          "published": "2015-10-26",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=-k-AkgVtt2E",
+          "title": "Bach - Air on the G String | Music Box | Classic",
+          "artist": "Classic FM",
+          "indexedViews": 5078,
+          "indexedLikes": 71,
+          "published": "2019-08-02",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.04,
+        "relativePlaybackSpeed": 0.9615384615384615,
+        "previousSeconds": 156,
+        "seconds": 162.24,
+        "reason": "Already slow quarter-note pulse; only a small relaxation to preserve the long melodic line."
+      },
+      "beforeSpectrum": {
+        "frames": 312,
+        "centroidHz": 492.27153452519264,
+        "above4kHzEnergyPercent": 0.0002543484010884193,
+        "below180HzEnergyPercent": 3.1924705496478607
+      },
+      "afterSpectrum": {
+        "centroidHz": 472.69663348824463,
+        "above4kHzEnergyPercent": 0.00008680755338536006,
+        "below180HzEnergyPercent": 3.259586337382537
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -29.13753523342824
+    },
+    {
+      "id": "nocturne-9-2",
+      "title": "ノクターン第2番 Op.9-2",
+      "officialPreviewComparisons": [
+        {
+          "id": 265910664,
+          "title": "Nocturne No.2 E-flat major Op.9-2 (Chopin) [Music Box]",
+          "artist": "Relaxing Orgel",
+          "url": "https://music.apple.com/us/album/nocturne-no-2-e-flat-major-op-9-2-chopin-music-box/265910225?i=265910664&uo=4",
+          "metrics": {
+            "seconds": 29.975125,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -16.66745056330558,
+            "peakDb": -1.8515386144813692,
+            "crestDb": 14.815911948824208,
+            "activeWindowDynamicRangeDb": 10.027912641101413,
+            "detectedAttacks": 250,
+            "attacksPerSecond": 8.340248789621395,
+            "pulseCandidates": [
+              {
+                "bpm": 75,
+                "correlation": 0.4101463840971933
+              },
+              {
+                "bpm": 50,
+                "correlation": 0.3381577338724818
+              },
+              {
+                "bpm": 129.03225806451613,
+                "correlation": 0.278703997035633
+              }
+            ],
+            "centroidHz": 1028.987807480899,
+            "above4kHzEnergyPercent": 0.03318019982600257,
+            "below180HzEnergyPercent": 7.478529133584797,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1338600337,
+          "title": "Chopin Nocturne (Music Box)",
+          "artist": "RELAX WORLD",
+          "url": "https://music.apple.com/us/album/chopin-nocturne-music-box/1338600311?i=1338600337&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -15.022415402595222,
+            "peakDb": -0.9210292960723392,
+            "crestDb": 14.101386106522881,
+            "activeWindowDynamicRangeDb": 12.402181074345574,
+            "detectedAttacks": 279,
+            "attacksPerSecond": 9.322049235901027,
+            "pulseCandidates": [
+              {
+                "bpm": 95.23809523809524,
+                "correlation": 0.3514619865431065
+              },
+              {
+                "bpm": 114.28571428571428,
+                "correlation": 0.3129605793667334
+              },
+              {
+                "bpm": 109.09090909090908,
+                "correlation": 0.3122847130793218
+              }
+            ],
+            "centroidHz": 590.3656276104243,
+            "above4kHzEnergyPercent": 0.14635769682159458,
+            "below180HzEnergyPercent": 4.397440094094242,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=QHSkWmBp6LQ",
+          "title": "Nocturne op.9 No.2/Chopin [Music Box]",
+          "artist": "R3 Music Box",
+          "indexedViews": 306410,
+          "indexedLikes": 7700,
+          "published": "2018-01-24",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=ISqY3GDjvJ0",
+          "title": "Nocturne op.9 No.2 by Chopin - Music Box Version",
+          "artist": "Music Box Melodies",
+          "indexedViews": 26503,
+          "indexedLikes": 462,
+          "published": "2016-05-09",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.1,
+        "relativePlaybackSpeed": 0.9090909090909091,
+        "previousSeconds": 206.27254166666665,
+        "seconds": 226.89979166666666,
+        "reason": "Give ornaments breathing space while preserving the compound-meter flow and source rubato."
+      },
+      "beforeSpectrum": {
+        "frames": 413,
+        "centroidHz": 573.1135884006986,
+        "above4kHzEnergyPercent": 0.004383016878305872,
+        "below180HzEnergyPercent": 4.470388965218853
+      },
+      "afterSpectrum": {
+        "centroidHz": 531.6678626457888,
+        "above4kHzEnergyPercent": 0.0009475991724156023,
+        "below180HzEnergyPercent": 3.489858256560234
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -27.935172448241165
+    },
+    {
+      "id": "fur-elise",
+      "title": "エリーゼのために",
+      "officialPreviewComparisons": [
+        {
+          "id": 866530833,
+          "title": "Fur Elise (Music Box)",
+          "artist": "RELAX WORLD",
+          "url": "https://music.apple.com/us/album/fur-elise-music-box/866530825?i=866530833&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -17.137021481413917,
+            "peakDb": -1.7428763864416923,
+            "crestDb": 15.394145094972227,
+            "activeWindowDynamicRangeDb": 11.738667717242542,
+            "detectedAttacks": 249,
+            "attacksPerSecond": 8.30678387349669,
+            "pulseCandidates": [
+              {
+                "bpm": 131.86813186813185,
+                "correlation": 0.35478111833167175
+              },
+              {
+                "bpm": 117.6470588235294,
+                "correlation": 0.3214400378144045
+              },
+              {
+                "bpm": 43.7956204379562,
+                "correlation": 0.30919781843023914
+              }
+            ],
+            "centroidHz": 745.0105188835919,
+            "above4kHzEnergyPercent": 0.08789159694947031,
+            "below180HzEnergyPercent": 0.2613169614222701,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1034639196,
+          "title": "Fur Elise (Music Box Instrumental)",
+          "artist": "The Kiboomers",
+          "url": "https://music.apple.com/us/album/fur-elise-music-box-instrumental/1034639031?i=1034639196&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -32.350189721558166,
+            "peakDb": -18.731138904049878,
+            "crestDb": 13.619050817508286,
+            "activeWindowDynamicRangeDb": 13.980054064693254,
+            "detectedAttacks": 275,
+            "attacksPerSecond": 9.18839978449026,
+            "pulseCandidates": [
+              {
+                "bpm": 127.6595744680851,
+                "correlation": 0.43002262325275237
+              },
+              {
+                "bpm": 96,
+                "correlation": 0.4144097747158983
+              },
+              {
+                "bpm": 103.44827586206897,
+                "correlation": 0.40866153028756247
+              }
+            ],
+            "centroidHz": 652.7321996022475,
+            "above4kHzEnergyPercent": 0.0022768050620259254,
+            "below180HzEnergyPercent": 6.006094218792841,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=PLlGX2DLk2o",
+          "title": "Beethoven - Für Elise | Music Box | Classic FM",
+          "artist": "Classic FM",
+          "indexedViews": 16429,
+          "indexedLikes": 130,
+          "published": "2019-08-02",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.18,
+        "relativePlaybackSpeed": 0.8474576271186441,
+        "previousSeconds": 146.27270833333333,
+        "seconds": 172.60179166666666,
+        "reason": "Reduce the repeated high-note figure's urgency; retain relative rhythm and all original sections."
+      },
+      "beforeSpectrum": {
+        "frames": 293,
+        "centroidHz": 452.501998003101,
+        "above4kHzEnergyPercent": 0.001899916959230309,
+        "below180HzEnergyPercent": 12.181908059070572
+      },
+      "afterSpectrum": {
+        "centroidHz": 475.8134368653597,
+        "above4kHzEnergyPercent": 0.00035143886210127766,
+        "below180HzEnergyPercent": 3.4613098678221768
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -26.260529986360726
+    },
+    {
+      "id": "traumerei",
+      "title": "トロイメライ",
+      "officialPreviewComparisons": [
+        {
+          "id": 1704249616,
+          "title": "Traumerei (Sleeping Music Box Ver.)",
+          "artist": "Relaxing Orgel",
+          "url": "https://music.apple.com/us/album/traumerei-sleeping-music-box-ver/1704249536?i=1704249616&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -17.396470746395142,
+            "peakDb": -1.4595729658441046,
+            "crestDb": 15.936897780551035,
+            "activeWindowDynamicRangeDb": 10.88233513610451,
+            "detectedAttacks": 228,
+            "attacksPerSecond": 7.606211739587329,
+            "pulseCandidates": [
+              {
+                "bpm": 56.074766355140184,
+                "correlation": 0.3703768274001885
+              },
+              {
+                "bpm": 111.1111111111111,
+                "correlation": 0.3575689849331361
+              },
+              {
+                "bpm": 96,
+                "correlation": 0.27305851366660666
+              }
+            ],
+            "centroidHz": 990.224508334897,
+            "above4kHzEnergyPercent": 0.044664651476781586,
+            "below180HzEnergyPercent": 2.9388847250275068,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1783792643,
+          "title": "Träumerei (Music Box Version)",
+          "artist": "The Countdown Kids",
+          "url": "https://music.apple.com/us/album/tr%C3%A4umerei-music-box-version/1783792372?i=1783792643&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -18.787993904783534,
+            "peakDb": -2.9627584063918775,
+            "crestDb": 15.825235498391656,
+            "activeWindowDynamicRangeDb": 9.145075960406253,
+            "detectedAttacks": 261,
+            "attacksPerSecond": 8.70711080715918,
+            "pulseCandidates": [
+              {
+                "bpm": 127.6595744680851,
+                "correlation": 0.29388915147524336
+              },
+              {
+                "bpm": 68.18181818181819,
+                "correlation": 0.29277504582413333
+              },
+              {
+                "bpm": 63.1578947368421,
+                "correlation": 0.2892005855157021
+              }
+            ],
+            "centroidHz": 978.1129334013539,
+            "above4kHzEnergyPercent": 0.4753999913879651,
+            "below180HzEnergyPercent": 3.573770142039371,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=wW6yqGYFafc",
+          "title": "Träumerei (Music Box Version)",
+          "artist": "The Countdown Kids",
+          "indexedViews": 716,
+          "indexedLikes": 6,
+          "published": "2025-01-02",
+          "role": "Supplementary context; limited or unknown engagement",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=dHxv0VBwMwA",
+          "title": "Traumerei - Schumann / Music Box",
+          "artist": "Wakey Lad93",
+          "indexedViews": 6341,
+          "indexedLikes": 65,
+          "published": "2017-04-14",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.08,
+        "relativePlaybackSpeed": 0.9259259259259258,
+        "previousSeconds": 114.68333333333334,
+        "seconds": 123.858,
+        "reason": "Gentle broadening of lyrical phrases; keep the existing expressive tempo map."
+      },
+      "beforeSpectrum": {
+        "frames": 230,
+        "centroidHz": 410.5107557601704,
+        "above4kHzEnergyPercent": 0.00015614903312622684,
+        "below180HzEnergyPercent": 5.429184909249641
+      },
+      "afterSpectrum": {
+        "centroidHz": 405.3666479917571,
+        "above4kHzEnergyPercent": 0.00008690216919781394,
+        "below180HzEnergyPercent": 4.451993614684327
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -27.49691245341172
+    },
+    {
+      "id": "brahms-lullaby",
+      "title": "ブラームスの子守歌",
+      "officialPreviewComparisons": [
+        {
+          "id": 1477878186,
+          "title": "Brahms' Lullaby",
+          "artist": "Music Box Tunes",
+          "url": "https://music.apple.com/us/album/brahms-lullaby/1477878179?i=1477878186&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -21.17911214592457,
+            "peakDb": -7.523395123972786,
+            "crestDb": 13.655717021951785,
+            "activeWindowDynamicRangeDb": 14.10837296679871,
+            "detectedAttacks": 236,
+            "attacksPerSecond": 7.885317633235277,
+            "pulseCandidates": [
+              {
+                "bpm": 114.28571428571428,
+                "correlation": 0.39844024382834414
+              },
+              {
+                "bpm": 93.02325581395348,
+                "correlation": 0.3778317050972172
+              },
+              {
+                "bpm": 107.14285714285714,
+                "correlation": 0.3633301640108437
+              }
+            ],
+            "centroidHz": 760.1544373492432,
+            "above4kHzEnergyPercent": 0.033083425232944205,
+            "below180HzEnergyPercent": 2.2044164142276994,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1606435349,
+          "title": "Brahms Lullaby Music Box",
+          "artist": "Universal Production Music",
+          "url": "https://music.apple.com/us/album/brahms-lullaby-music-box/1606434636?i=1606435349&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -28.061927460248786,
+            "peakDb": -14.47686658549766,
+            "crestDb": 13.585060874751127,
+            "activeWindowDynamicRangeDb": 11.126278767010508,
+            "detectedAttacks": 103,
+            "attacksPerSecond": 3.441473373827261,
+            "pulseCandidates": [
+              {
+                "bpm": 79.47019867549669,
+                "correlation": 0.20031807076934488
+              },
+              {
+                "bpm": 74.07407407407408,
+                "correlation": 0.18345945069002606
+              },
+              {
+                "bpm": 51.724137931034484,
+                "correlation": 0.1671911238721854
+              }
+            ],
+            "centroidHz": 1004.0011415097782,
+            "above4kHzEnergyPercent": 0.016182283043557094,
+            "below180HzEnergyPercent": 1.5899655490542284,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=I2IdyCQPBWM",
+          "title": "Brahms lullaby music box for 1 hour",
+          "artist": "Piano Latte",
+          "indexedViews": 1243857,
+          "indexedLikes": 3400,
+          "published": "2023-05-30",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=quV_MyCVZKE",
+          "title": "Brahms' Lullaby (Music Box Version)",
+          "artist": "The Countdown Kids",
+          "indexedViews": 177986,
+          "indexedLikes": 198,
+          "published": "2025-01-02",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=s1AWQM_tot0",
+          "title": "Brahms' Lullaby (Music Box Version)",
+          "artist": "Sleep Music & Lullabies for Babies",
+          "indexedViews": 10248,
+          "indexedLikes": 24,
+          "published": "2021-11-23",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.07,
+        "relativePlaybackSpeed": 0.9345794392523364,
+        "previousSeconds": 57.5,
+        "seconds": 61.525,
+        "reason": "Retain the cradle-like three-beat motion with a modestly calmer pulse."
+      },
+      "beforeSpectrum": {
+        "frames": 115,
+        "centroidHz": 437.18936631202973,
+        "above4kHzEnergyPercent": 0.00012061849159676096,
+        "below180HzEnergyPercent": 1.7369429902513758
+      },
+      "afterSpectrum": {
+        "centroidHz": 441.4068144237391,
+        "above4kHzEnergyPercent": 0.00008219197505736456,
+        "below180HzEnergyPercent": 1.9181315370946588
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -28.189663971022828
+    },
+    {
+      "id": "schubert-lullaby",
+      "title": "シューベルトの子守唄",
+      "officialPreviewComparisons": [
+        {
+          "id": 1723015751,
+          "title": "Schubert:Lullaby(Music Box)",
+          "artist": "Cool Music",
+          "url": "https://music.apple.com/us/album/schubert-lullaby-music-box/1723015743?i=1723015751&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -25.34653352746844,
+            "peakDb": -8.053683053042304,
+            "crestDb": 17.29285047442614,
+            "activeWindowDynamicRangeDb": 12.583457742057671,
+            "detectedAttacks": 230,
+            "attacksPerSecond": 7.672932895197745,
+            "pulseCandidates": [
+              {
+                "bpm": 102.56410256410257,
+                "correlation": 0.38050176637067673
+              },
+              {
+                "bpm": 122.44897959183673,
+                "correlation": 0.37218886867502093
+              },
+              {
+                "bpm": 85.1063829787234,
+                "correlation": 0.35296466345974875
+              }
+            ],
+            "centroidHz": 718.9756888094649,
+            "above4kHzEnergyPercent": 0.011113331632995806,
+            "below180HzEnergyPercent": 0.16744490081613278,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 1626820743,
+          "title": "Schubert: Lullaby (Music Box)",
+          "artist": "Noble Music Kids",
+          "url": "https://music.apple.com/us/album/schubert-lullaby-music-box/1626820741?i=1626820743&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -20.408062612758876,
+            "peakDb": -3.198084207514136,
+            "crestDb": 17.20997840524474,
+            "activeWindowDynamicRangeDb": 12.532678347630577,
+            "detectedAttacks": 241,
+            "attacksPerSecond": 8.039899251055028,
+            "pulseCandidates": [
+              {
+                "bpm": 121.21212121212122,
+                "correlation": 0.3291141810899416
+              },
+              {
+                "bpm": 126.3157894736842,
+                "correlation": 0.3277876499502494
+              },
+              {
+                "bpm": 98.36065573770492,
+                "correlation": 0.32594837986068087
+              }
+            ],
+            "centroidHz": 739.8451815829818,
+            "above4kHzEnergyPercent": 0.015563636260089107,
+            "below180HzEnergyPercent": 0.0934209630974665,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=IlD9zDHsXhA",
+          "title": "Schubert music-box lullaby",
+          "artist": "Magdalena Music",
+          "indexedViews": 1157320,
+          "indexedLikes": null,
+          "published": "2015-03-02",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=DmQ6H_4ttDg",
+          "title": "Schubert Lullaby (Music Box)",
+          "artist": "Background Boys - Topic",
+          "indexedViews": 28,
+          "indexedLikes": null,
+          "published": "2025-11-19",
+          "role": "Supplementary context; limited or unknown engagement",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=FbMB393FnJI",
+          "title": "[3 HOURS] SCHUBERT LULLABY Music Box ♬ Baby Soothing Instrumental Clasal ♫",
+          "artist": "Garden of Sounds: sori-garden",
+          "indexedViews": 2387267,
+          "indexedLikes": 6800,
+          "published": "2017-11-22",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.1,
+        "relativePlaybackSpeed": 0.9090909090909091,
+        "previousSeconds": 44,
+        "seconds": 48.4,
+        "reason": "Widen breathing space between the simple vocal phrases without altering note durations relative to the beat."
+      },
+      "beforeSpectrum": {
+        "frames": 88,
+        "centroidHz": 420.33540764526,
+        "above4kHzEnergyPercent": 0.00008420401822360922,
+        "below180HzEnergyPercent": 1.7674073412651163
+      },
+      "afterSpectrum": {
+        "centroidHz": 413.8458988048793,
+        "above4kHzEnergyPercent": 0.00008329638096089442,
+        "below180HzEnergyPercent": 1.8570215152178264
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -28.77834918792791
+    },
+    {
+      "id": "twinkle-star",
+      "title": "きらきら星",
+      "officialPreviewComparisons": [
+        {
+          "id": 1783792647,
+          "title": "Twinkle, Twinkle, Little Star (Music Box Version)",
+          "artist": "The Countdown Kids",
+          "url": "https://music.apple.com/us/album/twinkle-twinkle-little-star-music-box-version/1783792372?i=1783792647&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -14.215291570171065,
+            "peakDb": -1.5388470229480378,
+            "crestDb": 12.67644454722303,
+            "activeWindowDynamicRangeDb": 11.089428861359478,
+            "detectedAttacks": 114,
+            "attacksPerSecond": 3.8031058697936646,
+            "pulseCandidates": [
+              {
+                "bpm": 84.50704225352113,
+                "correlation": 0.21240869773353366
+              },
+              {
+                "bpm": 56.60377358490566,
+                "correlation": 0.18664537226212774
+              },
+              {
+                "bpm": 43.01075268817204,
+                "correlation": 0.17015389756368002
+              }
+            ],
+            "centroidHz": 1418.8501791996205,
+            "above4kHzEnergyPercent": 0.14512610307976445,
+            "below180HzEnergyPercent": 1.329148069513982,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 309985187,
+          "title": "Twinkle, Twinkle Little Star (Music Box)",
+          "artist": "Relaxing Orgel",
+          "url": "https://music.apple.com/us/album/twinkle-twinkle-little-star-music-box/309985178?i=309985187&uo=4",
+          "metrics": {
+            "seconds": 29.975125,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -18.524612622538076,
+            "peakDb": -2.635202788001343,
+            "crestDb": 15.889409834536734,
+            "activeWindowDynamicRangeDb": 9.250525728727425,
+            "detectedAttacks": 263,
+            "attacksPerSecond": 8.773941726681707,
+            "pulseCandidates": [
+              {
+                "bpm": 69.76744186046511,
+                "correlation": 0.32970629075053504
+              },
+              {
+                "bpm": 107.14285714285714,
+                "correlation": 0.3215527336392007
+              },
+              {
+                "bpm": 131.86813186813185,
+                "correlation": 0.3211704931874107
+              }
+            ],
+            "centroidHz": 685.1557790721455,
+            "above4kHzEnergyPercent": 0.008829385899950103,
+            "below180HzEnergyPercent": 6.373682435883814,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=ITgBVX1gO9Q",
+          "title": "✰ 3 HOURS ✰ Twinkle Twinkle Little Star ♫ ✰ NO ADS",
+          "artist": "Lullaby Baby",
+          "indexedViews": 31729148,
+          "indexedLikes": 126000,
+          "published": "2014-07-09",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=sD7wmIHGIjM",
+          "title": "Twinkle, Twinkle, Little Star (Music Box Version)",
+          "artist": "The Countdown Kids",
+          "indexedViews": 1173,
+          "indexedLikes": 10,
+          "published": "2025-01-02",
+          "role": "Supplementary context; limited or unknown engagement",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.18,
+        "relativePlaybackSpeed": 0.8474576271186441,
+        "previousSeconds": 47.636375,
+        "seconds": 56.21091666666667,
+        "reason": "Use an unhurried single-note pulse; preserve the familiar phrase shapes and rests."
+      },
+      "beforeSpectrum": {
+        "frames": 95,
+        "centroidHz": 326.5895138720838,
+        "above4kHzEnergyPercent": 0.00007854455780232673,
+        "below180HzEnergyPercent": 8.5536623419769
+      },
+      "afterSpectrum": {
+        "centroidHz": 319.6404419600615,
+        "above4kHzEnergyPercent": 0.00007572582262089475,
+        "below180HzEnergyPercent": 8.449010072821697
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -31.356624894993242
+    },
+    {
+      "id": "ave-maria-schubert",
+      "title": "アヴェ・マリア（シューベルト）",
+      "officialPreviewComparisons": [
+        {
+          "id": 1078136902,
+          "title": "Ave Maria Schubert Music Box",
+          "artist": "RELAX WORLD",
+          "url": "https://music.apple.com/us/album/ave-maria-schubert-music-box/1078136901?i=1078136902&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -21.33670811245077,
+            "peakDb": -5.643332243444288,
+            "crestDb": 15.69337586900648,
+            "activeWindowDynamicRangeDb": 9.125946874891765,
+            "detectedAttacks": 285,
+            "attacksPerSecond": 9.522523413017177,
+            "pulseCandidates": [
+              {
+                "bpm": 133.33333333333334,
+                "correlation": 0.37266094518263876
+              },
+              {
+                "bpm": 93.75,
+                "correlation": 0.35456990192416304
+              },
+              {
+                "bpm": 110.09174311926604,
+                "correlation": 0.34464668153297734
+              }
+            ],
+            "centroidHz": 391.80988866380096,
+            "above4kHzEnergyPercent": 0.3481266499943876,
+            "below180HzEnergyPercent": 42.303455584500064,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 265910230,
+          "title": "Ave Maria (Schubert) [Music Box]",
+          "artist": "Relaxing Orgel",
+          "url": "https://music.apple.com/us/album/ave-maria-schubert-music-box/265910225?i=265910230&uo=4",
+          "metrics": {
+            "seconds": 29.975125,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -17.733384586046423,
+            "peakDb": -1.4997071372224482,
+            "crestDb": 16.233677448823975,
+            "activeWindowDynamicRangeDb": 11.718210090241781,
+            "detectedAttacks": 253,
+            "attacksPerSecond": 8.440331775096851,
+            "pulseCandidates": [
+              {
+                "bpm": 90.9090909090909,
+                "correlation": 0.3222414415282365
+              },
+              {
+                "bpm": 130.43478260869566,
+                "correlation": 0.3040206023405556
+              },
+              {
+                "bpm": 114.28571428571428,
+                "correlation": 0.29073754247528727
+              }
+            ],
+            "centroidHz": 995.9765500024938,
+            "above4kHzEnergyPercent": 0.026286605426032433,
+            "below180HzEnergyPercent": 3.987055627476268,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=XjEh9h5F6j0",
+          "title": "Ave Maria/Schubert [Music Box]",
+          "artist": "R3 Music Box",
+          "indexedViews": 78957,
+          "indexedLikes": 1100,
+          "published": "2019-05-17",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=w1cMdx_iue4",
+          "title": "🎶 A 72-note music box plays \"Ave Maria\" (Schubert) with a graceful",
+          "artist": "The Musical World of Pachelbel",
+          "indexedViews": 20,
+          "indexedLikes": null,
+          "published": "2025-01-07",
+          "role": "Supplementary context; limited or unknown engagement",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 0.96,
+        "relativePlaybackSpeed": 1.0416666666666667,
+        "previousSeconds": 436.5,
+        "seconds": 419.04,
+        "reason": "Already the longest, slowest quarter-note source; a small increase in flow avoids over-stretching sustained melody."
+      },
+      "beforeSpectrum": {
+        "frames": 873,
+        "centroidHz": 462.5796253995579,
+        "above4kHzEnergyPercent": 0.00009261085021275909,
+        "below180HzEnergyPercent": 2.1604416299089158
+      },
+      "afterSpectrum": {
+        "centroidHz": 430.7598381062787,
+        "above4kHzEnergyPercent": 0.00007889759970425673,
+        "below180HzEnergyPercent": 1.3010859812006907
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -29.767448682408478
+    },
+    {
+      "id": "gymnopedie-1",
+      "title": "ジムノペディ第1番",
+      "officialPreviewComparisons": [
+        {
+          "id": 1357312717,
+          "title": "Gymnopédie No.1 (Music Box Version)",
+          "artist": "Baby Lullaby Garden",
+          "url": "https://music.apple.com/us/album/gymnop%C3%A9die-no-1-music-box-version/1357310701?i=1357312717&uo=4",
+          "metrics": {
+            "seconds": 29.9755,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -22.55409791769852,
+            "peakDb": -6.648472317215136,
+            "crestDb": 15.905625600483386,
+            "activeWindowDynamicRangeDb": 14.31660174103447,
+            "detectedAttacks": 278,
+            "attacksPerSecond": 9.274240629847709,
+            "pulseCandidates": [
+              {
+                "bpm": 107.14285714285714,
+                "correlation": 0.3417070187162512
+              },
+              {
+                "bpm": 112.14953271028037,
+                "correlation": 0.3328313960534129
+              },
+              {
+                "bpm": 123.71134020618557,
+                "correlation": 0.3241043020082371
+              }
+            ],
+            "centroidHz": 336.2270583312954,
+            "above4kHzEnergyPercent": 0.21104912369198872,
+            "below180HzEnergyPercent": 25.955100278347587,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 265910997,
+          "title": "Gymnopedie No.1 (Eric Satie) [Music Box]",
+          "artist": "Relaxing Orgel",
+          "url": "https://music.apple.com/us/album/gymnopedie-no-1-eric-satie-music-box/265910225?i=265910997&uo=4",
+          "metrics": {
+            "seconds": 29.975125,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -18.82240112807652,
+            "peakDb": -1.2657686288107504,
+            "crestDb": 17.55663249926577,
+            "activeWindowDynamicRangeDb": 12.715136981205541,
+            "detectedAttacks": 161,
+            "attacksPerSecond": 5.371120220516178,
+            "pulseCandidates": [
+              {
+                "bpm": 64.86486486486486,
+                "correlation": 0.4422790010277763
+              },
+              {
+                "bpm": 48.78048780487805,
+                "correlation": 0.2991642622018977
+              },
+              {
+                "bpm": 97.5609756097561,
+                "correlation": 0.2867191594359038
+              }
+            ],
+            "centroidHz": 1124.0885855551044,
+            "above4kHzEnergyPercent": 0.030311761821544655,
+            "below180HzEnergyPercent": 5.721814078979786,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [
+        {
+          "url": "https://www.youtube.com/watch?v=ynr7g9_lTVM",
+          "title": "Gymnopédie No.1/Erik Satie [Music Box]",
+          "artist": "R3 Music Box",
+          "indexedViews": 109011,
+          "indexedLikes": 3300,
+          "published": "2018-06-11",
+          "role": "Public engagement/context reference",
+          "audioMeasured": false
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=Th4lY4H4aHg",
+          "title": "Gymnopedie no.1 - 'Music Box Version', Erik Satie (1866-1925)",
+          "artist": null,
+          "indexedViews": null,
+          "indexedLikes": null,
+          "published": null,
+          "role": "Supplementary context; limited or unknown engagement",
+          "audioMeasured": false
+        }
+      ],
+      "tempo": {
+        "relativeTimeScale": 1.12,
+        "relativePlaybackSpeed": 0.8928571428571428,
+        "previousSeconds": 145,
+        "seconds": 162.4,
+        "reason": "Leave more room after bass/chord attacks while preserving the three-beat phrase and original voicing."
+      },
+      "beforeSpectrum": {
+        "frames": 290,
+        "centroidHz": 420.3357704321167,
+        "above4kHzEnergyPercent": 0.00014470275694151172,
+        "below180HzEnergyPercent": 3.4485952532371265
+      },
+      "afterSpectrum": {
+        "centroidHz": 410.1448401252987,
+        "above4kHzEnergyPercent": 0.0000929677531309998,
+        "below180HzEnergyPercent": 2.692784367528285
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -25.557048496293717
+    },
+    {
+      "id": "going-home",
+      "title": "新世界より「家路」",
+      "officialPreviewComparisons": [
+        {
+          "id": 419565625,
+          "title": "Going Home (Largo From The New World Symphony) (A.Dvorak)",
+          "artist": "Tiny Music Box",
+          "url": "https://music.apple.com/us/album/going-home-largo-from-the-new-world-symphony-a-dvorak/419565606?i=419565625&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -23.20190335394798,
+            "peakDb": -3.7967630937053825,
+            "crestDb": 19.405140260242597,
+            "activeWindowDynamicRangeDb": 17.522716750964122,
+            "detectedAttacks": 92,
+            "attacksPerSecond": 3.0739373824476504,
+            "pulseCandidates": [
+              {
+                "bpm": 45.28301886792453,
+                "correlation": 0.20648971558315468
+              },
+              {
+                "bpm": 127.6595744680851,
+                "correlation": 0.17288147730737347
+              },
+              {
+                "bpm": 70.17543859649123,
+                "correlation": 0.1604208492554114
+              }
+            ],
+            "centroidHz": 1168.6661912511227,
+            "above4kHzEnergyPercent": 0.49993767239537856,
+            "below180HzEnergyPercent": 0.000011921500736614872,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        },
+        {
+          "id": 275939765,
+          "title": "From New World Symphony - Goin' Home (Music Box)",
+          "artist": "Relaxing Orgel",
+          "url": "https://music.apple.com/us/album/from-new-world-symphony-goin-home-music-box/275939676?i=275939765&uo=4",
+          "metrics": {
+            "seconds": 29.929041666666667,
+            "channels": 2,
+            "rate": 24000,
+            "rmsDb": -17.93434829971273,
+            "peakDb": -1.3254961053187986,
+            "crestDb": 16.608852194393936,
+            "activeWindowDynamicRangeDb": 13.261834122234163,
+            "detectedAttacks": 217,
+            "attacksPerSecond": 7.250482739034132,
+            "pulseCandidates": [
+              {
+                "bpm": 109.09090909090908,
+                "correlation": 0.2849205863342009
+              },
+              {
+                "bpm": 84.50704225352113,
+                "correlation": 0.28462111022546427
+              },
+              {
+                "bpm": 116.50485436893203,
+                "correlation": 0.2746827943571915
+              }
+            ],
+            "centroidHz": 992.467869385157,
+            "above4kHzEnergyPercent": 0.012233242805852891,
+            "below180HzEnergyPercent": 5.24147490331332,
+            "limitations": "Excerpt-only mono analysis. Onset periodicity can represent subdivisions or half/double tempo; not an authoritative score BPM. Band ratios and dynamic range are proxies, not subjective harshness/mud or isolated reverberation measurements."
+          },
+          "audioSaved": false,
+          "audioReused": false
+        }
+      ],
+      "youtubeContext": [],
+      "tempo": {
+        "relativeTimeScale": 1.04,
+        "relativePlaybackSpeed": 0.9615384615384615,
+        "previousSeconds": 59.384625,
+        "seconds": 61.76,
+        "reason": "Already a relaxed Largo arrangement; keep a natural singing line with only slight slowing."
+      },
+      "beforeSpectrum": {
+        "frames": 119,
+        "centroidHz": 397.06129332039444,
+        "above4kHzEnergyPercent": 0.00008625870797215251,
+        "below180HzEnergyPercent": 5.582457337285132
+      },
+      "afterSpectrum": {
+        "centroidHz": 393.41986555628296,
+        "above4kHzEnergyPercent": 0.0000808117333913157,
+        "below180HzEnergyPercent": 5.177880972696489
+      },
+      "normalizedLufs": -42.292552045801955,
+      "maxPlaybackPeakDb": -31.213747936112213
+    }
+  ]
+}

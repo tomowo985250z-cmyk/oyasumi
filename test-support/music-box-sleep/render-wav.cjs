@@ -1,0 +1,4 @@
+// Offline-only reproduction helper; existing recordings are never overwritten.
+const fs=require('node:fs'),path=require('node:path'),synth=require('./synth.cjs'),config=require('./mastering-config.json'),scores=require('./scores.json');
+if(!process.argv[2])throw Error('Specify a new output directory');const output=path.resolve(process.argv[2]);if(fs.existsSync(output)&&fs.readdirSync(output).length)throw Error('Output directory must be empty');fs.mkdirSync(output,{recursive:true});
+for(const score of scores){const setting=config.tempo.find(t=>t.id===score.id),{out,meta}=synth(score,{id:score.id,sourceSeconds:score.sourceSeconds,timeScale:setting.timeScale,targetLufs:config.targetLufs});fs.writeFileSync(path.join(output,score.id+'.wav'),out,{flag:'wx'});fs.writeFileSync(path.join(output,score.id+'.json'),JSON.stringify(meta,null,2)+'\n',{flag:'wx'});console.log(score.id+' '+meta.seconds.toFixed(2)+'s');}

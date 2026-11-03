@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "tuning": "A440 equal temperament; exact integer harmonic modes; no pitch modulation or random timing",
+  "instrument": {
+    "attackMs": 1.7,
+    "decayBaseSeconds": 1.05,
+    "decayMaxSeconds": 1.65,
+    "fastWeight": 0.88,
+    "slowWeight": 0.12,
+    "fastDecayScale": 0.86,
+    "slowDecayScale": 1.4,
+    "modes": [
+      [
+        1,
+        1,
+        1
+      ],
+      [
+        2,
+        0.055,
+        0.42
+      ],
+      [
+        3,
+        0.105,
+        0.29
+      ],
+      [
+        5,
+        0.018,
+        0.13
+      ],
+      [
+        9,
+        0.0025,
+        0.065
+      ]
+    ],
+    "lowHarmonicSupport": [
+      0.07,
+      0.02
+    ],
+    "highpassHz": 65,
+    "lowpassHz": 3600,
+    "earlyReflections": [
+      [
+        0.011,
+        0.018
+      ],
+      [
+        0.027,
+        0.009
+      ]
+    ],
+    "woodBody": [
+      [
+        270,
+        1.4,
+        0.004
+      ],
+      [
+        620,
+        1.7,
+        0.002
+      ],
+      [
+        1040,
+        1.8,
+        0.001
+      ]
+    ],
+    "tailSeconds": 4.5
+  },
+  "tempo": [
+    {
+      "id": "clair-de-lune",
+      "timeScale": 1.12,
+      "reason": "Slightly more space around rolling figures; preserve existing phrase timing and melody."
+    },
+    {
+      "id": "canon-d",
+      "timeScale": 1.1,
+      "reason": "Ease the busy variation passages; retain the steady ground bass and note ordering."
+    },
+    {
+      "id": "air-g-string",
+      "timeScale": 1.04,
+      "reason": "Already slow quarter-note pulse; only a small relaxation to preserve the long melodic line."
+    },
+    {
+      "id": "nocturne-9-2",
+      "timeScale": 1.1,
+      "reason": "Give ornaments breathing space while preserving the compound-meter flow and source rubato."
+    },
+    {
+      "id": "fur-elise",
+      "timeScale": 1.18,
+      "reason": "Reduce the repeated high-note figure's urgency; retain relative rhythm and all original sections."
+    },
+    {
+      "id": "traumerei",
+      "timeScale": 1.08,
+      "reason": "Gentle broadening of lyrical phrases; keep the existing expressive tempo map."
+    },
+    {
+      "id": "brahms-lullaby",
+      "timeScale": 1.07,
+      "reason": "Retain the cradle-like three-beat motion with a modestly calmer pulse."
+    },
+    {
+      "id": "schubert-lullaby",
+      "timeScale": 1.1,
+      "reason": "Widen breathing space between the simple vocal phrases without altering note durations relative to the beat."
+    },
+    {
+      "id": "twinkle-star",
+      "timeScale": 1.18,
+      "reason": "Use an unhurried single-note pulse; preserve the familiar phrase shapes and rests."
+    },
+    {
+      "id": "ave-maria-schubert",
+      "timeScale": 0.96,
+      "reason": "Already the longest, slowest quarter-note source; a small increase in flow avoids over-stretching sustained melody."
+    },
+    {
+      "id": "gymnopedie-1",
+      "timeScale": 1.12,
+      "reason": "Leave more room after bass/chord attacks while preserving the three-beat phrase and original voicing."
+    },
+    {
+      "id": "going-home",
+      "timeScale": 1.04,
+      "reason": "Already a relaxed Largo arrangement; keep a natural singing line with only slight slowing."
+    }
+  ],
+  "decisionNote": "Tempo choices are conservative engineering/artistic inferences from the source score and multiple preview comparisons, not claimed BPM transcriptions or clinically validated sleep settings. Relative source timing, pitches, velocities and voicing stay intact. Static per-recording K-weighted gated loudness normalization uses the previous twelve-recording median, preserving the existing master volume mapping and avoiding dynamic pumping.",
+  "targetLufs": -42.292552045801955
+}
