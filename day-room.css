@@ -187,10 +187,19 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 .day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) .day-room-art{filter:brightness(.43) saturate(.76)}
 .day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) :is(.room-curtains,.room-sconce-art){filter:brightness(.68)}
 .day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) .room-wall-clock{filter:brightness(.43) saturate(.76)}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .day-room-place-art{filter:brightness(.58) saturate(.90)}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .engawa-shoji{filter:brightness(.66)}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(.64)}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(.64)}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]{--unlit-cat-brightness:.38}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .day-room-place-art{filter:brightness(.32) saturate(.90)}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .engawa-shoji{filter:brightness(.34)}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch{--pendant-top:#5a5f5a;--pendant-edge:#3c4240;--pendant-bottom:#484c46}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--unlit-cat-brightness,.64))}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--unlit-cat-brightness,.64))}
+/* Reuse the existing sky gradients and star paths: no extra layers or animation. */
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:first-child{stop-color:#01040b}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:nth-child(2){stop-color:#030919}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:last-child{stop-color:#091326}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [data-night-star-bin]{stroke:#d8e3f0}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [data-night-star-bin]:nth-child(n+7){stroke:#e7ddc8}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-mist]>stop{stop-color:#8c9fb0}
 
 /* Sparse, asynchronous scintillation preserves the astronomical alpha and size. */
 .roof-sky-card .roof-star-field{filter:contrast(1.12) brightness(1.08)}
