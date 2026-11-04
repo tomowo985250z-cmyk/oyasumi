@@ -169,9 +169,9 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 /* Small milk-glass wall lamp; existing night switch and cat RGB remain native. */
 .room-sconce-art{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;--sconce-milk-top:#f0ede2;--sconce-milk-edge:#c6c4b6}
 .day-room:not([data-location=room]) .room-sconce-art{display:none}
-.day-room[data-world-daylight=false] .room-sconce-art{--sconce-milk-top:#a7b1a7;--sconce-milk-edge:#75847c}
+.day-room[data-world-daylight=false] .room-sconce-art{--sconce-milk-top:#958e7e;--sconce-milk-edge:#676356}
 .room-sconce-lit{opacity:0;transition:opacity 360ms ease-in-out}
-.day-room[data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]) .room-sconce-lit{opacity:1}
+.day-room[data-location=room]:has(.room-light-switch[aria-pressed=true]) .room-sconce-lit{opacity:1}
 .room-light-switch:focus-visible{outline:2px solid #dfc493;outline-offset:1px}
 @media(prefers-reduced-motion:reduce){.room-sconce-lit{transition:none}}
 
@@ -184,15 +184,16 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 
 /* Unlit interiors keep cool moonlit silhouettes; windows and controls stay clear.
    Native amber lighting and daytime rules are unchanged. */
-.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) .day-room-art{filter:brightness(.43) saturate(.76)}
-.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) :is(.room-curtains,.room-sconce-art){filter:brightness(.68)}
-.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])) .room-wall-clock{filter:brightness(.43) saturate(.76)}
+.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .day-room-art{filter:brightness(.43) saturate(.76)}
+.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .room-curtains{filter:brightness(.68)}
+.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .room-sconce-art{filter:brightness(.50)}
+.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .room-wall-clock{filter:brightness(.43) saturate(.76)}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]{--unlit-cat-brightness:.38}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .day-room-place-art{filter:brightness(.32) saturate(.90)}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .engawa-shoji{filter:brightness(.34)}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch{--pendant-top:#5a5f5a;--pendant-edge:#3c4240;--pendant-bottom:#484c46}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--unlit-cat-brightness,.64))}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch:not([hidden])[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--unlit-cat-brightness,.64))}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--unlit-cat-brightness,.64))}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--unlit-cat-brightness,.64))}
 /* Reuse the existing sky gradients and star paths: no extra layers or animation. */
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:first-child{stop-color:#01040b}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:nth-child(2){stop-color:#030919}
@@ -210,8 +211,8 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 
 /* Night-only glass glare stays inside the existing sky, behind terrain and panes. */
 [data-night-room-reflection]{opacity:0;transition:opacity 500ms ease-in-out}
-.day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) [data-night-room-reflection]{opacity:.22}
-.day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch:not([hidden])[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) :is([data-major-stars],[data-night-fine-stars]){filter:brightness(.72)}
+.day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) [data-night-room-reflection]{opacity:.22}
+.day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) :is([data-major-stars],[data-night-fine-stars]){filter:brightness(.72)}
 /* Opaque paper admits diffuse light, never points of starlight or the Milky Way. */
 .day-room[data-location=engawa][data-shoji-closed=true] :is([data-major-stars],[data-night-fine-stars],[data-night-milky-way],[data-landscape-stars]){visibility:hidden}
 @media(prefers-reduced-motion:reduce){[data-night-room-reflection]{transition:none}}

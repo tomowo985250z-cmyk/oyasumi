@@ -136,7 +136,7 @@ globalThis.SolarLighting=(()=>{
  const nightEntries=new WeakMap();
  function nightShadows(stage,w){
   const where=stage.dataset.location,at=SolarModel.time(w),night=SolarModel.phase(at)==='night',moon=illumination(w,where);
-  const lamp=where==='room'?stage.querySelector('.room-light-switch:not([hidden])')?.getAttribute('aria-pressed')==='true':where==='engawa'&&stage.dataset.engawaPendant==='on';
+  const lamp=where==='room'?stage.querySelector('.room-light-switch')?.getAttribute('aria-pressed')==='true':where==='engawa'&&stage.dataset.engawaPendant==='on';
   const level=night?(where==='garden'?(moon.source==='moon'?moon.direct:0):lamp?1:0):0;
   let e=nightEntries.get(stage);if(!e){e={};nightEntries.set(stage,e);}
   const light=where==='room'?{x:342,y:65}:{x:200,y:20},color=where==='garden'?'#293b4c':'#514538';

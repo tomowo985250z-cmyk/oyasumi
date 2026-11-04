@@ -253,4 +253,4 @@ html[data-cat-state-pending] .roof-sky-card{visibility:hidden}
 /* Ceramic, rim and food share a single drawn perspective and light palette. */
 .care-bowl>svg{position:absolute;left:0;top:-8px;width:64px;height:32px;display:block;overflow:visible}
 .care-bowl .care-food{display:inline;position:static}
-.day-room[data-location=room]:has(.room-light-switch[aria-pressed=true]:not([hidden])) .care-scene{--care-material-bowl:var(--care-lamp-bowl);--care-material-rim:var(--care-lamp-rim);--care-material-shade:var(--care-lamp-shade);--care-material-food:var(--care-lamp-food);--care-material-light:var(--care-lamp-light);--care-material-treat:var(--care-lamp-treat);--care-material-contact:var(--care-lamp-contact)}
+.day-room[data-location=room]:has(.room-light-switch[aria-pressed=true]) .care-scene{--care-material-bowl:var(--care-lamp-bowl);--care-material-rim:var(--care-lamp-rim);--care-material-shade:var(--care-lamp-shade);--care-material-food:var(--care-lamp-food);--care-material-light:var(--care-lamp-light);--care-material-treat:var(--care-lamp-treat);--care-material-contact:var(--care-lamp-contact)}
