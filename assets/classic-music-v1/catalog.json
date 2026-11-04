@@ -1,14 +1,14 @@
 {
-  "version": 9,
-  "timbre": "Timbre-only balance between the pre-786dd7e recordings and 786dd7e: gentler inharmonic metal/body resonance with retained two-stage fundamental ringing. Five retained performances, pitches, chords, ornaments, tempo, dynamics, player levels and loop periods unchanged. Four independent traditional folk arrangements use the unchanged df8f6b2 instrument and intermediate voices; the five original recordings and their playlist fields remain identical.",
+  "version": 10,
+  "timbre": "Five classical tracks only. Gentle low-register clarity refinement of the df8f6b2 intermediate timbre: shorter low-tine overlap and a small fundamental emphasis, with sample-identical E4-and-higher tines. Exact score notes, voices, ornaments, performance dynamics, timing, tempo and periods preserved.",
   "tracks": [
     {
       "id": "clair-de-lune",
       "title": "月の光",
-      "url": "assets/classic-music-v6/clair-de-lune-box.wav",
+      "url": "assets/classic-music-v7/clair-de-lune-box.wav",
       "loopStart": 0,
       "loopEnd": 137.698,
-      "level": 0.11220355194642766,
+      "level": 0.11220354987864406,
       "bytes": 6609548,
       "source": {
         "composer": "Claude Debussy (1862–1918)",
@@ -33,24 +33,24 @@
       },
       "license": "Public Domain score; original synthesized recording",
       "licenseUrl": "https://www.mutopiaproject.org/legal.html",
-      "rmsDb": -22.998045170387794,
-      "sha256": "be05e6e567313f7bb5a607c95dcbf2f0a5aa475fc3e332908dc803a9daf2c89b",
-      "peakDb": -4.432469931470803,
-      "seamStep": 0.000640869140625,
+      "rmsDb": -23.00175521778392,
+      "sha256": "820fcb8fe4eae999d87548a0e2e0b3f1a92b06f3a8838e0687a23c520cb7d7a7",
+      "peakDb": -4.425973178279428,
+      "seamStep": 0.00067138671875,
       "decoderAnalysis": {
         "rate": 24000,
         "decodedSeconds": 137.698,
         "sourceCorrelation": 1,
         "loopStart": 0,
         "loopEnd": 137.698,
-        "level": 0.11220355194642766,
-        "integratedLufs": -23.00013159723359,
-        "playbackLufs": -41.999999491572815,
-        "peakDb": -4.427066837536303,
+        "level": 0.11220354987864406,
+        "integratedLufs": -23.000131945589725,
+        "playbackLufs": -42,
+        "peakDb": -4.425973178279428,
         "oversampledRate": 96000,
         "clipped": 0,
         "nonFinite": 0,
-        "boundaryStep": 0.000640869140625,
+        "boundaryStep": 0.00067138671875,
         "nativeLoopRendered": true,
         "subjectiveListeningVerified": false,
         "fullPeriodNativeRender": true
@@ -58,15 +58,16 @@
       "seconds": 137.698,
       "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
       "eventHash": "8bd81d0f0eacfd939888b528971da4d4fe254209b03283a9f57f65d322017ab1",
-      "integratedLufs": -23.00013159723359,
+      "integratedLufs": -23.000131945589725,
       "arrangement": "既存の冒頭26小節と終止を維持。分散和音と長い旋律の呼吸をつなぐ。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。既存の26小節抜粋と終止を継承。",
       "processing": {
         "recipe": "../../test-support/music-box-elegant/voices.json",
         "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
         "staticPlaybackCalibration": true,
         "dynamicCompression": false,
-        "timbreRevision": "Moderated metal/body resonance and overlapping decay; exact 786dd7e score events, timing, voicing and static player levels retained.",
-        "comparison": "../classic-music-v6/comparison.json"
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2"
       },
       "tempo": {
         "nativeTimeScale": 1.1,
@@ -80,10 +81,10 @@
     {
       "id": "air-g-string",
       "title": "G線上のアリア",
-      "url": "assets/classic-music-v6/air-g-string.mp3",
+      "url": "assets/classic-music-v7/air-g-string.mp3",
       "loopStart": 0.04604166666666667,
       "loopEnd": 162.28604166666668,
-      "level": 0.11811106515523531,
+      "level": 0.11811116857369872,
       "bytes": 1947456,
       "source": {
         "id": 242,
@@ -132,39 +133,40 @@
       "recordingLicense": "Creative Commons Attribution-ShareAlike 3.0",
       "arrangement": "第一声部を自然に前へ出し、内声と低音を保つ。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
       "seconds": 162.24,
-      "rmsDb": -22.893529215359294,
-      "peakDb": -7.378980992276999,
-      "seamStep": 0.0004130804445594549,
-      "sha256": "ef5a2bdadc4c960624960c4acb29dced82bd4b53d5c501f4db367a27418c4570",
+      "rmsDb": -22.909792738544486,
+      "peakDb": -7.399210831644931,
+      "seamStep": 0.0004847981035709381,
+      "sha256": "0eb93bd8437e84ff8ff65fa9ffe0dd00e55eaaffd44363d3198131f7f3cdb5ef",
       "eventHash": "5feb9cb369229063cbfe2ce0a5c8f94bde52895a1105692ca845fa75fb3f8638",
       "processing": {
         "recipe": "../../test-support/music-box-elegant/voices.json",
         "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
         "staticPlaybackCalibration": true,
         "dynamicCompression": false,
-        "timbreRevision": "Moderated metal/body resonance and overlapping decay; exact 786dd7e score events, timing, voicing and static player levels retained.",
-        "comparison": "../classic-music-v6/comparison.json"
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2"
       },
       "decoderAnalysis": {
         "rate": 24000,
         "decodedSeconds": 162.288,
-        "sourceCorrelation": 0.9999998478320241,
+        "sourceCorrelation": 0.9999995261486014,
         "loopStart": 0.04604166666666667,
         "loopEnd": 162.28604166666668,
-        "level": 0.11811106515523531,
-        "integratedLufs": -23.445815793442165,
-        "playbackLufs": -42.00000407135792,
-        "peakDb": -7.3718503619673825,
+        "level": 0.11811116857369872,
+        "integratedLufs": -23.445819327476386,
+        "playbackLufs": -42,
+        "peakDb": -7.399210831644931,
         "oversampledRate": 96000,
         "clipped": 0,
         "nonFinite": 0,
-        "boundaryStep": 0.0004130804445594549,
+        "boundaryStep": 0.0004847981035709381,
         "nativeLoopRendered": true,
         "subjectiveListeningVerified": false,
         "fullPeriodNativeRender": true
       },
       "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
-      "integratedLufs": -23.445815793442165,
+      "integratedLufs": -23.445819327476386,
       "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x0.94. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
       "tempo": {
         "nativeTimeScale": 1.04,
@@ -176,10 +178,10 @@
     {
       "id": "nocturne-9-2",
       "title": "ノクターン第2番 Op.9-2",
-      "url": "assets/classic-music-v6/nocturne-9-2.mp3",
+      "url": "assets/classic-music-v7/nocturne-9-2.mp3",
       "loopStart": 0.04604166666666667,
       "loopEnd": 226.94583333333333,
-      "level": 0.11811071366285894,
+      "level": 0.1181104501865152,
       "bytes": 2723616,
       "source": {
         "id": 1590,
@@ -210,39 +212,40 @@
       "recordingLicense": "Creative Commons Attribution-ShareAlike 3.0",
       "arrangement": "装飾音はすべて残し、短い余韻と細かな緩急で歌う右手を生かす。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
       "seconds": 226.89979166666666,
-      "rmsDb": -23.155336515211573,
-      "peakDb": -6.597075598991009,
-      "seamStep": 0.00043521922634681687,
-      "sha256": "ac5ab63d1ddaed562e7d1562174105836548209d57b90ce32919843d752fad51",
+      "rmsDb": -23.165536517355072,
+      "peakDb": -6.593454253173119,
+      "seamStep": 0.0003682113383547403,
+      "sha256": "78190adcd4b8db536127b0a30208dc4ac4a42b39c1fe454c65c5f4c949bc0a67",
       "eventHash": "bd0e72fad28e2655fd366fcbb39f22ca946fddfe84180a734fa73831ea4a8aef",
       "processing": {
         "recipe": "../../test-support/music-box-elegant/voices.json",
         "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
         "staticPlaybackCalibration": true,
         "dynamicCompression": false,
-        "timbreRevision": "Moderated metal/body resonance and overlapping decay; exact 786dd7e score events, timing, voicing and static player levels retained.",
-        "comparison": "../classic-music-v6/comparison.json"
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2"
       },
       "decoderAnalysis": {
         "rate": 24000,
         "decodedSeconds": 226.968,
-        "sourceCorrelation": 0.9999998784053498,
+        "sourceCorrelation": 0.9999998544606226,
         "loopStart": 0.04604166666666667,
         "loopEnd": 226.94583333333333,
-        "level": 0.11811071366285894,
-        "integratedLufs": -23.44579243951144,
-        "playbackLufs": -42.00000656622069,
-        "peakDb": -6.597074492499302,
+        "level": 0.1181104501865152,
+        "integratedLufs": -23.445766497156907,
+        "playbackLufs": -42,
+        "peakDb": -6.593454253173119,
         "oversampledRate": 96000,
         "clipped": 0,
         "nonFinite": 0,
-        "boundaryStep": 0.00043521922634681687,
+        "boundaryStep": 0.0003682113383547403,
         "nativeLoopRendered": true,
         "subjectiveListeningVerified": false,
         "fullPeriodNativeRender": true
       },
       "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
-      "integratedLufs": -23.44579243951144,
+      "integratedLufs": -23.445766497156907,
       "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
       "tempo": {
         "nativeTimeScale": 1.1,
@@ -254,10 +257,10 @@
     {
       "id": "traumerei",
       "title": "トロイメライ",
-      "url": "assets/classic-music-v6/traumerei.mp3",
+      "url": "assets/classic-music-v7/traumerei.mp3",
       "loopStart": 0.04604166666666667,
       "loopEnd": 123.90404166666667,
-      "level": 0.11811020778341474,
+      "level": 0.11811078249318682,
       "bytes": 1486944,
       "source": {
         "id": 504,
@@ -288,39 +291,40 @@
       "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
       "arrangement": "旋律・内声の受け渡しを丸い発音と二段階の余韻でつなぐ。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
       "seconds": 123.858,
-      "rmsDb": -22.92585635087782,
-      "peakDb": -7.544435900455318,
-      "seamStep": 0.0003027727361768484,
-      "sha256": "7138107a6aaf48235e725b09d44fdac6fbe216527fdf36b32b5c82a95406c159",
+      "rmsDb": -22.94169314991741,
+      "peakDb": -7.451556637797352,
+      "seamStep": 0.00003532576374709606,
+      "sha256": "3251bad0095d7708104d319f2524914459aa0308ad7c699f06a41a7e7756843a",
       "eventHash": "54fdc0a16c3af17476a54f6cde072318cea4c1d733d7c5147fdf8b4259792316",
       "processing": {
         "recipe": "../../test-support/music-box-elegant/voices.json",
         "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
         "staticPlaybackCalibration": true,
         "dynamicCompression": false,
-        "timbreRevision": "Moderated metal/body resonance and overlapping decay; exact 786dd7e score events, timing, voicing and static player levels retained.",
-        "comparison": "../classic-music-v6/comparison.json"
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2"
       },
       "decoderAnalysis": {
         "rate": 24000,
         "decodedSeconds": 123.912,
-        "sourceCorrelation": 0.9999999664768799,
+        "sourceCorrelation": 0.9999999004401204,
         "loopStart": 0.04604166666666667,
         "loopEnd": 123.90404166666667,
-        "level": 0.11811020778341474,
-        "integratedLufs": -23.44579365834464,
-        "playbackLufs": -42.000044987626765,
-        "peakDb": -7.5408512446102325,
+        "level": 0.11811078249318682,
+        "integratedLufs": -23.445790935087764,
+        "playbackLufs": -42,
+        "peakDb": -7.451556637797352,
         "oversampledRate": 96000,
         "clipped": 0,
         "nonFinite": 0,
-        "boundaryStep": 0.0003027727361768484,
+        "boundaryStep": 0.00003532576374709606,
         "nativeLoopRendered": true,
         "subjectiveListeningVerified": false,
         "fullPeriodNativeRender": true
       },
       "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
-      "integratedLufs": -23.44579365834464,
+      "integratedLufs": -23.445790935087764,
       "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
       "tempo": {
         "nativeTimeScale": 1.08,
@@ -332,10 +336,10 @@
     {
       "id": "gymnopedie-1",
       "title": "ジムノペディ第1番",
-      "url": "assets/classic-music-v6/gymnopedie-1.mp3",
+      "url": "assets/classic-music-v7/gymnopedie-1.mp3",
       "loopStart": 0.04604166666666667,
       "loopEnd": 168.24604166666666,
-      "level": 0.11810839193308242,
+      "level": 0.11810835331585003,
       "bytes": 2019168,
       "source": {
         "id": 37,
@@ -366,39 +370,40 @@
       "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
       "arrangement": "三拍子の間と解決しない和声を保ち、広い呼吸と穏やかな低音を残す。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
       "seconds": 168.2,
-      "rmsDb": -22.60147382938433,
-      "peakDb": -6.503847899262752,
-      "seamStep": 0.000576456543058157,
-      "sha256": "1eea46a5fb8706410ba2e49c852b98302a8d6c6a99783c89151cbc5a7e03605b",
+      "rmsDb": -22.634093184358854,
+      "peakDb": -6.485193268601734,
+      "seamStep": 0.00039806822314858437,
+      "sha256": "98458a2f2fc82ba925930416c63755c50da05f235ec90ffb7020f9e0fce5d1ae",
       "eventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44",
       "processing": {
         "recipe": "../../test-support/music-box-elegant/voices.json",
         "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
         "staticPlaybackCalibration": true,
         "dynamicCompression": false,
-        "timbreRevision": "Moderated metal/body resonance and overlapping decay; exact 786dd7e score events, timing, voicing and static player levels retained.",
-        "comparison": "../classic-music-v6/comparison.json"
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2"
       },
       "decoderAnalysis": {
         "rate": 24000,
         "decodedSeconds": 168.264,
-        "sourceCorrelation": 0.999999629518647,
+        "sourceCorrelation": 0.9999999906903784,
         "loopStart": 0.04604166666666667,
         "loopEnd": 168.24604166666666,
-        "level": 0.11810839193308242,
-        "integratedLufs": -23.44559595439509,
-        "playbackLufs": -41.99998082333586,
-        "peakDb": -6.503824363695097,
+        "level": 0.11810835331585003,
+        "integratedLufs": -23.445612291082593,
+        "playbackLufs": -42,
+        "peakDb": -6.485193268601734,
         "oversampledRate": 96000,
         "clipped": 0,
         "nonFinite": 0,
-        "boundaryStep": 0.000576456543058157,
+        "boundaryStep": 0.00039806822314858437,
         "nativeLoopRendered": true,
         "subjectiveListeningVerified": false,
         "fullPeriodNativeRender": true
       },
       "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
-      "integratedLufs": -23.44559595439509,
+      "integratedLufs": -23.445612291082593,
       "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
       "tempo": {
         "nativeTimeScale": 1.16,
@@ -406,214 +411,6 @@
         "sharedTempoCeiling": false
       },
       "performanceEventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44"
-    },
-    {
-      "id": "greensleeves",
-      "title": "グリーンスリーブス",
-      "url": "assets/folk-music-v1/greensleeves.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 196.579375,
-      "level": 0.1181106611210849,
-      "bytes": 2359008,
-      "sha256": "6f46ce22c3e64239b2256e203de96a4464969624103f16dc20019aa27b9a5e80",
-      "seconds": 196.53333333333333,
-      "source": {
-        "composer": "Traditional / 作者不詳の伝承旋律",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=109",
-        "edition": "Traditional melody, Mutopia-2013/03/23-109, Public Domain; melody voice only. Each six-beat text bar comprises two original 3/4 measures.",
-        "license": "Public Domain traditional melody",
-        "sources": [
-          {
-            "file": "greensleeves.ly",
-            "sha256": "255ea5f776564ab917cdf2fbe7c04bb7a15a2a2c509aad6aa2e5b0a4547c2cc4"
-          }
-        ]
-      },
-      "license": "Public Domain melody; independent original arrangement and synthesized recording dedicated to CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "recordingLicense": "CC0 1.0",
-      "arrangement": "歴史的な旋律のみを参照し、伴奏・強弱・フレーズを独自制作。2巡目は分散和音の音順を変え、終止の余韻を確保。現代の録音・編曲・歌詞を不使用。",
-      "sourceEventHash": "9d1e27d6b784747eb4c50e47a87888d3e90dc0e0ef9ca8f053830e27cc6fa983",
-      "performanceEventHash": "14d03cb0554f5f8a582412c0c6bb5e78c9ca81aee289366682e09c6a64ee6d38",
-      "decoderAnalysis": {
-        "rate": 24000,
-        "integratedLufs": -23.445782009355483,
-        "playbackLufs": -42,
-        "oversampledRate": 96000,
-        "oversampledPeak": 0.32300204038619995,
-        "clipped": 0,
-        "nonFinite": 0,
-        "fullPeriodNativeRender": true,
-        "subjectiveListeningVerified": false
-      },
-      "processing": {
-        "recipe": "../../test-support/music-box-folk/render.cjs",
-        "recipeBase": "clair-de-lune",
-        "timbreBaseline": "df8f6b2",
-        "staticPlaybackCalibration": true,
-        "dynamicCompression": false
-      },
-      "tempo": {
-        "quarterBpm": 65.45454545454545,
-        "smoothPhraseTiming": true
-      }
-    },
-    {
-      "id": "londonderry-air",
-      "title": "ロンドンデリーの歌（ダニー・ボーイ）",
-      "url": "assets/folk-music-v1/londonderry-air.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 151.88604166666667,
-      "level": 0.11810978002994638,
-      "bytes": 1822752,
-      "sha256": "0c879a494eac2aed77915ae0959e2866a4405f7d82a81adcc168560485ceab64",
-      "seconds": 151.84,
-      "source": {
-        "composer": "Traditional / 作者不詳の伝承旋律",
-        "page": "https://archive.org/details/petriecollection01petr/page/57/mode/1up",
-        "edition": "The Petrie Collection of the Ancient Music of Ireland (1855), p.57; traditional melody only, including the printed chromatic passing note. No Danny Boy lyrics or modern arrangement.",
-        "license": "Public Domain traditional melody",
-        "sources": [
-          {
-            "file": "londonderry.jpg",
-            "sha256": "acdda47e274aec2689626b5938a75049beb333e9f3665083b4b2ffd779839417"
-          }
-        ]
-      },
-      "license": "Public Domain melody; independent original arrangement and synthesized recording dedicated to CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "recordingLicense": "CC0 1.0",
-      "arrangement": "歴史的な旋律のみを参照し、伴奏・強弱・フレーズを独自制作。2巡目は分散和音の音順を変え、終止の余韻を確保。現代の録音・編曲・歌詞を不使用。",
-      "sourceEventHash": "8ca65fcdc94f610b3e930bbbbeb2c1fc8be8c8ce3e929dd813104e3a58683ebf",
-      "performanceEventHash": "b2e22e5221885a5e3100bc754bf45b6950d20fb4e82332e4f4aee825cb6ac656",
-      "decoderAnalysis": {
-        "rate": 24000,
-        "integratedLufs": -23.445717213435596,
-        "playbackLufs": -42,
-        "oversampledRate": 96000,
-        "oversampledPeak": 0.3629179000854492,
-        "clipped": 0,
-        "nonFinite": 0,
-        "fullPeriodNativeRender": true,
-        "subjectiveListeningVerified": false
-      },
-      "processing": {
-        "recipe": "../../test-support/music-box-folk/render.cjs",
-        "recipeBase": "air-g-string",
-        "timbreBaseline": "df8f6b2",
-        "staticPlaybackCalibration": true,
-        "dynamicCompression": false
-      },
-      "tempo": {
-        "quarterBpm": 57.69230769230769,
-        "smoothPhraseTiming": true
-      }
-    },
-    {
-      "id": "scarborough-fair",
-      "title": "スカボロー・フェア",
-      "url": "assets/folk-music-v1/scarborough-fair.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 108.96241666666667,
-      "level": 0.1181096644472217,
-      "bytes": 1307808,
-      "sha256": "a4191c6c5fddf065a5e7d4a50e365ed81f97be552061be5d35d5f0728ef96719",
-      "seconds": 108.916375,
-      "source": {
-        "composer": "Traditional / 作者不詳の伝承旋律",
-        "page": "https://archive.org/details/imslp-tunes-kidson-frank/page/n175/mode/1up",
-        "edition": "Frank Kidson, Traditional Tunes (1891), p.172, second version from A. Wardill, Goathland. Historical modal variant; not a transcription of the modern popular arrangement.",
-        "license": "Public Domain traditional melody",
-        "sources": [
-          {
-            "file": "kidson.pdf",
-            "sha256": "a969ff1a8ba758a2deed3c1e0905e3c195a88847d0e506f12fcac9c251d4977f"
-          },
-          {
-            "file": "kidson-p172.jpg",
-            "sha256": "af1ccfeb0690756c0c7f531a77b100fc1d6d95f94eb2f31e2f0d0f81199bdad5"
-          }
-        ]
-      },
-      "license": "Public Domain melody; independent original arrangement and synthesized recording dedicated to CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "recordingLicense": "CC0 1.0",
-      "arrangement": "歴史的な旋律のみを参照し、伴奏・強弱・フレーズを独自制作。2巡目は分散和音の音順を変え、終止の余韻を確保。現代の録音・編曲・歌詞を不使用。",
-      "sourceEventHash": "07365029db482c99858ec905726b95ca1a86059e476f97eac5054bc18eb1b1b8",
-      "performanceEventHash": "a51f3708c4271d8756b940d8520f59c4fc55dba08dd32f897465a911890c1e26",
-      "decoderAnalysis": {
-        "rate": 24000,
-        "integratedLufs": -23.44570871338351,
-        "playbackLufs": -42,
-        "oversampledRate": 96000,
-        "oversampledPeak": 0.30178937315940857,
-        "clipped": 0,
-        "nonFinite": 0,
-        "fullPeriodNativeRender": true,
-        "subjectiveListeningVerified": false
-      },
-      "processing": {
-        "recipe": "../../test-support/music-box-folk/render.cjs",
-        "recipeBase": "air-g-string",
-        "timbreBaseline": "df8f6b2",
-        "staticPlaybackCalibration": true,
-        "dynamicCompression": false
-      },
-      "tempo": {
-        "quarterBpm": 63.46153846153846,
-        "smoothPhraseTiming": true
-      }
-    },
-    {
-      "id": "auld-lang-syne",
-      "title": "蛍の光（オールド・ラング・サイン）",
-      "url": "assets/folk-music-v1/auld-lang-syne.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 127.25866666666667,
-      "level": 0.11805976918242193,
-      "bytes": 1527264,
-      "sha256": "6b26f6aa455f3300dd1a8f98c71c8a4e2cc00a7767bbb7dc851a5083942bab23",
-      "seconds": 127.212625,
-      "source": {
-        "composer": "Traditional / 作者不詳の伝承旋律",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1121",
-        "edition": "Traditional Scottish melody in F. Horetzky (1796–1870), 60 National Airs, No.31, Boije #268; Mutopia-1121 Public Domain engraving. Upper melody only, note values doubled for a spacious four-beat reading. No Japanese/English lyrics or historical guitar accompaniment copied.",
-        "license": "Public Domain traditional melody",
-        "sources": [
-          {
-            "file": "auld-lang-syne.ly",
-            "sha256": "5bcbca4be3618f44eb6c34c50ec31ec14cd11a453fd48ddb7b3c1a1578f6c33a"
-          }
-        ]
-      },
-      "license": "Public Domain melody; independent original arrangement and synthesized recording dedicated to CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "recordingLicense": "CC0 1.0",
-      "arrangement": "歴史的な旋律のみを参照し、伴奏・強弱・フレーズを独自制作。2巡目は分散和音の音順を変え、終止の余韻を確保。現代の録音・編曲・歌詞を不使用。",
-      "sourceEventHash": "dba1156389c168dd68c48f3feb5935e1f8d56fd57dbf415a42b1c71017449df3",
-      "performanceEventHash": "b281faa759782753567f4f74bdb8117b4c427d37435bbe7e8e22200cfd3a963d",
-      "decoderAnalysis": {
-        "rate": 24000,
-        "integratedLufs": -23.4420385960165,
-        "playbackLufs": -42,
-        "oversampledRate": 96000,
-        "oversampledPeak": 0.33511510491371155,
-        "clipped": 0,
-        "nonFinite": 0,
-        "fullPeriodNativeRender": true,
-        "subjectiveListeningVerified": false
-      },
-      "processing": {
-        "recipe": "../../test-support/music-box-folk/render.cjs",
-        "recipeBase": "traumerei",
-        "timbreBaseline": "df8f6b2",
-        "staticPlaybackCalibration": true,
-        "dynamicCompression": false
-      },
-      "tempo": {
-        "quarterBpm": 70.37037037037037,
-        "smoothPhraseTiming": true
-      }
     }
   ],
   "missing": [],
@@ -706,11 +503,10 @@
     "recordingNominalLufs": -23,
     "dynamicCompression": false,
     "technicalPeakProtection": true,
-    "worstCaseMixedHeadroomDb": 19.19867186280681,
+    "worstCaseMixedHeadroomDb": 19.19759657243174,
     "referenceRecord": "../classic-music-v5/references.json",
-    "review": "../classic-music-v6/review.html",
+    "review": "../classic-music-v7/review.html",
     "perTrackTempoScaling": true,
     "physicalDeviceListeningVerified": false
-  },
-  "folkReview": "../folk-music-v1/production.json"
+  }
 }

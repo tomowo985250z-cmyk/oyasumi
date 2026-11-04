@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "policy": "One independent plucked-tine family with composition-specific ringing, register balance and smooth phrase timing. Score notes, grace notes, voices and chords retained. Static mastering/calibration preserves dynamics and quiet coexistence with nature sounds. No reference audio, arrangement or timbre data used. Timbre-only revision comparing 786dd7e with its parent: retain the exact five retained performances, tuning, register balance and playback calibration; ease inharmonic metal/body energy and overlapping tails without removing score harmonies.",
+  "version": 3,
+  "policy": "Timbre-only low-register clarity refinement of df8f6b2: preserve all five performances, pitches, chords, ornaments, dynamics, timing and upper-register tines. Below E4, gradually reduce extended low-tine decay and inharmonic overlap with a small fundamental emphasis. No harmony/pitch correction, EQ or compression; unchanged upper ringing and wood-box response.",
   "voices": [
     {
       "id": "clair-de-lune",
@@ -45,7 +45,8 @@
       ],
       "woodAmount": 0.0097,
       "pairedTineWeight": 0.01,
-      "playbackLufs": -42
+      "playbackLufs": -42,
+      "bassClarity": 0.16
     },
     {
       "id": "air-g-string",
@@ -90,7 +91,8 @@
       ],
       "woodAmount": 0.0108,
       "pairedTineWeight": 0.01,
-      "playbackLufs": -42
+      "playbackLufs": -42,
+      "bassClarity": 0.18
     },
     {
       "id": "nocturne-9-2",
@@ -135,7 +137,8 @@
       ],
       "woodAmount": 0.0089,
       "pairedTineWeight": 0.01,
-      "playbackLufs": -42
+      "playbackLufs": -42,
+      "bassClarity": 0.14
     },
     {
       "id": "traumerei",
@@ -180,7 +183,8 @@
       ],
       "woodAmount": 0.0105,
       "pairedTineWeight": 0.01,
-      "playbackLufs": -42
+      "playbackLufs": -42,
+      "bassClarity": 0.16
     },
     {
       "id": "gymnopedie-1",
@@ -225,7 +229,8 @@
       ],
       "woodAmount": 0.0112,
       "pairedTineWeight": 0.01,
-      "playbackLufs": -42
+      "playbackLufs": -42,
+      "bassClarity": 0.17
     }
   ]
 }
