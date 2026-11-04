@@ -100,6 +100,9 @@ globalThis.TatamiWallStudy=(()=>{
   const mix=SeasonLandscape.mix;
   const planePoly=(coords,attrs={})=>node('polygon',{points:points(coords.map(p=>project(...p))),...attrs});
   const planeD=coords=>'M'+coords.map(p=>project(...p).map(number).join(' ')).join('L')+'Z';
+  // Individually clipped mats leave antialiased gaps over the pale scene
+  // backdrop. Back those gaps with quiet joint ink as the room turns dark.
+  floor.append(planePoly([[0,0],[3,0],[3,4],[0,4]],{fill:tone.dark,opacity:SolarModel.weights(SolarModel.time(w)).night}));
   for(const [index,[x,y,width,height]]of mats.entries()){
    const alongX=width>height,local=(u,v)=>alongX?[x+u,y+v]:[x+v,y+u],rect=(u0,v0,u1,v1)=>[local(u0,v0),local(u1,v0),local(u1,v1),local(u0,v1)];
    const mat=node('g',{'data-tatami-mat':index,'data-world-size':width+' '+height,'data-long-axis':alongX?'x':'y','data-grain-direction':alongX?'y':'x',filter:'url(#'+relief.id+')'}),quad=[[x,y],[x+width,y],[x+width,y+height],[x,y+height]];
