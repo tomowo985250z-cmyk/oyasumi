@@ -15,3 +15,9 @@
 ```powershell
 node test-support/music-box-elegant/render.cjs <新しい空の出力先>
 ```
+
+## 音色のみの中間調整（v6）
+
+786dd7eと直前の旧版5曲を比較し、`voices.json` の金属モード量・木箱共鳴/反射・減衰と二段階の配分だけを曲別に調整しました。基音の余韻は残します。音符・同時和音・装飾音・時間写像・速度・声部の強弱・配信用の固定ゲインは786dd7eと完全一致します。合成器とレンダー処理自体は変更しません。月光は旧版に未収録です。
+
+履歴は上書きせず、配信は `assets/classic-music-v6/`。同フォルダの `review.html`、`comparison.json`、`production.json` に比較・技術検証を記録します。主観的聴感評価・実機確認は未実施です。

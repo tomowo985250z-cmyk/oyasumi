@@ -1,0 +1,1519 @@
+{
+  "baselineCommit": "786dd7e",
+  "oldCommit": "786dd7e^ (d5572a8)",
+  "subjectiveListeningVerified": false,
+  "note": "Five common historical recordings and archived measurements are reused. Moonlight did not exist in the old selection; no old Moonlight recording is claimed or fabricated. Formula/key measurements compare only the old instrument family where an actual old recipe exists. No numeric averaging of inharmonic gains that would preserve the unwanted ringing.",
+  "tracks": [
+    {
+      "id": "clair-de-lune",
+      "oldRecordingAvailable": true,
+      "oldVoice": {
+        "id": "clair-de-lune",
+        "nativeTimeScale": 1.03,
+        "decay": 1.65,
+        "decaySpan": 45,
+        "metal": [
+          0.205,
+          0.041,
+          0.006
+        ],
+        "tineCents": 1.1,
+        "driftCents": 0.3,
+        "reflection": 0.025,
+        "dynamicExponent": 1,
+        "bassWeight": 0.64,
+        "lidHz": 4900,
+        "nominalLufs": -41.7,
+        "reason": "月の光：分散和音の重なりを長めの二段減衰と木箱の奥行きで表現。従来の句内の揺れを残す。",
+        "modes": [
+          1,
+          2.7571149999999998,
+          5.40482,
+          8.933
+        ],
+        "attackMs": 1.5,
+        "slowWeight": 0.23,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.009500000000000001,
+        "pairedTineWeight": 0.012
+      },
+      "currentVoice": {
+        "id": "clair-de-lune",
+        "nativeTimeScale": 1.1,
+        "decay": 1.82,
+        "decaySpan": 50,
+        "metal": [
+          0.18,
+          0.032,
+          0.0045
+        ],
+        "tineCents": 0.78,
+        "driftCents": 0.13,
+        "reflection": 0.027,
+        "bassWeight": 0.66,
+        "lidHz": 4800,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.045,
+        "swell": 0.09,
+        "phraseSwell": 0.035,
+        "melodyFloor": 65,
+        "melodyDuration": 0.4,
+        "graceFloor": 80,
+        "melodyGain": 1.06,
+        "accompanimentGain": 0.98,
+        "allUpperMelody": false,
+        "reason": "既存の冒頭26小節と終止を維持。分散和音と長い旋律の呼吸をつなぐ。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.22,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.01026,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "adjustedVoice": {
+        "id": "clair-de-lune",
+        "nativeTimeScale": 1.1,
+        "decay": 1.74,
+        "decaySpan": 50,
+        "metal": [
+          0.13,
+          0.024,
+          0.0034
+        ],
+        "tineCents": 0.78,
+        "driftCents": 0.13,
+        "reflection": 0.024,
+        "bassWeight": 0.66,
+        "lidHz": 4800,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.045,
+        "swell": 0.09,
+        "phraseSwell": 0.035,
+        "melodyFloor": 65,
+        "melodyDuration": 0.4,
+        "graceFloor": 80,
+        "melodyGain": 1.06,
+        "accompanimentGain": 0.98,
+        "allUpperMelody": false,
+        "reason": "既存の冒頭26小節と終止を維持。分散和音と長い旋律の呼吸をつなぐ。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.225,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0097,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "changedTimbreKeys": [
+        "decay",
+        "metal",
+        "reflection",
+        "slowWeight",
+        "woodAmount"
+      ],
+      "exactPerformancePreserved": true,
+      "performanceEventHash": "8bd81d0f0eacfd939888b528971da4d4fe254209b03283a9f57f65d322017ab1",
+      "sourceNotes": 542,
+      "currentSeconds": 137.698,
+      "oldRecordedMetrics": {
+        "lufs": -41.700119713356976,
+        "rmsDb": -41.68271093783886,
+        "peakDb": -23.741406630419604,
+        "peak": 0.06500244140625,
+        "blockCount": 1286,
+        "gatedBlocks": 1171,
+        "relativeGateLufs": -52.08421778281573,
+        "rate": 24000,
+        "frames": 258,
+        "centroidHz": 611.4760261202451,
+        "above4kHzEnergyPercent": 0.010998614471382308,
+        "below180HzEnergyPercent": 0.14700921608770579,
+        "sourceCorrelation": 1,
+        "decodedSeconds": 128.93541666666667,
+        "loopStart": 0,
+        "loopEnd": 128.93541666666667,
+        "period": 128.93541666666667,
+        "oversampledPeak": 0.06500592827796936,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "seam": 0.000091552734375,
+        "boundaryNeighbourDelta": 0.0002136295661330223,
+        "id": "clair-de-lune",
+        "title": "月の光",
+        "level": 1.0000137826045392,
+        "normalizedLufs": -41.7,
+        "normalizedRmsDb": -41.68259122448189,
+        "normalizedPeakDb": -23.74082099962951,
+        "maxPlaybackPeakDb": -25.679021259790638,
+        "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+        "performanceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+        "timeScale": 1.03
+      },
+      "currentRecordedMetrics": {
+        "centroidHz": 616.3153033945077,
+        "above4kHzEnergyPercent": 0.006788566193130823,
+        "below180HzEnergyPercent": 0.11939474246160017,
+        "normalizedLufs": -42
+      },
+      "keys": [
+        {
+          "midi": 48,
+          "old": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.7151666666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 19.09063989264614,
+            "modelInharmonicToFundamentalEnergy": 0.016570016796396102
+          },
+          "current": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.9353333333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 20.942770359655896,
+            "modelInharmonicToFundamentalEnergy": 0.0127998920862822
+          },
+          "adjusted": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.785458333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 19.74939848817344,
+            "modelInharmonicToFundamentalEnergy": 0.0066644324956786506
+          }
+        },
+        {
+          "midi": 60,
+          "old": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.149125,
+            "measuredEnergyAfterTwoSecondsPercent": 14.262413368057171,
+            "modelInharmonicToFundamentalEnergy": 0.01656963969777314
+          },
+          "current": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.39575,
+            "measuredEnergyAfterTwoSecondsPercent": 16.432150116854253,
+            "modelInharmonicToFundamentalEnergy": 0.012799602709324913
+          },
+          "adjusted": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.2671666666666668,
+            "measuredEnergyAfterTwoSecondsPercent": 15.365001074956126,
+            "modelInharmonicToFundamentalEnergy": 0.006664275831268246
+          }
+        },
+        {
+          "midi": 72,
+          "old": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.5974583333333334,
+            "measuredEnergyAfterTwoSecondsPercent": 9.56565258450644,
+            "modelInharmonicToFundamentalEnergy": 0.01654687781808414
+          },
+          "current": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.840375,
+            "measuredEnergyAfterTwoSecondsPercent": 11.644305339918807,
+            "modelInharmonicToFundamentalEnergy": 0.012782063956797513
+          },
+          "adjusted": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.731125,
+            "measuredEnergyAfterTwoSecondsPercent": 10.742317785192192,
+            "modelInharmonicToFundamentalEnergy": 0.006654804855878198
+          }
+        },
+        {
+          "midi": 84,
+          "old": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.1719166666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 6.274084364200409,
+            "modelInharmonicToFundamentalEnergy": 0.01569564906864781
+          },
+          "current": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.42775,
+            "measuredEnergyAfterTwoSecondsPercent": 8.251594194681378,
+            "modelInharmonicToFundamentalEnergy": 0.012091007121794669
+          },
+          "adjusted": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.3343333333333334,
+            "measuredEnergyAfterTwoSecondsPercent": 7.506711310977742,
+            "modelInharmonicToFundamentalEnergy": 0.006289942168489339
+          }
+        }
+      ]
+    },
+    {
+      "id": "air-g-string",
+      "oldRecordingAvailable": true,
+      "oldVoice": {
+        "id": "air-g-string",
+        "nativeTimeScale": 0.94,
+        "decay": 1.9,
+        "decaySpan": 52,
+        "metal": [
+          0.155,
+          0.03,
+          0.004
+        ],
+        "tineCents": 0.65,
+        "driftCents": 0.18,
+        "reflection": 0.032,
+        "dynamicExponent": 0.92,
+        "bassWeight": 0.72,
+        "lidHz": 4600,
+        "nominalLufs": -42.6,
+        "reason": "G線上のアリア：長い旋律線を、丸いアタックと豊かな基音の残響でつなぐ。",
+        "modes": [
+          1,
+          2.756965,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.4,
+        "slowWeight": 0.19,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.01216,
+        "pairedTineWeight": 0.012
+      },
+      "currentVoice": {
+        "id": "air-g-string",
+        "nativeTimeScale": 1.04,
+        "decay": 1.98,
+        "decaySpan": 53,
+        "metal": [
+          0.165,
+          0.03,
+          0.004
+        ],
+        "tineCents": 0.7,
+        "driftCents": 0.12,
+        "reflection": 0.03,
+        "bassWeight": 0.66,
+        "lidHz": 4600,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.055,
+        "swell": 0.1,
+        "phraseSwell": 0.035,
+        "melodyFloor": 60,
+        "melodyDuration": 0.4,
+        "graceFloor": 78,
+        "melodyGain": 1.12,
+        "accompanimentGain": 0.88,
+        "allUpperMelody": true,
+        "reason": "第一声部を自然に前へ出し、内声と低音を保つ。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.22,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0114,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "adjustedVoice": {
+        "id": "air-g-string",
+        "nativeTimeScale": 1.04,
+        "decay": 1.94,
+        "decaySpan": 53,
+        "metal": [
+          0.125,
+          0.023,
+          0.003
+        ],
+        "tineCents": 0.7,
+        "driftCents": 0.12,
+        "reflection": 0.0285,
+        "bassWeight": 0.66,
+        "lidHz": 4600,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.055,
+        "swell": 0.1,
+        "phraseSwell": 0.035,
+        "melodyFloor": 60,
+        "melodyDuration": 0.4,
+        "graceFloor": 78,
+        "melodyGain": 1.12,
+        "accompanimentGain": 0.88,
+        "allUpperMelody": true,
+        "reason": "第一声部を自然に前へ出し、内声と低音を保つ。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.205,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0108,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "changedTimbreKeys": [
+        "decay",
+        "metal",
+        "reflection",
+        "slowWeight",
+        "woodAmount"
+      ],
+      "exactPerformancePreserved": true,
+      "performanceEventHash": "5feb9cb369229063cbfe2ce0a5c8f94bde52895a1105692ca845fa75fb3f8638",
+      "sourceNotes": 512,
+      "currentSeconds": 162.24,
+      "oldRecordedMetrics": {
+        "lufs": -43.04577888951505,
+        "rmsDb": -42.427464566994644,
+        "peakDb": -27.224481922297116,
+        "peak": 0.0435287207365036,
+        "blockCount": 1463,
+        "gatedBlocks": 1420,
+        "relativeGateLufs": -53.170944563807424,
+        "rate": 24000,
+        "frames": 293,
+        "centroidHz": 417.07118932011883,
+        "above4kHzEnergyPercent": 0.0012512621633105684,
+        "below180HzEnergyPercent": 16.823791793031077,
+        "sourceCorrelation": 0.999996292557535,
+        "decodedSeconds": 146.688,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 146.68604166666665,
+        "period": 146.64,
+        "oversampledPeak": 0.043531015515327454,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "seam": 0.00004095869371667504,
+        "boundaryNeighbourDelta": 0.0017748423852026463,
+        "id": "air-g-string",
+        "title": "G線上のアリア",
+        "level": 1.052661997177272,
+        "normalizedLufs": -42.6,
+        "normalizedRmsDb": -41.9816856774796,
+        "normalizedPeakDb": -26.778245135791554,
+        "maxPlaybackPeakDb": -28.71644539595268,
+        "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
+        "performanceEventHash": "64a064317336adad8fa630a5fd6e351be046fae96b961834682ba6c60de0523e",
+        "timeScale": 0.94
+      },
+      "currentRecordedMetrics": {
+        "centroidHz": 454.4690177883231,
+        "above4kHzEnergyPercent": 0.0012674635248473023,
+        "below180HzEnergyPercent": 13.647011121267543,
+        "normalizedLufs": -42
+      },
+      "keys": [
+        {
+          "midi": 48,
+          "old": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.9662083333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 21.311139384659302,
+            "modelInharmonicToFundamentalEnergy": 0.00969105738701377
+          },
+          "current": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.203875,
+            "measuredEnergyAfterTwoSecondsPercent": 23.10595264970578,
+            "modelInharmonicToFundamentalEnergy": 0.010762874156530504
+          },
+          "adjusted": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.078208333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 22.194643190417967,
+            "modelInharmonicToFundamentalEnergy": 0.006235346244175213
+          }
+        },
+        {
+          "midi": 60,
+          "old": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.4434583333333335,
+            "measuredEnergyAfterTwoSecondsPercent": 16.931596853657076,
+            "modelInharmonicToFundamentalEnergy": 0.009690751409043442
+          },
+          "current": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.662875,
+            "measuredEnergyAfterTwoSecondsPercent": 18.683916580712253,
+            "modelInharmonicToFundamentalEnergy": 0.010762555592832887
+          },
+          "adjusted": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.55325,
+            "measuredEnergyAfterTwoSecondsPercent": 17.840943569554415,
+            "modelInharmonicToFundamentalEnergy": 0.006235160039648538
+          }
+        },
+        {
+          "midi": 72,
+          "old": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.8927916666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 12.15446951799576,
+            "modelInharmonicToFundamentalEnergy": 0.00967242005753047
+          },
+          "current": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 3.0915,
+            "measuredEnergyAfterTwoSecondsPercent": 13.778460524555754,
+            "modelInharmonicToFundamentalEnergy": 0.010743397504037331
+          },
+          "adjusted": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.998,
+            "measuredEnergyAfterTwoSecondsPercent": 13.029972289157737,
+            "modelInharmonicToFundamentalEnergy": 0.0062239530212866
+          }
+        },
+        {
+          "midi": 84,
+          "old": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.4911666666666665,
+            "measuredEnergyAfterTwoSecondsPercent": 8.750299688149262,
+            "modelInharmonicToFundamentalEnergy": 0.009010164075123013
+          },
+          "current": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.667625,
+            "measuredEnergyAfterTwoSecondsPercent": 10.205520050853833,
+            "modelInharmonicToFundamentalEnergy": 0.010023317698035817
+          },
+          "adjusted": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.5872083333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 9.556292515860223,
+            "modelInharmonicToFundamentalEnergy": 0.005805221493074223
+          }
+        }
+      ]
+    },
+    {
+      "id": "nocturne-9-2",
+      "oldRecordingAvailable": true,
+      "oldVoice": {
+        "id": "nocturne-9-2",
+        "nativeTimeScale": 1,
+        "decay": 1.48,
+        "decaySpan": 47,
+        "metal": [
+          0.185,
+          0.044,
+          0.007
+        ],
+        "tineCents": 1.35,
+        "driftCents": 0.35,
+        "reflection": 0.022,
+        "dynamicExponent": 1.18,
+        "bassWeight": 0.52,
+        "lidHz": 5700,
+        "nominalLufs": -41.5,
+        "reason": "ノクターン：装飾音と歌う旋律の対比を回復。低音伴奏を支えに譜面の抑揚を広げる。",
+        "modes": [
+          1,
+          2.757055,
+          5.40488,
+          8.933
+        ],
+        "attackMs": 1.5,
+        "slowWeight": 0.19,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.00836,
+        "pairedTineWeight": 0.012
+      },
+      "currentVoice": {
+        "id": "nocturne-9-2",
+        "nativeTimeScale": 1.1,
+        "decay": 1.66,
+        "decaySpan": 48,
+        "metal": [
+          0.192,
+          0.036,
+          0.005
+        ],
+        "tineCents": 0.86,
+        "driftCents": 0.15,
+        "reflection": 0.025,
+        "bassWeight": 0.62,
+        "lidHz": 5200,
+        "phraseSeconds": 12,
+        "breathSeconds": 0.038,
+        "swell": 0.1,
+        "phraseSwell": 0.04,
+        "melodyFloor": 55,
+        "melodyDuration": 0.2,
+        "graceFloor": 76,
+        "melodyGain": 1.1,
+        "accompanimentGain": 0.86,
+        "allUpperMelody": true,
+        "reason": "装飾音はすべて残し、短い余韻と細かな緩急で歌う右手を生かす。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 1.8,
+        "slowWeight": 0.22,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.009500000000000001,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "adjustedVoice": {
+        "id": "nocturne-9-2",
+        "nativeTimeScale": 1.1,
+        "decay": 1.57,
+        "decaySpan": 48,
+        "metal": [
+          0.138,
+          0.026,
+          0.0036
+        ],
+        "tineCents": 0.86,
+        "driftCents": 0.15,
+        "reflection": 0.0235,
+        "bassWeight": 0.62,
+        "lidHz": 5200,
+        "phraseSeconds": 12,
+        "breathSeconds": 0.038,
+        "swell": 0.1,
+        "phraseSwell": 0.04,
+        "melodyFloor": 55,
+        "melodyDuration": 0.2,
+        "graceFloor": 76,
+        "melodyGain": 1.1,
+        "accompanimentGain": 0.86,
+        "allUpperMelody": true,
+        "reason": "装飾音はすべて残し、短い余韻と細かな緩急で歌う右手を生かす。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 1.8,
+        "slowWeight": 0.205,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0089,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "changedTimbreKeys": [
+        "decay",
+        "metal",
+        "reflection",
+        "slowWeight",
+        "woodAmount"
+      ],
+      "exactPerformancePreserved": true,
+      "performanceEventHash": "bd0e72fad28e2655fd366fcbb39f22ca946fddfe84180a734fa73831ea4a8aef",
+      "sourceNotes": 1242,
+      "currentSeconds": 226.89979166666666,
+      "oldRecordedMetrics": {
+        "lufs": -41.945802996372954,
+        "rmsDb": -41.63101162994586,
+        "peakDb": -25.89682297962662,
+        "peak": 0.05071761831641197,
+        "blockCount": 2059,
+        "gatedBlocks": 2006,
+        "relativeGateLufs": -52.05392598398093,
+        "rate": 24000,
+        "frames": 413,
+        "centroidHz": 530.2751617805417,
+        "above4kHzEnergyPercent": 0.046167444842184734,
+        "below180HzEnergyPercent": 10.92691974489574,
+        "sourceCorrelation": 0.9999987470483019,
+        "decodedSeconds": 206.328,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 206.31858333333332,
+        "period": 206.27254166666665,
+        "oversampledPeak": 0.05075249820947647,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "seam": 0.000008010523742996156,
+        "boundaryNeighbourDelta": 0.0010542995296418667,
+        "id": "nocturne-9-2",
+        "title": "ノクターン第2番 Op.9-2",
+        "level": 1.0526649187442572,
+        "normalizedLufs": -41.5,
+        "normalizedRmsDb": -41.185208633572906,
+        "normalizedPeakDb": -25.445048512557634,
+        "maxPlaybackPeakDb": -27.383248772718765,
+        "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
+        "performanceEventHash": "402e1156d462b64ad9d83e1c2ace5b2d0e8828b460e6821842b147ccbe23f6e2",
+        "timeScale": 1
+      },
+      "currentRecordedMetrics": {
+        "centroidHz": 554.5381585172089,
+        "above4kHzEnergyPercent": 0.04366878803487331,
+        "below180HzEnergyPercent": 9.581212971930293,
+        "normalizedLufs": -42
+      },
+      "keys": [
+        {
+          "midi": 48,
+          "old": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.182958333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 14.698947782632398,
+            "modelInharmonicToFundamentalEnergy": 0.01393391771072938
+          },
+          "current": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.6369583333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 18.476759500133543,
+            "modelInharmonicToFundamentalEnergy": 0.014588411952544707
+          },
+          "adjusted": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.4084166666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 16.63460574684917,
+            "modelInharmonicToFundamentalEnergy": 0.007605887341658139
+          }
+        },
+        {
+          "midi": 60,
+          "old": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 2.720458333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 10.682660453801573,
+            "modelInharmonicToFundamentalEnergy": 0.013933757645358412
+          },
+          "current": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.1165,
+            "measuredEnergyAfterTwoSecondsPercent": 14.047172497844045,
+            "modelInharmonicToFundamentalEnergy": 0.014588196963980435
+          },
+          "adjusted": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 2.921708333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 12.436445893859545,
+            "modelInharmonicToFundamentalEnergy": 0.0076057747483007886
+          }
+        },
+        {
+          "midi": 72,
+          "old": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.2639583333333335,
+            "measuredEnergyAfterTwoSecondsPercent": 6.947170431953754,
+            "modelInharmonicToFundamentalEnergy": 0.013923888741421175
+          },
+          "current": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.589,
+            "measuredEnergyAfterTwoSecondsPercent": 9.543861123564705,
+            "modelInharmonicToFundamentalEnergy": 0.014574975102493472
+          },
+          "adjusted": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.4247916666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 8.23438246237548,
+            "modelInharmonicToFundamentalEnergy": 0.0075988503923650925
+          }
+        },
+        {
+          "midi": 84,
+          "old": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 1.9038333333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 4.325395013765329,
+            "modelInharmonicToFundamentalEnergy": 0.013523682362744618
+          },
+          "current": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.1972916666666666,
+            "measuredEnergyAfterTwoSecondsPercent": 6.4482569727120636,
+            "modelInharmonicToFundamentalEnergy": 0.0140279417144975
+          },
+          "adjusted": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.0584166666666666,
+            "measuredEnergyAfterTwoSecondsPercent": 5.418402601896421,
+            "modelInharmonicToFundamentalEnergy": 0.007312948745166803
+          }
+        }
+      ]
+    },
+    {
+      "id": "traumerei",
+      "oldRecordingAvailable": true,
+      "oldVoice": {
+        "id": "traumerei",
+        "nativeTimeScale": 1,
+        "decay": 1.82,
+        "decaySpan": 50,
+        "metal": [
+          0.165,
+          0.029,
+          0.004
+        ],
+        "tineCents": 1.45,
+        "driftCents": 0.25,
+        "reflection": 0.035,
+        "dynamicExponent": 1.08,
+        "bassWeight": 0.78,
+        "lidHz": 4500,
+        "nominalLufs": -42.5,
+        "reason": "トロイメライ：原譜のルバートと内声を保ち、木箱の厚みと呼吸する余韻を重視。",
+        "modes": [
+          1,
+          2.756995,
+          5.40458,
+          8.933
+        ],
+        "attackMs": 1.5,
+        "slowWeight": 0.19,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.013300000000000001,
+        "pairedTineWeight": 0.018
+      },
+      "currentVoice": {
+        "id": "traumerei",
+        "nativeTimeScale": 1.08,
+        "decay": 2,
+        "decaySpan": 53,
+        "metal": [
+          0.165,
+          0.029,
+          0.004
+        ],
+        "tineCents": 0.72,
+        "driftCents": 0.12,
+        "reflection": 0.03,
+        "bassWeight": 0.7,
+        "lidHz": 4500,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.052,
+        "swell": 0.11,
+        "phraseSwell": 0.04,
+        "melodyFloor": 62,
+        "melodyDuration": 0.45,
+        "graceFloor": 78,
+        "melodyGain": 1.1,
+        "accompanimentGain": 0.95,
+        "allUpperMelody": false,
+        "reason": "旋律・内声の受け渡しを丸い発音と二段階の余韻でつなぐ。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.22,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0114,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "adjustedVoice": {
+        "id": "traumerei",
+        "nativeTimeScale": 1.08,
+        "decay": 1.91,
+        "decaySpan": 53,
+        "metal": [
+          0.125,
+          0.022,
+          0.003
+        ],
+        "tineCents": 0.72,
+        "driftCents": 0.12,
+        "reflection": 0.0275,
+        "bassWeight": 0.7,
+        "lidHz": 4500,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.052,
+        "swell": 0.11,
+        "phraseSwell": 0.04,
+        "melodyFloor": 62,
+        "melodyDuration": 0.45,
+        "graceFloor": 78,
+        "melodyGain": 1.1,
+        "accompanimentGain": 0.95,
+        "allUpperMelody": false,
+        "reason": "旋律・内声の受け渡しを丸い発音と二段階の余韻でつなぐ。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.205,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0105,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "changedTimbreKeys": [
+        "decay",
+        "metal",
+        "reflection",
+        "slowWeight",
+        "woodAmount"
+      ],
+      "exactPerformancePreserved": true,
+      "performanceEventHash": "54fdc0a16c3af17476a54f6cde072318cea4c1d733d7c5147fdf8b4259792316",
+      "sourceNotes": 339,
+      "currentSeconds": 123.858,
+      "oldRecordedMetrics": {
+        "lufs": -42.945828580232714,
+        "rmsDb": -42.36277261471421,
+        "peakDb": -27.412735059739827,
+        "peak": 0.042595453560352325,
+        "blockCount": 1143,
+        "gatedBlocks": 1085,
+        "relativeGateLufs": -53.14439932061393,
+        "rate": 24000,
+        "frames": 230,
+        "centroidHz": 340.7192975797961,
+        "above4kHzEnergyPercent": 0.00031384719726539994,
+        "below180HzEnergyPercent": 20.099947005116285,
+        "sourceCorrelation": 0.9999996592743583,
+        "decodedSeconds": 114.744,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 114.729375,
+        "period": 114.68333333333334,
+        "oversampledPeak": 0.04261470213532448,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "seam": 0.000016042147763073444,
+        "boundaryNeighbourDelta": 0.0006091813556849957,
+        "id": "traumerei",
+        "title": "トロイメライ",
+        "level": 1.05266801932145,
+        "normalizedLufs": -42.50000000000001,
+        "normalizedRmsDb": -41.9169440344815,
+        "normalizedPeakDb": -26.962982275886624,
+        "maxPlaybackPeakDb": -28.901182536047752,
+        "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
+        "performanceEventHash": "d4067bfa8656cd19a5269a7b4d958bf359efd7603d8583fead2fd34e1630c14c",
+        "timeScale": 1
+      },
+      "currentRecordedMetrics": {
+        "centroidHz": 374.4422915107694,
+        "above4kHzEnergyPercent": 0.00026241270965728894,
+        "below180HzEnergyPercent": 14.749698047112817,
+        "normalizedLufs": -42
+      },
+      "keys": [
+        {
+          "midi": 48,
+          "old": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.8136666666666668,
+            "measuredEnergyAfterTwoSecondsPercent": 19.999433467785057,
+            "modelInharmonicToFundamentalEnergy": 0.010947152818096453
+          },
+          "current": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.245791666666666,
+            "measuredEnergyAfterTwoSecondsPercent": 23.433410140953693,
+            "modelInharmonicToFundamentalEnergy": 0.010751691901211289
+          },
+          "adjusted": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.01575,
+            "measuredEnergyAfterTwoSecondsPercent": 21.68717258392708,
+            "modelInharmonicToFundamentalEnergy": 0.006226740303269804
+          }
+        },
+        {
+          "midi": 60,
+          "old": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.310625,
+            "measuredEnergyAfterTwoSecondsPercent": 15.540822183992255,
+            "modelInharmonicToFundamentalEnergy": 0.010946793448504187
+          },
+          "current": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.699291666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 18.98257716701043,
+            "modelInharmonicToFundamentalEnergy": 0.010751339096736114
+          },
+          "adjusted": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.498666666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 17.375528106926396,
+            "modelInharmonicToFundamentalEnergy": 0.006226536042688673
+          }
+        },
+        {
+          "midi": 72,
+          "old": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.7945,
+            "measuredEnergyAfterTwoSecondsPercent": 11.275495717433943,
+            "modelInharmonicToFundamentalEnergy": 0.010925308354955851
+          },
+          "current": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 3.1237916666666665,
+            "measuredEnergyAfterTwoSecondsPercent": 14.04282835188164,
+            "modelInharmonicToFundamentalEnergy": 0.010730247131375032
+          },
+          "adjusted": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.9520416666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 12.635326270527004,
+            "modelInharmonicToFundamentalEnergy": 0.00621431516385239
+          }
+        },
+        {
+          "midi": 84,
+          "old": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.365666666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 7.763884380519299,
+            "modelInharmonicToFundamentalEnergy": 0.01011750224579287
+          },
+          "current": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.695125,
+            "measuredEnergyAfterTwoSecondsPercent": 10.443660537943632,
+            "modelInharmonicToFundamentalEnergy": 0.009937407009521601
+          },
+          "adjusted": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.5475416666666666,
+            "measuredEnergyAfterTwoSecondsPercent": 9.23346948621584,
+            "modelInharmonicToFundamentalEnergy": 0.005754985250458644
+          }
+        }
+      ]
+    },
+    {
+      "id": "gymnopedie-1",
+      "oldRecordingAvailable": true,
+      "oldVoice": {
+        "id": "gymnopedie-1",
+        "nativeTimeScale": 1,
+        "decay": 2.08,
+        "decaySpan": 55,
+        "metal": [
+          0.2,
+          0.033,
+          0.0045
+        ],
+        "tineCents": 1.9,
+        "driftCents": 0.4,
+        "reflection": 0.04,
+        "dynamicExponent": 1.12,
+        "bassWeight": 0.86,
+        "lidHz": 5200,
+        "nominalLufs": -43,
+        "reason": "ジムノペディ：原曲の解決しない和音をそのまま響かせ、広い間と低音の余韻を生かす。",
+        "modes": [
+          1,
+          2.7571,
+          5.40466,
+          8.933
+        ],
+        "attackMs": 1.5,
+        "slowWeight": 0.25,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0152,
+        "pairedTineWeight": 0.025
+      },
+      "currentVoice": {
+        "id": "gymnopedie-1",
+        "nativeTimeScale": 1.16,
+        "decay": 2.08,
+        "decaySpan": 55,
+        "metal": [
+          0.18,
+          0.031,
+          0.004
+        ],
+        "tineCents": 0.82,
+        "driftCents": 0.14,
+        "reflection": 0.032,
+        "bassWeight": 0.68,
+        "lidHz": 4700,
+        "phraseSeconds": 12,
+        "breathSeconds": 0.055,
+        "swell": 0.075,
+        "phraseSwell": 0.03,
+        "melodyFloor": 64,
+        "melodyDuration": 0.65,
+        "graceFloor": 78,
+        "melodyGain": 1.08,
+        "accompanimentGain": 0.94,
+        "allUpperMelody": false,
+        "reason": "三拍子の間と解決しない和声を保ち、広い呼吸と穏やかな低音を残す。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.24,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.01216,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "adjustedVoice": {
+        "id": "gymnopedie-1",
+        "nativeTimeScale": 1.16,
+        "decay": 1.98,
+        "decaySpan": 55,
+        "metal": [
+          0.13,
+          0.023,
+          0.003
+        ],
+        "tineCents": 0.82,
+        "driftCents": 0.14,
+        "reflection": 0.029,
+        "bassWeight": 0.68,
+        "lidHz": 4700,
+        "phraseSeconds": 12,
+        "breathSeconds": 0.055,
+        "swell": 0.075,
+        "phraseSwell": 0.03,
+        "melodyFloor": 64,
+        "melodyDuration": 0.65,
+        "graceFloor": 78,
+        "melodyGain": 1.08,
+        "accompanimentGain": 0.94,
+        "allUpperMelody": false,
+        "reason": "三拍子の間と解決しない和声を保ち、広い呼吸と穏やかな低音を残す。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.235,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.0112,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "changedTimbreKeys": [
+        "decay",
+        "metal",
+        "reflection",
+        "slowWeight",
+        "woodAmount"
+      ],
+      "exactPerformancePreserved": true,
+      "performanceEventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44",
+      "sourceNotes": 282,
+      "currentSeconds": 168.2,
+      "oldRecordedMetrics": {
+        "lufs": -43.445648916798305,
+        "rmsDb": -42.3389810137435,
+        "peakDb": -26.57208247099007,
+        "peak": 0.04692409187555313,
+        "blockCount": 1447,
+        "gatedBlocks": 1425,
+        "relativeGateLufs": -53.508627385274636,
+        "rate": 24000,
+        "frames": 290,
+        "centroidHz": 291.8977831714467,
+        "above4kHzEnergyPercent": 0.000956221367210591,
+        "below180HzEnergyPercent": 36.22095144087002,
+        "sourceCorrelation": 0.999999360583003,
+        "decodedSeconds": 145.056,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 145.04604166666667,
+        "period": 145,
+        "oversampledPeak": 0.04692454636096954,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "seam": 0.000055313343182206154,
+        "boundaryNeighbourDelta": 0.0003618330229073763,
+        "id": "gymnopedie-1",
+        "title": "ジムノペディ第1番",
+        "level": 1.052646245616793,
+        "normalizedLufs": -43,
+        "normalizedRmsDb": -41.893332096945194,
+        "normalizedPeakDb": -26.12634942702182,
+        "maxPlaybackPeakDb": -28.064549687182947,
+        "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+        "performanceEventHash": "f2fd61a05a6d89a6a31778cc43ce4b056dd892ae27e00997b09a0ec3acfe3a40",
+        "timeScale": 1
+      },
+      "currentRecordedMetrics": {
+        "centroidHz": 351.06215901663444,
+        "above4kHzEnergyPercent": 0.0004533239493285216,
+        "below180HzEnergyPercent": 22.558397839385,
+        "normalizedLufs": -42
+      },
+      "keys": [
+        {
+          "midi": 48,
+          "old": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.407,
+            "measuredEnergyAfterTwoSecondsPercent": 24.172398760877073,
+            "modelInharmonicToFundamentalEnergy": 0.01548641073312093
+          },
+          "current": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.427625,
+            "measuredEnergyAfterTwoSecondsPercent": 24.74659250001017,
+            "modelInharmonicToFundamentalEnergy": 0.012634564145991404
+          },
+          "adjusted": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.207458333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 23.124684940311134,
+            "modelInharmonicToFundamentalEnergy": 0.006615393333991805
+          }
+        },
+        {
+          "midi": 60,
+          "old": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.931958333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 20.11251048759303,
+            "modelInharmonicToFundamentalEnergy": 0.01548620960402372
+          },
+          "current": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.88025,
+            "measuredEnergyAfterTwoSecondsPercent": 20.373779436639218,
+            "modelInharmonicToFundamentalEnergy": 0.012634253613479163
+          },
+          "adjusted": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.6879166666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 18.86805765228596,
+            "modelInharmonicToFundamentalEnergy": 0.006615226265133198
+          }
+        },
+        {
+          "midi": 72,
+          "old": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 3.3172083333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 15.975850499793236,
+            "modelInharmonicToFundamentalEnergy": 0.015473770347966171
+          },
+          "current": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 3.3037083333333332,
+            "measuredEnergyAfterTwoSecondsPercent": 15.471360388505204,
+            "modelInharmonicToFundamentalEnergy": 0.01261538653861467
+          },
+          "adjusted": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 3.1374583333333335,
+            "measuredEnergyAfterTwoSecondsPercent": 14.12219033339751,
+            "modelInharmonicToFundamentalEnergy": 0.00660509706710825
+          }
+        },
+        {
+          "midi": 84,
+          "old": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.868625,
+            "measuredEnergyAfterTwoSecondsPercent": 11.998963952849909,
+            "modelInharmonicToFundamentalEnergy": 0.01492605767291489
+          },
+          "current": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.858125,
+            "measuredEnergyAfterTwoSecondsPercent": 11.861709675902565,
+            "modelInharmonicToFundamentalEnergy": 0.011867261667516617
+          },
+          "adjusted": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.7170833333333335,
+            "measuredEnergyAfterTwoSecondsPercent": 10.673947893535697,
+            "modelInharmonicToFundamentalEnergy": 0.006209984388394421
+          }
+        }
+      ]
+    },
+    {
+      "id": "moonlight-1",
+      "oldRecordingAvailable": false,
+      "oldVoice": null,
+      "currentVoice": {
+        "id": "moonlight-1",
+        "nativeTimeScale": 1.18,
+        "decay": 1.94,
+        "decaySpan": 53,
+        "metal": [
+          0.175,
+          0.031,
+          0.0043
+        ],
+        "tineCents": 0.74,
+        "driftCents": 0.13,
+        "reflection": 0.028,
+        "bassWeight": 0.58,
+        "lidHz": 4600,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.05,
+        "swell": 0.115,
+        "phraseSwell": 0.035,
+        "melodyFloor": 64,
+        "melodyDuration": 0.65,
+        "graceFloor": 80,
+        "melodyGain": 1.12,
+        "accompanimentGain": 0.9,
+        "allUpperMelody": false,
+        "reason": "第1楽章全1142音を維持。旋律と三連符を分け、静かな和声と終止の余韻を重視。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.22,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.01064,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "adjustedVoice": {
+        "id": "moonlight-1",
+        "nativeTimeScale": 1.18,
+        "decay": 1.84,
+        "decaySpan": 53,
+        "metal": [
+          0.126,
+          0.023,
+          0.0032
+        ],
+        "tineCents": 0.74,
+        "driftCents": 0.13,
+        "reflection": 0.025,
+        "bassWeight": 0.58,
+        "lidHz": 4600,
+        "phraseSeconds": 16,
+        "breathSeconds": 0.05,
+        "swell": 0.115,
+        "phraseSwell": 0.035,
+        "melodyFloor": 64,
+        "melodyDuration": 0.65,
+        "graceFloor": 80,
+        "melodyGain": 1.12,
+        "accompanimentGain": 0.9,
+        "allUpperMelody": false,
+        "reason": "第1楽章全1142音を維持。旋律と三連符を分け、静かな和声と終止の余韻を重視。",
+        "dynamicExponent": 1.02,
+        "nominalLufs": -23,
+        "modes": [
+          1,
+          2.7566,
+          5.4046,
+          8.933
+        ],
+        "attackMs": 2.2,
+        "slowWeight": 0.21,
+        "wood": [
+          270,
+          620,
+          1040
+        ],
+        "woodAmount": 0.01,
+        "pairedTineWeight": 0.01,
+        "playbackLufs": -42
+      },
+      "changedTimbreKeys": [
+        "decay",
+        "metal",
+        "reflection",
+        "slowWeight",
+        "woodAmount"
+      ],
+      "exactPerformancePreserved": true,
+      "performanceEventHash": "69a9e0302a7f492415dfcc61f2db741ebc2d4d922e3d79bb54f1e2a0b33d87ef",
+      "sourceNotes": 1142,
+      "currentSeconds": 330.4,
+      "oldRecordedMetrics": null,
+      "currentRecordedMetrics": {
+        "centroidHz": 321.3813658433463,
+        "above4kHzEnergyPercent": 0.00017192993011385123,
+        "below180HzEnergyPercent": 18.542756708315032,
+        "normalizedLufs": -42
+      },
+      "keys": [
+        {
+          "midi": 48,
+          "old": null,
+          "current": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 4.11675,
+            "measuredEnergyAfterTwoSecondsPercent": 22.406653940650074,
+            "modelInharmonicToFundamentalEnergy": 0.012097299108682728
+          },
+          "adjusted": {
+            "midi": 48,
+            "measured95PercentEnergySeconds": 3.882875,
+            "measuredEnergyAfterTwoSecondsPercent": 20.599924642369704,
+            "modelInharmonicToFundamentalEnergy": 0.0063149837733836225
+          }
+        },
+        {
+          "midi": 60,
+          "old": null,
+          "current": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.5866666666666664,
+            "measuredEnergyAfterTwoSecondsPercent": 18.038000789977392,
+            "modelInharmonicToFundamentalEnergy": 0.01209694814842901
+          },
+          "adjusted": {
+            "midi": 60,
+            "measured95PercentEnergySeconds": 3.383125,
+            "measuredEnergyAfterTwoSecondsPercent": 16.389363249202745,
+            "modelInharmonicToFundamentalEnergy": 0.0063147949344830815
+          }
+        },
+        {
+          "midi": 72,
+          "old": null,
+          "current": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 3.028583333333333,
+            "measuredEnergyAfterTwoSecondsPercent": 13.233100996980653,
+            "modelInharmonicToFundamentalEnergy": 0.012075867065919685
+          },
+          "adjusted": {
+            "midi": 72,
+            "measured95PercentEnergySeconds": 2.8547083333333334,
+            "measuredEnergyAfterTwoSecondsPercent": 11.80366590532022,
+            "modelInharmonicToFundamentalEnergy": 0.006303476280472024
+          }
+        },
+        {
+          "midi": 84,
+          "old": null,
+          "current": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.6130416666666667,
+            "measuredEnergyAfterTwoSecondsPercent": 9.762779184827183,
+            "modelInharmonicToFundamentalEnergy": 0.011272895808258517
+          },
+          "adjusted": {
+            "midi": 84,
+            "measured95PercentEnergySeconds": 2.4635,
+            "measuredEnergyAfterTwoSecondsPercent": 8.545471192241424,
+            "modelInharmonicToFundamentalEnergy": 0.005880424553355159
+          }
+        }
+      ]
+    }
+  ],
+  "method": "Reuse archived full-recording measurements for the five shared v4 tracks and v5 tracks; compare old/current/revised analytic tines at identical MIDI keys 48/60/72/84. Key energy is measured from generated waveforms; the separately labelled modal-energy model is not a perceptual dissonance score. The old recorded tempos differ and are not applied to new files. All six new performance events and durations match 786dd7e exactly. Musical harmony is not classified or filtered.",
+  "pass": true
+}
