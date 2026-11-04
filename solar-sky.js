@@ -226,14 +226,37 @@ function village(svg,w,frame){
   group.dataset.solarRegion=s.region;group.dataset.solarPeriod=s.sky.sunPeriod||'';
   return stringify(group);
  }
+ function roofAtmosphere(w,t){
+  const at=Math.floor(SolarModel.time(w)/60000)*60000,s=SolarModel.parameters(at),mix=SeasonLandscape.mix,smooth=SolarModel.smooth;
+  const p=SeasonLandscape.theme({...w,solar:false,phase:'day'}),day=smooth(-8,8,s.altitude),low=1-smooth(-2,12,s.altitude);
+  // North receives reflected dawn/dusk light; the direct sun still obeys azimuth.
+  const glow=smooth(-9,-3,s.altitude)*(1-smooth(8,22,s.altitude)),depth=t.stars;
+  let sky=mix('#162b48',mix(p.sky,'#9cb2bd',.22),day),horizon=mix('#425a70',mix(p.horizon,'#e4d5b8',.25),day);
+  sky=mix(mix(sky,mix('#86a7bc','#304c70',low),glow*.68),'#010411',depth);
+  horizon=mix(mix(horizon,mix('#e7c38b','#bc7847',low),glow*.82),'#060d20',depth);
+  const layers=[],view=SolarModel.facing({...s,altitudeUsed:s.altitude},'roof');
+  // Daytime drawing support only: the home card's night-only visibility is unchanged.
+  if(s.altitude>0&&view.inView){
+   const limb=1-smooth(0,24,s.altitude),color=mix('#f3dfaf','#e8a061',limb),x=view.sunPoint.x/4,y=(221-s.altitude*1.58)/3;
+   layers.push(`radial-gradient(circle ${9.8+1.2*limb}px at ${x}% ${y}%,${color} 78%,${color}b3 86%,transparent 100%)`);
+  }
+  if(s.altitude>4){
+   const cloud=mix('#f1efe1','#e4c69d',glow*.6);
+   layers.push(`radial-gradient(ellipse 20% 3% at 20% 30%,${cloud}38 22%,transparent 72%)`,`radial-gradient(ellipse 17% 2.4% at 76% 39%,${cloud}2b 20%,transparent 74%)`);
+  }
+  layers.push(`linear-gradient(${sky},${horizon} ${(100-24*glow).toFixed(2)}%)`);
+  return {sky,horizon,paint:layers.join(','),tileTop:mix(mix('#23324b','#717c7b',day),'#a28a66',glow*.20),tileBottom:mix(mix('#14213a','#4d5a5b',day),'#746650',glow*.16)};
+ }
  function updateRoof(scene,w){
   w={...w,weather:'sunny'};
   const card=scene.closest('.roof-sky-card');if(!card)return;
   updateNorthernStars(card,w);
-  const t=SolarModel.twilight(SolarModel.time(w),'roof'),p=SeasonLandscape.theme({...w,solar:true,skyFrame:'roof'});
-  const depth=SolarModel.smooth(.35,1,t.stars);
-  card.style.setProperty('--roof-sky',SeasonLandscape.mix(p.sky,'#010411',depth));card.style.setProperty('--roof-horizon',SeasonLandscape.mix(p.horizon,'#060d20',depth));
-  card.style.setProperty('--roof-stars',String(t.stars*(w.weather==='sunny'?1:w.weather==='cloudy'?.4:.12)));
+  const t=SolarModel.twilight(SolarModel.time(w),'roof'),p=roofAtmosphere(w,t);
+  const css=(key,value)=>{value=String(value);if(card.style.getPropertyValue(key)!==value)card.style.setProperty(key,value);};
+  css('--roof-sky',p.sky);css('--roof-horizon',p.horizon);css('--roof-sky-paint',p.paint);
+  css('--roof-stars',t.stars*(w.weather==='sunny'?1:w.weather==='cloudy'?.4:.12));
+  const tiles=scene.querySelector('#awake-roof-wash')?.children;
+  if(tiles)[p.tileTop,p.tileBottom].forEach((color,i)=>attr(tiles[i],'stop-color',color));
   updateStarField(card);
   RoofRecline.update(card.querySelector('.roof-cat-group'),SolarModel.time(w));
  }
