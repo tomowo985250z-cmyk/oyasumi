@@ -139,7 +139,7 @@ globalThis.SolarLighting=(()=>{
   const lamp=where==='room'?stage.querySelector('.room-light-switch:not([hidden])')?.getAttribute('aria-pressed')==='true':where==='engawa'&&stage.dataset.engawaPendant==='on';
   const level=night?(where==='garden'?(moon.source==='moon'?moon.direct:0):lamp?1:0):0;
   let e=nightEntries.get(stage);if(!e){e={};nightEntries.set(stage,e);}
-  const light=where==='room'?{x:342,y:65}:{x:200,y:20},color=where==='garden'?'#26394d':'#574331';
+  const light=where==='room'?{x:342,y:65}:{x:200,y:20},color=where==='garden'?'#293b4c':'#514538';
   const vector=(x,y,length)=>{if(where==='garden')return moon.shadow(length,30);const dx=x-light.x,dy=(y-light.y)*.36,n=Math.hypot(dx,dy)||1;return{x:dx/n*length,y:dy/n*length};};
   const oval=(x,y,width,length)=>{
    const v=vector(x,y,length),id='night-fade-'+(++sequence),end={x:x+v.x,y:y+v.y};
@@ -168,7 +168,7 @@ globalThis.SolarLighting=(()=>{
   // only use cool shadow ink at night, restoring its original daytime ink.
   for(const n of svg?.querySelectorAll('[data-caster="cherry-photo"] rect')||[])n.setAttribute('fill',night&&e.treeFade?'url(#'+e.treeFade+')':'#293d36');
   const directionKey=[where,moon.source,Math.round(moon.azimuthUsed),Math.round(moon.altitudeUsed)].join(':');
-  for(const n of svg?.querySelectorAll('[data-night-object-shadow]')||[]){if(n.dataset.nightDirection!==directionKey){n.innerHTML=oval(...n.dataset.nightAnchor.split(',').map(Number));n.dataset.nightDirection=directionKey;}n.setAttribute('opacity',String(level*(where==='garden'?.50:.12)));}
+  for(const n of svg?.querySelectorAll('[data-night-object-shadow]')||[]){if(n.dataset.nightDirection!==directionKey){n.innerHTML=oval(...n.dataset.nightAnchor.split(',').map(Number));n.dataset.nightDirection=directionKey;}n.setAttribute('opacity',String(level*(where==='garden'?.46:.105)));}
   stage.dataset.nightShadowSource=level>0?(where==='garden'?'moon':'lamp'):'';stage.style.setProperty('--night-contact-strength',String(1+.16*level));
   const a=actor(stage);stage.dataset.nightShadowActor=level>0&&a?.meal?'care':'';
   if(!a?.meal){if(e.holder){e.holder.style.opacity='0';e.holder.replaceChildren();}return;}

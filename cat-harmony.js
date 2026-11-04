@@ -4,16 +4,16 @@ globalThis.CatLightHarmony=(()=>{
  const solar=SolarLighting,backgrounds=RoomBackgrounds,roof=RoofRecline,sky=SolarSky,ns='http://www.w3.org/2000/svg',entries=new WeakMap();let serial=0;
  const clamp=(a,b,v)=>Math.max(a,Math.min(b,v)),round=n=>Number(n.toFixed(5));
  const values={
-  room:{morning:[.965,.955,.975,1.018,1,.980],day:[.96,.95,.975,1.015,1,.980],evening:[.94,.94,.965,1.034,1,.958],night:[.765,.925,.96,.985,1,1.017]},
-  engawa:{morning:[.95,.955,.975,1.015,1,.985],day:[.945,.95,.975,1.010,1.003,.988],evening:[.93,.94,.965,1.036,1,.956],night:[.765,.925,.96,.991,1,1.012]},
-  garden:{morning:[.975,.955,.975,1.013,1.002,.989],day:[.975,.95,.975,1.005,1.004,.995],evening:[.945,.94,.965,1.041,1,.952],night:[.745,.93,.96,.985,1.002,1.019]},
-  roof:{morning:[.975,.96,.975,1.015,1,.988],day:[.975,.96,.975,1.005,1,1],evening:[.95,.945,.965,1.040,1,.952],night:[.755,.93,.96,.985,1,1.021]}
+  room:{morning:[.965,.955,.975,1.018,1,.980],day:[.952,.95,.975,1.015,1,.980],evening:[.934,.94,.965,1.034,1,.958],night:[.765,.925,.96,.985,1,1.017]},
+  engawa:{morning:[.95,.955,.975,1.015,1,.985],day:[.937,.95,.975,1.010,1.003,.988],evening:[.924,.94,.965,1.036,1,.956],night:[.765,.925,.96,.991,1,1.012]},
+  garden:{morning:[.975,.955,.975,1.013,1.002,.989],day:[.962,.95,.975,1.005,1.004,.995],evening:[.938,.94,.965,1.041,1,.952],night:[.745,.93,.96,.985,1.002,1.019]},
+  roof:{morning:[.975,.96,.975,1.015,1,.988],day:[.966,.96,.975,1.005,1,1],evening:[.944,.945,.965,1.040,1,.952],night:[.75,.93,.96,.985,1,1.021]}
  };
  function parameters(w,where,mode='ambient',warmth=0){
   const world=SolarModel.world(w),weights=SolarModel.weights(SolarModel.time(world)),light=SolarSky.state(world,where),base=values[where]||values.room;
   const result=Array.from({length:6},(_,i)=>Object.entries(weights).reduce((n,[phase,weight])=>n+weight*base[phase][i],0)),night=weights.night||0,day=1-night;
   // Small environmental bounce; no simulated beam passes through an occluder.
-  result[0]+=night*.018*clamp(0,1,light.source==='moon'?light.direct:0);
+  result[0]+=night*.014*clamp(0,1,light.source==='moon'?light.direct:0);
   if(w.season==='winter'){result[1]-=.008;result[3]-=.003*day;result[5]+=.004*day;}
   if(w.season==='summer'&&where==='garden')result[4]+=.003*day;
   if(w.season==='autumn'){result[3]+=.003*day;result[5]-=.003*day;}
@@ -21,10 +21,10 @@ globalThis.CatLightHarmony=(()=>{
   if(mode==='shade'){
    result[0]-=.035*day;result[3]=1+(result[3]-1)*.25;result[5]=1+(result[5]-1)*.35;
   }
-  if(where==='engawa'){result[0]+=.05*warmth;result[3]+=.036*warmth;result[5]-=.035*warmth;}
-  if(mode==='white'&&where==='roof')result[0]+=.028*night;
+  if(where==='engawa'){result[0]+=.05*warmth;result[3]+=.040*warmth;result[5]-=.040*warmth;}
+  if(mode==='white'&&where==='roof')result[0]+=.024*night;
   if(mode==='lamp'&&where==='room'){
-   result[0]+=.105*night;result[1]+=.01*night;result[3]+=.031*night;result[5]-=.044*night;
+   result[0]+=.105*night;result[1]+=.01*night;result[3]+=.036*night;result[5]-=.049*night;
   }
   result[0]=clamp(.73,.995,result[0]);result[1]=clamp(.90,.98,result[1]);result[2]=clamp(.95,.99,result[2]);
   // The tatami and shaded garden need quieter highlights than open-sky cats.
@@ -85,7 +85,7 @@ globalThis.CatLightHarmony=(()=>{
     if(!soften&&f.highlights){f.highlights.remove();delete f.highlights;}
     if(f.highlights)for(const n of f.highlights.children)n.setAttribute('tableValues',curve.join(' '));
    }
-   stage.style.setProperty('--harmony-contact-opacity',round(soften?.23-.06*night:.18-.045*night));stage.style.setProperty('--harmony-cast-opacity',round(.79-.16*night));e.stamp=stamp;
+   stage.style.setProperty('--harmony-contact-opacity',round(soften?.23-.06*night:.18-.045*night));stage.style.setProperty('--harmony-cast-opacity',round(.75-.14*night));e.stamp=stamp;
   }
   careMaterials(stage,w,warmth);contact(stage);
  }
