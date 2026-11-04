@@ -116,13 +116,15 @@ globalThis.GardenRevision=(()=>{
   rail.remove();posts.remove();fenceEdges.remove();
 
   // Three worn natural stones; the cat support remains at the same coordinates.
+  // The old wide oval belongs to the replaced vector stone, not the ground.
+  svg.querySelector('ellipse[cx="205"][cy="270"][rx="100"]')?.remove();
   const top=find(svg,'M121 254'),side=find(svg,'M121 260');
   if(!top||!side)throw Error('Cat support geometry changed');
   find(svg,'M134 251')?.remove();find(svg,'M133 249')?.remove();
   const rockHref='assets/garden-foreground-v2/natural-rock.webp';
   const catRock=element('g',{'data-garden-v2':'','data-garden-stone':'cat-rock','data-support':'200 243'});
   const soilFill=find(svg,'M0 220q89-19').getAttribute('fill');
-  catRock.innerHTML=`<ellipse cx="201" cy="282" rx="76" ry="4" fill="#30392f" opacity=".24" filter="url(#${id}-contact)"/><image href="${rockHref}" x="119" y="226" width="161" height="57" preserveAspectRatio="none" filter="url(#${id}-tone)"/><path d="M134 280q10-2 19 1l8 2-26 1Zm34 2q22-3 37 0l6 2h-43Zm67-1q17-4 28-3l-3 4-29 3Z" fill="${soilFill}" opacity=".29"/>`;
+  catRock.innerHTML=`<path d="M130 274 143 276 157 278 173 279 192 280 211 279 230 278 248 276 262 274 269 276 265 280 256 281 250 283 234 283 226 284 209 283 197 285 181 284 170 285 155 283 148 284 138 281 132 280 128 277Z" fill="#30392f" opacity=".22"/><image href="${rockHref}" x="119" y="226" width="161" height="57" preserveAspectRatio="none" filter="url(#${id}-tone)"/><path d="M131 278q6-2 11 1l-2 2-5-1-4 1Zm18 4q6-2 12 0l-3 2-6-1-3 1Zm23 1 8-1 8 1-3 2-7-1-5 1Zm34 0 7-2 9 1-3 2-5-1-6 2Zm28-2 8-3 7 1-2 2-8 1-5 2Zm22-3 6-3 5 1-2 3-5-1-4 2Z" fill="${soilFill}" opacity=".38"/>`;
   side.before(catRock);top.remove();side.remove();
   for(const[cx,cy,x,y,width,height,flip]of [[93,298,64,287,60,23,true],[48,325,14,313,67,25,false]]){
    const old=svg.querySelector(`ellipse[cx="${cx}"][cy="${cy}"]`);if(!old)throw Error('Stepping stone missing');
