@@ -130,7 +130,8 @@ globalThis.SolarSky=(()=>{
  function engawaMatrix(brightness,saturation,t){
   // Subtle air/patina in the existing photographs; retain seasonal colour and detail.
   const l=[.2126,.7152,.0722],temperature=[1+t.evening*.18-t.night*.18,1-t.evening*.018,1-t.evening*.23+t.night*.12];
-  return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*.97*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,Number((brightness*temperature[row]*.012).toFixed(5))]).concat([0,0,0,1,0]).join(' ');
+  // A trace of cool air in the distant terrain, within the existing colour pass.
+  return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*.97*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,Number((brightness*temperature[row]*.012+.004*t.night*[.68,.84,1][row]).toFixed(5))]).concat([0,0,0,1,0]).join(' ');
  }
  // Window anchors in the unchanged seasonal photo pixels, below the roof eaves.
  // Project through each image's existing geometry; no extra buildings or timers.
@@ -168,7 +169,7 @@ globalThis.SolarSky=(()=>{
  function paintEngawa(svg,w){
   if(!svg.hasAttribute('data-sky55'))return;
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.86:1;
-  attr(svg.querySelector('[data-sky55-tone="terrain"]'),'values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.25)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t));
+  attr(svg.querySelector('[data-sky55-tone="terrain"]'),'values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.22)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t));
   attr(svg.querySelector('[data-sky55-tone="cloud"]'),'values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
   distantHomes(svg,w);
  }
@@ -312,7 +313,7 @@ globalThis.EngawaNightSky=(()=>{
   const moon=RoofMoon.snapshot(b.at),darkness=SolarModel.twilight(b.at,where).stars;
   const glare=moon.illumination*moon.opacity*SolarModel.smooth(0,18,moon.altitude);
   const weather=w.weather==='rainy'?.002:w.weather==='cloudy'?.075:1;
-  const strength=weather*(1-.72*glare),milkyStrength=(w.weather==='sunny'?1:w.weather==='cloudy'?.012:0)*(1-.90*glare);
+  const strength=weather*(1-.66*glare),milkyStrength=(w.weather==='sunny'?1:w.weather==='cloudy'?.012:0)*(1-.90*glare);
   const sizes=[.16,.24,.34,.48,.68,.94],paths=Array.from({length:12},()=>[]);let visible=0,realVisible=0;
   if(stars)for(const s of stars){
    const p=projectVector(s.p,b,where,true);if(!p||p.altitude<.8||p.x<(where==='engawa'?67:0)||p.x>(where==='engawa'?335:400)||p.y<(where==='engawa'?60:0)||p.y>158)continue;
@@ -343,15 +344,15 @@ globalThis.EngawaNightSky=(()=>{
   layer.querySelector('[data-night-milky-way]').setAttribute('opacity',s.milkyStrength.toFixed(4));
   layer.querySelectorAll('[data-milky-band]').forEach((p,i)=>p.setAttribute('d',s.bands[i]));
   // A moonlit sky has less deep contrast, without changing the existing moon.
-  layer.querySelector('[data-night-haze]').setAttribute('opacity',(.018+s.glare*.055+(w.weather==='cloudy'?.10:w.weather==='rainy'?.12:0)).toFixed(4));
+  layer.querySelector('[data-night-haze]').setAttribute('opacity',(.035+s.glare*.065+(w.weather==='cloudy'?.10:w.weather==='rainy'?.12:0)).toFixed(4));
  }
  function decorate(svg,w,where='engawa'){
   if(svg.querySelector('[data-engawa-night-study]')){sync(svg,w,where);return svg;}
   const id='engawa-night-'+(++sequence),defs=svg.querySelector('defs');
-  defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect x="69.05" y="62.25" width="263.7" height="169.2"/></clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/><rect x="69.05" y="62.25" width="263.7" height="169.2" fill="black"/></mask><linearGradient id="${id}-blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#010411"/><stop offset=".64" stop-color="#03091a"/><stop offset="1" stop-color="#060d20"/></linearGradient><radialGradient id="${id}-reflection" cx="${where==='window'?1:.5}" cy="0" r="1"><stop stop-color="#efc28e" stop-opacity=".7"/><stop offset=".52" stop-color="#d8a971" stop-opacity=".28"/><stop offset="1" stop-color="#c99460" stop-opacity="0"/></radialGradient><filter id="${id}-soft" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3.6"/></filter>`);
+  defs.insertAdjacentHTML('beforeend',`<clipPath id="${id}-view"><rect x="69.05" y="62.25" width="263.7" height="169.2"/></clipPath><mask id="${id}-outside" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260"><rect width="400" height="260" fill="white"/><rect x="69.05" y="62.25" width="263.7" height="169.2" fill="black"/></mask><linearGradient id="${id}-blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#02050d"/><stop offset=".64" stop-color="#040b18"/><stop offset="1" stop-color="#0b1627"/></linearGradient><linearGradient id="${id}-mist" gradientUnits="userSpaceOnUse" x1="0" y1="90" x2="0" y2="165"><stop stop-color="#8095a7" stop-opacity="0"/><stop offset=".65" stop-color="#8095a7" stop-opacity=".3"/><stop offset="1" stop-color="#8095a7" stop-opacity=".8"/></linearGradient><radialGradient id="${id}-reflection" cx="${where==='window'?1:.5}" cy="0" r="1"><stop stop-color="#efc28e" stop-opacity=".7"/><stop offset=".52" stop-color="#d8a971" stop-opacity=".28"/><stop offset="1" stop-color="#c99460" stop-opacity="0"/></radialGradient><filter id="${id}-soft" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3.6"/></filter>`);
   const layer=document.createElementNS(ns,'g');layer.setAttribute('data-engawa-night-study','');layer.setAttribute('clip-path',`url(#${id}-view)`);layer.setAttribute('pointer-events','none');
-  const sizes=[.18,.27,.38,.52,.74,1],alphas=[.16,.27,.43,.60,.80,.96];
-  layer.innerHTML=`<rect x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-blue)"/><rect data-night-haze="" x="69.05" y="62.25" width="263.7" height="169.2" fill="#6e849a"/><g data-night-milky-way="" filter="url(#${id}-soft)"><path data-milky-band="" fill="#a8b9cc" opacity=".10"/><path data-milky-band="" fill="#c2c8cc" opacity=".12"/><path data-milky-band="" fill="#839bb6" opacity=".09"/><path data-milky-band="" fill="#030b1a" opacity=".09"/></g><g data-night-fine-stars="" fill="none" stroke-linecap="round">${Array.from({length:12},(_,i)=>`<path data-night-star-bin="${i}" stroke="${i<6?'#ccdbed':'#e1d8c4'}" stroke-width="${sizes[i%6]*2}" opacity="${alphas[i%6]}"/>`).join('')}</g>`;
+  const sizes=[.22,.31,.40,.52,.74,1],alphas=[.24,.36,.50,.66,.82,.96];
+  layer.innerHTML=`<rect x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-blue)"/><rect data-night-haze="" x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-mist)"/><g data-night-milky-way="" filter="url(#${id}-soft)"><path data-milky-band="" fill="#a8b9cc" opacity=".045"/><path data-milky-band="" fill="#c2c8cc" opacity=".055"/><path data-milky-band="" fill="#839bb6" opacity=".04"/><path data-milky-band="" fill="#030b1a" opacity=".06"/></g><g data-night-fine-stars="" fill="none" stroke-linecap="round">${Array.from({length:12},(_,i)=>`<path data-night-star-bin="${i}" stroke="${i<6?'#ccdbed':'#e1d8c4'}" stroke-width="${sizes[i%6]*2}" opacity="${alphas[i%6]}"/>`).join('')}</g>`;
   layer.insertAdjacentHTML('beforeend',NightConstellations.markup(w,where)+'<rect data-night-room-reflection="" x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#'+id+'-reflection)"/>');
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);
   const anchor=oldStars||[...svg.children].find(n=>n.querySelector?.('.room-window-moon'))||svg.querySelector('[data-sky-clouds]');
