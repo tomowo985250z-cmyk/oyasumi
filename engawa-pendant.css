@@ -19,8 +19,6 @@
 .day-room[data-location=engawa][data-world-daylight=false] [data-engawa-lantern-defs] [id$="-paper"]>stop:nth-child(3){stop-color:#d09c59}
 .day-room[data-location=engawa][data-world-daylight=false] [data-engawa-lantern-defs] [id$="-lamp-glow"]>stop{stop-color:#f1ba63}
 
-/* Unlit fittings retain quiet moonlit edges instead of the fixed warm outlines. */
+/* Only the pendant switches off; the independent andon keeps its native warmth. */
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch [stroke]{stroke:#303a34}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch>svg>:is(path:not([stroke]),ellipse:not([stroke]):not([class])){fill:#343c35}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [data-scene-object=andon] [data-engawa-light]{opacity:0}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [data-engawa-semi-real-andon]{opacity:.70}
