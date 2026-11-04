@@ -83,13 +83,14 @@ globalThis.SolarSky=(()=>{
   return {...value,direction:view.direction,shadow:view.shadow,sunPoint:view.sunPoint,inView:view.inView,exposure:view.exposure,weatherOpacity:weather,cloudTransmission:transmission,horizonTransmission:horizon,
    direct:value.direct*view.exposure*transmission*horizon*(view.inView?1:0),southExposure:1,sunOpacity:value.sky.sunOpacity*weather};
  }
- function disc(s,frame,width=400,height=260){
-  const opacity=s.source==='sun'?s.sky.gardenOpacity*s.weatherOpacity:0;
+ function disc(s,gradient,width=400,height=260){
+  const low=1-SolarModel.smooth(0,24,s.altitude);
+  const opacity=s.source==='sun'?s.sky.gardenOpacity/.64*(.78+.10*low)*s.weatherOpacity:0;
   if(opacity<=0||!s.inView)return null;
   const point={x:s.sunPoint.x*width/400,y:s.sunPoint.y*height/260};
   const node=document.createElementNS(ns,'circle');node.setAttribute('data-solar-disc','');
-  node.setAttribute('cx',point.x);node.setAttribute('cy',point.y);node.setAttribute('r',String(13*width/400));
-  node.setAttribute('fill','#f4d6b0');node.setAttribute('opacity',String(opacity*s.cloudTransmission));return node;
+  node.setAttribute('cx',point.x);node.setAttribute('cy',point.y);node.setAttribute('r',String((9.8+1.2*low)*width/400));
+  node.setAttribute('fill',`url(#${gradient})`);node.setAttribute('opacity',String(opacity*s.cloudTransmission));return node;
  }
  function paint(svg,w,frame){
   const s=state(w,frame),key=[s.region,s.at,w.weather,w.season,frame].join(':');
@@ -100,7 +101,14 @@ globalThis.SolarSky=(()=>{
    group=document.createElementNS(ns,'g');group.setAttribute('data-solar-sky','');
    svg.insertBefore(group,svg.querySelector(':scope > g')||svg.querySelector('[data-depth]'));
   }
-  const box=svg.viewBox.baseVal,node=disc(s,frame,box.width,box.height),old=group.firstElementChild;
+  // Reuse the existing glow gradient for a small feathered limb; no halo/filter/layer.
+  const gradient=svg.querySelector('[data-solar-disc-gradient]')||svg.querySelector('radialGradient');
+  if(gradient){
+   attr(gradient,'data-solar-disc-gradient','');
+   const color=SeasonLandscape.mix('#f3dfaf','#e8a061',1-SolarModel.smooth(0,24,s.altitude));
+   [...gradient.children].forEach((stop,i)=>{attr(stop,'offset',i?1:.82);attr(stop,'stop-color',color);attr(stop,'stop-opacity',i?0:1);});
+  }
+  const box=svg.viewBox.baseVal,node=disc(s,gradient?.id,box.width,box.height),old=group.firstElementChild;
   if(node&&old){for(const a of node.attributes)if(old.getAttribute(a.name)!==a.value)old.setAttribute(a.name,a.value);}
   else if(node||old)group.replaceChildren(...(node?[node]:[]));
   {
@@ -110,7 +118,7 @@ globalThis.SolarSky=(()=>{
    attr(svg.querySelector('[data-landscape-stars]'),'opacity',t.stars*(w.weather==='sunny'?.7:.23));
    for(const cloudGroup of cloudGroups)attr(cloudGroup,'opacity',1-t.stars*.65);
    const stops=svg.querySelector('[data-landscape-gradient]')?.children;
-   if(stops)[p.sky,SeasonLandscape.mix(p.sky,p.horizon,.55),p.horizon].forEach((color,i)=>attr(stops[i],'stop-color',color));
+   if(stops)[p.sky,SeasonLandscape.mix(p.sky,p.horizon,.55-.23*t.glow),p.horizon].forEach((color,i)=>{attr(stops[i],'stop-color',color);attr(stops[i],'offset',[0,.68-.34*t.glow,1-.40*t.glow][i]);});
    svg.querySelectorAll('.room-window-moon').forEach(moon=>RoofMoon.update(moon,SolarModel.time(w)));
   }
   paintEngawa(svg,w);
@@ -121,7 +129,7 @@ globalThis.SolarSky=(()=>{
  const engawaAssets={"assets":{"spring":{"file":"assets/engawa-sky55/country-spring-2147d2624e4261cf.webp","placement":{"x":69.05,"y":76.13653386454183,"width":263.7,"height":155.31346613545816}},"summer":{"file":"assets/engawa-sky55/country-summer-878d1971ea5ddf11.webp","placement":{"x":69.05,"y":75.82652694610778,"width":263.7,"height":155.6234730538922}},"autumn":{"file":"assets/engawa-sky55/country-autumn-a987b36d6c101218.webp","placement":{"x":69.05,"y":76.44530815109343,"width":263.7,"height":155.00469184890656}},"winter":{"file":"assets/engawa-sky55/country-winter-12a7ab239d7514a0.webp","placement":{"x":69.05,"y":76.75285714285712,"width":263.7,"height":154.69714285714286}}},"cloud":{"file":"assets/engawa-sky55/cloud-2b6c0afbfb51844e.webp"}};
  function engawaMatrix(brightness,saturation,t){
   // Subtle air/patina in the existing photographs; retain seasonal colour and detail.
-  const l=[.2126,.7152,.0722],temperature=[1+t.evening*.12-t.night*.18,1-t.evening*.018,1-t.evening*.15+t.night*.12];
+  const l=[.2126,.7152,.0722],temperature=[1+t.evening*.18-t.night*.18,1-t.evening*.018,1-t.evening*.23+t.night*.12];
   return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*.97*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,Number((brightness*temperature[row]*.012).toFixed(5))]).concat([0,0,0,1,0]).join(' ');
  }
  // Window anchors in the unchanged seasonal photo pixels, below the roof eaves.

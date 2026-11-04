@@ -21,9 +21,12 @@ globalThis.SolarLighting=(()=>{
   p.sky=mix(p.sky,'#233d62',t.blue*.8);p.horizon=mix(p.horizon,'#596e91',t.blue*.85);
   p.sky=mix(p.sky,'#607b9d',(t.glow-t.warm)*.6*weather);
   p.horizon=mix(p.horizon,'#90a4b8',(t.glow-t.warm)*.5*weather);
-  p.sky=mix(p.sky,t.morning?'#c6a9b1':'#ba929e',t.warm*.38*weather);
-  p.horizon=mix(p.horizon,t.morning?'#d7a297':'#e2a17f',t.warm*.78*weather);
-  p.cloud=mix(p.cloud,t.morning?'#b4b4ca':'#c6b0b0',t.warm*.45*weather);
+  // Cool upper air over amber/red horizon light, using the same facing/altitude fade.
+  const low=1-SolarModel.smooth(-1,12,SolarModel.parameters(SolarModel.time(w)).altitude),warm=t.warm*weather;
+  p.sky=mix(p.sky,mix('#86a9bc','#3d597c',low),warm*.70);
+  p.horizon=mix(p.horizon,mix('#edc58b','#c77b4d',low),warm*.85);
+  p.cloud=mix(p.cloud,mix('#e8c79b','#b88660',low),warm*.60);
+  p.cloudShade=mix(p.cloudShade,'#776e68',warm*.35);
   return p;
  }
  function nodes(svg,html){const fragment=parse(`<svg xmlns="${ns}">${html}</svg>`);return [...fragment.childNodes].map(n=>svg.ownerDocument.importNode(n,true));}
