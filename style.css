@@ -102,6 +102,7 @@ time,.count,.stat strong,.morning-reaction-grid strong,.reaction-count,.peak-hou
 
 /* Awake choices stay blue; sleep reports share the existing soft pink. */
 .status-actions .extra-post-button[data-post=awake]{color:#A9D4FF}
+body:not(.light-mode) .status-actions .extra-post-button[data-post=try-sleep]{color:#dfc1c5}
 .post-text{color:#ffcec5}.post-text.awake-text{color:#A9D4FF}
 .light-mode .post-text{color:#7a374e}
 
