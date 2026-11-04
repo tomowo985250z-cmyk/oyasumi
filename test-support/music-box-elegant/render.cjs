@@ -20,7 +20,7 @@ function performance(source,p){
 function render(dir){
  dir=path.resolve(dir);if(fs.existsSync(dir)&&fs.readdirSync(dir).length)throw Error('Use a new or empty output directory');fs.mkdirSync(dir,{recursive:true});const rows=[];
  for(const voice of recipes){
-  const source=voice.id==='moonlight-1'?require('./moonlight-1.score.json'):original.find(s=>s.id===voice.id);assert(source,'Source missing: '+voice.id);
+  const source=original.find(s=>s.id===voice.id);assert(source,'Source missing: '+voice.id);
   const score=performance(source,voice),made=synth(score,voice);made.meta.sourceNotes=source.events.length;made.meta.sourcePitchAndVoiceOrderPreserved=true;made.meta.simultaneousNotesRemainSimultaneous=true;made.meta.performance='Smooth phrase time map shared by all voices; quiet melodic voicing and continuous phrase dynamics; no missing, substituted or retuned score notes.';
   fs.writeFileSync(path.join(dir,voice.id+'.wav'),made.out,{flag:'wx'});fs.writeFileSync(path.join(dir,voice.id+'.json'),JSON.stringify(made.meta,null,2)+'\n',{flag:'wx'});rows.push(made.meta);console.log('RENDERED '+voice.id+' '+made.meta.seconds.toFixed(2)+'s '+made.meta.measuredFloatLufs.toFixed(2)+' LUFS');
  }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "policy": "One independent plucked-tine family with composition-specific ringing, register balance and smooth phrase timing. Score notes, grace notes, voices and chords retained. Static mastering/calibration preserves dynamics and quiet coexistence with nature sounds. No reference audio, arrangement or timbre data used. Timbre-only revision comparing 786dd7e with its parent: retain the exact six performances, tuning, register balance and playback calibration; ease inharmonic metal/body energy and overlapping tails without removing score harmonies.",
+  "policy": "One independent plucked-tine family with composition-specific ringing, register balance and smooth phrase timing. Score notes, grace notes, voices and chords retained. Static mastering/calibration preserves dynamics and quiet coexistence with nature sounds. No reference audio, arrangement or timbre data used. Timbre-only revision comparing 786dd7e with its parent: retain the exact five retained performances, tuning, register balance and playback calibration; ease inharmonic metal/body energy and overlapping tails without removing score harmonies.",
   "voices": [
     {
       "id": "clair-de-lune",
@@ -224,51 +224,6 @@
         1040
       ],
       "woodAmount": 0.0112,
-      "pairedTineWeight": 0.01,
-      "playbackLufs": -42
-    },
-    {
-      "id": "moonlight-1",
-      "nativeTimeScale": 1.18,
-      "decay": 1.84,
-      "decaySpan": 53,
-      "metal": [
-        0.126,
-        0.023,
-        0.0032
-      ],
-      "tineCents": 0.74,
-      "driftCents": 0.13,
-      "reflection": 0.025,
-      "bassWeight": 0.58,
-      "lidHz": 4600,
-      "phraseSeconds": 16,
-      "breathSeconds": 0.05,
-      "swell": 0.115,
-      "phraseSwell": 0.035,
-      "melodyFloor": 64,
-      "melodyDuration": 0.65,
-      "graceFloor": 80,
-      "melodyGain": 1.12,
-      "accompanimentGain": 0.9,
-      "allUpperMelody": false,
-      "reason": "第1楽章全1142音を維持。旋律と三連符を分け、静かな和声と終止の余韻を重視。",
-      "dynamicExponent": 1.02,
-      "nominalLufs": -23,
-      "modes": [
-        1,
-        2.7566,
-        5.4046,
-        8.933
-      ],
-      "attackMs": 2.2,
-      "slowWeight": 0.21,
-      "wood": [
-        270,
-        620,
-        1040
-      ],
-      "woodAmount": 0.01,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42
     }

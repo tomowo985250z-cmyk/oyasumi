@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "timbre": "Timbre-only balance between the pre-786dd7e recordings and 786dd7e: gentler inharmonic metal/body resonance with retained two-stage fundamental ringing. Six performances, pitches, chords, ornaments, tempo, dynamics, player levels and loop periods unchanged.",
+  "version": 8,
+  "timbre": "Timbre-only balance between the pre-786dd7e recordings and 786dd7e: gentler inharmonic metal/body resonance with retained two-stage fundamental ringing. Five retained performances, pitches, chords, ornaments, tempo, dynamics, player levels and loop periods unchanged.",
   "tracks": [
     {
       "id": "clair-de-lune",
@@ -406,95 +406,6 @@
         "sharedTempoCeiling": false
       },
       "performanceEventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44"
-    },
-    {
-      "id": "moonlight-1",
-      "title": "月光ソナタ 第1楽章",
-      "url": "assets/classic-music-v6/moonlight-1.mp3",
-      "loopStart": 0.04604166666666667,
-      "loopEnd": 330.44604166666664,
-      "level": 0.11811104243455682,
-      "seconds": 330.4,
-      "bytes": 3965472,
-      "sha256": "96e9f30f305878d2caac6c48125e0fb152ded24789f528e599f2609f908285b4",
-      "source": {
-        "id": 276,
-        "key": "moonlight-1",
-        "title": "月光ソナタ第1楽章",
-        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=276",
-        "license": "Creative Commons Attribution-ShareAlike 2.5",
-        "credit": "Stewart Holmes stewart (at) stewartholmes.com http://www.stewartholmes.com ",
-        "edition": "Berners, 1908 (edited by A. Winterberger)",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/2.5/",
-        "downloads": [
-          {
-            "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-lys.zip",
-            "file": "276-moonlight-lys.zip",
-            "bytes": 37285,
-            "sha256": "3863df81f0a3141f3ea7dd901efd9929f90e32c577377b99a7f7ff81b6b33990"
-          },
-          {
-            "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-mids.zip",
-            "file": "276-moonlight-mids.zip",
-            "bytes": 9522,
-            "sha256": "94915b176f0b999919a6cd1025a45ec8dd0a454dab33b2b332c5026291ea91f5"
-          }
-        ],
-        "composer": "Ludwig van Beethoven (1770–1827)",
-        "movement": "I. Adagio sostenuto",
-        "midiFile": "276-moonlight1.mid",
-        "midiSha256": "a34e969c4957f0e9e98fc9ff0278cc1284931bdae6d463469797faa2b73a9c5c",
-        "originalVelocity": 127,
-        "sourceNoteCount": 1142,
-        "sourcePitchRange": [
-          29,
-          87
-        ],
-        "note": "Complete movement, all 1142 encoded notes and original pitches/voices. Source MIDI encodes velocity 127 for every note; independent phrase/voice dynamics are applied by render.cjs. No excerpt, added cadence, octave shift or harmony substitution."
-      },
-      "license": "Creative Commons Attribution-ShareAlike 2.5",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/",
-      "recordingLicense": "CC BY-SA 2.5; derived from Stewart Holmes / Mutopia-276 score",
-      "arrangement": "第1楽章全1142音を維持。旋律と三連符を分け、静かな和声と終止の余韻を重視。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
-      "previousArrangement": null,
-      "tempo": {
-        "nativeTimeScale": 1.18,
-        "smoothPhraseTiming": true,
-        "sharedTempoCeiling": false
-      },
-      "processing": {
-        "recipe": "../../test-support/music-box-elegant/voices.json",
-        "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
-        "staticPlaybackCalibration": true,
-        "dynamicCompression": false,
-        "timbreRevision": "Moderated metal/body resonance and overlapping decay; exact 786dd7e score events, timing, voicing and static player levels retained.",
-        "comparison": "../classic-music-v6/comparison.json"
-      },
-      "rmsDb": -22.62139130469242,
-      "peakDb": -8.745704212633363,
-      "seamStep": 0.00001684401649981737,
-      "integratedLufs": -23.445811359623534,
-      "eventHash": "69a9e0302a7f492415dfcc61f2db741ebc2d4d922e3d79bb54f1e2a0b33d87ef",
-      "sourceEventHash": "061f9303974bc291f70a39816cfe934362cf38e1fbc4eb8ec4f7df1f041191b6",
-      "performanceEventHash": "69a9e0302a7f492415dfcc61f2db741ebc2d4d922e3d79bb54f1e2a0b33d87ef",
-      "decoderAnalysis": {
-        "rate": 24000,
-        "decodedSeconds": 330.456,
-        "sourceCorrelation": 0.9999999751828141,
-        "loopStart": 0.04604166666666667,
-        "loopEnd": 330.44604166666664,
-        "level": 0.11811104243455682,
-        "integratedLufs": -23.445811359623534,
-        "playbackLufs": -42.00000130841851,
-        "peakDb": -8.7396924102929,
-        "oversampledRate": 96000,
-        "clipped": 0,
-        "nonFinite": 0,
-        "boundaryStep": 0.00001684401649981737,
-        "nativeLoopRendered": true,
-        "subjectiveListeningVerified": false,
-        "fullPeriodNativeRender": true
-      }
     }
   ],
   "missing": [],
