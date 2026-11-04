@@ -107,7 +107,7 @@ globalThis.DayRoom=(()=>{
  }
  const shojiClosed=user=>canControlRoom(user)&&shojis.get(user)===true;
  function shojiPalette(w){
-  const colors=SolarLighting.palette(SolarModel.world(w),phase=>({paper:phase==='night'?'#abb2a2':phase==='evening'?'#d7bea0':phase==='morning'?'#e2decb':'#e0dfcb',light:phase==='night'?'#d8dfd2':phase==='evening'?'#f6d5a5':phase==='morning'?'#faf0d7':'#f7f5e6',wood:phase==='night'?'#53636a':phase==='evening'?'#ac8e70':'#b29d82',sidePaper:phase==='night'?'#637371':'#dad8c8',sideBack:phase==='night'?'#536365':'#c6c8bc'}));
+  const colors=SolarLighting.palette(SolarModel.world(w),phase=>({paper:phase==='night'?'#abb0a0':phase==='evening'?'#d6bea1':phase==='morning'?'#e2decb':'#ded9c7',light:phase==='night'?'#d8dfd2':phase==='evening'?'#f6d5a5':phase==='morning'?'#faf0d7':'#f4edd9',wood:phase==='night'?'#53636a':phase==='evening'?'#ac8e70':'#b19a7b',sidePaper:phase==='night'?'#637371':'#dad8c8',sideBack:phase==='night'?'#536365':'#c6c8bc'}));
   const wet=w.weather==='rainy'?.18:w.weather==='cloudy'?.08:0;
   colors.paper=SeasonLandscape.mix(colors.paper,'#b8bcb0',wet);return colors;
  }

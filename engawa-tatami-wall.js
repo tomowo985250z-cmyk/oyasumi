@@ -12,7 +12,7 @@ globalThis.TatamiWallStudy=(()=>{
  function softFurnishings(doc,w){
   const svg=doc.documentElement,node=helpers(doc),main=svg.querySelector('g[filter]'),id='engawa-soft-'+(++serial),defs=node('defs',{'data-engawa-soft-defs':''}),mix=SeasonLandscape.mix;
   svg.querySelector('defs').append(defs);
-  const p=SolarLighting.palette(SolarModel.world(w),phase=>({color:phase==='night'?'#879995':phase==='evening'?'#e8c8a2':phase==='morning'?'#f0f0df':'#f0ebdf'})),rgb=[1,3,5].map(i=>parseInt(p.color.slice(i,i+2),16)/255),tone=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});
+  const p=SolarLighting.palette(SolarModel.world(w),phase=>({color:phase==='night'?'#8a9992':phase==='evening'?'#e8c8a2':phase==='morning'?'#eee9d9':'#ede5d5'})),rgb=[1,3,5].map(i=>parseInt(p.color.slice(i,i+2),16)/255),tone=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});
   tone.innerHTML='<feColorMatrix type="saturate" values=".78"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.82+'" intercept="'+rgb[i]*.085+'"/>').join('')+'</feComponentTransfer>';defs.append(tone);
   const ceilingClip=node('clipPath',{id:id+'-ceiling'});ceilingClip.append(node('path',{d:'M0 0H400V26H0Z'}));defs.append(ceilingClip);
   const wood=node('pattern',{id:id+'-wood',patternUnits:'userSpaceOnUse',width:170,height:70});wood.append(node('image',{href:'assets/engawa-semi-real-v1/wood.webp?v=0ee8d8588835c769',width:170,height:70,preserveAspectRatio:'none'}));defs.append(wood);
@@ -31,31 +31,24 @@ globalThis.TatamiWallStudy=(()=>{
   }
   const rug=main.querySelector('ellipse[cx="204"][cy="262"]'),oldRim=main.querySelector('ellipse[cx="204"][cy="260"]');
   if(rug){
-   const base=rug.getAttribute('fill'),clip=node('clipPath',{id:id+'-rug'});clip.append(node('ellipse',{cx:204,cy:262,rx:83,ry:13}));defs.append(clip);
+   const base=mix(rug.getAttribute('fill'),'#a6a58a',.14),light=mix(base,'#eee4cb',.26),dark=mix(base,'#555b49',.30);
+   // The native footprint supports a stuffed cotton pad, with a lower front
+   // roll and a stitched top. Keep it behind the unchanged cushion and cat.
+   const face='M132 250Q202 248 275 250Q280 250 281 254Q283 258 286 264Q288 267 281 269Q260 271 241 270Q212 272 188 270Q157 272 127 269Q120 267 122 263Q125 258 127 254Q128 251 132 250Z';
+   const side='M122 262Q119 269 126 272Q155 276 183 274Q211 276 239 274Q262 275 282 272Q288 270 286 263L281 254H129Z';
    const gradient=node('radialGradient',{id:id+'-rug-tone',cx:'.42',cy:'.28',r:'.8'});gradient.innerHTML='<stop stop-color="'+mix(base,'#f0e3c8',.16)+'"/><stop offset=".66" stop-color="'+base+'"/><stop offset="1" stop-color="'+mix(base,'#484838',.19)+'"/>';defs.append(gradient);
-   const cloth=node('g',{'data-engawa-soft-material':'rug','clip-path':'url(#'+clip.id+')',style:'pointer-events:none'});cloth.append(node('ellipse',{cx:204,cy:262,rx:83,ry:13,fill:'url(#'+gradient.id+')'}));
-   const light=mix(base,'#f5ebd3',.30),dark=mix(base,'#514d3c',.32);
-   for(let i=0;i<22;i++){
-    const rx=81-i*3.45,ry=rx*13/83;
-    cloth.append(node('ellipse',{cx:204,cy:262,rx,ry,fill:'none',stroke:i%2?light:dark,'stroke-width':i%2?'.36':'.52',opacity:'.31'}));
-   }
-   // Quiet woven fibres and a rounded braided rim, in the same floor plane.
-   // All detail stays inside the original oval; size, palette and placement stay native.
+   const edge=node('linearGradient',{id:id+'-rug-roll',gradientUnits:'userSpaceOnUse',x1:0,y1:267,x2:0,y2:275});edge.innerHTML='<stop stop-color="'+light+'"/><stop offset=".35" stop-color="'+base+'"/><stop offset="1" stop-color="'+dark+'"/>';defs.append(edge);
+   const cloth=node('g',{'data-engawa-soft-material':'rug','data-cloth-pad':'cotton',style:'pointer-events:none'});
+   cloth.append(node('path',{d:side,fill:'url(#'+edge.id+')'}));cloth.append(node('path',{d:face,fill:'url(#'+gradient.id+')'}));
    const fibre=node('pattern',{id:id+'-rug-fibre',patternUnits:'userSpaceOnUse',x:121,y:249,width:7.5,height:3.6});
-   fibre.innerHTML='<path d="M-.8 1q2-.9 4 .1t4-.1M-.8 2.8q2 .8 4-.1t4 .1" fill="none" stroke="'+dark+'" stroke-width=".48" stroke-opacity=".28"/><path d="M.8 .2q-.5 1.5 .1 2.9m3.6-2.6q.6 1.3-.1 3" fill="none" stroke="'+light+'" stroke-width=".55" stroke-opacity=".46"/>';defs.append(fibre);
-   cloth.append(node('ellipse',{cx:204,cy:262,rx:81,ry:12.7,fill:'url(#'+fibre.id+')'}));
-   const stitches=[],glints=[];
-   for(let i=0;i<112;i++){
-    const t=i*Math.PI*2/112,point=(r,a)=>[204+r*Math.cos(a),262+r*13/83*Math.sin(a)].map(number).join(' ');
-    stitches.push('M'+point(82,t-.012)+'Q'+point(80.2,t+.018)+' '+point(78.4,t-.012));
-    if(i%3!==0)glints.push('M'+point(81.6,t-.017)+'Q'+point(80.1,t+.008)+' '+point(79,t-.012));
-   }
-   cloth.append(node('path',{d:stitches.join(''),fill:'none',stroke:dark,'stroke-width':'.65','stroke-linecap':'round',opacity:'.40'}));
-   cloth.append(node('path',{d:glints.join(''),fill:'none',stroke:light,'stroke-width':'.4','stroke-linecap':'round',opacity:'.56'}));
-   cloth.append(node('path',{d:'M122 262q82 23.6 164 0',fill:'none',stroke:dark,'stroke-width':'1.25',opacity:'.20'}));
-
-   const weave=node('filter',{id:id+'-linen',x:0,y:0,width:'100%',height:'100%'});weave.innerHTML='<feTurbulence type="fractalNoise" baseFrequency=".55 .28" numOctaves="2" seed="41"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".07"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/>';defs.append(weave);
-   cloth.style.filter='url(#'+weave.id+')';rug.after(cloth);if(oldRim){oldRim.setAttribute('data-engawa-soft-legacy','rim');oldRim.setAttribute('opacity','0');}
+   fibre.innerHTML='<path d="M0 .8h7.5M0 2.7h7.5" fill="none" stroke="'+dark+'" stroke-width=".35" stroke-opacity=".12"/><path d="M1.2 .2l.9 .7m3 1.2.7 .6" fill="none" stroke="'+light+'" stroke-width=".45" stroke-opacity=".22"/>';defs.append(fibre);
+   cloth.append(node('path',{d:face,fill:'url(#'+fibre.id+')'}));
+   cloth.append(node('path',{d:'M132 252Q203 250 274 252L282 263Q285 266 278 267Q204 271 130 267Q124 266 126 262Z',fill:'none',stroke:dark,'stroke-width':'.55','stroke-dasharray':'1.4 2',opacity:'.32'}));
+   cloth.append(node('path',{d:'M126 269Q204 275 283 269',fill:'none',stroke:light,'stroke-width':'.75',opacity:'.32'}));
+   cloth.append(node('path',{d:'M127 262q3 2 8 1m142-9q-2 4-1 7M133 267q6-1 10 0m121 0q7 1 14-2',fill:'none',stroke:dark,'stroke-width':'.6','stroke-linecap':'round',opacity:'.19'}));
+   cloth.append(node('path',{d:'M128 256q1 4 4 5m134-9q6 1 9 3M135 268q11 1 19 .5',fill:'none',stroke:light,'stroke-width':'.65','stroke-linecap':'round',opacity:'.22'}));
+   rug.setAttribute('cy','273');rug.setAttribute('ry','3');rug.setAttribute('fill',dark);rug.setAttribute('opacity','.15');
+   rug.after(cloth);if(oldRim){oldRim.setAttribute('data-engawa-soft-legacy','rim');oldRim.setAttribute('opacity','0');}
   }
  }
 
@@ -103,7 +96,7 @@ globalThis.TatamiWallStudy=(()=>{
   const relief=node('filter',{id:id+'-relief',x:'0',y:'0',width:'100%',height:'100%','color-interpolation-filters':'sRGB'});relief.innerHTML='<feTurbulence type="fractalNoise" baseFrequency=".28" numOctaves="2" seed="17" result="fibre-noise"/><feColorMatrix in="fibre-noise" type="saturate" values="0"/><feComponentTransfer result="fibre-relief"><feFuncA type="linear" slope=".045"/></feComponentTransfer><feBlend in="SourceGraphic" in2="fibre-relief" mode="soft-light"/>';defs.append(relief);
   // Preserve the previous paper filter's geometry bounds outside this edit.
   const bounds=old.cloneNode(true);bounds.setAttribute('opacity','0');bounds.removeAttribute('data-study-material');bounds.setAttribute('data-preserved-paper-bounds','');for(const n of [bounds,...bounds.querySelectorAll('*')])for(const a of [...n.attributes])if(a.name.startsWith('data-tatami')||a.name==='data-world-size'||a.name==='data-long-axis')n.removeAttribute(a.name);floor.append(bounds);
-  const tone=SolarLighting.palette(SolarModel.world(w),phase=>phase==='night'?{base:'#6f7863',light:'#a0a68a',dark:'#465342',cloth:'#3f4c40',thread:'#89917c'}:phase==='evening'?{base:'#bdb08b',light:'#ddc99f',dark:'#7d8166',cloth:'#697057',thread:'#c0b98d'}:{base:'#b5b89a',light:'#d2d0aa',dark:'#7c876a',cloth:'#5c6c54',thread:'#bec6a0'});
+  const tone=SolarLighting.palette(SolarModel.world(w),phase=>phase==='night'?{base:'#727963',light:'#a2a78a',dark:'#485342',cloth:'#414d40',thread:'#89917c'}:phase==='evening'?{base:'#bfb08b',light:'#dfc99f',dark:'#7f8065',cloth:'#6b7057',thread:'#c0b98d'}:{base:'#b6b698',light:'#d4cfaa',dark:'#7f866a',cloth:'#606d55',thread:'#bec6a0'});
   const mix=SeasonLandscape.mix;
   const planePoly=(coords,attrs={})=>node('polygon',{points:points(coords.map(p=>project(...p))),...attrs});
   const planeD=coords=>'M'+coords.map(p=>project(...p).map(number).join(' ')).join('L')+'Z';
@@ -192,7 +185,7 @@ globalThis.TatamiWallStudy=(()=>{
  function header(w,key){
   const source=interior.header(w,key),doc=parse('<svg xmlns="'+ns+'">'+source+'</svg>'),svg=doc.documentElement,node=helpers(doc),id='plaster-wall-'+(++serial),defs=node('defs',{'data-tatami-wall-defs':''});
   svg.querySelectorAll('[data-study-shared-material="plaster"]').forEach(n=>n.remove());
-  const world=SolarModel.world(w),sun=SolarSky.state(world,'engawa'),tone=SolarLighting.palette(world,phase=>phase==='night'?{base:'#65716d',light:'#80887d',dark:'#485752'}:phase==='evening'?{base:'#cfc1aa',light:'#e6d2b5',dark:'#a79b87'}:phase==='morning'?{base:'#d7cfbb',light:'#ece2cd',dark:'#b0ac97'}:{base:'#d6cdba',light:'#ede2cf',dark:'#b3ab98'}),mix=SeasonLandscape.mix;
+  const world=SolarModel.world(w),sun=SolarSky.state(world,'engawa'),tone=SolarLighting.palette(world,phase=>phase==='night'?{base:'#68716b',light:'#83887d',dark:'#4a5751'}:phase==='evening'?{base:'#cfc0a8',light:'#e6d0b2',dark:'#a79a85'}:phase==='morning'?{base:'#d6cdb8',light:'#ebe0c8',dark:'#b0aa94'}:{base:'#d4cab6',light:'#eadfc9',dark:'#b3a995'}),mix=SeasonLandscape.mix;
   const rgb=[1,3,5].map(i=>parseInt(tone.base.slice(i,i+2),16)/255),filter=node('filter',{id:id+'-texture','color-interpolation-filters':'sRGB'});
   filter.innerHTML='<feColorMatrix type="saturate" values=".12"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.65+'" intercept="'+rgb[i]*.43+'"/>').join('')+'</feComponentTransfer>';defs.append(filter);
   const pattern=node('pattern',{id:id+'-plaster',patternUnits:'userSpaceOnUse',width:400,height:330});pattern.innerHTML=[0,342.65].map(x=>'<svg x="'+x+'" y="35" width="57.35" height="183" viewBox="253 5 43 50" preserveAspectRatio="none"><image href="assets/bedroom-realism-v1/shell.webp" width="400" height="330" data-tatami-wall-sample="same-bedroom-plaster"/></svg>').join('');defs.append(pattern);
