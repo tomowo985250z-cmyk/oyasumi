@@ -22,3 +22,12 @@
 /* Only the pendant switches off; the independent andon keeps its native warmth. */
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch [stroke]{stroke:#303a34}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch>svg>:is(path:not([stroke]),ellipse:not([stroke]):not([class])){fill:#343c35}
+
+/* The independent andon emission bypasses the room's ambient dimming only. */
+.engawa-pendant-light>[data-andon-emission]{display:none}
+.engawa-pendant-light>[data-pendant-beam]{transition:opacity 260ms ease}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-light[data-andon-ready]{opacity:1}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-light>[data-pendant-beam]{opacity:0}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-light>[data-andon-emission]{display:inline}
+.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]:has(>[data-andon-ready]) .day-room-place-art [data-engawa-light]{visibility:hidden}
+@media(prefers-reduced-motion:reduce){.engawa-pendant-light>[data-pendant-beam]{transition:none}}
