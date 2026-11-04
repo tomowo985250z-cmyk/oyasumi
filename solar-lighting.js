@@ -2,6 +2,8 @@
 globalThis.SolarLighting=(()=>{
  let sequence=0;
  const ns='http://www.w3.org/2000/svg';
+ const attr=(node,key,value)=>{value=String(value);if(node?.getAttribute(key)!==value)node?.setAttribute(key,value);};
+ const css=(node,key,value)=>{value=String(value);if(node.style.getPropertyValue(key)!==value)node.style.setProperty(key,value);};
  const parse=source=>{const normalized=(/<svg[^>]*\bxmlns=/.test(source)?source:source.replace('<svg ',`<svg xmlns="${ns}" `)).replace(/\s(data-[\w-]+)(?=\s|>)/g,' $1=""'),doc=new DOMParser().parseFromString(normalized,'image/svg+xml');if(doc.querySelector('parsererror'))throw Error(doc.querySelector('parsererror').textContent);return doc.documentElement;};
  const stringify=svg=>new XMLSerializer().serializeToString(svg);
  const points=p=>p.map(a=>a.map(n=>Number(n.toFixed(3))).join(',')).join(' ');
@@ -185,19 +187,20 @@ globalThis.SolarLighting=(()=>{
   const w={...SolarModel.world(input),cloudAt:input.cloudAt??SolarModel.time(input)},s=illumination(w,stage.dataset.location),weights=SolarModel.weights(w.at),day=1-weights.night;
   nightShadows(stage,w);
   const source=actor(stage),level=stage.dataset.location==='engawa'?lanternLevel(w):0;
-  for(const node of stage.querySelectorAll('[data-engawa-light]'))node.setAttribute('opacity',String(level));
+  for(const node of stage.querySelectorAll('[data-engawa-light]'))attr(node,'opacity',level);
   let warmth=0;
   if(level&&source){const r=stage.getBoundingClientRect(),b=source.group.getBoundingClientRect();if(r.width)warmth=level*Math.max(0,1-Math.hypot((b.left+b.width/2-r.left)*400/r.width-37,(b.bottom-r.top)*400/r.width-268)/220);}
-  for(const node of stage.querySelectorAll('[data-solar-direct]'))node.setAttribute('opacity',String(s.direct*Number(node.dataset.lightFactor)));
+  for(const node of stage.querySelectorAll('[data-solar-direct]'))attr(node,'opacity',s.direct*Number(node.dataset.lightFactor));
   const edge=stage.dataset.location==='room'&&stage.dataset.curtainClosed==='true'?0:edgeLight(w,stage.dataset.location);
-  for(const node of stage.querySelectorAll('[data-solar-edge]'))node.setAttribute('opacity',String(edge));
-  stage.dataset.solarLight=s.source;stage.style.setProperty('--room-light-brightness',String(.78+.22*day));stage.style.setProperty('--room-light-saturation',String(.90+.10*day));
-  stage.style.setProperty('--room-light-filter',day===1?'none':`brightness(${.78+.22*day}) saturate(${.90+.10*day})`);
-  if(warmth)stage.style.setProperty('--room-light-filter',`brightness(${.78+.22*day+.08*warmth}) saturate(${.90+.10*day+.04*warmth}) sepia(${.10*warmth})`);
+  for(const node of stage.querySelectorAll('[data-solar-edge]'))attr(node,'opacity',edge);
+  attr(stage,'data-solar-light',s.source);css(stage,'--room-light-brightness',.78+.22*day);css(stage,'--room-light-saturation',.90+.10*day);
+  let lightFilter=day===1?'none':`brightness(${.78+.22*day}) saturate(${.90+.10*day})`;
+  if(warmth)lightFilter=`brightness(${.78+.22*day+.08*warmth}) saturate(${.90+.10*day+.04*warmth}) sepia(${.10*warmth})`;
   const reflection=bg?.querySelector('[data-engawa-reflection]');
-  if(warmth&&reflection){reflection.querySelector('[data-engawa-reflection-strength]').setAttribute('slope',String(warmth));stage.style.setProperty('--room-light-filter',stage.style.getPropertyValue('--room-light-filter')+` url("#${reflection.id}")`);}
+  if(warmth&&reflection){attr(reflection.querySelector('[data-engawa-reflection-strength]'),'slope',warmth);lightFilter+=` url("#${reflection.id}")`;}
   const sunlight=bg?.querySelector('[data-solar-edge-reflection]');
-  if(sunlight){sunlight.querySelector('[data-solar-edge-strength]').setAttribute('slope',String(edge));if(edge)stage.style.setProperty('--room-light-filter',stage.style.getPropertyValue('--room-light-filter').replace(/^none$/,'')+` url("#${sunlight.id}")`);}
+  if(sunlight){attr(sunlight.querySelector('[data-solar-edge-strength]'),'slope',edge);if(edge)lightFilter=lightFilter.replace(/^none$/,'')+` url("#${sunlight.id}")`;}
+  css(stage,'--room-light-filter',lightFilter);
   let entry=entries.get(stage);if(!entry){const holder=document.createElement('div');holder.className='room-cat-lighting';holder.setAttribute('aria-hidden','true');stage.append(holder);entry={holder};entries.set(stage,entry);resize?.observe(stage);}
   const signature=[w.at,w.weather,stage.dataset.location,stage.dataset.place,stage.clientWidth,source?.img.getAttribute('src'),source?.group.getAttribute('style'),stage.dataset.nightPose,stage.dataset.nightShadowSource,stage.dataset.nightShadowActor].join(':');
   if(entry.signature===signature)return;entry.signature=signature;const token={};entry.token=token;

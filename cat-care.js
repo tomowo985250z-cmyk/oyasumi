@@ -72,7 +72,7 @@ globalThis.CatCare=(()=>{
    // Measure the painted cat, including its own scale and the scene's scale.
    // Reuse the visible-time clock so resizing and background pauses stay aligned.
    const cat=joy.getBoundingClientRect(),box=scene.getBoundingClientRect();
-   if(cat.width&&box.width&&box.height){heart.style.left=((cat.left-box.left+cat.width*(face[4]+.2*(face[4]-face[2]))/face[0])*scene.offsetWidth/box.width).toFixed(3)+'px';heart.style.top=((cat.top-box.top+cat.height*(face[3]+.18*(face[5]-face[3]))/face[1])*scene.offsetHeight/box.height).toFixed(3)+'px';}
+   if(cat.width&&box.width&&box.height){const left=((cat.left-box.left+cat.width*(face[4]+.2*(face[4]-face[2]))/face[0])*scene.offsetWidth/box.width).toFixed(3)+'px',top=((cat.top-box.top+cat.height*(face[3]+.18*(face[5]-face[3]))/face[1])*scene.offsetHeight/box.height).toFixed(3)+'px';if(heart.style.left!==left)heart.style.left=left;if(heart.style.top!==top)heart.style.top=top;}
    const t=Math.max(0,Math.min(1,(ms-4000)/2000)),rise=reduced?0:24*smooth(t),sway=reduced?0:2*Math.sin(t*Math.PI*2);
    heart.style.transform=`translate(-50%,-50%) translate(${sway.toFixed(3)}px,${(-rise).toFixed(3)}px)`;
    heart.style.opacity=String(smooth(t/.18)*(1-smooth((t-.55)/.45)));
@@ -89,7 +89,7 @@ globalThis.CatCare=(()=>{
    // Layout-based top updates repaint the clipped head on WebKit, without a
    // second CSS/GPU animation clock drifting away from the visible-time clock.
    const chew=Math.max(0,ms-1000),offset=phase==='munch'?(reduced?3:12)*(1-Math.cos(chew*2*Math.PI/(reduced?1000:600)))/2:0;
-   head.style.top=offset.toFixed(3)+'px';
+   const headTop=offset.toFixed(3)+'px';if(head.style.top!==headTop)head.style.top=headTop;
    bowl.style.opacity=String(reduced?1:Math.min(1,ms/1000));
    food.style.opacity=String(phase==='joy'?0:phase==='munch'?Math.max(0,1-chew/3000):1);
    if(phase==='joy')drawHeart(ms);
@@ -116,7 +116,7 @@ globalThis.CatCare=(()=>{
   // must not consume the meal while the user cannot see it.
   await new Promise(resolve=>{
    let elapsed=0,started=null,timer,frame,finished=false,returning=false;
-   const paused=()=>document.hidden||document.documentElement.hasAttribute('data-cat-state-pending');
+   const paused=()=>document.hidden||document.documentElement.hasAttribute('data-cat-state-pending')||scene.closest('.day-room[data-render-paused]');
    const consume=()=>{if(started!==null){elapsed+=performance.now()-started;started=null;}};
    const finish=()=>{
     if(finished)return;finished=true;

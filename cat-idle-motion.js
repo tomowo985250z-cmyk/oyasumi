@@ -70,10 +70,35 @@ globalThis.CatIdleMotion=(()=>{
   observer=new MutationObserver(rows=>{if(rows.some(row=>!row.target.closest?.('.cat-idle-detail')))request();});
   observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src','hidden','data-asset-key','data-location','data-place','data-post-status','data-world-daylight','data-feeding','data-cat-playback']});
   new MutationObserver(request).observe(document.documentElement,{attributes:true,attributeFilter:['data-cat-state-pending']});
-  document.addEventListener('visibilitychange',request);document.addEventListener('scroll',request,{passive:true,capture:true});window.addEventListener('resize',request);reduce.addEventListener('change',request);request();
+  document.addEventListener('visibilitychange',request);document.addEventListener('catvisibilitychange',request);document.addEventListener('scroll',request,{passive:true,capture:true});window.addEventListener('resize',request);reduce.addEventListener('change',request);request();
  }
  return Object.freeze({rules,wait,amplitude,sync,start});
 })();
 CatIdleMotion.start();
+
+// CSS stars, breathing and incense share visibility without a frame loop.
+// Cloud/petal Web Animations keep their existing visibility clocks.
+(()=>{
+ const selector='.day-room,.roof-sky-card',tracked=new Set();let observer,pageHidden=false;
+ function pause(stage,offscreen){
+  const paused=document.hidden||pageHidden||offscreen;
+  if(stage.hasAttribute('data-render-paused')===paused)return;
+  stage.toggleAttribute('data-render-paused',paused);
+  stage.dispatchEvent(new Event('catvisibilitychange',{bubbles:true}));
+ }
+ function refresh(){
+  document.documentElement.toggleAttribute('data-scene-page-hidden',document.hidden||pageHidden);
+  for(const stage of tracked){const r=stage.getBoundingClientRect();pause(stage,!r.width||!r.height||r.bottom<=0||r.top>=innerHeight||r.right<=0||r.left>=innerWidth);}
+ }
+ function scan(node){if(node.nodeType!==1)return;for(const stage of [...(node.matches(selector)?[node]:[]),...node.querySelectorAll(selector)])if(!tracked.has(stage)){tracked.add(stage);observer.observe(stage);}}
+ function start(){
+  if(typeof IntersectionObserver!=='function')return;
+  observer=new IntersectionObserver(rows=>{for(const row of rows)pause(row.target,!row.isIntersecting||!row.boundingClientRect.width||!row.boundingClientRect.height);});scan(document.body);
+  new MutationObserver(rows=>{for(const row of rows){if(row.target.closest?.(selector))continue;for(const node of row.addedNodes)scan(node);}for(const stage of tracked)if(!stage.isConnected){observer.unobserve(stage);tracked.delete(stage);}}).observe(document.body,{subtree:true,childList:true});
+  document.addEventListener('visibilitychange',refresh);
+  addEventListener('pagehide',()=>{pageHidden=true;refresh();});addEventListener('pageshow',()=>{pageHidden=false;refresh();});refresh();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
 
 

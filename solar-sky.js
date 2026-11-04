@@ -38,6 +38,7 @@ globalThis.NightConstellations=(()=>{
 // Sunrise/sunset decoration only. No cat geometry, shadows or background manager.
 globalThis.SolarSky=(()=>{
  const ns='http://www.w3.org/2000/svg';
+ const attr=(node,key,value)=>{value=String(value);if(node?.getAttribute(key)!==value)node?.setAttribute(key,value);};
  const parse=source=>{
   const normalized=(/<svg[^>]*\bxmlns=/.test(source)?source:source.replace('<svg ',`<svg xmlns="${ns}" `)).replace(/\s(data-[\w-]+)(?=\s|>)/g,' $1=""');
   const doc=new DOMParser().parseFromString(normalized,'image/svg+xml');
@@ -104,12 +105,12 @@ globalThis.SolarSky=(()=>{
   else if(node||old)group.replaceChildren(...(node?[node]:[]));
   {
    const cloudGroups=svg.querySelectorAll('[data-sky-clouds]');
-   for(const cloudGroup of cloudGroups)SeasonLandscape.clouds(w,frame).forEach((c,i)=>cloudGroup.children[i]?.setAttribute('transform',`translate(${c.x} ${c.y}) scale(${c.scale})`));
+   for(const cloudGroup of cloudGroups)SeasonLandscape.clouds(w,frame).forEach((c,i)=>attr(cloudGroup.children[i],'transform',`translate(${c.x} ${c.y}) scale(${c.scale})`));
    const t=SolarModel.twilight(SolarModel.time(w),frame),p=SeasonLandscape.theme({...w,solar:true,skyFrame:frame});
-   svg.querySelector('[data-landscape-stars]')?.setAttribute('opacity',String(t.stars*(w.weather==='sunny'?.7:.23)));
-   for(const cloudGroup of cloudGroups)cloudGroup.setAttribute('opacity',String(1-t.stars*.65));
+   attr(svg.querySelector('[data-landscape-stars]'),'opacity',t.stars*(w.weather==='sunny'?.7:.23));
+   for(const cloudGroup of cloudGroups)attr(cloudGroup,'opacity',1-t.stars*.65);
    const stops=svg.querySelector('[data-landscape-gradient]')?.children;
-   if(stops)[p.sky,SeasonLandscape.mix(p.sky,p.horizon,.55),p.horizon].forEach((color,i)=>stops[i].setAttribute('stop-color',color));
+   if(stops)[p.sky,SeasonLandscape.mix(p.sky,p.horizon,.55),p.horizon].forEach((color,i)=>attr(stops[i],'stop-color',color));
    svg.querySelectorAll('.room-window-moon').forEach(moon=>RoofMoon.update(moon,SolarModel.time(w)));
   }
   paintEngawa(svg,w);
@@ -154,13 +155,13 @@ globalThis.SolarSky=(()=>{
    }lights.dataset.windows=key;
   }
   const at=SolarModel.time(w),night=SolarModel.phase(at)==='night',level=night?SolarModel.smooth(-.833,-6,SolarModel.parameters(at).altitude):0;
-  lights.setAttribute('opacity',String(.94*level*(w.weather==='rainy'?.6:w.weather==='cloudy'?.85:1)));
+  attr(lights,'opacity',.94*level*(w.weather==='rainy'?.6:w.weather==='cloudy'?.85:1));
  }
  function paintEngawa(svg,w){
   if(!svg.hasAttribute('data-sky55'))return;
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.86:1;
-  svg.querySelector('[data-sky55-tone="terrain"]').setAttribute('values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.25)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t));
-  svg.querySelector('[data-sky55-tone="cloud"]').setAttribute('values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
+  attr(svg.querySelector('[data-sky55-tone="terrain"]'),'values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.25)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t));
+  attr(svg.querySelector('[data-sky55-tone="cloud"]'),'values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
   distantHomes(svg,w);
  }
  function engawa(svg,w){
@@ -302,7 +303,7 @@ globalThis.EngawaNightSky=(()=>{
  function active(w,where='engawa'){const at=SolarModel.time(w);return SolarModel.phase(at)==='night'&&SolarModel.twilight(at,where).stars>0;}
  function sync(svg,w,where='engawa'){
   const layer=svg.querySelector('[data-engawa-night-study]');if(!layer)return;
-  const s=state(w,where);layer.setAttribute('opacity',active(w,where)?s.darkness:0);
+  const s=state(w,where),opacity=String(active(w,where)?s.darkness:0);if(layer.getAttribute('opacity')!==opacity)layer.setAttribute('opacity',opacity);
   if(layer.dataset.skyKey===s.key)return;
   layer.dataset.skyKey=s.key;layer.dataset.facing=SolarModel.bearing(where);layer.dataset.visibleStars=s.visible;layer.dataset.realStars=s.realVisible;layer.dataset.glare=s.glare.toFixed(4);
   const major=layer.querySelector('[data-major-stars]');if(major){NightConstellations.sync(major,w,where);major.setAttribute('opacity',(s.strength).toFixed(4));}
@@ -343,6 +344,7 @@ globalThis.EngawaNightSky=(()=>{
 // Shared cloud material and compositor motion. Sky, solar illumination and cats
 // remain upstream; only cloud groups receive these bounded animations.
 globalThis.EngawaCloudStudy=(()=>{
+ const attr=(node,key,value)=>{value=String(value);if(node?.getAttribute(key)!==value)node?.setAttribute(key,value);};
  const base=SolarSky,ns='http://www.w3.org/2000/svg',enabled=new URLSearchParams(location.search).get('clouds')!=='existing',reduced=matchMedia('(prefers-reduced-motion: reduce)'),motions=new Map();let serial=0;
  const active=w=>Number.isFinite(SolarModel.time(w));let textureReady=false,loading;
  const wrap=(n,span)=>((n%span)+span)%span,epoch=Date.parse('2026-08-13T12:00:00+09:00'),left=-280,span=960;
@@ -391,16 +393,16 @@ globalThis.EngawaCloudStudy=(()=>{
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.80:w.weather==='cloudy'?.93:1,night=1-.82*(t.night||0);
   // Continue from the still position when motion is enabled, without a jump.
   const seeds=layer.dataset.cloudPlaced?[...layer.children].map(g=>wrap((g.transform.baseVal.consolidate()?.matrix.e??left)-left,span)/span):null;
-  shapes.forEach((s,i)=>{const g=layer.children[i],v=g.querySelector('[data-cloud-viewport]');g.setAttribute('opacity',String(s.opacity*night));g.setAttribute('transform',`translate(${s.x.toFixed(3)} ${s.y})`);for(const[k,n]of Object.entries({x:-s.width/2,y:-s.height/2,width:s.width,height:s.height}))v.setAttribute(k,n);});
+  shapes.forEach((s,i)=>{const g=layer.children[i],v=g.querySelector('[data-cloud-viewport]');attr(g,'opacity',s.opacity*night);attr(g,'transform',`translate(${s.x.toFixed(3)} ${s.y})`);for(const[k,n]of Object.entries({x:-s.width/2,y:-s.height/2,width:s.width,height:s.height}))attr(v,k,n);});
   const bright=(t.day+t.morning*.98+t.evening*.89+t.night*.28)*wet,l=[.2126,.7152,.0722],temp=[1+t.evening*.12+t.morning*.025,1-t.evening*.02,1-t.evening*.14];
   const matrix=[0,1,2].flatMap(row=>[...l.map((n,col)=>+(bright*.80*temp[row]*(n*.78+(row===col?.22:0))).toFixed(5)),0,+(bright*.16*temp[row]).toFixed(5)]).concat([0,0,0,1,0]).join(' ');
-  svg.querySelector('[data-engawa-cloud-tone]').setAttribute('values',matrix);animate(layer,shapes,seeds);layer.dataset.cloudPlaced='1';
+  attr(svg.querySelector('[data-engawa-cloud-tone]'),'values',matrix);animate(layer,shapes,seeds);layer.dataset.cloudPlaced='1';
  }
  function updateStage(stage,w){if(!enabled||!['engawa','room','garden'].includes(stage.dataset.location)||(stage.dataset.location!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing'))return;if(active(w)&&!textureReady){void ready();return;}for(const svg of stage.querySelectorAll('.country-landscape'))active(w)?decorate(svg,w):cleanup(svg);sync();}
  globalThis.SolarSky=Object.freeze({...base,landscape(w,frame='window'){const source=base.landscape(w,frame);if(!enabled||!['engawa','window','garden'].includes(frame)||(frame!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing')||!active(w))return source;void ready();if(!textureReady)return source;const svg=new DOMParser().parseFromString(source,'image/svg+xml').documentElement;decorate(svg,w);return new XMLSerializer().serializeToString(svg);},update(stage,w){base.update(stage,w);updateStage(stage,w);}});
  // No additional frame loop or timer: compositor animations sleep when hidden,
  // outside the viewport, or reduced motion is requested. Prune replaced skies.
  let queued=false;const schedule=()=>{if(!queued){queued=true;queueMicrotask(()=>{queued=false;sync();});}};
- if(enabled){document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});const observe=()=>new MutationObserver(schedule).observe(document.querySelector('#app')||document.body,{subtree:true,childList:true});if(document.body)observe();else document.addEventListener('DOMContentLoaded',observe,{once:true});}
+ if(enabled){document.addEventListener('visibilitychange',sync);document.addEventListener('catvisibilitychange',sync);reduced.addEventListener('change',sync);addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});const observe=()=>new MutationObserver(schedule).observe(document.querySelector('#app')||document.body,{subtree:true,childList:true});if(document.body)observe();else document.addEventListener('DOMContentLoaded',observe,{once:true});}
  return Object.freeze({enabled,ready,active,layout,base,inspect(){sync();return{layers:motions.size,animations:[...motions.values()].reduce((n,e)=>n+e.items.length*2,0),reduced:reduced.matches,entries:[...motions.values()].flatMap(e=>e.items.map(i=>({speed:i.speed,duration:i.duration,states:i.animations.map(a=>a.playState),times:i.animations.map(a=>a.currentTime)})))};}});
 })();
