@@ -80,6 +80,9 @@ globalThis.GardenRevision=(()=>{
   // Preserve the original paper-filter rendering outside the edited objects.
   // Its procedural grain depends on the complete original geometry bounds.
   const originalMain=main.cloneNode(true);
+  // The old shrub's clipped right edge floats over the fields. Keep its bounds
+  // for the paper grain, but reveal the existing landscape beneath it.
+  find(originalMain,'M0 195q47-15')?.setAttribute('stroke-opacity','0');
   const element=(tag,attrs)=>{const n=svg.ownerDocument.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;};
   const seatStyle=element('style',{'data-garden-v2':''});seatStyle.textContent=`
    .day-room[data-location=garden]:has([data-garden-revision="2"]){container-type:inline-size}
