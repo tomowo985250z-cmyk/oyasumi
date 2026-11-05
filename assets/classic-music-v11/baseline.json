@@ -673,5 +673,5 @@
   "generatorSha256": {
     "test-support/music-box-elegant/render.cjs": "81db52ad007697ea23d65f0edf7666f9b641d05740b782b72bd5bb6e7ee6c712"
   },
-  "validatedPlayerImplementationSha256": "db882e1ab568de18c3232526e09c57d94c958b8c45b9f2de1eb10903760376d9"
+  "validatedPlayerImplementationSha256": "1ad4116e52d79ffbdb895e57aca67b4ec644939c8b73b1023b33bce728201d69"
 }
