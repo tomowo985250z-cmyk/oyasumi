@@ -1,5 +1,5 @@
 {
-  "version": 14,
+  "version": 15,
   "timbre": "Five current performances with a small low/mid-register clarity taper, clearer fundamental attack and tidier late/modal overlap. E5+ tines, wood resonance, score, tempo and calibrated loudness retained.",
   "tracks": [
     {
@@ -82,7 +82,7 @@
       },
       "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1.03. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
       "performanceEventHash": "8bd81d0f0eacfd939888b528971da4d4fe254209b03283a9f57f65d322017ab1",
-      "recordingLicense": "CC BY-SA 2.5; derived from Stewart Holmes / Mutopia-276 score"
+      "recordingLicense": "Original analytic synthesis from Public Domain score; no third-party recording"
     },
     {
       "id": "air-g-string",

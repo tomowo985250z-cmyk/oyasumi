@@ -1,0 +1,238 @@
+{
+  "checkedOn": "2026-11-05",
+  "baselineCommit": "6f58751",
+  "jurisdiction": "Japan; current original compositions only. Third-party source editions/recordings reviewed separately.",
+  "music": [
+    {
+      "id": "clair-de-lune",
+      "title": "月の光",
+      "composer": "クロード・ドビュッシー",
+      "died": 1918,
+      "originalComposition": "Protection expired",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1778",
+      "sourceLicense": "Public Domain",
+      "selectedInputFile": "original.mid",
+      "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+      "sourceArrangement": "output/roof-moonlight-music-v1/arrangement.json",
+      "acquiredFiles": [
+        {
+          "file": "original.ly",
+          "sha256": "c1c58f806a8939fc5a157707ea479403abb9655a4820b25bb6b98e39fd781e7a",
+          "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.ly"
+        },
+        {
+          "file": "original.mid",
+          "sha256": "4eee9a1546ffde1ff74cb9824ba0e57cbc821185a15185bfea9faed97820bf8c",
+          "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.mid"
+        }
+      ],
+      "attributionRequired": false,
+      "publicSourceCredit": "Removed optional source/typesetter links; composer and title retained",
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": false
+    },
+    {
+      "id": "air-g-string",
+      "title": "G線上のアリア",
+      "composer": "ヨハン・ゼバスティアン・バッハ",
+      "died": 1750,
+      "originalComposition": "Protection expired",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=242",
+      "sourceLicense": "Creative Commons Attribution-ShareAlike 3.0",
+      "selectedInputFile": "bach-air-score.mid",
+      "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
+      "sourceArrangement": "output/music-box-standard12-v1/air-g-string-arrangement.json",
+      "acquiredFiles": [
+        {
+          "file": "air-g-string-bach-air-lys.zip",
+          "sha256": "e54bfbf7c15cc1e101b3d4359ac8da2af728c7b38323fb083f93b0e3cb299388",
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-lys.zip"
+        },
+        {
+          "file": "air-g-string-bach-air-mids.zip",
+          "sha256": "af2a0b1c1649cf212f7d358d48f0a591a48c4ac907aaa26773c422d039860bf2",
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-mids.zip"
+        },
+        {
+          "file": "air-g-string-bach-air-jlh-35.mid",
+          "sha256": "5087b39d9497687457ead7dd431fe1b9b3a4297934449b1094549916181c6dbe",
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-35.mid"
+        },
+        {
+          "file": "air-g-string-bach-air-jlh-70.mid",
+          "sha256": "2a00f6dff4a64acd50031ddd9d9ade35a5c2bf07fa8eee6460c289e7090f8226",
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-70.mid"
+        },
+        {
+          "file": "air-g-string-bach-air-jlh-40-organ.mid",
+          "sha256": "78cd9132781300c54b76a2d63ce7bb604dd4fabddb34ca9f136265949117c3a4",
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-40-organ.mid"
+        }
+      ],
+      "attributionRequired": true,
+      "publicSourceCredit": "Retained credit, license and modification notice",
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": true,
+      "selectedInputSha256": "35807002e83528038bd53bed791d71356c937ac792e8ba4c4aef8eb54ffe0859"
+    },
+    {
+      "id": "nocturne-9-2",
+      "title": "ノクターン第2番 Op.9-2",
+      "composer": "フレデリック・ショパン",
+      "died": 1849,
+      "originalComposition": "Protection expired",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1590",
+      "sourceLicense": "Creative Commons Attribution-ShareAlike 3.0",
+      "selectedInputFile": "1590-chopin_nocturne_op9_n2.mid",
+      "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
+      "sourceArrangement": "output/roof-classics-v1/nocturne-9-2-arrangement.json",
+      "acquiredFiles": [
+        {
+          "file": "1590-chopin_nocturne_op9_n2.ly",
+          "sha256": "f35863a752f5b2805cd50272909b06bb8b1b1a8412d2b549fd13969a4481ab65",
+          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/chopin_nocturne_op9_n2/chopin_nocturne_op9_n2.ly"
+        },
+        {
+          "file": "1590-chopin_nocturne_op9_n2.mid",
+          "sha256": "e202d3941ce5f26397f57f59f0e2e4e3ad9e19061fa3c4dc596c5ee6a6a2548e",
+          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/chopin_nocturne_op9_n2/chopin_nocturne_op9_n2.mid"
+        }
+      ],
+      "attributionRequired": true,
+      "publicSourceCredit": "Retained credit, license and modification notice",
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": true
+    },
+    {
+      "id": "traumerei",
+      "title": "トロイメライ",
+      "composer": "ロベルト・シューマン",
+      "died": 1856,
+      "originalComposition": "Protection expired",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=504",
+      "sourceLicense": "Public Domain",
+      "selectedInputFile": "504-SchumannOp15No07.mid",
+      "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
+      "sourceArrangement": "output/roof-classics-v1/traumerei-arrangement.json",
+      "acquiredFiles": [
+        {
+          "file": "504-SchumannOp15No07.ly",
+          "sha256": "be0a952c8465a216c8405a2f6154a9b101e983a4b080d64a90e532bd5118532a",
+          "url": "https://www.mutopiaproject.org/ftp/SchumannR/O15/SchumannOp15No07/SchumannOp15No07.ly"
+        },
+        {
+          "file": "504-SchumannOp15No07.mid",
+          "sha256": "6e0045d5783ff28dedcf05813074fe407ca3846e5e2a7246f2793ac5614e4851",
+          "url": "https://www.mutopiaproject.org/ftp/SchumannR/O15/SchumannOp15No07/SchumannOp15No07.mid"
+        }
+      ],
+      "attributionRequired": false,
+      "publicSourceCredit": "Removed optional source/typesetter links; composer and title retained",
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": false
+    },
+    {
+      "id": "gymnopedie-1",
+      "title": "ジムノペディ第1番",
+      "composer": "エリック・サティ",
+      "died": 1925,
+      "originalComposition": "Protection expired",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=37",
+      "sourceLicense": "Public Domain",
+      "selectedInputFile": "37-gymnopedie_1.mid",
+      "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+      "sourceArrangement": "output/roof-classics-v1/gymnopedie-1-arrangement.json",
+      "acquiredFiles": [
+        {
+          "file": "37-gymnopedie_1.ly",
+          "sha256": "420a52244e9fbe106dd33ba2cac84414fd66e0d01c6d472205bad39678d4ce04",
+          "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.ly"
+        },
+        {
+          "file": "37-gymnopedie_1.mid",
+          "sha256": "09ce7337b4bf42ba12e1aa64b4c7dc7fcfa6455f1070cb12f8880a755df97384",
+          "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.mid"
+        }
+      ],
+      "attributionRequired": false,
+      "publicSourceCredit": "Removed optional source/typesetter links; composer and title retained",
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": false
+    }
+  ],
+  "nature": [
+    {
+      "name": "birds",
+      "file": "assets/countryside-audio-v4/birds.wav",
+      "title": "song_thrush_2007_05_17.wav",
+      "author": "reinsamba",
+      "page": "https://freesound.org/people/reinsamba/sounds/35054/",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attributionRequired": true,
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": false,
+      "verification": "Saved acquisition manifest and file hash verified; live source page unavailable during review, so credit retained"
+    },
+    {
+      "name": "crickets",
+      "file": "assets/countryside-audio-v5/crickets.wav",
+      "title": "Night time crickets call",
+      "author": "Clearwavsound",
+      "page": "https://freesound.org/people/Clearwavsound/sounds/523439/",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "attributionRequired": true,
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": false,
+      "verification": "Current source page, license and stored manifest agree"
+    },
+    {
+      "name": "cicadas",
+      "file": "assets/countryside-audio-v6/cicadas.wav",
+      "title": "Tokyo-cicadas.wav",
+      "author": "xserra",
+      "page": "https://freesound.org/people/xserra/sounds/320519/",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attributionRequired": true,
+      "commercialUse": true,
+      "redistribution": true,
+      "modification": true,
+      "shareAlike": false,
+      "verification": "Current source page, license and stored manifest agree"
+    }
+  ],
+  "protectedHashes": {
+    "roof-music.js": "eb53c6e7e4ae4061f3c52e53f01725a389046cabb7b9f859332c1d8a82d42c0f",
+    "nature-sounds.js": "7b3491075bed6c82a2e2c12899b69e66341466790b56db4a02ae8b89a9bd08b7",
+    "test-support/music-box-expressive/synth.cjs": "cdfb6580926b4f8376233608df6dbfb2c1c7d2ab3a26835009259f18c417367a",
+    "test-support/music-box-elegant/voices.json": "623cb568c5cad9ba7c0936e4f944d416d6a65878911d0270bd7f48b3e318a384",
+    "assets/classic-music-v11/clair-de-lune-box.wav": "8b1c5081f9b6808f0ab00b5e70349352f62369271c97b4f03714a99482359f94",
+    "assets/classic-music-v11/air-g-string.mp3": "f5efde36f3ad9ddb08ffce967b0412492e3908d2f613dacfb8f8af6ca9ec1f88",
+    "assets/classic-music-v11/nocturne-9-2.mp3": "48c1d9d730de99be001e7696ce386579d253caf790a5ba1840430222e53e94eb",
+    "assets/classic-music-v11/traumerei.mp3": "2b565e41930d73adf33934edb888920a693b7152200f4f3bfff151e3cac0330a",
+    "assets/classic-music-v11/gymnopedie-1.mp3": "0dfef541f42bf90ab709626eafdde03a4ddacedd598b0d81f1041e23989f7117",
+    "assets/countryside-audio-v4/birds.wav": "910c7a9e4263091c90670b343fbd7fc4e8b0483ea4dce46b7a4c33a4c404a693",
+    "assets/countryside-audio-v5/crickets.wav": "d1d4691b16d249869d831043f406bdaf91c6d8b188502a2ef48ccf05c34c8832",
+    "assets/countryside-audio-v6/cicadas.wav": "0658670049a6157e24ea74b5cb74212589cef152c50a9fe3a43afe4a07caeeef"
+  },
+  "recordingLicenseCorrection": "Current Clair de lune metadata incorrectly referred to removed Moonlight Sonata / Mutopia-276. Original .ly/.mid hashes, source-event lineage and acquisition/render history identify Public Domain Mutopia-1778. Corrected only this current metadata; historical license records remain intact.",
+  "referenceAudio": "No reference recordings, sampled instrument or soundfont imported by the analytic sine/decay synthesizer. Optional reference-page links removed from current credits; prior references.json records retained.",
+  "codeAndEncoder": "Original analytic synthesis plus offline LAMEJS encoding. Encoder is a build tool rather than sampled audio; existing software notices and license files were not removed.",
+  "audioOrPlaybackModifiedByAudit": false
+}
