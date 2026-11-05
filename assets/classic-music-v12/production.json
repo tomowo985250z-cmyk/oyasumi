@@ -1,0 +1,710 @@
+{
+  "pass": true,
+  "tracks": [
+    {
+      "lufs": -23.00013226088049,
+      "rmsDb": -22.906555925597324,
+      "peakDb": -5.1228562749607836,
+      "peak": 0.554443359375,
+      "blockCount": 1114,
+      "gatedBlocks": 1036,
+      "relativeGateLufs": -33.29882650672218,
+      "rate": 24000,
+      "frames": 224,
+      "centroidHz": 617.9437736108251,
+      "above4kHzEnergyPercent": 0.003802274732086682,
+      "below180HzEnergyPercent": 0.1032577207726771,
+      "sourceCorrelation": 1,
+      "decodedSeconds": 111.767875,
+      "loopStart": 0,
+      "loopEnd": 111.767875,
+      "period": 111.767875,
+      "oversampledPeak": 0.5545192360877991,
+      "oversampledRate": 96000,
+      "clipped": 0,
+      "nonFinite": 0,
+      "seam": 0.0015869280323386192,
+      "boundaryNeighbourDelta": 0.002044733613729477,
+      "nativeLoopRendered": true,
+      "fullPeriodNativeRender": true,
+      "nativeLoopPeak": 0.554443359375,
+      "nativeLoopBoundaryDelta": 0.0015869280323386192,
+      "id": "clair-de-lune",
+      "level": 0.11220355395154219,
+      "normalizedLufs": -42,
+      "maxPlaybackPeakDb": -26.0597356737292,
+      "render": {
+        "id": "clair-de-lune",
+        "rate": 24000,
+        "seconds": 111.767875,
+        "notes": 542,
+        "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+        "performanceEventHash": "8bd81d0f0eacfd939888b528971da4d4fe254209b03283a9f57f65d322017ab1",
+        "nativeTimeScale": 0.8928571428571428,
+        "removedTempoScale": 1,
+        "timeScale": 0.8928571428571428,
+        "nominalLufs": -23,
+        "measuredFloatLufs": -23,
+        "rmsDb": -22.90642357750324,
+        "peakDb": -5.122436981088178,
+        "technicalPeakProtectionApplied": false,
+        "seamStep": 0.0015929540374739184,
+        "sha256": "3592924740622b3e56f1bd1c680be537a9264fe0b093d3f49b5ea76d2311f6b2",
+        "sourceNotes": 542,
+        "sourcePitchAndVoiceOrderPreserved": true,
+        "simultaneousNotesRemainSimultaneous": true,
+        "file": "clair-de-lune-box.wav",
+        "bytes": 5364902
+      }
+    },
+    {
+      "lufs": -23.445842456367675,
+      "rmsDb": -22.947034175270325,
+      "peakDb": -7.442239013366083,
+      "peak": 0.42451012134552,
+      "blockCount": 1432,
+      "gatedBlocks": 1381,
+      "relativeGateLufs": -33.598802989315416,
+      "rate": 24000,
+      "frames": 287,
+      "centroidHz": 476.1059501799402,
+      "above4kHzEnergyPercent": 0.0007113462279796874,
+      "below180HzEnergyPercent": 10.360829207277357,
+      "sourceCorrelation": 0.9999999349205559,
+      "decodedSeconds": 143.64,
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 143.62125,
+      "period": 143.57520833333334,
+      "oversampledPeak": 0.4246702194213867,
+      "oversampledRate": 96000,
+      "clipped": 0,
+      "nonFinite": 0,
+      "seam": 0.0002099440898746252,
+      "boundaryNeighbourDelta": 0.015616852790117264,
+      "nativeLoopRendered": true,
+      "fullPeriodNativeRender": true,
+      "nativeLoopPeak": 0.42451012134552,
+      "nativeLoopBoundaryDelta": 0.0002099440898746252,
+      "id": "air-g-string",
+      "level": 0.11811148308195624,
+      "normalizedLufs": -42,
+      "maxPlaybackPeakDb": -27.931321672486582,
+      "render": {
+        "id": "air-g-string",
+        "rate": 24000,
+        "seconds": 143.57520833333334,
+        "notes": 512,
+        "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
+        "performanceEventHash": "5feb9cb369229063cbfe2ce0a5c8f94bde52895a1105692ca845fa75fb3f8638",
+        "nativeTimeScale": 0.920353982300885,
+        "removedTempoScale": 1,
+        "timeScale": 0.920353982300885,
+        "nominalLufs": -23,
+        "measuredFloatLufs": -23,
+        "rmsDb": -22.50119276110335,
+        "peakDb": -6.996998236172512,
+        "technicalPeakProtectionApplied": false,
+        "seamStep": 0.00026240442496895937,
+        "sha256": "6c1c7dee3be986c12e8b8f9ed3770493cac1de382b8dfbdbbe8926c87687298d",
+        "sourceNotes": 512,
+        "sourcePitchAndVoiceOrderPreserved": true,
+        "simultaneousNotesRemainSimultaneous": true,
+        "file": "air-g-string.mp3",
+        "bytes": 1723680
+      }
+    },
+    {
+      "lufs": -23.44580014623557,
+      "rmsDb": -23.199447248312794,
+      "peakDb": -6.616923271345741,
+      "peak": 0.4668247103691101,
+      "blockCount": 2265,
+      "gatedBlocks": 2199,
+      "relativeGateLufs": -33.57145163352182,
+      "rate": 24000,
+      "frames": 454,
+      "centroidHz": 559.8939833497813,
+      "above4kHzEnergyPercent": 0.023769543307191162,
+      "below180HzEnergyPercent": 8.791228609852208,
+      "sourceCorrelation": 0.9999997742184797,
+      "decodedSeconds": 226.968,
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 226.94583333333333,
+      "period": 226.89979166666666,
+      "oversampledPeak": 0.46682631969451904,
+      "oversampledRate": 96000,
+      "clipped": 0,
+      "nonFinite": 0,
+      "seam": 0.00018831263878382742,
+      "boundaryNeighbourDelta": 0.007999004796147346,
+      "nativeLoopRendered": true,
+      "fullPeriodNativeRender": true,
+      "nativeLoopPeak": 0.4668247103691101,
+      "nativeLoopBoundaryDelta": 0.00018831263878382742,
+      "id": "nocturne-9-2",
+      "level": 0.11811090774649961,
+      "normalizedLufs": -42,
+      "maxPlaybackPeakDb": -27.10929344170043,
+      "render": {
+        "id": "nocturne-9-2",
+        "rate": 24000,
+        "seconds": 226.89979166666666,
+        "notes": 1242,
+        "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
+        "performanceEventHash": "bd0e72fad28e2655fd366fcbb39f22ca946fddfe84180a734fa73831ea4a8aef",
+        "nativeTimeScale": 1.1,
+        "removedTempoScale": 1,
+        "timeScale": 1.1,
+        "nominalLufs": -23,
+        "measuredFloatLufs": -23,
+        "rmsDb": -22.75365863178946,
+        "peakDb": -6.169733969522751,
+        "technicalPeakProtectionApplied": false,
+        "seamStep": 0.00024069893454837734,
+        "sha256": "59374a9288142598d6e109ed88a52012b4afce307968a2fcf683e667f242708c",
+        "sourceNotes": 1242,
+        "sourcePitchAndVoiceOrderPreserved": true,
+        "simultaneousNotesRemainSimultaneous": true,
+        "file": "nocturne-9-2.mp3",
+        "bytes": 2723616
+      }
+    },
+    {
+      "lufs": -23.44575709417516,
+      "rmsDb": -22.965517019947747,
+      "peakDb": -8.350627185630838,
+      "peak": 0.3823566436767578,
+      "blockCount": 1002,
+      "gatedBlocks": 945,
+      "relativeGateLufs": -33.69590322708417,
+      "rate": 24000,
+      "frames": 201,
+      "centroidHz": 388.2087041398008,
+      "above4kHzEnergyPercent": 0.0002312218105041887,
+      "below180HzEnergyPercent": 13.67510984302234,
+      "sourceCorrelation": 0.9999999784545842,
+      "decodedSeconds": 100.584,
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 100.580125,
+      "period": 100.53408333333333,
+      "oversampledPeak": 0.38235682249069214,
+      "oversampledRate": 96000,
+      "clipped": 0,
+      "nonFinite": 0,
+      "seam": 0.0003012793749803677,
+      "boundaryNeighbourDelta": 0.0042083654552698135,
+      "nativeLoopRendered": true,
+      "fullPeriodNativeRender": true,
+      "nativeLoopPeak": 0.3823566436767578,
+      "nativeLoopBoundaryDelta": 0.0003012793749803677,
+      "id": "traumerei",
+      "level": 0.1181103223251386,
+      "normalizedLufs": -42,
+      "maxPlaybackPeakDb": -28.843066289551295,
+      "render": {
+        "id": "traumerei",
+        "rate": 24000,
+        "seconds": 100.53408333333333,
+        "notes": 339,
+        "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
+        "performanceEventHash": "54fdc0a16c3af17476a54f6cde072318cea4c1d733d7c5147fdf8b4259792316",
+        "nativeTimeScale": 0.8766233766233765,
+        "removedTempoScale": 1,
+        "timeScale": 0.8766233766233765,
+        "nominalLufs": -23,
+        "measuredFloatLufs": -23,
+        "rmsDb": -22.51975954488581,
+        "peakDb": -7.904102773656957,
+        "technicalPeakProtectionApplied": false,
+        "seamStep": 0.00028622743252684074,
+        "sha256": "7e7f24694fd47ad3e570961879ccd5d8f5ea311a9d98bb74d2a9ebca988d6551",
+        "sourceNotes": 339,
+        "sourcePitchAndVoiceOrderPreserved": true,
+        "simultaneousNotesRemainSimultaneous": true,
+        "file": "traumerei.mp3",
+        "bytes": 1207008
+      }
+    },
+    {
+      "lufs": -23.44562002099903,
+      "rmsDb": -22.67963490174892,
+      "peakDb": -7.16450594346684,
+      "peak": 0.43830326199531555,
+      "blockCount": 1387,
+      "gatedBlocks": 1353,
+      "relativeGateLufs": -33.55021274075759,
+      "rate": 24000,
+      "frames": 278,
+      "centroidHz": 368.70711231859923,
+      "above4kHzEnergyPercent": 0.00036388071236856883,
+      "below180HzEnergyPercent": 18.422882901308487,
+      "sourceCorrelation": 0.9999999787876315,
+      "decodedSeconds": 139.08,
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 139.05429166666667,
+      "period": 139.00825,
+      "oversampledPeak": 0.43830808997154236,
+      "oversampledRate": 96000,
+      "clipped": 0,
+      "nonFinite": 0,
+      "seam": 0.00022841780446469784,
+      "boundaryNeighbourDelta": 0.001913759857416153,
+      "nativeLoopRendered": true,
+      "fullPeriodNativeRender": true,
+      "nativeLoopPeak": 0.43830326199531555,
+      "nativeLoopBoundaryDelta": 0.00022841780446469784,
+      "id": "gymnopedie-1",
+      "level": 0.11810845842518779,
+      "normalizedLufs": -42,
+      "maxPlaybackPeakDb": -27.656990506777635,
+      "render": {
+        "id": "gymnopedie-1",
+        "rate": 24000,
+        "seconds": 139.00825,
+        "notes": 282,
+        "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+        "performanceEventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44",
+        "nativeTimeScale": 0.958677685950413,
+        "removedTempoScale": 1,
+        "timeScale": 0.958677685950413,
+        "nominalLufs": -23,
+        "measuredFloatLufs": -23,
+        "rmsDb": -22.234035331560207,
+        "peakDb": -6.718611463669134,
+        "technicalPeakProtectionApplied": false,
+        "seamStep": 0.000355572161694571,
+        "sha256": "56631e88041582a3a8c3f453a9aa3db2007d41bb1192028cc239ee482e843ef2",
+        "sourceNotes": 282,
+        "sourcePitchAndVoiceOrderPreserved": true,
+        "simultaneousNotesRemainSimultaneous": true,
+        "file": "gymnopedie-1.mp3",
+        "bytes": 1668960
+      }
+    }
+  ],
+  "method": "Native Edge24k decode, raw/codec alignment,96k interpolation peak scan, finite PCM and clipping, native AudioBufferSource loop over each join. Static per-track calibration to existing quiet listening level, with dynamics retained. Conservative two-music-peaks plus maximum nature peak bound.",
+  "worstCaseMixedHeadroomDb": 19.88123868167044,
+  "subjectiveListeningVerified": false,
+  "physicalDeviceListeningVerified": false,
+  "version": 1,
+  "baselineCommit": "29d3d54",
+  "baseline": "classic-music-v11",
+  "voices": "voices.json",
+  "allFiveRegenerated": true,
+  "playerBehaviorUnchanged": true,
+  "staticLoudnessCalibrationLufs": -42,
+  "tempoNotesDynamicsAndPitchPreserved": true,
+  "octaveChanges": false,
+  "sourceLicenseConditionsUnchanged": true,
+  "drawPipelineChanged": false,
+  "comparison": "comparison.json",
+  "validation": {
+    "nativePlayback": {
+      "pass": true,
+      "engine": "Edge native AudioContext",
+      "acceleratedCycleTrackSeconds": 9,
+      "checks": [
+        "All five current recordings decode and start with exact current codec-trimmed durations; manual next stays in list order",
+        "Native automatic 1→2→3→4→5→1 cycle, overlapping three-second fades, native ended cleanup, then manual next to song 2",
+        "0% silence and stable parked position; trusted resume, independently saved 37% music / 25% nature settings, OFF stops sequence"
+      ],
+      "errors": [],
+      "productionDurationStarts": [
+        {
+          "track": "clair-de-lune",
+          "at": 1.3613333333333333,
+          "offset": 0,
+          "duration": 111.767875,
+          "nativeLoop": false,
+          "bufferSeconds": 111.767875,
+          "cueAt": 4839.200000047684,
+          "scheduledWallTime": 5349.700000047684,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 0.8613333333333333
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 1.3613333333333333
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.04488142158061688,
+              "at": 1.3693333333333333
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.04488142158061688,
+              "at": 4.68
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.04488142158061688,
+              "at": 5.18
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 8.18
+            }
+          ]
+        },
+        {
+          "track": "air-g-string",
+          "at": 5.18,
+          "offset": 0.04604166666666667,
+          "duration": 143.57520833333334,
+          "nativeLoop": false,
+          "bufferSeconds": 143.64,
+          "cueAt": 8683.5,
+          "scheduledWallTime": 9186.5,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 4.68
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 5.18
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.047244593232782496,
+              "at": 5.188
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.047244593232782496,
+              "at": 8.24
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.047244593232782496,
+              "at": 8.74
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 11.74
+            }
+          ]
+        },
+        {
+          "track": "nocturne-9-2",
+          "at": 8.74,
+          "offset": 0.04604166666666667,
+          "duration": 226.89979166666666,
+          "nativeLoop": false,
+          "bufferSeconds": 226.968,
+          "cueAt": 12250.399999976158,
+          "scheduledWallTime": 12753,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 8.24
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 8.74
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.04724436309859985,
+              "at": 8.748
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.04724436309859985,
+              "at": 11.832
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.04724436309859985,
+              "at": 12.332
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 15.332
+            }
+          ]
+        },
+        {
+          "track": "traumerei",
+          "at": 12.332,
+          "offset": 0.04604166666666667,
+          "duration": 100.53408333333333,
+          "nativeLoop": false,
+          "bufferSeconds": 100.584,
+          "cueAt": 15836.200000047684,
+          "scheduledWallTime": 16340.399999976158,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 11.832
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 12.332
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.047244128930055446,
+              "at": 12.34
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.047244128930055446,
+              "at": 15.410666666666666
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.047244128930055446,
+              "at": 15.910666666666666
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 18.910666666666664
+            }
+          ]
+        },
+        {
+          "track": "gymnopedie-1",
+          "at": 15.910666666666666,
+          "offset": 0.04604166666666667,
+          "duration": 139.00825,
+          "nativeLoop": false,
+          "bufferSeconds": 139.08,
+          "cueAt": 19416.600000023842,
+          "scheduledWallTime": 19919.300000071526,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 15.410666666666666
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 15.910666666666666
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.047243383370075116,
+              "at": 15.918666666666665
+            }
+          ]
+        }
+      ],
+      "acceleratedCycleStarts": [
+        {
+          "track": "clair-de-lune",
+          "at": 1.8413333333333333,
+          "offset": 0,
+          "duration": 9,
+          "nativeLoop": false,
+          "bufferSeconds": 111.767875,
+          "cueAt": 2318.5,
+          "scheduledWallTime": 2824,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 1.3413333333333333
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 1.8413333333333333
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.04488142158061688,
+              "at": 1.8493333333333333
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.04488142158061688,
+              "at": 7.832
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 10.832
+            }
+          ]
+        },
+        {
+          "track": "air-g-string",
+          "at": 7.832,
+          "offset": 0.04604166666666667,
+          "duration": 9,
+          "nativeLoop": false,
+          "bufferSeconds": 143.64,
+          "cueAt": 2318.5,
+          "scheduledWallTime": 8819.600000023842,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 7.832
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.047244593232782496,
+              "at": 10.832
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.047244593232782496,
+              "at": 13.832
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 16.832
+            }
+          ]
+        },
+        {
+          "track": "nocturne-9-2",
+          "at": 13.832,
+          "offset": 0.04604166666666667,
+          "duration": 9,
+          "nativeLoop": false,
+          "bufferSeconds": 226.968,
+          "cueAt": 2318.5,
+          "scheduledWallTime": 14826.100000023842,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 13.832
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.04724436309859985,
+              "at": 16.832
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.04724436309859985,
+              "at": 19.832
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 22.832
+            }
+          ]
+        },
+        {
+          "track": "traumerei",
+          "at": 19.832,
+          "offset": 0.04604166666666667,
+          "duration": 9,
+          "nativeLoop": false,
+          "bufferSeconds": 100.584,
+          "cueAt": 2318.5,
+          "scheduledWallTime": 20823.600000023842,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 19.832
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.047244128930055446,
+              "at": 22.832
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.047244128930055446,
+              "at": 25.84
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 28.832
+            }
+          ]
+        },
+        {
+          "track": "gymnopedie-1",
+          "at": 25.84,
+          "offset": 0.04604166666666667,
+          "duration": 9,
+          "nativeLoop": false,
+          "bufferSeconds": 139.08,
+          "cueAt": 2318.5,
+          "scheduledWallTime": 26830.100000023842,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 25.84
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.047243383370075116,
+              "at": 28.832
+            },
+            {
+              "method": "setValueAtTime",
+              "value": 0.047243383370075116,
+              "at": 31.850666666666665
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0,
+              "at": 34.84
+            }
+          ]
+        },
+        {
+          "track": "clair-de-lune",
+          "at": 31.850666666666665,
+          "offset": 0,
+          "duration": 9,
+          "nativeLoop": false,
+          "bufferSeconds": 111.767875,
+          "cueAt": 2318.5,
+          "scheduledWallTime": 32842.39999997616,
+          "gainEvents": [
+            {
+              "method": "setValueAtTime",
+              "value": 0,
+              "at": 31.850666666666665
+            },
+            {
+              "method": "linearRampToValueAtTime",
+              "value": 0.04488142158061688,
+              "at": 34.84
+            }
+          ]
+        }
+      ],
+      "productionFilesUnchangedDuringVerification": true
+    },
+    "regression": [
+      "test-music-tine-clarity.cjs: only existing bass/mid clarity and reflection/wood parameters differ; exact high-tine samples, full pitches/registers/events/dynamics/tempo/duration/loudness",
+      "test-music-bass-clarity.cjs and test-music-tempo.cjs: retained score, past tempo decisions, high tines, finite PCM and static listening-level calibration",
+      "test-roof-music-start.cjs: half-second first/next scheduling, 8ms de-click, no missing opening, asynchronous resume/decode, stop and zero-volume selection",
+      "test-roof-music-sequence.cjs: original song durations for two complete cycles; exact three-second crossfades, manual next, resume, volume persistence, nature mix, hidden/day/other-room gates and late-decode races"
+    ],
+    "preservedHistoricalAudioImagesAndNature": true,
+    "licenseAndSourceMetadataUnchanged": true,
+    "prototypeOctaveEventsUsed": false
+  }
+}

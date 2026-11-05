@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "policy": "Timbre-only from current five v10 recordings: modest low-tine clarity plus a small smooth mid-register clarity taper, reusing the existing tine envelope/modal treatment. E5 and higher, pitch, score, tempo, dynamics, wood warmth and calibrated loudness unchanged.",
+  "version": 8,
+  "policy": "Timbre-only from current v11. Existing bass/mid clarity tapers +0.10; short reflections x0.65 and wood-body resonance x0.72. No octave changes, retuning, score, performance, tempo or playback behavior changes. E5+ tine waveforms and soft high-frequency rolloff remain exact; the same static listening-level calibration is retained.",
   "voices": [
     {
       "id": "clair-de-lune",
@@ -14,7 +14,7 @@
       ],
       "tineCents": 0.78,
       "driftCents": 0.13,
-      "reflection": 0.024,
+      "reflection": 0.0156,
       "bassWeight": 0.66,
       "lidHz": 4800,
       "phraseSeconds": 16,
@@ -43,11 +43,11 @@
         620,
         1040
       ],
-      "woodAmount": 0.0097,
+      "woodAmount": 0.006984,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.26,
-      "midClarity": 0.045
+      "bassClarity": 0.36,
+      "midClarity": 0.145
     },
     {
       "id": "air-g-string",
@@ -61,7 +61,7 @@
       ],
       "tineCents": 0.7,
       "driftCents": 0.12,
-      "reflection": 0.0285,
+      "reflection": 0.018525,
       "bassWeight": 0.66,
       "lidHz": 4600,
       "phraseSeconds": 16,
@@ -90,11 +90,11 @@
         620,
         1040
       ],
-      "woodAmount": 0.0108,
+      "woodAmount": 0.007776,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.29,
-      "midClarity": 0.055
+      "bassClarity": 0.39,
+      "midClarity": 0.155
     },
     {
       "id": "nocturne-9-2",
@@ -108,7 +108,7 @@
       ],
       "tineCents": 0.86,
       "driftCents": 0.15,
-      "reflection": 0.0235,
+      "reflection": 0.015275,
       "bassWeight": 0.62,
       "lidHz": 5200,
       "phraseSeconds": 12,
@@ -137,11 +137,11 @@
         620,
         1040
       ],
-      "woodAmount": 0.0089,
+      "woodAmount": 0.006408,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.23,
-      "midClarity": 0.04
+      "bassClarity": 0.33,
+      "midClarity": 0.14
     },
     {
       "id": "traumerei",
@@ -155,7 +155,7 @@
       ],
       "tineCents": 0.72,
       "driftCents": 0.12,
-      "reflection": 0.0275,
+      "reflection": 0.017875,
       "bassWeight": 0.7,
       "lidHz": 4500,
       "phraseSeconds": 16,
@@ -184,11 +184,11 @@
         620,
         1040
       ],
-      "woodAmount": 0.0105,
+      "woodAmount": 0.00756,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.27,
-      "midClarity": 0.05
+      "bassClarity": 0.37,
+      "midClarity": 0.15
     },
     {
       "id": "gymnopedie-1",
@@ -202,7 +202,7 @@
       ],
       "tineCents": 0.82,
       "driftCents": 0.14,
-      "reflection": 0.029,
+      "reflection": 0.01885,
       "bassWeight": 0.68,
       "lidHz": 4700,
       "phraseSeconds": 12,
@@ -231,11 +231,11 @@
         620,
         1040
       ],
-      "woodAmount": 0.0112,
+      "woodAmount": 0.008064,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.3,
-      "midClarity": 0.055
+      "bassClarity": 0.4,
+      "midClarity": 0.155
     }
   ]
 }

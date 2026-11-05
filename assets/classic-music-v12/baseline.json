@@ -1,0 +1,683 @@
+{
+  "commit": "29d3d54",
+  "voices": [
+    {
+      "id": "clair-de-lune",
+      "nativeTimeScale": 0.8928571428571428,
+      "decay": 1.74,
+      "decaySpan": 50,
+      "metal": [
+        0.13,
+        0.024,
+        0.0034
+      ],
+      "tineCents": 0.78,
+      "driftCents": 0.13,
+      "reflection": 0.024,
+      "bassWeight": 0.66,
+      "lidHz": 4800,
+      "phraseSeconds": 16,
+      "breathSeconds": 0.045,
+      "swell": 0.09,
+      "phraseSwell": 0.035,
+      "melodyFloor": 65,
+      "melodyDuration": 0.4,
+      "graceFloor": 80,
+      "melodyGain": 1.06,
+      "accompanimentGain": 0.98,
+      "allUpperMelody": false,
+      "reason": "既存の冒頭26小節と終止を維持。分散和音と長い旋律の呼吸をつなぐ。",
+      "dynamicExponent": 1.02,
+      "nominalLufs": -23,
+      "modes": [
+        1,
+        2.7566,
+        5.4046,
+        8.933
+      ],
+      "attackMs": 2.2,
+      "slowWeight": 0.225,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.0097,
+      "pairedTineWeight": 0.01,
+      "playbackLufs": -42,
+      "bassClarity": 0.26,
+      "midClarity": 0.045
+    },
+    {
+      "id": "air-g-string",
+      "nativeTimeScale": 0.920353982300885,
+      "decay": 1.94,
+      "decaySpan": 53,
+      "metal": [
+        0.125,
+        0.023,
+        0.003
+      ],
+      "tineCents": 0.7,
+      "driftCents": 0.12,
+      "reflection": 0.0285,
+      "bassWeight": 0.66,
+      "lidHz": 4600,
+      "phraseSeconds": 16,
+      "breathSeconds": 0.055,
+      "swell": 0.1,
+      "phraseSwell": 0.035,
+      "melodyFloor": 60,
+      "melodyDuration": 0.4,
+      "graceFloor": 78,
+      "melodyGain": 1.12,
+      "accompanimentGain": 0.88,
+      "allUpperMelody": true,
+      "reason": "第一声部を自然に前へ出し、内声と低音を保つ。",
+      "dynamicExponent": 1.02,
+      "nominalLufs": -23,
+      "modes": [
+        1,
+        2.7566,
+        5.4046,
+        8.933
+      ],
+      "attackMs": 2.2,
+      "slowWeight": 0.205,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.0108,
+      "pairedTineWeight": 0.01,
+      "playbackLufs": -42,
+      "bassClarity": 0.29,
+      "midClarity": 0.055
+    },
+    {
+      "id": "nocturne-9-2",
+      "nativeTimeScale": 1.1,
+      "decay": 1.57,
+      "decaySpan": 48,
+      "metal": [
+        0.138,
+        0.026,
+        0.0036
+      ],
+      "tineCents": 0.86,
+      "driftCents": 0.15,
+      "reflection": 0.0235,
+      "bassWeight": 0.62,
+      "lidHz": 5200,
+      "phraseSeconds": 12,
+      "breathSeconds": 0.038,
+      "swell": 0.1,
+      "phraseSwell": 0.04,
+      "melodyFloor": 55,
+      "melodyDuration": 0.2,
+      "graceFloor": 76,
+      "melodyGain": 1.1,
+      "accompanimentGain": 0.86,
+      "allUpperMelody": true,
+      "reason": "装飾音はすべて残し、短い余韻と細かな緩急で歌う右手を生かす。",
+      "dynamicExponent": 1.02,
+      "nominalLufs": -23,
+      "modes": [
+        1,
+        2.7566,
+        5.4046,
+        8.933
+      ],
+      "attackMs": 1.8,
+      "slowWeight": 0.205,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.0089,
+      "pairedTineWeight": 0.01,
+      "playbackLufs": -42,
+      "bassClarity": 0.23,
+      "midClarity": 0.04
+    },
+    {
+      "id": "traumerei",
+      "nativeTimeScale": 0.8766233766233765,
+      "decay": 1.91,
+      "decaySpan": 53,
+      "metal": [
+        0.125,
+        0.022,
+        0.003
+      ],
+      "tineCents": 0.72,
+      "driftCents": 0.12,
+      "reflection": 0.0275,
+      "bassWeight": 0.7,
+      "lidHz": 4500,
+      "phraseSeconds": 16,
+      "breathSeconds": 0.052,
+      "swell": 0.11,
+      "phraseSwell": 0.04,
+      "melodyFloor": 62,
+      "melodyDuration": 0.45,
+      "graceFloor": 78,
+      "melodyGain": 1.1,
+      "accompanimentGain": 0.95,
+      "allUpperMelody": false,
+      "reason": "旋律・内声の受け渡しを丸い発音と二段階の余韻でつなぐ。",
+      "dynamicExponent": 1.02,
+      "nominalLufs": -23,
+      "modes": [
+        1,
+        2.7566,
+        5.4046,
+        8.933
+      ],
+      "attackMs": 2.2,
+      "slowWeight": 0.205,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.0105,
+      "pairedTineWeight": 0.01,
+      "playbackLufs": -42,
+      "bassClarity": 0.27,
+      "midClarity": 0.05
+    },
+    {
+      "id": "gymnopedie-1",
+      "nativeTimeScale": 0.958677685950413,
+      "decay": 1.98,
+      "decaySpan": 55,
+      "metal": [
+        0.13,
+        0.023,
+        0.003
+      ],
+      "tineCents": 0.82,
+      "driftCents": 0.14,
+      "reflection": 0.029,
+      "bassWeight": 0.68,
+      "lidHz": 4700,
+      "phraseSeconds": 12,
+      "breathSeconds": 0.055,
+      "swell": 0.075,
+      "phraseSwell": 0.03,
+      "melodyFloor": 64,
+      "melodyDuration": 0.65,
+      "graceFloor": 78,
+      "melodyGain": 1.08,
+      "accompanimentGain": 0.94,
+      "allUpperMelody": false,
+      "reason": "三拍子の間と解決しない和声を保ち、広い呼吸と穏やかな低音を残す。",
+      "dynamicExponent": 1.02,
+      "nominalLufs": -23,
+      "modes": [
+        1,
+        2.7566,
+        5.4046,
+        8.933
+      ],
+      "attackMs": 2.2,
+      "slowWeight": 0.235,
+      "wood": [
+        270,
+        620,
+        1040
+      ],
+      "woodAmount": 0.0112,
+      "pairedTineWeight": 0.01,
+      "playbackLufs": -42,
+      "bassClarity": 0.3,
+      "midClarity": 0.055
+    }
+  ],
+  "tracks": [
+    {
+      "id": "clair-de-lune",
+      "title": "月の光",
+      "url": "assets/classic-music-v11/clair-de-lune-box.wav",
+      "loopStart": 0,
+      "loopEnd": 111.767875,
+      "level": 0.11220356444346667,
+      "bytes": 5364902,
+      "source": {
+        "composer": "Claude Debussy (1862–1918)",
+        "title": "Clair de lune (Suite bergamasque)",
+        "edition": "E. Fromont, 1905; Keith OHara / Mutopia-1778 public-domain engraving and mechanically generated score MIDI, not a performance recording",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1778",
+        "license": "Public Domain",
+        "sources": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.ly",
+            "file": "original.ly",
+            "bytes": 17978,
+            "sha256": "c1c58f806a8939fc5a157707ea479403abb9655a4820b25bb6b98e39fd781e7a"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.mid",
+            "file": "original.mid",
+            "bytes": 12476,
+            "sha256": "4eee9a1546ffde1ff74cb9824ba0e57cbc821185a15185bfea9faed97820bf8c"
+          }
+        ]
+      },
+      "license": "Public Domain score; original synthesized recording",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "rmsDb": -22.884983683572035,
+      "sha256": "8b1c5081f9b6808f0ab00b5e70349352f62369271c97b4f03714a99482359f94",
+      "peakDb": -5.129060552166235,
+      "seamStep": 0.00177001953125,
+      "decoderAnalysis": {
+        "rate": 24000,
+        "decodedSeconds": 111.767875,
+        "sourceCorrelation": 1,
+        "loopStart": 0,
+        "loopEnd": 111.767875,
+        "level": 0.11220356444346667,
+        "integratedLufs": -23.0001330730802,
+        "playbackLufs": -42,
+        "peakDb": -5.129060552166235,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "boundaryStep": 0.00177001953125,
+        "nativeLoopRendered": true,
+        "subjectiveListeningVerified": false,
+        "fullPeriodNativeRender": true
+      },
+      "seconds": 111.767875,
+      "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+      "eventHash": "8bd81d0f0eacfd939888b528971da4d4fe254209b03283a9f57f65d322017ab1",
+      "integratedLufs": -23.0001330730802,
+      "arrangement": "既存の冒頭26小節と終止を維持。分散和音と長い旋律の呼吸をつなぐ。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。既存の26小節抜粋と終止を継承。",
+      "processing": {
+        "recipe": "../../test-support/music-box-elegant/voices.json",
+        "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
+        "staticPlaybackCalibration": true,
+        "dynamicCompression": false,
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2",
+        "tempoRevision": "Only nativeTimeScale changed during synthesis; identical pitches, performance event data, velocity, tine/wood parameters and decay times in seconds.",
+        "tempoVerification": "../classic-music-v9/production.json",
+        "tineClarityRevision": "Existing modal/envelope treatment extended very gently through the mid register; bassClarity +0.02 and midClarity 0.04–0.055. E5+ waveforms, wood warmth, pitch, performance and tempo retained.",
+        "tineClarityVerification": "../classic-music-v11/production.json"
+      },
+      "tempo": {
+        "nativeTimeScale": 0.8928571428571428,
+        "smoothPhraseTiming": true,
+        "sharedTempoCeiling": false,
+        "tempoMultiplier": 1.1,
+        "baseline": "classic-music-v8"
+      },
+      "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1.03. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
+      "performanceEventHash": "8bd81d0f0eacfd939888b528971da4d4fe254209b03283a9f57f65d322017ab1",
+      "recordingLicense": "Original analytic synthesis from Public Domain score; no third-party recording"
+    },
+    {
+      "id": "air-g-string",
+      "title": "G線上のアリア",
+      "url": "assets/classic-music-v11/air-g-string.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 143.62125,
+      "level": 0.11811125418120441,
+      "bytes": 1723680,
+      "source": {
+        "id": 242,
+        "key": "air-g-string",
+        "title": "G線上のアリア",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=242",
+        "license": "Creative Commons Attribution-ShareAlike 3.0",
+        "credit": "Jeff Covey",
+        "edition": "Bach-Gesellschaft",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-lys.zip",
+            "file": "air-g-string-bach-air-lys.zip",
+            "bytes": 4288,
+            "sha256": "e54bfbf7c15cc1e101b3d4359ac8da2af728c7b38323fb083f93b0e3cb299388"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-mids.zip",
+            "file": "air-g-string-bach-air-mids.zip",
+            "bytes": 3826,
+            "sha256": "af2a0b1c1649cf212f7d358d48f0a591a48c4ac907aaa26773c422d039860bf2"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-35.mid",
+            "file": "air-g-string-bach-air-jlh-35.mid",
+            "bytes": 8431,
+            "sha256": "5087b39d9497687457ead7dd431fe1b9b3a4297934449b1094549916181c6dbe"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-70.mid",
+            "file": "air-g-string-bach-air-jlh-70.mid",
+            "bytes": 8431,
+            "sha256": "2a00f6dff4a64acd50031ddd9d9ade35a5c2bf07fa8eee6460c289e7090f8226"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-40-organ.mid",
+            "file": "air-g-string-bach-air-jlh-40-organ.mid",
+            "bytes": 8431,
+            "sha256": "78cd9132781300c54b76a2d63ce7bb604dd4fabddb34ca9f136265949117c3a4"
+          }
+        ]
+      },
+      "license": "Creative Commons Attribution-ShareAlike 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "recordingLicense": "Creative Commons Attribution-ShareAlike 3.0",
+      "arrangement": "第一声部を自然に前へ出し、内声と低音を保つ。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
+      "seconds": 143.57520833333334,
+      "rmsDb": -22.92971815405489,
+      "peakDb": -7.535711563369746,
+      "seamStep": 0.0003334549255669117,
+      "sha256": "f5efde36f3ad9ddb08ffce967b0412492e3908d2f613dacfb8f8af6ca9ec1f88",
+      "eventHash": "5feb9cb369229063cbfe2ce0a5c8f94bde52895a1105692ca845fa75fb3f8638",
+      "processing": {
+        "recipe": "../../test-support/music-box-elegant/voices.json",
+        "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
+        "staticPlaybackCalibration": true,
+        "dynamicCompression": false,
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2",
+        "tempoRevision": "Only nativeTimeScale changed during synthesis; identical pitches, performance event data, velocity, tine/wood parameters and decay times in seconds.",
+        "tempoVerification": "../classic-music-v8/production.json",
+        "tineClarityRevision": "Existing modal/envelope treatment extended very gently through the mid register; bassClarity +0.02 and midClarity 0.04–0.055. E5+ waveforms, wood warmth, pitch, performance and tempo retained.",
+        "tineClarityVerification": "../classic-music-v11/production.json"
+      },
+      "decoderAnalysis": {
+        "rate": 24000,
+        "decodedSeconds": 143.64,
+        "sourceCorrelation": 0.9999996959464424,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 143.62125,
+        "level": 0.11811125418120441,
+        "integratedLufs": -23.44582562304594,
+        "playbackLufs": -42,
+        "peakDb": -7.535711563369746,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "boundaryStep": 0.0003334549255669117,
+        "nativeLoopRendered": true,
+        "subjectiveListeningVerified": false,
+        "fullPeriodNativeRender": true
+      },
+      "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
+      "integratedLufs": -23.44582562304594,
+      "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x0.94. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
+      "tempo": {
+        "nativeTimeScale": 0.920353982300885,
+        "smoothPhraseTiming": true,
+        "sharedTempoCeiling": false,
+        "tempoMultiplier": 1.13,
+        "baseline": "classic-music-v7"
+      },
+      "performanceEventHash": "5feb9cb369229063cbfe2ce0a5c8f94bde52895a1105692ca845fa75fb3f8638"
+    },
+    {
+      "id": "nocturne-9-2",
+      "title": "ノクターン第2番 Op.9-2",
+      "url": "assets/classic-music-v11/nocturne-9-2.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 226.94583333333333,
+      "level": 0.11811056727397799,
+      "bytes": 2723616,
+      "source": {
+        "id": 1590,
+        "key": "nocturne-9-2",
+        "title": "ノクターン第2番 Op.9-2",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1590",
+        "license": "Creative Commons Attribution-ShareAlike 3.0",
+        "credit": "Renato Biolcati Rinaldi",
+        "edition": "G. Schirmer, New York, 1881",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/chopin_nocturne_op9_n2/chopin_nocturne_op9_n2.ly",
+            "file": "1590-chopin_nocturne_op9_n2.ly",
+            "bytes": 16266,
+            "sha256": "f35863a752f5b2805cd50272909b06bb8b1b1a8412d2b549fd13969a4481ab65"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/chopin_nocturne_op9_n2/chopin_nocturne_op9_n2.mid",
+            "file": "1590-chopin_nocturne_op9_n2.mid",
+            "bytes": 11295,
+            "sha256": "e202d3941ce5f26397f57f59f0e2e4e3ad9e19061fa3c4dc596c5ee6a6a2548e"
+          }
+        ]
+      },
+      "license": "Creative Commons Attribution-ShareAlike 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "recordingLicense": "Creative Commons Attribution-ShareAlike 3.0",
+      "arrangement": "装飾音はすべて残し、短い余韻と細かな緩急で歌う右手を生かす。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
+      "seconds": 226.89979166666666,
+      "rmsDb": -23.17670174031231,
+      "peakDb": -6.594495090282209,
+      "seamStep": 0.0002844669361365959,
+      "sha256": "48c1d9d730de99be001e7696ce386579d253caf790a5ba1840430222e53e94eb",
+      "eventHash": "bd0e72fad28e2655fd366fcbb39f22ca946fddfe84180a734fa73831ea4a8aef",
+      "processing": {
+        "recipe": "../../test-support/music-box-elegant/voices.json",
+        "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
+        "staticPlaybackCalibration": true,
+        "dynamicCompression": false,
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2",
+        "tineClarityRevision": "Existing modal/envelope treatment extended very gently through the mid register; bassClarity +0.02 and midClarity 0.04–0.055. E5+ waveforms, wood warmth, pitch, performance and tempo retained.",
+        "tineClarityVerification": "../classic-music-v11/production.json"
+      },
+      "decoderAnalysis": {
+        "rate": 24000,
+        "decodedSeconds": 226.968,
+        "sourceCorrelation": 0.9999996679438624,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 226.94583333333333,
+        "level": 0.11811056727397799,
+        "integratedLufs": -23.445775107811375,
+        "playbackLufs": -42,
+        "peakDb": -6.594495090282209,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "boundaryStep": 0.0002844669361365959,
+        "nativeLoopRendered": true,
+        "subjectiveListeningVerified": false,
+        "fullPeriodNativeRender": true
+      },
+      "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
+      "integratedLufs": -23.445775107811375,
+      "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
+      "tempo": {
+        "nativeTimeScale": 1.1,
+        "smoothPhraseTiming": true,
+        "sharedTempoCeiling": false
+      },
+      "performanceEventHash": "bd0e72fad28e2655fd366fcbb39f22ca946fddfe84180a734fa73831ea4a8aef"
+    },
+    {
+      "id": "traumerei",
+      "title": "トロイメライ",
+      "url": "assets/classic-music-v11/traumerei.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 100.580125,
+      "level": 0.1181106667577354,
+      "bytes": 1207008,
+      "source": {
+        "id": 504,
+        "key": "traumerei",
+        "title": "トロイメライ",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=504",
+        "license": "Public Domain",
+        "credit": "Ying-Chun Liu",
+        "edition": "Leichte Stucke, 1900",
+        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SchumannR/O15/SchumannOp15No07/SchumannOp15No07.ly",
+            "file": "504-SchumannOp15No07.ly",
+            "bytes": 10212,
+            "sha256": "be0a952c8465a216c8405a2f6154a9b101e983a4b080d64a90e532bd5118532a"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SchumannR/O15/SchumannOp15No07/SchumannOp15No07.mid",
+            "file": "504-SchumannOp15No07.mid",
+            "bytes": 3708,
+            "sha256": "6e0045d5783ff28dedcf05813074fe407ca3846e5e2a7246f2793ac5614e4851"
+          }
+        ]
+      },
+      "license": "Public Domain",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
+      "arrangement": "旋律・内声の受け渡しを丸い発音と二段階の余韻でつなぐ。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
+      "seconds": 100.53408333333333,
+      "rmsDb": -22.94250731595762,
+      "peakDb": -8.44188806408847,
+      "seamStep": 0.0004040327185066417,
+      "sha256": "2b565e41930d73adf33934edb888920a693b7152200f4f3bfff151e3cac0330a",
+      "eventHash": "54fdc0a16c3af17476a54f6cde072318cea4c1d733d7c5147fdf8b4259792316",
+      "processing": {
+        "recipe": "../../test-support/music-box-elegant/voices.json",
+        "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
+        "staticPlaybackCalibration": true,
+        "dynamicCompression": false,
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2",
+        "tempoRevision": "Only nativeTimeScale changed during synthesis; identical pitches, performance event data, velocity, tine/wood parameters and decay times in seconds.",
+        "tempoVerification": "../classic-music-v9/production.json",
+        "tineClarityRevision": "Existing modal/envelope treatment extended very gently through the mid register; bassClarity +0.02 and midClarity 0.04–0.055. E5+ waveforms, wood warmth, pitch, performance and tempo retained.",
+        "tineClarityVerification": "../classic-music-v11/production.json"
+      },
+      "decoderAnalysis": {
+        "rate": 24000,
+        "decodedSeconds": 100.584,
+        "sourceCorrelation": 0.9999999722372235,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 100.580125,
+        "level": 0.1181106667577354,
+        "integratedLufs": -23.44578242387626,
+        "playbackLufs": -42,
+        "peakDb": -8.44188806408847,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "boundaryStep": 0.0004040327185066417,
+        "nativeLoopRendered": true,
+        "subjectiveListeningVerified": false,
+        "fullPeriodNativeRender": true
+      },
+      "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
+      "integratedLufs": -23.44578242387626,
+      "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
+      "tempo": {
+        "nativeTimeScale": 0.8766233766233765,
+        "smoothPhraseTiming": true,
+        "sharedTempoCeiling": false,
+        "tempoMultiplier": 1.1,
+        "baseline": "classic-music-v8"
+      },
+      "performanceEventHash": "54fdc0a16c3af17476a54f6cde072318cea4c1d733d7c5147fdf8b4259792316"
+    },
+    {
+      "id": "gymnopedie-1",
+      "title": "ジムノペディ第1番",
+      "url": "assets/classic-music-v11/gymnopedie-1.mp3",
+      "loopStart": 0.04604166666666667,
+      "loopEnd": 139.05429166666667,
+      "level": 0.11810859339460293,
+      "bytes": 1668960,
+      "source": {
+        "id": 37,
+        "key": "gymnopedie-1",
+        "title": "ジムノペディ第1番",
+        "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=37",
+        "license": "Public Domain",
+        "credit": "Evin Robertson",
+        "edition": "Dover Edition",
+        "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+        "downloads": [
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.ly",
+            "file": "37-gymnopedie_1.ly",
+            "bytes": 5588,
+            "sha256": "420a52244e9fbe106dd33ba2cac84414fd66e0d01c6d472205bad39678d4ce04"
+          },
+          {
+            "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.mid",
+            "file": "37-gymnopedie_1.mid",
+            "bytes": 2892,
+            "sha256": "09ce7337b4bf42ba12e1aa64b4c7dc7fcfa6455f1070cb12f8880a755df97384"
+          }
+        ]
+      },
+      "license": "Public Domain",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "recordingLicense": "Original analytic synthesis from PD/CC0 score; no third-party recording",
+      "arrangement": "三拍子の間と解決しない和声を保ち、広い呼吸と穏やかな低音を残す。 全声部共通の滑らかな時間写像でフレーズを整え、原譜の音高・声部・装飾音・同時和音・発音数を維持。",
+      "seconds": 139.00825,
+      "rmsDb": -22.6494779032355,
+      "peakDb": -7.33011063214609,
+      "seamStep": 0.00033606914803385735,
+      "sha256": "0dfef541f42bf90ab709626eafdde03a4ddacedd598b0d81f1041e23989f7117",
+      "eventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44",
+      "processing": {
+        "recipe": "../../test-support/music-box-elegant/voices.json",
+        "instrument": "Independent analytic plucked-tine and wood-box synthesis; no reference audio/sample/soundfont.",
+        "staticPlaybackCalibration": true,
+        "dynamicCompression": false,
+        "timbreRevision": "Low-tine decay and late/inharmonic overlap gently reduced with a small fundamental emphasis below E4. Upper tines, pitches, score/performance events and tempo unchanged.",
+        "comparison": "../classic-music-v7/comparison.json",
+        "timbreBaseline": "df8f6b2",
+        "tempoRevision": "Only nativeTimeScale changed during synthesis; identical pitches, performance event data, velocity, tine/wood parameters and decay times in seconds.",
+        "tempoVerification": "../classic-music-v9/production.json",
+        "tineClarityRevision": "Existing modal/envelope treatment extended very gently through the mid register; bassClarity +0.02 and midClarity 0.04–0.055. E5+ waveforms, wood warmth, pitch, performance and tempo retained.",
+        "tineClarityVerification": "../classic-music-v11/production.json"
+      },
+      "decoderAnalysis": {
+        "rate": 24000,
+        "decodedSeconds": 139.08,
+        "sourceCorrelation": 0.9999999689498292,
+        "loopStart": 0.04604166666666667,
+        "loopEnd": 139.05429166666667,
+        "level": 0.11810859339460293,
+        "integratedLufs": -23.44562994686539,
+        "playbackLufs": -42,
+        "peakDb": -7.33011063214609,
+        "oversampledRate": 96000,
+        "clipped": 0,
+        "nonFinite": 0,
+        "boundaryStep": 0.00033606914803385735,
+        "nativeLoopRendered": true,
+        "subjectiveListeningVerified": false,
+        "fullPeriodNativeRender": true
+      },
+      "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+      "integratedLufs": -23.44562994686539,
+      "previousArrangement": "All existing source-arrangement pitches, chords (including original dissonances), note count, relative rhythm and excerpt cadence retained. Old uniform register/square-root dynamic transform reversed to recover source velocities except the original Clair excerpt-specific expression. Previous 66BPM ceiling and v3 slowdowns removed. Individual native-score time scale x1. Original analytic tine modes, slight voice-specific detuning/drift, circular ringing tails and wood resonance; no third-party audio.",
+      "tempo": {
+        "nativeTimeScale": 0.958677685950413,
+        "smoothPhraseTiming": true,
+        "sharedTempoCeiling": false,
+        "tempoMultiplier": 1.1,
+        "baseline": "classic-music-v8"
+      },
+      "performanceEventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44"
+    }
+  ],
+  "generatorSha256": {
+    "test-support/music-box-expressive/synth.cjs": "cdfb6580926b4f8376233608df6dbfb2c1c7d2ab3a26835009259f18c417367a",
+    "test-support/music-box-elegant/render.cjs": "81db52ad007697ea23d65f0edf7666f9b641d05740b782b72bd5bb6e7ee6c712"
+  },
+  "validatedPlayerImplementationSha256": "1ad4116e52d79ffbdb895e57aca67b4ec644939c8b73b1023b33bce728201d69"
+}

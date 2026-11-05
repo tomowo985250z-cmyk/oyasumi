@@ -1,0 +1,267 @@
+{
+  "pass": true,
+  "baseline": "classic-music-v11",
+  "tracks": [
+    {
+      "id": "clair-de-lune",
+      "keys": [
+        {
+          "midi": 36,
+          "lateBefore": 0.14505844169537302,
+          "lateAfter": 0.10457447885603119,
+          "attackBefore": 1.0511637886750738,
+          "attackAfter": 1.5481600294164022
+        },
+        {
+          "midi": 48,
+          "lateBefore": 0.10493218414002335,
+          "lateAfter": 0.07170283802854364,
+          "attackBefore": 1.5388921614603321,
+          "attackAfter": 2.4088791791229935
+        },
+        {
+          "midi": 55,
+          "lateBefore": 0.11143859493780221,
+          "lateAfter": 0.07734444340419314,
+          "attackBefore": 1.4442257445329125,
+          "attackAfter": 2.220242282157215
+        },
+        {
+          "midi": 60,
+          "lateBefore": 0.127498564835439,
+          "lateAfter": 0.09379520052749106,
+          "attackBefore": 1.2362776862607727,
+          "attackAfter": 1.7760401842012095
+        },
+        {
+          "midi": 64,
+          "lateBefore": 0.12124234197017804,
+          "lateAfter": 0.09418598662415956,
+          "attackBefore": 1.3223907434402116,
+          "attackAfter": 1.7807345704663038
+        },
+        {
+          "midi": 69,
+          "lateBefore": 0.11403979936504398,
+          "lateAfter": 0.10035283549517372,
+          "attackBefore": 1.429433872791519,
+          "attackAfter": 1.6608349470094619
+        }
+      ],
+      "upperTinesSampleIdentical": true,
+      "notesPitchTempoDynamicsPreserved": true,
+      "reflectionRatio": 0.6499999999999999,
+      "woodResonanceRatio": 0.72,
+      "calibratedLufs": -42
+    },
+    {
+      "id": "air-g-string",
+      "keys": [
+        {
+          "midi": 36,
+          "lateBefore": 0.15183347949078446,
+          "lateAfter": 0.1089293264985127,
+          "attackBefore": 0.9896522978224719,
+          "attackAfter": 1.4662189228869469
+        },
+        {
+          "midi": 48,
+          "lateBefore": 0.11280497201693894,
+          "lateAfter": 0.07688579959710115,
+          "attackBefore": 1.4026019191918109,
+          "attackAfter": 2.2031038987607467
+        },
+        {
+          "midi": 55,
+          "lateBefore": 0.12426495876413841,
+          "lateAfter": 0.08708124742650952,
+          "attackBefore": 1.2595947973533324,
+          "attackAfter": 1.915923583895343
+        },
+        {
+          "midi": 60,
+          "lateBefore": 0.14571741393977947,
+          "lateAfter": 0.109055070974012,
+          "attackBefore": 1.0463318364982412,
+          "attackAfter": 1.4741664309716662
+        },
+        {
+          "midi": 64,
+          "lateBefore": 0.1413025457796233,
+          "lateAfter": 0.11172781437168965,
+          "attackBefore": 1.0928709142499275,
+          "attackAfter": 1.442436299629321
+        },
+        {
+          "midi": 69,
+          "lateBefore": 0.13571986720359627,
+          "lateAfter": 0.12070863470463986,
+          "attackBefore": 1.1514372052785193,
+          "attackAfter": 1.3218218951270844
+        }
+      ],
+      "upperTinesSampleIdentical": true,
+      "notesPitchTempoDynamicsPreserved": true,
+      "reflectionRatio": 0.65,
+      "woodResonanceRatio": 0.72,
+      "calibratedLufs": -42
+    },
+    {
+      "id": "nocturne-9-2",
+      "keys": [
+        {
+          "midi": 36,
+          "lateBefore": 0.13192902904488532,
+          "lateAfter": 0.09521990578805813,
+          "attackBefore": 1.1839471753926876,
+          "attackAfter": 1.7397703164243925
+        },
+        {
+          "midi": 48,
+          "lateBefore": 0.09244789071615861,
+          "lateAfter": 0.06310381123524408,
+          "attackBefore": 1.7972301640087993,
+          "attackAfter": 2.813387343126538
+        },
+        {
+          "midi": 55,
+          "lateBefore": 0.09374188731964704,
+          "lateAfter": 0.0641094719108503,
+          "attackBefore": 1.7807482730922548,
+          "attackAfter": 2.7807084131434023
+        },
+        {
+          "midi": 60,
+          "lateBefore": 0.10386504245737983,
+          "lateAfter": 0.07465219124763722,
+          "attackBefore": 1.5851233151843886,
+          "attackAfter": 2.3361892448901846
+        },
+        {
+          "midi": 64,
+          "lateBefore": 0.09640892327368894,
+          "lateAfter": 0.07319848539780681,
+          "attackBefore": 1.7450453368862842,
+          "attackAfter": 2.4099807551976977
+        },
+        {
+          "midi": 69,
+          "lateBefore": 0.08895524999402557,
+          "lateAfter": 0.0772878650523465,
+          "attackBefore": 1.9301166007849049,
+          "attackAfter": 2.2742383310647627
+        }
+      ],
+      "upperTinesSampleIdentical": true,
+      "notesPitchTempoDynamicsPreserved": true,
+      "reflectionRatio": 0.65,
+      "woodResonanceRatio": 0.72,
+      "calibratedLufs": -42
+    },
+    {
+      "id": "traumerei",
+      "keys": [
+        {
+          "midi": 36,
+          "lateBefore": 0.15605260330759346,
+          "lateAfter": 0.11360547147040935,
+          "attackBefore": 0.9584685556341505,
+          "attackAfter": 1.3959629274452885
+        },
+        {
+          "midi": 48,
+          "lateBefore": 0.11643131764268279,
+          "lateAfter": 0.08071059866830987,
+          "attackBefore": 1.3519019961219132,
+          "attackAfter": 2.082207826063986
+        },
+        {
+          "midi": 55,
+          "lateBefore": 0.12530021418122847,
+          "lateAfter": 0.08853771784117367,
+          "attackBefore": 1.2480686253844968,
+          "attackAfter": 1.8800734931160266
+        },
+        {
+          "midi": 60,
+          "lateBefore": 0.14408674288531842,
+          "lateAfter": 0.10795226434645766,
+          "attackBefore": 1.0611216446465355,
+          "attackAfter": 1.4929565457129241
+        },
+        {
+          "midi": 64,
+          "lateBefore": 0.13860913729957397,
+          "lateAfter": 0.10948704323260439,
+          "attackBefore": 1.1190080475430906,
+          "attackAfter": 1.478507971425974
+        },
+        {
+          "midi": 69,
+          "lateBefore": 0.13240280159565168,
+          "lateAfter": 0.11762406380688548,
+          "attackBefore": 1.1869367352099096,
+          "attackAfter": 1.3642696834964592
+        }
+      ],
+      "upperTinesSampleIdentical": true,
+      "notesPitchTempoDynamicsPreserved": true,
+      "reflectionRatio": 0.6499999999999999,
+      "woodResonanceRatio": 0.72,
+      "calibratedLufs": -42
+    },
+    {
+      "id": "gymnopedie-1",
+      "keys": [
+        {
+          "midi": 36,
+          "lateBefore": 0.15253569167343914,
+          "lateAfter": 0.10858358660326425,
+          "attackBefore": 0.9885713122057698,
+          "attackAfter": 1.47845004525113
+        },
+        {
+          "midi": 48,
+          "lateBefore": 0.11482549739580404,
+          "lateAfter": 0.07775031491226704,
+          "attackBefore": 1.3798695606939428,
+          "attackAfter": 2.1848773593719604
+        },
+        {
+          "midi": 55,
+          "lateBefore": 0.12948799629180358,
+          "lateAfter": 0.09079014364818908,
+          "attackBefore": 1.2053130365478428,
+          "attackAfter": 1.833038473964477
+        },
+        {
+          "midi": 60,
+          "lateBefore": 0.1542012330803754,
+          "lateAfter": 0.11595895301669654,
+          "attackBefore": 0.9832922667696826,
+          "attackAfter": 1.3779509647085588
+        },
+        {
+          "midi": 64,
+          "lateBefore": 0.15095910125216103,
+          "lateAfter": 0.11997890117113201,
+          "attackBefore": 1.016546823039547,
+          "attackAfter": 1.3336246088164707
+        },
+        {
+          "midi": 69,
+          "lateBefore": 0.14610637874823496,
+          "lateAfter": 0.13029896782747263,
+          "attackBefore": 1.0635149464562899,
+          "attackAfter": 1.2167437807526413
+        }
+      ],
+      "upperTinesSampleIdentical": true,
+      "notesPitchTempoDynamicsPreserved": true,
+      "reflectionRatio": 0.6499999999999999,
+      "woodResonanceRatio": 0.72,
+      "calibratedLufs": -42
+    }
+  ],
+  "subjectiveListeningVerified": false
+}
