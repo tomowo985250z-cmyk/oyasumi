@@ -125,7 +125,7 @@ globalThis.SceneryMaterials=(()=>{
  const baseMaterials=SceneryMaterials,baseLighting=SolarLighting,ns='http://www.w3.org/2000/svg';let serial=0;
  const mix=SeasonLandscape.mix;
  const palette=w=>{
-  const p=baseLighting.palette(w,phase=>phase==='night'?{wood:'#655e4e',light:'#84765f',dark:'#393e37',fiber:'#999887',fade:'#969785'}:phase==='evening'?{wood:'#ab835a',light:'#d1ac7e',dark:'#695b43',fiber:'#dbd6af',fade:'#d4d2a9'}:{wood:'#aa8963',light:'#d2b68f',dark:'#75644d',fiber:'#e0e4c6',fade:'#d5d8b5'});
+  const p=baseLighting.palette(w,phase=>phase==='night'?{wood:'#635c4d',light:'#80735e',dark:'#393c35',fiber:'#979584',fade:'#949281'}:phase==='evening'?{wood:'#ad855e',light:'#cfaa7e',dark:'#6b5943',fiber:'#d9d0aa',fade:'#d2cba5'}:{wood:'#a78966',light:'#cbb18d',dark:'#75634c',fiber:'#dcdcc0',fade:'#d2d1b0'});
   const wet=w.weather==='rainy'?.15:w.weather==='cloudy'?.07:0;
   for(const k of ['wood','light','dark'])p[k]=mix(p[k],'#6b7977',wet);
   return p;
@@ -133,7 +133,7 @@ globalThis.SceneryMaterials=(()=>{
  const parse=source=>new DOMParser().parseFromString(source,'image/svg+xml').documentElement;
  const html=(svg,source)=>{const g=svg.ownerDocument.createElementNS(ns,'g');g.innerHTML=source;return [...g.childNodes];};
  const woodDefs=(id,p)=>`<linearGradient id="${id}-wood" x2="1" y2="0"><stop stop-color="${p.dark}"/><stop offset=".18" stop-color="${p.wood}"/><stop offset=".46" stop-color="${p.light}"/><stop offset=".69" stop-color="${p.wood}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient><linearGradient id="${id}-beam" x2="0" y2="1"><stop stop-color="${p.dark}"/><stop offset=".24" stop-color="${p.wood}"/><stop offset=".76" stop-color="${mix(p.wood,p.light,.28)}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient>`;
- const grain=(id,p,vertical,horizontal)=>`<path d="${vertical}" fill="none" stroke="${p.dark}" stroke-width=".48" stroke-opacity=".22"/><path d="${horizontal}" fill="none" stroke="${p.dark}" stroke-width=".43" stroke-opacity=".20"/>`;
+ const grain=(id,p,vertical,horizontal)=>`<path d="${vertical}" fill="none" stroke="${p.dark}" stroke-width=".48" stroke-opacity=".20"/><path d="${horizontal}" fill="none" stroke="${p.dark}" stroke-width=".43" stroke-opacity=".18"/>`;
  function art(source,where,w){
   const original=baseMaterials.art(source,where,w);if(where!=='engawa')return original;
   const svg=parse(original),defs=svg.querySelector('defs'),main=svg.querySelector('g[filter]'),id='interior-'+(++serial),p=palette(w),paths=[...main.querySelectorAll('path')],find=d=>paths.find(n=>n.getAttribute('d')?.startsWith(d));

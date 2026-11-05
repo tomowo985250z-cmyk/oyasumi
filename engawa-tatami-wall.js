@@ -13,7 +13,7 @@ globalThis.TatamiWallStudy=(()=>{
   const svg=doc.documentElement,node=helpers(doc),main=svg.querySelector('g[filter]'),id='engawa-soft-'+(++serial),defs=node('defs',{'data-engawa-soft-defs':''}),mix=SeasonLandscape.mix;
   svg.querySelector('defs').append(defs);
   const p=SolarLighting.palette(SolarModel.world(w),phase=>({color:phase==='night'?'#8a9992':phase==='evening'?'#e8c8a2':phase==='morning'?'#eee9d9':'#ede5d5'})),rgb=[1,3,5].map(i=>parseInt(p.color.slice(i,i+2),16)/255),tone=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});
-  tone.innerHTML='<feColorMatrix type="saturate" values=".78"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.82+'" intercept="'+rgb[i]*.085+'"/>').join('')+'</feComponentTransfer>';defs.append(tone);
+  tone.innerHTML='<feColorMatrix type="saturate" values=".75"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.82+'" intercept="'+rgb[i]*.085+'"/>').join('')+'</feComponentTransfer>';defs.append(tone);
   const ceilingClip=node('clipPath',{id:id+'-ceiling'});ceilingClip.append(node('path',{d:'M0 0H400V26H0Z'}));defs.append(ceilingClip);
   const wood=node('pattern',{id:id+'-wood',patternUnits:'userSpaceOnUse',width:170,height:70});wood.append(node('image',{href:'assets/engawa-semi-real-v1/wood.webp?v=0ee8d8588835c769',width:170,height:70,preserveAspectRatio:'none'}));defs.append(wood);
   const ceiling=node('g',{'data-engawa-soft-material':'ceiling','clip-path':'url(#'+ceilingClip.id+')',style:'pointer-events:none'});
@@ -31,7 +31,7 @@ globalThis.TatamiWallStudy=(()=>{
   }
   const rug=main.querySelector('ellipse[cx="204"][cy="262"]'),oldRim=main.querySelector('ellipse[cx="204"][cy="260"]');
   if(rug){
-   const base=mix(rug.getAttribute('fill'),'#a6a58a',.14),light=mix(base,'#eee4cb',.26),dark=mix(base,'#555b49',.30);
+   const base=mix(rug.getAttribute('fill'),'#a6a58a',.18),light=mix(base,'#eee4cb',.23),dark=mix(base,'#555b49',.28);
    // The native footprint supports a stuffed cotton pad, with a lower front
    // roll and a stitched top. Keep it behind the unchanged cushion and cat.
    const face='M132 250Q202 248 275 250Q280 250 281 254Q283 258 286 264Q288 267 281 269Q260 271 241 270Q212 272 188 270Q157 272 127 269Q120 267 122 263Q125 258 127 254Q128 251 132 250Z';
@@ -96,7 +96,7 @@ globalThis.TatamiWallStudy=(()=>{
   const relief=node('filter',{id:id+'-relief',x:'0',y:'0',width:'100%',height:'100%','color-interpolation-filters':'sRGB'});relief.innerHTML='<feTurbulence type="fractalNoise" baseFrequency=".28" numOctaves="2" seed="17" result="fibre-noise"/><feColorMatrix in="fibre-noise" type="saturate" values="0"/><feComponentTransfer result="fibre-relief"><feFuncA type="linear" slope=".045"/></feComponentTransfer><feBlend in="SourceGraphic" in2="fibre-relief" mode="soft-light"/>';defs.append(relief);
   // Preserve the previous paper filter's geometry bounds outside this edit.
   const bounds=old.cloneNode(true);bounds.setAttribute('opacity','0');bounds.removeAttribute('data-study-material');bounds.setAttribute('data-preserved-paper-bounds','');for(const n of [bounds,...bounds.querySelectorAll('*')])for(const a of [...n.attributes])if(a.name.startsWith('data-tatami')||a.name==='data-world-size'||a.name==='data-long-axis')n.removeAttribute(a.name);floor.append(bounds);
-  const tone=SolarLighting.palette(SolarModel.world(w),phase=>phase==='night'?{base:'#727963',light:'#a2a78a',dark:'#485342',cloth:'#414d40',thread:'#89917c'}:phase==='evening'?{base:'#bfb08b',light:'#dfc99f',dark:'#7f8065',cloth:'#6b7057',thread:'#c0b98d'}:{base:'#b6b698',light:'#d4cfaa',dark:'#7f866a',cloth:'#606d55',thread:'#bec6a0'});
+  const tone=SolarLighting.palette(SolarModel.world(w),phase=>phase==='night'?{base:'#6f7562',light:'#9ba087',dark:'#485041',cloth:'#424b3f',thread:'#858c79'}:phase==='evening'?{base:'#c0ad88',light:'#dec49b',dark:'#827960',cloth:'#6e6c55',thread:'#bdb58d'}:{base:'#b3b197',light:'#cec7a7',dark:'#7e8068',cloth:'#646b57',thread:'#b9bea0'});
   const mix=SeasonLandscape.mix;
   const planePoly=(coords,attrs={})=>node('polygon',{points:points(coords.map(p=>project(...p))),...attrs});
   const planeD=coords=>'M'+coords.map(p=>project(...p).map(number).join(' ')).join('L')+'Z';
@@ -188,7 +188,7 @@ globalThis.TatamiWallStudy=(()=>{
  function header(w,key){
   const source=interior.header(w,key),doc=parse('<svg xmlns="'+ns+'">'+source+'</svg>'),svg=doc.documentElement,node=helpers(doc),id='plaster-wall-'+(++serial),defs=node('defs',{'data-tatami-wall-defs':''});
   svg.querySelectorAll('[data-study-shared-material="plaster"]').forEach(n=>n.remove());
-  const world=SolarModel.world(w),sun=SolarSky.state(world,'engawa'),tone=SolarLighting.palette(world,phase=>phase==='night'?{base:'#68716b',light:'#83887d',dark:'#4a5751'}:phase==='evening'?{base:'#cfc0a8',light:'#e6d0b2',dark:'#a79a85'}:phase==='morning'?{base:'#d6cdb8',light:'#ebe0c8',dark:'#b0aa94'}:{base:'#d4cab6',light:'#eadfc9',dark:'#b3a995'}),mix=SeasonLandscape.mix;
+  const world=SolarModel.world(w),sun=SolarSky.state(world,'engawa'),tone=SolarLighting.palette(world,phase=>phase==='night'?{base:'#676e68',light:'#80847a',dark:'#4a554e'}:phase==='evening'?{base:'#cfbea5',light:'#e5cdae',dark:'#a79781'}:phase==='morning'?{base:'#d4c9b3',light:'#e8dcc3',dark:'#afa58f'}:{base:'#d1c5b0',light:'#e6d9c2',dark:'#b0a48f'}),mix=SeasonLandscape.mix;
   const rgb=[1,3,5].map(i=>parseInt(tone.base.slice(i,i+2),16)/255),filter=node('filter',{id:id+'-texture','color-interpolation-filters':'sRGB'});
   filter.innerHTML='<feColorMatrix type="saturate" values=".12"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.65+'" intercept="'+rgb[i]*.43+'"/>').join('')+'</feComponentTransfer>';defs.append(filter);
   const pattern=node('pattern',{id:id+'-plaster',patternUnits:'userSpaceOnUse',width:400,height:330});pattern.innerHTML=[0,342.65].map(x=>'<svg x="'+x+'" y="35" width="57.35" height="183" viewBox="253 5 43 50" preserveAspectRatio="none"><image href="assets/bedroom-realism-v1/shell.webp" width="400" height="330" data-tatami-wall-sample="same-bedroom-plaster"/></svg>').join('');defs.append(pattern);
