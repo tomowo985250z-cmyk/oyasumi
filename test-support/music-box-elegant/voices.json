@@ -1,6 +1,6 @@
 {
-  "version": 5,
-  "policy": "Tempo-only revision of the current v8 recordings. Clair de lune, Traumerei and Gymnopedie No.1 are each 10% faster via nativeTimeScale only. Pitch, arrangement, velocity, tine/wood timbre, attack, decay in seconds and calibrated playback loudness remain unchanged. Air on the G String and Nocturne Op.9-2 remain byte-identical.",
+  "version": 6,
+  "policy": "Timbre-only from the current five recordings: modestly stronger existing low-tine clarity taper below E4. Shorter low-frequency late sustain and weaker neighbouring/modal overlap, with a clearer fundamental attack. E4 and higher waveforms, wood warmth, pitch, all note events, tempo and calibrated playback loudness stay unchanged.",
   "voices": [
     {
       "id": "clair-de-lune",
@@ -46,7 +46,7 @@
       "woodAmount": 0.0097,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.16
+      "bassClarity": 0.24
     },
     {
       "id": "air-g-string",
@@ -92,7 +92,7 @@
       "woodAmount": 0.0108,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.18
+      "bassClarity": 0.27
     },
     {
       "id": "nocturne-9-2",
@@ -138,7 +138,7 @@
       "woodAmount": 0.0089,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.14
+      "bassClarity": 0.21
     },
     {
       "id": "traumerei",
@@ -184,7 +184,7 @@
       "woodAmount": 0.0105,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.16
+      "bassClarity": 0.25
     },
     {
       "id": "gymnopedie-1",
@@ -230,7 +230,7 @@
       "woodAmount": 0.0112,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.17
+      "bassClarity": 0.28
     }
   ]
 }
