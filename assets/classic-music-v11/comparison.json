@@ -1,0 +1,784 @@
+{
+  "pass": true,
+  "baselineCommit": "31c4ade",
+  "timbreBaseline": "classic-music-v10",
+  "method": "Exact event/period equality; isolated existing/revised tines compared at identical keys. Integrated late energy, 95% energy time, Fourier modal/fundamental projections and fitted pitch. These technical measures are not a subjective listening judgement.",
+  "subjectiveListeningVerified": false,
+  "tracks": [
+    {
+      "id": "clair-de-lune",
+      "sourceNotes": 542,
+      "seconds": 111.767875,
+      "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+      "performanceEventHash": "8bd81d0f0eacfd939888b528971da4d4fe254209b03283a9f57f65d322017ab1",
+      "exactPerformancePreserved": true,
+      "bassClarity": 0.26,
+      "keys": [
+        {
+          "midi": 36,
+          "before": {
+            "energy": 14962.050565884281,
+            "energyAfterTwoSecondsPercent": 15.32740149996783,
+            "t95Seconds": 3.2467916666666667,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.0037979214550963457
+          },
+          "after": {
+            "energy": 14708.96517005193,
+            "energyAfterTwoSecondsPercent": 14.505844169537301,
+            "t95Seconds": 3.152375,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.0035619602975702834
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 48,
+          "before": {
+            "energy": 12736.261055417073,
+            "energyAfterTwoSecondsPercent": 11.188056911214755,
+            "t95Seconds": 2.7665,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.0033359377183178477
+          },
+          "after": {
+            "energy": 12520.649173312906,
+            "energyAfterTwoSecondsPercent": 10.493218414002335,
+            "t95Seconds": 2.685416666666667,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.0031174054191278784
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 55,
+          "before": {
+            "energy": 12508.501905488849,
+            "energyAfterTwoSecondsPercent": 12.2602575878292,
+            "t95Seconds": 2.8965,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.004278189842732568
+          },
+          "after": {
+            "energy": 12215.292247550393,
+            "energyAfterTwoSecondsPercent": 11.143859493780221,
+            "t95Seconds": 2.7645416666666667,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.0038390231687189993
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 60,
+          "before": {
+            "energy": 12586.529922283056,
+            "energyAfterTwoSecondsPercent": 14.18210888951685,
+            "t95Seconds": 3.1262916666666665,
+            "fittedFundamentalHz": 261.73556530059864,
+            "inharmonicToFundamentalProjection": 0.005900152537448896
+          },
+          "after": {
+            "energy": 12279.579713506175,
+            "energyAfterTwoSecondsPercent": 12.749856483543901,
+            "t95Seconds": 2.9566666666666666,
+            "fittedFundamentalHz": 261.73556530059864,
+            "inharmonicToFundamentalProjection": 0.005165350485858633
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 64,
+          "before": {
+            "energy": 11889.92834445571,
+            "energyAfterTwoSecondsPercent": 13.371265592018892,
+            "t95Seconds": 3.034708333333333,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.005625776333951495
+          },
+          "after": {
+            "energy": 11646.494968661333,
+            "energyAfterTwoSecondsPercent": 12.124234197017804,
+            "t95Seconds": 2.88625,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.00497679812599864
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 72,
+          "before": {
+            "energy": 10659.78288651614,
+            "energyAfterTwoSecondsPercent": 10.742317785192192,
+            "t95Seconds": 2.731125,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.00511956290079894
+          },
+          "after": {
+            "energy": 10616.073247073107,
+            "energyAfterTwoSecondsPercent": 10.508713436629845,
+            "t95Seconds": 2.7026666666666666,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.004986917785677137
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 76,
+          "before": {
+            "energy": 10056.83458959132,
+            "energyAfterTwoSecondsPercent": 9.516260921664365,
+            "t95Seconds": 2.585875,
+            "fittedFundamentalHz": 659.2951138257398,
+            "inharmonicToFundamentalProjection": 0.004766794240862392
+          },
+          "after": {
+            "energy": 10056.83458959132,
+            "energyAfterTwoSecondsPercent": 9.516260921664365,
+            "t95Seconds": 2.585875,
+            "fittedFundamentalHz": 659.2951138257398,
+            "inharmonicToFundamentalProjection": 0.004766794240862392
+          },
+          "upperSamplesIdentical": true
+        },
+        {
+          "midi": 84,
+          "before": {
+            "energy": 9003.315487271395,
+            "energyAfterTwoSecondsPercent": 7.506711310977742,
+            "t95Seconds": 2.3343333333333334,
+            "fittedFundamentalHz": 1046.6722612023946,
+            "inharmonicToFundamentalProjection": 0.004083324682460801
+          },
+          "after": {
+            "energy": 9003.315487271395,
+            "energyAfterTwoSecondsPercent": 7.506711310977742,
+            "t95Seconds": 2.3343333333333334,
+            "fittedFundamentalHz": 1046.6722612023946,
+            "inharmonicToFundamentalProjection": 0.004083324682460801
+          },
+          "upperSamplesIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "air-g-string",
+      "sourceNotes": 512,
+      "seconds": 143.57520833333334,
+      "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
+      "performanceEventHash": "5feb9cb369229063cbfe2ce0a5c8f94bde52895a1105692ca845fa75fb3f8638",
+      "exactPerformancePreserved": true,
+      "bassClarity": 0.29,
+      "keys": [
+        {
+          "midi": 36,
+          "before": {
+            "energy": 15664.860151299748,
+            "energyAfterTwoSecondsPercent": 16.04953271821295,
+            "t95Seconds": 3.3240416666666666,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.003450143712984545
+          },
+          "after": {
+            "energy": 15384.90291603275,
+            "energyAfterTwoSecondsPercent": 15.183347949078446,
+            "t95Seconds": 3.2235416666666667,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.0032338559425255445
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 48,
+          "before": {
+            "energy": 13461.698593041594,
+            "energyAfterTwoSecondsPercent": 12.026676230694903,
+            "t95Seconds": 2.8607916666666666,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.00308166173063223
+          },
+          "after": {
+            "energy": 13220.904739038522,
+            "energyAfterTwoSecondsPercent": 11.280497201693894,
+            "t95Seconds": 2.773458333333333,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.002878644313756944
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 55,
+          "before": {
+            "energy": 13460.90577772497,
+            "energyAfterTwoSecondsPercent": 13.805828045110315,
+            "t95Seconds": 3.070625,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.004150724309511464
+          },
+          "after": {
+            "energy": 13089.225981526886,
+            "energyAfterTwoSecondsPercent": 12.426495876413842,
+            "t95Seconds": 2.9097916666666666,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.0036710378321844384
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 60,
+          "before": {
+            "energy": 13709.092934097973,
+            "energyAfterTwoSecondsPercent": 16.425388711485176,
+            "t95Seconds": 3.3830416666666667,
+            "fittedFundamentalHz": 261.72556530059865,
+            "inharmonicToFundamentalProjection": 0.005959751417214621
+          },
+          "after": {
+            "energy": 13306.438030172045,
+            "energyAfterTwoSecondsPercent": 14.571741393977947,
+            "t95Seconds": 3.1641666666666666,
+            "fittedFundamentalHz": 261.72556530059865,
+            "inharmonicToFundamentalProjection": 0.005093671606198287
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 64,
+          "before": {
+            "energy": 13015.940492573598,
+            "energyAfterTwoSecondsPercent": 15.773753029654769,
+            "t95Seconds": 3.3109166666666665,
+            "fittedFundamentalHz": 329.6275569128699,
+            "inharmonicToFundamentalProjection": 0.005794397977176471
+          },
+          "after": {
+            "energy": 12695.380979616064,
+            "energyAfterTwoSecondsPercent": 14.130254577962331,
+            "t95Seconds": 3.1155,
+            "fittedFundamentalHz": 329.6275569128699,
+            "inharmonicToFundamentalProjection": 0.005008377624763043
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 72,
+          "before": {
+            "energy": 11742.575613635105,
+            "energyAfterTwoSecondsPercent": 13.029972289157737,
+            "t95Seconds": 2.998,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.005362111810619445
+          },
+          "after": {
+            "energy": 11685.256114610493,
+            "energyAfterTwoSecondsPercent": 12.716240663705122,
+            "t95Seconds": 2.960375,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.005198326856235192
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 76,
+          "before": {
+            "energy": 11113.03356719982,
+            "energyAfterTwoSecondsPercent": 11.71896126544183,
+            "t95Seconds": 2.847583333333333,
+            "fittedFundamentalHz": 659.2951138257398,
+            "inharmonicToFundamentalProjection": 0.005038620498326872
+          },
+          "after": {
+            "energy": 11113.03356719982,
+            "energyAfterTwoSecondsPercent": 11.71896126544183,
+            "t95Seconds": 2.847583333333333,
+            "fittedFundamentalHz": 659.2951138257398,
+            "inharmonicToFundamentalProjection": 0.005038620498326872
+          },
+          "upperSamplesIdentical": true
+        },
+        {
+          "midi": 84,
+          "before": {
+            "energy": 10010.451243267175,
+            "energyAfterTwoSecondsPercent": 9.556292515860223,
+            "t95Seconds": 2.5872083333333333,
+            "fittedFundamentalHz": 1046.6622612023946,
+            "inharmonicToFundamentalProjection": 0.004348305901579334
+          },
+          "after": {
+            "energy": 10010.451243267175,
+            "energyAfterTwoSecondsPercent": 9.556292515860223,
+            "t95Seconds": 2.5872083333333333,
+            "fittedFundamentalHz": 1046.6622612023946,
+            "inharmonicToFundamentalProjection": 0.004348305901579334
+          },
+          "upperSamplesIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "nocturne-9-2",
+      "sourceNotes": 1242,
+      "seconds": 226.89979166666666,
+      "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
+      "performanceEventHash": "bd0e72fad28e2655fd366fcbb39f22ca946fddfe84180a734fa73831ea4a8aef",
+      "exactPerformancePreserved": true,
+      "bassClarity": 0.23,
+      "keys": [
+        {
+          "midi": 36,
+          "before": {
+            "energy": 14003.393597886106,
+            "energyAfterTwoSecondsPercent": 13.942799570467374,
+            "t95Seconds": 3.08575,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.004379443748315483
+          },
+          "after": {
+            "energy": 13785.454194009906,
+            "energyAfterTwoSecondsPercent": 13.192902904488532,
+            "t95Seconds": 2.999625,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.004109331932039752
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 48,
+          "before": {
+            "energy": 11836.79597357041,
+            "energyAfterTwoSecondsPercent": 9.863254139905036,
+            "t95Seconds": 2.6105833333333335,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.003794696221704323
+          },
+          "after": {
+            "energy": 11652.42574108402,
+            "energyAfterTwoSecondsPercent": 9.24478907161586,
+            "t95Seconds": 2.5369166666666665,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.0035473016939956076
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 55,
+          "before": {
+            "energy": 11421.367029001587,
+            "energyAfterTwoSecondsPercent": 10.285803295609997,
+            "t95Seconds": 2.66425,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.004640862199202061
+          },
+          "after": {
+            "energy": 11187.672049376219,
+            "energyAfterTwoSecondsPercent": 9.374188731964704,
+            "t95Seconds": 2.555,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.004192609846224061
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 60,
+          "before": {
+            "energy": 11344.805043633205,
+            "energyAfterTwoSecondsPercent": 11.517861436206557,
+            "t95Seconds": 2.8128333333333333,
+            "fittedFundamentalHz": 261.7555653005986,
+            "inharmonicToFundamentalProjection": 0.006146452411183954
+          },
+          "after": {
+            "energy": 11105.633659030515,
+            "energyAfterTwoSecondsPercent": 10.386504245737983,
+            "t95Seconds": 2.677958333333333,
+            "fittedFundamentalHz": 261.7555653005986,
+            "inharmonicToFundamentalProjection": 0.005439820983742923
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 64,
+          "before": {
+            "energy": 10662.634421752899,
+            "energyAfterTwoSecondsPercent": 10.606610340879866,
+            "t95Seconds": 2.707375,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.0057487220296094
+          },
+          "after": {
+            "energy": 10473.782444944834,
+            "energyAfterTwoSecondsPercent": 9.640892327368894,
+            "t95Seconds": 2.5915416666666666,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.005138799896961822
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 72,
+          "before": {
+            "energy": 9516.03838104278,
+            "energyAfterTwoSecondsPercent": 8.23438246237548,
+            "t95Seconds": 2.4247916666666667,
+            "fittedFundamentalHz": 523.3111306011972,
+            "inharmonicToFundamentalProjection": 0.005154215591367374
+          },
+          "after": {
+            "energy": 9482.186918868252,
+            "energyAfterTwoSecondsPercent": 8.058242890769254,
+            "t95Seconds": 2.40275,
+            "fittedFundamentalHz": 523.3111306011972,
+            "inharmonicToFundamentalProjection": 0.005031343978008971
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 76,
+          "before": {
+            "energy": 8957.299079118335,
+            "energyAfterTwoSecondsPercent": 7.158892839395392,
+            "t95Seconds": 2.2907083333333333,
+            "fittedFundamentalHz": 659.3051138257398,
+            "inharmonicToFundamentalProjection": 0.00476470665740307
+          },
+          "after": {
+            "energy": 8957.299079118335,
+            "energyAfterTwoSecondsPercent": 7.158892839395392,
+            "t95Seconds": 2.2907083333333333,
+            "fittedFundamentalHz": 659.3051138257398,
+            "inharmonicToFundamentalProjection": 0.00476470665740307
+          },
+          "upperSamplesIdentical": true
+        },
+        {
+          "midi": 84,
+          "before": {
+            "energy": 7983.18519157626,
+            "energyAfterTwoSecondsPercent": 5.418402601896421,
+            "t95Seconds": 2.0584166666666666,
+            "fittedFundamentalHz": 1046.6922612023945,
+            "inharmonicToFundamentalProjection": 0.004076309574464265
+          },
+          "after": {
+            "energy": 7983.18519157626,
+            "energyAfterTwoSecondsPercent": 5.418402601896421,
+            "t95Seconds": 2.0584166666666666,
+            "fittedFundamentalHz": 1046.6922612023945,
+            "inharmonicToFundamentalProjection": 0.004076309574464265
+          },
+          "upperSamplesIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "traumerei",
+      "sourceNotes": 339,
+      "seconds": 100.53408333333333,
+      "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
+      "performanceEventHash": "54fdc0a16c3af17476a54f6cde072318cea4c1d733d7c5147fdf8b4259792316",
+      "exactPerformancePreserved": true,
+      "bassClarity": 0.27,
+      "keys": [
+        {
+          "midi": 36,
+          "before": {
+            "energy": 15689.702683327787,
+            "energyAfterTwoSecondsPercent": 16.45977699064663,
+            "t95Seconds": 3.3749583333333333,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.0036235273223950305
+          },
+          "after": {
+            "energy": 15422.04651114359,
+            "energyAfterTwoSecondsPercent": 15.605260330759346,
+            "t95Seconds": 3.274958333333333,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.003400567015963119
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 48,
+          "before": {
+            "energy": 13482.899050588136,
+            "energyAfterTwoSecondsPercent": 12.382182036866084,
+            "t95Seconds": 2.9026666666666667,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.0032408037695765076
+          },
+          "after": {
+            "energy": 13252.72300169674,
+            "energyAfterTwoSecondsPercent": 11.64313176426828,
+            "t95Seconds": 2.8157916666666667,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.0030314075892862494
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 55,
+          "before": {
+            "energy": 13357.290715791401,
+            "energyAfterTwoSecondsPercent": 13.80499686986367,
+            "t95Seconds": 3.0711666666666666,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.004236323800565878
+          },
+          "after": {
+            "energy": 13022.176220467569,
+            "energyAfterTwoSecondsPercent": 12.530021418122846,
+            "t95Seconds": 2.922416666666667,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.0037800089059151125
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 60,
+          "before": {
+            "energy": 13516.846582727701,
+            "energyAfterTwoSecondsPercent": 16.080719743555107,
+            "t95Seconds": 3.3429583333333333,
+            "fittedFundamentalHz": 261.73556530059864,
+            "inharmonicToFundamentalProjection": 0.00592242338759677
+          },
+          "after": {
+            "energy": 13158.541860459049,
+            "energyAfterTwoSecondsPercent": 14.408674288531842,
+            "t95Seconds": 3.1455,
+            "fittedFundamentalHz": 261.73556530059864,
+            "inharmonicToFundamentalProjection": 0.005130729711171167
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 64,
+          "before": {
+            "energy": 12813.043818139868,
+            "energyAfterTwoSecondsPercent": 15.334360153056773,
+            "t95Seconds": 3.2595,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.005707629171331243
+          },
+          "after": {
+            "energy": 12527.760001644963,
+            "energyAfterTwoSecondsPercent": 13.860913729957398,
+            "t95Seconds": 3.0848333333333335,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.004997633302848071
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 72,
+          "before": {
+            "energy": 11559.183593038786,
+            "energyAfterTwoSecondsPercent": 12.635326270527006,
+            "t95Seconds": 2.9520416666666667,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.0052741284587201325
+          },
+          "after": {
+            "energy": 11507.965162391061,
+            "energyAfterTwoSecondsPercent": 12.354560254601054,
+            "t95Seconds": 2.918041666666667,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.005126867817957178
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 76,
+          "before": {
+            "energy": 10939.358760799269,
+            "energyAfterTwoSecondsPercent": 11.35049175962674,
+            "t95Seconds": 2.8042083333333334,
+            "fittedFundamentalHz": 659.2951138257398,
+            "inharmonicToFundamentalProjection": 0.004950595428789994
+          },
+          "after": {
+            "energy": 10939.358760799269,
+            "energyAfterTwoSecondsPercent": 11.35049175962674,
+            "t95Seconds": 2.8042083333333334,
+            "fittedFundamentalHz": 659.2951138257398,
+            "inharmonicToFundamentalProjection": 0.004950595428789994
+          },
+          "upperSamplesIdentical": true
+        },
+        {
+          "midi": 84,
+          "before": {
+            "energy": 9853.500754778932,
+            "energyAfterTwoSecondsPercent": 9.233469486215842,
+            "t95Seconds": 2.5475416666666666,
+            "fittedFundamentalHz": 1046.6622612023946,
+            "inharmonicToFundamentalProjection": 0.004236844739286989
+          },
+          "after": {
+            "energy": 9853.500754778932,
+            "energyAfterTwoSecondsPercent": 9.233469486215842,
+            "t95Seconds": 2.5475416666666666,
+            "fittedFundamentalHz": 1046.6622612023946,
+            "inharmonicToFundamentalProjection": 0.004236844739286989
+          },
+          "upperSamplesIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "gymnopedie-1",
+      "sourceNotes": 282,
+      "seconds": 139.00825,
+      "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+      "performanceEventHash": "68f7eb775acc5fd6953ba49a5df032a75b6f4fe3cfd02e3ea3e99240f08cce44",
+      "exactPerformancePreserved": true,
+      "bassClarity": 0.3,
+      "keys": [
+        {
+          "midi": 36,
+          "before": {
+            "energy": 15781.00010358086,
+            "energyAfterTwoSecondsPercent": 16.14219637256816,
+            "t95Seconds": 3.3400416666666666,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.00359683556145769
+          },
+          "after": {
+            "energy": 15486.70048027608,
+            "energyAfterTwoSecondsPercent": 15.253569167343914,
+            "t95Seconds": 3.2377083333333334,
+            "fittedFundamentalHz": 65.38639132514966,
+            "inharmonicToFundamentalProjection": 0.003368898517374158
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 48,
+          "before": {
+            "energy": 13638.201075657411,
+            "energyAfterTwoSecondsPercent": 12.253298347066599,
+            "t95Seconds": 2.8897083333333335,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.003223310558848095
+          },
+          "after": {
+            "energy": 13383.752052161923,
+            "energyAfterTwoSecondsPercent": 11.482549739580405,
+            "t95Seconds": 2.8001666666666667,
+            "fittedFundamentalHz": 130.80278265029932,
+            "inharmonicToFundamentalProjection": 0.0030089355953195488
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 55,
+          "before": {
+            "energy": 13774.767072659042,
+            "energyAfterTwoSecondsPercent": 14.38117651928309,
+            "t95Seconds": 3.143375,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.004420291687343355
+          },
+          "after": {
+            "energy": 13380.154273364686,
+            "energyAfterTwoSecondsPercent": 12.948799629180357,
+            "t95Seconds": 2.9752916666666667,
+            "fittedFundamentalHz": 196.00771799087462,
+            "inharmonicToFundamentalProjection": 0.00390830379249723
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 60,
+          "before": {
+            "energy": 14133.85515143821,
+            "energyAfterTwoSecondsPercent": 17.34611157684636,
+            "t95Seconds": 3.501125,
+            "fittedFundamentalHz": 261.7455653005986,
+            "inharmonicToFundamentalProjection": 0.006443014804665576
+          },
+          "after": {
+            "energy": 13704.856782797891,
+            "energyAfterTwoSecondsPercent": 15.420123308037539,
+            "t95Seconds": 3.269833333333333,
+            "fittedFundamentalHz": 261.7455653005986,
+            "inharmonicToFundamentalProjection": 0.00550916919615034
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 64,
+          "before": {
+            "energy": 13462.04799321884,
+            "energyAfterTwoSecondsPercent": 16.811013108621587,
+            "t95Seconds": 3.444541666666667,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.006303028788708633
+          },
+          "after": {
+            "energy": 13119.670538753486,
+            "energyAfterTwoSecondsPercent": 15.095910125216102,
+            "t95Seconds": 3.2376666666666667,
+            "fittedFundamentalHz": 329.61755691286993,
+            "inharmonicToFundamentalProjection": 0.005451653245188164
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 72,
+          "before": {
+            "energy": 12188.063350380482,
+            "energyAfterTwoSecondsPercent": 14.12219033339751,
+            "t95Seconds": 3.1374583333333335,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.005864047807950281
+          },
+          "after": {
+            "energy": 12126.416613231519,
+            "energyAfterTwoSecondsPercent": 13.790156224668216,
+            "t95Seconds": 3.097166666666667,
+            "fittedFundamentalHz": 523.3011306011972,
+            "inharmonicToFundamentalProjection": 0.0056858861604134215
+          },
+          "upperSamplesIdentical": false
+        },
+        {
+          "midi": 76,
+          "before": {
+            "energy": 11556.490014147079,
+            "energyAfterTwoSecondsPercent": 12.838419537336085,
+            "t95Seconds": 2.9876666666666667,
+            "fittedFundamentalHz": 659.3051138257398,
+            "inharmonicToFundamentalProjection": 0.0055276070160061265
+          },
+          "after": {
+            "energy": 11556.490014147079,
+            "energyAfterTwoSecondsPercent": 12.838419537336085,
+            "t95Seconds": 2.9876666666666667,
+            "fittedFundamentalHz": 659.3051138257398,
+            "inharmonicToFundamentalProjection": 0.0055276070160061265
+          },
+          "upperSamplesIdentical": true
+        },
+        {
+          "midi": 84,
+          "before": {
+            "energy": 10452.795507922016,
+            "energyAfterTwoSecondsPercent": 10.673947893535697,
+            "t95Seconds": 2.7170833333333335,
+            "fittedFundamentalHz": 1046.6822612023946,
+            "inharmonicToFundamentalProjection": 0.004837400322900232
+          },
+          "after": {
+            "energy": 10452.795507922016,
+            "energyAfterTwoSecondsPercent": 10.673947893535697,
+            "t95Seconds": 2.7170833333333335,
+            "fittedFundamentalHz": 1046.6822612023946,
+            "inharmonicToFundamentalProjection": 0.004837400322900232
+          },
+          "upperSamplesIdentical": true
+        }
+      ]
+    }
+  ]
+}

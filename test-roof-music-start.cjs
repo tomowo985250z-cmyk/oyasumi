@@ -1,0 +1,15 @@
+const assert=require('assert/strict'),{harness,tracks}=require('./test-support/roof-music-sequence.cjs');
+const close=(a,b,message)=>assert(Math.abs(a-b)<.0001,message+': '+a+' / '+b);
+(async()=>{
+ const h=harness();h.next();await h.advance(.1);assert.equal(h.starts.length,1,'One first source, no capture-gesture double start');
+ const first=h.starts[0];assert.equal(first.id,tracks[0].id,'First music-button use starts song one');close(first.at-first.requestedAt,.5,'Half-second start');assert.equal(first.offset,tracks[0].loopStart);close(first.duration,tracks[0].loopEnd-tracks[0].loopStart,'Complete first recording');assert.equal(h.inspect().position,0);
+ await h.advance(.42);close(h.inspect().gain,h.inspect().target,'First note reaches normal gain after 8ms');assert(h.inspect().position<.03);
+ await h.advance(3.1);h.next();await h.advance(.1);assert.equal(h.starts.length,2);const next=h.starts[1];assert.equal(next.id,tracks[1].id);close(next.at-next.requestedAt,.5,'Manual next delay');close(first.node.endAt,next.at+3,'Outgoing source overlaps for three seconds');assert.equal(next.offset,tracks[1].loopStart);
+ await h.advance(.42);close(h.inspect().gain,h.inspect().target,'Manual first note does not have a three-second fade');assert.equal(h.inspect().sourceCount,2);
+ await h.advance(3.1);const oldPosition=h.inspect().position;h.toggle(false);await h.advance(.3);const saved=h.inspect().position;assert(saved>=oldPosition);assert.equal(h.inspect().sourceCount,0);
+ h.toggle(true);await h.advance(.1);const resumed=h.starts.at(-1);close(h.inspect().position,saved,'No rollback or skip during resume delay');close(resumed.offset,tracks[1].loopStart+saved,'Exact resume sample offset');await h.advance(.42);close(h.inspect().gain,h.inspect().target,'Resume uses short de-click only');
+ const asyncResume=harness({resumeDelay:.12});asyncResume.next();await asyncResume.advance(.8);assert.equal(asyncResume.starts.length,1,'Await suspended context resume');assert(!asyncResume.inspect().error);
+ const slow=harness();slow.hold(tracks[0].id);slow.next();await slow.advance(.8);assert.equal(slow.starts.length,0);slow.hold(null);slow.deferred.forEach(d=>d.resolve());await slow.advance(.02);assert.equal(slow.starts.length,1);assert.equal(slow.starts[0].offset,tracks[0].loopStart,'Cold decode never skips the opening');close(slow.starts[0].at,slow.starts[0].requestedAt,'Start immediately when slow decode becomes ready');
+ const canceled=harness();canceled.next();await canceled.advance(.1);canceled.hidden(true);await canceled.advance(1);assert.equal(canceled.inspect().sourceCount,0,'Cancel a scheduled start when hidden');
+ console.log('PASS half-second first/next starts, complete opening offsets, 8ms normal-gain attack, three-second outgoing overlap, exact resume, async context and slow decode, cancellation');
+})().catch(e=>{console.error(e);process.exitCode=1;});

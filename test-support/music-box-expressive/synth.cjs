@@ -2,8 +2,8 @@
 const crypto=require('node:crypto'),{meter}=require('./loudness.cjs'),rate=24000,tau=2*Math.PI;
 const variation=seed=>{let x=(seed+1)*2654435761>>>0;x^=x>>>16;x=Math.imul(x,2246822507);x^=x>>>13;return(x>>>0)/4294967295*2-1;};
 function tine(midi,p){
- // Fade the optional low-tine treatment out at E4; upper tines remain identical.
- const x=Math.max(0,Math.min(1,(64-midi)/16)),low=(p.bassClarity||0)*x*x*(3-2*x);
+ // Reuse the same gentle modal/envelope treatment in the mid register; E5+ is untouched.
+ const x=Math.max(0,Math.min(1,(64-midi)/16)),mid=Math.max(0,1-Math.abs(midi-62)/14),low=(p.bassClarity||0)*x*x*(3-2*x)+(p.midClarity||0)*mid*mid*(3-2*mid);
  const v=variation(midi),f=440*2**((midi-69)/12)*2**(v*p.tineCents/1200),decay=p.decay*2**((72-midi)/p.decaySpan)*(1+.018*v)*(1-low),tail=decay*9,n=Math.ceil(tail*rate),out=new Float64Array(n),weights=[1,...p.metal],decays=[1,.39,.19,.085],phases=[0,.12,.25,.4],slow=p.slowWeight*(1-low);
  const modes=p.modes.map((ratio,i)=>({hz:f*ratio,weight:weights[i]*(i?1+.04*v:1)*(i?1-low*.6:1+low*.35),d:decay*decays[i],phase:phases[i],fund:i===0}));
  // A weak neighbouring tine/body mode gives slow natural beating, not a harmony correction.

@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "policy": "Timbre-only from the current five recordings: modestly stronger existing low-tine clarity taper below E4. Shorter low-frequency late sustain and weaker neighbouring/modal overlap, with a clearer fundamental attack. E4 and higher waveforms, wood warmth, pitch, all note events, tempo and calibrated playback loudness stay unchanged.",
+  "version": 7,
+  "policy": "Timbre-only from current five v10 recordings: modest low-tine clarity plus a small smooth mid-register clarity taper, reusing the existing tine envelope/modal treatment. E5 and higher, pitch, score, tempo, dynamics, wood warmth and calibrated loudness unchanged.",
   "voices": [
     {
       "id": "clair-de-lune",
@@ -46,7 +46,8 @@
       "woodAmount": 0.0097,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.24
+      "bassClarity": 0.26,
+      "midClarity": 0.045
     },
     {
       "id": "air-g-string",
@@ -92,7 +93,8 @@
       "woodAmount": 0.0108,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.27
+      "bassClarity": 0.29,
+      "midClarity": 0.055
     },
     {
       "id": "nocturne-9-2",
@@ -138,7 +140,8 @@
       "woodAmount": 0.0089,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.21
+      "bassClarity": 0.23,
+      "midClarity": 0.04
     },
     {
       "id": "traumerei",
@@ -184,7 +187,8 @@
       "woodAmount": 0.0105,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.25
+      "bassClarity": 0.27,
+      "midClarity": 0.05
     },
     {
       "id": "gymnopedie-1",
@@ -230,7 +234,8 @@
       "woodAmount": 0.0112,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.28
+      "bassClarity": 0.3,
+      "midClarity": 0.055
     }
   ]
 }
