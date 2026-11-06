@@ -216,3 +216,14 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 /* Opaque paper admits diffuse light, never points of starlight or the Milky Way. */
 .day-room[data-location=engawa][data-shoji-closed=true] :is([data-major-stars],[data-night-fine-stars],[data-night-milky-way],[data-landscape-stars]){visibility:hidden}
 @media(prefers-reduced-motion:reduce){[data-night-room-reflection]{transition:none}}
+
+/* Native dusk/night targets remain unchanged; soften their discrete state edges. */
+.day-room :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art){transition:filter 1800ms ease-in-out}
+.country-landscape :is([data-landscape-gradient],[id^=engawa-night-][id$=-blue])>stop{transition:stop-color 1800ms linear}
+.roof-sky-card .card-sky-stars,[data-engawa-night-study],.day-room>.engawa-pendant-light,.day-room :is(.room-sconce-lit,.pendant-glow){transition:opacity 1800ms linear}
+.day-room :is(.room-sconce-art,.engawa-pendant-switch) :is(stop,path,ellipse){transition:fill 1200ms ease-in-out,stroke 1200ms ease-in-out,stop-color 1200ms ease-in-out}
+@media(prefers-reduced-motion:reduce){
+ .day-room :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art),
+ .country-landscape stop,.roof-sky-card .card-sky-stars,[data-engawa-night-study],.day-room>.engawa-pendant-light,.day-room :is(.room-sconce-lit,.pendant-glow),
+ .day-room :is(.room-sconce-art,.engawa-pendant-switch) :is(stop,path,ellipse){transition:none!important}
+}

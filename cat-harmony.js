@@ -93,32 +93,7 @@ globalThis.CatLightHarmony=(()=>{
  function backgroundUpdate(stage,where,w){const pending=backgrounds.update(stage,where,w);apply(stage,w);return pending;}
  // Reuse each original image's alpha, projected behind its measured feet.
  // The shared moon is in front of the cats: all casts extend down the roof plane.
- // Static, feathered local offsets: the original pixels and layout are reused.
- // Head, back and ear/tail regions remain distinct; no whole-cat transform.
- function roofPostures(cats,e){
-  if(!e.postures)e.postures=new Map();
-  const field=(cx,cy,rx,ry,axis,from,to)=>'<svg xmlns="'+ns+'" viewBox="0 0 100 100"><defs><radialGradient id="soft"><stop offset=".3" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></radialGradient><linearGradient id="shift" x2="'+(axis==='x'?'1':'0')+'" y2="'+(axis==='y'?'1':'0')+'"><stop stop-color="'+from+'"/><stop offset="1" stop-color="'+to+'"/></linearGradient><mask id="region"><ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="url(#soft)"/></mask></defs><rect width="100" height="100" fill="rgb(50%,50%,50%)"/><rect width="100" height="100" fill="url(#shift)" mask="url(#region)"/></svg>';
-  for(const cat of cats){
-   const kind=({0:1,1:0,2:2,3:3})[cat.dataset.roofRank]||0,reclining=cat.dataset.catPose==='rear-reclining',key=kind+':'+reclining;
-   cat.dataset.roofPosture=['original','head-tilt','rounded-back','ear-tail'][kind];
-   if(!kind){cat.style.removeProperty('--roof-posture-filter');continue;}
-   let filter=e.postures.get(key);
-   if(!filter){
-    filter=element('filter',{id:e.filters.ambient.filter.id+'-posture-'+kind+'-'+Number(reclining),x:0,y:0,width:'100%',height:'100%',primitiveUnits:'objectBoundingBox','color-interpolation-filters':'sRGB'});
-    const head=reclining?[76,26,21,28]:[50,20,28,24],back=reclining?[43,49,32,34]:[50,59,33,29],ear=reclining?[76,18,16,14]:[30,12,13,12],tail=reclining?[27,73,25,22]:[65,87,26,13],region=kind===1?head:kind===2?back:ear;
-    const rx=kind===1?['rgb(20%,50%,50%)','rgb(80%,50%,50%)']:kind===2?['rgb(70%,50%,50%)','rgb(30%,50%,50%)']:['rgb(73%,50%,50%)','rgb(73%,50%,50%)'];
-    const ry=kind===1?['rgb(50%,80%,50%)','rgb(50%,20%,50%)']:kind===2?['rgb(50%,75%,50%)','rgb(50%,75%,50%)']:['rgb(50%,50%,50%)','rgb(50%,50%,50%)'];
-    for(const [i,colors]of [rx,ry].entries()){
-     let svg=field(...region,i===0?(kind===1?'y':'x'):'x',...colors);
-     if(kind===3&&i===0){const extra=field(...tail,'y','rgb(38%,50%,50%)','rgb(24%,50%,50%)'),inner=extra.slice(extra.indexOf('<defs>'),extra.lastIndexOf('</svg>')).replaceAll('soft','tail-soft').replaceAll('shift','tail-shift').replaceAll('region','tail-region').replace('<rect width="100" height="100" fill="rgb(50%,50%,50%)"/>','');svg=svg.replace('</svg>',inner+'</svg>');}
-     const map='posture-map-'+i;filter.append(element('feImage',{href:'data:image/svg+xml,'+encodeURIComponent(svg),x:0,y:0,width:1,height:1,preserveAspectRatio:'none',result:map}));
-     filter.append(element('feDisplacementMap',{in:i?'posture-x':'SourceGraphic',in2:map,scale:kind===1?.075:kind===2?.065:.055,xChannelSelector:'R',yChannelSelector:'G',result:i?'posture-xy':'posture-x'}));
-    }
-    e.svg.querySelector('defs').append(filter);e.postures.set(key,filter);
-   }
-   cat.style.setProperty('--roof-posture-filter','url("#'+filter.id+'")');
-  }
- }
+ // Preserve the source pose: no local displacement maps on the rear-view art.
  function roofCasts(card,w,cats,e){
   const surface=card.querySelector('[data-roof-surface]');if(!surface)return;
   const at=SolarModel.time(w),moon=RoofMoon.snapshot(at),night=SolarModel.phase(at)==='night',candidates=cats.filter(c=>c.getAttribute('src')&&c.complete&&c.naturalWidth&&!c.hasAttribute('data-cat-placeholder'));
@@ -155,7 +130,6 @@ globalThis.CatLightHarmony=(()=>{
    const moon=RoofMoon.snapshot(SolarModel.time(w)),lightX=104+(.5-moon.progress)*(card.clientWidth/(scene.getBoundingClientRect().width/208)+15),dx=Math.max(-5,Math.min(5,(x+width/2-lightX)*.035)),level=SolarModel.phase(SolarModel.time(w))==='night'?moon.opacity*moon.illumination:0;
    spot.style.cssText=`left:${x+width/2}px;top:${y-1}px;width:${width*(reclining?.62:.46)}px;height:3px;opacity:${Number(cat.style.opacity)*(.16+.025*level)};--roof-cast-x:${dx}px;--roof-cast-level:${level}`;
   }
-  roofPostures(cats,e);
   roofCasts(card,w,cats,e);
  }
  function roofUpdate(element,at){const result=roof.update(element,at);applyRoof(element?.closest('.roof-sky-card'),{...DayRoom.world(),at});return result;}
