@@ -361,6 +361,15 @@ globalThis.EngawaNightSky=(()=>{
   const sizes=[.22,.31,.40,.52,.74,1],alphas=[.24,.36,.50,.66,.82,.96];
   layer.innerHTML=`<rect x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-blue)"/><rect data-night-haze="" x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#${id}-mist)"/><g data-night-milky-way="" filter="url(#${id}-soft)"><path data-milky-band="" fill="#a8b9cc" opacity=".045"/><path data-milky-band="" fill="#c2c8cc" opacity=".055"/><path data-milky-band="" fill="#839bb6" opacity=".04"/><path data-milky-band="" fill="#030b1a" opacity=".06"/></g><g data-night-fine-stars="" fill="none" stroke-linecap="round">${Array.from({length:12},(_,i)=>`<path data-night-star-bin="${i}" stroke="${i<6?'#ccdbed':'#e1d8c4'}" stroke-width="${sizes[i%6]*2}" opacity="${alphas[i%6]}"/>`).join('')}</g>`;
   layer.insertAdjacentHTML('beforeend',NightConstellations.markup(w,where)+'<rect data-night-room-reflection="" x="69.05" y="62.25" width="263.7" height="169.2" fill="url(#'+id+'-reflection)"/>');
+  // The terrain is already in front, but its translucent photographic pixels
+  // leak stars. Reuse that exact alpha silhouette, without grading the mountain.
+  const terrain=svg.querySelector('[data-village-terrain],[data-sky55-terrain]');
+  if(terrain){
+   terrain.id=id+'-terrain-source';
+   // Ignore near-zero export noise in the transparent sky; retain the antialiased ridge.
+   defs.insertAdjacentHTML('beforeend',`<filter id="${id}-terrain-ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 -1"/></filter><mask id="${id}-star-view" data-night-terrain-mask="" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260" style="mask-type:luminance"><rect width="400" height="260" fill="white"/><use href="#${terrain.id}" filter="url(#${id}-terrain-ink)"/></mask>`);
+   for(const stars of layer.querySelectorAll('[data-night-fine-stars],[data-major-stars]'))stars.setAttribute('mask',`url(#${id}-star-view)`);
+  }
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);
   const anchor=oldStars||[...svg.children].find(n=>n.querySelector?.('.room-window-moon'))||svg.querySelector('[data-sky-clouds]');
   if(where!=='engawa'){for(const n of [...defs.querySelectorAll(`[id^="${id}"] rect`),...layer.querySelectorAll('rect')]){n.setAttribute('x',0);n.setAttribute('y',0);n.setAttribute('width',400);n.setAttribute('height',260);}}
