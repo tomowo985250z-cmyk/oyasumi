@@ -367,7 +367,10 @@ globalThis.EngawaNightSky=(()=>{
   if(terrain){
    terrain.id=id+'-terrain-source';
    // Ignore near-zero export noise in the transparent sky; retain the antialiased ridge.
-   defs.insertAdjacentHTML('beforeend',`<filter id="${id}-terrain-ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 32 -1"/></filter><mask id="${id}-star-view" data-night-terrain-mask="" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260" style="mask-type:luminance"><rect width="400" height="260" fill="white"/><use href="#${terrain.id}" filter="url(#${id}-terrain-ink)"/></mask>`);
+   // The garden's enlarged panorama needs its visible (half-alpha) edge, not
+   // the faint export fringe; otherwise the star-free rim sits above the ridge.
+   const ridgeAlpha=where==='garden'?'32 -15':'32 -1';
+   defs.insertAdjacentHTML('beforeend',`<filter id="${id}-terrain-ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ${ridgeAlpha}"/></filter><mask id="${id}-star-view" data-night-terrain-mask="" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260" style="mask-type:luminance"><rect width="400" height="260" fill="white"/><use href="#${terrain.id}" filter="url(#${id}-terrain-ink)"/></mask>`);
    for(const stars of layer.querySelectorAll('[data-night-fine-stars],[data-major-stars]'))stars.setAttribute('mask',`url(#${id}-star-view)`);
   }
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);
