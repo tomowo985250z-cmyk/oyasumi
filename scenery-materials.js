@@ -125,7 +125,7 @@ globalThis.SceneryMaterials=(()=>{
  const baseMaterials=SceneryMaterials,baseLighting=SolarLighting,ns='http://www.w3.org/2000/svg';let serial=0;
  const mix=SeasonLandscape.mix;
  const palette=w=>{
-  const p=baseLighting.palette(w,phase=>phase==='night'?{wood:'#635c4d',light:'#80735e',dark:'#393c35',fiber:'#979584',fade:'#949281'}:phase==='evening'?{wood:'#ad855e',light:'#cfaa7e',dark:'#6b5943',fiber:'#d9d0aa',fade:'#d2cba5'}:{wood:'#a78966',light:'#cbb18d',dark:'#75634c',fiber:'#dcdcc0',fade:'#d2d1b0'});
+  const p=baseLighting.palette(w,phase=>phase==='night'?{wood:'#655f52',light:'#837965',dark:'#393c35',fiber:'#979584',fade:'#949281'}:phase==='evening'?{wood:'#aa8967',light:'#cbae86',dark:'#70614d',fiber:'#d9d0aa',fade:'#d2cba5'}:{wood:'#a68f71',light:'#c8b595',dark:'#7c705b',fiber:'#dcdcc0',fade:'#d2d1b0'});
   const wet=w.weather==='rainy'?.15:w.weather==='cloudy'?.07:0;
   for(const k of ['wood','light','dark'])p[k]=mix(p[k],'#6b7977',wet);
   return p;
