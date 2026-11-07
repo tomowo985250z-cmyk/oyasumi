@@ -161,6 +161,8 @@ globalThis.TatamiWallStudy=(()=>{
     mat.append(planePoly(rect(u,heri,u+.004,1-heri),{fill:tone.dark,opacity:'.30','data-tatami-short-seam':''}));
     mat.append(planePoly(rect(u+.003,heri+.002,Math.min(2,u+.006),1-heri-.002),{fill:tone.light,opacity:'.18'}));
    }
+   // The existing homography also projects the compressed mat edge and its light lip.
+   mat.append(planePoly(rect(0,0,2,.007),{fill:tone.light,opacity:'.25','data-engawa-architecture':'tatami-edge'}),planePoly(rect(1.993,0,2,1),{fill:tone.dark,opacity:'.18','data-engawa-architecture':'tatami-edge'}));
    floor.append(mat);
   }
   if(old.hasAttribute('data-study-material'))old.replaceWith(floor);
@@ -212,7 +214,7 @@ globalThis.TatamiWallStudy=(()=>{
   const pattern=node('pattern',{id:id+'-plaster',patternUnits:'userSpaceOnUse',width:400,height:330});pattern.innerHTML=[0,342.65].map(x=>'<svg x="'+x+'" y="35" width="57.35" height="183" viewBox="253 5 43 50" preserveAspectRatio="none"><image href="assets/bedroom-realism-v1/shell.webp" width="400" height="330" data-tatami-wall-sample="same-bedroom-plaster"/></svg>').join('');defs.append(pattern);
   const grain=node('filter',{id:id+'-relief',x:'0',y:'0',width:'100%',height:'100%'});grain.innerHTML='<feTurbulence type="fractalNoise" baseFrequency=".13" numOctaves="2" seed="29"/><feDiffuseLighting surfaceScale=".35" diffuseConstant=".65" lighting-color="#fff5e0"><feDistantLight azimuth="'+(sun.direction.x>0?140:40)+'" elevation="58"/></feDiffuseLighting><feColorMatrix type="saturate" values="0"/>';defs.append(grain);
   const contact=node('linearGradient',{id:id+'-contact'});contact.innerHTML='<stop stop-color="'+tone.dark+'" stop-opacity=".27"/><stop offset="1" stop-color="'+tone.dark+'" stop-opacity="0"/>';defs.append(contact);
-  const clip=node('clipPath',{id:id+'-area'});clip.innerHTML='<path d="M0 35H57.35V218H0Z M342.65 35H400V218H342.65Z"/>';defs.append(clip);svg.append(defs);
+  const clip=node('clipPath',{id:id+'-area'});clip.innerHTML='<path d="M0 35H57.35V226H0Z M342.65 35H400V226H342.65Z"/>';defs.append(clip);svg.append(defs);
   // Close the uncovered 31..34.5 strip between the ceiling beam and the
   // stationary shoji header. The moving leaves and outdoor opening stay put.
   const beam=svg.querySelector('linearGradient[id$="-header-beam"]'),oldHeader=svg.querySelector('[data-interior-study="header"]');
@@ -221,7 +223,7 @@ globalThis.TatamiWallStudy=(()=>{
   const lintel=node('g',{'data-tatami-wall-lintel':'1',style:'pointer-events:none'}),oldFilter=oldHeader.getAttribute('filter')?.match(/#([^\)]+)/)?.[1],sourceFilter=oldFilter&&svg.querySelector('[id="'+oldFilter+'"]');
   if(sourceFilter){const f=sourceFilter.cloneNode(true);f.id=id+'-lintel-filter';defs.append(f);lintel.setAttribute('filter','url(#'+f.id+')');}
   lintel.append(node('path',{d:'M0 30.5H400V35H0Z',fill:'url(#'+lintelTone.id+')','data-shoji-gap-backing':''}));
-  lintel.append(node('path',{d:'M0 32.5Q180 32.8 400 32.4',fill:'none',stroke:'#635746','stroke-width':'.35',opacity:'.14'}));svg.append(lintel);
+  lintel.append(node('path',{d:'M0 32.5Q180 32.8 400 32.4',fill:'none',stroke:'#635746','stroke-width':'.35',opacity:'.14'}));lintel.append(node('path',{d:'M57.35 38.2H342.65L339.05 41.8H60.95Z',fill:tone.dark,opacity:'.22','data-engawa-architecture':'lintel-soffit'}));svg.append(lintel);
   const walls=node('g',{'data-tatami-wall-plaster':'1','clip-path':'url(#'+clip.id+')',style:'pointer-events:none'});
   for(const [side,x,width]of [['left',0,57.35],['right',342.65,57.35]]){
    const grad=node('linearGradient',{id:id+'-'+side,x1:side==='left'?'0':'1',x2:side==='left'?'1':'0'});grad.innerHTML='<stop stop-color="'+tone.base+'"/><stop offset="1" stop-color="'+mix(tone.base,tone.light,.22+.34*sun.direct)+'"/>';defs.append(grad);
@@ -229,6 +231,16 @@ globalThis.TatamiWallStudy=(()=>{
    walls.append(node('rect',{x,y:35,width,height:183,fill:'url(#'+pattern.id+')',filter:'url(#'+filter.id+')',opacity:'.50'}));
    walls.append(node('rect',{x,y:35,width,height:183,fill:tone.base,filter:'url(#'+grain.id+')',opacity:'.035'}));
    const edge=node('rect',{x:side==='left'?x+width-3.2:x,y:35,width:3.2,height:183,fill:'url(#'+contact.id+')'});if(side==='left')edge.setAttribute('transform','translate('+(2*(x+width)-3.2)+' 0) scale(-1 1)');walls.append(edge);
+  }
+  // Continuous skirting covers the old unscaled right post end at x369..382,
+  // whose y219/224 terminations made a single notch below the plaster at y218.
+  // Both sides now meet the same y226 floor plane and the stationary jambs.
+  for(const [x,right]of [[0,57.35],[342.65,400]]){
+   const base=node('g',{'data-engawa-architecture':'wall-foot','data-wall-base-range':x+' '+right+' 218 226'});
+   base.append(node('path',{d:'M'+x+' 218H'+right+'V226H'+x+'Z',fill:'url(#'+lintelTone.id+')'}));
+   base.append(node('path',{d:'M'+x+' 218H'+right+'V220.2H'+x+'Z',fill:tone.light,opacity:'.20'}));
+   base.append(node('path',{d:'M'+x+' 225.4H'+right,fill:'none',stroke:tone.dark,'stroke-width':'.8',opacity:'.35'}));
+   base.append(node('path',{d:'M'+(x+2)+' 222q12-.4 24 0t25 .1',fill:'none',stroke:tone.dark,'stroke-width':'.35',opacity:'.16'}));walls.append(base);
   }
   // Small contact shadows stay entirely inside plaster, behind the woodwork.
   walls.append(node('path',{d:'M0 35H57.35V38H0Z M342.65 35H400V38H342.65Z',fill:tone.dark,opacity:'.10'}));svg.append(walls);
