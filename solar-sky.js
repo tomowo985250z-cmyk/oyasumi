@@ -127,11 +127,12 @@ globalThis.SolarSky=(()=>{
  }
  // Approved sky55 study: terrain and cloud material only; all room geometry stays upstream.
  const engawaAssets={"assets":{"spring":{"file":"assets/engawa-sky55/country-spring-2147d2624e4261cf.webp","placement":{"x":69.05,"y":76.13653386454183,"width":263.7,"height":155.31346613545816}},"summer":{"file":"assets/engawa-sky55/country-summer-878d1971ea5ddf11.webp","placement":{"x":69.05,"y":75.82652694610778,"width":263.7,"height":155.6234730538922}},"autumn":{"file":"assets/engawa-sky55/country-autumn-a987b36d6c101218.webp","placement":{"x":69.05,"y":76.44530815109343,"width":263.7,"height":155.00469184890656}},"winter":{"file":"assets/engawa-sky55/country-winter-12a7ab239d7514a0.webp","placement":{"x":69.05,"y":76.75285714285712,"width":263.7,"height":154.69714285714286}}},"cloud":{"file":"assets/engawa-sky55/cloud-2b6c0afbfb51844e.webp"}};
- function engawaMatrix(brightness,saturation,t){
+ function engawaMatrix(brightness,saturation,t,air=0){
   // Subtle air/patina in the existing photographs; retain seasonal colour and detail.
   const l=[.2126,.7152,.0722],temperature=[1+t.evening*.18-t.night*.18,1-t.evening*.018,1-t.evening*.23+t.night*.12];
   // A trace of cool air in the distant terrain, within the existing colour pass.
-  return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*.97*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,Number((brightness*temperature[row]*.012+.004*t.night*[.68,.84,1][row]).toFixed(5))]).concat([0,0,0,1,0]).join(' ');
+  const airColor=[.86+t.evening*.08,.90-t.evening*.08,.91-t.evening*.20];
+  return [0,1,2].flatMap(row=>[...l.map((v,col)=>Number((brightness*temperature[row]*.97*(1-air)*((1-saturation)*v+(row===col?saturation:0))).toFixed(5))),0,Number(((brightness*temperature[row]*.012+.004*t.night*[.68,.84,1][row])*(1-air)+air*airColor[row]).toFixed(5))]).concat([0,0,0,1,0]).join(' ');
  }
  // Window anchors in the unchanged seasonal photo pixels, below the roof eaves.
  // Project through each image's existing geometry; no extra buildings or timers.
@@ -169,7 +170,10 @@ globalThis.SolarSky=(()=>{
  function paintEngawa(svg,w){
   if(!svg.hasAttribute('data-sky55'))return;
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.86:1;
-  attr(svg.querySelector('[data-sky55-tone="terrain"]'),'values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.22)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t));
+  // Reuse the terrain colour pass: distant fields recede from the native foreground.
+  // Fade fully before sunset so the existing twilight/night and lights stay exact.
+  const air=SolarModel.smooth(0,5,SolarModel.parameters(SolarModel.time(w)).altitude)*(.028*t.morning+.010*t.day+.018*t.evening)*wet;
+  attr(svg.querySelector('[data-sky55-tone="terrain"]'),'values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.22)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t,air));
   attr(svg.querySelector('[data-sky55-tone="cloud"]'),'values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
   distantHomes(svg,w);
  }
@@ -235,6 +239,9 @@ function village(svg,w,frame){
   let sky=mix('#162b48',mix(p.sky,'#9cb2bd',.22),day),horizon=mix('#425a70',mix(p.horizon,'#e4d5b8',.25),day);
   sky=mix(mix(sky,mix('#86a7bc','#304c70',low),glow*.68),'#010411',depth);
   horizon=mix(mix(horizon,mix('#e7c38b','#bc7847',low),glow*.82),'#060d20',depth);
+  const weights=SolarModel.weights(at),air=smooth(0,5,s.altitude);
+  sky=mix(sky,'#d1dfdf',air*(.025*weights.morning+.010*weights.day));
+  horizon=mix(horizon,'#efd2ad',air*.020*weights.evening);
   const layers=[],view=SolarModel.facing({...s,altitudeUsed:s.altitude},'roof');
   // Daytime drawing support only: the home card's night-only visibility is unchanged.
   if(s.altitude>0&&view.inView){
@@ -246,7 +253,7 @@ function village(svg,w,frame){
    layers.push(`radial-gradient(ellipse 20% 3% at 20% 30%,${cloud}38 22%,transparent 72%)`,`radial-gradient(ellipse 17% 2.4% at 76% 39%,${cloud}2b 20%,transparent 74%)`);
   }
   layers.push(`linear-gradient(${sky},${horizon} ${(100-24*glow).toFixed(2)}%)`);
-  return {sky,horizon,paint:layers.join(','),tileTop:mix(mix('#23324b','#717c7b',day),'#a28a66',glow*.20),tileBottom:mix(mix('#14213a','#4d5a5b',day),'#746650',glow*.16)};
+  return {sky,horizon,paint:layers.join(','),tileTop:mix(mix('#23324b','#717c7b',day),'#a28a66',glow*.20),tileBottom:mix(mix(mix('#14213a','#4d5a5b',day),'#746650',glow*.16),'#203344',air*.018)};
  }
  function updateRoof(scene,w){
   w={...w,weather:'sunny'};

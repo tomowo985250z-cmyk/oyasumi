@@ -12,7 +12,9 @@ globalThis.BedroomRealism=(()=>{
   const tone=SolarLighting.palette(w,phase=>({rgb:phase==='night'?'#9da7aa':phase==='evening'?'#efd0a8':phase==='morning'?'#f1f1e5':'#f3eee3'})).rgb;
   const [r,g,b]=[1,3,5].map(i=>(parseInt(tone.slice(i,i+2),16)/255).toFixed(5));
   const filter=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});filter.innerHTML=`<feColorMatrix type="saturate" values=".94"/><feColorMatrix type="matrix" values="${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0"/>`;defs.append(filter);
-  const objects=node('filter',{id:id+'-objects','color-interpolation-filters':'sRGB'});objects.innerHTML=`<feColorMatrix type="saturate" values=".84"/><feColorMatrix type="matrix" values="${r*.96} 0 0 0 ${r*.015} 0 ${g*.96} 0 0 ${g*.015} 0 0 ${b*.96} 0 ${b*.015} 0 0 0 1 0"/>`;defs.append(objects);
+  // Slightly clearer nearby furniture; keep the shell, lamps and night untouched.
+  const daylight=SolarModel.smooth(0,5,SolarModel.parameters(SolarModel.time(w)).altitude),contrast=.96+.008*daylight,lift=.015-.003*daylight;
+  const objects=node('filter',{id:id+'-objects','color-interpolation-filters':'sRGB'});objects.innerHTML=`<feColorMatrix type="saturate" values=".84"/><feColorMatrix type="matrix" values="${r*contrast} 0 0 0 ${r*lift} 0 ${g*contrast} 0 0 ${g*lift} 0 0 ${b*contrast} 0 ${b*lift} 0 0 0 1 0"/>`;defs.append(objects);
   const image=(name,x,y,width,height)=>node('image',{href:root+name+'.webp',x,y,width,height,preserveAspectRatio:'none',filter:`url(#${id}-${name==='shell'?'tone':'objects'})`,'data-bedroom-photo':name});
   const plant=svg.querySelector('[data-scene-object="potted-plant"]'),basket=svg.querySelector('[data-scene-object="basket"]'),picture=svg.querySelector('[data-scene-object="picture"]'),kotatsu=svg.querySelector('[data-season-furniture="kotatsu"]');
   const marker=[...main.childNodes].find(n=>n.nodeType===8&&n.textContent.includes('Rounded window'))||doc.createComment('Rounded window, live landscape');

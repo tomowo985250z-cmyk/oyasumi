@@ -12,6 +12,11 @@ globalThis.CatLightHarmony=(()=>{
  function parameters(w,where,mode='ambient',warmth=0){
   const world=SolarModel.world(w),weights=SolarModel.weights(SolarModel.time(world)),light=SolarSky.state(world,where),base=values[where]||values.room;
   const result=Array.from({length:6},(_,i)=>Object.entries(weights).reduce((n,[phase,weight])=>n+weight*base[phase][i],0)),night=weights.night||0,day=1-night;
+  // Keep fur in the same daylight air as the background, through existing RGB only.
+  const air=SolarModel.smooth(0,5,SolarModel.parameters(SolarModel.time(world)).altitude);
+  result[0]-=air*(.003*weights.morning+.004*weights.evening);
+  result[1]+=air*(.004*weights.day-.004*weights.morning);
+  result[3]+=air*.003*weights.evening;result[5]-=air*.003*weights.evening;
   // Small environmental bounce; no simulated beam passes through an occluder.
   result[0]+=night*.014*clamp(0,1,light.source==='moon'?light.direct:0);
   if(w.season==='winter'){result[1]-=.008;result[3]-=.003*day;result[5]+=.004*day;}

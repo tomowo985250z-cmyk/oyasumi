@@ -14,9 +14,10 @@ globalThis.SceneryMaterials=(()=>{
   const add=(parent,html)=>{const holder=doc.createElementNS(ns,'g');holder.innerHTML=html;const nodes=[...holder.childNodes];parent.append(...nodes);return nodes[0];};
   const node=(tag,attrs)=>{const n=doc.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;};
   let serial=0;
+  const daylight=where==='landscape'?0:SolarModel.smooth(0,5,SolarModel.parameters(SolarModel.time(w)).altitude);
   const gradient=(base,axis='vertical',depth=.26)=>{
    const key=id+'-'+(++serial),g=node('linearGradient',{id:key,x1:0,y1:0,x2:axis==='vertical'?0:1,y2:axis==='vertical'?1:0});
-   for(const [offset,color]of [[0,mix(base,p.woodLight,.18)],[.34,base],[1,mix(base,p.shadow,depth)]])g.append(node('stop',{offset,'stop-color':color}));
+   for(const [offset,color]of [[0,mix(base,p.woodLight,.18+.008*daylight)],[.34,base],[1,mix(base,p.shadow,depth+.012*daylight)]])g.append(node('stop',{offset,'stop-color':color}));
    defs.append(g);return `url(#${key})`;
   };
   const fill=n=>{for(let t=n;t;t=t.parentElement){const f=t.getAttribute('fill');if(/^#[a-f0-9]{6}$/i.test(f||''))return f;}return p.wood;};
