@@ -140,9 +140,9 @@ globalThis.SceneryMaterials=(()=>{
   const svg=parse(original),defs=svg.querySelector('defs'),main=svg.querySelector('g[filter]'),id='interior-'+(++serial),p=palette(w),paths=[...main.querySelectorAll('path')],find=d=>paths.find(n=>n.getAttribute('d')?.startsWith(d));
   defs.append(...html(svg,woodDefs(id,p)));
   for(const d of ['M60 0h16','M369 0h13'])find(d)?.setAttribute('fill',`url(#${id}-wood)`);
-  for(const d of ['M0 0h400v31','M0 215h400','M57.35 220.7'])find(d)?.setAttribute('fill',`url(#${id}-beam)`);
+  for(const d of ['M0 0h400v31','M0 215h400','M57.35 218'])find(d)?.setAttribute('fill',`url(#${id}-beam)`);
   for(const d of ['M64 0h6','M372 0h5','M0 26h400']){const n=find(d);if(n){n.setAttribute('fill',p.light);n.setAttribute('fill-opacity','.34');}}
-  const woodClip='M60 0h16v224H60Z M369 0h13v224h-13Z M0 0h400v31H0Z M0 215h400v9H0Z M57.35 220.7h285.3V228H57.35Z';
+  const woodClip='M60 0h16v224H60Z M369 0h13v224h-13Z M0 0h400v31H0Z M0 215h400v9H0Z M57.35 218h285.3V226H57.35Z';
   let vertical='';for(const [left,right]of [[60,76],[369,382]])for(let i=0;i<8;i++){const x=left+1+i*(right-left-2)/8;vertical+=`M${x} 2q${i%2?1.1:-.7} 39 .2 75t.1 80 .4 65`;}
   // SVG filters use the un-clipped geometry bounds. Keep grain inside the
   // original 0..400 extent so the shared paper texture stays unchanged outdoors.

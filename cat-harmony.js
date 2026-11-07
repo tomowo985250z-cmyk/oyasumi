@@ -42,7 +42,7 @@ globalThis.CatLightHarmony=(()=>{
   // filter primitives, alpha changes or geometric disturbance of faces/poses.
   result[1]*=.98;result[2]*=.995;
   // Roof-only patina follows the shared sixteen-coat adjustment; alpha stays native.
-  if(where==='roof')result[1]*=.97;
+  if(where==='roof')result[1]*=.97*.97;
   return result.map(round);
  }
  function element(tag,attrs={}){const n=document.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;}
@@ -128,7 +128,8 @@ globalThis.CatLightHarmony=(()=>{
  }
  function applyRoof(card,w){
   if(!card?.isConnected)return;const e=install(card),stamp=[Math.floor(SolarModel.time(w)/60000),w.season].join(':');
-  if(e.stamp!==stamp){for(const mode of Object.keys(e.filters)){const p=parameters({...w,weather:'sunny'},'roof',mode),f=e.filters[mode];f.saturation.setAttribute('values',p[1]);for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}if(!f.highlights){f.highlights=element('feComponentTransfer');for(const c of ['R','G','B'])f.highlights.append(element('feFunc'+c,{type:'table',tableValues:'0 .249 .495 .737 .956'}));f.filter.append(f.highlights);}}e.stamp=stamp;}
+  if(e.stamp!==stamp){for(const mode of Object.keys(e.filters)){const p=parameters({...w,weather:'sunny'},'roof',mode),f=e.filters[mode];f.saturation.setAttribute('values',p[1]);for(const[i,n]of [...f.rgb.children].entries()){n.setAttribute('slope',round(p[0]*p[2]*p[i+3]));n.setAttribute('intercept',round(p[0]*(1-p[2])*.46));}if(!f.highlights){f.highlights=element('feComponentTransfer');// Reuse native fur tones for a faint warm patina, without spatial noise.
+    for(const [c,curve]of [['R','0 .249 .496 .737 .954'],['G','0 .248 .494 .735 .952'],['B','0 .247 .491 .732 .948']])f.highlights.append(element('feFunc'+c,{type:'table',tableValues:curve}));f.filter.append(f.highlights);}}e.stamp=stamp;}
   const moonInk=RoofMoon.snapshot(SolarModel.time(w));card.style.setProperty('--roof-night-ink',SolarModel.phase(SolarModel.time(w))==='night'?moonInk.opacity*moonInk.illumination:0);
   const group=card.querySelector('.roof-cat-group'),scene=group?.parentElement;if(!group||!scene)return;
   let contacts=scene.querySelector(':scope > [data-cat-harmony-roof-contact]');if(!contacts){contacts=document.createElement('span');contacts.dataset.catHarmonyRoofContact='';contacts.setAttribute('aria-hidden','true');scene.insertBefore(contacts,group);}

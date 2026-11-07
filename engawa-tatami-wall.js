@@ -215,15 +215,15 @@ globalThis.TatamiWallStudy=(()=>{
   const grain=node('filter',{id:id+'-relief',x:'0',y:'0',width:'100%',height:'100%'});grain.innerHTML='<feTurbulence type="fractalNoise" baseFrequency=".13" numOctaves="2" seed="29"/><feDiffuseLighting surfaceScale=".35" diffuseConstant=".65" lighting-color="#fff5e0"><feDistantLight azimuth="'+(sun.direction.x>0?140:40)+'" elevation="58"/></feDiffuseLighting><feColorMatrix type="saturate" values="0"/>';defs.append(grain);
   const contact=node('linearGradient',{id:id+'-contact'});contact.innerHTML='<stop stop-color="'+tone.dark+'" stop-opacity=".27"/><stop offset="1" stop-color="'+tone.dark+'" stop-opacity="0"/>';defs.append(contact);
   const clip=node('clipPath',{id:id+'-area'});clip.innerHTML='<path d="M0 35H57.35V226H0Z M342.65 35H400V226H342.65Z"/>';defs.append(clip);svg.append(defs);
-  // Close the uncovered 31..34.5 strip between the ceiling beam and the
-  // stationary shoji header. The moving leaves and outdoor opening stay put.
+  // Reuse the thin, full-width lintel; the shoji frame meets its upper edge.
   const beam=svg.querySelector('linearGradient[id$="-header-beam"]'),oldHeader=svg.querySelector('[data-interior-study="header"]');
   if(!beam||!oldHeader)throw Error('Expected shoji header material missing');
   const lintelTone=beam.cloneNode(true);lintelTone.id=id+'-lintel-tone';defs.append(lintelTone);
   const lintel=node('g',{'data-tatami-wall-lintel':'1',style:'pointer-events:none'}),oldFilter=oldHeader.getAttribute('filter')?.match(/#([^\)]+)/)?.[1],sourceFilter=oldFilter&&svg.querySelector('[id="'+oldFilter+'"]');
   if(sourceFilter){const f=sourceFilter.cloneNode(true);f.id=id+'-lintel-filter';defs.append(f);lintel.setAttribute('filter','url(#'+f.id+')');}
+  oldHeader.remove();
   lintel.append(node('path',{d:'M0 30.5H400V35H0Z',fill:'url(#'+lintelTone.id+')','data-shoji-gap-backing':''}));
-  lintel.append(node('path',{d:'M0 32.5Q180 32.8 400 32.4',fill:'none',stroke:'#635746','stroke-width':'.35',opacity:'.14'}));lintel.append(node('path',{d:'M57.35 38.2H342.65L339.05 41.8H60.95Z',fill:tone.dark,opacity:'.22','data-engawa-architecture':'lintel-soffit'}));svg.append(lintel);
+  lintel.append(node('path',{d:'M0 32.5Q180 32.8 400 32.4',fill:'none',stroke:'#635746','stroke-width':'.35',opacity:'.14'}));svg.append(lintel);
   const walls=node('g',{'data-tatami-wall-plaster':'1','clip-path':'url(#'+clip.id+')',style:'pointer-events:none'});
   for(const [side,x,width]of [['left',0,57.35],['right',342.65,57.35]]){
    const grad=node('linearGradient',{id:id+'-'+side,x1:side==='left'?'0':'1',x2:side==='left'?'1':'0'});grad.innerHTML='<stop stop-color="'+tone.base+'"/><stop offset="1" stop-color="'+mix(tone.base,tone.light,.22+.34*sun.direct)+'"/>';defs.append(grad);
@@ -232,15 +232,13 @@ globalThis.TatamiWallStudy=(()=>{
    walls.append(node('rect',{x,y:35,width,height:183,fill:tone.base,filter:'url(#'+grain.id+')',opacity:'.035'}));
    const edge=node('rect',{x:side==='left'?x+width-3.2:x,y:35,width:3.2,height:183,fill:'url(#'+contact.id+')'});if(side==='left')edge.setAttribute('transform','translate('+(2*(x+width)-3.2)+' 0) scale(-1 1)');walls.append(edge);
   }
-  // Continuous skirting covers the old unscaled right post end at x369..382,
-  // whose y219/224 terminations made a single notch below the plaster at y218.
-  // Both sides now meet the same y226 floor plane and the stationary jambs.
-  for(const [x,right]of [[0,57.35],[342.65,400]]){
+  // One existing board spans the wall and shoji, with shared grain and shading.
+  for(const [x,right]of [[0,400]]){
    const base=node('g',{'data-engawa-architecture':'wall-foot','data-wall-base-range':x+' '+right+' 218 226'});
    base.append(node('path',{d:'M'+x+' 218H'+right+'V226H'+x+'Z',fill:'url(#'+lintelTone.id+')'}));
    base.append(node('path',{d:'M'+x+' 218H'+right+'V220.2H'+x+'Z',fill:tone.light,opacity:'.20'}));
    base.append(node('path',{d:'M'+x+' 225.4H'+right,fill:'none',stroke:tone.dark,'stroke-width':'.8',opacity:'.35'}));
-   base.append(node('path',{d:'M'+(x+2)+' 222q12-.4 24 0t25 .1',fill:'none',stroke:tone.dark,'stroke-width':'.35',opacity:'.16'}));walls.append(base);
+   base.append(node('path',{d:'M'+(x+2)+' 222q92-.4 184 0t212 .1',fill:'none',stroke:tone.dark,'stroke-width':'.35',opacity:'.16'}));lintel.append(base);
   }
   // Small contact shadows stay entirely inside plaster, behind the woodwork.
   walls.append(node('path',{d:'M0 35H57.35V38H0Z M342.65 35H400V38H342.65Z',fill:tone.dark,opacity:'.10'}));svg.append(walls);
@@ -253,9 +251,9 @@ globalThis.TatamiWallStudy=(()=>{
  function syncWalls(stage,w){
   const shoji=stage.querySelector('.engawa-shoji');if(!shoji?.querySelector('[data-tatami-wall-plaster]'))return;
   const stamp=[Math.floor(SolarModel.time(w)/60000),w.season,w.weather].join(':');if(wallStates.get(stage)===stamp)return;
-  const doc=parse('<svg xmlns="'+ns+'">'+header(w,'wall-refresh')+'</svg>'),anchor=shoji.querySelector(':scope > .engawa-shoji-assembly');
+  const doc=parse('<svg xmlns="'+ns+'">'+header(w,'wall-refresh')+'</svg>');
   shoji.querySelectorAll(':scope > [data-tatami-wall-defs],:scope > [data-tatami-wall-plaster],:scope > [data-tatami-wall-lintel]').forEach(n=>n.remove());
-  for(const n of doc.documentElement.querySelectorAll(':scope > [data-tatami-wall-defs],:scope > [data-tatami-wall-plaster],:scope > [data-tatami-wall-lintel]'))shoji.insertBefore(document.importNode(n,true),anchor);
+  for(const n of doc.documentElement.querySelectorAll(':scope > [data-tatami-wall-defs],:scope > [data-tatami-wall-plaster],:scope > [data-tatami-wall-lintel]'))shoji.append(document.importNode(n,true));
   wallStates.set(stage,stamp);
  }
  function update(stage,where,w){const pending=backgrounds.update(stage,where,w);if(where==='engawa')syncWalls(stage,w);return pending;}
