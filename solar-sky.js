@@ -30,8 +30,21 @@ globalThis.NightConstellations=(()=>{
  }
  function state(w,where){const b=basis(w);return {key:b.region.id+':'+b.at+':'+where,b,points:catalog.map(s=>({...s,...project(s.p,b,where)}))};}
  function opacity(s){return s.inView?(.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*SolarModel.smooth(0,5,s.altitude):0;}
- function markup(w,where){const s=state(w,where);return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+s.points.map(p=>'<circle data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+(.52+Math.max(0,Math.min(1,(4-p.mag)/5))*.70).toFixed(3)+'" fill="'+(p.bv>.8?'#e7d9bf':'#d5e3f3')+'" opacity="'+opacity(p).toFixed(4)+'" style="--night-star-alpha:'+opacity(p).toFixed(4)+'"/>').join('')+'</g>';}
- function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('opacity',opacity(p).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p).toFixed(4));});layer.dataset.majorKey=s.key;}
+ // Two shared light gradients and one outline per star retain native anchors and twinkle.
+ // The faint irregular skirt is limited to bright stars; no blur filter or extra actors.
+ let lightSequence=0;
+ const softStar='M-1.35 0a1.35 1.2 0 1 0 2.7 0a1.35 1.2 0 1 0-2.7 0Z';
+ const brightStar='M-1.6-.2C-1.05-.5-1.05-1.25-.35-1.26C.1-1.25.3-1.9.54-1.37C.8-.81 1.45-.9 1.31-.18C1.95.02 1.38.21 1.23.52C1.05.92.45 1.15-.12 1.16C-.35 1.6-.52 1.23-.62.98C-1.13.89-.89.27-1.6-.2Z';
+ const radius=p=>.52+Math.max(0,Math.min(1,(4-p.mag)/5))*.70;
+ function starTransform(p,i){const r=radius(p);return 'translate('+p.x.toFixed(3)+' '+p.y.toFixed(3)+') rotate('+((i*137.508)%180).toFixed(2)+') scale('+r.toFixed(3)+' '+(r*(.94+(i%4)*.025)).toFixed(3)+')';}
+ function markup(w,where){
+  const s=state(w,where),id='major-star-light-'+(++lightSequence);
+  const stars=s.points.map((p,i)=>'<path data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+radius(p).toFixed(3)+'" transform="'+starTransform(p,i)+'" d="'+(p.mag<1.5?brightStar:softStar)+'" fill="url(#'+id+(p.bv>.8?'-warm':'-cool')+')" opacity="'+opacity(p).toFixed(4)+'" style="--night-star-alpha:'+opacity(p).toFixed(4)+'"/>').join('');
+  // Defs follow the stars so the existing nth-child twinkle selection stays exact.
+  const light='<defs>'+[['cool','#d5e3f3'],['warm','#e7d9bf']].map(([tone,color])=>'<radialGradient id="'+id+'-'+tone+'" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1.8"><stop stop-color="'+color+'"/><stop offset=".30" stop-color="'+color+'" stop-opacity=".95"/><stop offset=".52" stop-color="'+color+'" stop-opacity=".40"/><stop offset=".80" stop-color="'+color+'" stop-opacity=".025"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></radialGradient>').join('')+'</defs>';
+  return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+stars+light+'</g>';
+ }
+ function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('transform',starTransform(p,i));star.setAttribute('opacity',opacity(p).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p).toFixed(4));});layer.dataset.majorKey=s.key;}
  return Object.freeze({catalog,vector,basis,horizontal,project,state,markup,sync});
 })();
 
@@ -370,7 +383,9 @@ globalThis.EngawaNightSky=(()=>{
    // The garden's enlarged panorama needs its visible (half-alpha) edge, not
    // the faint export fringe; otherwise the star-free rim sits above the ridge.
    const ridgeAlpha=where==='garden'?'32 -15':'32 -1';
-   defs.insertAdjacentHTML('beforeend',`<filter id="${id}-terrain-ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ${ridgeAlpha}"/></filter><mask id="${id}-star-view" data-night-terrain-mask="" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260" style="mask-type:luminance"><rect width="400" height="260" fill="white"/><use href="#${terrain.id}" filter="url(#${id}-terrain-ink)"/></mask>`);
+   // Close resampling gaps along the garden's partial-alpha ridge, inside its existing mask.
+   const ridgeGuard=where==='garden'?'<feMorphology operator="dilate" radius="1.5"/>':'';
+   defs.insertAdjacentHTML('beforeend',`<filter id="${id}-terrain-ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ${ridgeAlpha}"/>${ridgeGuard}</filter><mask id="${id}-star-view" data-night-terrain-mask="" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260" style="mask-type:luminance"><rect width="400" height="260" fill="white"/><use href="#${terrain.id}" filter="url(#${id}-terrain-ink)"/></mask>`);
    for(const stars of layer.querySelectorAll('[data-night-fine-stars],[data-major-stars]'))stars.setAttribute('mask',`url(#${id}-star-view)`);
   }
   const oldStars=svg.querySelector('[data-landscape-stars]');if(oldStars)oldStars.setAttribute('mask',`url(#${id}-outside)`);
