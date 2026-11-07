@@ -33,6 +33,9 @@ globalThis.CatLightHarmony=(()=>{
    result[0]-=(where==='garden'?.020:.014)*day+.002*night;
    result[1]-=where==='garden'?.035:.025;result[2]-=where==='garden'?.022:.014;
   }
+  // Shared coat patina: retain native fur detail and luminance, with no new
+  // filter primitives, alpha changes or geometric disturbance of faces/poses.
+  result[1]*=.98;result[2]*=.995;
   return result.map(round);
  }
  function element(tag,attrs={}){const n=document.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;}
