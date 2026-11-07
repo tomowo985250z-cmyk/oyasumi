@@ -196,7 +196,7 @@ globalThis.TatamiWallStudy=(()=>{
   const defs=node('defs',{'data-tatami-andon-defs':''});defs.append(filter);svg.querySelector('defs').append(defs);
   const shadow=lantern.querySelector('ellipse')?.cloneNode(true),paper=lantern.querySelector('[data-engawa-light]')?.cloneNode(true);lantern.replaceChildren();if(shadow)lantern.append(shadow);
   lantern.append(node('image',{href:'assets/engawa-semi-real-v1/andon.webp?v=b5a994fc29222f34',x:-17,y:-43,width:34,height:46,preserveAspectRatio:'none',filter:'url(#'+id+')','data-engawa-semi-real-andon':''}));
-  if(paper){paper.setAttribute('d','M-10-32-2-31V-7L-10-8Z M0-31 7-30V-7L0-7Z');paper.setAttribute('fill-opacity','.56');lantern.append(paper);}
+  if(paper){paper.setAttribute('d','M-10-32-2-31V-7L-10-8Z M0-31 7-30V-7L0-7Z');paper.setAttribute('fill-opacity','.644');lantern.append(paper);}
   // The floor light and structural shadows belong behind the unchanged
   // foreground geometry. Their solar vectors and intensities remain native.
   const main=svg.querySelector('g[filter]'),foreground=[...main.children].find(n=>n.getAttribute('d')?.startsWith('M0 0h75'));

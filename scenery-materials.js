@@ -158,7 +158,7 @@ globalThis.SceneryMaterials=(()=>{
   const svg=parse(original),s=SolarSky.state(w,where),night=SolarModel.weights(SolarModel.time(w)).night;
   // Use the unchanged sun vectors, weather transmission and existing light groups.
   if(s.source==='sun')for(const n of svg.querySelectorAll('[data-caster="pillar"]')){n.setAttribute('opacity',String(.17+.045*(1-night)));n.setAttribute('fill','#454d41');}
-  for(const g of svg.querySelectorAll('radialGradient[id$="-lamp-glow"]'))for(const stop of g.querySelectorAll('stop'))stop.setAttribute('stop-opacity',String(Number(stop.getAttribute('stop-opacity'))*1.22));
+  for(const g of svg.querySelectorAll('radialGradient[id$="-lamp-glow"]'))for(const stop of g.querySelectorAll('stop'))stop.setAttribute('stop-opacity',String(Number(stop.getAttribute('stop-opacity'))*1.403));
   for(const g of svg.querySelectorAll('linearGradient[id$="-edge-beam"]'))for(const stop of g.querySelectorAll('stop'))stop.setAttribute('stop-opacity',String(Number(stop.getAttribute('stop-opacity'))*1.18));
   return new XMLSerializer().serializeToString(svg);
  }

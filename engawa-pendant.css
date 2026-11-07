@@ -8,7 +8,7 @@
 .engawa-pendant-switch .pendant-milk-top{stop-color:var(--pendant-top)}.engawa-pendant-switch .pendant-milk-edge{stop-color:var(--pendant-edge)}
 .engawa-pendant-switch .pendant-bottom{fill:var(--pendant-bottom);transition:fill 260ms ease}
 .engawa-pendant-switch .pendant-glow{opacity:0;transition:opacity 260ms ease}
-.day-room[data-world-daylight=false]>.engawa-pendant-switch{--pendant-top:#adb6ae;--pendant-edge:#737f7b;--pendant-bottom:#8b9386}
+.day-room[data-world-daylight=false]>.engawa-pendant-switch,.day-room[data-world-daylight=false]>.engawa-pendant-light{--pendant-top:#adb6ae;--pendant-edge:#737f7b;--pendant-bottom:#8b9386;--pendant-warm-core:#ffce8f;--pendant-warm-mid:#ffc47d;--pendant-warm-edge:#ffca87;--pendant-lit-core:#ffebc7;--pendant-lit-mid:#f6dba9;--pendant-lit-edge:#d0b585}
 .day-room[data-engawa-pendant=on]>.engawa-pendant-switch .pendant-glow{opacity:1}
 .day-room[data-engawa-pendant=on]>.engawa-pendant-switch .pendant-bottom{fill:#f7e8c7}
 .day-room:not([data-location=engawa])>:is(.engawa-pendant-switch,.engawa-pendant-light){display:none}
