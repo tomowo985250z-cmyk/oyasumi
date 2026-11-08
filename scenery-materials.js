@@ -113,11 +113,44 @@ globalThis.SceneryMaterials=(()=>{
   return `--season-cat-left:${(x-((a[2]+a[4])/2/a[0]-.5)*width)/4}%;--season-cat-top:${(y-a[5]/a[1]*height)/3.3}%;`;
  }
  function support(stage,meal=false){return stage.dataset.location==='room'&&cold({season:stage.dataset.worldSeason})&&(meal||stage.dataset.place==='cushion')?tabletopSupport:null;}
- function roof(d){
-  const lines=[2,-12].map((x,row)=>Array.from({length:23},(_,n)=>{const i=n-9;return `M${x+34*i} ${86+row*13+i}q17 4 34 1`;}).join('')).join('');
-  // Broad tile rolls follow the original courses; the silhouette stays clipped.
-  const rolls=[2,-12].map((start,row)=>Array.from({length:23},(_,n)=>{const i=n-9,x=start+34*i,y=86+row*13+i;return `<path d="M${x} ${y}q17 4 34 1l-4 12q-17 3-34-1Z" fill="url(#material-tile-round)" opacity="${.68+(n%4)*.045}"/><path d="M${x+6} ${y+1}q-2 5-4 11" fill="none" stroke="#8595a4" stroke-opacity=".14" stroke-width="1.1"/><path d="M${x+16} ${y+2}q-3 5-4 11" fill="none" stroke="#102033" stroke-opacity=".24" stroke-width="1.4"/>`;}).join('')).join('');
-  return `<defs><clipPath id="material-roof-clip"><path d="${d}"/></clipPath><linearGradient id="material-tile-round" x2="1" y2="0"><stop stop-color="#102032" stop-opacity=".35"/><stop offset=".22" stop-color="#929b9c" stop-opacity=".20"/><stop offset=".48" stop-color="#728193" stop-opacity=".08"/><stop offset=".7" stop-color="#0c1b2c" stop-opacity=".32"/><stop offset="1" stop-color="#52667c" stop-opacity=".06"/></linearGradient><linearGradient id="material-tile-front" x2="0" y2="1"><stop stop-color="#738396" stop-opacity=".12"/><stop offset=".3" stop-color="#111f32" stop-opacity=".3"/><stop offset="1" stop-color="#101b2c" stop-opacity=".45"/></linearGradient><linearGradient id="material-tile-roll" x2="0" y2="1"><stop stop-color="#78909d" stop-opacity=".09"/><stop offset=".55" stop-color="#78909d" stop-opacity="0"/><stop offset="1" stop-color="#071421" stop-opacity=".25"/></linearGradient></defs><g data-material="roof-tiles" clip-path="url(#material-roof-clip)"><path d="${d}" fill="url(#material-tile-roll)"/>${rolls}<path d="M-256 108H464V114H-256Z" fill="url(#material-tile-front)"/><path d="${lines}" transform="translate(0 -.8)" fill="none" stroke="#9aa69f" stroke-width=".5" stroke-opacity=".16"/><path d="${lines}" transform="translate(0 1.2)" fill="none" stroke="#0d1925" stroke-width="1.3" stroke-opacity=".34"/><path data-night-tile-shadow="" d="${lines}" transform="translate(0 2)" fill="none" stroke="#21344b" stroke-width="2.1" stroke-linecap="round" style="opacity:calc(var(--roof-night-ink,0) * .22)"/></g>`;
+ function roof(d,ridge){
+  // J-shaped clay tile laps, projecting toward the existing eave. Reference:
+  // https://www.jlira.jp/data/000160680.pdf, fig. 4.6.1.5 (no source images used).
+  const left=-256,right=464,levels=[0,.28,.6,1],eave=x=>102.5+.021*x;
+  const point=(column,t)=>{const x=104+column*26*(.8+.6*t),back=ridge(x)+3;return[x,back+(eave(x)-back)*t];};
+  const n=v=>Number(v.toFixed(2)),xy=p=>p.map(n).join(' ');
+  const cross=(a,b,height,reverse=false,drop=0)=>{
+   const p=(t,h=0)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t+h+drop];
+   const q=[p(0),p(.18,height*.95),p(.42,height*.95),p(.57),p(.70,-height),p(.87,-height),p(1)];
+   return reverse?`C${xy(q[5])} ${xy(q[4])} ${xy(q[3])}C${xy(q[2])} ${xy(q[1])} ${xy(q[0])}`:`C${xy(q[1])} ${xy(q[2])} ${xy(q[3])}C${xy(q[4])} ${xy(q[5])} ${xy(q[6])}`;
+  };
+  let courses='',glints='',seams='',crests='';
+  // Near courses go down first, so each upper tile overlaps the course below it.
+  for(let row=2;row>=0;row--){
+   const back=levels[row],front=levels[row+1]+(row===2?0:.035);let tiles='',lips='',wear='';
+   for(let column=-19;column<19;column++){
+    const a=point(column,back),b=point(column+1,back),c=point(column+1,front),f=point(column,front);
+    if(Math.max(b[0],c[0])<left||Math.min(a[0],f[0])>right)continue;
+    const h=(b[0]-a[0])*.052,k=(c[0]-f[0])*.052,seed=((column+23)*37+row*19)%13;
+    const shape=`M${xy(a)}${cross(a,b,h)}L${xy(c)}${cross(f,c,k,true)}Z`;
+    tiles+=`<path d="${shape}" fill="url(#material-tile-round)" opacity="${n(.76+seed*.014)}"/>`;
+    lips+=`M${xy(f)}${cross(f,c,k)}L${xy([c[0],c[1]+1.1])}${cross(f,c,k,true,1.1)}Z`;
+    seams+=`M${xy([f[0],f[1]+1.15])}${cross(f,c,k,false,1.15)}`;
+    // Unequal, subdued wear on selected crests; no random repaint or extra texture.
+    if(seed%4===0){const x=a[0]+(b[0]-a[0])*.68,y=a[1]+(b[1]-a[1])*.68;
+     wear+=`M${n(x)} ${n(y)}q${n(h*1.9)} ${n(-h*.65)} ${n(h*3.2)} ${n(-h*.15)}l${n((c[0]-b[0])*.55)} ${n((c[1]-b[1])*.55)}q${n(-h*1.9)} ${n(h*.2)} ${n(-h*3.2)} ${n(h*.4)}Z`;
+    }
+    glints+=`M${n(f[0]+(c[0]-f[0])*.6)} ${n(f[1]+(c[1]-f[1])*.6-k*.25)}q${n((c[0]-f[0])*.13)} ${n(-k*.75)} ${n((c[0]-f[0])*.25)} ${n(-k*.32)}`;
+    crests+=`M${n(a[0]+(b[0]-a[0])*.77)} ${n(a[1]+(b[1]-a[1])*.77-h*.72)}L${n(f[0]+(c[0]-f[0])*.77)} ${n(f[1]+(c[1]-f[1])*.77-k*.72)}`;
+   }
+   courses+=`<g data-roof-course="${row}">${tiles}<path d="${wear}" fill="#ada99a" opacity=".055"/><path d="${lips}" fill="url(#material-tile-front)"/></g>`;
+  }
+  let caps='',capJoints='';
+  for(let x=left;x<right;x+=29){const end=Math.min(right,x+29),mid=(x+end)/2,seed=(Math.floor((x-left)/29)*7)%9;
+   caps+=`<path d="M${x} ${n(ridge(x)+.4)}Q${n(mid)} ${n(ridge(mid)-.5)} ${end} ${n(ridge(end)+.4)}L${end} ${n(ridge(end)+3.5)}Q${n(mid)} ${n(ridge(mid)+2.4)} ${x} ${n(ridge(x)+3.5)}Z" fill="url(#material-tile-roll)" opacity="${n(.8+seed*.02)}"/>`;
+   capJoints+=`M${end} ${n(ridge(end)+.8)}l-.5 2.3`;
+  }
+  return `<defs><clipPath id="material-roof-clip"><path d="${d}"/></clipPath><linearGradient id="material-tile-round" x2="1" y2="0"><stop stop-color="#14202c" stop-opacity=".18"/><stop offset=".35" stop-color="#263442" stop-opacity=".09"/><stop offset=".64" stop-color="#899395" stop-opacity=".10"/><stop offset=".78" stop-color="#a4aaa5" stop-opacity=".15"/><stop offset="1" stop-color="#102030" stop-opacity=".25"/></linearGradient><linearGradient id="material-tile-front" x2="0" y2="1"><stop stop-color="#84918e" stop-opacity=".13"/><stop offset=".3" stop-color="#111d2a" stop-opacity=".42"/><stop offset="1" stop-color="#101a26" stop-opacity=".58"/></linearGradient><linearGradient id="material-tile-roll" x2="0" y2="1"><stop stop-color="#9ca59f" stop-opacity=".15"/><stop offset=".38" stop-color="#71818c" stop-opacity=".09"/><stop offset=".72" stop-color="#112031" stop-opacity=".28"/><stop offset="1" stop-color="#0d1926" stop-opacity=".46"/></linearGradient></defs><g data-material="roof-tiles" clip-path="url(#material-roof-clip)"><path d="M${left} ${n(eave(left))}L${right} ${n(eave(right))}V114H${left}Z" fill="url(#material-tile-front)"/>${courses}<g data-roof-ridge="">${caps}<path d="${capJoints}" fill="none" stroke="#182636" stroke-width=".65" stroke-opacity=".45"/></g><path d="${glints}" fill="none" stroke="#9aa69f" stroke-width=".45" style="opacity:calc(.07 + var(--roof-night-ink,0) * .11)"/><path d="${crests}" fill="none" stroke="#899997" stroke-width=".85" stroke-opacity=".085"/><path data-night-tile-shadow="" d="${seams}" fill="none" stroke="#182939" stroke-width=".8" style="opacity:calc(var(--roof-night-ink,0) * .20)"/></g>`;
  }
  return Object.freeze({art,contact,support,roof,patina});
 })();
