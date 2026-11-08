@@ -1,0 +1,21 @@
+{
+  "source": "https://freesound.org/people/morgantj/sounds/58569/",
+  "title": "deerchaser.mp3",
+  "author": "morgantj",
+  "license": "CC-BY-4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "preview": "https://cdn.freesound.org/previews/58/58569_27178-hq.mp3",
+  "sourceBytes": 406576,
+  "sourceSha256": "1b02ca9c039e18cdf1afce00131865064029a22238fbb1b93f7c912b071f4447",
+  "file": "assets/shishi-audio-v1/shishi-0925d44163b7a135.wav",
+  "sha256": "0925d44163b7a1354d375af19105d9accf6de1d8859f83d77aa83e29e8af7288",
+  "bytes": 30444,
+  "sampleRate": 16000,
+  "seconds": 0.95,
+  "sourceSeconds": 16.980625,
+  "trimStartSeconds": 15.712875,
+  "peakOffsetSeconds": 0.025,
+  "processing": "Single recorded strike extracted; mono PCM16 at 16 kHz; high-pass 80 Hz and low-pass 1600 Hz; peak -12 dBFS; 3 ms attack/80 ms tail fade. Original pitch and strike decay retained; no loop.",
+  "periodSeconds": 48,
+  "impactPhase": 0.975
+}

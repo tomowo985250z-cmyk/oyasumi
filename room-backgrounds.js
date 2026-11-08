@@ -250,6 +250,33 @@ globalThis.RoomBackgrounds=(()=>{
   const prefix='place-inline-'+(++uid)+'-';
   return placeImages.get(key).replace(/\bid="/g,'id="'+prefix).replace(/(url\((?:&quot;|&apos;|["'])?)#/g,'$1#'+prefix).replace(/href="#/g,'href="#'+prefix);
  }
+ function shishi(w){
+  const id='garden-shishi-'+(++uid),p=SolarLighting.palette(w,phase=>phase==='night'?{dark:'#25312c',bamboo:'#424d3c',light:'#5b654d',amber:'#4e533d',cut:'#6e7355',inside:'#19261f',stone:'#35413e',edge:'#253532',top:'#4b554c',moss:'#374d36',water:'#486260'}:{dark:'#505c3e',bamboo:'#7d8055',light:'#a4a079',amber:'#8b7c50',cut:'#c3b58e',inside:'#414b38',stone:'#777b6b',edge:'#535f54',top:'#96978a',moss:'#5a7048',water:'#7e9b92'});
+  return `<svg class="garden-shishi" viewBox="0 0 400 330" aria-hidden="true" focusable="false" data-shishi-period="48000" data-shishi-impact=".975" style="--shishi-delay:-${(NightClock.now()%48000)/1000}s"><defs>
+   <linearGradient id="${id}-bamboo" x2="0" y2="1"><stop stop-color="${p.dark}"/><stop offset=".25" stop-color="${p.light}"/><stop offset=".57" stop-color="${p.bamboo}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient>
+   <linearGradient id="${id}-post" x2="1" y2="0"><stop stop-color="${p.dark}"/><stop offset=".4" stop-color="${p.light}"/><stop offset="1" stop-color="${p.bamboo}"/></linearGradient>
+   <linearGradient id="${id}-stone" x2=".3" y2="1"><stop stop-color="${p.top}"/><stop offset=".5" stop-color="${p.stone}"/><stop offset="1" stop-color="${p.edge}"/></linearGradient>
+  </defs><g transform="translate(334 258) scale(.9)">
+   <ellipse cx="13" cy="25.5" rx="40" ry="5.5" fill="${p.inside}" opacity=".07"/><ellipse cx="25" cy="26" rx="23" ry="3.5" fill="${p.inside}" opacity=".14"/>
+   <path d="M-29 16q-2-4 3-6l8-1 6 5-2 7-10 1Z" fill="url(#${id}-stone)"/><path d="m-27 13 6-2 4 2-4 1Z" fill="${p.top}" opacity=".35"/><path d="m-29 17 6 1 5-1-1 4-7 .3Z" fill="${p.moss}" opacity=".6"/>
+   <path d="M5 18q2-6 13-7l16 1 12 5q5 4-1 10-17 7-36 0Z" fill="url(#${id}-stone)"/><path d="m8 19 5 8 12 3 14-2 7-6-8 2-15 2Z" fill="${p.edge}" opacity=".4"/>
+   <ellipse cx="26" cy="19.5" rx="17.5" ry="5.8" fill="${p.inside}"/><ellipse cx="26" cy="20.5" rx="15.3" ry="4.1" fill="${p.water}" opacity=".67"/><path d="M13 20q10-4 24 .1m-19 3 10 .4" fill="none" stroke="${p.light}" stroke-opacity=".2" stroke-width=".5"/>
+   <path d="m6 18 5-2 5 .5-2 2-4 1m26-5 5 2-2 1-5-1M8 25l7 2-2 2-5-1" fill="${p.moss}" opacity=".6"/>
+   <path d="M43 20v-52q0-3 4-3t4 3v53Z" fill="url(#${id}-post)"/><path d="M42.5-14h9m-9 22h9" stroke="${p.dark}" stroke-width="1.15"/><path d="M44-29v11m4 7v12" stroke="${p.amber}" stroke-opacity=".5" stroke-width=".65"/>
+   <path d="m47-35-20 9 2 5 20-9Z" fill="url(#${id}-bamboo)"/><ellipse cx="28" cy="-23.5" rx="2.4" ry="3.1" transform="rotate(-31 28 -23.5)" fill="${p.cut}"/><ellipse cx="28" cy="-23.5" rx="1.45" ry="2.05" transform="rotate(-31 28 -23.5)" fill="${p.inside}"/><path d="m44-34 1.6 5m-2-4 1.6 5" stroke="${p.inside}" stroke-width=".7" opacity=".65"/>
+   <path class="shishi-feed" d="M29-21.5q.6 5 1.7 11.7" fill="none" stroke="${p.water}" stroke-width=".65" stroke-opacity=".6"/>
+   <path d="M-6 17V-2q2-3 5 0v20Z" fill="${p.dark}"/><path d="M-7-1H7" stroke="${p.inside}" stroke-width="2"/>
+   <g class="shishi-arm">
+    <path d="M-23-3.6H34L27 3.6h-50Z" fill="url(#${id}-bamboo)"/><ellipse cx="-23" cy="0" rx="1.9" ry="3.6" fill="${p.amber}"/>
+    <path d="M-13-3.8v7.6m24-7.6v7.6" stroke="${p.dark}" stroke-width="1.3"/><path d="M-12-3.5v6.8m24-6.8v6.8" stroke="${p.light}" stroke-width=".45" opacity=".45"/>
+    <path d="M-19-1.7h4m7 .2 15 .2m9 .5 8-.2" stroke="${p.amber}" stroke-width=".4" opacity=".6"/><path d="M-9-2.8h9l-3 1-7-.3m24 3.2 8-.2-3 .8-5-.1" fill="${p.cut}" opacity=".12"/>
+    <ellipse cx="30.5" cy="0" rx="4.8" ry="3.35" transform="rotate(-37 30.5 0)" fill="${p.cut}"/><ellipse cx="30.5" cy="0" rx="3.7" ry="2.35" transform="rotate(-37 30.5 0)" fill="${p.inside}"/>
+    <path class="shishi-fill" d="M27.3 1q3-1.4 5.7-3.4-1.2 4-5.7 3.4Z" fill="${p.water}"/>
+   </g>
+   <path d="M-2 19V-2q1.8-2.8 5 0v22Z" fill="url(#${id}-post)"/><path d="M-2.5 11h6m-6-10h6" stroke="${p.dark}" stroke-width=".8"/><ellipse cx="1" cy="0" rx="2.2" ry="1.8" fill="${p.amber}"/><circle cx="1" cy="0" r=".75" fill="${p.inside}"/>
+   <path class="shishi-pour" d="M27 12q1 4 3 7m-5-4 2 4" fill="none" stroke="${p.water}" stroke-width=".9" stroke-linecap="round"/>
+  </g></svg>`;
+ }
  function markup(where,value){
   const w={...world(value),skyFrame:where},night=w.phase==='night',cacheKey=[SolarModel.region().id,w.season,w.weather,w.phase,w.at].join(':');
   let content;
@@ -260,6 +287,7 @@ globalThis.RoomBackgrounds=(()=>{
    // dim sunlight and moonlight without rebuilding a room image each second.
    content=art.replace('<svg ','<svg class="day-room-art" aria-hidden="true" ').replace(/\bid="/g,'id="'+prefix).replace(/url\(#/g,'url(#'+prefix)+'<div class="day-room-world-window">'+SolarLighting.landscape(w)+glass(w)+'</div>';
   }else content='<div class="day-room-world-outdoors">'+SolarLighting.landscape(w,where)+'</div>'+staticPlace(where,w);
+  if(where==='garden')content+=shishi(w);
   const frame=SolarLighting.palette(w,phase=>({frame:phase==='night'?'#7d8989':'#ded8c8'})).frame;
   return '<div class="room-background-layer" data-background-location="'+where+'" data-light-at="'+w.at+'" data-light-weather="'+w.weather+'" data-light-season="'+w.season+'" data-background-phase="'+w.phase+'" style="--study-frame:'+frame+'">'+content+'</div>';
  }

@@ -235,3 +235,13 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
  .country-landscape stop,.roof-sky-card .card-sky-stars,[data-engawa-night-study],.day-room>.engawa-pendant-light,.day-room :is(.room-sconce-lit,.pendant-glow),
  .day-room :is(.room-sconce-art,.engawa-pendant-switch) :is(stop,path,ellipse){transition:none!important}
 }
+
+/* A separate garden overlay preserves the original artwork's filter bounds. */
+.garden-shishi{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;filter:var(--room-light-filter,none)}
+.garden-shishi .shishi-arm{transform-box:view-box;transform-origin:0 0;transform:rotate(-15deg);animation:shishi-tip 48s linear infinite;animation-delay:var(--shishi-delay)}
+.garden-shishi .shishi-fill{animation:shishi-fill 48s linear infinite;animation-delay:var(--shishi-delay)}
+.garden-shishi .shishi-pour{opacity:0;animation:shishi-pour 48s linear infinite;animation-delay:var(--shishi-delay)}
+@keyframes shishi-tip{0%,89%{transform:rotate(-15deg);animation-timing-function:ease-in}94.5%,95.5%{transform:rotate(27deg);animation-timing-function:cubic-bezier(.55,0,.85,.5)}97.5%{transform:rotate(-15deg);animation-timing-function:ease-out}98.2%{transform:rotate(-12.5deg)}99%,100%{transform:rotate(-15deg)}}
+@keyframes shishi-fill{0%{opacity:.08}88%,92%{opacity:.48}95%,100%{opacity:.08}}
+@keyframes shishi-pour{0%,92%,97%,100%{opacity:0}94%,95.5%{opacity:.5}}
+@media(prefers-reduced-motion:reduce){.garden-shishi :is(.shishi-arm,.shishi-fill,.shishi-pour){animation:none}.garden-shishi .shishi-fill{opacity:.2}.garden-shishi .shishi-pour{display:none}}
