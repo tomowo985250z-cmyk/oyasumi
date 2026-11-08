@@ -11,7 +11,7 @@
 .day-room .room-wall-clock{position:absolute;left:55.5%;top:18.8%;width:10%;height:auto;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;z-index:1}
 .day-room:not([data-location=room]) .room-wall-clock{display:none}
 .day-room[data-location=engawa] .engawa-wall-clock{display:block;left:7.17%;top:15%;width:13.5%;aspect-ratio:40/94;transform:translateX(-50%)}
-.engawa-wall-clock .clock-pendulum{transform-box:view-box;transform-origin:20px 43px;animation:country-clock-swing 2s ease-in-out infinite}
+.engawa-wall-clock .clock-pendulum{transform-box:view-box;transform-origin:20px 43px;animation:country-clock-swing .97115s ease-in-out infinite}
 @keyframes country-clock-swing{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
 @media(prefers-reduced-motion:reduce){.engawa-wall-clock .clock-pendulum{animation:none;transform:none}}
 .day-room[data-world-daylight=false] .room-wall-clock{filter:brightness(.64) saturate(.8)}

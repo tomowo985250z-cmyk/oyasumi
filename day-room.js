@@ -1,6 +1,6 @@
 // Shared room composition; gazing cats sit by the window during daylight.
 globalThis.DayRoom=(()=>{
- const active=new Map(),transitions=new WeakMap();
+ const active=new Map(),transitions=new WeakMap();let clockSequence=0;
  const reducedMotion=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
  reducedMotion?.addEventListener?.('change',()=>{
   if(reducedMotion.matches)for(const stage of document.querySelectorAll('.day-room'))transitions.get(stage)?.animation?.cancel();
@@ -184,8 +184,40 @@ globalThis.DayRoom=(()=>{
  };
  function wallClock(where='room'){
   if(where==='engawa'){
-   const time=clockTime(),numbers=Array.from({length:12},(_,i)=>{const n=i+1,a=n*Math.PI/6;return `<text x="${20+Math.sin(a)*12.7}" y="${20-Math.cos(a)*12.7}" text-anchor="middle" dominant-baseline="central">${n}</text>`;}).join('');
-   return `<svg class="room-wall-clock engawa-wall-clock" viewBox="0 0 40 94" data-clock-minute="${time.stamp}" role="img" aria-label="柱時計 ${time.label}" focusable="false"><title>現在の日本時間</title><path d="M3 3Q20-2 37 3V87L32 92H8L3 87Z" fill="#49372a"/><path d="M5 5Q20 1 35 5V86L31 89H9L5 86Z" fill="#67503a"/><path d="M6 7Q20 3 34 7M7 84l3 3h20" fill="none" stroke="#aa8e65" stroke-opacity=".3" stroke-width=".7"/><path d="M6 41q6-1 10 0m18 7q-1 12 0 22M8 52q1 14 0 23" fill="none" stroke="#302c24" stroke-opacity=".22" stroke-width=".5"/><path d="M8 43H32V83H8Z" fill="#312e27"/><path d="M10 45H30V81H10Z" fill="#494333"/><g class="clock-pendulum" style="animation-delay:-${(NightClock.now()%2000)/1000}s"><path d="M20 43V73" stroke="#a49368" stroke-width="1.4"/><ellipse cx="20" cy="73" rx="6.4" ry="7.3" fill="#ac985f"/><path d="M17 68q-3 5 0 10" fill="none" stroke="#d6c79a" stroke-opacity=".5" stroke-width=".9"/></g><circle cx="20" cy="20" r="18.5" fill="#372e25"/><circle cx="20" cy="20" r="17" fill="#eee3c7"/><circle cx="20" cy="20" r="15.8" fill="none" stroke="#b7a787" stroke-width=".35"/><g fill="#24241f" font-family="Georgia,serif" font-size="6.2" font-weight="600">${numbers}</g><path class="room-clock-hour" d="M20 22V12" transform="rotate(${time.hour} 20 20)" stroke="#22231f" stroke-width="1.65" stroke-linecap="round"/><path class="room-clock-minute" d="M20 22V8.8" transform="rotate(${time.minute} 20 20)" stroke="#22231f" stroke-width="1" stroke-linecap="round"/><circle cx="20" cy="20" r="1.4" fill="#24241f"/></svg>`;
+   const time=clockTime(),id='shoji-clock-'+(++clockSequence),numbers=Array.from({length:12},(_,i)=>{const n=i+1,a=n*Math.PI/6;return `<text x="${20+Math.sin(a)*12.7}" y="${20-Math.cos(a)*12.7}" text-anchor="middle" dominant-baseline="central">${n}</text>`;}).join('');
+   return `<svg class="room-wall-clock engawa-wall-clock" viewBox="0 0 40 94" data-clock-minute="${time.stamp}" role="img" aria-label="柱時計 ${time.label}" focusable="false"><title>現在の日本時間</title>
+    <defs>
+     <linearGradient id="${id}-wood" x2="1" y2=".12"><stop stop-color="#3d2d22"/><stop offset=".19" stop-color="#77563a"/><stop offset=".43" stop-color="#8b6745"/><stop offset=".72" stop-color="#634630"/><stop offset="1" stop-color="#3d2c22"/></linearGradient>
+     <linearGradient id="${id}-bevel" x2=".8" y2="1"><stop stop-color="#a08054"/><stop offset=".28" stop-color="#6c5035"/><stop offset=".76" stop-color="#493526"/><stop offset="1" stop-color="#30261e"/></linearGradient>
+     <linearGradient id="${id}-inside" x2=".35" y2="1"><stop stop-color="#171e19"/><stop offset=".56" stop-color="#484332"/><stop offset="1" stop-color="#262c22"/></linearGradient>
+     <linearGradient id="${id}-brass" x2="1" y2=".4"><stop stop-color="#74643d"/><stop offset=".34" stop-color="#c0ac73"/><stop offset=".6" stop-color="#ac985f"/><stop offset="1" stop-color="#645a38"/></linearGradient>
+     <radialGradient id="${id}-dial" cx=".38" cy=".3" r=".83"><stop stop-color="#f6eed8"/><stop offset=".72" stop-color="#e9dfc3"/><stop offset="1" stop-color="#cabc9b"/></radialGradient>
+     <linearGradient id="${id}-glass" x1="0" y1="0" x2="1" y2=".5"><stop stop-color="#eff5e8" stop-opacity=".13"/><stop offset=".28" stop-color="#eff5e8" stop-opacity=".025"/><stop offset=".55" stop-color="#eff5e8" stop-opacity="0"/><stop offset="1" stop-color="#eff5e8" stop-opacity=".035"/></linearGradient>
+    </defs>
+    <path d="M3 4Q20-2 37 4V87L32 92H8L3 87Z" transform="translate(.65 .8)" fill="#221e16" stroke="#221e16" stroke-width="1.1" opacity=".13"/>
+    <path d="M36 4 38 6V88L33 93 31 91 36 86Z" fill="#35291f"/>
+    <path d="M3 4Q20-2 36.5 4V87L31.5 92H8L3 87Z" fill="url(#${id}-wood)" stroke="#493526" stroke-width=".5"/>
+    <path d="M5 7Q20 2 34.5 7V85L30.5 89H9L5 85Z" fill="none" stroke="#b3986d" stroke-opacity=".3" stroke-width=".65"/>
+    <path d="M6 9q.9 16 .1 34t.2 40M33 10q-.8 19-.1 39t-.2 34M9 40q1 11 .1 19m21-19q-.8 13 .1 28" fill="none" stroke="#2b251d" stroke-opacity=".2" stroke-width=".4"/>
+    <path d="M7 12q-.6 17 .1 28m26 20v19M10 88l8 .3m9-1.1 3-.4" fill="none" stroke="#c1a47a" stroke-opacity=".2" stroke-width=".45"/>
+    <path d="M7.5 42H32.5V84L30.5 86H9.5L7.5 84Z" fill="#32291f" stroke="#a88b5f" stroke-opacity=".5" stroke-width=".55"/>
+    <path d="M9.5 44H30.5V82.5H9.5Z" fill="url(#${id}-inside)"/>
+    <path d="M9.5 44h2v38.5h-2ZM11.5 44h19v1.6h-19Z" fill="#111b16" opacity=".38"/>
+    <g class="clock-pendulum" style="animation-delay:-${(NightClock.now()%971.15)/1000}s">
+     <circle cx="20" cy="43.5" r="1.3" fill="#817148"/><path d="M20.55 44V74" stroke="#19231b" stroke-width="1.9" opacity=".5"/><path d="M20 43V73" stroke="url(#${id}-brass)" stroke-width="1.15"/>
+     <ellipse cx="20.4" cy="73.6" rx="6.2" ry="7.2" fill="#252b20" opacity=".65"/><ellipse cx="20" cy="73" rx="6.1" ry="7.1" fill="url(#${id}-brass)" stroke="#655637" stroke-width=".4"/>
+     <ellipse cx="20" cy="73" rx="4.6" ry="5.5" fill="none" stroke="#d6c394" stroke-opacity=".2" stroke-width=".4"/><path d="M17.2 68.2q-2.8 4-.3 9" fill="none" stroke="#e1d2a8" stroke-opacity=".35" stroke-width=".7"/>
+    </g>
+    <path d="M9.5 44H30.5V82.5H9.5Z" fill="url(#${id}-glass)"/><path d="M11 46q.5 12-.1 25M28 46l-7 19" fill="none" stroke="#d7e1ce" stroke-opacity=".08" stroke-width=".8"/>
+    <path d="M11 1.8H29L38 10V30L29 39H11L2 30V10Z" fill="url(#${id}-bevel)" stroke="#382b21" stroke-width=".5"/>
+    <path d="M11.6 3.3H28.4L36.5 10.7V29.2L28.4 37.5H11.6L3.5 29.2V10.7Z" fill="url(#${id}-wood)" stroke="#b19669" stroke-opacity=".32" stroke-width=".5"/>
+    <path d="M12 4.4h9m12 5 2 2m-30 15v2l6 6" fill="none" stroke="#c8ac7d" stroke-opacity=".19" stroke-width=".5"/>
+    <circle cx="20" cy="20" r="18" fill="#30291e"/><circle cx="20" cy="20" r="17.3" fill="#9d885e"/><circle cx="20" cy="20" r="16.8" fill="url(#${id}-dial)"/>
+    <circle cx="20" cy="20" r="15.8" fill="none" stroke="#aa9b7c" stroke-width=".3"/>
+    <g fill="#24241f" font-family="Georgia,serif" font-size="6.2" font-weight="600">${numbers}</g>
+    <path class="room-clock-hour" d="M20 22V12" transform="rotate(${time.hour} 20 20)" stroke="#22231f" stroke-width="1.65" stroke-linecap="round"/><path class="room-clock-minute" d="M20 22V8.8" transform="rotate(${time.minute} 20 20)" stroke="#22231f" stroke-width="1" stroke-linecap="round"/><circle cx="20" cy="20" r="1.4" fill="#24241f"/>
+    <circle cx="20" cy="20" r="16.8" fill="url(#${id}-glass)"/><path d="M7.1 16q1.6-7.2 8.5-8.8" fill="none" stroke="#fff8e2" stroke-opacity=".18" stroke-width=".65"/>
+   </svg>`;
   }
   const time=clockTime(),ticks=Array.from({length:12},(_,i)=>`<path d="M20 7v${i%3===0?2:1}" transform="rotate(${i*30} 20 20)"/>`).join('');
   return `<svg class="room-wall-clock" viewBox="0 0 40 40" data-clock-minute="${time.stamp}" aria-hidden="true" focusable="false"><circle cx="20" cy="20.7" r="18" fill="#67594b" opacity=".12"/><image href="assets/bedroom-realism-v1/clock.webp" x="2" y="2" width="36" height="36"/><g fill="none" stroke="#9a8d79" stroke-width=".8" stroke-linecap="round">${ticks}</g><path class="room-clock-hour" d="M20 21v-9" transform="rotate(${time.hour} 20 20)" stroke="#6b6053" stroke-width="1.7" stroke-linecap="round"/><path class="room-clock-minute" d="M20 21v-12" transform="rotate(${time.minute} 20 20)" stroke="#6b6053" stroke-width="1.1" stroke-linecap="round"/><circle cx="20" cy="20" r="1.3" fill="#88735c"/></svg>`;

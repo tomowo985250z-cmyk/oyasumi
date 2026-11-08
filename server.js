@@ -57,6 +57,8 @@ files['/cat-harmony.css']='cat-harmony.css';
 files['/nature-sounds.js']='nature-sounds.js';
 for(const name of ['wind','rain','insects','chime'])files['/assets/nature-sounds-v1/'+name+'.mp3']='assets/nature-sounds-v1/'+name+'.mp3';
 types['.mp3']='audio/mpeg';
+for(const file of ['clock-ticking-f950717d33644d4b.wav','credits.html','manifest.json'])files['/assets/clock-audio-v1/'+file]='assets/clock-audio-v1/'+file;
+types['.wav']='audio/wav';
 types['.webp']='image/webp';
 files['/moon-unity.js']='moon-unity.js';
 files['/moon-unity.css']='moon-unity.css';
@@ -64,7 +66,7 @@ http.createServer((req, res) => {
   const file = files[new URL(req.url, 'http://localhost').pathname];
   if (!file) { res.writeHead(404); return res.end('Not found'); }
   const extension=path.extname(file);
-  res.setHeader('Content-Type', types[extension] + (['.png','.webp','.woff2','.mp3'].includes(extension)?'':'; charset=utf-8'));
+  res.setHeader('Content-Type', types[extension] + (['.png','.webp','.woff2','.mp3','.wav'].includes(extension)?'':'; charset=utf-8'));
   if(extension==='.woff2')res.setHeader('Cache-Control','public, max-age=31536000, immutable');
   fs.createReadStream(path.join(__dirname, file)).pipe(res);
 }).listen(Number(process.env.PORT) || 3000, '127.0.0.1', function () { console.log(`おやすみ: http://localhost:${this.address().port}`); });

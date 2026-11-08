@@ -1,0 +1,28 @@
+{
+  "source": "https://freesound.org/people/seth-m/sounds/321582/",
+  "author": "seth-m",
+  "title": "clock ticking",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "preview": "https://cdn.freesound.org/previews/321/321582_3366749-hq.mp3",
+  "downloadedAt": "2026-11-08T08:22:43.658Z",
+  "sourceSha256": "5e2efc07a036802ca7fb54cf963c7d41d534c3a05c87ebe5e98b21639d19ef13",
+  "bytes": 155428,
+  "sampleRate": 16000,
+  "seconds": 4.85575,
+  "impulses": [
+    0.48,
+    0.97,
+    1.45,
+    1.94,
+    2.43,
+    3.4,
+    3.88,
+    4.37
+  ],
+  "processing": "Mono PCM16/16kHz; high-pass 90 Hz; low-pass 1800 Hz; peak -12 dBFS; 3 ms edge fades; original tempo retained",
+  "sha256": "f950717d33644d4b90c6104681cdde319e6ce7f272193afb1dc6005aa6fc63eb",
+  "seamDelta": 0,
+  "sourceBytes": 121370,
+  "pendulumPeriodSeconds": 0.97115
+}
