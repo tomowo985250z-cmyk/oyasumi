@@ -305,7 +305,6 @@ globalThis.RoomBackgrounds=(()=>{
    <path d="M-6 22 8 29" stroke="${p.shade}" stroke-width="2.8"/><path d="M-8-4 10 5" stroke="${p.cavity}" stroke-width="2.1"/>
    <g class="shishi-arm" data-souzu-mouth="-31 0" data-souzu-tail="41 0" data-souzu-node="-8">
     ${skin}${wear}${grain}${nodes}
-    <path d="${ring(tail,radius)}" fill="${p.end}"/><path d="M40-4.4q4.3 3.5 1 9.2m1.1-7.7q2.1 2.9 .1 5.4" fill="none" stroke="${p.shade}" stroke-width=".45" opacity=".28"/>
     <path data-souzu-cut="" d="${ring(mouth,radius,bevel)}" fill="${p.end}"/><path data-souzu-hollow="" d="${ring(mouth,radius-1.3,bevel)}" fill="url(#${id}-hollow)"/>
     <path d="${outline([point(mouth,front+.3,radius-1.3,bevel),point(mouth,front+.8,radius-1.3,bevel),point(mouth+2.3,front+.8,radius-1.5,bevel),point(mouth+2.3,front+.3,radius-1.5,bevel)])}" fill="${p.wet}" opacity=".65"/>
     <g clip-path="url(#${id}-water)"><path class="souzu-water" d="${ring(mouth,radius-1.65,bevel)}" fill="${p.pool}"/></g>
