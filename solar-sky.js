@@ -98,13 +98,15 @@ globalThis.SolarSky=(()=>{
   return {...value,direction:view.direction,shadow:view.shadow,sunPoint:view.sunPoint,inView:view.inView,exposure:view.exposure,weatherOpacity:weather,cloudTransmission:transmission,horizonTransmission:horizon,
    direct:value.direct*view.exposure*transmission*horizon*(view.inView?1:0),southExposure:1,sunOpacity:value.sky.sunOpacity*weather};
  }
- function disc(s,gradient,width=400,height=260){
+ // Fade in above the existing morning/evening altitude bands only.
+ const daytimeAir=s=>SolarModel.smooth(28,40,s.altitude);
+ function disc(s,gradient,width=400,height=260,day=0){
   const low=1-SolarModel.smooth(0,24,s.altitude);
   const opacity=s.source==='sun'?s.sky.gardenOpacity/.64*(.78+.10*low)*s.weatherOpacity:0;
   if(opacity<=0||!s.inView)return null;
   const point={x:s.sunPoint.x*width/400,y:s.sunPoint.y*height/260};
   const node=document.createElementNS(ns,'circle');node.setAttribute('data-solar-disc','');
-  node.setAttribute('cx',point.x);node.setAttribute('cy',point.y);node.setAttribute('r',String((9.8+1.2*low)*width/400));
+  node.setAttribute('cx',point.x);node.setAttribute('cy',point.y);node.setAttribute('r',String((9.8+1.2*low)*width/400*(1+.35*day)));
   node.setAttribute('fill',`url(#${gradient})`);node.setAttribute('opacity',String(opacity*s.cloudTransmission));return node;
  }
  function paint(svg,w,frame){
@@ -116,14 +118,18 @@ globalThis.SolarSky=(()=>{
    group=document.createElementNS(ns,'g');group.setAttribute('data-solar-sky','');
    svg.insertBefore(group,svg.querySelector(':scope > g')||svg.querySelector('[data-depth]'));
   }
-  // Reuse the existing glow gradient for a small feathered limb; no halo/filter/layer.
+  // Reuse one disc/gradient: a cream core, a soft golden limb and a very faint tail.
   const gradient=svg.querySelector('[data-solar-disc-gradient]')||svg.querySelector('radialGradient');
+  const day=daytimeAir(s),afternoon=SolarModel.smooth(s.noon,s.noon+180,s.hour*60);
   if(gradient){
    attr(gradient,'data-solar-disc-gradient','');
    const color=SeasonLandscape.mix('#f3dfaf','#e8a061',1-SolarModel.smooth(0,24,s.altitude));
-   [...gradient.children].forEach((stop,i)=>{attr(stop,'offset',i?1:.82);attr(stop,'stop-color',color);attr(stop,'stop-opacity',i?0:1);});
+   const core=SeasonLandscape.mix(color,SeasonLandscape.mix('#fff9ea','#f7e7c5',afternoon*.7),day),edge=SeasonLandscape.mix(color,SeasonLandscape.mix('#f6e7be','#edcd96',afternoon*.65),day),extent=1+.35*day;
+   const stops=day>0?[[0,core,1],[(.82-.03*day)/extent,edge,1],[1/extent,edge,.025*day],[1,edge,0]]:[[.82,color,1],[1,color,0]];
+   while(gradient.children.length>stops.length)gradient.lastElementChild.remove();
+   stops.forEach(([offset,color,opacity],i)=>{let stop=gradient.children[i];if(!stop){stop=document.createElementNS(ns,'stop');gradient.append(stop);}attr(stop,'offset',offset);attr(stop,'stop-color',color);attr(stop,'stop-opacity',opacity);});
   }
-  const box=svg.viewBox.baseVal,node=disc(s,gradient?.id,box.width,box.height),old=group.firstElementChild;
+  const box=svg.viewBox.baseVal,node=disc(s,gradient?.id,box.width,box.height,day),old=group.firstElementChild;
   if(node&&old){for(const a of node.attributes)if(old.getAttribute(a.name)!==a.value)old.setAttribute(a.name,a.value);}
   else if(node||old)group.replaceChildren(...(node?[node]:[]));
   {
@@ -187,7 +193,7 @@ globalThis.SolarSky=(()=>{
   const t=SolarModel.weights(SolarModel.time(w)),wet=w.weather==='rainy'?.72:w.weather==='cloudy'?.86:1;
   // Reuse the terrain colour pass: distant fields recede from the native foreground.
   // Fade fully before sunset so the existing twilight/night and lights stay exact.
-  const air=SolarModel.smooth(0,5,SolarModel.parameters(SolarModel.time(w)).altitude)*(.028*t.morning+.010*t.day+.018*t.evening)*wet;
+  const sun=SolarModel.parameters(SolarModel.time(w)),air=SolarModel.smooth(0,5,sun.altitude)*(.028*t.morning+.010*t.day+.018*t.evening+daytimeAir(sun)*(w.season==='summer'?.020:.010))*wet;
   attr(svg.querySelector('[data-sky55-tone="terrain"]'),'values',engawaMatrix((t.day+t.morning*.90+t.evening*.69+t.night*.22)*wet,t.day*.86+t.morning*.84+t.evening*.77+t.night*.38,t,air));
   attr(svg.querySelector('[data-sky55-tone="cloud"]'),'values',engawaMatrix((t.day+t.morning*.93+t.evening*.75+t.night*.26)*wet,.82,t));
   distantHomes(svg,w);
