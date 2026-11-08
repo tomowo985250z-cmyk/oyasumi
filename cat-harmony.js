@@ -38,6 +38,11 @@ globalThis.CatLightHarmony=(()=>{
    result[0]-=(where==='garden'?.020:.014)*day+.002*night;
    result[1]-=where==='garden'?.035:.025;result[2]-=where==='garden'?.022:.014;
   }
+  // A single garden-night response, in the existing RGB filter and moon model.
+  if(where==='garden'&&night){
+   const moon=clamp(0,1,light.source==='moon'?light.direct:0);
+   result[0]-=night*(.21-.045*moon);result[3]-=.018*night;result[5]+=.016*night;
+  }
   // Shared coat patina: retain native fur detail and luminance, with no new
   // filter primitives, alpha changes or geometric disturbance of faces/poses.
   result[1]*=.98;result[2]*=.995;
@@ -95,7 +100,7 @@ globalThis.CatLightHarmony=(()=>{
     if(!soften&&f.highlights){f.highlights.remove();delete f.highlights;}
     if(f.highlights)for(const n of f.highlights.children)n.setAttribute('tableValues',curve.join(' '));
    }
-   stage.style.setProperty('--harmony-contact-opacity',round(soften?.23-.06*night:.18-.045*night));stage.style.setProperty('--harmony-cast-opacity',round(.75-.14*night));e.stamp=stamp;
+   stage.style.setProperty('--harmony-contact-opacity',round(soften?.23-(where==='garden'?.01:.06)*night:.18-.045*night));stage.style.setProperty('--harmony-cast-opacity',round(.75-.14*night));e.stamp=stamp;
   }
   careMaterials(stage,w,warmth);contact(stage);
  }
