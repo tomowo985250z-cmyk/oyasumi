@@ -22,7 +22,7 @@ nav[hidden]{display:none}.resting .app-shell{padding-bottom:0}.rest-screen{min-h
 .roof-sky-card .roof-cat-group[data-layout=mixed]{inset:0;display:block}
 .roof-sky-card .roof-cat-group[data-layout=mixed] .roof-cat{position:absolute;left:var(--roof-cat-x);top:var(--roof-cat-y);width:var(--roof-cat-width);height:var(--roof-cat-height);margin:0;transform:none}
 /* North-facing sky: keep copy at the edges and the slow moon arc unobstructed. */
-.count-card.roof-sky-card{min-height:282px;padding:12px 10px 10px;overflow:hidden;background:linear-gradient(180deg,#22314b 0%,#24344f 55%,#283953 100%)}
+.count-card.roof-sky-card{min-height:282px;padding:12px 10px 10px;overflow:hidden;background:var(--roof-sky-paint,linear-gradient(var(--roof-sky,#0d2035),var(--roof-horizon,#354c59)))}
 .roof-sky-card .awake-heading{top:0;margin:0;position:relative;z-index:2}
 .roof-sky-card>p.muted{position:absolute;left:10px;right:10px;bottom:10px;top:auto;z-index:2}
 .roof-sky-card .awake-cats{position:absolute;inset:56px 8px 34px;width:auto;max-width:none;height:auto;margin:0}
