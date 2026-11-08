@@ -180,17 +180,24 @@ globalThis.DayRoom=(()=>{
  const sceneryKey=(where,w)=>RoomBackgrounds.key(where,w);
  const clockTime=(now=NightClock.now())=>{
   const japan=new Date(now+9*3600000),minute=japan.getUTCMinutes();
-  return {stamp:Math.floor(now/60000),hour:(japan.getUTCHours()%12)*30+minute*.5,minute:minute*6};
+  return {stamp:Math.floor(now/60000),hour:(japan.getUTCHours()%12)*30+minute*.5,minute:minute*6,label:`${japan.getUTCHours()}時${minute}分`};
  };
- function wallClock(){
+ function wallClock(where='room'){
+  if(where==='engawa'){
+   const time=clockTime(),numbers=Array.from({length:12},(_,i)=>{const n=i+1,a=n*Math.PI/6;return `<text x="${20+Math.sin(a)*12.7}" y="${20-Math.cos(a)*12.7}" text-anchor="middle" dominant-baseline="central">${n}</text>`;}).join('');
+   return `<svg class="room-wall-clock engawa-wall-clock" viewBox="0 0 40 94" data-clock-minute="${time.stamp}" role="img" aria-label="柱時計 ${time.label}" focusable="false"><title>現在の日本時間</title><path d="M3 3Q20-2 37 3V87L32 92H8L3 87Z" fill="#49372a"/><path d="M5 5Q20 1 35 5V86L31 89H9L5 86Z" fill="#67503a"/><path d="M6 7Q20 3 34 7M7 84l3 3h20" fill="none" stroke="#aa8e65" stroke-opacity=".3" stroke-width=".7"/><path d="M6 41q6-1 10 0m18 7q-1 12 0 22M8 52q1 14 0 23" fill="none" stroke="#302c24" stroke-opacity=".22" stroke-width=".5"/><path d="M8 43H32V83H8Z" fill="#312e27"/><path d="M10 45H30V81H10Z" fill="#494333"/><g class="clock-pendulum" style="animation-delay:-${(NightClock.now()%2000)/1000}s"><path d="M20 43V73" stroke="#a49368" stroke-width="1.4"/><ellipse cx="20" cy="73" rx="6.4" ry="7.3" fill="#ac985f"/><path d="M17 68q-3 5 0 10" fill="none" stroke="#d6c79a" stroke-opacity=".5" stroke-width=".9"/></g><circle cx="20" cy="20" r="18.5" fill="#372e25"/><circle cx="20" cy="20" r="17" fill="#eee3c7"/><circle cx="20" cy="20" r="15.8" fill="none" stroke="#b7a787" stroke-width=".35"/><g fill="#24241f" font-family="Georgia,serif" font-size="6.2" font-weight="600">${numbers}</g><path class="room-clock-hour" d="M20 22V12" transform="rotate(${time.hour} 20 20)" stroke="#22231f" stroke-width="1.65" stroke-linecap="round"/><path class="room-clock-minute" d="M20 22V8.8" transform="rotate(${time.minute} 20 20)" stroke="#22231f" stroke-width="1" stroke-linecap="round"/><circle cx="20" cy="20" r="1.4" fill="#24241f"/></svg>`;
+  }
   const time=clockTime(),ticks=Array.from({length:12},(_,i)=>`<path d="M20 7v${i%3===0?2:1}" transform="rotate(${i*30} 20 20)"/>`).join('');
   return `<svg class="room-wall-clock" viewBox="0 0 40 40" data-clock-minute="${time.stamp}" aria-hidden="true" focusable="false"><circle cx="20" cy="20.7" r="18" fill="#67594b" opacity=".12"/><image href="assets/bedroom-realism-v1/clock.webp" x="2" y="2" width="36" height="36"/><g fill="none" stroke="#9a8d79" stroke-width=".8" stroke-linecap="round">${ticks}</g><path class="room-clock-hour" d="M20 21v-9" transform="rotate(${time.hour} 20 20)" stroke="#6b6053" stroke-width="1.7" stroke-linecap="round"/><path class="room-clock-minute" d="M20 21v-12" transform="rotate(${time.minute} 20 20)" stroke="#6b6053" stroke-width="1.1" stroke-linecap="round"/><circle cx="20" cy="20" r="1.3" fill="#88735c"/></svg>`;
  }
  function syncClock(stage,time){
-  const clock=stage.querySelector('.room-wall-clock');if(!clock||clock.dataset.clockMinute===String(time.stamp))return;
+  let clock=stage.querySelector('.room-wall-clock');if(!clock)return;
+  if(clock.classList.contains('engawa-wall-clock')!==(stage.dataset.location==='engawa')){clock.outerHTML=wallClock(stage.dataset.location);clock=stage.querySelector('.room-wall-clock');}
+  if(clock.dataset.clockMinute===String(time.stamp))return;
   clock.querySelector('.room-clock-hour').setAttribute('transform',`rotate(${time.hour} 20 20)`);
   clock.querySelector('.room-clock-minute').setAttribute('transform',`rotate(${time.minute} 20 20)`);
   clock.dataset.clockMinute=time.stamp;
+  if(clock.classList.contains('engawa-wall-clock'))clock.setAttribute('aria-label','柱時計 '+time.label);
  }
  const contactStyle=(place,where,html,coat,night)=>IndoorCatScale.style(html,where,place,night)+(place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'')+SceneryMaterials.contact(html,where,place,night,world());
  const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':room.restState==='sleeping'?'すやすや、ひとやすみ中':room.restState==='settling'?'お部屋で、ひとやすみ。':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
@@ -205,7 +212,7 @@ globalThis.DayRoom=(()=>{
   const tag=interactive?'button':'div',place=night?.place||placement(room,w,where);
   const style=contactStyle(place,where,html,coat,night),contact=style?` style="${style}"`:'';
   const target=interactive?.profileCare?`data-profile-care="${user}" aria-label="${interactive.self?'自分の猫のごはん':'この猫のおやつ'}を開く"`:'data-view="catMeal" aria-label="猫のごはんを開く"';
-  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-shoji-closed="${shojiClosed(user)}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${pending?' data-room-preferences-pending':''}${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${pending?'':scenery(where,w)}</div>${pending?'':lampMarkup(user,where,w)+curtainMarkup(user,where,w)+shojiMarkup(user,where,w)+wallClock()}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
+  return `<div class="day-room room-scene" ${attrs(w)} data-location="${where}" data-cat-rest="${room.restState}" data-curtain-closed="${curtains.get(user||'local-cat')===true}" data-shoji-closed="${shojiClosed(user)}" data-scenery-key="${sceneryKey(where,w)}" data-room-home="${!!cat?.home}"${pending?' data-room-preferences-pending':''}${night?` data-night-pose="${night.pose}" style="${night.style}"`:''} data-room-user="${user||''}" data-place="${place}" data-away="${room.away}" data-coat="${coat}" data-post-status="${cat?.status||''}"><div class="day-room-scenery" aria-hidden="true">${pending?'':scenery(where,w)}</div>${pending?'':lampMarkup(user,where,w)+curtainMarkup(user,where,w)+shojiMarkup(user,where,w)+wallClock(where)}<${tag} class="day-cat day-room-cat room-resident"${contact} ${interactive?'type="button" '+target:''} ${room.away?'aria-hidden="true"'+(interactive?' disabled tabindex="-1"':''):''}>${html}</${tag}></div>`;
  }
  function controls(html){
   const template=document.createElement('template');template.innerHTML=html;
@@ -270,6 +277,7 @@ globalThis.DayRoom=(()=>{
   const {room,w,night,where,place,status,stamp,html}=value,cat=stage.querySelector('.room-resident');
   stage.dataset.roomStamp=stamp;stage.dataset.postStatus=status;stage.dataset.location=where;stage.dataset.place=place;stage.dataset.away=String(room.away);
   stage.dataset.catRest=room.restState;
+  syncClock(stage,clockTime());
   // A pose owns only its placement. Keep ambient RGB, cloth and contact-shadow
   // properties installed by the lighting modules, including same-minute swaps.
   const placement=document.createElement('div').style;placement.cssText=night?.style||'';
