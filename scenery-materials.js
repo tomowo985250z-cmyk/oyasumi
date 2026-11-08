@@ -6,6 +6,8 @@ globalThis.SceneryMaterials=(()=>{
  const tabletop='M132 242Q200 234 268 242L280 258Q200 273 120 258Z';
  const tabletopSupport='M139 239Q207 231 275 239L287 255Q207 270 127 255Z';
  const mix=(a,b,t)=>SeasonLandscape.mix(a,b,t);
+ // A faint warm fade preserves the existing photographic/wood variation.
+ const patina=(color,amount=.035)=>mix(color,'#b7a17a',amount);
  function art(source,where,w){
   const doc=new DOMParser().parseFromString(source.replace('<svg ',`<svg xmlns="${ns}" `).replace(/\sxmlns="[^"]+"(?=[^>]*\sxmlns=)/,'').replace(/\s(data-[\w-]+)(?=\s|>)/g,' $1=""'),'image/svg+xml');
   if(doc.querySelector('parsererror'))throw Error('Invalid material SVG ('+where+'): '+doc.querySelector('parsererror').textContent);
@@ -117,7 +119,7 @@ globalThis.SceneryMaterials=(()=>{
   const rolls=[2,-12].map((start,row)=>Array.from({length:23},(_,n)=>{const i=n-9,x=start+34*i,y=86+row*13+i;return `<path d="M${x} ${y}q17 4 34 1l-4 12q-17 3-34-1Z" fill="url(#material-tile-round)" opacity="${.68+(n%4)*.045}"/><path d="M${x+6} ${y+1}q-2 5-4 11" fill="none" stroke="#8595a4" stroke-opacity=".14" stroke-width="1.1"/><path d="M${x+16} ${y+2}q-3 5-4 11" fill="none" stroke="#102033" stroke-opacity=".24" stroke-width="1.4"/>`;}).join('')).join('');
   return `<defs><clipPath id="material-roof-clip"><path d="${d}"/></clipPath><linearGradient id="material-tile-round" x2="1" y2="0"><stop stop-color="#102032" stop-opacity=".35"/><stop offset=".22" stop-color="#929b9c" stop-opacity=".20"/><stop offset=".48" stop-color="#728193" stop-opacity=".08"/><stop offset=".7" stop-color="#0c1b2c" stop-opacity=".32"/><stop offset="1" stop-color="#52667c" stop-opacity=".06"/></linearGradient><linearGradient id="material-tile-front" x2="0" y2="1"><stop stop-color="#738396" stop-opacity=".12"/><stop offset=".3" stop-color="#111f32" stop-opacity=".3"/><stop offset="1" stop-color="#101b2c" stop-opacity=".45"/></linearGradient><linearGradient id="material-tile-roll" x2="0" y2="1"><stop stop-color="#78909d" stop-opacity=".09"/><stop offset=".55" stop-color="#78909d" stop-opacity="0"/><stop offset="1" stop-color="#071421" stop-opacity=".25"/></linearGradient></defs><g data-material="roof-tiles" clip-path="url(#material-roof-clip)"><path d="${d}" fill="url(#material-tile-roll)"/>${rolls}<path d="M-256 108H464V114H-256Z" fill="url(#material-tile-front)"/><path d="${lines}" transform="translate(0 -.8)" fill="none" stroke="#9aa69f" stroke-width=".5" stroke-opacity=".16"/><path d="${lines}" transform="translate(0 1.2)" fill="none" stroke="#0d1925" stroke-width="1.3" stroke-opacity=".34"/><path data-night-tile-shadow="" d="${lines}" transform="translate(0 2)" fill="none" stroke="#21344b" stroke-width="2.1" stroke-linecap="round" style="opacity:calc(var(--roof-night-ink,0) * .22)"/></g>`;
  }
- return Object.freeze({art,contact,support,roof});
+ return Object.freeze({art,contact,support,roof,patina});
 })();
 
 // Isolated material study: static SVG only, existing clock and lighting retained.
@@ -129,11 +131,12 @@ globalThis.SceneryMaterials=(()=>{
   const p=baseLighting.palette(w,phase=>phase==='night'?{wood:'#655f52',light:'#837965',dark:'#393c35',fiber:'#979584',fade:'#949281'}:phase==='evening'?{wood:'#aa8967',light:'#cbae86',dark:'#70614d',fiber:'#d9d0aa',fade:'#d2cba5'}:{wood:'#a68f71',light:'#c8b595',dark:'#7c705b',fiber:'#dcdcc0',fade:'#d2d1b0'});
   const wet=w.weather==='rainy'?.15:w.weather==='cloudy'?.07:0;
   for(const k of ['wood','light','dark'])p[k]=mix(p[k],'#6b7977',wet);
+  for(const k of ['wood','light'])p[k]=baseMaterials.patina(p[k]);
   return p;
  };
  const parse=source=>new DOMParser().parseFromString(source,'image/svg+xml').documentElement;
  const html=(svg,source)=>{const g=svg.ownerDocument.createElementNS(ns,'g');g.innerHTML=source;return [...g.childNodes];};
- const woodDefs=(id,p)=>`<linearGradient id="${id}-wood" x2="1" y2="0"><stop stop-color="${p.dark}"/><stop offset=".18" stop-color="${p.wood}"/><stop offset=".46" stop-color="${p.light}"/><stop offset=".69" stop-color="${p.wood}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient><linearGradient id="${id}-beam" x2="0" y2="1"><stop stop-color="${p.dark}"/><stop offset=".24" stop-color="${p.wood}"/><stop offset=".76" stop-color="${mix(p.wood,p.light,.28)}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient>`;
+ const woodDefs=(id,p)=>`<linearGradient id="${id}-wood" x2="1" y2="0"><stop stop-color="${p.dark}"/><stop offset=".18" stop-color="${p.wood}"/><stop offset=".46" stop-color="${p.light}"/><stop offset=".69" stop-color="${mix(p.wood,p.light,.06)}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient><linearGradient id="${id}-beam" x2="0" y2="1"><stop stop-color="${p.dark}"/><stop offset=".24" stop-color="${p.wood}"/><stop offset=".76" stop-color="${mix(p.wood,p.light,.28)}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient>`;
  const grain=(id,p,vertical,horizontal)=>`<path d="${vertical}" fill="none" stroke="${p.dark}" stroke-width=".48" stroke-opacity=".20"/><path d="${horizontal}" fill="none" stroke="${p.dark}" stroke-width=".43" stroke-opacity=".18"/>`;
  function art(source,where,w){
   const original=baseMaterials.art(source,where,w);if(where!=='engawa')return original;

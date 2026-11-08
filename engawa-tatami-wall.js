@@ -13,7 +13,7 @@ globalThis.TatamiWallStudy=(()=>{
   const svg=doc.documentElement,node=helpers(doc),main=svg.querySelector('g[filter]'),id='engawa-soft-'+(++serial),defs=node('defs',{'data-engawa-soft-defs':''}),mix=SeasonLandscape.mix;
   svg.querySelector('defs').append(defs);
   const p=SolarLighting.palette(SolarModel.world(w),phase=>({color:phase==='night'?'#8a9992':phase==='evening'?'#e8c8a2':phase==='morning'?'#eee9d9':'#ede5d5'})),rgb=[1,3,5].map(i=>parseInt(p.color.slice(i,i+2),16)/255),tone=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});
-  tone.innerHTML='<feColorMatrix type="saturate" values=".75"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.82+'" intercept="'+rgb[i]*.085+'"/>').join('')+'</feComponentTransfer>';defs.append(tone);
+  tone.innerHTML='<feColorMatrix type="saturate" values=".72"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.81+'" intercept="'+rgb[i]*.09+'"/>').join('')+'</feComponentTransfer>';defs.append(tone);
   const ceilingClip=node('clipPath',{id:id+'-ceiling'});ceilingClip.append(node('path',{d:'M0 0H400V26H0Z'}));defs.append(ceilingClip);
   const wood=node('pattern',{id:id+'-wood',patternUnits:'userSpaceOnUse',width:170,height:70});wood.append(node('image',{href:'assets/engawa-semi-real-v1/wood.webp?v=0ee8d8588835c769',width:170,height:70,preserveAspectRatio:'none'}));defs.append(wood);
   const ceiling=node('g',{'data-engawa-soft-material':'ceiling','clip-path':'url(#'+ceilingClip.id+')',style:'pointer-events:none'});
@@ -58,6 +58,7 @@ globalThis.TatamiWallStudy=(()=>{
   const svg=doc.documentElement,node=helpers(doc),main=svg.querySelector('g[filter]'),id='engawa-lived-in-'+(++serial);
   const p=SolarLighting.palette(SolarModel.world(w),phase=>phase==='night'?{wood:'#75624c',edge:'#968064',dark:'#403c32',cloth:'#a4a18b',thread:'#626958',cup:'#b9b6a0',blue:'#697d81',tea:'#61553a'}:phase==='evening'?{wood:'#ad8053',edge:'#cfaa76',dark:'#68503b',cloth:'#d6c7a3',thread:'#82765f',cup:'#e5d3ae',blue:'#718383',tea:'#887143'}:{wood:'#a78257',edge:'#c9a97b',dark:'#6b5740',cloth:'#d6cfaf',thread:'#80816a',cup:'#e2ddc6',blue:'#6b828d',tea:'#827347'});
   const defs=node('defs',{'data-engawa-lived-in-defs':''});
+  for(const key of ['wood','edge','cloth','cup'])p[key]=material.patina(p[key],.025);
   defs.innerHTML=`<linearGradient id="${id}-wood" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="${p.edge}"/><stop offset=".45" stop-color="${p.wood}"/><stop offset="1" stop-color="${SeasonLandscape.mix(p.wood,p.dark,.18)}"/></linearGradient><linearGradient id="${id}-cup" x1="0" y1="0" x2="1" y2="0"><stop stop-color="${SeasonLandscape.mix(p.cup,p.dark,.18)}"/><stop offset=".35" stop-color="${p.cup}"/><stop offset="1" stop-color="${SeasonLandscape.mix(p.cup,p.dark,.12)}"/></linearGradient>`;
   svg.querySelector('defs').append(defs);
   const floor=svg.querySelector('[data-tatami-wall-floor]'),wear=node('g',{'data-engawa-lived-in':'tatami-wear','pointer-events':'none'});
@@ -125,7 +126,8 @@ globalThis.TatamiWallStudy=(()=>{
    const alongX=width>height,local=(u,v)=>alongX?[x+u,y+v]:[x+v,y+u],rect=(u0,v0,u1,v1)=>[local(u0,v0),local(u1,v0),local(u1,v1),local(u0,v1)];
    const mat=node('g',{'data-tatami-mat':index,'data-world-size':width+' '+height,'data-long-axis':alongX?'x':'y','data-grain-direction':alongX?'y':'x',filter:'url(#'+relief.id+')'}),quad=[[x,y],[x+width,y],[x+width,y+height],[x,y+height]];
    const clip=node('clipPath',{id:id+'-mat-'+index});clip.append(planePoly(quad));defs.append(clip);mat.setAttribute('clip-path','url(#'+clip.id+')');
-   const a=project(x,y),b=project(x+width,y+height),shade=node('linearGradient',{id:id+'-shade-'+index,gradientUnits:'userSpaceOnUse',x1:a[0],y1:a[1],x2:b[0],y2:b[1]});shade.innerHTML='<stop stop-color="'+mix(tone.base,tone.light,.065)+'"/><stop offset=".5" stop-color="'+tone.base+'"/><stop offset="1" stop-color="'+mix(tone.base,tone.dark,.045)+'"/>';defs.append(shade);
+   const worn=material.patina(tone.base,[.02,.05,.035,.065,.025,.045][index]);
+   const a=project(x,y),b=project(x+width,y+height),shade=node('linearGradient',{id:id+'-shade-'+index,gradientUnits:'userSpaceOnUse',x1:a[0],y1:a[1],x2:b[0],y2:b[1]});shade.innerHTML='<stop stop-color="'+mix(worn,tone.light,.065)+'"/><stop offset=".5" stop-color="'+worn+'"/><stop offset="1" stop-color="'+mix(worn,tone.dark,.045)+'"/>';defs.append(shade);
    mat.append(planePoly(quad,{fill:'url(#'+shade.id+')','data-tatami-surface':''}));
    const fibres=node('g',{'data-tatami-fibres':'','data-world-direction':alongX?'0,1':'1,0'});
    const batches=new Map(),batch=(coords,fill,opacity)=>{const key=fill+'|'+opacity;if(!batches.has(key))batches.set(key,{fill,opacity,paths:[]});batches.get(key).paths.push(planeD(coords));};
@@ -209,6 +211,7 @@ globalThis.TatamiWallStudy=(()=>{
   const source=interior.header(w,key),doc=parse('<svg xmlns="'+ns+'">'+source+'</svg>'),svg=doc.documentElement,node=helpers(doc),id='plaster-wall-'+(++serial),defs=node('defs',{'data-tatami-wall-defs':''});
   svg.querySelectorAll('[data-study-shared-material="plaster"]').forEach(n=>n.remove());
   const world=SolarModel.world(w),sun=SolarSky.state(world,'engawa'),tone=SolarLighting.palette(world,phase=>phase==='night'?{base:'#696e65',light:'#828478',dark:'#4c554c'}:phase==='evening'?{base:'#d0bda1',light:'#e5ccaa',dark:'#a9967e'}:phase==='morning'?{base:'#d5c8af',light:'#e8dabf',dark:'#b1a58c'}:{base:'#d2c4ac',light:'#e6d7bd',dark:'#b2a48c'}),mix=SeasonLandscape.mix;
+  for(const key of ['base','light'])tone[key]=material.patina(tone[key],.04);
   const rgb=[1,3,5].map(i=>parseInt(tone.base.slice(i,i+2),16)/255),filter=node('filter',{id:id+'-texture','color-interpolation-filters':'sRGB'});
   filter.innerHTML='<feColorMatrix type="saturate" values=".12"/><feComponentTransfer>'+['R','G','B'].map((c,i)=>'<feFunc'+c+' type="linear" slope="'+rgb[i]*.65+'" intercept="'+rgb[i]*.43+'"/>').join('')+'</feComponentTransfer>';defs.append(filter);
   const pattern=node('pattern',{id:id+'-plaster',patternUnits:'userSpaceOnUse',width:400,height:330});pattern.innerHTML=[0,342.65].map(x=>'<svg x="'+x+'" y="35" width="57.35" height="183" viewBox="253 5 43 50" preserveAspectRatio="none"><image href="assets/bedroom-realism-v1/shell.webp" width="400" height="330" data-tatami-wall-sample="same-bedroom-plaster"/></svg>').join('');defs.append(pattern);
@@ -228,7 +231,7 @@ globalThis.TatamiWallStudy=(()=>{
   for(const [side,x,width]of [['left',0,57.35],['right',342.65,57.35]]){
    const grad=node('linearGradient',{id:id+'-'+side,x1:side==='left'?'0':'1',x2:side==='left'?'1':'0'});grad.innerHTML='<stop stop-color="'+tone.base+'"/><stop offset="1" stop-color="'+mix(tone.base,tone.light,.22+.34*sun.direct)+'"/>';defs.append(grad);
    walls.append(node('rect',{x,y:35,width,height:183,fill:'url(#'+grad.id+')'}));
-   walls.append(node('rect',{x,y:35,width,height:183,fill:'url(#'+pattern.id+')',filter:'url(#'+filter.id+')',opacity:'.50'}));
+   walls.append(node('rect',{x,y:35,width,height:183,fill:'url(#'+pattern.id+')',filter:'url(#'+filter.id+')',opacity:'.55'}));
    walls.append(node('rect',{x,y:35,width,height:183,fill:tone.base,filter:'url(#'+grain.id+')',opacity:'.035'}));
    const edge=node('rect',{x:side==='left'?x+width-3.2:x,y:35,width:3.2,height:183,fill:'url(#'+contact.id+')'});if(side==='left')edge.setAttribute('transform','translate('+(2*(x+width)-3.2)+' 0) scale(-1 1)');walls.append(edge);
   }

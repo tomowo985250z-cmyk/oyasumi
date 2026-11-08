@@ -9,12 +9,12 @@ globalThis.BedroomRealism=(()=>{
   const doc=new DOMParser().parseFromString(original,'image/svg+xml');if(doc.querySelector('parsererror'))throw Error('Invalid photographic bedroom SVG');
   const svg=doc.documentElement,defs=svg.querySelector('defs'),main=svg.querySelector('g[filter]'),id='bedroom-realism-'+(++serial),cold=w.season==='autumn'||w.season==='winter';
   const node=(tag,attrs={})=>{const n=doc.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;};
-  const tone=SolarLighting.palette(w,phase=>({rgb:phase==='night'?'#9da7aa':phase==='evening'?'#efd0a8':phase==='morning'?'#f1f1e5':'#f3eee3'})).rgb;
+  const tone=base.patina(SolarLighting.palette(w,phase=>({rgb:phase==='night'?'#9da7aa':phase==='evening'?'#efd0a8':phase==='morning'?'#f1f1e5':'#f3eee3'})).rgb,.025);
   const [r,g,b]=[1,3,5].map(i=>(parseInt(tone.slice(i,i+2),16)/255).toFixed(5));
-  const filter=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});filter.innerHTML=`<feColorMatrix type="saturate" values=".94"/><feColorMatrix type="matrix" values="${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0"/>`;defs.append(filter);
+  const filter=node('filter',{id:id+'-tone','color-interpolation-filters':'sRGB'});filter.innerHTML=`<feColorMatrix type="saturate" values=".92"/><feColorMatrix type="matrix" values="${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0"/>`;defs.append(filter);
   // Slightly clearer nearby furniture; keep the shell, lamps and night untouched.
-  const daylight=SolarModel.smooth(0,5,SolarModel.parameters(SolarModel.time(w)).altitude),contrast=.96+.008*daylight,lift=.015-.003*daylight;
-  const objects=node('filter',{id:id+'-objects','color-interpolation-filters':'sRGB'});objects.innerHTML=`<feColorMatrix type="saturate" values=".84"/><feColorMatrix type="matrix" values="${r*contrast} 0 0 0 ${r*lift} 0 ${g*contrast} 0 0 ${g*lift} 0 0 ${b*contrast} 0 ${b*lift} 0 0 0 1 0"/>`;defs.append(objects);
+  const daylight=SolarModel.smooth(0,5,SolarModel.parameters(SolarModel.time(w)).altitude),contrast=.95+.008*daylight,lift=.017-.003*daylight;
+  const objects=node('filter',{id:id+'-objects','color-interpolation-filters':'sRGB'});objects.innerHTML=`<feColorMatrix type="saturate" values=".81"/><feColorMatrix type="matrix" values="${r*contrast} 0 0 0 ${r*lift} 0 ${g*contrast} 0 0 ${g*lift} 0 0 ${b*contrast} 0 ${b*lift} 0 0 0 1 0"/>`;defs.append(objects);
   const image=(name,x,y,width,height)=>node('image',{href:root+name+'.webp',x,y,width,height,preserveAspectRatio:'none',filter:`url(#${id}-${name==='shell'?'tone':'objects'})`,'data-bedroom-photo':name});
   const plant=svg.querySelector('[data-scene-object="potted-plant"]'),basket=svg.querySelector('[data-scene-object="basket"]'),picture=svg.querySelector('[data-scene-object="picture"]'),kotatsu=svg.querySelector('[data-season-furniture="kotatsu"]');
   const marker=[...main.childNodes].find(n=>n.nodeType===8&&n.textContent.includes('Rounded window'))||doc.createComment('Rounded window, live landscape');
