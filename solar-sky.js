@@ -25,11 +25,13 @@ globalThis.NightConstellations=(()=>{
   const delta=((h.azimuth-SolarModel.bearing(where)+540)%360)-180,scale=where==='roof'?288:200,horizon=where==='roof'?221:153,denominator=1+forward;
   // One conformal stereographic camera; equal x/y scale preserves local shapes.
   const x=200+scale*right/Math.max(.000001,denominator),y=horizon-scale*h.up/Math.max(.000001,denominator);
-  const inView=h.altitude>0&&Math.abs(delta)<=90&&x>=0&&x<=400&&y>=0&&y<horizon;
+  // Keep celestial coordinates fixed; the current terrain mask owns the skyline.
+  const inView=Math.abs(delta)<=90&&x>=0&&x<=400&&y>=0&&(where==='roof'?h.altitude>0&&y<horizon:y<260);
   return visibleOnly&&!inView?null:{...h,delta,x,y,inView};
  }
  function state(w,where){const b=basis(w);return {key:b.region.id+':'+b.at+':'+where,b,points:catalog.map(s=>({...s,...project(s.p,b,where)}))};}
- function opacity(s){return s.inView?(.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*SolarModel.smooth(0,5,s.altitude):0;}
+ // Atmospheric dimming stays soft: it must not cut off the newly exposed sky.
+ function opacity(s,where){const air=SolarModel.smooth(0,5,s.altitude);return s.inView?(.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*(where==='roof'?air:Math.max(.25,air)):0;}
  // Two shared light gradients and one outline per star retain native anchors and twinkle.
  // The faint irregular skirt is limited to bright stars; no blur filter or extra actors.
  let lightSequence=0;
@@ -39,12 +41,12 @@ globalThis.NightConstellations=(()=>{
  function starTransform(p,i){const r=radius(p);return 'translate('+p.x.toFixed(3)+' '+p.y.toFixed(3)+') rotate('+((i*137.508)%180).toFixed(2)+') scale('+r.toFixed(3)+' '+(r*(.94+(i%4)*.025)).toFixed(3)+')';}
  function markup(w,where){
   const s=state(w,where),id='major-star-light-'+(++lightSequence);
-  const stars=s.points.map((p,i)=>'<path data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+radius(p).toFixed(3)+'" transform="'+starTransform(p,i)+'" d="'+(p.mag<1.5?brightStar:softStar)+'" fill="url(#'+id+(p.bv>.8?'-warm':'-cool')+')" opacity="'+opacity(p).toFixed(4)+'" style="--night-star-alpha:'+opacity(p).toFixed(4)+'"/>').join('');
+  const stars=s.points.map((p,i)=>'<path data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+radius(p).toFixed(3)+'" transform="'+starTransform(p,i)+'" d="'+(p.mag<1.5?brightStar:softStar)+'" fill="url(#'+id+(p.bv>.8?'-warm':'-cool')+')" opacity="'+opacity(p,where).toFixed(4)+'" style="--night-star-alpha:'+opacity(p,where).toFixed(4)+'"/>').join('');
   // Defs follow the stars so the existing nth-child twinkle selection stays exact.
   const light='<defs>'+[['cool','#d5e3f3'],['warm','#e7d9bf']].map(([tone,color])=>'<radialGradient id="'+id+'-'+tone+'" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1.8"><stop stop-color="'+color+'"/><stop offset=".30" stop-color="'+color+'" stop-opacity=".95"/><stop offset=".52" stop-color="'+color+'" stop-opacity=".40"/><stop offset=".80" stop-color="'+color+'" stop-opacity=".025"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></radialGradient>').join('')+'</defs>';
   return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+stars+light+'</g>';
  }
- function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('transform',starTransform(p,i));star.setAttribute('opacity',opacity(p).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p).toFixed(4));});layer.dataset.majorKey=s.key;}
+ function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('transform',starTransform(p,i));star.setAttribute('opacity',opacity(p,where).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p,where).toFixed(4));});layer.dataset.majorKey=s.key;}
  return Object.freeze({catalog,vector,basis,horizontal,project,state,markup,sync});
 })();
 
@@ -336,7 +338,7 @@ globalThis.EngawaNightSky=(()=>{
   const strength=weather*(1-.66*glare),milkyStrength=(w.weather==='sunny'?1:w.weather==='cloudy'?.012:0)*(1-.90*glare);
   const sizes=[.16,.24,.34,.48,.68,.94],paths=Array.from({length:12},()=>[]);let visible=0,realVisible=0;
   if(stars)for(const s of stars){
-   const p=projectVector(s.p,b,where,true);if(!p||p.altitude<.8||p.x<(where==='engawa'?67:0)||p.x>(where==='engawa'?335:400)||p.y<(where==='engawa'?60:0)||p.y>158)continue;
+   const p=projectVector(s.p,b,where,true);if(!p||p.x<(where==='engawa'?67:0)||p.x>(where==='engawa'?335:400)||p.y<(where==='engawa'?60:0))continue;
    const bin=Math.max(0,Math.min(5,Math.floor((7.8-s.mag)*.72))),k=bin+(s.warm?6:0);
    paths[k].push(`M${p.x.toFixed(2)} ${p.y.toFixed(2)}h.01`);visible++;if(s.real)realVisible++;
   }
@@ -380,11 +382,10 @@ globalThis.EngawaNightSky=(()=>{
   if(terrain){
    terrain.id=id+'-terrain-source';
    // Ignore near-zero export noise in the transparent sky; retain the antialiased ridge.
-   // The garden's enlarged panorama needs its visible (half-alpha) edge, not
-   // the faint export fringe; otherwise the star-free rim sits above the ridge.
-   const ridgeAlpha=where==='garden'?'32 -15':'32 -1';
-   // Close resampling gaps along the garden's partial-alpha ridge, inside its existing mask.
-   const ridgeGuard=where==='garden'?'<feMorphology operator="dilate" radius="1.5"/>':'';
+   // Use the current image's visible edge; compensate only for the compact window's scale.
+   // The same small guard closes resampling gaps without using a second skyline.
+   const ridgeAlpha='32 -15';
+   const ridgeGuard='<feMorphology operator="dilate" radius="'+(where==='window'?6:1.5)+'"/>';
    defs.insertAdjacentHTML('beforeend',`<filter id="${id}-terrain-ink" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ${ridgeAlpha}"/>${ridgeGuard}</filter><mask id="${id}-star-view" data-night-terrain-mask="" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="260" style="mask-type:luminance"><rect width="400" height="260" fill="white"/><use href="#${terrain.id}" filter="url(#${id}-terrain-ink)"/></mask>`);
    for(const stars of layer.querySelectorAll('[data-night-fine-stars],[data-major-stars]'))stars.setAttribute('mask',`url(#${id}-star-view)`);
   }
