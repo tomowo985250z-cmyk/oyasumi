@@ -60,7 +60,7 @@ globalThis.RoofMoon = (() => {
   const x=roof?(viewport?(viewport.width+2*radius)*(1-moon.progress)-radius:moon.x):200+delta*400/180;
   const y=roof?(viewport?viewport.top+moon.y*viewport.scale:moon.y):153-moon.altitude*1.58;
   const opacity=moon.opacity*(roof?1:SolarModel.smooth(0,6,90-Math.abs(delta)));
-  return {phase:moon.phase,opacity,transform:`translate(${x} ${y}) scale(${radius})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
+  return {phase:moon.phase,opacity,x,y,radius,transform:`translate(${x} ${y}) scale(${radius})`,path,facing:`scale(${moon.phase<=.5?1:-1} 1)`};
  }
  function surface(moon,frame){
   const window=frame==='window',radius=window?14/12:1,id='oyasumi-moon-lit-'+(++maskSequence);
@@ -97,6 +97,26 @@ globalThis.RoofMoon = (() => {
   if(!surfaceDecode){const image=new Image();image.decoding='async';image.src=surfaceImage;surfaceDecode=image.decode().then(()=>{surfaceReady=true;return image;});}
   void surfaceDecode.then(()=>{pendingSurfaces.delete(element);mount();},()=>{pendingSurfaces.delete(element);surfaceDecode=undefined;});
  }
+ // Fade only nearby starlight, using the displayed moon's existing coordinates.
+ // The landscape keeps its current terrain mask; the roof keeps its star layer.
+ function starlight(element,moon){
+  const glare=(1-Math.cos(moon.phase*Math.PI*2))/2*moon.opacity,near=(1-.58*glare).toFixed(4);
+  const card=element.closest('.roof-sky-card'),layer=card?.querySelector('.card-sky-stars');
+  if(layer){
+   const paint=`radial-gradient(circle ${moon.radius*7}px at ${moon.x}px ${moon.y}px,rgba(0,0,0,${near}) 14%,#000 100%)`;
+   if(layer.style.maskImage!==paint){layer.style.maskImage=paint;layer.style.webkitMaskImage=paint;}
+   return;
+  }
+  const svg=element.closest('.country-landscape'),mask=svg?.querySelector('[data-night-terrain-mask]');if(!mask)return;
+  let gradient=svg.querySelector('[data-night-moon-falloff]');
+  if(!gradient){
+   const ns='http://www.w3.org/2000/svg';gradient=document.createElementNS(ns,'radialGradient');gradient.id=mask.id+'-moon';gradient.setAttribute('data-night-moon-falloff','');gradient.setAttribute('gradientUnits','userSpaceOnUse');
+   for(const [offset,color]of [['14%','#fff'],['100%','#fff']]){const stop=document.createElementNS(ns,'stop');stop.setAttribute('offset',offset);stop.setAttribute('stop-color',color);gradient.append(stop);}
+   svg.querySelector('defs').append(gradient);mask.querySelector('rect').setAttribute('fill','url(#'+gradient.id+')');
+  }
+  gradient.setAttribute('cx',moon.x);gradient.setAttribute('cy',moon.y);gradient.setAttribute('r',moon.radius*7);
+  const tone=Math.round(255*Number(near)).toString(16).padStart(2,'0');gradient.firstElementChild.setAttribute('stop-color','#'+tone.repeat(3));
+ }
  function update(element,now) {
   const frame=element.dataset.moonFrame,viewport=element.closest('.roof-moon-viewport');
   const view=viewport?.getBoundingClientRect(),scene=viewport?.closest('.roof-sky-card')?.querySelector('.awake-scene')?.getBoundingClientRect();
@@ -110,6 +130,7 @@ globalThis.RoofMoon = (() => {
   element.style.filter='none';
   element.setAttribute('data-moon-phase',moon.phase);element.setAttribute('transform',moon.transform);
   element.setAttribute('opacity',moon.opacity);
+  starlight(element,moon);
   path.setAttribute('d',moon.path);path.setAttribute('transform',moon.facing);
   if(frame==='roof'||element.dataset.moonDetail){
    const halo=element.querySelector('[data-moon-halo]');
