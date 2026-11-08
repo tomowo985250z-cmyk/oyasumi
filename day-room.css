@@ -131,7 +131,8 @@ html[data-cat-state-pending] .room-resident>img[data-cat-scene=sleeping]{animati
 .day-room:not([data-location=room]) :is(.room-curtains,.room-curtain-switch),.room-curtain-switch[hidden]{display:none}
 /* Keep cats above both controls. The closed window removes direct light and
    its projected shadows while preserving enough ambient light to see the cat. */
-.day-room[data-location=room] .day-room-scenery{transition:filter 2s ease-in-out}
+/* Keep filtered background layers inside the same rounded outline throughout motion. */
+.day-room[data-location=room] .day-room-scenery{clip-path:inset(0 round 26px);transition:filter 2s ease-in-out}
 .day-room[data-location=room] .room-cat-lighting{transition:opacity 2s ease-in-out}
 .day-room[data-location=room][data-curtain-closed=true] .day-room-scenery{filter:brightness(.78)}
 .day-room[data-location=room][data-curtain-closed=true] :is([data-solar-window-light],.room-cat-lighting){opacity:0}
