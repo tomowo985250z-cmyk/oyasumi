@@ -256,25 +256,25 @@ globalThis.RoomBackgrounds=(()=>{
    <linearGradient id="${id}-bamboo" x2="0" y2="1"><stop stop-color="${p.dark}"/><stop offset=".25" stop-color="${p.light}"/><stop offset=".57" stop-color="${p.bamboo}"/><stop offset="1" stop-color="${p.dark}"/></linearGradient>
    <linearGradient id="${id}-post" x2="1" y2="0"><stop stop-color="${p.dark}"/><stop offset=".4" stop-color="${p.light}"/><stop offset="1" stop-color="${p.bamboo}"/></linearGradient>
    <linearGradient id="${id}-stone" x2=".3" y2="1"><stop stop-color="${p.top}"/><stop offset=".5" stop-color="${p.stone}"/><stop offset="1" stop-color="${p.edge}"/></linearGradient>
-  </defs><g transform="translate(334 258) scale(.9)">
-   <ellipse cx="13" cy="25.5" rx="40" ry="5.5" fill="${p.inside}" opacity=".07"/><ellipse cx="25" cy="26" rx="23" ry="3.5" fill="${p.inside}" opacity=".14"/>
-   <path d="M-29 16q-2-4 3-6l8-1 6 5-2 7-10 1Z" fill="url(#${id}-stone)"/><path d="m-27 13 6-2 4 2-4 1Z" fill="${p.top}" opacity=".35"/><path d="m-29 17 6 1 5-1-1 4-7 .3Z" fill="${p.moss}" opacity=".6"/>
-   <path d="M5 18q2-6 13-7l16 1 12 5q5 4-1 10-17 7-36 0Z" fill="url(#${id}-stone)"/><path d="m8 19 5 8 12 3 14-2 7-6-8 2-15 2Z" fill="${p.edge}" opacity=".4"/>
-   <ellipse cx="26" cy="19.5" rx="17.5" ry="5.8" fill="${p.inside}"/><ellipse cx="26" cy="20.5" rx="15.3" ry="4.1" fill="${p.water}" opacity=".67"/><path d="M13 20q10-4 24 .1m-19 3 10 .4" fill="none" stroke="${p.light}" stroke-opacity=".2" stroke-width=".5"/>
-   <path d="m6 18 5-2 5 .5-2 2-4 1m26-5 5 2-2 1-5-1M8 25l7 2-2 2-5-1" fill="${p.moss}" opacity=".6"/>
-   <path d="M43 20v-52q0-3 4-3t4 3v53Z" fill="url(#${id}-post)"/><path d="M42.5-14h9m-9 22h9" stroke="${p.dark}" stroke-width="1.15"/><path d="M44-29v11m4 7v12" stroke="${p.amber}" stroke-opacity=".5" stroke-width=".65"/>
-   <path d="m47-35-20 9 2 5 20-9Z" fill="url(#${id}-bamboo)"/><ellipse cx="28" cy="-23.5" rx="2.4" ry="3.1" transform="rotate(-31 28 -23.5)" fill="${p.cut}"/><ellipse cx="28" cy="-23.5" rx="1.45" ry="2.05" transform="rotate(-31 28 -23.5)" fill="${p.inside}"/><path d="m44-34 1.6 5m-2-4 1.6 5" stroke="${p.inside}" stroke-width=".7" opacity=".65"/>
-   <path class="shishi-feed" d="M29-21.5q.6 5 1.7 11.7" fill="none" stroke="${p.water}" stroke-width=".65" stroke-opacity=".6"/>
-   <path d="M-6 17V-2q2-3 5 0v20Z" fill="${p.dark}"/><path d="M-7-1H7" stroke="${p.inside}" stroke-width="2"/>
+  </defs><g transform="translate(333 258) scale(.9)">
+   <ellipse cx="10" cy="27" rx="42" ry="5" fill="${p.inside}" opacity=".08"/><ellipse cx="26" cy="28" rx="23" ry="3" fill="${p.inside}" opacity=".16"/>
+   <path d="m-32 17 5-5 8 .5 7 5-2 6-12 1-7-3Z" fill="url(#${id}-stone)"/><path d="m-29 16 4-3 6 1 3 3-7 1Z" fill="${p.top}" opacity=".4"/><path d="m-32 20 7 1 5-2 2 4-7 1-6-1Z" fill="${p.moss}" opacity=".6"/>
+   <path d="m7 18 6-6 14-2 12 3 8 6-1 7-9 5-20-1-10-5Z" fill="url(#${id}-stone)"/><path d="m8 21 6 6 15 2 12-3 5-6-2 7-8 4-19-1-9-5Z" fill="${p.edge}" opacity=".5"/>
+   <ellipse cx="27" cy="19.5" rx="17" ry="6" fill="${p.inside}"/><ellipse cx="27" cy="21" rx="14" ry="3.8" fill="${p.water}" opacity=".63"/><path d="m14 18 5-3 15 .2 7 3m-23 4q8-1 16 0" fill="none" stroke="${p.top}" stroke-opacity=".3" stroke-width=".7"/>
+   <path d="m7 18 5-3 6 1-3 2-5 1m25-6 5 2-2 2-6-2M9 25l8 2-3 2-5-1" fill="${p.moss}" opacity=".65"/>
+   <path d="M43 22v-56q0-2 2-2t2 2v57Z" fill="url(#${id}-post)"/><path d="M42.7-15h4.7m-4.7 21h4.7" stroke="${p.dark}" stroke-width=".8"/><path d="M44-29v10m1 8v12" stroke="${p.amber}" stroke-opacity=".5" stroke-width=".5"/>
+   <path d="m45-36-17 7 1.5 3.5 17-7Z" fill="url(#${id}-bamboo)"/><ellipse cx="29" cy="-27.3" rx="1.9" ry="2" transform="rotate(-27 29 -27.3)" fill="${p.cut}"/><ellipse cx="29" cy="-27.3" rx="1.1" ry="1.25" transform="rotate(-27 29 -27.3)" fill="${p.inside}"/><path d="m42-35 1.4 3.5m-.4-4 1.4 3.5" stroke="${p.inside}" stroke-width=".6" opacity=".7"/>
+   <path class="shishi-feed" d="M29-26q.4 8 .7 17" fill="none" stroke="${p.water}" stroke-width=".65" stroke-opacity=".6"/>
+   <path d="M-9 20V-4q2-3 5 0v25Z" fill="url(#${id}-post)"/><ellipse cx="-6.5" cy="-4" rx="2.5" ry="1.2" fill="${p.cut}"/><path d="m-9 12 5 .5M-11-3 9 3" stroke="${p.inside}" stroke-width="1.8"/>
    <g class="shishi-arm">
-    <path d="M-23-3.6H34L27 3.6h-50Z" fill="url(#${id}-bamboo)"/><ellipse cx="-23" cy="0" rx="1.9" ry="3.6" fill="${p.amber}"/>
-    <path d="M-13-3.8v7.6m24-7.6v7.6" stroke="${p.dark}" stroke-width="1.3"/><path d="M-12-3.5v6.8m24-6.8v6.8" stroke="${p.light}" stroke-width=".45" opacity=".45"/>
-    <path d="M-19-1.7h4m7 .2 15 .2m9 .5 8-.2" stroke="${p.amber}" stroke-width=".4" opacity=".6"/><path d="M-9-2.8h9l-3 1-7-.3m24 3.2 8-.2-3 .8-5-.1" fill="${p.cut}" opacity=".12"/>
-    <ellipse cx="30.5" cy="0" rx="4.8" ry="3.35" transform="rotate(-37 30.5 0)" fill="${p.cut}"/><ellipse cx="30.5" cy="0" rx="3.7" ry="2.35" transform="rotate(-37 30.5 0)" fill="${p.inside}"/>
-    <path class="shishi-fill" d="M27.3 1q3-1.4 5.7-3.4-1.2 4-5.7 3.4Z" fill="${p.water}"/>
+    <path d="M-25-5.8Q0-6.7 36-6L24 6Q-1 6.6-25 5.8Z" fill="url(#${id}-bamboo)"/><ellipse cx="-25" cy="0" rx="2.3" ry="5.8" fill="${p.amber}"/><path d="M-25-4q2 3 0 8" fill="none" stroke="${p.dark}" stroke-width=".7"/>
+    <path d="M-15-6.1q1 6.2 0 12.2M11-6.3q1.2 6.3 0 12.6" fill="none" stroke="${p.dark}" stroke-width="1.7"/><path d="M-13.9-5.8q1 5.8 0 11.6m26-11.8q1 5.9 0 11.8" fill="none" stroke="${p.cut}" stroke-width=".6" opacity=".48"/>
+    <path d="m-22-3 5-.4m6 .5 17-.3m9 .7 13-.7M-10 3l9 .3m17-.5 6-.2" fill="none" stroke="${p.amber}" stroke-width=".6" opacity=".65"/><path d="m-10-4 12-.2-4 1.5-8-.3m26 4 9-.7-3 2-6-.2" fill="${p.cut}" opacity=".18"/><path d="m-20 3 4 .5m7 .9 13-.2m11-2 8-.5" stroke="${p.inside}" stroke-width=".5" opacity=".3"/>
+    <ellipse cx="30" cy="0" rx="8.5" ry="4.6" transform="rotate(-45 30 0)" fill="${p.cut}"/><ellipse cx="30" cy="0" rx="6.8" ry="3.1" transform="rotate(-45 30 0)" fill="${p.inside}"/><path d="M25.7 3.7q3-4.9 9-7.8-1.4 5.4-9 7.8Z" fill="${p.dark}"/>
+    <path class="shishi-fill" d="M26 3q4-1 8-6-1.1 6-8 6Z" fill="${p.water}"/><path d="m25.2 4 2.4-1m6.3-7 1.3-1.2" stroke="${p.light}" stroke-width=".6" opacity=".55"/>
    </g>
-   <path d="M-2 19V-2q1.8-2.8 5 0v22Z" fill="url(#${id}-post)"/><path d="M-2.5 11h6m-6-10h6" stroke="${p.dark}" stroke-width=".8"/><ellipse cx="1" cy="0" rx="2.2" ry="1.8" fill="${p.amber}"/><circle cx="1" cy="0" r=".75" fill="${p.inside}"/>
-   <path class="shishi-pour" d="M27 12q1 4 3 7m-5-4 2 4" fill="none" stroke="${p.water}" stroke-width=".9" stroke-linecap="round"/>
+   <path d="M3 24V1q2-3 5 0v24Z" fill="url(#${id}-post)"/><ellipse cx="5.5" cy="1" rx="2.5" ry="1.2" fill="${p.cut}"/><path d="m3 16 5 .3m-4-9v6" stroke="${p.dark}" stroke-width=".8"/><ellipse cx="5.5" cy="3" rx="2.4" ry="2" fill="${p.amber}"/><ellipse cx="5.5" cy="3" rx="1.2" ry=".8" fill="${p.inside}"/>
+   <path class="shishi-pour" d="M25 15q1.5 3 2 6m-4-4 1 3" fill="none" stroke="${p.water}" stroke-width=".8" stroke-linecap="round"/>
   </g></svg>`;
  }
  function markup(where,value){
