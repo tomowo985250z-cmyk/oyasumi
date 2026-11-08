@@ -256,8 +256,8 @@ globalThis.RoomBackgrounds=(()=>{
   // Photo: https://tikuzai.com/syohin/sonota/index.html
   // Mechanism: https://mijikanas.com/handicraft/kousaku_sisiodosi.htm
   const id='garden-souzu-'+(++uid),p=SolarLighting.palette(w,phase=>phase==='night'?{
-   shade:'#252e25',skin:'#444b34',sun:'#697058',fibre:'#7b7b5b',end:'#727355',cavity:'#152019',wet:'#293a2e',rock:'#3b4440',rockTop:'#535c51',moss:'#3b5038',pool:'#4c6663'
-  }:{shade:'#57593d',skin:'#8c8b60',sun:'#aba482',fibre:'#c0b38d',end:'#c3b18a',cavity:'#343d29',wet:'#59684b',rock:'#74786b',rockTop:'#999b88',moss:'#5f7148',pool:'#82978b'});
+   shade:'#2b302a',skin:'#484d42',sun:'#666959',fibre:'#777666',end:'#73705f',cavity:'#19211c',wet:'#303d34',rock:'#3c4441',rockTop:'#52594f',moss:'#3d4c38',pool:'#4c6663'
+  }:{shade:'#5b5e50',skin:'#898b78',sun:'#aaa38c',fibre:'#b7ad96',end:'#b6a78a',cavity:'#383f32',wet:'#586250',rock:'#74766c',rockTop:'#95958a',moss:'#61704f',pool:'#82978b'});
   const mix=SeasonLandscape.mix,radius=6.7,mouth=-31,tail=41,bevel=1.15;
   const n=v=>Number(v.toFixed(2)),xy=v=>v.map(n).join(' ');
   // Height and depth both contribute to the projected circumference; no flat tube outline.
@@ -271,38 +271,44 @@ globalThis.RoomBackgrounds=(()=>{
    const color=mix(p.shade,p.sun,light);
    skin+=`<path d="${outline([point(mouth,a,radius,bevel),point(tail,a),point(tail,b),point(mouth,b,radius,bevel)])}" fill="${color}" stroke="${color}" stroke-width=".16"/>`;
   }
-  for(let i=0;i<11;i++){
+  for(let i=0;i<17;i++){
    const a=front+.25+(i*.87%2.4),x=-19+(i*17%49),length=3+(i*3%8);
-   wear+=`<path d="${outline([point(x,a),point(x+length*.6,a-.09),point(x+length,a+.05),point(x+length*.7,a+.18),point(x+.8,a+.14)])}" fill="${i%3?p.shade:p.fibre}" opacity="${i%3?.12:.19}"/>`;
+   wear+=`<path d="${outline([point(x,a),point(x+length*.6,a-.09),point(x+length,a+.05),point(x+length*.7,a+.18),point(x+.8,a+.14)])}" fill="${i%4===0?p.wet:i%3?p.shade:p.fibre}" opacity="${.12+(i%4)*.025}"/>`;
   }
-  for(let i=0;i<22;i++){
+  for(let i=0;i<26;i++){
    const a=front+.13+(i*.683%2.8),x=-24+(i*13%57),length=2.3+(i*7%12);
-   grain+=`<path d="M${xy(point(x,a))}Q${xy(point(x+length*.48,a+.025))} ${xy(point(Math.min(39,x+length),a))}" fill="none" stroke="${i%3?p.fibre:p.cavity}" stroke-width="${i%4===0?.42:.23}" opacity="${i%3?.22:.18}"/>`;
+   grain+=`<path d="M${xy(point(x,a))}Q${xy(point(x+length*.48,a+.025))} ${xy(point(Math.min(39,x+length),a))}" fill="none" stroke="${i%3?p.fibre:p.cavity}" stroke-width="${i%4===0?.42:.23}" opacity="${i%3?.28:.2}"/>`;
   }
   for(const x of [-8,34]){
    const arc=Array.from({length:19},(_,i)=>point(x,front+span*i/18,radius+.38));
-   nodes+=`<path d="M${arc.map(xy).join('L')}" fill="none" stroke="${p.shade}" stroke-width="1.5"/><path d="M${arc.map(v=>xy([v[0]-.8,v[1]-.18])).join('L')}" fill="none" stroke="${p.end}" stroke-width=".5" opacity=".6"/>`;
+   nodes+=`<path d="M${arc.map(xy).join('L')}" fill="none" stroke="${p.shade}" stroke-width="1.5"/><path d="M${arc.map(v=>xy([v[0]-.8,v[1]-.18])).join('L')}" fill="none" stroke="${p.end}" stroke-width=".5" opacity=".4"/><path d="M${arc.slice(x<0?2:9,x<0?7:15).map(xy).join('L')}" fill="none" stroke="${p.wet}" stroke-width="1" opacity=".45"/>`;
   }
   return `<svg class="garden-shishi" viewBox="0 0 400 330" aria-hidden="true" focusable="false" data-shishi-period="48000" data-shishi-impact=".975" data-souzu-design="counterweighted-cylinder" style="--shishi-delay:-${(NightClock.now()%48000)/1000}s"><defs>
-   <linearGradient id="${id}-upright"><stop stop-color="${p.shade}"/><stop offset=".38" stop-color="${p.skin}"/><stop offset=".62" stop-color="${p.sun}"/><stop offset="1" stop-color="${p.shade}"/></linearGradient>
+   <linearGradient id="${id}-upright"><stop stop-color="${p.shade}"/><stop offset=".28" stop-color="${p.skin}"/><stop offset=".56" stop-color="${mix(p.skin,p.sun,.48)}"/><stop offset=".8" stop-color="${p.skin}"/><stop offset="1" stop-color="${p.shade}"/></linearGradient>
    <linearGradient id="${id}-rock" x2=".24" y2="1"><stop stop-color="${p.rockTop}"/><stop offset=".4" stop-color="${p.rock}"/><stop offset="1" stop-color="${p.shade}"/></linearGradient>
    <linearGradient id="${id}-hollow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${p.cavity}"/><stop offset=".65" stop-color="${p.cavity}"/><stop offset="1" stop-color="${p.wet}"/></linearGradient>
    <clipPath id="${id}-water"><path d="${ring(mouth,radius-1.3,bevel)}"/></clipPath>
   </defs><g transform="translate(342 245) scale(.9)">
    <path d="M-46 33q9-9 37-4 16-5 41 .4 15 4 12 8-18 6-44 3-31 3-46-7Z" fill="${p.cavity}" opacity=".12"/>
    <ellipse cx="-26" cy="34" rx="20" ry="5" fill="${p.cavity}" opacity=".16"/>
+   <path d="M-44 35q9 4 18 3m13-1 5-3M22 37q5 3 13 2m-43-9 4 1m7 4 7 .5" fill="none" stroke="${p.cavity}" stroke-width="1.2" stroke-linecap="round" opacity=".17"/>
    <path d="M-46 28q0-6 9-8l16-1q13 2 16 8l-3 9q-8 7-26 3-11-1-12-11Z" fill="url(#${id}-rock)"/>
    <path d="M-42 26q5-5 16-5t17 6q-3 7-17 8t-16-9Z" fill="${p.cavity}"/><path d="M-39 29q12-6 27-.5-2 5-14 5t-13-4.5Z" fill="${p.pool}" opacity=".73"/>
    <path d="M-43 27q2 9 12 10m19-2 4-5m-29-7 8-1" fill="none" stroke="${p.rockTop}" stroke-width=".8" opacity=".42"/>
+   <path d="M-44 29q3 3 4 6l7 2-3-4-1-4Zm27 4 5-3 1 3-4 3Z" fill="${p.wet}" opacity=".38"/><path d="m-39 23 5-1 3 .7m17 4 3 2m-32 2 2 1" fill="none" stroke="${p.end}" stroke-width=".65" stroke-linecap="round" opacity=".3"/>
+   <path d="m-40 26 2-1 1 2-2 .5m19 6 3-1-1 1.5-3 .4m-16-9 3-.5" fill="${p.moss}" opacity=".34"/><path d="m-42 33 3 1m7 4 4 .2m15-3 2-1" fill="none" stroke="${p.cavity}" stroke-width=".45" opacity=".25"/>
    <path d="m-45 28 4-5 5 1-1 3-5 2m25-7 6 2 2 3-5-1M-39 36l9 2-4 2-7-2" fill="${p.moss}" opacity=".75"/>
    <path d="M20 34q1-5 8-6.5l7 1.4q6 4 8 8-5 5-16 3-8-1-7-5.9Z" fill="url(#${id}-rock)"/>
    <path d="m24 32 6-3 6 2-1 2-7 1Z" fill="${p.rockTop}" opacity=".43"/><path d="m21 36 6 2 5-1 2 3-8 .2-5-2Z" fill="${p.moss}" opacity=".7"/>
+   <path d="m22 34 5 .6 2 2 6-.8 4 1-5 2-8-1Z" fill="${p.wet}" opacity=".32"/><path d="m26 31 2 1.8-1 2m7-4 2 1 1 2m-7 3 3 .5" fill="none" stroke="${p.cavity}" stroke-width=".45" opacity=".3"/><path d="m23 34 2-1 .5 1.5m12 2 2 .5-1 1.3" fill="${p.moss}" opacity=".45"/>
    <path d="M-48 31V-41q0-2.7 2.7-2.7t2.7 2.7v73Z" fill="url(#${id}-upright)"/><ellipse cx="-45.3" cy="-41" rx="2.7" ry="1.3" fill="${p.end}"/>
    <path d="M-48.3-23h6M-48 7h5.5" stroke="${p.shade}" stroke-width="1"/><path d="m-46-35 .2 8m1.4 7-.4 17m-.7 10 .2 13" stroke="${p.fibre}" stroke-width=".35" opacity=".45"/>
+   <path d="m-46.8-37 .4 8-.6 5 .8 2-.3 11m2.6 4-.4 6 .5 5m-1.7 7-.2 9" fill="none" stroke="${p.fibre}" stroke-width=".6" opacity=".27"/><path d="m-47.3-25 1.7 1.4-.4 3-1.2 .4m3 25 1.3 1-.2 3-1.5-.8" fill="${p.wet}" opacity=".3"/>
    <path d="m-46-42 20 3.5-.8 4.3-20-3.4Z" fill="url(#${id}-upright)"/><path d="m-43-41 1 4m-2-4 1 4" stroke="${p.cavity}" stroke-width=".7"/><ellipse cx="-26.4" cy="-36.4" rx="1.3" ry="2.3" transform="rotate(9 -26.4 -36.4)" fill="${p.end}"/><ellipse cx="-26.4" cy="-36.4" rx=".75" ry="1.5" fill="${p.cavity}"/>
    <path class="souzu-inflow" d="M-26.4-35V31" fill="none" stroke="${p.pool}" stroke-width=".62" stroke-opacity=".58" stroke-dasharray="19 90"/>
    <path d="M-8 27V-6q2.2-2.5 5 0v33Z" fill="url(#${id}-upright)"/><ellipse cx="-5.5" cy="-6" rx="2.5" ry="1.2" fill="${p.end}"/><path d="m-8 17 5 .2" stroke="${p.shade}" stroke-width="1"/>
    <path d="M-6 22 8 29" stroke="${p.shade}" stroke-width="2.8"/><path d="M-8-4 10 5" stroke="${p.cavity}" stroke-width="2.1"/>
+   <path d="m-7.2 1 .4 6-.3 6m.6 7 .3 4" fill="none" stroke="${p.fibre}" stroke-width=".5" opacity=".32"/><path d="m-7 21 2 1.2 1.4 1.7-3-.8Z" fill="${p.wet}" opacity=".4"/>
    <g class="shishi-arm" data-souzu-mouth="-31 0" data-souzu-tail="41 0" data-souzu-node="-8">
     ${skin}${wear}${grain}${nodes}
     <path data-souzu-cut="" d="${ring(mouth,radius,bevel)}" fill="${p.end}"/><path data-souzu-hollow="" d="${ring(mouth,radius-1.3,bevel)}" fill="url(#${id}-hollow)"/>
@@ -310,6 +316,7 @@ globalThis.RoomBackgrounds=(()=>{
     <g clip-path="url(#${id}-water)"><path class="souzu-water" d="${ring(mouth,radius-1.65,bevel)}" fill="${p.pool}"/></g>
    </g>
    <path d="M4 34V3q2.2-2.8 5.6 0v32Z" fill="url(#${id}-upright)"/><ellipse cx="6.8" cy="3" rx="2.8" ry="1.25" fill="${p.end}"/><path d="m4 23 5.6 .4m-3.5-12 .2 7" stroke="${p.shade}" stroke-width=".8"/>
+   <path d="m5.2 8 .2 6-.4 5m2.5 7-.3 6" fill="none" stroke="${p.fibre}" stroke-width=".55" opacity=".32"/><path d="m4.3 25 1.2 1.3-.2 6-1 .7m3-26 1.5 .4 .2 2-1.7-.8" fill="${p.wet}" opacity=".3"/>
    <path d="m4.2 31 5 .5m-14.6-8.3 2.2 1" stroke="${p.wet}" stroke-width="1.4" opacity=".5"/><ellipse cx="7.3" cy="3.65" rx="2.1" ry="1.8" fill="${p.shade}"/><ellipse cx="7.3" cy="3.65" rx=".9" ry=".7" fill="${p.cavity}"/>
    <path class="souzu-drain" d="M-30 25q.8 3 1.2 5m-2.6-3 .8 2m-2.1-.5 1 .9" fill="none" stroke="${p.pool}" stroke-width=".8" stroke-linecap="round"/>
    <path class="souzu-ripple" d="M-34 30q6.4-2.3 13 .3m-15 1.4q8.5 3.2 17-.2" fill="none" stroke="${p.rockTop}" stroke-width=".5" opacity=".18"/>
