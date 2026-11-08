@@ -15,6 +15,9 @@
 @keyframes country-clock-swing{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
 @media(prefers-reduced-motion:reduce){.engawa-wall-clock .clock-pendulum{animation:none;transform:none}}
 .day-room[data-world-daylight=false] .room-wall-clock{filter:brightness(.64) saturate(.8)}
+/* One shared exposure keeps the case, face and brass reflective at night. */
+.day-room[data-location=engawa][data-world-daylight=false] .engawa-wall-clock{filter:brightness(.4) saturate(.68) sepia(.08)}
+.day-room[data-location=engawa][data-world-daylight=false][data-engawa-pendant=off] .engawa-wall-clock{filter:brightness(.24) saturate(.62) sepia(.08)}
 .day-room-world-outdoors{position:absolute;inset:0 0 31%;overflow:hidden}
 .day-room-place-art{position:absolute;inset:0;width:100%;height:100%;z-index:1}
 .day-room[data-location]:not([data-location=room]) .day-room-cat.day-cat{left:50%;bottom:20%;width:40%;transform:translate(-50%,var(--ground-cat-pad,0%))}
