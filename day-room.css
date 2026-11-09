@@ -242,12 +242,12 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 .garden-shishi .souzu-water{transform-box:fill-box;transform-origin:center bottom;animation:souzu-fill 48s linear infinite;animation-delay:var(--shishi-delay)}
 .garden-shishi .souzu-inflow{animation:souzu-feed 48s linear infinite,souzu-shimmer 3.7s ease-in-out infinite;animation-delay:var(--shishi-delay),var(--shishi-delay)}
 .garden-shishi .souzu-drain{opacity:0;animation:souzu-empty 48s linear infinite;animation-delay:var(--shishi-delay)}
-.garden-shishi .souzu-ripple{animation:souzu-ripple 48s linear infinite;animation-delay:var(--shishi-delay)}
+.garden-shishi .souzu-ripple{transform-box:fill-box;transform-origin:center;animation:souzu-ripple 48s linear infinite;animation-delay:var(--shishi-delay)}
 /* The dry tail meets its stone at 97.5%, matching the unchanged recording scheduler. */
 @keyframes shishi-tip{0%,89.8%{transform:rotate(34deg);animation-timing-function:cubic-bezier(.5,0,.85,.45)}94%,95.4%{transform:rotate(-31deg);animation-timing-function:cubic-bezier(.65,0,.9,.55)}97.5%{transform:rotate(34deg);animation-timing-function:ease-out}98.25%{transform:rotate(31.5deg)}99.1%,100%{transform:rotate(34deg)}}
-@keyframes souzu-fill{0%{opacity:.06;transform:scaleY(.12)}89.8%{opacity:.65;transform:scaleY(1)}94%{opacity:.45;transform:scaleY(.85)}95.4%,100%{opacity:.06;transform:scaleY(.12)}}
+@keyframes souzu-fill{0%{opacity:.05;transform:scaleY(.12)}89.8%,92%{opacity:.54;transform:scaleY(1)}93.8%{opacity:.43;transform:scaleY(.9)}94%{opacity:.3;transform:scaleY(.55)}95.4%,100%{opacity:.05;transform:scaleY(.12)}}
 @keyframes souzu-feed{0%,89.8%,97.5%,100%{stroke-dasharray:19 90}94%,95.4%{stroke-dasharray:66 90}}
-@keyframes souzu-empty{0%,93.8%,95.7%,100%{opacity:0}94%,95.4%{opacity:.6}}
-@keyframes souzu-shimmer{0%,100%{opacity:.78;transform:translateX(0)}38%{opacity:.92;transform:translateX(.12px)}74%{opacity:.82;transform:translateX(-.08px)}}
-@keyframes souzu-ripple{0%,92%,98%,100%{opacity:.12}94%,95.4%{opacity:.25}}
+@keyframes souzu-empty{0%,93.8%,95.7%,100%{opacity:0}94%,95.4%{opacity:.48}}
+@keyframes souzu-shimmer{0%,100%{opacity:.74;transform:translateX(0)}38%{opacity:.86;transform:translateX(.12px)}74%{opacity:.78;transform:translateX(-.08px)}}
+@keyframes souzu-ripple{0%,92%,100%{opacity:.08;transform:scale(.88,.9)}94%{opacity:.18;transform:scale(.94,.95)}95.4%{opacity:.14;transform:scale(1.04,1)}98%{opacity:.04;transform:scale(1.16,1.04)}}
 @media(prefers-reduced-motion:reduce){.garden-shishi :is(.shishi-arm,.souzu-water,.souzu-inflow,.souzu-drain,.souzu-ripple){animation:none}.garden-shishi .souzu-water{opacity:.16}.garden-shishi .souzu-drain{display:none}}
