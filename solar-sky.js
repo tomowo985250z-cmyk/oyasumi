@@ -93,7 +93,7 @@ globalThis.SolarSky=(()=>{
  // Same major-star calculation as the three window/outdoor scenes.
  function northernStars(w){return '<svg data-northern-stars="" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">'+NightConstellations.markup(w,'roof')+'</svg>';}
  function updateNorthernStars(card,w){const layer=card.querySelector('[data-northern-stars] [data-major-stars]');if(!layer)return;NightConstellations.sync(layer,w,'roof');
-  for(const gradient of layer.querySelectorAll('radialGradient')){attr(gradient.children[1],'offset','.09');attr(gradient.children[4],'stop-opacity','.012');}
+  for(const gradient of layer.querySelectorAll('radialGradient')){attr(gradient.children[1],'offset','.075');attr(gradient.children[4],'stop-opacity','.010');}
  }
  let cached;
  function state(w,where='garden'){
@@ -280,6 +280,7 @@ function village(svg,w,frame){
    const cloud=mix('#f1efe1','#e4c69d',glow*.6);
    layers.push(`radial-gradient(ellipse 20% 3% at 20% 30%,${cloud}38 22%,transparent 72%)`,`radial-gradient(ellipse 17% 2.4% at 76% 39%,${cloud}2b 20%,transparent 74%)`);
   }
+  if(depth>0)layers.push(`radial-gradient(ellipse 85% 70% at 62% 46%,transparent 18%,#01030b${Math.round(depth*46).toString(16).padStart(2,'0')} 100%)`);
   const middle=depth>0?mix(mix(sky,horizon,.58),'#071129',depth*.32)+' 58%,':'';
   layers.push(`linear-gradient(${sky},${middle}${horizon} ${(100-24*glow).toFixed(2)}%)`);
   return {sky,horizon,paint:layers.join(','),tileTop:mix(mix('#23324b','#717c7b',day),'#a28a66',glow*.20),tileBottom:mix(mix(mix('#14213a','#4d5a5b',day),'#746650',glow*.16),'#203344',air*.018)};
@@ -419,9 +420,17 @@ globalThis.EngawaNightSky=(()=>{
   if(!enabled||!card)return;const svg=card.querySelector('[data-northern-stars]');if(!svg)return;
   const s=state({...w,weather:'sunny'},'roof');let band=svg.querySelector('[data-roof-milky]');
   if(!band){band=document.createElementNS(ns,'g');band.setAttribute('data-roof-milky','');band.setAttribute('pointer-events','none');
-   band.innerHTML=['#667d9d','#929ca7','#60748d','#020611'].map((fill,i)=>`<path fill="${fill}" opacity="${[.010,.012,.007,.012][i]}"/>`).join('');svg.insertBefore(band,svg.firstElementChild);}
+   band.innerHTML=['#667d9d','#929ca7','#60748d','#020611'].map((fill,i)=>`<path fill="${fill}" opacity="${[.008,.009,.006,.016][i]}"/>`).join('')+'<path data-roof-dust="0" fill="#b7c8dd" opacity=".18"/><path data-roof-dust="1" fill="#d5cfbf" opacity=".26"/>';svg.insertBefore(band,svg.firstElementChild);}
   if(band.dataset.skyKey===s.key)return;band.dataset.skyKey=s.key;band.setAttribute('opacity',s.milkyStrength.toFixed(4));
-  [...band.children].forEach((p,i)=>p.setAttribute('d',s.bands[i]));
+  [...band.children].slice(0,4).forEach((p,i)=>p.setAttribute('d',s.bands[i]));
+  // Sparse, fixed galactic coordinates: no screen noise, new twinkle or dense blanket.
+  const dust=['',''],noise=n=>{const x=Math.sin(n*127.1+19.7)*43758.5453;return x-Math.floor(x);};let count=0;
+  for(let l=0;l<360;l+=4){if(noise(l+31)<.28)continue;for(let k=0;k<3;k++){
+   const latitude=(noise(l+k*.73+5)-.5)*7+2*Math.sin(l*rad*3),p=projectVector(galactic(l+noise(l+k+2)*2,latitude),s,'roof',true);if(!p)continue;
+   const r=Number((.2+noise(l+k*5.7+8)*.18).toFixed(2)),bin=noise(l+k+12)>.76?1:0;
+   dust[bin]+=`M${(p.x-r).toFixed(2)} ${p.y.toFixed(2)}a${r} ${r} 0 1 0 ${r*2} 0a${r} ${r} 0 1 0 ${-r*2} 0Z`;count++;
+  }}
+  band.dataset.dustCount=count;band.querySelectorAll('[data-roof-dust]').forEach((p,i)=>p.setAttribute('d',dust[i]));
  }
  globalThis.SolarSky=Object.freeze({...base,landscape(w,frame='window'){
   const source=base.landscape(w,frame);if(!enabled||!['engawa','window','garden'].includes(frame)||(frame!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing')||!active(w,frame))return source;
