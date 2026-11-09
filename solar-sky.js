@@ -31,12 +31,12 @@ globalThis.NightConstellations=(()=>{
  }
  function state(w,where){const b=basis(w);return {key:b.region.id+':'+b.at+':'+where,b,points:catalog.map(s=>({...s,...project(s.p,b,where)}))};}
  // Atmospheric dimming stays soft: it must not cut off the newly exposed sky.
- function opacity(s,where){const air=SolarModel.smooth(0,5,s.altitude);return s.inView?(.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*(where==='roof'?air:Math.max(.25,air)):0;}
+ function opacity(s,where){const air=SolarModel.smooth(0,5,s.altitude);return s.inView?(.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72))*air:0;}
  // Two shared light gradients and one outline per star retain native anchors and twinkle.
  // The faint irregular skirt is limited to bright stars; no blur filter or extra actors.
  let lightSequence=0;
  const softStar='M-1.35 0a1.35 1.2 0 1 0 2.7 0a1.35 1.2 0 1 0-2.7 0Z';
- const brightStar='M-1.6-.2C-1.05-.5-1.05-1.25-.35-1.26C.1-1.25.3-1.9.54-1.37C.8-.81 1.45-.9 1.31-.18C1.95.02 1.38.21 1.23.52C1.05.92.45 1.15-.12 1.16C-.35 1.6-.52 1.23-.62.98C-1.13.89-.89.27-1.6-.2Z';
+ const brightStar='M-1.64-.1C-1.14-.28-1.08-.76-.68-1.03L-.2-1.64 .22-1.12C.65-1.06 1.02-.72 1.12-.31L1.73 .02 1.13 .3C.93 .8 .62 1.02 .24 1.1L-.05 1.59-.36 1.1C-.86 .98-1.1 .61-1.19 .23Z';
  const radius=p=>.52+Math.max(0,Math.min(1,(4-p.mag)/5))*.70;
  function starTransform(p,i){const r=radius(p);return 'translate('+p.x.toFixed(3)+' '+p.y.toFixed(3)+') rotate('+((i*137.508)%180).toFixed(2)+') scale('+r.toFixed(3)+' '+(r*(.94+(i%4)*.025)).toFixed(3)+')';}
  function markup(w,where){
@@ -340,8 +340,9 @@ globalThis.EngawaNightSky=(()=>{
   const b=basis(w),key=[b.region.id,b.at,w.weather].join(':')+(where==='engawa'?'':':'+where);if(cache.has(key))return cache.get(key);
   const moon=RoofMoon.snapshot(b.at),darkness=SolarModel.twilight(b.at,where).stars;
   const glare=moon.illumination*moon.opacity*SolarModel.smooth(0,18,moon.altitude);
-  const weather=w.weather==='rainy'?.002:w.weather==='cloudy'?.075:1;
-  const strength=weather*(1-.66*glare),milkyStrength=(w.weather==='sunny'?1:w.weather==='cloudy'?.012:0)*(1-.90*glare);
+  // Match the roof's star exposure; the existing moon mask supplies local falloff.
+  const weather=w.weather==='rainy'?.12:w.weather==='cloudy'?.4:1;
+  const strength=weather,milkyStrength=(w.weather==='sunny'?1:w.weather==='cloudy'?.012:0)*(1-.90*glare);
   const sizes=[.16,.24,.34,.48,.68,.94],paths=Array.from({length:12},()=>[]);let visible=0,realVisible=0;
   if(stars)for(const s of stars){
    const p=projectVector(s.p,b,where,true);if(!p||p.x<(where==='engawa'?67:0)||p.x>(where==='engawa'?335:400)||p.y<(where==='engawa'?60:0))continue;

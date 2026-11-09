@@ -220,7 +220,7 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 /* Night-only glass glare stays inside the existing sky, behind terrain and panes. */
 [data-night-room-reflection]{opacity:0;transition:opacity 500ms ease-in-out}
 .day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) [data-night-room-reflection]{opacity:.22}
-.day-room[data-solar-light=moon]:is([data-location=room]:has(.room-light-switch[aria-pressed=true]),[data-location=engawa][data-engawa-pendant=on]) :is([data-major-stars],[data-night-fine-stars]){filter:brightness(.72)}
+/* Glass reflection remains separate; stellar exposure matches the roof. */
 /* Opaque paper admits diffuse light, never points of starlight or the Milky Way. */
 .day-room[data-location=engawa][data-shoji-closed=true] :is([data-major-stars],[data-night-fine-stars],[data-night-milky-way],[data-landscape-stars]){visibility:hidden}
 @media(prefers-reduced-motion:reduce){[data-night-room-reflection]{transition:none}}
