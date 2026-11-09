@@ -62,7 +62,7 @@ globalThis.SolarSky=(()=>{
  const stringify=node=>new XMLSerializer().serializeToString(node);
  // Original, prebuilt SVG: one shared decode, requested on entering the roof.
  const starFieldImage='assets/roof-deep-sky-69add6de01f676a4.svg';
- let starFieldDecode,starFieldReady=false;
+ let starFieldDecode,starFieldReady=false,starFieldPaint;
  const pendingFields=new WeakSet();
  function updateStarField(card){
   const layer=card.querySelector('.card-sky-stars'),field=layer?.querySelector('.roof-star-field');
@@ -76,18 +76,25 @@ globalThis.SolarSky=(()=>{
   const mount=()=>{
    if(!available())return;
    layer.querySelectorAll('.roof-twinkle').forEach(star=>{star.style.animation='none';});
-   field.style.background='center / cover no-repeat url("'+starFieldImage+'")';
+   field.style.background='center / cover no-repeat url("'+starFieldPaint+'")';
    field.removeAttribute('data-roof-field-source');layer.setAttribute('data-deep-field-ready','');RoofMoon.detail?.(card);
   };
   if(starFieldReady){mount();return;}
   pendingFields.add(layer);
-  if(!starFieldDecode){const image=new Image();image.decoding='async';image.fetchPriority='low';image.src=starFieldImage;starFieldDecode=image.decode().then(()=>{starFieldReady=true;return image;});}
+  if(!starFieldDecode)starFieldDecode=fetch(starFieldImage,{priority:'low'}).then(r=>{if(!r.ok)throw Error('Star field unavailable');return r.text();}).then(source=>{
+   // Retain every faint star; replace only the old fixed, cloud-like light band.
+   const svg=parse(source);svg.querySelector('ellipse')?.parentElement.remove();
+   starFieldPaint='data:image/svg+xml,'+encodeURIComponent(stringify(svg));
+   const image=new Image();image.decoding='async';image.src=starFieldPaint;return image.decode();
+  }).then(()=>{starFieldReady=true;});
   void starFieldDecode.then(()=>{pendingFields.delete(layer);mount();},()=>{pendingFields.delete(layer);starFieldDecode=undefined;});
  }
  window.addEventListener('scroll',()=>{const card=document.querySelector('.roof-sky-card');if(card)updateStarField(card);},{passive:true});
  // Same major-star calculation as the three window/outdoor scenes.
  function northernStars(w){return '<svg data-northern-stars="" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">'+NightConstellations.markup(w,'roof')+'</svg>';}
- function updateNorthernStars(card,w){const layer=card.querySelector('[data-northern-stars] [data-major-stars]');if(layer)NightConstellations.sync(layer,w,'roof');}
+ function updateNorthernStars(card,w){const layer=card.querySelector('[data-northern-stars] [data-major-stars]');if(!layer)return;NightConstellations.sync(layer,w,'roof');
+  for(const gradient of layer.querySelectorAll('radialGradient')){attr(gradient.children[1],'offset','.09');attr(gradient.children[4],'stop-opacity','.012');}
+ }
  let cached;
  function state(w,where='garden'){
   const at=Math.floor(SolarModel.time(w)/60000)*60000,key=[SolarModel.region().id,at,w.weather,w.season].join(':');
@@ -258,8 +265,8 @@ function village(svg,w,frame){
   // North receives reflected dawn/dusk light; the direct sun still obeys azimuth.
   const glow=smooth(-9,-3,s.altitude)*(1-smooth(8,22,s.altitude)),depth=t.stars;
   let sky=mix('#162b48',mix(p.sky,'#9cb2bd',.22),day),horizon=mix('#425a70',mix(p.horizon,'#e4d5b8',.25),day);
-  sky=mix(mix(sky,mix('#86a7bc','#304c70',low),glow*.68),'#010411',depth);
-  horizon=mix(mix(horizon,mix('#e7c38b','#bc7847',low),glow*.82),'#060d20',depth);
+  sky=mix(mix(sky,mix('#86a7bc','#304c70',low),glow*.68),'#020510',depth);
+  horizon=mix(mix(horizon,mix('#e7c38b','#bc7847',low),glow*.82),'#09142b',depth);
   const weights=SolarModel.weights(at),air=smooth(0,5,s.altitude);
   sky=mix(sky,'#d1dfdf',air*(.025*weights.morning+.010*weights.day));
   horizon=mix(horizon,'#efd2ad',air*.020*weights.evening);
@@ -273,7 +280,8 @@ function village(svg,w,frame){
    const cloud=mix('#f1efe1','#e4c69d',glow*.6);
    layers.push(`radial-gradient(ellipse 20% 3% at 20% 30%,${cloud}38 22%,transparent 72%)`,`radial-gradient(ellipse 17% 2.4% at 76% 39%,${cloud}2b 20%,transparent 74%)`);
   }
-  layers.push(`linear-gradient(${sky},${horizon} ${(100-24*glow).toFixed(2)}%)`);
+  const middle=depth>0?mix(mix(sky,horizon,.58),'#071129',depth*.32)+' 58%,':'';
+  layers.push(`linear-gradient(${sky},${middle}${horizon} ${(100-24*glow).toFixed(2)}%)`);
   return {sky,horizon,paint:layers.join(','),tileTop:mix(mix('#23324b','#717c7b',day),'#a28a66',glow*.20),tileBottom:mix(mix(mix('#14213a','#4d5a5b',day),'#746650',glow*.16),'#203344',air*.018)};
  }
  function updateRoof(scene,w){
@@ -407,11 +415,19 @@ globalThis.EngawaNightSky=(()=>{
   if(!stars){if(active(w,where))void ready();return;}
   for(const svg of stage.querySelectorAll('.country-landscape')){if(active(w,where))decorate(svg,w,where);else sync(svg,w,where);}
  }
+ function updateRoofBand(card,w){
+  if(!enabled||!card)return;const svg=card.querySelector('[data-northern-stars]');if(!svg)return;
+  const s=state({...w,weather:'sunny'},'roof');let band=svg.querySelector('[data-roof-milky]');
+  if(!band){band=document.createElementNS(ns,'g');band.setAttribute('data-roof-milky','');band.setAttribute('pointer-events','none');
+   band.innerHTML=['#667d9d','#929ca7','#60748d','#020611'].map((fill,i)=>`<path fill="${fill}" opacity="${[.010,.012,.007,.012][i]}"/>`).join('');svg.insertBefore(band,svg.firstElementChild);}
+  if(band.dataset.skyKey===s.key)return;band.dataset.skyKey=s.key;band.setAttribute('opacity',s.milkyStrength.toFixed(4));
+  [...band.children].forEach((p,i)=>p.setAttribute('d',s.bands[i]));
+ }
  globalThis.SolarSky=Object.freeze({...base,landscape(w,frame='window'){
   const source=base.landscape(w,frame);if(!enabled||!['engawa','window','garden'].includes(frame)||(frame!=='engawa'&&new URLSearchParams(location.search).get('village')==='existing')||!active(w,frame))return source;
   void ready();if(!stars)return source;
   const svg=new DOMParser().parseFromString(source,'image/svg+xml').documentElement;return new XMLSerializer().serializeToString(decorate(svg,w,frame));
- },update(stage,w){base.update(stage,w);updateStage(stage,w);}});
+ },update(stage,w){base.update(stage,w);updateStage(stage,w);},updateRoof(scene,w){base.updateRoof(scene,w);updateRoofBand(scene?.closest('.roof-sky-card'),w);}});
  return Object.freeze({enabled,ready,state,project:(ra,dec,w,where='engawa')=>projectVector(vector(ra,dec),basis(w),where),basis,galactic,base,active});
 })();
 
