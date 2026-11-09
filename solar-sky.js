@@ -84,6 +84,7 @@ globalThis.SolarSky=(()=>{
   if(!starFieldDecode)starFieldDecode=fetch(starFieldImage,{priority:'low'}).then(r=>{if(!r.ok)throw Error('Star field unavailable');return r.text();}).then(source=>{
    // Retain every faint star; replace only the old fixed, cloud-like light band.
    const svg=parse(source);svg.querySelector('ellipse')?.parentElement.remove();
+   for(const path of svg.querySelectorAll('path[stroke-width]')){const width=Number(path.getAttribute('stroke-width')),scale=width<.8?.75:width<1.3?.88:1;path.setAttribute('stroke-width',String(width*scale));}
    starFieldPaint='data:image/svg+xml,'+encodeURIComponent(stringify(svg));
    const image=new Image();image.decoding='async';image.src=starFieldPaint;return image.decode();
   }).then(()=>{starFieldReady=true;});
@@ -93,7 +94,9 @@ globalThis.SolarSky=(()=>{
  // Same major-star calculation as the three window/outdoor scenes.
  function northernStars(w){return '<svg data-northern-stars="" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">'+NightConstellations.markup(w,'roof')+'</svg>';}
  function updateNorthernStars(card,w){const layer=card.querySelector('[data-northern-stars] [data-major-stars]');if(!layer)return;NightConstellations.sync(layer,w,'roof');
-  for(const gradient of layer.querySelectorAll('radialGradient')){attr(gradient.children[1],'offset','.075');attr(gradient.children[4],'stop-opacity','.010');}
+  // Rebuild from the native transform each time; repeated updates never compound scale.
+  layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const mag=NightConstellations.catalog[i].mag,scale=mag<1.5?1:mag<3?.88:.75,base=star.getAttribute('transform').replace(/ scale\((?:0\.75|0\.88)\)$/,'');attr(star,'transform',base+(scale===1?'':` scale(${scale})`));});
+  for(const gradient of layer.querySelectorAll('radialGradient')){attr(gradient.children[1],'offset','.075');attr(gradient.children[4],'stop-opacity','.008');}
  }
  let cached;
  function state(w,where='garden'){
@@ -427,8 +430,8 @@ globalThis.EngawaNightSky=(()=>{
   const dust=['',''],noise=n=>{const x=Math.sin(n*127.1+19.7)*43758.5453;return x-Math.floor(x);};let count=0;
   for(let l=0;l<360;l+=4){if(noise(l+31)<.28)continue;for(let k=0;k<3;k++){
    const latitude=(noise(l+k*.73+5)-.5)*7+2*Math.sin(l*rad*3),p=projectVector(galactic(l+noise(l+k+2)*2,latitude),s,'roof',true);if(!p)continue;
-   const r=Number((.2+noise(l+k*5.7+8)*.18).toFixed(2)),bin=noise(l+k+12)>.76?1:0;
-   dust[bin]+=`M${(p.x-r).toFixed(2)} ${p.y.toFixed(2)}a${r} ${r} 0 1 0 ${r*2} 0a${r} ${r} 0 1 0 ${-r*2} 0Z`;count++;
+   const r=Number((.2+noise(l+k*5.7+8)*.18).toFixed(2)),small=Number((r*.75).toFixed(4)),bin=noise(l+k+12)>.76?1:0;
+   dust[bin]+=`M${p.x.toFixed(2)} ${p.y.toFixed(2)}m${-small} 0a${small} ${small} 0 1 0 ${small*2} 0a${small} ${small} 0 1 0 ${-small*2} 0Z`;count++;
   }}
   band.dataset.dustCount=count;band.querySelectorAll('[data-roof-dust]').forEach((p,i)=>p.setAttribute('d',dust[i]));
  }
