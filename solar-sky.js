@@ -36,14 +36,14 @@ globalThis.NightConstellations=(()=>{
  // The faint irregular skirt is limited to bright stars; no blur filter or extra actors.
  let lightSequence=0;
  const softStar='M-1.8 0a1.8 1.65 0 1 0 3.6 0a1.8 1.65 0 1 0-3.6 0Z';
- const brightStar='M-1.64-.1C-1.14-.28-1.08-.76-.68-1.03L-.2-1.64 .22-1.12C.65-1.06 1.02-.72 1.12-.31L1.73 .02 1.13 .3C.93 .8 .62 1.02 .24 1.1L-.05 1.59-.36 1.1C-.86 .98-1.1 .61-1.19 .23Z';
+ const brightStar='M-1.53-.1C-1.14-.28-1.08-.76-.68-1.03L-.2-1.5 .22-1.12C.65-1.06 1.02-.72 1.12-.31L1.58 .02 1.13 .3C.93 .8 .62 1.02 .24 1.1L-.05 1.46-.36 1.1C-.86 .98-1.1 .61-1.19 .23Z';
  const radius=p=>.52+Math.max(0,Math.min(1,(4-p.mag)/5))*.70;
  function starTransform(p,i){const r=radius(p);return 'translate('+p.x.toFixed(3)+' '+p.y.toFixed(3)+') rotate('+((i*137.508)%180).toFixed(2)+') scale('+r.toFixed(3)+' '+(r*(.94+(i%4)*.025)).toFixed(3)+')';}
  function markup(w,where){
   const s=state(w,where),id='major-star-light-'+(++lightSequence);
   const stars=s.points.map((p,i)=>'<path data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+radius(p).toFixed(3)+'" transform="'+starTransform(p,i)+'" d="'+(p.mag<.5?brightStar:softStar)+'" fill="url(#'+id+(p.bv>.8?'-warm':p.bv<.15?'-cool':'-white')+')" opacity="'+opacity(p,where).toFixed(4)+'" style="--night-star-alpha:'+opacity(p,where).toFixed(4)+'"/>').join('');
   // Defs follow the stars so the existing nth-child twinkle selection stays exact.
-  const light='<defs>'+[['cool','#cbdff4'],['white','#e2e7ed'],['warm','#e7d9bf']].map(([tone,color])=>'<radialGradient id="'+id+'-'+tone+'" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1.8"><stop stop-color="#f5f4f0"/><stop offset=".12" stop-color="#f5f4f0" stop-opacity=".98"/><stop offset=".32" stop-color="'+color+'" stop-opacity=".75"/><stop offset=".55" stop-color="'+color+'" stop-opacity=".28"/><stop offset=".85" stop-color="'+color+'" stop-opacity=".018"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></radialGradient>').join('')+'</defs>';
+  const light='<defs>'+[['cool','#cbdff4'],['white','#e2e7ed'],['warm','#e7d9bf']].map(([tone,color])=>'<radialGradient id="'+id+'-'+tone+'" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1.8"><stop stop-color="#f5f4f0"/><stop offset=".10" stop-color="#f5f4f0" stop-opacity=".98"/><stop offset=".33" stop-color="'+color+'" stop-opacity=".74"/><stop offset=".56" stop-color="'+color+'" stop-opacity=".27"/><stop offset=".82" stop-color="'+color+'" stop-opacity=".014"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></radialGradient>').join('')+'</defs>';
   return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+stars+light+'</g>';
  }
  function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('transform',starTransform(p,i));star.setAttribute('opacity',opacity(p,where).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p,where).toFixed(4));});layer.dataset.majorKey=s.key;}
