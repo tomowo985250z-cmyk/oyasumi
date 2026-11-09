@@ -100,7 +100,7 @@ globalThis.RoofMoon = (() => {
  // Fade only nearby starlight, using the displayed moon's existing coordinates.
  // The landscape keeps its current terrain mask; the roof keeps its star layer.
  function starlight(element,moon){
-  const glare=(1-Math.cos(moon.phase*Math.PI*2))/2*moon.opacity,near=(1-.58*glare).toFixed(4);
+  const glare=(1-Math.cos(moon.phase*Math.PI*2))/2*moon.opacity,near=(1-.26*glare).toFixed(4);
   const card=element.closest('.roof-sky-card'),layer=card?.querySelector('.card-sky-stars');
   if(layer){
    const paint=`radial-gradient(circle ${moon.radius*7}px at ${moon.x}px ${moon.y}px,rgba(0,0,0,${near}) 14%,#000 100%)`;
