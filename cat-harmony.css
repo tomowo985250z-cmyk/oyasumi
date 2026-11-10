@@ -1,7 +1,8 @@
-/* RGB affects the cats only. No opacity, blur, geometry or motion changes. */
-.day-room[data-cat-harmony] :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--harmony-ambient)}
-.day-room[data-cat-harmony]:is([data-location=room][data-curtain-closed=true],[data-location=engawa][data-shoji-closed=true]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--harmony-shade)}
-.day-room[data-cat-harmony][data-location=room]:has(.room-light-switch[aria-pressed=true]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--harmony-lamp)}
+@property --object-ambient {syntax:"<number>";inherits:false;initial-value:1}
+/* Cats and serving materials share one environment response. No opacity, blur, geometry or motion changes. */
+.day-room[data-cat-harmony] :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){filter:var(--harmony-ambient) brightness(var(--object-ambient))}
+.day-room[data-cat-harmony]:is([data-location=room][data-curtain-closed=true],[data-location=engawa][data-shoji-closed=true]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){filter:var(--harmony-shade) brightness(var(--object-ambient))}
+.day-room[data-cat-harmony][data-location=room]:has(.room-light-switch[aria-pressed=true]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){filter:var(--harmony-lamp) brightness(var(--object-ambient))}
 .day-room[data-cat-harmony]>.room-resident[style*="--harmony-contact-x"]::before{
  content:"";position:absolute;pointer-events:none;z-index:-1;
  left:var(--harmony-contact-x);top:var(--harmony-contact-y);

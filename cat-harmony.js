@@ -82,7 +82,6 @@ globalThis.CatLightHarmony=(()=>{
   for(const [key,color]of Object.entries(p)){
    const ambient=SeasonLandscape.mix(color,'#697b72',wet),alpha=key==='contact'?'38':'',value=SeasonLandscape.mix(ambient,lamp[key],warm)+alpha,name='--care-material-'+key;
    if(stage.style.getPropertyValue(name)!==value)stage.style.setProperty(name,value);
-   if(stage.dataset.location==='room'){const lit=SeasonLandscape.mix(ambient,lamp[key],night*.8)+alpha,name='--care-lamp-'+key;if(stage.style.getPropertyValue(name)!==lit)stage.style.setProperty(name,lit);}
   }
  }
  function apply(stage,value){

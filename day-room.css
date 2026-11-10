@@ -80,8 +80,8 @@ html[data-cat-state-pending] .weather-rain-band{animation-play-state:paused}
 .day-room.room-scene:after{box-shadow:inset 0 0 22px #183e400c}
 /* Keep the same artwork and geometry; ambient night light reaches cats and meals equally. */
 .day-room[data-world-daylight=false] .room-resident>img,.day-room[data-world-daylight=false] .room-care-animation img{filter:brightness(.78) saturate(.90)}
-.day-room .room-resident>img,.day-room .room-care-animation img{transition:filter 1600ms ease-in-out}
-@media(prefers-reduced-motion:reduce){.day-room .room-resident>img,.day-room .room-care-animation img{transition:none}}
+.day-room .room-resident>img,.day-room .room-care-animation img,.day-room .room-care-animation .care-bowl,.day-room .cat-idle-detail{transition:filter 1600ms ease-in-out,--object-ambient 1600ms ease-in-out}
+@media(prefers-reduced-motion:reduce){.day-room .room-resident>img,.day-room .room-care-animation img,.day-room .room-care-animation .care-bowl,.day-room .cat-idle-detail{transition:none}}
 
 /* Shared visible-body limit, around the original feet (also rotated night art). */
 .day-room .day-room-cat.day-cat,.day-room .day-room-cat.day-cat:active{transform:translateX(-50%) scale(var(--room-cat-scale,1));transform-origin:var(--room-cat-origin,50% 100%)}
@@ -200,8 +200,8 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .day-room-place-art{filter:brightness(.32) saturate(.90)}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .engawa-shoji{filter:brightness(.34)}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch{--pendant-top:#5a5f5a;--pendant-edge:#3c4240;--pendant-bottom:#484c46}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--unlit-cat-brightness,.64))}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.cat-idle-detail){filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--unlit-cat-brightness,.64))}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,.64);filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--object-ambient))}
+.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,.64);filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--object-ambient))}
 /* Reuse the existing sky gradients and star paths: no extra layers or animation. */
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:first-child{stop-color:#01040b}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:nth-child(2){stop-color:#030919}

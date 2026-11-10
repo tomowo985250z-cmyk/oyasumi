@@ -272,4 +272,3 @@ html[data-cat-state-pending] .roof-sky-card{visibility:hidden}
 .morning .cream-button:disabled{background:#e9ced0;color:#72585f;opacity:.8}
 .morning>.muted{margin:18px 0 0;font-size:12px;line-height:1.8;color:#687680}
 .morning>.sample-tag{margin:8px 0 0;font-size:10px;color:#7b8587}
-.day-room[data-location=room]:has(.room-light-switch[aria-pressed=true]) .care-scene{--care-material-bowl:var(--care-lamp-bowl);--care-material-rim:var(--care-lamp-rim);--care-material-shade:var(--care-lamp-shade);--care-material-food:var(--care-lamp-food);--care-material-light:var(--care-lamp-light);--care-material-treat:var(--care-lamp-treat);--care-material-contact:var(--care-lamp-contact)}
