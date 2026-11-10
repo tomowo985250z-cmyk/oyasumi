@@ -34,7 +34,8 @@ globalThis.NightConstellations=(()=>{
  // Roof only: Pogson flux relative to magnitude 1, compressed for a small display.
  // The logarithm retains differences at zero/negative magnitudes without clipping.
  const roofLight=p=>Math.log1p(10**(-.4*(p.mag-1)))/Math.LN2;
- function opacity(s,where){const air=SolarModel.smooth(0,5,s.altitude),light=where==='roof'&&Number.isFinite(s.mag)?.98*-Math.expm1(-1.9*Math.sqrt(roofLight(s))):.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72);return s.inView?light*air:0;}
+ const roofExposure=mag=>.98*-Math.expm1(-1.7*Math.sqrt(roofLight({mag})));
+ function opacity(s,where){const air=SolarModel.smooth(0,5,s.altitude),light=where==='roof'&&Number.isFinite(s.mag)?roofExposure(s.mag):.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72);return s.inView?light*air:0;}
  // Three shared light gradients and one outline per star retain native anchors and twinkle.
  // The faint irregular skirt is limited to bright stars; no blur filter or extra actors.
  let lightSequence=0;
@@ -44,13 +45,16 @@ globalThis.NightConstellations=(()=>{
  function starTransform(p,i,where){const r=radius(p,where);return 'translate('+p.x.toFixed(3)+' '+p.y.toFixed(3)+') rotate('+((i*137.508)%180).toFixed(2)+') scale('+r.toFixed(3)+' '+(r*(.94+(i%4)*.025)).toFixed(3)+')';}
  function markup(w,where){
   const s=state(w,where),id='major-star-light-'+(++lightSequence);
-  const stars=s.points.map((p,i)=>'<path data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+radius(p,where).toFixed(3)+'" transform="'+starTransform(p,i,where)+'" d="'+(p.mag<(where==='roof'?1.5:.5)?brightStar:softStar)+'" fill="url(#'+id+(p.bv>.8?'-warm':p.bv<.15?'-cool':'-white')+')" opacity="'+opacity(p,where).toFixed(4)+'" style="--night-star-alpha:'+opacity(p,where).toFixed(4)+'"/>').join('');
+  const stars=s.points.map((p,i)=>'<path data-major-star="'+p.id+'" data-star-group="'+p.group+'" cx="'+p.x.toFixed(3)+'" cy="'+p.y.toFixed(3)+'" r="'+radius(p,where).toFixed(3)+'" transform="'+starTransform(p,i,where)+'" d="'+(p.mag<.5?brightStar:softStar)+'" fill="url(#'+id+(p.bv>.8?'-warm':p.bv<.15?'-cool':'-white')+')" opacity="'+opacity(p,where).toFixed(4)+'" style="--night-star-alpha:'+opacity(p,where).toFixed(4)+'"/>').join('');
   // Defs follow the stars so the existing nth-child twinkle selection stays exact.
   const light='<defs>'+[['cool','#cbdff4'],['white','#e2e7ed'],['warm','#e7d9bf']].map(([tone,color])=>'<radialGradient id="'+id+'-'+tone+'" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1.8"><stop stop-color="#f5f4f0"/><stop offset=".10" stop-color="#f5f4f0" stop-opacity=".98"/><stop offset=".33" stop-color="'+color+'" stop-opacity=".74"/><stop offset=".56" stop-color="'+color+'" stop-opacity=".27"/><stop offset=".82" stop-color="'+color+'" stop-opacity=".014"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></radialGradient>').join('')+'</defs>';
-  return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+stars+light+'</g>';
+  // Roof optics live here only: a compact core, short falloff and faint outer skirt.
+  // Other scenes retain their approved gradient without update-time overrides.
+  const roofLightPaint=where==='roof'?light.replaceAll('offset=".10"','offset=".18"').replaceAll('offset=".33"','offset=".28"').replaceAll('stop-opacity=".74"','stop-opacity=".42"').replaceAll('offset=".56"','offset=".48"').replaceAll('stop-opacity=".27"','stop-opacity=".07"').replaceAll('stop-opacity=".014"','stop-opacity=".004"'):light;
+  return '<g data-major-stars="" data-facing="'+SolarModel.bearing(where)+'" data-major-key="'+s.key+'" pointer-events="none">'+stars+roofLightPaint+'</g>';
  }
  function sync(layer,w,where){const key=SolarModel.region().id+':'+Math.floor(SolarModel.time(w)/60000)*60000+':'+where;if(layer.dataset.majorKey===key)return;const s=state(w,where);layer.querySelectorAll('[data-major-star]').forEach((star,i)=>{const p=s.points[i];star.setAttribute('cx',p.x.toFixed(3));star.setAttribute('cy',p.y.toFixed(3));star.setAttribute('transform',starTransform(p,i,where));star.setAttribute('opacity',opacity(p,where).toFixed(4));star.style.setProperty('--night-star-alpha',opacity(p,where).toFixed(4));});layer.dataset.majorKey=s.key;}
- return Object.freeze({catalog,vector,basis,horizontal,project,state,markup,sync});
+ return Object.freeze({catalog,vector,basis,horizontal,project,state,markup,sync,roofExposure});
 })();
 
 // Sunrise/sunset decoration only. No cat geometry, shadows or background manager.
@@ -87,7 +91,11 @@ globalThis.SolarSky=(()=>{
   if(!starFieldDecode)starFieldDecode=fetch(starFieldImage,{priority:'low'}).then(r=>{if(!r.ok)throw Error('Star field unavailable');return r.text();}).then(source=>{
    // Retain every faint star; replace only the old fixed, cloud-like light band.
    const svg=parse(source);svg.querySelector('ellipse')?.parentElement.remove();
-   for(const path of svg.querySelectorAll('path[stroke-width]')){const width=Number(path.getAttribute('stroke-width')),scale=width<.8?.75:width<1.3?.88:1;path.setAttribute('stroke-width',String(width*scale));}
+   for(const path of svg.querySelectorAll('path[stroke-width]')){
+    const width=Number(path.getAttribute('stroke-width')),mag=width<.6?6.4:width<.8?5.6:width<1.3?4.8:4;
+    path.setAttribute('stroke-width',String(Math.min(.90,width*(width<.8?.75:.88))));
+    path.setAttribute('opacity',(NightConstellations.roofExposure(mag)*.8).toFixed(4));
+   }
    starFieldPaint='data:image/svg+xml,'+encodeURIComponent(stringify(svg));
    const image=new Image();image.decoding='async';image.src=starFieldPaint;return image.decode();
   }).then(()=>{starFieldReady=true;});
@@ -96,9 +104,7 @@ globalThis.SolarSky=(()=>{
  window.addEventListener('scroll',()=>{const card=document.querySelector('.roof-sky-card');if(card)updateStarField(card);},{passive:true});
  // Same major-star calculation as the three window/outdoor scenes.
  function northernStars(w){return '<svg data-northern-stars="" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">'+NightConstellations.markup(w,'roof')+'</svg>';}
- function updateNorthernStars(card,w){const layer=card.querySelector('[data-northern-stars] [data-major-stars]');if(!layer)return;NightConstellations.sync(layer,w,'roof');
-  for(const gradient of layer.querySelectorAll('radialGradient')){attr(gradient.children[1],'offset','.075');attr(gradient.children[4],'stop-opacity','.008');}
- }
+ function updateNorthernStars(card,w){const layer=card.querySelector('[data-northern-stars] [data-major-stars]');if(layer)NightConstellations.sync(layer,w,'roof');}
  let cached;
  function state(w,where='garden'){
   const at=Math.floor(SolarModel.time(w)/60000)*60000,key=[SolarModel.region().id,at,w.weather,w.season].join(':');
@@ -362,10 +368,10 @@ globalThis.EngawaNightSky=(()=>{
    const bin=Math.max(0,Math.min(5,Math.floor((7.8-s.mag)*.72))),k=bin+(s.warm?6:0);
    paths[k].push(`M${p.x.toFixed(2)} ${p.y.toFixed(2)}h.01`);visible++;if(s.real)realVisible++;
   }
-  function band(layer){let path='';const noise=n=>{const q=Math.sin(n*127.1+layer*311.7)*43758.5453;return q-Math.floor(q);};
+  function band(layer){let path='';const noise=n=>{const q=Math.sin(n*127.1+(where==='roof'?0:layer*311.7))*43758.5453;return q-Math.floor(q);};
    for(let l=0;l<360;l+=3){
     if(noise(l+.9)<.14)continue;
-    const latitude=(noise(l+.17)*2-1)*(layer===0?8:layer===3?3:5)+2.2*Math.sin(l*rad*3);
+    const latitude=(noise(l+.17)*2-1)*(where==='roof'?[7,3.8,2.8,1][layer]:layer===0?8:layer===3?3:5)+2.2*Math.sin(l*rad*3);
     const p=projectVector(galactic(l,latitude),b,where);if(p.altitude<-5||Math.abs(p.delta)>98)continue;
     const scale=layer===0?1:layer===1?.53:layer===2?.32:.24,rx=(10+noise(l+.31)*10)*scale,ry=(5+noise(l+.64)*5)*scale;
     path+=`M${(p.x-rx).toFixed(2)} ${p.y.toFixed(2)}a${rx.toFixed(2)} ${ry.toFixed(2)} 0 1 0 ${(rx*2).toFixed(2)} 0a${rx.toFixed(2)} ${ry.toFixed(2)} 0 1 0 ${(-rx*2).toFixed(2)} 0Z`;
@@ -424,13 +430,17 @@ globalThis.EngawaNightSky=(()=>{
   if(!enabled||!card)return;const svg=card.querySelector('[data-northern-stars]');if(!svg)return;
   const s=state({...w,weather:'sunny'},'roof');let band=svg.querySelector('[data-roof-milky]');
   if(!band){band=document.createElementNS(ns,'g');band.setAttribute('data-roof-milky','');band.setAttribute('pointer-events','none');
-   band.innerHTML=['#667d9d','#929ca7','#60748d','#020611'].map((fill,i)=>`<path fill="${fill}" opacity="${[.008,.009,.006,.016][i]}"/>`).join('')+'<path data-roof-dust="0" fill="#b7c8dd" opacity=".18"/><path data-roof-dust="1" fill="#d5cfbf" opacity=".26"/>';svg.insertBefore(band,svg.firstElementChild);}
+   const id=svg.querySelector('radialGradient').id+'-milky',defs=document.createElementNS(ns,'defs');
+   defs.innerHTML=`<filter id="${id}" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="2.4"/></filter>`;svg.append(defs);
+   band.innerHTML=['#667d9d','#929ca7','#60748d','#020611'].map((fill,i)=>`<path filter="url(#${id})" fill="${fill}" opacity="${[.018,.022,.012,.035][i]}"/>`).join('')+[6.1,5.3].map((mag,i)=>`<path data-roof-dust="${i}" fill="${i?'#d5cfbf':'#b7c8dd'}" opacity="${(NightConstellations.roofExposure(mag)*.8).toFixed(4)}"/>`).join('');svg.insertBefore(band,svg.firstElementChild);}
   if(band.dataset.skyKey===s.key)return;band.dataset.skyKey=s.key;band.setAttribute('opacity',s.milkyStrength.toFixed(4));
   [...band.children].slice(0,4).forEach((p,i)=>p.setAttribute('d',s.bands[i]));
   // Sparse, fixed galactic coordinates: no screen noise, new twinkle or dense blanket.
   const dust=['',''],noise=n=>{const x=Math.sin(n*127.1+19.7)*43758.5453;return x-Math.floor(x);};let count=0;
   for(let l=0;l<360;l+=4){if(noise(l+31)<.28)continue;for(let k=0;k<3;k++){
-   const latitude=(noise(l+k*.73+5)-.5)*7+2*Math.sin(l*rad*3),p=projectVector(galactic(l+noise(l+k+2)*2,latitude),s,'roof',true);if(!p)continue;
+   const spine=2.2*Math.sin(l*rad*3),latitude=(noise(l+k*.73+5)-.5)*(5+3*Math.sin(l*rad)**2)+spine;
+   if(Math.abs(latitude-spine)<.65&&noise(l+k+17)<.8)continue;
+   const p=projectVector(galactic(l+noise(l+k+2)*2,latitude),s,'roof',true);if(!p)continue;
    const r=Number((.2+noise(l+k*5.7+8)*.18).toFixed(2)),small=Number((r*.75).toFixed(4)),bin=noise(l+k+12)>.76?1:0;
    dust[bin]+=`M${p.x.toFixed(2)} ${p.y.toFixed(2)}m${-small} 0a${small} ${small} 0 1 0 ${small*2} 0a${small} ${small} 0 1 0 ${-small*2} 0Z`;count++;
   }}
