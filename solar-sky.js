@@ -34,7 +34,7 @@ globalThis.NightConstellations=(()=>{
  // Roof only: Pogson flux relative to magnitude 1, compressed for a small display.
  // The logarithm retains differences at zero/negative magnitudes without clipping.
  const roofLight=p=>Math.log1p(10**(-.4*(p.mag-1)))/Math.LN2;
- const roofExposure=mag=>.98*-Math.expm1(-1.7*Math.sqrt(roofLight({mag})));
+ const roofExposure=mag=>.98*-Math.expm1(-2.3*Math.pow(roofLight({mag}),.56));
  function opacity(s,where){const air=SolarModel.smooth(0,5,s.altitude),light=where==='roof'&&Number.isFinite(s.mag)?roofExposure(s.mag):.25+.73*Math.pow(Math.max(0,Math.min(1,(4-s.mag)/4)),.72);return s.inView?light*air:0;}
  // Three shared light gradients and one outline per star retain native anchors and twinkle.
  // The faint irregular skirt is limited to bright stars; no blur filter or extra actors.
@@ -94,7 +94,7 @@ globalThis.SolarSky=(()=>{
    for(const path of svg.querySelectorAll('path[stroke-width]')){
     const width=Number(path.getAttribute('stroke-width')),mag=width<.6?6.4:width<.8?5.6:width<1.3?4.8:4;
     path.setAttribute('stroke-width',String(Math.min(.90,width*(width<.8?.75:.88))));
-    path.setAttribute('opacity',(NightConstellations.roofExposure(mag)*.8).toFixed(4));
+    path.setAttribute('opacity',(NightConstellations.roofExposure(mag)*.84).toFixed(4));
    }
    starFieldPaint='data:image/svg+xml,'+encodeURIComponent(stringify(svg));
    const image=new Image();image.decoding='async';image.src=starFieldPaint;return image.decode();
@@ -432,7 +432,7 @@ globalThis.EngawaNightSky=(()=>{
   if(!band){band=document.createElementNS(ns,'g');band.setAttribute('data-roof-milky','');band.setAttribute('pointer-events','none');
    const id=svg.querySelector('radialGradient').id+'-milky',defs=document.createElementNS(ns,'defs');
    defs.innerHTML=`<filter id="${id}" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="2.4"/></filter>`;svg.append(defs);
-   band.innerHTML=['#667d9d','#929ca7','#60748d','#020611'].map((fill,i)=>`<path filter="url(#${id})" fill="${fill}" opacity="${[.018,.022,.012,.035][i]}"/>`).join('')+[6.1,5.3].map((mag,i)=>`<path data-roof-dust="${i}" fill="${i?'#d5cfbf':'#b7c8dd'}" opacity="${(NightConstellations.roofExposure(mag)*.8).toFixed(4)}"/>`).join('');svg.insertBefore(band,svg.firstElementChild);}
+   band.innerHTML=['#667d9d','#929ca7','#60748d','#020611'].map((fill,i)=>`<path filter="url(#${id})" fill="${fill}" opacity="${[.022,.028,.014,.044][i]}"/>`).join('')+[6.1,5.3].map((mag,i)=>`<path data-roof-dust="${i}" fill="${i?'#d5cfbf':'#b7c8dd'}" opacity="${NightConstellations.roofExposure(mag).toFixed(4)}"/>`).join('');svg.insertBefore(band,svg.firstElementChild);}
   if(band.dataset.skyKey===s.key)return;band.dataset.skyKey=s.key;band.setAttribute('opacity',s.milkyStrength.toFixed(4));
   [...band.children].slice(0,4).forEach((p,i)=>p.setAttribute('d',s.bands[i]));
   // Sparse, fixed galactic coordinates: no screen noise, new twinkle or dense blanket.
