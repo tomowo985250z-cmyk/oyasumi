@@ -1,0 +1,26 @@
+{
+  "assets": [
+    {
+      "url": "assets/classic-music-v13/clair-de-lune-box.wav",
+      "sha256": "b0d704a265023a815cc8f2bb55593959d87909bf8a199bf2640a50b9d2edc057"
+    },
+    {
+      "url": "assets/classic-music-v13/air-g-string.mp3",
+      "sha256": "68d9b73bf93d0212b3d56fb105b15a685d0ada41158c1bf9f2a42e9adc7264db"
+    },
+    {
+      "url": "assets/classic-music-v13/nocturne-9-2.mp3",
+      "sha256": "dd02fdff22773a8deada46fba5b4f48dc7ee6b6b86ec387e0f64cd997d58b5b9"
+    },
+    {
+      "url": "assets/classic-music-v13/traumerei.mp3",
+      "sha256": "ee78bdfc779c835821b1f093c7a75d0067e80c2ba4c5f2625256de3f0d4e68c6"
+    },
+    {
+      "url": "assets/classic-music-v13/gymnopedie-1.mp3",
+      "sha256": "f7c97f33e524df1ffff8c99875f616894d88add1a43373e7d35751045f282960"
+    }
+  ],
+  "playerHash": "133c05200d1c5c351b33a12e11efa7dfb0e5a035784dbc8a6e02ceb8a52b88b0",
+  "catalogHash": "bdead17177629e8982a237e3d4bc974c2a52a5d1cf10e66f5ab12aefdd97fbf1"
+}

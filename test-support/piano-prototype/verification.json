@@ -1,0 +1,187 @@
+{
+  "pass": true,
+  "browser": {
+    "pass": true,
+    "checks": [
+      "No autoplay/download; original volume read without changing preferences",
+      "Native decoded piano/music-box playback, retained 38s position, rapid A/B request cancellation, fade cleanup and one download per recording",
+      "Native gain ramps, 0% silence, independent saved volume, stop/resume",
+      "Native end-of-song and restart; hidden page stops all sources without autoplay on return",
+      "All five existing audio files, playlist/catalog and production playback source byte-identical"
+    ],
+    "layouts": [
+      {
+        "engine": "WebKit",
+        "width": 375,
+        "overflow": false,
+        "audioSupported": false,
+        "playDisabled": true,
+        "buttons": [
+          {
+            "width": 140.5,
+            "height": 46
+          },
+          {
+            "width": 140.5,
+            "height": 46
+          },
+          {
+            "width": 130,
+            "height": 46
+          }
+        ]
+      },
+      {
+        "engine": "WebKit",
+        "width": 390,
+        "overflow": false,
+        "audioSupported": false,
+        "playDisabled": true,
+        "buttons": [
+          {
+            "width": 148,
+            "height": 46
+          },
+          {
+            "width": 148,
+            "height": 46
+          },
+          {
+            "width": 130,
+            "height": 46
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "physicalIPhoneVerified": false,
+    "subjectiveListeningVerified": false,
+    "nativeStarts": [
+      {
+        "when": 0.6900000000000001,
+        "offset": 0.04604166666666667,
+        "duration": 139.00825,
+        "variant": "piano",
+        "bufferSeconds": 139.08
+      },
+      {
+        "when": 1.022,
+        "offset": 38.04604166666667,
+        "duration": 101.00825,
+        "variant": "piano",
+        "bufferSeconds": 139.08
+      },
+      {
+        "when": 2.01,
+        "offset": 39.02404166666667,
+        "duration": 100.03025,
+        "variant": "musicbox",
+        "bufferSeconds": 139.08
+      },
+      {
+        "when": 2.3219999999999996,
+        "offset": 39.32604166666667,
+        "duration": 99.72825,
+        "variant": "piano",
+        "bufferSeconds": 139.08
+      },
+      {
+        "when": 2.5406666666666666,
+        "offset": 39.534708333333334,
+        "duration": 99.51958333333334,
+        "variant": "musicbox",
+        "bufferSeconds": 139.08
+      },
+      {
+        "when": 3.6206666666666663,
+        "offset": 40.215375,
+        "duration": 98.83891666666668,
+        "variant": "musicbox",
+        "bufferSeconds": 139.08
+      },
+      {
+        "when": 3.9206666666666665,
+        "offset": 138.74604166666666,
+        "duration": 0.30825000000001523,
+        "variant": "musicbox",
+        "bufferSeconds": 139.08
+      },
+      {
+        "when": 4.3406666666666665,
+        "offset": 0.04604166666666667,
+        "duration": 139.00825,
+        "variant": "musicbox",
+        "bufferSeconds": 139.08
+      }
+    ]
+  },
+  "analysis": {
+    "lufs": -23.44558354758351,
+    "rmsDb": -23.56760953444935,
+    "peakDb": -3.90690257879215,
+    "peak": 0.6377564668655396,
+    "blockCount": 1387,
+    "gatedBlocks": 1175,
+    "relativeGateLufs": -34.043999497913646,
+    "rate": 24000,
+    "level": 0.11810796247025222,
+    "loopStart": 0.04604166666666667,
+    "loopEnd": 139.05429166666667,
+    "seconds": 139.00825,
+    "decodedSeconds": 139.08,
+    "oversampledPeak": 0.6420835256576538,
+    "oversampledRate": 96000,
+    "clipped": 0,
+    "nonFinite": 0,
+    "maxDelta": 0.11270814295858145,
+    "sourceCorrelation": 0.9999989293263066,
+    "playbackLufs": -42,
+    "originalPlaybackLufs": -42,
+    "smallSpeakerPassbandEnergyFraction": 1.1795652591643508,
+    "smallSpeakerModel": "Generic 250Hz highpass / 4.5kHz lowpass; not measured iPhone hardware",
+    "subjectiveListeningVerified": false,
+    "physicalIPhoneVerified": false,
+    "pass": true,
+    "render": {
+      "rate": 24000,
+      "seconds": 139.00825,
+      "notes": 282,
+      "nominalLufs": -23,
+      "samplePeak": 0.6713325953328046,
+      "bytes": 1668960,
+      "sha256": "7d49fb90c92379fcd70c1f21a5d38e7da88bbdae03d76f91a976e286946680dc",
+      "mono": true,
+      "lowpassHz": 3400,
+      "bassRange": [
+        45,
+        55
+      ],
+      "melodyUnchanged": true,
+      "dynamicCompression": false
+    }
+  },
+  "bassSpeaker": {
+    "method": "Same sampled instrument in original bass register versus new voicing; velocity-energy-weighted mean of isolated bass passband fractions, first 2s; generic Butterworth 250Hz HP / 4.5kHz LP, not a measured iPhone or perceived-loudness claim.",
+    "originalBassPassbandFraction": 0.1839026384356638,
+    "pianoBassPassbandFraction": 0.4576387652732044,
+    "improvementDb": 3.959348451196366,
+    "bassRange": [
+      45,
+      55
+    ],
+    "physicalIPhoneVerified": false
+  },
+  "regressions": [
+    "test-roof-music-sequence.cjs",
+    "test-music-warm-arrangement.cjs"
+  ],
+  "subjectiveListeningVerified": false,
+  "physicalIPhoneVerified": false,
+  "melodyAudit": {
+    "sourceNotes": 282,
+    "pianoNotes": 282,
+    "protectedMelodyNotes": 92,
+    "melodyPitchAndOnsetsPreserved": true,
+    "accompanimentOctavesOnly": true
+  }
+}
