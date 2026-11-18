@@ -260,7 +260,10 @@ globalThis.DayRoom=(()=>{
   if(clock.classList.contains('engawa-wall-clock'))clock.setAttribute('aria-label','柱時計 '+time.label);
  }
  const contactStyle=(place,where,html,coat,night)=>IndoorCatScale.style(html,where,place,night)+(place==='window'?`--window-cat-pad:${windowContact(html,coat)}%`:where!=='room'?`--ground-cat-pad:${windowContact(html,coat)-5}%`:'')+SceneryMaterials.contact(html,where,place,night,world());
- const homeLabel=(room,status)=>status==='sleep'?'すやすや、おやすみ中':room.restState==='sleeping'?'すやすや、ひとやすみ中':room.restState==='settling'?'お部屋で、ひとやすみ。':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
+ const homeLabel=(room,status)=>{
+  if(typeof shared!=='undefined'&&shared.needsCat!==false)return '';
+  return status==='sleep'?'すやすや、おやすみ中':room.restState==='sleeping'?'すやすや、ひとやすみ中':room.restState==='settling'?'お部屋で、ひとやすみ。':DayRoom.world().daylight?(DayCats.options.find(p=>p.id===room.pose)?.label||'のんびり中'):'今夜も、マイペース。';
+ };
  function stage(coat,user,cat,interactive=false,imageOnly=false){
   restorePreferences(user);
   if(cat?.status)cat={...cat,status:PostCatExpressions.state({status:cat.status})};
