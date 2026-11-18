@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "instrument": "Salamander Grand Piano (Tone.js distribution)",
+  "author": "Alexander Holm",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+  "source": "https://github.com/Tonejs/audio/tree/master/salamander",
+  "sourceLicense": "https://github.com/Tonejs/audio/blob/master/salamander/README",
+  "changes": "Original piano voicing, mono resampling, per-note envelopes and gentle filtering, quiet room reflections. Each new song entry has a fresh bounded expressive performance; no pitch modulation.",
+  "rendererVersion": "6bee1ac9f040b876",
+  "tracks": [
+    {
+      "id": "clair-de-lune",
+      "title": "月の光",
+      "url": "assets/piano-v1/clair-de-lune.json",
+      "loopStart": 0,
+      "loopEnd": 111.767875,
+      "level": 0.12589254117941673
+    },
+    {
+      "id": "air-g-string",
+      "title": "G線上のアリア",
+      "url": "assets/piano-v1/air-g-string.json",
+      "loopStart": 0,
+      "loopEnd": 143.57520833333334,
+      "level": 0.12589254117941673
+    },
+    {
+      "id": "nocturne-9-2",
+      "title": "ノクターン第2番 Op.9-2",
+      "url": "assets/piano-v1/nocturne-9-2.json",
+      "loopStart": 0,
+      "loopEnd": 226.89979166666666,
+      "level": 0.12589254117941673
+    },
+    {
+      "id": "traumerei",
+      "title": "トロイメライ",
+      "url": "assets/piano-v1/traumerei.json",
+      "loopStart": 0,
+      "loopEnd": 100.53408333333333,
+      "level": 0.12589254117941673
+    },
+    {
+      "id": "gymnopedie-1",
+      "title": "ジムノペディ第1番",
+      "url": "assets/piano-v1/gymnopedie-1.json",
+      "loopStart": 0,
+      "loopEnd": 139.00825,
+      "level": 0.12589254117941673
+    }
+  ],
+  "samples": [
+    {
+      "midi": 45,
+      "name": "A2",
+      "url": "assets/piano-v1/A2.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/A2.mp3",
+      "bytes": 81678,
+      "sha256": "20601d890f44a3c22499c7b61f52e571795df1fe5a01fac553dded7b6379e1d4",
+      "trimStart": 0
+    },
+    {
+      "midi": 48,
+      "name": "C3",
+      "url": "assets/piano-v1/C3.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/C3.mp3",
+      "bytes": 78036,
+      "sha256": "bb70dd921d81b3dda561c19b5c029292ae5a6fba1947e364bf274218ce19a9d1",
+      "trimStart": 0
+    },
+    {
+      "midi": 51,
+      "name": "Ds3",
+      "url": "assets/piano-v1/Ds3.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Ds3.mp3",
+      "bytes": 78717,
+      "sha256": "4fe73ea3f2c59a1dbfb35cff1d9d8a9e38cb12ef39a91a13083729544cdafed5",
+      "trimStart": 0
+    },
+    {
+      "midi": 54,
+      "name": "Fs3",
+      "url": "assets/piano-v1/Fs3.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Fs3.mp3",
+      "bytes": 77933,
+      "sha256": "960fefd90f56608b7edf958dadfeca893cff5744ab9034d61e419401fe45ce9c",
+      "trimStart": 0
+    },
+    {
+      "midi": 57,
+      "name": "A3",
+      "url": "assets/piano-v1/A3.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/A3.mp3",
+      "bytes": 74526,
+      "sha256": "8e108fe228e34e32f6b4e61efff732eec53058a9e6f05a8d8e719598b132c4f9",
+      "trimStart": 0
+    },
+    {
+      "midi": 60,
+      "name": "C4",
+      "url": "assets/piano-v1/C4.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/C4.mp3",
+      "bytes": 78718,
+      "sha256": "689eaa4c2fd7f29a2cc0e386eec462156d523a87d701269e5e2458e66056f4f6",
+      "trimStart": 0
+    },
+    {
+      "midi": 63,
+      "name": "Ds4",
+      "url": "assets/piano-v1/Ds4.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Ds4.mp3",
+      "bytes": 73519,
+      "sha256": "663e8bb3e2d0fa23a30526dcd7ab0e42609c193c07025647ef46badcf81ec211",
+      "trimStart": 0.00125
+    },
+    {
+      "midi": 66,
+      "name": "Fs4",
+      "url": "assets/piano-v1/Fs4.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Fs4.mp3",
+      "bytes": 68219,
+      "sha256": "613652f5c96e35736ce6a46bc4ddb6ba1076d1fb16a35a4c22c14e67efdde57c",
+      "trimStart": 0.001375
+    },
+    {
+      "midi": 69,
+      "name": "A4",
+      "url": "assets/piano-v1/A4.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/A4.mp3",
+      "bytes": 61148,
+      "sha256": "a62df24a2c84cea8d18c1fa8aca7c18c877ba2b76a00a591256fa74d3ce54ac3",
+      "trimStart": 0
+    },
+    {
+      "midi": 72,
+      "name": "C5",
+      "url": "assets/piano-v1/C5.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/C5.mp3",
+      "bytes": 68920,
+      "sha256": "2f5b0f7422063010fb379e684bfdf2daa3911dcd2251413d79fa2a53029fdc30",
+      "trimStart": 0
+    },
+    {
+      "midi": 75,
+      "name": "Ds5",
+      "url": "assets/piano-v1/Ds5.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Ds5.mp3",
+      "bytes": 58179,
+      "sha256": "bf71096e653ab7ceca3914b9fd44d8c27fe83c162564c5db34bd06b94eb14b8c",
+      "trimStart": 0.001125
+    },
+    {
+      "midi": 78,
+      "name": "Fs5",
+      "url": "assets/piano-v1/Fs5.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Fs5.mp3",
+      "bytes": 51597,
+      "sha256": "ed2fdf543274ea72ddd4eb634a16356531a5f4040b2a60d34fb12a5c72cbf22f",
+      "trimStart": 0
+    },
+    {
+      "midi": 81,
+      "name": "A5",
+      "url": "assets/piano-v1/A5.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/A5.mp3",
+      "bytes": 45747,
+      "sha256": "9e5cee1fe9cf68b7193623d46a27c8956e572c1ff234ca0e11599b556050dec6",
+      "trimStart": 0.00125
+    },
+    {
+      "midi": 84,
+      "name": "C6",
+      "url": "assets/piano-v1/C6.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/C6.mp3",
+      "bytes": 28065,
+      "sha256": "0d3232edd13ba69fd5caf4a295060ae0fd533b8a1433ae0a038644d70715c907",
+      "trimStart": 0.000125
+    },
+    {
+      "midi": 87,
+      "name": "Ds6",
+      "url": "assets/piano-v1/Ds6.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Ds6.mp3",
+      "bytes": 31395,
+      "sha256": "eb643014d9f926f1a5f9f51fc4a1ed8c07c6da36ce164d5b221d7b878a53f142",
+      "trimStart": 0
+    },
+    {
+      "midi": 90,
+      "name": "Fs6",
+      "url": "assets/piano-v1/Fs6.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Fs6.mp3",
+      "bytes": 26478,
+      "sha256": "c584d2b4e96a37b12c920ed3212d149abedf25342389bfdc557b2fac847ab11c",
+      "trimStart": 0
+    },
+    {
+      "midi": 93,
+      "name": "A6",
+      "url": "assets/piano-v1/A6.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/A6.mp3",
+      "bytes": 30013,
+      "sha256": "b6064a657592c63c03561d2ce1092607c14e1d8091445d50065d0ec819ff6fbc",
+      "trimStart": 0.0014583333333333334
+    },
+    {
+      "midi": 96,
+      "name": "C7",
+      "url": "assets/piano-v1/C7.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/C7.mp3",
+      "bytes": 18963,
+      "sha256": "694b512fac99ba7f7290c045d9c18e94724a7ebcc319b937baabc62125814283",
+      "trimStart": 0.00025
+    },
+    {
+      "midi": 99,
+      "name": "Ds7",
+      "url": "assets/piano-v1/Ds7.mp3",
+      "sourceUrl": "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/Ds7.mp3",
+      "bytes": 22136,
+      "sha256": "d51f4c51bed719f51e75ad22d5b9ac4b4d1a4749d02ef31ea03696de46fa5e77",
+      "trimStart": 0
+    }
+  ]
+}

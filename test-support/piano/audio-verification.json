@@ -1,0 +1,147 @@
+{
+  "pass": true,
+  "physicalIPhoneListening": false,
+  "humanListening": false,
+  "sampleLicense": "CC BY 3.0 / Alexander Holm",
+  "tracks": [
+    {
+      "id": "clair-de-lune",
+      "seconds": 111.767875,
+      "notes": 452,
+      "takes": [
+        {
+          "seed": 100,
+          "lufs": -24.000000000491145,
+          "peakDb": -5.849502269333696,
+          "interpolatedPeakDb": -5.849502189005623,
+          "sha256": "41c93505c0689cc2533c072b44662642986635b8a874c890424900e8e39a7ff1"
+        },
+        {
+          "seed": 900,
+          "lufs": -24.000000000221785,
+          "peakDb": -5.637195897585806,
+          "interpolatedPeakDb": -5.626236170634248,
+          "sha256": "fde3ab06e537c8e2add13145d24db9c74d3c8793692e8b2b139df2da4176f146"
+        }
+      ],
+      "bassRange": [
+        49,
+        57
+      ],
+      "bassPassbandFraction250To4500": 0.6424459997336763,
+      "renderAndAnalysisMs": 9563
+    },
+    {
+      "id": "air-g-string",
+      "seconds": 143.57520833333334,
+      "notes": 511,
+      "takes": [
+        {
+          "seed": 101,
+          "lufs": -24.00000000022094,
+          "peakDb": -4.828679928466805,
+          "interpolatedPeakDb": -4.81203058873295,
+          "sha256": "62e5c0b680382e080a8106d601faed509198eb3107f2eb37e2533fb167b7dc8c"
+        },
+        {
+          "seed": 901,
+          "lufs": -23.999999999542936,
+          "peakDb": -4.121958742052392,
+          "interpolatedPeakDb": -4.100354630843591,
+          "sha256": "7b68e16e6f0c5f43decd6f376781a599c66b1925ce5fc0ef38425091bd28656c"
+        }
+      ],
+      "bassRange": [
+        45,
+        57
+      ],
+      "bassPassbandFraction250To4500": 0.509253931631634,
+      "renderAndAnalysisMs": 12023
+    },
+    {
+      "id": "nocturne-9-2",
+      "seconds": 226.89979166666666,
+      "notes": 1239,
+      "takes": [
+        {
+          "seed": 102,
+          "lufs": -23.999999999998646,
+          "peakDb": -5.4086822204127,
+          "interpolatedPeakDb": -5.4022705711429655,
+          "sha256": "75eee2d7d1b8db2c5d59b70993e1ba5c017ef45f395f70b1a16d60d92c7ec272"
+        },
+        {
+          "seed": 902,
+          "lufs": -24.00000000028452,
+          "peakDb": -6.11624371223351,
+          "interpolatedPeakDb": -6.116243596572486,
+          "sha256": "0b0b86eeb4d7b298c3bed6cdec5e5e10801bd381b951cbffec5e3663428eecd5"
+        }
+      ],
+      "bassRange": [
+        45,
+        57
+      ],
+      "bassPassbandFraction250To4500": 0.6026852615938468,
+      "renderAndAnalysisMs": 24390
+    },
+    {
+      "id": "traumerei",
+      "seconds": 100.53408333333333,
+      "notes": 338,
+      "takes": [
+        {
+          "seed": 103,
+          "lufs": -24.000000000047468,
+          "peakDb": -5.635055195350059,
+          "interpolatedPeakDb": -5.620671273151132,
+          "sha256": "46a1f05c7e8d3c347d4eeb5e26ef8a022c2343667c1e039f8ab262bcb8eab2f8"
+        },
+        {
+          "seed": 903,
+          "lufs": -23.9999999999701,
+          "peakDb": -4.316456189830839,
+          "interpolatedPeakDb": -4.316456046687537,
+          "sha256": "ff50c23224a72422e32337dbe6bf35f8513154965ff81eedd3ff875677e6933c"
+        }
+      ],
+      "bassRange": [
+        45,
+        57
+      ],
+      "bassPassbandFraction250To4500": 0.5854904900718079,
+      "renderAndAnalysisMs": 8909
+    },
+    {
+      "id": "gymnopedie-1",
+      "seconds": 139.00825,
+      "notes": 280,
+      "takes": [
+        {
+          "seed": 104,
+          "lufs": -24.000000000452903,
+          "peakDb": -3.9304710837276566,
+          "interpolatedPeakDb": -3.92471481124153,
+          "sha256": "3216051033013b5e743346aee204619c952d10779845d63bccf3e7473e8a9d99"
+        },
+        {
+          "seed": 904,
+          "lufs": -24.00000000029667,
+          "peakDb": -3.2427494958522867,
+          "interpolatedPeakDb": -3.2377805849171692,
+          "sha256": "88bbc2361d3eac260513e18a4e3c4ff350af51366cdc9587122e92508351dd24"
+        }
+      ],
+      "bassRange": [
+        45,
+        57
+      ],
+      "bassPassbandFraction250To4500": 0.5250388483089123,
+      "renderAndAnalysisMs": 9743
+    }
+  ],
+  "notes": [
+    "Two full performances per song, stable pitches and melody ordering, bounded onset timing, common integrated loudness and no clipped/non-finite samples.",
+    "250–4500Hz bass passband is a generic speaker proxy, not an iPhone measurement."
+  ]
+}

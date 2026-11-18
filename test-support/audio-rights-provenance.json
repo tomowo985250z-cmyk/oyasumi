@@ -1,6 +1,5 @@
 {
-  "checkedOn": "2026-11-05",
-  "baselineCommit": "6f58751",
+  "checkedOn": "2026-11-19",
   "jurisdiction": "Japan; current original compositions only. Third-party source editions/recordings reviewed separately.",
   "music": [
     {
@@ -13,7 +12,7 @@
       "sourceLicense": "Public Domain",
       "selectedInputFile": "original.mid",
       "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
-      "sourceArrangement": "output/roof-moonlight-music-v1/arrangement.json",
+      "sourceArrangement": "test-support/piano/arrangement.json",
       "acquiredFiles": [
         {
           "file": "original.ly",
@@ -27,7 +26,7 @@
         }
       ],
       "attributionRequired": false,
-      "publicSourceCredit": "Removed optional source/typesetter links; composer and title retained",
+      "publicSourceCredit": "Composer, title and Public Domain score/typesetter links retained in current piano credits.",
       "commercialUse": true,
       "redistribution": true,
       "modification": true,
@@ -43,7 +42,7 @@
       "sourceLicense": "Creative Commons Attribution-ShareAlike 3.0",
       "selectedInputFile": "bach-air-score.mid",
       "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
-      "sourceArrangement": "output/music-box-standard12-v1/air-g-string-arrangement.json",
+      "sourceArrangement": "test-support/piano/arrangement.json",
       "acquiredFiles": [
         {
           "file": "air-g-string-bach-air-lys.zip",
@@ -72,7 +71,7 @@
         }
       ],
       "attributionRequired": true,
-      "publicSourceCredit": "Retained credit, license and modification notice",
+      "publicSourceCredit": "Composer, title and Public Domain score/typesetter links retained in current piano credits.",
       "commercialUse": true,
       "redistribution": true,
       "modification": true,
@@ -89,7 +88,7 @@
       "sourceLicense": "Creative Commons Attribution-ShareAlike 3.0",
       "selectedInputFile": "1590-chopin_nocturne_op9_n2.mid",
       "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
-      "sourceArrangement": "output/roof-classics-v1/nocturne-9-2-arrangement.json",
+      "sourceArrangement": "test-support/piano/arrangement.json",
       "acquiredFiles": [
         {
           "file": "1590-chopin_nocturne_op9_n2.ly",
@@ -103,7 +102,7 @@
         }
       ],
       "attributionRequired": true,
-      "publicSourceCredit": "Retained credit, license and modification notice",
+      "publicSourceCredit": "Composer, title and Public Domain score/typesetter links retained in current piano credits.",
       "commercialUse": true,
       "redistribution": true,
       "modification": true,
@@ -119,7 +118,7 @@
       "sourceLicense": "Public Domain",
       "selectedInputFile": "504-SchumannOp15No07.mid",
       "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
-      "sourceArrangement": "output/roof-classics-v1/traumerei-arrangement.json",
+      "sourceArrangement": "test-support/piano/arrangement.json",
       "acquiredFiles": [
         {
           "file": "504-SchumannOp15No07.ly",
@@ -133,7 +132,7 @@
         }
       ],
       "attributionRequired": false,
-      "publicSourceCredit": "Removed optional source/typesetter links; composer and title retained",
+      "publicSourceCredit": "Composer, title and Public Domain score/typesetter links retained in current piano credits.",
       "commercialUse": true,
       "redistribution": true,
       "modification": true,
@@ -149,7 +148,7 @@
       "sourceLicense": "Public Domain",
       "selectedInputFile": "37-gymnopedie_1.mid",
       "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
-      "sourceArrangement": "output/roof-classics-v1/gymnopedie-1-arrangement.json",
+      "sourceArrangement": "test-support/piano/arrangement.json",
       "acquiredFiles": [
         {
           "file": "37-gymnopedie_1.ly",
@@ -163,7 +162,7 @@
         }
       ],
       "attributionRequired": false,
-      "publicSourceCredit": "Removed optional source/typesetter links; composer and title retained",
+      "publicSourceCredit": "Composer, title and Public Domain score/typesetter links retained in current piano credits.",
       "commercialUse": true,
       "redistribution": true,
       "modification": true,
@@ -217,22 +216,46 @@
       "verification": "Current source page, license and stored manifest agree"
     }
   ],
-  "protectedHashes": {
-    "roof-music.js": "eb53c6e7e4ae4061f3c52e53f01725a389046cabb7b9f859332c1d8a82d42c0f",
-    "nature-sounds.js": "7b3491075bed6c82a2e2c12899b69e66341466790b56db4a02ae8b89a9bd08b7",
-    "test-support/music-box-expressive/synth.cjs": "cdfb6580926b4f8376233608df6dbfb2c1c7d2ab3a26835009259f18c417367a",
-    "test-support/music-box-elegant/voices.json": "623cb568c5cad9ba7c0936e4f944d416d6a65878911d0270bd7f48b3e318a384",
-    "assets/classic-music-v11/clair-de-lune-box.wav": "8b1c5081f9b6808f0ab00b5e70349352f62369271c97b4f03714a99482359f94",
-    "assets/classic-music-v11/air-g-string.mp3": "f5efde36f3ad9ddb08ffce967b0412492e3908d2f613dacfb8f8af6ca9ec1f88",
-    "assets/classic-music-v11/nocturne-9-2.mp3": "48c1d9d730de99be001e7696ce386579d253caf790a5ba1840430222e53e94eb",
-    "assets/classic-music-v11/traumerei.mp3": "2b565e41930d73adf33934edb888920a693b7152200f4f3bfff151e3cac0330a",
-    "assets/classic-music-v11/gymnopedie-1.mp3": "0dfef541f42bf90ab709626eafdde03a4ddacedd598b0d81f1041e23989f7117",
-    "assets/countryside-audio-v4/birds.wav": "910c7a9e4263091c90670b343fbd7fc4e8b0483ea4dce46b7a4c33a4c404a693",
-    "assets/countryside-audio-v5/crickets.wav": "d1d4691b16d249869d831043f406bdaf91c6d8b188502a2ef48ccf05c34c8832",
-    "assets/countryside-audio-v6/cicadas.wav": "0658670049a6157e24ea74b5cb74212589cef152c50a9fe3a43afe4a07caeeef"
+  "referenceAudio": "The current player uses licensed Salamander Grand Piano single-note samples by Alexander Holm (Tone.js distribution, CC BY 3.0). No performance recording or external arrangement was copied. The five score sources remain Public Domain.",
+  "codeAndEncoder": "Original sampled-piano PCM renderer, score voicing and bounded expressive performance generator. Runtime plays decoded instrument samples; no application MP3 encoder or analytic music-box synthesizer remains.",
+  "currentPiano": {
+    "catalog": "assets/piano-v1/catalog.json",
+    "attribution": "assets/piano-v1/credits.html",
+    "instrument": "Salamander Grand Piano / Alexander Holm (Tone.js distribution)",
+    "license": "CC BY 3.0",
+    "commercialUse": true,
+    "redistribution": true,
+    "derivedPerformancesLicense": "CC BY 3.0",
+    "sourceScores": "test-support/piano/source-scores.json",
+    "arrangement": "test-support/piano/arrangement.json",
+    "note": "The historical music-box recordings and prototype have been removed. Earlier rights checks below document source acquisition only; current attribution and changes are in the piano credits."
   },
-  "recordingLicenseCorrection": "Current Clair de lune metadata incorrectly referred to removed Moonlight Sonata / Mutopia-276. Original .ly/.mid hashes, source-event lineage and acquisition/render history identify Public Domain Mutopia-1778. Corrected only this current metadata; historical license records remain intact.",
-  "referenceAudio": "No reference recordings, sampled instrument or soundfont imported by the analytic sine/decay synthesizer. Optional reference-page links removed from current credits; prior references.json records retained.",
-  "codeAndEncoder": "Original analytic synthesis plus offline LAMEJS encoding. Encoder is a build tool rather than sampled audio; existing software notices and license files were not removed.",
-  "audioOrPlaybackModifiedByAudit": false
+  "historicalMusicBoxAudit": {
+    "baselineCommit": "6f58751",
+    "protectedHashes": {
+      "roof-music.js": "eb53c6e7e4ae4061f3c52e53f01725a389046cabb7b9f859332c1d8a82d42c0f",
+      "nature-sounds.js": "7b3491075bed6c82a2e2c12899b69e66341466790b56db4a02ae8b89a9bd08b7",
+      "test-support/music-box-expressive/synth.cjs": "cdfb6580926b4f8376233608df6dbfb2c1c7d2ab3a26835009259f18c417367a",
+      "test-support/music-box-elegant/voices.json": "623cb568c5cad9ba7c0936e4f944d416d6a65878911d0270bd7f48b3e318a384",
+      "assets/classic-music-v11/clair-de-lune-box.wav": "8b1c5081f9b6808f0ab00b5e70349352f62369271c97b4f03714a99482359f94",
+      "assets/classic-music-v11/air-g-string.mp3": "f5efde36f3ad9ddb08ffce967b0412492e3908d2f613dacfb8f8af6ca9ec1f88",
+      "assets/classic-music-v11/nocturne-9-2.mp3": "48c1d9d730de99be001e7696ce386579d253caf790a5ba1840430222e53e94eb",
+      "assets/classic-music-v11/traumerei.mp3": "2b565e41930d73adf33934edb888920a693b7152200f4f3bfff151e3cac0330a",
+      "assets/classic-music-v11/gymnopedie-1.mp3": "0dfef541f42bf90ab709626eafdde03a4ddacedd598b0d81f1041e23989f7117",
+      "assets/countryside-audio-v4/birds.wav": "910c7a9e4263091c90670b343fbd7fc4e8b0483ea4dce46b7a4c33a4c404a693",
+      "assets/countryside-audio-v5/crickets.wav": "d1d4691b16d249869d831043f406bdaf91c6d8b188502a2ef48ccf05c34c8832",
+      "assets/countryside-audio-v6/cicadas.wav": "0658670049a6157e24ea74b5cb74212589cef152c50a9fe3a43afe4a07caeeef"
+    },
+    "referenceAudio": "No reference recordings, sampled instrument or soundfont imported by the analytic sine/decay synthesizer. Optional reference-page links removed from current credits; prior references.json records retained.",
+    "codeAndEncoder": "Original analytic synthesis plus offline LAMEJS encoding. Encoder is a build tool rather than sampled audio; existing software notices and license files were not removed.",
+    "recordingLicenseCorrection": "Current Clair de lune metadata incorrectly referred to removed Moonlight Sonata / Mutopia-276. Original .ly/.mid hashes, source-event lineage and acquisition/render history identify Public Domain Mutopia-1778. Corrected only this current metadata; historical license records remain intact.",
+    "audioOrPlaybackModifiedByAudit": false
+  },
+  "currentHashes": {
+    "roof-music.js": "3418a30fb80588908f2d53c4995b9eb611f8b164ddfb31dae6106748dbf32fb2",
+    "piano-player.js": "7a0180ad78b3d51d97bf81b5b6eedeccf1808f3a2163180b49a193db137943fe",
+    "piano-renderer.js": "6bee1ac9f040b87654dc04c3b73f0cc563be36b50bab7f54fe5733a9e39205ec",
+    "nature-sounds.js": "d3611f7404d7356ffcad61ee8f7a5e8260aa3fee8d81b7a999201f1419ede19a",
+    "assets/piano-v1/catalog.json": "3fd59d65ff6e2b11785bde88d93326314e1e9afdfc41dfbbe414dc720fd99411"
+  }
 }

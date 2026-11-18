@@ -1,0 +1,207 @@
+[
+  {
+    "id": "clair-de-lune",
+    "source": {
+      "composer": "Claude Debussy (1862–1918)",
+      "title": "Clair de lune (Suite bergamasque)",
+      "edition": "E. Fromont, 1905; Keith OHara / Mutopia-1778 public-domain engraving and mechanically generated score MIDI, not a performance recording",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1778",
+      "license": "Public Domain",
+      "sources": [
+        {
+          "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.ly",
+          "file": "original.ly",
+          "bytes": 17978,
+          "sha256": "c1c58f806a8939fc5a157707ea479403abb9655a4820b25bb6b98e39fd781e7a"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/DebussyC/L75/debussy_Ste_Bergamesq_Clair/debussy_Ste_Bergamesq_Clair.mid",
+          "file": "original.mid",
+          "bytes": 12476,
+          "sha256": "4eee9a1546ffde1ff74cb9824ba0e57cbc821185a15185bfea9faed97820bf8c"
+        }
+      ]
+    },
+    "sourceEventHash": "b0001d250edc329756f5abe20f6c3181f441ab3128d1c95bfd74e0026eb6e51c",
+    "sourceNotes": 542,
+    "notes": 452,
+    "melodyNotes": 129,
+    "melodyPitchesPreserved": true,
+    "pitchClassesPreserved": true,
+    "bassRange": [
+      49,
+      57
+    ],
+    "timeScale": 0.8928571428571428
+  },
+  {
+    "id": "air-g-string",
+    "source": {
+      "id": 242,
+      "key": "air-g-string",
+      "title": "G線上のアリア",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=242",
+      "license": "Creative Commons Attribution-ShareAlike 3.0",
+      "credit": "Jeff Covey",
+      "edition": "Bach-Gesellschaft",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "downloads": [
+        {
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-lys.zip",
+          "file": "air-g-string-bach-air-lys.zip",
+          "bytes": 4288,
+          "sha256": "e54bfbf7c15cc1e101b3d4359ac8da2af728c7b38323fb083f93b0e3cb299388"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-mids.zip",
+          "file": "air-g-string-bach-air-mids.zip",
+          "bytes": 3826,
+          "sha256": "af2a0b1c1649cf212f7d358d48f0a591a48c4ac907aaa26773c422d039860bf2"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-35.mid",
+          "file": "air-g-string-bach-air-jlh-35.mid",
+          "bytes": 8431,
+          "sha256": "5087b39d9497687457ead7dd431fe1b9b3a4297934449b1094549916181c6dbe"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-70.mid",
+          "file": "air-g-string-bach-air-jlh-70.mid",
+          "bytes": 8431,
+          "sha256": "2a00f6dff4a64acd50031ddd9d9ade35a5c2bf07fa8eee6460c289e7090f8226"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/BachJS/BWV1068/bach-air/bach-air-jlh-40-organ.mid",
+          "file": "air-g-string-bach-air-jlh-40-organ.mid",
+          "bytes": 8431,
+          "sha256": "78cd9132781300c54b76a2d63ce7bb604dd4fabddb34ca9f136265949117c3a4"
+        }
+      ]
+    },
+    "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
+    "sourceNotes": 512,
+    "notes": 511,
+    "melodyNotes": 149,
+    "melodyPitchesPreserved": true,
+    "pitchClassesPreserved": true,
+    "bassRange": [
+      45,
+      57
+    ],
+    "timeScale": 0.920353982300885
+  },
+  {
+    "id": "nocturne-9-2",
+    "source": {
+      "id": 1590,
+      "key": "nocturne-9-2",
+      "title": "ノクターン第2番 Op.9-2",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1590",
+      "license": "Creative Commons Attribution-ShareAlike 3.0",
+      "credit": "Renato Biolcati Rinaldi",
+      "edition": "G. Schirmer, New York, 1881",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "downloads": [
+        {
+          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/chopin_nocturne_op9_n2/chopin_nocturne_op9_n2.ly",
+          "file": "1590-chopin_nocturne_op9_n2.ly",
+          "bytes": 16266,
+          "sha256": "f35863a752f5b2805cd50272909b06bb8b1b1a8412d2b549fd13969a4481ab65"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O9/chopin_nocturne_op9_n2/chopin_nocturne_op9_n2.mid",
+          "file": "1590-chopin_nocturne_op9_n2.mid",
+          "bytes": 11295,
+          "sha256": "e202d3941ce5f26397f57f59f0e2e4e3ad9e19061fa3c4dc596c5ee6a6a2548e"
+        }
+      ]
+    },
+    "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
+    "sourceNotes": 1242,
+    "notes": 1239,
+    "melodyNotes": 421,
+    "melodyPitchesPreserved": true,
+    "pitchClassesPreserved": true,
+    "bassRange": [
+      45,
+      57
+    ],
+    "timeScale": 1.1
+  },
+  {
+    "id": "traumerei",
+    "source": {
+      "id": 504,
+      "key": "traumerei",
+      "title": "トロイメライ",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=504",
+      "license": "Public Domain",
+      "credit": "Ying-Chun Liu",
+      "edition": "Leichte Stucke, 1900",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "downloads": [
+        {
+          "url": "https://www.mutopiaproject.org/ftp/SchumannR/O15/SchumannOp15No07/SchumannOp15No07.ly",
+          "file": "504-SchumannOp15No07.ly",
+          "bytes": 10212,
+          "sha256": "be0a952c8465a216c8405a2f6154a9b101e983a4b080d64a90e532bd5118532a"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/SchumannR/O15/SchumannOp15No07/SchumannOp15No07.mid",
+          "file": "504-SchumannOp15No07.mid",
+          "bytes": 3708,
+          "sha256": "6e0045d5783ff28dedcf05813074fe407ca3846e5e2a7246f2793ac5614e4851"
+        }
+      ]
+    },
+    "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
+    "sourceNotes": 339,
+    "notes": 338,
+    "melodyNotes": 138,
+    "melodyPitchesPreserved": true,
+    "pitchClassesPreserved": true,
+    "bassRange": [
+      45,
+      57
+    ],
+    "timeScale": 0.8766233766233765
+  },
+  {
+    "id": "gymnopedie-1",
+    "source": {
+      "id": 37,
+      "key": "gymnopedie-1",
+      "title": "ジムノペディ第1番",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=37",
+      "license": "Public Domain",
+      "credit": "Evin Robertson",
+      "edition": "Dover Edition",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "downloads": [
+        {
+          "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.ly",
+          "file": "37-gymnopedie_1.ly",
+          "bytes": 5588,
+          "sha256": "420a52244e9fbe106dd33ba2cac84414fd66e0d01c6d472205bad39678d4ce04"
+        },
+        {
+          "url": "https://www.mutopiaproject.org/ftp/SatieE/gymnopedie_1/gymnopedie_1.mid",
+          "file": "37-gymnopedie_1.mid",
+          "bytes": 2892,
+          "sha256": "09ce7337b4bf42ba12e1aa64b4c7dc7fcfa6455f1070cb12f8880a755df97384"
+        }
+      ]
+    },
+    "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
+    "sourceNotes": 282,
+    "notes": 280,
+    "melodyNotes": 92,
+    "melodyPitchesPreserved": true,
+    "pitchClassesPreserved": true,
+    "bassRange": [
+      45,
+      57
+    ],
+    "timeScale": 0.958677685950413
+  }
+]

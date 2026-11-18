@@ -1,0 +1,86 @@
+{
+  "pass": true,
+  "native": [
+    {
+      "seed": 411664334,
+      "lufs": -24,
+      "peak": 0.5611622145853792,
+      "seconds": 111.767875,
+      "finite": true
+    },
+    {
+      "seed": 2179760970,
+      "lufs": -24,
+      "peak": 0.5531244099406101,
+      "seconds": 143.57520833333334,
+      "finite": true
+    },
+    {
+      "seed": 1243683589,
+      "lufs": -24,
+      "peak": 0.4884140250446164,
+      "seconds": 226.89979166666666,
+      "finite": true
+    },
+    {
+      "seed": 769369664,
+      "lufs": -24,
+      "peak": 0.5496602631801265,
+      "seconds": 100.53408333333333,
+      "finite": true
+    },
+    {
+      "seed": 738735449,
+      "lufs": -24,
+      "peak": 0.6157315848304168,
+      "seconds": 139.00825,
+      "finite": true
+    },
+    {
+      "seed": 2621634548,
+      "lufs": -24,
+      "peak": 0.5492634028214156,
+      "seconds": 111.767875,
+      "finite": true
+    }
+  ],
+  "webkit": [
+    {
+      "width": 375,
+      "overflow": false,
+      "nativeAudio": false,
+      "title": "ピアノ",
+      "nextLabel": "次のピアノ曲",
+      "volume": 0.48,
+      "workerTakes": 2,
+      "audioContextAdapter": true
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "nativeAudio": false,
+      "title": "ピアノ",
+      "nextLabel": "次のピアノ曲",
+      "volume": 0.48,
+      "workerTakes": 2,
+      "audioContextAdapter": true
+    }
+  ],
+  "errors": [],
+  "physicalIPhoneListening": false,
+  "humanListening": false,
+  "fullApplicationWebkit": [
+    {
+      "width": 375,
+      "overflow": false,
+      "roof": true,
+      "pianoSettings": true
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "roof": true,
+      "pianoSettings": true
+    }
+  ]
+}

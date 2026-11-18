@@ -61,9 +61,10 @@ for(const file of ['clock-ticking-f950717d33644d4b.wav','credits.html','manifest
 for(const file of ['shishi-0925d44163b7a135.wav','water-64f0f65d0a95cbf5.wav','credits.html','manifest.json'])files['/assets/shishi-audio-v1/'+file]='assets/shishi-audio-v1/'+file;
 types['.wav']='audio/wav';
 types['.txt']='text/plain';
-for(const file of ['index.html','player.js','manifest.json','gymnopedie-1-piano.mp3','LICENSE.txt','provenance.json'])files['/assets/piano-prototype-v1/'+file]='assets/piano-prototype-v1/'+file;
-for(const track of JSON.parse(fs.readFileSync(path.join(__dirname,'assets/classic-music-v1/catalog.json'),'utf8')).tracks)files['/'+track.url]=track.url;
-for(const file of ['credits.html','catalog.json'])files['/assets/classic-music-v1/'+file]='assets/classic-music-v1/'+file;
+for(const file of ['roof-music.js','piano-player.js','piano-renderer.js'])files['/'+file]=file;
+const piano=JSON.parse(fs.readFileSync(path.join(__dirname,'assets/piano-v1/catalog.json'),'utf8'));
+for(const row of [...piano.tracks,...piano.samples])files['/'+row.url]=row.url;
+for(const file of ['credits.html','catalog.json','LICENSE.txt','SOURCE-README.txt'])files['/assets/piano-v1/'+file]='assets/piano-v1/'+file;
 types['.webp']='image/webp';
 files['/moon-unity.js']='moon-unity.js';
 files['/moon-unity.css']='moon-unity.css';

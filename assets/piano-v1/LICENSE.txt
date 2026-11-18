@@ -1,0 +1,13 @@
+Salamander Grand Piano — Alexander Holm
+Distribution: Tone.js audio / salamander
+https://github.com/Tonejs/audio/tree/master/salamander
+Original attribution and license: https://github.com/Tonejs/audio/blob/master/salamander/README
+Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+https://creativecommons.org/licenses/by/3.0/
+
+The piano samples and derived performances are distributed under CC BY 3.0.
+Changes: original five-song piano voicing, mono resampling, gain/envelope and gentle filtering changes, quiet reflections and expressive timing/dynamics.
+No endorsement by Alexander Holm or Tone.js is implied. No additional restrictions apply to the samples or derived performances.
+
+Compositions and source scores: Public Domain. See credits.html and test-support/piano/arrangement.json.
+Application code retains its existing license.
