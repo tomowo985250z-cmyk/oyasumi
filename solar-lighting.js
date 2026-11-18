@@ -188,6 +188,8 @@ globalThis.SolarLighting=(()=>{
   if(!value&&!bg?.dataset.lightAt)return;
   const input=value||{at:Number(bg.dataset.lightAt),cloudAt:NightClock.now(),weather:bg.dataset.lightWeather,season:bg.dataset.lightSeason};
   const w={...SolarModel.world(input),cloudAt:input.cloudAt??SolarModel.time(input)},s=illumination(w,stage.dataset.location),weights=SolarModel.weights(w.at),day=1-weights.night;
+  // Object exposure follows the existing continuous sky weights, not a phase boundary.
+  css(stage,'--scene-object-night',Number(weights.night.toFixed(5)));
   nightShadows(stage,w);
   const source=actor(stage),level=stage.dataset.location==='engawa'?lanternLevel(w):0;
   for(const node of stage.querySelectorAll('[data-engawa-light]'))attr(node,'opacity',level);

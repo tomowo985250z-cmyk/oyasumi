@@ -1,0 +1,1254 @@
+{
+  "pass": true,
+  "cases": [
+    {
+      "width": 375,
+      "place": "roof",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 4
+    },
+    {
+      "width": 375,
+      "place": "roof",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 4
+    },
+    {
+      "width": 375,
+      "place": "roof",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 4
+    },
+    {
+      "width": 375,
+      "place": "roof",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 4
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 7
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 7,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 7
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 14,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 7
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 18,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 7
+    },
+    {
+      "width": 375,
+      "place": "garden",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 7,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 7,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 7,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 14,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 14,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 14,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 18,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 18,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 18,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 12
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 14
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 7,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 7,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 7,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 14,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 14,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 14,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 18,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 18,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 18,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 9
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "roof",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 4
+    },
+    {
+      "width": 390,
+      "place": "roof",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 4
+    },
+    {
+      "width": 390,
+      "place": "roof",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 4
+    },
+    {
+      "width": 390,
+      "place": "roof",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 4
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 7
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 7,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 7
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 14,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 7
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 18,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 7
+    },
+    {
+      "width": 390,
+      "place": "garden",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 7,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 7,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 7,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 14,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 14,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 14,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 18,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 18,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 18,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 12
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 14
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 7,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 7,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 7,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 7,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 14,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 14,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 14,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 14,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 18,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 18,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 18,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 0,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 18,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 0,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 11
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": false,
+      "night": 1,
+      "objects": 9
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "geometrySkyControlsMotionPreserved": true,
+      "sharedServingExposure": true,
+      "night": 1,
+      "objects": 11
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 375,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 375,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "room",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": false,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": false,
+      "closed": true,
+      "occlusionPreserved": true
+    },
+    {
+      "width": 390,
+      "place": "engawa",
+      "hour": 21,
+      "off": true,
+      "meal": true,
+      "closed": true,
+      "occlusionPreserved": true
+    }
+  ],
+  "errors": [],
+  "dayPixelIdentical": [],
+  "physicalIPhoneVerified": false,
+  "productionWrites": 0,
+  "transitions": [
+    {
+      "place": "room",
+      "anchor": 1784057761330.5503,
+      "values": [
+        {
+          "night": 0.4196086300146349,
+          "body": 0.84894,
+          "bowl": 0.84894,
+          "clock": 0.760822
+        },
+        {
+          "night": 0.4189259502217031,
+          "body": 0.84894,
+          "bowl": 0.84894,
+          "clock": 0.760822
+        }
+      ]
+    },
+    {
+      "place": "room",
+      "anchor": 1784109476400.6633,
+      "values": [
+        {
+          "night": 0.42535642264817597,
+          "body": 0.853638,
+          "bowl": 0.853638,
+          "clock": 0.768261
+        },
+        {
+          "night": 0.4260413126992272,
+          "body": 0.853638,
+          "bowl": 0.853638,
+          "clock": 0.768261
+        }
+      ]
+    },
+    {
+      "place": "room",
+      "anchor": 1784106000000,
+      "values": [
+        {
+          "night": 0,
+          "body": 1,
+          "bowl": 1,
+          "clock": 1
+        },
+        {
+          "night": 0,
+          "body": 1,
+          "bowl": 1,
+          "clock": 1
+        }
+      ]
+    },
+    {
+      "place": "engawa",
+      "anchor": 1784057761330.5503,
+      "values": [
+        {
+          "night": 0.4196086300146349,
+          "body": 0.739842,
+          "bowl": 0.739842,
+          "clock": 0.681096
+        },
+        {
+          "night": 0.4189259502217031,
+          "body": 0.739842,
+          "bowl": 0.739842,
+          "clock": 0.681096
+        }
+      ]
+    },
+    {
+      "place": "engawa",
+      "anchor": 1784109476400.6633,
+      "values": [
+        {
+          "night": 0.42535642264817597,
+          "body": 1,
+          "bowl": 1,
+          "clock": 0.756064
+        },
+        {
+          "night": 0.4260413126992272,
+          "body": 1,
+          "bowl": 1,
+          "clock": 0.756064
+        }
+      ]
+    },
+    {
+      "place": "engawa",
+      "anchor": 1784106000000,
+      "values": [
+        {
+          "night": 0,
+          "body": 1,
+          "bowl": 1,
+          "clock": 1
+        },
+        {
+          "night": 0,
+          "body": 1,
+          "bowl": 1,
+          "clock": 1
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Roof morning/day renderer inspected while normal app hides the roof then; no new visibility behavior added.",
+    "Roof has no meal or lamp controls; serving checks apply to garden, bedroom and shoji room.",
+    "Sunny summer baseline; extra closed-curtain/shoji checks and sunrise/sunset/18:00 boundary probes."
+  ],
+  "engine": "WebKit",
+  "baselineCommit": "cbdcb15181ea76f4ba9c5dea7270da9d1c991241",
+  "productionChanges": [
+    "day-room.css",
+    "solar-lighting.js",
+    "index.html",
+    "release.json"
+  ],
+  "sourceSha256": {
+    "day-room.css": "7fdcd14da6daa3000a7058a2cd50d433b2e2756ab2acc2b8396fa58dd20e5fc0",
+    "solar-lighting.js": "e5bfd4b55562e81e88f88f42c69564b3111ffdcddaaf47819acc45549912f0cd",
+    "index.html": "096c8d1b1d22cb1343e3e08e37fcb8b752b056ef55e472c269d1fcd7c00d2336",
+    "release.json": "e1a986137e713253dadc02b9c0caeaea48ffa2ef60831135b55712030c56bc84"
+  },
+  "indexCacheVersionsOnly": true,
+  "audioSkyUiAndControlsUnchanged": true,
+  "solarModelRegression": "PASS 5760 minutes, seasonal daylight, bounded continuous weights",
+  "verificationMethod": "Isolated local browser fixture, network blocked; before/after shapes, positions, assets, sky and animation parameters compared for all cases. Native lamp clicks and filter transitions checked. Screenshots retained locally."
+}

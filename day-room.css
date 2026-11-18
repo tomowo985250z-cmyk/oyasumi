@@ -190,18 +190,26 @@ html[data-cat-state-pending] .room-night-shadows{visibility:hidden}
 html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 @media(prefers-reduced-motion:reduce){.room-night-shadows,[data-night-object-shadow]{transition:none!important}}
 
-/* Unlit interiors keep cool moonlit silhouettes; windows and controls stay clear.
-   Native amber lighting and daytime rules are unchanged. */
-.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .day-room-art{filter:brightness(.43) saturate(.76)}
-.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .room-curtains{filter:brightness(.68)}
-.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .room-sconce-art{filter:brightness(.50)}
-.day-room[data-location=room][data-solar-light=moon]:not(:has(.room-light-switch[aria-pressed=true])) .room-wall-clock{filter:brightness(.43) saturate(.76)}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]{--unlit-cat-brightness:.38}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .day-room-place-art{filter:brightness(.32) saturate(.90)}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] .engawa-shoji{filter:brightness(.34)}
-.day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off]>.engawa-pendant-switch{--pendant-top:#5a5f5a;--pendant-edge:#3c4240;--pendant-bottom:#484c46}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,.64);filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--object-ambient))}
-.day-room[data-cat-harmony][data-solar-light=moon]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,.64);filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--object-ambient))}
+/* Passive objects follow the continuous sky exposure, including dusk and dawn.
+   Existing day/night endpoints, native light sources and controls stay intact. */
+.day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .day-room-art{filter:brightness(calc(1 - .57 * var(--scene-object-night,0))) saturate(calc(1 - .24 * var(--scene-object-night,0)))}
+.day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .room-curtains{filter:brightness(calc(1 - .32 * var(--scene-object-night,0)))}
+.day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .room-sconce-art{filter:brightness(calc(1 - .50 * var(--scene-object-night,0)))}
+.day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .room-wall-clock{filter:brightness(calc(1 - .57 * var(--scene-object-night,0))) saturate(calc(1 - .24 * var(--scene-object-night,0)))}
+.day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off]{--unlit-cat-brightness:calc(1 - .62 * var(--scene-object-night,0))}
+.day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off] .day-room-place-art{filter:brightness(calc(1 - .68 * var(--scene-object-night,0))) saturate(calc(1 - .10 * var(--scene-object-night,0)))}
+.day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off] .engawa-shoji{filter:brightness(calc(1 - .66 * var(--scene-object-night,0)))}
+.day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off]>.engawa-pendant-switch{--pendant-top:color-mix(in srgb,#eeeadd,#5a5f5a calc(100% * var(--scene-object-night,0)));--pendant-edge:color-mix(in srgb,#b5b4a6,#3c4240 calc(100% * var(--scene-object-night,0)));--pendant-bottom:color-mix(in srgb,#c8c4b3,#484c46 calc(100% * var(--scene-object-night,0)))}
+.day-room[data-cat-harmony][data-solar-light]:is([data-location=room]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,calc(1 - .36 * var(--scene-object-night,0)));filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--object-ambient))}
+.day-room[data-cat-harmony][data-solar-light]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,calc(1 - .36 * var(--scene-object-night,0)));filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--object-ambient))}
+/* Clocks and passive overlays use the same exposure as the objects around them. */
+.day-room[data-solar-light] .room-sconce-art{--sconce-milk-top:color-mix(in srgb,#f0ede2,#958e7e calc(100% * var(--scene-object-night,0)));--sconce-milk-edge:color-mix(in srgb,#c6c4b6,#676356 calc(100% * var(--scene-object-night,0)))}
+.day-room[data-solar-light] .room-wall-clock{filter:brightness(calc(1 - .36 * var(--scene-object-night,0))) saturate(calc(1 - .20 * var(--scene-object-night,0)))}
+.day-room[data-location=engawa][data-solar-light] .engawa-wall-clock{filter:brightness(calc(1 - .60 * var(--scene-object-night,0))) saturate(calc(1 - .32 * var(--scene-object-night,0))) sepia(calc(.08 * var(--scene-object-night,0)))}
+.day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off] .engawa-wall-clock{filter:brightness(calc(1 - .76 * var(--scene-object-night,0))) saturate(calc(1 - .38 * var(--scene-object-night,0))) sepia(calc(.08 * var(--scene-object-night,0)))}
+.day-room[data-solar-light] .day-room-night-light{display:block;opacity:var(--scene-object-night,0)}
+.day-room[data-solar-light] :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art){transition:filter 1600ms ease-in-out}
+@media(prefers-reduced-motion:reduce){.day-room[data-solar-light] :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art){transition:none}}
 /* Reuse the existing sky gradients and star paths: no extra layers or animation. */
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:first-child{stop-color:#01040b}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:nth-child(2){stop-color:#030919}
