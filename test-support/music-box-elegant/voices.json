@@ -1,6 +1,6 @@
 {
-  "version": 8,
-  "policy": "Timbre-only from current v11. Existing bass/mid clarity tapers +0.10; short reflections x0.65 and wood-body resonance x0.72. No octave changes, retuning, score, performance, tempo or playback behavior changes. E5+ tine waveforms and soft high-frequency rolloff remain exact; the same static listening-level calibration is retained.",
+  "version": 9,
+  "policy": "Original five-song music-box revoicing: audible bass octaves, spaced accompaniment, duration-aware accompaniment tails and quiet bass harmonics. Existing melody, tempo, player and volume preferences retained.",
   "voices": [
     {
       "id": "clair-de-lune",
@@ -8,14 +8,14 @@
       "decay": 1.74,
       "decaySpan": 50,
       "metal": [
-        0.13,
-        0.024,
-        0.0034
+        0.117,
+        0.019200000000000002,
+        0.0024479999999999997
       ],
       "tineCents": 0.78,
       "driftCents": 0.13,
       "reflection": 0.0156,
-      "bassWeight": 0.66,
+      "bassWeight": 0.8,
       "lidHz": 4800,
       "phraseSeconds": 16,
       "breathSeconds": 0.045,
@@ -36,7 +36,7 @@
         5.4046,
         8.933
       ],
-      "attackMs": 2.2,
+      "attackMs": 2.5,
       "slowWeight": 0.225,
       "wood": [
         270,
@@ -46,8 +46,18 @@
       "woodAmount": 0.006984,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.36,
-      "midClarity": 0.145
+      "bassClarity": 0.32,
+      "midClarity": 0.12,
+      "arrangement": {
+        "bassFloor": 49,
+        "harmonyFloor": 55,
+        "bassGain": 1.02,
+        "harmonyGain": 0.92
+      },
+      "bassHarmonics": [
+        0.17,
+        0.065
+      ]
     },
     {
       "id": "air-g-string",
@@ -55,14 +65,14 @@
       "decay": 1.94,
       "decaySpan": 53,
       "metal": [
-        0.125,
-        0.023,
-        0.003
+        0.1125,
+        0.0184,
+        0.00216
       ],
       "tineCents": 0.7,
       "driftCents": 0.12,
       "reflection": 0.018525,
-      "bassWeight": 0.66,
+      "bassWeight": 0.8,
       "lidHz": 4600,
       "phraseSeconds": 16,
       "breathSeconds": 0.055,
@@ -83,7 +93,7 @@
         5.4046,
         8.933
       ],
-      "attackMs": 2.2,
+      "attackMs": 2.5,
       "slowWeight": 0.205,
       "wood": [
         270,
@@ -93,8 +103,18 @@
       "woodAmount": 0.007776,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.39,
-      "midClarity": 0.155
+      "bassClarity": 0.32,
+      "midClarity": 0.12,
+      "arrangement": {
+        "bassFloor": 48,
+        "harmonyFloor": 55,
+        "bassGain": 1.06,
+        "harmonyGain": 0.85
+      },
+      "bassHarmonics": [
+        0.17,
+        0.065
+      ]
     },
     {
       "id": "nocturne-9-2",
@@ -102,14 +122,14 @@
       "decay": 1.57,
       "decaySpan": 48,
       "metal": [
-        0.138,
-        0.026,
-        0.0036
+        0.12420000000000002,
+        0.0208,
+        0.0025919999999999997
       ],
       "tineCents": 0.86,
       "driftCents": 0.15,
       "reflection": 0.015275,
-      "bassWeight": 0.62,
+      "bassWeight": 0.8,
       "lidHz": 5200,
       "phraseSeconds": 12,
       "breathSeconds": 0.038,
@@ -130,7 +150,7 @@
         5.4046,
         8.933
       ],
-      "attackMs": 1.8,
+      "attackMs": 2.5,
       "slowWeight": 0.205,
       "wood": [
         270,
@@ -140,8 +160,18 @@
       "woodAmount": 0.006408,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.33,
-      "midClarity": 0.14
+      "bassClarity": 0.32,
+      "midClarity": 0.12,
+      "arrangement": {
+        "bassFloor": 48,
+        "harmonyFloor": 55,
+        "bassGain": 1.04,
+        "harmonyGain": 0.88
+      },
+      "bassHarmonics": [
+        0.17,
+        0.065
+      ]
     },
     {
       "id": "traumerei",
@@ -149,14 +179,14 @@
       "decay": 1.91,
       "decaySpan": 53,
       "metal": [
-        0.125,
-        0.022,
-        0.003
+        0.1125,
+        0.0176,
+        0.00216
       ],
       "tineCents": 0.72,
       "driftCents": 0.12,
       "reflection": 0.017875,
-      "bassWeight": 0.7,
+      "bassWeight": 0.8,
       "lidHz": 4500,
       "phraseSeconds": 16,
       "breathSeconds": 0.052,
@@ -177,7 +207,7 @@
         5.4046,
         8.933
       ],
-      "attackMs": 2.2,
+      "attackMs": 2.5,
       "slowWeight": 0.205,
       "wood": [
         270,
@@ -187,8 +217,18 @@
       "woodAmount": 0.00756,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.37,
-      "midClarity": 0.15
+      "bassClarity": 0.32,
+      "midClarity": 0.12,
+      "arrangement": {
+        "bassFloor": 48,
+        "harmonyFloor": 53,
+        "bassGain": 1.02,
+        "harmonyGain": 0.92
+      },
+      "bassHarmonics": [
+        0.17,
+        0.065
+      ]
     },
     {
       "id": "gymnopedie-1",
@@ -196,14 +236,14 @@
       "decay": 1.98,
       "decaySpan": 55,
       "metal": [
-        0.13,
-        0.023,
-        0.003
+        0.117,
+        0.0184,
+        0.00216
       ],
       "tineCents": 0.82,
       "driftCents": 0.14,
       "reflection": 0.01885,
-      "bassWeight": 0.68,
+      "bassWeight": 0.8,
       "lidHz": 4700,
       "phraseSeconds": 12,
       "breathSeconds": 0.055,
@@ -224,7 +264,7 @@
         5.4046,
         8.933
       ],
-      "attackMs": 2.2,
+      "attackMs": 2.5,
       "slowWeight": 0.235,
       "wood": [
         270,
@@ -234,8 +274,18 @@
       "woodAmount": 0.008064,
       "pairedTineWeight": 0.01,
       "playbackLufs": -42,
-      "bassClarity": 0.4,
-      "midClarity": 0.155
+      "bassClarity": 0.32,
+      "midClarity": 0.12,
+      "arrangement": {
+        "bassFloor": 48,
+        "harmonyFloor": 55,
+        "bassGain": 1.06,
+        "harmonyGain": 0.9
+      },
+      "bassHarmonics": [
+        0.17,
+        0.065
+      ]
     }
   ]
 }

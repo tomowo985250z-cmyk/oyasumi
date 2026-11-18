@@ -8,6 +8,9 @@ function tine(midi,p){
  const modes=p.modes.map((ratio,i)=>({hz:f*ratio,weight:weights[i]*(i?1+.04*v:1)*(i?1-low*.6:1+low*.35),d:decay*decays[i],phase:phases[i],fund:i===0}));
  // A weak neighbouring tine/body mode gives slow natural beating, not a harmony correction.
  modes.push({hz:f*2**((p.tineCents*.7)/1200),weight:p.pairedTineWeight*(1-low),d:decay*.8,phase:0,fund:false});
+ // Quiet integer harmonics make low tines audible through a small speaker's passband.
+ const support=Math.max(0,Math.min(1,(67-midi)/19));
+ for(const [i,weight]of (p.bassHarmonics||[]).entries())modes.push({hz:f*(i+2),weight:weight*support,d:decay*(i===0?.72:.48),phase:0,fund:false});
  for(const m of modes){if(m.hz>=rate/2)continue;const spectral=1/Math.sqrt(1+(m.hz/p.lidHz)**6),step=tau*m.hz/rate,fast=Math.exp(-1/(rate*m.d*.88)),late=Math.exp(-1/(rate*m.d*1.6)),other=Math.exp(-1/(rate*m.d)),driftHz=.31+.025*v,driftPhase=tau*driftHz;
   let a=1,b=1;for(let j=0;j<n;j++){const t=j/rate,phase=step*j+m.phase+(m.hz*(2**(p.driftCents/1200)-1)/driftHz)*(1-Math.cos(driftPhase*t)),envelope=m.fund?(1-slow)*a+slow*b:a;out[j]+=m.weight*spectral*Math.sin(phase)*envelope;a*=m.fund?fast:other;b*=late;}
  }
@@ -21,7 +24,7 @@ function body(samples,p){
 }
 function synth(score,p){
  const n=Math.round(score.sourceSeconds*p.nativeTimeScale*rate),samples=new Float64Array(n),cache=new Map();
- score.events.forEach((e,index)=>{if(!cache.has(e.midi))cache.set(e.midi,tine(e.midi,p));const wave=cache.get(e.midi),start=Math.round(e.at*p.nativeTimeScale*rate),register=p.bassWeight+(1-p.bassWeight)/(1+Math.exp(-(e.midi-59)/7)),velocity=e.velocity**p.dynamicExponent*register*(1+.017*variation(index+1000));for(let j=0;j<wave.length;j++)samples[(start+j)%n]+=wave[j]*velocity;});
+ score.events.forEach((e,index)=>{if(!cache.has(e.midi))cache.set(e.midi,tine(e.midi,p));const wave=cache.get(e.midi),start=Math.round(e.at*p.nativeTimeScale*rate),register=p.bassWeight+(1-p.bassWeight)/(1+Math.exp(-(e.midi-59)/7)),velocity=e.velocity**p.dynamicExponent*register*(1+.017*variation(index+1000)),release=p.arrangement&&e.role!=='melody'?Math.max(.65,Math.min(2.8,e.duration*p.nativeTimeScale+.3)):Infinity;for(let j=0;j<wave.length;j++){const damping=j/rate>release?Math.exp(-(j/rate-release)/.28):1;samples[(start+j)%n]+=wave[j]*velocity*damping;}});
  body(samples,p);const before=meter(samples,rate),artisticGain=10**((p.nominalLufs-before.lufs)/20),gain=Math.min(artisticGain,.89/before.peak),out=Buffer.alloc(44+n*2);if(!Number.isFinite(gain)||gain<=0)throw Error('Invalid gain');
  out.write('RIFF');out.writeUInt32LE(out.length-8,4);out.write('WAVEfmt ',8);out.writeUInt32LE(16,16);out.writeUInt16LE(1,20);out.writeUInt16LE(1,22);out.writeUInt32LE(rate,24);out.writeUInt32LE(rate*2,28);out.writeUInt16LE(2,32);out.writeUInt16LE(16,34);out.write('data',36);out.writeUInt32LE(n*2,40);
  for(let i=0;i<n;i++){const value=samples[i]*gain;if(!Number.isFinite(value)||Math.abs(value)>=1)throw Error('Non-finite/clipped PCM');out.writeInt16LE(Math.round(value*32767),44+i*2);}
