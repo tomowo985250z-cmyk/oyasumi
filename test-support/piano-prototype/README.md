@@ -10,6 +10,8 @@
 
 検証：全長PCMデコード、96kHz補間ピーク、音割れ・非数値・音量差、汎用小型スピーカー帯域、実際のEdge音声でのA/B切替・位置保持・シーク・音量0%・停止再開・曲末・非表示時の停止。WebKitは375／390pxの表示と音声非対応時の無効状態を確認しました。このWindows用WebKitには音声APIがないため、Safari実音確認とは数えません。人による聴感評価とiPhone実機試聴は未実施です。
 
+再生検証は `server.js` を起動して実行します。試聴用6ファイルと、既存カタログが指す5曲・出典ページをサーバーの許可リストへ登録します。音源ファイルと本編プレーヤーは変更しません。
+
 ```powershell
 $env:OYASUMI_PLAYWRIGHT_PATH = '<Playwright Core のインストール先>'
 node test-support/piano-prototype/verify.cjs <検証結果の出力先>

@@ -2,10 +2,11 @@
   "audioBytes": 1668960,
   "comparisonAssetBytes": 1687028,
   "creditsAddedBytes": 146,
-  "runtimeAddedBytes": 1687174,
-  "testSupportBytes": 17914,
-  "totalRepositoryAddedBytes": 1705088,
+  "runtimeAddedBytes": 1687674,
+  "testSupportBytes": 18451,
+  "totalRepositoryAddedBytes": 1706125,
   "downloadedInstrumentSampleBytes": 896937,
   "instrumentLibraryShipped": false,
-  "intermediateWavShipped": false
+  "intermediateWavShipped": false,
+  "serverSourceAddedBytes": 500
 }

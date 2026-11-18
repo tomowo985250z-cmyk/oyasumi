@@ -58,62 +58,63 @@
     "subjectiveListeningVerified": false,
     "nativeStarts": [
       {
-        "when": 0.6900000000000001,
+        "when": 0.5806666666666667,
         "offset": 0.04604166666666667,
         "duration": 139.00825,
         "variant": "piano",
         "bufferSeconds": 139.08
       },
       {
-        "when": 1.022,
+        "when": 0.9099999999999999,
         "offset": 38.04604166666667,
         "duration": 101.00825,
         "variant": "piano",
         "bufferSeconds": 139.08
       },
       {
-        "when": 2.01,
-        "offset": 39.02404166666667,
-        "duration": 100.03025,
+        "when": 2.002,
+        "offset": 39.12804166666667,
+        "duration": 99.92625000000001,
         "variant": "musicbox",
         "bufferSeconds": 139.08
       },
       {
-        "when": 2.3219999999999996,
-        "offset": 39.32604166666667,
-        "duration": 99.72825,
+        "when": 2.3113333333333332,
+        "offset": 39.427375,
+        "duration": 99.62691666666667,
         "variant": "piano",
         "bufferSeconds": 139.08
       },
       {
-        "when": 2.5406666666666666,
-        "offset": 39.534708333333334,
-        "duration": 99.51958333333334,
+        "when": 2.53,
+        "offset": 39.63604166666667,
+        "duration": 99.41825,
         "variant": "musicbox",
         "bufferSeconds": 139.08
       },
       {
-        "when": 3.6206666666666663,
-        "offset": 40.215375,
-        "duration": 98.83891666666668,
+        "when": 3.61,
+        "offset": 40.327375,
+        "duration": 98.72691666666667,
         "variant": "musicbox",
         "bufferSeconds": 139.08
       },
       {
-        "when": 3.9206666666666665,
+        "when": 3.9099999999999997,
         "offset": 138.74604166666666,
         "duration": 0.30825000000001523,
         "variant": "musicbox",
         "bufferSeconds": 139.08
       },
       {
-        "when": 4.3406666666666665,
+        "when": 4.33,
         "offset": 0.04604166666666667,
         "duration": 139.00825,
         "variant": "musicbox",
         "bufferSeconds": 139.08
       }
-    ]
+    ],
+    "applicationServerVerified": true
   },
   "analysis": {
     "lufs": -23.44558354758351,
