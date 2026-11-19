@@ -5,9 +5,20 @@ Original attribution and license: https://github.com/Tonejs/audio/blob/master/sa
 Creative Commons Attribution 3.0 Unported (CC BY 3.0)
 https://creativecommons.org/licenses/by/3.0/
 
-The piano samples and derived performances are distributed under CC BY 3.0.
-Changes: original five-song piano voicing, mono resampling, gain/envelope and gentle filtering changes, quiet reflections and expressive timing/dynamics.
-No endorsement by Alexander Holm or Tone.js is implied. No additional restrictions apply to the samples or derived performances.
+The piano samples remain CC BY 3.0. Original compositions are public domain.
+Notation editions are NOT all public domain: Air (Jeff Covey; MIDI preparation
+credited to Hans Hokke) and Nocturne Op.9 No.2 (Renato Biolcati Rinaldi) use
+Mutopia editions under CC BY-SA 3.0. Their score adaptations and derived
+performances are distributed under CC BY-SA 3.0:
+https://creativecommons.org/licenses/by-sa/3.0/
+June uses Noctave's CC0 1.0 notation; Prelude uses Magnus Lewis-Smith's
+public-domain Mutopia edition. Other editions retain their listed notices.
+The other five original Oyasumi arrangements and derived performances are
+CC BY 3.0. Full per-song attribution, edition links and licenses: credits.html.
 
-Compositions and source scores: Public Domain. See credits.html and test-support/piano/arrangement.json.
+Changes: original seven-song Oyasumi piano voicing and calm tempo maps,
+softened dynamics, mono resampling, gain/envelope and gentle filtering,
+quiet reflections and expressive timing/dynamics. No third-party recordings of these compositions.
+No endorsement by the source creators or Tone.js is implied. No additional
+restrictions apply to licensed samples, score adaptations or performances.
 Application code retains its existing license.

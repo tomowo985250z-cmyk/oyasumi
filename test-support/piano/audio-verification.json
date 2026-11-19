@@ -11,25 +11,25 @@
       "takes": [
         {
           "seed": 100,
-          "lufs": -24.000000000491145,
-          "peakDb": -5.849502269333696,
-          "interpolatedPeakDb": -5.849502189005623,
-          "sha256": "41c93505c0689cc2533c072b44662642986635b8a874c890424900e8e39a7ff1"
+          "lufs": -26.000000000092697,
+          "peakDb": -6.783660685756915,
+          "interpolatedPeakDb": -6.776312995201389,
+          "sha256": "6f401a778874a1af4b742b79be1bcc5adbb4134237f6fb804294ed0c105c2017"
         },
         {
           "seed": 900,
-          "lufs": -24.000000000221785,
-          "peakDb": -5.637195897585806,
-          "interpolatedPeakDb": -5.626236170634248,
-          "sha256": "fde3ab06e537c8e2add13145d24db9c74d3c8793692e8b2b139df2da4176f146"
+          "lufs": -25.99999999946986,
+          "peakDb": -6.061195541616757,
+          "interpolatedPeakDb": -6.040433038464822,
+          "sha256": "0ce62db32178aedd0440e0de99c63825f5cfe03892aa28f561d7f6bd0f8b8524"
         }
       ],
       "bassRange": [
         49,
         57
       ],
-      "bassPassbandFraction250To4500": 0.6424459997336763,
-      "renderAndAnalysisMs": 9563
+      "bassPassbandFraction250To4500": 0.6736558144922304,
+      "renderAndAnalysisMs": 12704
     },
     {
       "id": "air-g-string",
@@ -38,25 +38,25 @@
       "takes": [
         {
           "seed": 101,
-          "lufs": -24.00000000022094,
-          "peakDb": -4.828679928466805,
-          "interpolatedPeakDb": -4.81203058873295,
-          "sha256": "62e5c0b680382e080a8106d601faed509198eb3107f2eb37e2533fb167b7dc8c"
+          "lufs": -26.000000000030862,
+          "peakDb": -6.828680843760902,
+          "interpolatedPeakDb": -6.812031415460447,
+          "sha256": "cff79ad99c81e5bb842387c2691482e576e9b4a9ec2ce9f5938f1470b7cf8d1e"
         },
         {
           "seed": 901,
-          "lufs": -23.999999999542936,
-          "peakDb": -4.121958742052392,
-          "interpolatedPeakDb": -4.100354630843591,
-          "sha256": "7b68e16e6f0c5f43decd6f376781a599c66b1925ce5fc0ef38425091bd28656c"
+          "lufs": -26.0000000002739,
+          "peakDb": -6.121958354798419,
+          "interpolatedPeakDb": -6.100354123156253,
+          "sha256": "76b23cbe06e086b659a5532b3ffd5a1eef2f48ef6e1ec3275157c6ca2c32c7ce"
         }
       ],
       "bassRange": [
         45,
         57
       ],
-      "bassPassbandFraction250To4500": 0.509253931631634,
-      "renderAndAnalysisMs": 12023
+      "bassPassbandFraction250To4500": 0.5092539454743984,
+      "renderAndAnalysisMs": 15857
     },
     {
       "id": "nocturne-9-2",
@@ -65,25 +65,25 @@
       "takes": [
         {
           "seed": 102,
-          "lufs": -23.999999999998646,
-          "peakDb": -5.4086822204127,
-          "interpolatedPeakDb": -5.4022705711429655,
-          "sha256": "75eee2d7d1b8db2c5d59b70993e1ba5c017ef45f395f70b1a16d60d92c7ec272"
+          "lufs": -25.99999999986849,
+          "peakDb": -7.408692823676077,
+          "interpolatedPeakDb": -7.402281437495981,
+          "sha256": "bbf3b51cf05d2b666e52fb941c5461b240578d3eaebaba0bf0477987585713fe"
         },
         {
           "seed": 902,
-          "lufs": -24.00000000028452,
-          "peakDb": -6.11624371223351,
-          "interpolatedPeakDb": -6.116243596572486,
-          "sha256": "0b0b86eeb4d7b298c3bed6cdec5e5e10801bd381b951cbffec5e3663428eecd5"
+          "lufs": -26.000000000048917,
+          "peakDb": -8.116253392929005,
+          "interpolatedPeakDb": -8.116253366243573,
+          "sha256": "c749a9b22f49f1e0df5f06778b9f17d35c84b6f0ff5832d0a8b74157d6aec9c7"
         }
       ],
       "bassRange": [
         45,
         57
       ],
-      "bassPassbandFraction250To4500": 0.6026852615938468,
-      "renderAndAnalysisMs": 24390
+      "bassPassbandFraction250To4500": 0.6026852407886201,
+      "renderAndAnalysisMs": 32490
     },
     {
       "id": "traumerei",
@@ -92,25 +92,25 @@
       "takes": [
         {
           "seed": 103,
-          "lufs": -24.000000000047468,
-          "peakDb": -5.635055195350059,
-          "interpolatedPeakDb": -5.620671273151132,
-          "sha256": "46a1f05c7e8d3c347d4eeb5e26ef8a022c2343667c1e039f8ab262bcb8eab2f8"
+          "lufs": -25.999999999850264,
+          "peakDb": -7.635060606018159,
+          "interpolatedPeakDb": -7.620677452768986,
+          "sha256": "9ba3f182af4a3f6157492c4e627e03cee26abaca07dc60531f8a266c816ea7ee"
         },
         {
           "seed": 903,
-          "lufs": -23.9999999999701,
-          "peakDb": -4.316456189830839,
-          "interpolatedPeakDb": -4.316456046687537,
-          "sha256": "ff50c23224a72422e32337dbe6bf35f8513154965ff81eedd3ff875677e6933c"
+          "lufs": -25.99999999972764,
+          "peakDb": -6.316448407691146,
+          "interpolatedPeakDb": -6.316448256037619,
+          "sha256": "8ae1c3a804e146caa914ea0eb4861c7b1e83fca6150093e615ede4f9f74fbc53"
         }
       ],
       "bassRange": [
         45,
         57
       ],
-      "bassPassbandFraction250To4500": 0.5854904900718079,
-      "renderAndAnalysisMs": 8909
+      "bassPassbandFraction250To4500": 0.5854904967319218,
+      "renderAndAnalysisMs": 12415
     },
     {
       "id": "gymnopedie-1",
@@ -119,25 +119,79 @@
       "takes": [
         {
           "seed": 104,
-          "lufs": -24.000000000452903,
-          "peakDb": -3.9304710837276566,
-          "interpolatedPeakDb": -3.92471481124153,
-          "sha256": "3216051033013b5e743346aee204619c952d10779845d63bccf3e7473e8a9d99"
+          "lufs": -25.99999999969486,
+          "peakDb": -5.4876930384666185,
+          "interpolatedPeakDb": -5.487692894068457,
+          "sha256": "39f0d606bc619246f07d49eada1243ca2adcfd01eb368bcea37d1eedfdcbdf1d"
         },
         {
           "seed": 904,
-          "lufs": -24.00000000029667,
-          "peakDb": -3.2427494958522867,
-          "interpolatedPeakDb": -3.2377805849171692,
-          "sha256": "88bbc2361d3eac260513e18a4e3c4ff350af51366cdc9587122e92508351dd24"
+          "lufs": -25.999999999885002,
+          "peakDb": -4.791479785911805,
+          "interpolatedPeakDb": -4.789425723378246,
+          "sha256": "e01b3d3cc348a44945b25449fb5bd1bcb48b36e5b103ef3b4450a40b11ed121b"
         }
       ],
       "bassRange": [
         45,
         57
       ],
-      "bassPassbandFraction250To4500": 0.5250388483089123,
-      "renderAndAnalysisMs": 9743
+      "bassPassbandFraction250To4500": 0.529624432362877,
+      "renderAndAnalysisMs": 14262
+    },
+    {
+      "id": "barcarolle-june",
+      "seconds": 379.556479,
+      "notes": 1479,
+      "takes": [
+        {
+          "seed": 105,
+          "lufs": -25.999999999758693,
+          "peakDb": -4.635628757049467,
+          "interpolatedPeakDb": -4.63562854388296,
+          "sha256": "29ead0658ae7c89992d46aa18ce810f934280f33a275af35b784b69a9b9b84df"
+        },
+        {
+          "seed": 905,
+          "lufs": -25.99999999994157,
+          "peakDb": -4.980213423999589,
+          "interpolatedPeakDb": -4.95268938646848,
+          "sha256": "8b6def47a5600f8cfec6d8e4af8a8d04eb6daabce0ef9957f28459aa1bbbb281"
+        }
+      ],
+      "bassRange": [
+        45,
+        57
+      ],
+      "bassPassbandFraction250To4500": 0.6231840212716784,
+      "renderAndAnalysisMs": 44582
+    },
+    {
+      "id": "prelude-28-4",
+      "seconds": 121.769231,
+      "notes": 594,
+      "takes": [
+        {
+          "seed": 106,
+          "lufs": -25.99999999984719,
+          "peakDb": -6.945572714266525,
+          "interpolatedPeakDb": -6.945572616537796,
+          "sha256": "ad9c485e6b6c9aee26407137c98265f948a14ae583e06b4c198c89af7eb02804"
+        },
+        {
+          "seed": 906,
+          "lufs": -26.000000000230077,
+          "peakDb": -7.6878459793636384,
+          "interpolatedPeakDb": -7.6836554428715145,
+          "sha256": "c4fe5b424ca9a3f5e02305785be8a66188f040c19841ca8936be768050c4cf49"
+        }
+      ],
+      "bassRange": [
+        45,
+        57
+      ],
+      "bassPassbandFraction250To4500": 0.5599618331581393,
+      "renderAndAnalysisMs": 13964
     }
   ],
   "notes": [

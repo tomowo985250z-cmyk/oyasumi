@@ -225,10 +225,11 @@
     "license": "CC BY 3.0",
     "commercialUse": true,
     "redistribution": true,
-    "derivedPerformancesLicense": "CC BY 3.0",
+    "derivedPerformancesLicense": "Per track: Air and Nocturne CC BY-SA 3.0; other five CC BY 3.0; unchanged samples CC BY 3.0",
     "sourceScores": "test-support/piano/source-scores.json",
     "arrangement": "test-support/piano/arrangement.json",
-    "note": "The historical music-box recordings and prototype have been removed. Earlier rights checks below document source acquisition only; current attribution and changes are in the piano credits."
+    "note": "Original compositions are public domain. Individual notation editions include Public Domain, CC0 and CC BY-SA 3.0; see the per-track attribution, preserved source metadata and license links. No third-party recordings of these compositions; licensed score/MIDI notation is rendered locally with original voicing and bounded expression.",
+    "compositionCount": 7
   },
   "historicalMusicBoxAudit": {
     "baselineCommit": "6f58751",
@@ -252,10 +253,10 @@
     "audioOrPlaybackModifiedByAudit": false
   },
   "currentHashes": {
-    "roof-music.js": "3418a30fb80588908f2d53c4995b9eb611f8b164ddfb31dae6106748dbf32fb2",
+    "roof-music.js": "9dd77d821985b444b2434c23ae6a58afe9a7d53e9385c9302f6151c0ab1d9c65",
     "piano-player.js": "7a0180ad78b3d51d97bf81b5b6eedeccf1808f3a2163180b49a193db137943fe",
-    "piano-renderer.js": "6bee1ac9f040b87654dc04c3b73f0cc563be36b50bab7f54fe5733a9e39205ec",
-    "nature-sounds.js": "d3611f7404d7356ffcad61ee8f7a5e8260aa3fee8d81b7a999201f1419ede19a",
-    "assets/piano-v1/catalog.json": "3fd59d65ff6e2b11785bde88d93326314e1e9afdfc41dfbbe414dc720fd99411"
+    "piano-renderer.js": "75225a411463a3dd5831645f57c86256d37e64050aaa8adfceda5edcb8939c09",
+    "nature-sounds.js": "209462b1d9f7c9a14f875cf513efa9bb02ef42b1478f7f3d4ef3ab49d5a70dc0",
+    "assets/piano-v1/catalog.json": "01b9aa99d65886df1354deb8b56730bbf202b51052b0078468befb850064d5c8"
   }
 }

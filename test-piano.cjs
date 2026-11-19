@@ -1,6 +1,6 @@
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),assert=require('assert/strict'),engine=require('./piano-renderer.js'),catalog=require('./assets/piano-v1/catalog.json'),sources=require('./test-support/piano/source-scores.json'),audit=require('./test-support/piano/arrangement.json');
 const round=n=>Math.round(n*1e6)/1e6,hash=b=>crypto.createHash('sha256').update(b).digest('hex');
-assert.equal(catalog.tracks.length,5);assert.deepEqual(JSON.parse(fs.readFileSync('roof-music.js','utf8').match(/const tracks=(\[.*?\]),Audio=/)[1]),catalog.tracks);assert.equal(catalog.rendererVersion,hash(fs.readFileSync('piano-renderer.js')).slice(0,16));
+assert.equal(catalog.tracks.length,7);assert.deepEqual(JSON.parse(fs.readFileSync('roof-music.js','utf8').match(/const tracks=(\[.*?\]),Audio=/)[1]),catalog.tracks);assert.equal(catalog.rendererVersion,hash(fs.readFileSync('piano-renderer.js')).slice(0,16));
 for(const row of catalog.samples){const data=fs.readFileSync(row.url);assert.equal(hash(data),row.sha256);assert.equal(data.length,row.bytes);assert(row.sourceUrl.startsWith('https://raw.githubusercontent.com/Tonejs/audio/master/salamander/'));}
 for(const track of catalog.tracks){const score=require('./'+track.url),raw=sources.find(t=>t.id===track.id),recipe=audit.find(t=>t.id===track.id),upper=new Map();for(const n of raw.events.filter(e=>e.sourceTrack===1)){const at=round(n.at*recipe.timeScale);upper.set(at,Math.max(n.midi,upper.get(at)||0));}assert.deepEqual(score.notes.filter(n=>n[4]===0).map(n=>[n[0],n[1]]),[...upper].sort((a,b)=>a[0]-b[0]));
  for(const n of score.notes){assert(n.every(Number.isFinite));assert(n[2]>0&&n[3]>0);assert(raw.events.some(e=>round(e.at*recipe.timeScale)===n[0]&&(e.midi-n[1])%12===0),'Only original harmony pitch classes');if(n[4]===1)assert(n[1]>=45&&n[1]<=57);}
@@ -12,5 +12,8 @@ for(const track of catalog.tracks){const score=require('./'+track.url),raw=sourc
  }
 }
 const license=fs.readFileSync('assets/piano-v1/LICENSE.txt','utf8');assert(license.includes('Alexander Holm')&&license.includes('CC BY 3.0')&&license.includes('Changes:'));
+assert.equal(new Set(catalog.tracks.map(t=>t.level)).size,1,'Uniform output reference');
+for(const id of ['barcarolle-june','prelude-28-4']){const s=sources.find(s=>s.id===id);assert.equal(hash(JSON.stringify(s.events)),s.sourceEventHash);for(const f of s.source.sources){const b=fs.readFileSync(path.join('test-support/piano',f.file));assert.equal(b.length,f.bytes);assert.equal(hash(b),f.sha256);}}
+const credits=fs.readFileSync('assets/piano-v1/credits.html','utf8');assert(!credits.includes('undefined'));for(const s of sources){assert(credits.includes(s.source.page));assert(credits.includes(s.source.composer));}for(const id of ['air-g-string','nocturne-9-2']){const row=catalog.scoreLicenses.tracks.find(t=>t.id===id);assert(row.notationLicense.includes('ShareAlike'));assert.equal(row.derivedLicense,'CC BY-SA 3.0');}assert(license.includes('CC BY-SA 3.0'));
 assert(!fs.readFileSync('roof-music.js','utf8').includes('オルゴール'));assert(!fs.existsSync('assets/piano-prototype-v1/player.js'));
-console.log('PASS five tracks, sample license/hashes, melody and harmony provenance; 160 deterministic seeded performances with fresh expression, bounded timing, stable pitches and ordered ornament rhythms');
+console.log('PASS seven tracks, sample license/hashes, melody and harmony provenance; 224 deterministic seeded performances with fresh expression, bounded timing, stable pitches and ordered ornament rhythms');

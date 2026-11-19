@@ -1,0 +1,2 @@
+# Preserve the upstream licensed notation byte-for-byte for provenance hashes.
+prelude.ly -text -diff

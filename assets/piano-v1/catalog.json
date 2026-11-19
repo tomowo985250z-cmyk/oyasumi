@@ -7,7 +7,7 @@
   "source": "https://github.com/Tonejs/audio/tree/master/salamander",
   "sourceLicense": "https://github.com/Tonejs/audio/blob/master/salamander/README",
   "changes": "Original piano voicing, mono resampling, per-note envelopes and gentle filtering, quiet room reflections. Each new song entry has a fresh bounded expressive performance; no pitch modulation.",
-  "rendererVersion": "6bee1ac9f040b876",
+  "rendererVersion": "75225a411463a3dd",
   "tracks": [
     {
       "id": "clair-de-lune",
@@ -15,7 +15,7 @@
       "url": "assets/piano-v1/clair-de-lune.json",
       "loopStart": 0,
       "loopEnd": 111.767875,
-      "level": 0.12589254117941673
+      "level": 0.15848931924611132
     },
     {
       "id": "air-g-string",
@@ -23,7 +23,7 @@
       "url": "assets/piano-v1/air-g-string.json",
       "loopStart": 0,
       "loopEnd": 143.57520833333334,
-      "level": 0.12589254117941673
+      "level": 0.15848931924611132
     },
     {
       "id": "nocturne-9-2",
@@ -31,7 +31,7 @@
       "url": "assets/piano-v1/nocturne-9-2.json",
       "loopStart": 0,
       "loopEnd": 226.89979166666666,
-      "level": 0.12589254117941673
+      "level": 0.15848931924611132
     },
     {
       "id": "traumerei",
@@ -39,7 +39,7 @@
       "url": "assets/piano-v1/traumerei.json",
       "loopStart": 0,
       "loopEnd": 100.53408333333333,
-      "level": 0.12589254117941673
+      "level": 0.15848931924611132
     },
     {
       "id": "gymnopedie-1",
@@ -47,7 +47,23 @@
       "url": "assets/piano-v1/gymnopedie-1.json",
       "loopStart": 0,
       "loopEnd": 139.00825,
-      "level": 0.12589254117941673
+      "level": 0.15848931924611132
+    },
+    {
+      "id": "barcarolle-june",
+      "title": "舟歌（「四季」6月）",
+      "url": "assets/piano-v1/barcarolle-june.json",
+      "loopStart": 0,
+      "loopEnd": 379.556479,
+      "level": 0.15848931924611132
+    },
+    {
+      "id": "prelude-28-4",
+      "title": "プレリュード Op.28-4",
+      "url": "assets/piano-v1/prelude-28-4.json",
+      "loopStart": 0,
+      "loopEnd": 121.769231,
+      "level": 0.15848931924611132
     }
   ],
   "samples": [
@@ -222,5 +238,46 @@
       "sha256": "d51f4c51bed719f51e75ad22d5b9ac4b4d1a4749d02ef31ea03696de46fa5e77",
       "trimStart": 0
     }
-  ]
+  ],
+  "arrangement": "おやすみピアノバージョン",
+  "scoreLicenses": {
+    "notice": "Compositions are public domain; editions retain the individual licenses below. Samples remain CC BY 3.0.",
+    "tracks": [
+      {
+        "id": "clair-de-lune",
+        "notationLicense": "Public Domain",
+        "derivedLicense": "CC BY 3.0"
+      },
+      {
+        "id": "air-g-string",
+        "notationLicense": "Creative Commons Attribution-ShareAlike 3.0",
+        "derivedLicense": "CC BY-SA 3.0"
+      },
+      {
+        "id": "nocturne-9-2",
+        "notationLicense": "Creative Commons Attribution-ShareAlike 3.0",
+        "derivedLicense": "CC BY-SA 3.0"
+      },
+      {
+        "id": "traumerei",
+        "notationLicense": "Public Domain",
+        "derivedLicense": "CC BY 3.0"
+      },
+      {
+        "id": "gymnopedie-1",
+        "notationLicense": "Public Domain",
+        "derivedLicense": "CC BY 3.0"
+      },
+      {
+        "id": "barcarolle-june",
+        "notationLicense": "CC0 1.0",
+        "derivedLicense": "CC BY 3.0"
+      },
+      {
+        "id": "prelude-28-4",
+        "notationLicense": "Public Domain",
+        "derivedLicense": "CC BY 3.0"
+      }
+    ]
+  }
 }

@@ -32,7 +32,9 @@
       49,
       57
     ],
-    "timeScale": 0.8928571428571428
+    "timeScale": 0.8928571428571428,
+    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
+    "derivedLicense": "CC BY 3.0"
   },
   {
     "id": "air-g-string",
@@ -42,7 +44,7 @@
       "title": "G線上のアリア",
       "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=242",
       "license": "Creative Commons Attribution-ShareAlike 3.0",
-      "credit": "Jeff Covey",
+      "credit": "Jeff Covey; MIDI preparation credited by Mutopia to Hans Hokke",
       "edition": "Bach-Gesellschaft",
       "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
       "downloads": [
@@ -76,7 +78,8 @@
           "bytes": 8431,
           "sha256": "78cd9132781300c54b76a2d63ce7bb604dd4fabddb34ca9f136265949117c3a4"
         }
-      ]
+      ],
+      "composer": "Johann Sebastian Bach (1685–1750)"
     },
     "sourceEventHash": "801e93041872be24bd1294f8243447e844ed5ef00e100e10a9139a549b2ecf5c",
     "sourceNotes": 512,
@@ -88,7 +91,9 @@
       45,
       57
     ],
-    "timeScale": 0.920353982300885
+    "timeScale": 0.920353982300885,
+    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
+    "derivedLicense": "CC BY-SA 3.0"
   },
   {
     "id": "nocturne-9-2",
@@ -114,7 +119,8 @@
           "bytes": 11295,
           "sha256": "e202d3941ce5f26397f57f59f0e2e4e3ad9e19061fa3c4dc596c5ee6a6a2548e"
         }
-      ]
+      ],
+      "composer": "Frédéric Chopin (1810–1849)"
     },
     "sourceEventHash": "ac16e8273b6894c29272aa7b0007b6352b1250e1c2b4eece717935d4357ea3ed",
     "sourceNotes": 1242,
@@ -126,7 +132,9 @@
       45,
       57
     ],
-    "timeScale": 1.1
+    "timeScale": 1.1,
+    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
+    "derivedLicense": "CC BY-SA 3.0"
   },
   {
     "id": "traumerei",
@@ -152,7 +160,8 @@
           "bytes": 3708,
           "sha256": "6e0045d5783ff28dedcf05813074fe407ca3846e5e2a7246f2793ac5614e4851"
         }
-      ]
+      ],
+      "composer": "Robert Schumann (1810–1856)"
     },
     "sourceEventHash": "6fc622d5883ad93ec68879b5c3edfcf60e1e523f26fefbc683036909e0616b9b",
     "sourceNotes": 339,
@@ -164,7 +173,9 @@
       45,
       57
     ],
-    "timeScale": 0.8766233766233765
+    "timeScale": 0.8766233766233765,
+    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
+    "derivedLicense": "CC BY 3.0"
   },
   {
     "id": "gymnopedie-1",
@@ -190,7 +201,8 @@
           "bytes": 2892,
           "sha256": "09ce7337b4bf42ba12e1aa64b4c7dc7fcfa6455f1070cb12f8880a755df97384"
         }
-      ]
+      ],
+      "composer": "Erik Satie (1866–1925)"
     },
     "sourceEventHash": "ebcc6d1d493520ad9fe4424879c786a233801e9987229f083ba6dbe555d469cc",
     "sourceNotes": 282,
@@ -202,6 +214,192 @@
       45,
       57
     ],
-    "timeScale": 0.958677685950413
+    "timeScale": 0.958677685950413,
+    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
+    "derivedLicense": "CC BY 3.0"
+  },
+  {
+    "id": "barcarolle-june",
+    "source": {
+      "composer": "Pyotr Ilyich Tchaikovsky (1840–1893)",
+      "title": "June: Barcarolle, The Seasons Op.37a No.6",
+      "edition": "Noctave CC0 notation, original piano transcription (2019), released with written author consent; four note corrections by Noctave",
+      "credit": "Noctave and the consenting transcription author",
+      "page": "https://noctavepiano.com/en/sheet-music/tchaikovsky-barcarolle-op37a-6/",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sources": [
+        {
+          "file": "sources/barcarolle.mxl",
+          "url": "https://noctavepiano.com/partitions/tchaikovsky-barcarolle-op37a-6/tchaikovsky-barcarolle-op37a-6.mxl",
+          "bytes": 25387,
+          "sha256": "fadc42a777d22cfaf6baab3cd6d97e8b8215fcb7cf0253a0bf6653f0aa135a8d"
+        }
+      ],
+      "timing": {
+        "baseBpm": 60,
+        "sections": [
+          {
+            "measure": 32,
+            "bpm": 64,
+            "transitionBeats": 2
+          },
+          {
+            "measure": 40,
+            "bpm": 76,
+            "transitionBeats": 2
+          },
+          {
+            "measure": 50,
+            "bpm": 70,
+            "transitionBeats": 2
+          },
+          {
+            "measure": 52,
+            "bpm": 68,
+            "transitionBeats": 2
+          },
+          {
+            "measure": 53,
+            "bpm": 60,
+            "transitionBeats": 2
+          }
+        ],
+        "clockNodes": [
+          {
+            "beat": 0,
+            "spb": 1
+          },
+          {
+            "beat": 122,
+            "spb": 1
+          },
+          {
+            "beat": 124,
+            "spb": 0.9375
+          },
+          {
+            "beat": 154,
+            "spb": 0.9375
+          },
+          {
+            "beat": 156,
+            "spb": 0.7894736842105263
+          },
+          {
+            "beat": 184,
+            "spb": 0.7894736842105263
+          },
+          {
+            "beat": 186,
+            "spb": 0.8571428571428571
+          },
+          {
+            "beat": 190,
+            "spb": 0.8571428571428571
+          },
+          {
+            "beat": 192,
+            "spb": 0.8823529411764706
+          },
+          {
+            "beat": 194,
+            "spb": 0.8823529411764706
+          },
+          {
+            "beat": 196,
+            "spb": 1
+          },
+          {
+            "beat": 380,
+            "spb": 1
+          },
+          {
+            "beat": 384,
+            "spb": 1.1
+          }
+        ],
+        "closingBroadening": 1.1,
+        "notice": "Notation pitch and rhythm only; original Oyasumi tempo map, no external performance."
+      },
+      "rights": [
+        "Noctave edition, CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/). Composition: Pyotr Ilyich Tchaikovsky (1840–1893), public domain. Source: Transcription MuseScore inédite (2019), diffusée avec l'accord de son auteur. Made into this edition by Noctave, with some notes adapted (details: https://noctavepiano.com/partitions/tchaikovsky-barcarolle-op37a-6/).",
+        "Public domain composition. Unpublished MuseScore transcription (2019), released under CC0 1.0 with the written consent of its author; four notes corrected for the Noctave project (see catalog/LICENSES.md). This file: CC0 1.0."
+      ]
+    },
+    "sourceEventHash": "220f444cb1cdaa7f0807e218e25b7851e966050e9b91a126637861d51ed48aaf",
+    "sourceNotes": 1527,
+    "timeScale": 1,
+    "phraseSeconds": 16,
+    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
+    "derivedLicense": "CC BY 3.0",
+    "notes": 1479,
+    "melodyNotes": 467,
+    "melodyPitchesPreserved": true,
+    "pitchClassesPreserved": true,
+    "bassRange": [
+      45,
+      57
+    ]
+  },
+  {
+    "id": "prelude-28-4",
+    "source": {
+      "composer": "Frédéric Chopin (1810–1849)",
+      "title": "Prelude in E minor Op.28 No.4",
+      "edition": "Peters, 1879; Magnus Lewis-Smith / Mutopia-468",
+      "credit": "Magnus Lewis-Smith",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=468",
+      "license": "Public Domain",
+      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "sources": [
+        {
+          "file": "sources/prelude.mid",
+          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O28/Chop-28-4/Chop-28-4.mid",
+          "bytes": 5444,
+          "sha256": "c1d7e05aa4e6e2baeec2e9108402a969c16d5df302b82fd66d110634697f2e3b"
+        },
+        {
+          "file": "sources/prelude.ly",
+          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O28/Chop-28-4/Chop-28-4.ly",
+          "bytes": 9355,
+          "sha256": "d4fca574bc3c3ad810ee643d42b7299e1c97b3b8b3fa379c3d7f77edb02f6192"
+        }
+      ],
+      "timing": {
+        "baseBpm": 52,
+        "sections": [],
+        "clockNodes": [
+          {
+            "beat": 0,
+            "spb": 1.1538461538461537
+          },
+          {
+            "beat": 97,
+            "spb": 1.1538461538461537
+          },
+          {
+            "beat": 101,
+            "spb": 1.2692307692307692
+          }
+        ],
+        "closingBroadening": 1.1,
+        "notice": "Notation pitch and rhythm only; original Oyasumi tempo map, no external performance."
+      }
+    },
+    "sourceEventHash": "74bdbcba4a667317b60e593fd28f53399855ccf3423a064970a51aa4f81cf6e5",
+    "sourceNotes": 600,
+    "timeScale": 1,
+    "phraseSeconds": 18.461538,
+    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
+    "derivedLicense": "CC BY 3.0",
+    "notes": 594,
+    "melodyNotes": 79,
+    "melodyPitchesPreserved": true,
+    "pitchClassesPreserved": true,
+    "bassRange": [
+      45,
+      57
+    ]
   }
 ]

@@ -39,7 +39,7 @@
   filter(mix,55,true);filter(mix,3400,false);
   for(let j=0;j<mix.length;j++)mix[j]*=Math.min(1,j/(rate*.025))*Math.min(1,(mix.length-1-j)/(rate*1.8));
   // Static gain for each complete take: preserve phrasing and prevent inter-song jumps.
-  const raw=measure(mix),gain=Math.min(10**((-24-raw.lufs)/20),.70/Math.max(raw.peak,1e-12));for(let j=0;j<mix.length;j++)mix[j]*=gain;
+  const raw=measure(mix),gain=Math.min(10**((-26-raw.lufs)/20),.70/Math.max(raw.peak,1e-12));for(let j=0;j<mix.length;j++)mix[j]*=gain;
   return{pcm:mix,rate,lufs:raw.lufs+20*Math.log10(gain),peak:raw.peak*gain,seed};
  }
  root.PianoRender={performance,render,measure,filter,rate};

@@ -1,8 +1,16 @@
 {
   "sampleBytes": 1053987,
-  "newRuntimeBytes": 1172277,
+  "newRuntimeBytes": 1261518,
   "previousCurrentFiveAudioBytes": 12688166,
   "removedTrackedFiles": 159,
   "removedBytes": 204047368,
-  "currentAudioRuntimeReductionBytes": 11515889
+  "currentAudioRuntimeReductionBytes": 11426648,
+  "sevenSongExpansion": {
+    "previousFiveRuntimeBytes": 1191904,
+    "sevenRuntimeBytes": 1261518,
+    "increaseBytes": 69614,
+    "additionalSampleBytes": 0,
+    "addedScoresBytes": 64055,
+    "note": "Uses the same 19-note MP3 bank. New music is compact note JSON, rendered locally; no external playback service."
+  }
 }
