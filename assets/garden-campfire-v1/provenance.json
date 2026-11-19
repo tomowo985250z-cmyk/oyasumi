@@ -1,0 +1,14 @@
+{
+  "created": "2026-11-19",
+  "method": "Built-in image_gen tool, new transparent asset",
+  "prompt": "Use case: photorealistic-natural. Asset type: tiny transparent cutout for an existing muted Japanese garden game scene. Generate ONE isolated small campfire BASE only: four short thick weathered split logs crossed loosely over a shallow charcoal/ash bed, surrounded by six irregular low grey-brown natural stones. NO flames, NO smoke, NO sparks, NO background, NO grass, NO ground tile, NO letters. Fully transparent background and clean alpha. Camera looks downward at about 23 degrees, nearly frontal, so the ground footprint is a wide shallow ellipse, NOT an isometric top-down view. Photographic 3D material detail: solid rounded log thickness, rough dark brown bark, chipped pale cut endgrain rings, blackened inner surfaces, fine irregular grey ash. Tiny subdued reddish ember glow inside the gaps only. Warm orange reflection only on the inward-facing log surfaces; diffuse neutral daylight elsewhere, no dramatic studio rim. Natural compact horizontal composition, logs and stones occupy most of the width with space around the contact shadow, approximately 2.5:1 visible object width to height. Realistic soft contact shadow, restrained earthy colors and low contrast, clear foreground/back log overlaps and dimensional cut ends. Designed to remain credible when downscaled to roughly 55 pixels wide in a quiet semi-realistic garden. Output a single base cutout, no sheet or multiple views.",
+  "sourceSha256": "530bf3a5fbe98792f36ce47bf38d1d2418a4467341719b9d947108ae43a63725",
+  "asset": "fuel.webp",
+  "bytes": 7968,
+  "width": 192,
+  "height": 77,
+  "transparentPixels": 5439,
+  "opaquePixels": 0,
+  "changes": "Downscaled to 192px wide and encoded as alpha-preserving WebP. Original generated output retained in private build output.",
+  "audio": "Original procedural noise/grain synthesis in garden-campfire.js; no third-party sound asset."
+}

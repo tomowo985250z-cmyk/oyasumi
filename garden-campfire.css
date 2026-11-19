@@ -1,0 +1,6 @@
+.garden-campfire{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:hidden}
+.garden-campfire .campfire-fuel{filter:brightness(var(--fire-fuel-light,.65)) saturate(.90)}
+.garden-campfire .campfire-light{opacity:calc(.12 + .88 * var(--fire-night,0))}
+.garden-campfire .campfire-tongue{transform-box:view-box;transform-origin:0 -3px}
+.garden-campfire .campfire-flames{opacity:calc(.78 + .14 * var(--fire-night,0))}
+@media(prefers-reduced-motion:reduce){.garden-campfire .campfire-light{opacity:calc(.12 + .7 * var(--fire-night,0))}}

@@ -1,0 +1,311 @@
+{
+  "pass": true,
+  "layouts": [
+    {
+      "width": 375,
+      "season": "spring",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "season": "spring",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "season": "summer",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "season": "summer",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "season": "autumn",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "season": "autumn",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "season": "winter",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "season": "winter",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "spring",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "spring",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "summer",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "summer",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "autumn",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "autumn",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "winter",
+      "hour": 14,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "season": "winter",
+      "hour": 21,
+      "catShishiGeometryPreserved": true,
+      "overflow": false
+    }
+  ],
+  "audio": [
+    {
+      "width": 375,
+      "realJoin": false,
+      "native": false,
+      "contexts": 1,
+      "totalContexts": 2,
+      "rows": [
+        {
+          "at": 0.646,
+          "peak": 0.41999998688697815,
+          "rms": 0.030953190037842505,
+          "loop": false
+        },
+        {
+          "at": 3.197,
+          "peak": 0.41999998688697815,
+          "rms": 0.03233216436324313,
+          "loop": false
+        },
+        {
+          "at": 7.976,
+          "peak": 0.41999998688697815,
+          "rms": 0.032084830329915236,
+          "loop": false
+        },
+        {
+          "at": 10.941999999999991,
+          "peak": 0.41999998688697815,
+          "rms": 0.03576901107328284,
+          "loop": false
+        },
+        {
+          "at": 13.126999999999992,
+          "peak": 0.41999998688697815,
+          "rms": 0.030976618045663006,
+          "loop": false
+        }
+      ],
+      "campfire": {
+        "enabled": true,
+        "running": true,
+        "sources": 1,
+        "segments": 5,
+        "gain": 0.12,
+        "nextAt": 58.626999999999995,
+        "timer": true
+      },
+      "shishi": {
+        "enabled": true,
+        "volume": 0.15,
+        "playing": false,
+        "gain": 0,
+        "scheduled": true,
+        "nextStrike": 57.353,
+        "water": {
+          "playing": true,
+          "gain": 0.0026999999999999997
+        }
+      },
+      "volume": 0.5
+    },
+    {
+      "width": 390,
+      "realJoin": false,
+      "native": false,
+      "contexts": 1,
+      "totalContexts": 2,
+      "rows": [
+        {
+          "at": 0.753,
+          "peak": 0.41999998688697815,
+          "rms": 0.035716071254427856,
+          "loop": false
+        },
+        {
+          "at": 3.246,
+          "peak": 0.41999998688697815,
+          "rms": 0.030195840877540056,
+          "loop": false
+        },
+        {
+          "at": 8.945,
+          "peak": 0.41999998688697815,
+          "rms": 0.03314316976362044,
+          "loop": false
+        },
+        {
+          "at": 11.834999999999999,
+          "peak": 0.41999998688697815,
+          "rms": 0.030597408924133495,
+          "loop": false
+        },
+        {
+          "at": 14.248999999999999,
+          "peak": 0.41999998688697815,
+          "rms": 0.032272205302918876,
+          "loop": false
+        }
+      ],
+      "campfire": {
+        "enabled": true,
+        "running": true,
+        "sources": 1,
+        "segments": 5,
+        "gain": 0.12,
+        "nextAt": 59.748999999999995,
+        "timer": true
+      },
+      "shishi": {
+        "enabled": true,
+        "volume": 0.15,
+        "playing": false,
+        "gain": 0,
+        "scheduled": true,
+        "nextStrike": 59.014999999999986,
+        "water": {
+          "playing": true,
+          "gain": 0.0026999999999999997
+        }
+      },
+      "volume": 0.5
+    },
+    {
+      "width": 390,
+      "realJoin": true,
+      "native": true,
+      "contexts": 1,
+      "totalContexts": 2,
+      "rows": [
+        {
+          "at": 0.44,
+          "peak": 0.41999998688697815,
+          "rms": 0.029529443896156488,
+          "loop": false
+        },
+        {
+          "at": 1.9413333333333334,
+          "peak": 0.41999998688697815,
+          "rms": 0.03125358067218154,
+          "loop": false
+        },
+        {
+          "at": 4.301333333333333,
+          "peak": 0.41999998688697815,
+          "rms": 0.0360906802010478,
+          "loop": false
+        },
+        {
+          "at": 5.9013333333333335,
+          "peak": 0.41999998688697815,
+          "rms": 0.02823128121084546,
+          "loop": false
+        },
+        {
+          "at": 6.490666666666667,
+          "peak": 0.41999998688697815,
+          "rms": 0.03343711739313771,
+          "loop": false
+        },
+        {
+          "at": 51.99066666666667,
+          "peak": 0.41999998688697815,
+          "rms": 0.03133647317453183,
+          "loop": false
+        }
+      ],
+      "campfire": {
+        "enabled": true,
+        "running": true,
+        "sources": 1,
+        "segments": 6,
+        "gain": 0.11999999731779099,
+        "nextAt": 97.49066666666667,
+        "timer": true
+      },
+      "shishi": {
+        "enabled": true,
+        "volume": 0.15,
+        "playing": false,
+        "gain": 0,
+        "scheduled": true,
+        "nextStrike": 100.38482699999349,
+        "water": {
+          "playing": true,
+          "gain": 0.0026999999999999997
+        }
+      },
+      "volume": 0.5
+    }
+  ],
+  "errors": [],
+  "physicalIPhoneListening": false,
+  "humanListening": false
+}
