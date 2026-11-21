@@ -10,6 +10,8 @@
   <meta name="description" content="FUJI-PanC01の国別承認・患者募集・施設情報を、公式CTISの公開データから確認する非公式モニター。">
   <link rel="stylesheet" href="./style.css?v=2">
   <script type="module" src="./app.mjs?v=3"></script>
+  <link rel="stylesheet" href="./events/style.css?v=1">
+  <script type="module" src="./events/app.mjs?v=1"></script>
 </head>
 <body>
   <header class="masthead">
@@ -39,6 +41,23 @@
       <section class="about" aria-labelledby="about-title"><h2 id="about-title">この試験について</h2><p>進行膵がんの3次治療以降を対象に、CBP501・シスプラチン・ニボルマブの併用療法と、医師が選択する治療を比較する第III相試験です。</p><p class="section-note">試験概要はCTIS公開タイトルの参考訳です。</p><dl><div><dt>プロトコル番号</dt><dd>CBP 24-01</dd></div><div><dt>治験スポンサー</dt><dd>株式会社キャンバス（CanBas）</dd></div><div><dt>情報源</dt><dd>欧州医薬品庁（EMA）のCTIS</dd></div></dl></section>
     </div>
     <section class="source-links" aria-label="公式情報と再読込"><a class="official-link" href="https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01" target="_blank" rel="noopener noreferrer">公式CTISで確認</a><button id="reload" type="button">公開データを再読込</button><p>毎日1回、公式情報を取得します。再読込は、直近に取得・公開したデータを表示する操作です。</p></section>
+    <section id="ev-monitor" aria-busy="true" aria-labelledby="ev-title">
+      <h2 id="ev-title">CanBas 重要イベントモニター</h2>
+      <p>治験・薬事、提携・導出、資金調達、決算を公式出典から確認します。</p>
+      <nav aria-label="イベント内の移動"><a href="#ev-timeline-section">時系列</a><a href="#ev-pipeline-section">開発段階</a><a href="#ev-history-section">変更履歴</a><a href="#ev-source-section">取得状況</a></nav>
+      <p id="ev-notice" class="ev-note" role="status" aria-live="polite">イベント情報を読み込んでいます。</p>
+      <div id="ev-data" hidden>
+        <section><h3>イベントの最新変更情報</h3><p id="ev-changes-message"></p><ul id="ev-latest" class="ev-changes"></ul></section>
+        <section id="ev-timeline-section"><h2>重要イベントの時系列</h2><label>絞り込み<select id="ev-category"><option value="all">すべて</option><option>治験</option><option>承認・薬事</option><option>提携・研究</option><option>資金調達</option><option>決算・IR</option></select></label><p class="ev-small">日付は確定／予定／未定を区別。予定日を過ぎても完了・延期とは推定しません。提携・導出は「提携・研究」に含みます。</p><div id="ev-timeline"></div></section>
+        <section id="ev-pipeline-section"><h2>開発パイプライン</h2><p class="ev-small">破線は開始準備の段階です。治験開始承認と新薬の販売承認を区別します。</p><div id="ev-pipelines" class="ev-grid"></div></section>
+        <section><h2>登録簿を出典別に確認</h2><p class="ev-small">CTISは欧州第Ⅲ相、ClinicalTrials.govはCanBasがスポンサーの別試験を含みます。同じ試験と推定して統合しません。施設の原文表記・試験名の公式原文を保持します。</p><div id="ev-registries"></div></section>
+        <section><h2>公式IR・TDnetの新着開示</h2><p class="ev-small">公表日時・表題・出典を自動更新。PDF本文は人が確認した内容のみ時系列・開発段階に反映します。未確認の本文から完了や提携成立を推定しません。</p><div id="ev-disclosures"></div><details><summary id="ev-older-count">以前の開示</summary><div id="ev-older"></div></details></section>
+        <section id="ev-history-section"><h2>イベントの変更履歴</h2><p class="ev-small">記録開始後の変更を保持。国・施設の変更も保存します。変更日時が不明な場合は取得確認日時です。</p><details><summary id="ev-history-count">すべての変更履歴</summary><ol id="ev-history" class="ev-changes"></ol></details></section>
+        <section id="ev-source-section"><h2>情報源ごとの取得状況</h2><div id="ev-sources" class="ev-grid"></div></section>
+      </div>
+      <button id="ev-reload" type="button">イベントの公開データを再読込</button>
+      <p class="ev-small">毎日1回取得。再読込は公開済みデータの読み直しです。CanBas・各登録機関の公式サイトではありません。</p>
+    </section>
     <noscript><p class="notice failure">表示にはJavaScriptが必要です。上のリンクから公式CTISをご確認ください。</p></noscript>
   </main>
   <footer><p>CanBasやEMAが運営する公式サイトではありません。</p><p>未公開の情報を推定して補完せず、取得できた公開情報のみを表示します。施設名・住所はCTISの正式な掲載表記を保持しています。</p><p>出典：<a href="https://euclinicaltrials.eu/" target="_blank" rel="noopener noreferrer">EMA / CTIS</a> · 日本語の項目名・状態表示・試験概要は本モニターによる参考訳です。</p></footer>

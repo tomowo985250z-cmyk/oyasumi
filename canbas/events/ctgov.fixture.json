@@ -1,0 +1,279 @@
+{
+  "studies": [
+    {
+      "protocolSection": {
+        "identificationModule": {
+          "nctId": "NCT04953962",
+          "briefTitle": "Study of CBP501/Cisplatin/Nivolumab Combinations in Advanced Pancreatic Cancer"
+        },
+        "sponsorCollaboratorsModule": {
+          "leadSponsor": {
+            "name": "CanBas Co. Ltd.",
+            "class": "INDUSTRY"
+          }
+        },
+        "statusModule": {
+          "statusVerifiedDate": "2023-08",
+          "overallStatus": "COMPLETED",
+          "expandedAccessInfo": {
+            "hasExpandedAccess": false
+          },
+          "startDateStruct": {
+            "date": "2021-12-18",
+            "type": "ACTUAL"
+          },
+          "primaryCompletionDateStruct": {
+            "date": "2023-04-14",
+            "type": "ACTUAL"
+          },
+          "completionDateStruct": {
+            "date": "2023-04-14",
+            "type": "ACTUAL"
+          },
+          "studyFirstSubmitDate": "2021-06-29",
+          "studyFirstSubmitQcDate": "2021-06-29",
+          "studyFirstPostDateStruct": {
+            "date": "2021-07-08",
+            "type": "ACTUAL"
+          },
+          "lastUpdateSubmitDate": "2023-08-14",
+          "lastUpdatePostDateStruct": {
+            "date": "2023-08-15",
+            "type": "ACTUAL"
+          }
+        },
+        "designModule": {
+          "phases": [
+            "PHASE2"
+          ],
+          "enrollmentInfo": {
+            "count": 36,
+            "type": "ACTUAL"
+          }
+        }
+      }
+    },
+    {
+      "protocolSection": {
+        "identificationModule": {
+          "nctId": "NCT00700336",
+          "briefTitle": "Study of CBP501 + Pemetrexed + Cisplatin on MPM (Phase I/II)"
+        },
+        "sponsorCollaboratorsModule": {
+          "leadSponsor": {
+            "name": "CanBas Co. Ltd.",
+            "class": "INDUSTRY"
+          }
+        },
+        "statusModule": {
+          "statusVerifiedDate": "2021-06",
+          "overallStatus": "COMPLETED",
+          "expandedAccessInfo": {
+            "hasExpandedAccess": false
+          },
+          "startDateStruct": {
+            "date": "2008-05"
+          },
+          "primaryCompletionDateStruct": {
+            "date": "2012-07",
+            "type": "ACTUAL"
+          },
+          "completionDateStruct": {
+            "date": "2012-11",
+            "type": "ACTUAL"
+          },
+          "studyFirstSubmitDate": "2008-06-16",
+          "studyFirstSubmitQcDate": "2008-06-17",
+          "studyFirstPostDateStruct": {
+            "date": "2008-06-18",
+            "type": "ESTIMATED"
+          },
+          "resultsFirstSubmitDate": "2017-03-13",
+          "resultsFirstSubmitQcDate": "2021-06-30",
+          "resultsFirstPostDateStruct": {
+            "date": "2021-07-20",
+            "type": "ACTUAL"
+          },
+          "lastUpdateSubmitDate": "2021-06-30",
+          "lastUpdatePostDateStruct": {
+            "date": "2021-07-20",
+            "type": "ACTUAL"
+          }
+        },
+        "designModule": {
+          "phases": [
+            "PHASE1",
+            "PHASE2"
+          ],
+          "enrollmentInfo": {
+            "count": 69,
+            "type": "ACTUAL"
+          }
+        }
+      }
+    },
+    {
+      "protocolSection": {
+        "identificationModule": {
+          "nctId": "NCT03113188",
+          "briefTitle": "CBP501, Cisplatin and Nivolumab in Advanced Refractory Tumors"
+        },
+        "sponsorCollaboratorsModule": {
+          "leadSponsor": {
+            "name": "CanBas Co. Ltd.",
+            "class": "INDUSTRY"
+          }
+        },
+        "statusModule": {
+          "statusVerifiedDate": "2020-10",
+          "overallStatus": "COMPLETED",
+          "expandedAccessInfo": {
+            "hasExpandedAccess": false
+          },
+          "startDateStruct": {
+            "date": "2017-10-25",
+            "type": "ACTUAL"
+          },
+          "primaryCompletionDateStruct": {
+            "date": "2021-02-15",
+            "type": "ACTUAL"
+          },
+          "completionDateStruct": {
+            "date": "2021-02-15",
+            "type": "ACTUAL"
+          },
+          "studyFirstSubmitDate": "2017-04-09",
+          "studyFirstSubmitQcDate": "2017-04-09",
+          "studyFirstPostDateStruct": {
+            "date": "2017-04-13",
+            "type": "ACTUAL"
+          },
+          "lastUpdateSubmitDate": "2021-03-08",
+          "lastUpdatePostDateStruct": {
+            "date": "2021-03-10",
+            "type": "ACTUAL"
+          }
+        },
+        "designModule": {
+          "phases": [
+            "PHASE1"
+          ],
+          "enrollmentInfo": {
+            "count": 47,
+            "type": "ACTUAL"
+          }
+        }
+      }
+    },
+    {
+      "protocolSection": {
+        "identificationModule": {
+          "nctId": "NCT00551512",
+          "briefTitle": "Phase I Study of CBP501 and Cisplatin in Patients With Advanced Refractory Solid Tumors"
+        },
+        "sponsorCollaboratorsModule": {
+          "leadSponsor": {
+            "name": "CanBas Co. Ltd.",
+            "class": "INDUSTRY"
+          }
+        },
+        "statusModule": {
+          "statusVerifiedDate": "2017-03",
+          "overallStatus": "COMPLETED",
+          "expandedAccessInfo": {
+            "hasExpandedAccess": false
+          },
+          "startDateStruct": {
+            "date": "2006-11"
+          },
+          "primaryCompletionDateStruct": {
+            "date": "2009-05",
+            "type": "ACTUAL"
+          },
+          "completionDateStruct": {
+            "date": "2009-05",
+            "type": "ACTUAL"
+          },
+          "studyFirstSubmitDate": "2007-10-29",
+          "studyFirstSubmitQcDate": "2007-10-29",
+          "studyFirstPostDateStruct": {
+            "date": "2007-10-31",
+            "type": "ESTIMATED"
+          },
+          "lastUpdateSubmitDate": "2017-03-13",
+          "lastUpdatePostDateStruct": {
+            "date": "2017-03-14",
+            "type": "ACTUAL"
+          }
+        },
+        "designModule": {
+          "phases": [
+            "PHASE1"
+          ],
+          "enrollmentInfo": {
+            "count": 48,
+            "type": "ACTUAL"
+          }
+        }
+      }
+    },
+    {
+      "protocolSection": {
+        "identificationModule": {
+          "nctId": "NCT00942825",
+          "briefTitle": "Triplet Combination First Line Treatment in Non Small Cell Lung Cancer (NSCLC)"
+        },
+        "sponsorCollaboratorsModule": {
+          "leadSponsor": {
+            "name": "CanBas Co. Ltd.",
+            "class": "INDUSTRY"
+          }
+        },
+        "statusModule": {
+          "statusVerifiedDate": "2017-03",
+          "overallStatus": "COMPLETED",
+          "expandedAccessInfo": {
+            "hasExpandedAccess": false
+          },
+          "startDateStruct": {
+            "date": "2009-04"
+          },
+          "primaryCompletionDateStruct": {
+            "date": "2013-07",
+            "type": "ACTUAL"
+          },
+          "completionDateStruct": {
+            "date": "2013-07",
+            "type": "ACTUAL"
+          },
+          "studyFirstSubmitDate": "2009-07-17",
+          "studyFirstSubmitQcDate": "2009-07-20",
+          "studyFirstPostDateStruct": {
+            "date": "2009-07-21",
+            "type": "ESTIMATED"
+          },
+          "resultsFirstSubmitDate": "2017-03-14",
+          "resultsFirstSubmitQcDate": "2017-04-25",
+          "resultsFirstPostDateStruct": {
+            "date": "2017-05-24",
+            "type": "ACTUAL"
+          },
+          "lastUpdateSubmitDate": "2017-04-25",
+          "lastUpdatePostDateStruct": {
+            "date": "2017-05-24",
+            "type": "ACTUAL"
+          }
+        },
+        "designModule": {
+          "phases": [
+            "PHASE2"
+          ],
+          "enrollmentInfo": {
+            "count": 195,
+            "type": "ACTUAL"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "documents": [
+    {
+      "title": "欧州臨床第3相試験開始承認受領（2026年11月19日）",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2920239/00.pdf",
+      "page": "1–2",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "第22〜24回新株予約権の発行価額払込完了",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2902212/00.pdf",
+      "page": "1–3",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "CanBas公式FAQ",
+      "url": "https://www.canbas.co.jp/ir/faq/",
+      "page": "CBS9106契約解消／CBP501提携",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "公式臨床開発パイプライン一覧",
+      "url": "https://www.canbas.co.jp/pipeline/clinical/",
+      "page": "CBP501／CBS9106",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "第22回新株予約権の大量行使（11月20日）",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921086/00.pdf",
+      "page": "1",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "2027年6月期 第1四半期決算短信",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2917256/00.pdf",
+      "page": "1",
+      "reviewedAt": "2026-11-21"
+    }
+  ],
+  "events": [
+    {
+      "id": "eu-approval",
+      "title": "CBP501・欧州第Ⅲ相の開始承認を受領",
+      "category": "承認・薬事",
+      "date": "2026-11-19",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "会社が開始承認の受領を公表。新薬の販売承認とは区別します。国ごとの手続きと募集状況は上のCTIS表示を参照してください。",
+      "source": {
+        "title": "欧州臨床第3相試験開始承認受領（2026年11月19日）",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2920239/00.pdf",
+        "page": "1–2"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "eu-preparation",
+      "title": "FUJI-PanC01・施設開設と募集開始の準備",
+      "category": "治験",
+      "date": null,
+      "certainty": "undetermined",
+      "progress": "in_progress",
+      "detail": "会社による計画は約180名・8カ国約50施設。各国手続き後に順次開始する方針。施設数と登録人数は計画で、実績ではありません。",
+      "source": {
+        "title": "欧州臨床第3相試験開始承認受領（2026年11月19日）",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2920239/00.pdf",
+        "page": "1–2"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "interim-analysis",
+      "title": "FUJI-PanC01・中間解析",
+      "category": "治験",
+      "date": null,
+      "certainty": "undetermined",
+      "progress": "unknown",
+      "detail": "最終解析に必要なデータの25％が得られた時点で登録を中断し解析する計画。実施日は未公表です。",
+      "source": {
+        "title": "欧州臨床第3相試験開始承認受領（2026年11月19日）",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2920239/00.pdf",
+        "page": "1–2"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "eu-completion",
+      "title": "FUJI-PanC01・試験終了の会社見込み",
+      "category": "治験",
+      "date": "2029-01",
+      "certainty": "planned",
+      "progress": "not_started",
+      "detail": "会社は2029年前半を見込みとして提示。開始時期・登録ペース・解析期間によって変動します。結果発表日や承認予定日ではありません。",
+      "source": {
+        "title": "欧州臨床第3相試験開始承認受領（2026年11月19日）",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2920239/00.pdf",
+        "page": "1–2"
+      },
+      "reviewedAt": "2026-11-21",
+      "dateEnd": "2029-06",
+      "dateText": "2029年前半（会社見込み）"
+    },
+    {
+      "id": "marketing-application",
+      "title": "CBP501・新薬承認申請の時期",
+      "category": "承認・薬事",
+      "date": null,
+      "certainty": "undetermined",
+      "progress": "unknown",
+      "detail": "確認した開始承認資料には新薬の申請日・販売承認日は記載されていません。",
+      "source": {
+        "title": "欧州臨床第3相試験開始承認受領（2026年11月19日）",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2920239/00.pdf",
+        "page": "1–2"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "warrant-payment",
+      "title": "第22〜24回新株予約権・発行価額の払込完了",
+      "category": "資金調達",
+      "date": "2026-10-30",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "発行価額の払込総額は1,514万円。潜在株式数は合計480万株。将来の行使による調達額とは区別します。",
+      "source": {
+        "title": "第22〜24回新株予約権の発行価額払込完了",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2902212/00.pdf",
+        "page": "1–3"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "warrant-exercise",
+      "title": "第22回新株予約権・11月20日までの大量行使開示",
+      "category": "資金調達",
+      "date": "2026-11-20",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "11月2〜20日の交付株式数は148万5,000株、行使1万4,850個（発行総数の74.25％）。当時の未行使は5,150個。全回号の調達完了を意味しません。",
+      "source": {
+        "title": "第22回新株予約権の大量行使（11月20日）",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921086/00.pdf",
+        "page": "1"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "q1-results",
+      "title": "2027年6月期・第1四半期決算を公表",
+      "category": "決算・IR",
+      "date": "2026-11-13",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "2026年7〜9月の決算を公表。四半期純損失は約4億2,600万円。通期業績予想は非開示です。",
+      "source": {
+        "title": "2027年6月期 第1四半期決算短信",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2917256/00.pdf",
+        "page": "1"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "cbs-return",
+      "title": "CBS9106・Stemlineとのライセンス解消・返還合意",
+      "category": "提携・研究",
+      "date": "2025-06",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "公式FAQは2025年6月の合意を説明。具体的な日付と次の開発方針は補完しません。",
+      "source": {
+        "title": "CanBas公式FAQ",
+        "url": "https://www.canbas.co.jp/ir/faq/",
+        "page": "CBS9106契約解消／CBP501提携"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "cbp-partner",
+      "title": "CBP501・提携／導出先の獲得活動",
+      "category": "提携・研究",
+      "date": null,
+      "certainty": "undetermined",
+      "progress": "in_progress",
+      "detail": "公式FAQに提携獲得活動の継続を記載。成立時期・契約条件は未公表です。",
+      "source": {
+        "title": "CanBas公式FAQ",
+        "url": "https://www.canbas.co.jp/ir/faq/",
+        "page": "CBS9106契約解消／CBP501提携"
+      },
+      "reviewedAt": "2026-11-21"
+    }
+  ],
+  "pipelines": [
+    {
+      "id": "cbp501-eu",
+      "title": "CBP501・欧州膵がん第Ⅲ相",
+      "stage": "第Ⅲ相",
+      "state": "planned",
+      "note": "開始承認を受領し、各国手続き・施設開設・募集の開始準備。開始実績はCTISの国別情報で別途確認します。公式パイプライン一覧は第Ⅱ相終了表記で、11月19日の開始承認開示と記載時点が異なります。",
+      "source": {
+        "title": "欧州臨床第3相試験開始承認受領（2026年11月19日）",
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2920239/00.pdf",
+        "page": "1–2"
+      },
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "id": "cbs9106",
+      "title": "CBS9106・XPO1可逆的阻害剤",
+      "stage": "第Ⅰ相",
+      "state": "analysis",
+      "note": "公式一覧は第Ⅰ相終了。ライセンス解消・返還合意後の次段階・開始時期は未確認です。",
+      "source": {
+        "title": "公式臨床開発パイプライン一覧",
+        "url": "https://www.canbas.co.jp/pipeline/clinical/",
+        "page": "CBP501／CBS9106"
+      },
+      "reviewedAt": "2026-11-21"
+    }
+  ]
+}

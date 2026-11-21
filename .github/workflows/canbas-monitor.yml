@@ -7,6 +7,7 @@ on:
 permissions:
   contents: write
   pages: write
+  actions: read
 
 concurrency:
   group: canbas-monitor
@@ -25,25 +26,30 @@ jobs:
         with:
           node-version: '22'
       - name: 保持・差分・項目欠落のテスト
-        run: node --test canbas/tests/update.test.mjs
+        run: node --test canbas/tests/update.test.mjs canbas/events/update.test.mjs
       - name: 公式CTISを取得
         id: ctis
         continue-on-error: true
         run: node canbas/scripts/update.mjs
+      - name: 公式IR・TDnet・CTIS取得結果・ClinicalTrials.govを取得
+        id: events
+        if: always() && (steps.ctis.outcome == 'success' || steps.ctis.outcome == 'failure')
+        continue-on-error: true
+        run: node canbas/events/update.mjs
       - name: 取得結果のみを保存
         id: persist
         if: always() && steps.ctis.outcome != 'skipped'
         shell: bash
         run: |
           set -euo pipefail
-          git add -- canbas/data/trial.json canbas/data/status.json
+          git add -- canbas/data/trial.json canbas/data/status.json canbas/data/events.json canbas/data/events-status.json
           if git diff --cached --quiet; then
             echo 'changed=false' >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'chore(canbas): record official CTIS retrieval'
+          git commit -m 'chore(canbas): record official trial and event retrieval'
           git pull --rebase origin main
           git push origin HEAD:main
           echo 'changed=true' >> "$GITHUB_OUTPUT"
@@ -53,9 +59,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CANBAS_COMMIT: ${{ steps.persist.outputs.commit }}
-        run: node canbas/scripts/pages-build.mjs
+        run: node canbas/events/pages-build.mjs
       - name: 取得失敗を実行結果に記録
-        if: always() && steps.ctis.outcome == 'failure'
+        if: always() && (steps.ctis.outcome == 'failure' || steps.events.outcome == 'failure')
         run: |
-          echo '::error::CTIS取得失敗。治験JSONは保持し、取得失敗の状態を公開しました。'
+          echo '::error::公式情報の一部取得に失敗。該当する正常データを保持し、取得失敗の状態を公開しました。'
           exit 1
