@@ -3,36 +3,36 @@
   "sources": {
     "ir": {
       "result": "success",
-      "dataResult": "initial",
-      "lastAttemptAt": "2026-11-21T10:19:14.021Z",
-      "lastSuccessAt": "2026-11-21T10:19:14.021Z",
+      "dataResult": "unchanged",
+      "lastAttemptAt": "2026-11-21T10:25:22.754Z",
+      "lastSuccessAt": "2026-11-21T10:25:22.754Z",
       "snapshotHash": "bd495cb4ef3237edbf0886507f4b5f03946ccdabc8b7e7dca6c50aef180abe5b",
       "error": null,
       "coverage": "2025年以降の公式IR公開一覧"
     },
     "tdnet": {
       "result": "success",
-      "dataResult": "initial",
-      "lastAttemptAt": "2026-11-21T10:19:14.021Z",
-      "lastSuccessAt": "2026-11-21T10:19:14.021Z",
+      "dataResult": "unchanged",
+      "lastAttemptAt": "2026-11-21T10:25:22.754Z",
+      "lastSuccessAt": "2026-11-21T10:25:22.754Z",
       "snapshotHash": "6d6a7cce4542b61e4ff929d2e3b594893d9ecf9e9cbb9b8215a4e9ab4cd30d3b",
       "error": null,
-      "coverage": "20261115〜20261121（全ページ確認・過去取得分を保持）"
+      "coverage": "20261120〜20261121（全ページ確認・過去取得分を保持）"
     },
     "jrct": {
       "result": "success",
-      "dataResult": "initial",
-      "lastAttemptAt": "2026-11-21T10:19:14.021Z",
-      "lastSuccessAt": "2026-11-21T10:19:14.021Z",
+      "dataResult": "unchanged",
+      "lastAttemptAt": "2026-11-21T10:25:22.754Z",
+      "lastSuccessAt": "2026-11-21T10:25:22.754Z",
       "snapshotHash": "09d9b426247c15ca0b36dc067c5f7a051b2f590e16bcb67227d2e3f139088e29",
       "error": null,
       "coverage": "対象2試験の公開詳細"
     },
     "ctgov": {
       "result": "success",
-      "dataResult": "initial",
-      "lastAttemptAt": "2026-11-21T10:19:14.021Z",
-      "lastSuccessAt": "2026-11-21T10:19:14.021Z",
+      "dataResult": "unchanged",
+      "lastAttemptAt": "2026-11-21T10:25:22.754Z",
+      "lastSuccessAt": "2026-11-21T10:25:22.754Z",
       "snapshotHash": "7acecab37c213d31dea2a1e0238f52238c1ce73e72cf04d9e616e8a059751a57",
       "error": null,
       "coverage": "対象2試験の公開JSON"
