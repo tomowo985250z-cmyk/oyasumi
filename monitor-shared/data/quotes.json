@@ -2,6 +2,19 @@
   "version": 1,
   "provider": "Yahoo Finance",
   "entries": {
+    "usdjpy": {
+      "quote": {
+        "symbol": "JPY=X",
+        "currency": "JPY",
+        "price": 158.512,
+        "previousClose": null,
+        "asOf": "2026-11-20T21:59:58.000Z"
+      },
+      "result": "success",
+      "lastAttemptAt": "2026-11-21T12:21:17.777Z",
+      "lastSuccessAt": "2026-11-21T12:21:17.777Z",
+      "error": null
+    },
     "canbas": {
       "quote": {
         "symbol": "4575.T",
@@ -11,8 +24,8 @@
         "asOf": "2026-11-20T06:30:00.000Z"
       },
       "result": "success",
-      "lastAttemptAt": "2026-11-21T12:13:10.668Z",
-      "lastSuccessAt": "2026-11-21T12:13:10.668Z",
+      "lastAttemptAt": "2026-11-21T12:21:17.777Z",
+      "lastSuccessAt": "2026-11-21T12:21:17.777Z",
       "error": null
     },
     "kringle": {
@@ -24,8 +37,8 @@
         "asOf": "2026-11-20T06:30:00.000Z"
       },
       "result": "success",
-      "lastAttemptAt": "2026-11-21T12:13:10.668Z",
-      "lastSuccessAt": "2026-11-21T12:13:10.668Z",
+      "lastAttemptAt": "2026-11-21T12:21:17.777Z",
+      "lastSuccessAt": "2026-11-21T12:21:17.777Z",
       "error": null
     },
     "joby": {
@@ -37,21 +50,8 @@
         "asOf": "2026-11-20T21:00:03.000Z"
       },
       "result": "success",
-      "lastAttemptAt": "2026-11-21T12:13:10.668Z",
-      "lastSuccessAt": "2026-11-21T12:13:10.668Z",
-      "error": null
-    },
-    "usdjpy": {
-      "quote": {
-        "symbol": "JPY=X",
-        "currency": "JPY",
-        "price": 158.512,
-        "previousClose": null,
-        "asOf": "2026-11-20T21:59:58.000Z"
-      },
-      "result": "success",
-      "lastAttemptAt": "2026-11-21T12:13:10.668Z",
-      "lastSuccessAt": "2026-11-21T12:13:10.668Z",
+      "lastAttemptAt": "2026-11-21T12:21:17.777Z",
+      "lastSuccessAt": "2026-11-21T12:21:17.777Z",
       "error": null
     }
   }
