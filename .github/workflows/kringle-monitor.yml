@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pages: write
+  actions: read
 
 # The same Pages branch is shared. Serialize publication with the unchanged
 # CanBas workflow to avoid racing data commits or Pages build confirmation.

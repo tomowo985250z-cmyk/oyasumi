@@ -47,6 +47,8 @@ PDF解析用ツール・原文・PDFファイルは開発用作業領域だけ�
 既存ワークフローは変更しない。コミット対象はkringleのevents/statusの2ファイルだけ。
 一部取得失敗も状態を公開し、ジョブ結果は失敗にする。公開は既存の`canbas/scripts/pages-build.mjs`の純粋な公開関数を再利用する。
 Pagesはmain直下・legacyの既存設定を検証し、期待するコミットの公開完了まで確認する。
+重複ビルドの中断で旧ビルドAPIに失敗が残る場合は、対象コミットと一致するPages Actionsの配信成功を確認する。
+別コミット・他のワークフローの成功を公開成功として扱わない。確認の補完はkringle側だけで行う。
 
 ```sh
 node --test kringle/tests/update.test.mjs
