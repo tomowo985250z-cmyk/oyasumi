@@ -1,9 +1,13 @@
-[data-quote-summary]{box-sizing:border-box;width:min(100% - 40px,1040px);margin:14px auto 0;padding:12px 16px;border:1px solid #d1dce2;border-radius:12px;background:#edf1f4;color:#263e4b;overflow-wrap:anywhere}
-[data-quote-summary][data-direction=up]{background:linear-gradient(rgba(188,37,56,var(--quote-tint)),rgba(188,37,56,var(--quote-tint))),#fff}
-[data-quote-summary][data-direction=down]{background:linear-gradient(rgba(23,93,182,var(--quote-tint)),rgba(23,93,182,var(--quote-tint))),#fff}
-[data-quote-summary] .quote-summary-metrics{display:flex;flex-wrap:wrap;gap:8px 24px;font-variant-numeric:tabular-nums}
-[data-quote-summary] .quote-summary-metrics>span{display:flex;align-items:baseline;gap:7px;font-size:.875rem}
-[data-quote-summary] .quote-summary-metrics strong{font-size:1.05rem}
-[data-quote-summary][data-direction=up] strong{color:#a51d30}[data-quote-summary][data-direction=down] strong{color:#154f9b}
+[data-quote-summary]{box-sizing:border-box;width:min(100% - 40px,1040px);margin:14px auto 0;color:#263e4b;overflow-wrap:anywhere}
+[data-quote-summary] .quote-summary-card{padding:20px 16px;border:1px solid #d1dce2;border-radius:12px;background:#edf1f4;text-align:center;font-variant-numeric:tabular-nums}
+[data-quote-summary][data-direction=up] .quote-summary-card{background:linear-gradient(rgba(188,37,56,var(--quote-tint)),rgba(188,37,56,var(--quote-tint))),#fff}
+[data-quote-summary][data-direction=down] .quote-summary-card{background:linear-gradient(rgba(23,93,182,var(--quote-tint)),rgba(23,93,182,var(--quote-tint))),#fff}
+[data-quote-summary] .quote-summary-price{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:0 0 12px;line-height:1.2}
+[data-quote-summary] .quote-summary-price strong{font-size:clamp(2.3rem,8vw,3.2rem);font-weight:750;letter-spacing:-.02em}
+[data-quote-summary] .quote-summary-price small{font-size:.875rem}
+[data-quote-summary] .quote-summary-change,[data-quote-summary] .quote-summary-pnl{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 10px;margin:6px 0 0;font-size:.94rem;line-height:1.65}
+[data-quote-summary][data-direction=up] .quote-summary-price strong,[data-quote-summary][data-direction=up] .quote-summary-change strong{color:#a51d30}
+[data-quote-summary][data-direction=down] .quote-summary-price strong,[data-quote-summary][data-direction=down] .quote-summary-change strong{color:#154f9b}
+[data-quote-summary] .quote-summary-profit strong{color:#bc2538}[data-quote-summary] .quote-summary-loss strong{color:#175db6}
 [data-quote-summary] .quote-summary-note{margin:8px 0 0;font-size:.75rem;line-height:1.6;color:#435866}
-@media(max-width:640px){[data-quote-summary]{width:calc(100% - 32px);padding:12px}[data-quote-summary] .quote-summary-metrics{gap:6px 16px}}
+@media(max-width:640px){[data-quote-summary]{width:calc(100% - 32px)}}
