@@ -1,0 +1,9 @@
+[data-quote-summary]{box-sizing:border-box;width:min(100% - 40px,1040px);margin:14px auto 0;padding:12px 16px;border:1px solid #d1dce2;border-radius:12px;background:#edf1f4;color:#263e4b;overflow-wrap:anywhere}
+[data-quote-summary][data-direction=up]{background:linear-gradient(rgba(188,37,56,var(--quote-tint)),rgba(188,37,56,var(--quote-tint))),#fff}
+[data-quote-summary][data-direction=down]{background:linear-gradient(rgba(23,93,182,var(--quote-tint)),rgba(23,93,182,var(--quote-tint))),#fff}
+[data-quote-summary] .quote-summary-metrics{display:flex;flex-wrap:wrap;gap:8px 24px;font-variant-numeric:tabular-nums}
+[data-quote-summary] .quote-summary-metrics>span{display:flex;align-items:baseline;gap:7px;font-size:.875rem}
+[data-quote-summary] .quote-summary-metrics strong{font-size:1.05rem}
+[data-quote-summary][data-direction=up] strong{color:#a51d30}[data-quote-summary][data-direction=down] strong{color:#154f9b}
+[data-quote-summary] .quote-summary-note{margin:8px 0 0;font-size:.75rem;line-height:1.6;color:#435866}
+@media(max-width:640px){[data-quote-summary]{width:calc(100% - 32px);padding:12px}[data-quote-summary] .quote-summary-metrics{gap:6px 16px}}

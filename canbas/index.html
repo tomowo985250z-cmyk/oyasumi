@@ -14,12 +14,15 @@
   <script type="module" src="./events/app.mjs?v=1"></script>
   <link rel="stylesheet" href="../monitor-shared/holdings.css?v=1">
   <script type="module" src="../monitor-shared/holdings.mjs?v=1"></script>
+  <link rel="stylesheet" href="../monitor-shared/quote-summary.css?v=1">
+  <script type="module" src="../monitor-shared/quote-summary.mjs?v=1"></script>
 </head>
 <body>
   <header class="masthead">
     <div class="brand"><span class="brand-mark" aria-hidden="true">C</span><div>CanBas<span>治験情報モニター</span></div></div>
     <span class="unofficial">非公式・CTIS参照</span>
   </header>
+  <aside data-quote-summary="canbas" aria-label="CanBasの株価と前日比" aria-busy="true">株価を読み込んでいます。</aside>
   <main id="monitor" aria-busy="true">
     <section class="intro" aria-labelledby="title">
       <p class="eyebrow">膵がんの第III相試験</p>
