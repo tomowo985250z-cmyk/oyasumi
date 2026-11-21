@@ -11,6 +11,7 @@ FUJI-PanC01（EU CT番号 `2024-511500-16-01`）の独立した静的ページ�
 - 治験名・番号・プロトコル・スポンサーを照合。国別の状態は`mscInfo`を使い、申請全体の状態を各国の承認に流用しない。
 - 承認済みの詳細は`authorizedPartsII`、審査中の国は`applicationInfo.partIIInfo`。8カ国の欠落、両APIの公開参加国・状態の不一致、未対応の状態、必須項目の欠落は失敗扱い。
 - 募集開始・終了は`hasRecruitmentStarted`と`activeTrialRecruitmentPeriod.recruitmentStartDate/recruitmentEndDate`を照合する。予定日を実際の募集開始に流用しない。
+- 治験の一時停止等を、患者募集の停止と決めつけない。治験の状態を別表示し、募集の継続は未確認とする。承認取り消しを過去の承認判断で上書きしない。
 - 公開された`trialSites`だけを数える。施設一覧が未公開の国は`null`とし、0施設と区別する。施設別の募集状況は推定しない。
 - 情報更新日は検索の`lastUpdated`、公開日は`lastPublicationUpdate`。CTISの暦日として保持し、取得日時（日本時間表示）と混同しない。
 - 個人の連絡先、担当医名、製品内部情報、PDFは公開データに取り込まない。

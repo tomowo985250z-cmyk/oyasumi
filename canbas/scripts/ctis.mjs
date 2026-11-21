@@ -16,6 +16,7 @@ function approval(info){
   if(state==='under_review')return 'under_review';
   if(state==='withdrawn')return 'withdrawn';
   if(state==='expired')return 'expired';
+  if(state==='revoked')return 'revoked';
   const decision=text(info.decision,'国別の承認判断');
   const codes={authorized:'approved',authorized_conditions:'conditional',not_authorized:'not_approved'};
   need(Object.hasOwn(codes,decision),'承認判断の対応表');
@@ -25,12 +26,14 @@ function approval(info){
 function recruitment(info){
   need(typeof info.hasRecruitmentStarted==='boolean','国別の募集開始情報');
   const periods=list(info.trialRecruitmentPeriod,'募集期間'),active=object(info.activeTrialRecruitmentPeriod,'現在の募集期間'),state=trialState(info.trialStatus);
-  if(['halted','suspended','revoked'].includes(state))return {state:'paused',start:null,end:null};
-  if(!info.hasRecruitmentStarted){need(periods.length===0&&!active.recruitmentStartDate&&!active.recruitmentEndDate,'募集開始情報と募集期間の整合性');return {state:'pending',start:null,end:null};}
+  // A trial halt is not an explicit recruitment halt. Keep that distinction and
+  // do not claim that recruitment continues merely because it once started.
+  const unconfirmed=['halted','suspended','revoked','expired','ended','withdrawn','not_authorised'].includes(state);
+  if(!info.hasRecruitmentStarted){need(periods.length===0&&!active.recruitmentStartDate&&!active.recruitmentEndDate,'募集開始情報と募集期間の整合性');return {state:unconfirmed?'unconfirmed':'pending',start:null,end:null};}
   need(periods.length>0,'募集開始後の募集期間');
   const start=date(active.recruitmentStartDate,'現在の募集開始日'),end=active.recruitmentEndDate?date(active.recruitmentEndDate,'現在の募集終了日'):null;
   need(!end||end>=start,'募集期間の日付順序');
-  return {state:end?'ended':'recruiting',start,end};
+  return {state:end?'ended':unconfirmed?'unconfirmed':'recruiting',start,end};
 }
 function sites(part,code){
   const rows=list(part.trialSites,'国別の施設一覧'),keys=new Set();

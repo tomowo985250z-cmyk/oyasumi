@@ -1,4 +1,4 @@
-import {TRIAL_ID,COUNTRY_NAMES,COUNTRY_ORDER,APPROVAL_LABELS,RECRUITMENT_LABELS,TRIAL_LABELS,totals} from './model.mjs';
+import {TRIAL_ID,COUNTRY_NAMES,COUNTRY_ORDER,APPROVAL_LABELS,RECRUITMENT_LABELS,TRIAL_LABELS,totals} from './model.mjs?v=2';
 const $=id=>document.getElementById(id),el=(tag,className,text)=>{const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n;};
 const when=value=>{const d=new Date(value);return Number.isFinite(d.valueOf())?new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(d):'日時を確認できません';};
 const day=value=>value?/^\d{4}-\d{2}-\d{2}$/.test(value)?value.replace(/^(\d+)-(\d+)-(\d+)$/,'$1年$2月$3日'):'日付を確認できません':'未掲載';
@@ -36,7 +36,8 @@ function render(snapshot,status){
     const article=el('article','country'+(changedCountries.has(c.code)?' changed':''));article.dataset.country=c.code;
     const top=el('div','country-top');top.append(el('h3','',COUNTRY_NAMES[c.code]),el('span','pill '+c.approval,APPROVAL_LABELS[c.approval]));article.append(top);
     const metrics=el('div','country-data'),count=el('div'),recruit=el('div');count.append(el('span','metric-label','公開された治験施設'),el('strong','site-count'+(c.sites===null?' unknown':''),c.sites===null?'未公開':`${c.sites.length}施設`));recruit.append(el('span','metric-label','国の患者募集状況'),el('strong','recruitment '+c.recruitment,RECRUITMENT_LABELS[c.recruitment]));metrics.append(count,recruit);article.append(metrics);
-    const note=c.sites===null?'施設数は未公開です。「0施設」の意味ではありません。':c.decisionDate?`承認判断日：${day(c.decisionDate)}`:'判断日は未掲載です。';article.append(el('p','country-note',note));
+    const note=c.sites===null?'施設数は未公開です。「0施設」の意味ではありません。':c.decisionDate?`${['approved','conditional'].includes(c.approval)?'承認判断日':'判断日（CTIS登録）'}：${day(c.decisionDate)}`:'判断日は未掲載です。';article.append(el('p','country-note',note));
+    if(!['authorised','under_review'].includes(c.trialStatus))article.append(el('p','country-note',`治験の状態：${TRIAL_LABELS[c.trialStatus]}`));
     if(c.recruitmentStartDate)article.append(el('p','country-note',`募集開始日：${day(c.recruitmentStartDate)}`));if(c.recruitmentEndDate)article.append(el('p','country-note',`募集終了日：${day(c.recruitmentEndDate)}`));
     if(changedCountries.has(c.code))article.append(el('p','country-change','今回、掲載情報に変更がありました。'));
     if(c.sites?.length){const details=el('details'),list=el('ul','sites');details.append(el('summary','',`施設一覧を見る（${c.sites.length}施設・CTIS原文）`));for(const site of c.sites){const li=el('li');li.append(el('span','site-name',site.name),el('span','site-address',[site.address,site.city,site.postcode].filter(Boolean).join(' / ')));list.append(li);}details.append(list);article.append(details);}return article;
