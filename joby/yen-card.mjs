@@ -11,7 +11,7 @@ function render(){
   const stale=dataFailed||historyFailed||stock?.result!=='success'||fx?.result!=='success'||history?.result!=='success'||[stock,fx].some(e=>!e?.lastSuccessAt||Date.now()-Date.parse(e.lastSuccessAt)>96*3600000);
   root.replaceChildren();root.dataset.direction=change>0?'up':change<0?'down':'flat';root.style.setProperty('--quote-tint',String(.04+Math.min(Math.abs(percent??0),10)*.018));
   const card=document.createElement('div');card.className='quote-summary-card';
-  const priceLine=document.createElement('p');priceLine.className='quote-summary-price';priceLine.setAttribute('aria-label','現在株価（円換算）');const amount=document.createElement('strong');amount.textContent=price===null?'—':yen(price);priceLine.append(amount);card.append(priceLine);
+  const priceLine=document.createElement('p');priceLine.className='quote-summary-price';priceLine.setAttribute('aria-label','現在株価（円換算）');const amount=document.createElement('strong');amount.textContent=price===null?'—':totalYen(Math.floor(price));priceLine.append(amount);card.append(priceLine);
   function line(label,value,className){const p=document.createElement('p'),caption=document.createElement('span'),number=document.createElement('strong');p.className=className;caption.textContent=label;number.textContent=value;p.append(caption,number);card.append(p);}
   line('前日比',change===null?'算出不可':signed(change,yen)+'（'+signed(percent,n=>n.toFixed(2)+'％')+'）','quote-summary-change');
   const holdings=document.querySelector('[data-holdings="joby"]'),cost=holdings?.querySelector('.holding-cost')?.value,shares=holdings?.querySelector('.holding-shares')?.value;
