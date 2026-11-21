@@ -1,0 +1,118 @@
+{
+  "ir": "{\"item_count\":3,\"item\":[{\"guid\":\"calendar_61962\",\"title\":\"第25回　定時株主総会（予定）\",\"date\":\"2026/12/23 13:00:00\",\"news_type\":\"calendar\",\"link\":\"\"},{\"guid\":\"press_2920075\",\"title\":\"第三者割当による株式、第19回新株予約権及び第20回新株予約権（行使価額修正条項選択権付）の発行条件等の決定に関するお知らせ\",\"date\":\"2026/11/18 16:50:00\",\"news_type\":\"press\",\"link\":\"https://ssl4.eir-parts.net/doc/4884/tdnet/2920075/00.pdf\"},{\"guid\":\"press_2919731\",\"title\":\"2026年9月期 通期決算説明会 質疑応答について\",\"date\":\"2026/11/17 17:30:00\",\"news_type\":\"press\",\"link\":\"https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf\"}]}",
+  "jrct": {
+    "sci": "<html><table><tr><th>最終公表日</th><td>令和8年9月2日</td></tr><tr><th>研究名称</th><td>脊髄損傷急性期患者に対するKP-100ITの脊髄腔内投与による第III相多施設共同追加試験</td></tr><tr><th>統括管理者の所属機関</th><td>クリングルファーマ株式会社</td></tr><tr><th>試験のフェーズ</th><td>3</td></tr><tr><th>進捗状況</th><td>募集中</td></tr><tr><th>jRCT番号</th><td>jRCT2031260281</td></tr><tr><th>症例登録開始予定日 / Date of First Enrollment</th><td>2026年07月10日</td></tr><tr><th>実施期間（開始日）</th><td>2026年07月01日</td></tr><tr><th>実施期間（終了日）</th><td>2028年12月31日</td></tr><tr><th>実施予定被験者数 / Sample Size</th><td>10</td></tr></table></html>",
+    "vfs": "<html><table><tr><th>最終公表日</th><td>令和8年7月2日</td></tr><tr><th>研究名称</th><td>声帯瘢痕患者に対するKP-100LIの声帯内投与に関する 多施設共同、無作為化、プラセボ対照、二重盲検、並行群間比較試験</td></tr><tr><th>統括管理者の所属機関</th><td>クリングルファーマ株式会社</td></tr><tr><th>試験のフェーズ</th><td>3</td></tr><tr><th>進捗状況</th><td>募集終了</td></tr><tr><th>jRCT番号</th><td>jRCT2051220132</td></tr><tr><th>症例登録開始予定日 / Date of First Enrollment</th><td>2022年12月01日</td></tr><tr><th>第1症例登録日 / Date of First Enrollment</th><td>2023年01月16日</td></tr><tr><th>実施期間（開始日）</th><td>2022年12月01日</td></tr><tr><th>実施期間（終了日）</th><td>2027年02月28日</td></tr><tr><th>実施予定被験者数 / Sample Size</th><td>62</td></tr></table></html>"
+  },
+  "ctgov": {
+    "studies": [
+      {
+        "protocolSection": {
+          "identificationModule": {
+            "nctId": "NCT05627648",
+            "briefTitle": "Phase 3 Study of KP-100LI in Subjects With Vocal Fold Scar"
+          },
+          "sponsorCollaboratorsModule": {
+            "leadSponsor": {
+              "name": "Kringle Pharma, Inc.",
+              "class": "INDUSTRY"
+            }
+          },
+          "statusModule": {
+            "statusVerifiedDate": "2026-07",
+            "overallStatus": "ACTIVE_NOT_RECRUITING",
+            "expandedAccessInfo": {
+              "hasExpandedAccess": false
+            },
+            "startDateStruct": {
+              "date": "2022-12-01",
+              "type": "ACTUAL"
+            },
+            "primaryCompletionDateStruct": {
+              "date": "2026-07-31",
+              "type": "ESTIMATED"
+            },
+            "completionDateStruct": {
+              "date": "2027-02-28",
+              "type": "ESTIMATED"
+            },
+            "studyFirstSubmitDate": "2022-11-16",
+            "studyFirstSubmitQcDate": "2022-11-16",
+            "studyFirstPostDateStruct": {
+              "date": "2022-11-25",
+              "type": "ACTUAL"
+            },
+            "lastUpdateSubmitDate": "2026-07-01",
+            "lastUpdatePostDateStruct": {
+              "date": "2026-07-06",
+              "type": "ACTUAL"
+            }
+          },
+          "designModule": {
+            "phases": [
+              "PHASE3"
+            ],
+            "enrollmentInfo": {
+              "count": 62,
+              "type": "ESTIMATED"
+            }
+          }
+        }
+      },
+      {
+        "protocolSection": {
+          "identificationModule": {
+            "nctId": "NCT07722962",
+            "briefTitle": "Additional Phase 3 Study of KP-100IT in Subjects With Acute Spinal Cord Injury"
+          },
+          "sponsorCollaboratorsModule": {
+            "leadSponsor": {
+              "name": "Kringle Pharma, Inc.",
+              "class": "INDUSTRY"
+            }
+          },
+          "statusModule": {
+            "statusVerifiedDate": "2026-07",
+            "overallStatus": "NOT_YET_RECRUITING",
+            "expandedAccessInfo": {
+              "hasExpandedAccess": false
+            },
+            "startDateStruct": {
+              "date": "2026-07-31",
+              "type": "ESTIMATED"
+            },
+            "primaryCompletionDateStruct": {
+              "date": "2028-12-31",
+              "type": "ESTIMATED"
+            },
+            "completionDateStruct": {
+              "date": "2028-12-31",
+              "type": "ESTIMATED"
+            },
+            "studyFirstSubmitDate": "2026-07-20",
+            "studyFirstSubmitQcDate": "2026-07-20",
+            "studyFirstPostDateStruct": {
+              "date": "2026-07-23",
+              "type": "ACTUAL"
+            },
+            "lastUpdateSubmitDate": "2026-07-20",
+            "lastUpdatePostDateStruct": {
+              "date": "2026-07-23",
+              "type": "ACTUAL"
+            }
+          },
+          "designModule": {
+            "phases": [
+              "PHASE3"
+            ],
+            "enrollmentInfo": {
+              "count": 10,
+              "type": "ESTIMATED"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "tdnet": "<html><table><tr><td class=\"kjTime\">16:50</td><td class=\"kjCode\">48840</td><td class=\"kjName\">Ｇ－クリングル</td><td class=\"kjTitle\"><a href=\"140120261118582613.pdf\">第三者割当による株式、第19回新株予約権及び第20回新株予約権（行使価額修正条項選択権付）の発行条件等の決定に関するお知らせ</a></td></tr></table></html>"
+}

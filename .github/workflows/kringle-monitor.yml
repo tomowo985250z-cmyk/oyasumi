@@ -1,0 +1,62 @@
+name: クリングルファーマ 重要イベント更新
+
+on:
+  schedule:
+    - cron: '47 4 * * *' # 日本時間13:47ごろ
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+# The same Pages branch is shared. Serialize publication with the unchanged
+# CanBas workflow to avoid racing data commits or Pages build confirmation.
+concurrency:
+  group: canbas-monitor
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: ソースを取得
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Node.jsを準備
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: 保持・差分・解析を検証
+        run: node --test kringle/tests/update.test.mjs
+      - name: 4情報源を取得
+        id: sources
+        continue-on-error: true
+        run: node kringle/scripts/update.mjs
+      - name: 取得結果のみ保存
+        id: persist
+        if: always() && steps.sources.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- kringle/data/events.json kringle/data/status.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(kringle): record official source retrieval'
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: 既存設定でPagesを再公開
+        if: always() && steps.persist.outputs.commit != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KRINGLE_COMMIT: ${{ steps.persist.outputs.commit }}
+        run: node kringle/scripts/pages-build.mjs
+      - name: 取得失敗を実行結果に記録
+        if: always() && steps.sources.outcome == 'failure'
+        run: |
+          echo '::error::一部情報源を取得できませんでした。以前の正常データを保持し、情報源別の失敗状態を記録しました。'
+          exit 1

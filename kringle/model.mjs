@@ -1,0 +1,15 @@
+export const SOURCES={ir:{name:'公式IR',url:'https://www.kringle-pharma.com/ir_info/news/'},tdnet:{name:'TDnet',url:'https://www.release.tdnet.info/inbs/I_main_00.html'},jrct:{name:'jRCT',url:'https://jrct.mhlw.go.jp/'},ctgov:{name:'ClinicalTrials.gov',url:'https://clinicaltrials.gov/'}};
+export const TRIALS=[{pipeline:'sci-jp',name:'脊髄損傷急性期・国内追加試験',jrct:'jRCT2031260281',nct:'NCT07722962'},{pipeline:'vfs-jp',name:'声帯瘢痕・国内第Ⅲ相',jrct:'jRCT2051220132',nct:'NCT05627648'}];
+export const CERTAINTY={confirmed:'確定',planned:'予定',undetermined:'未定'};
+export const PROGRESS={completed:'完了',in_progress:'進行中',not_started:'完了未確認',delayed:'延期',unknown:'未確認'};
+export const STAGES=['非臨床','第Ⅰ相','第Ⅱ相','第Ⅲ相','承認申請','承認'];
+export function officialUrl(value){try{const u=new URL(value);return u.protocol==='https:'&&['www.kringle-pharma.com','kringle-pharma.com','ssl4.eir-parts.net','www.release.tdnet.info','www2.jpx.co.jp','jrct.mhlw.go.jp','clinicaltrials.gov','www.clinicaltrials.gov','www.pmda.go.jp','www.fda.gov'].includes(u.hostname)?u.href:null;}catch{return null;}}
+export function dateLimit(value){if(/^\d{4}$/.test(value||''))return value+'-12-31';if(/^\d{4}-\d{2}$/.test(value||'')){const [y,m]=value.split('-').map(Number);return value+'-'+new Date(Date.UTC(y,m,0)).getUTCDate();}return value;}
+export function period(event,today=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Tokyo'})){if(event.progress==='completed')return 'past';if(event.progress==='in_progress'||event.progress==='delayed')return 'current';if(!event.date)return 'undated';return dateLimit(event.dateEnd||event.date)<today?'current':'future';}
+function calendar(v){return typeof v==='string'&&/^\d{4}(-\d{2}){0,2}$/.test(v)&&Number.isFinite(Date.parse(v))&&(v.length!==10||new Date(v).toISOString().slice(0,10)===v)&&(!v.includes('-')||Number(v.slice(5,7))>=1&&Number(v.slice(5,7))<=12);}
+export function validateReviewed(data){
+ if(data?.schemaVersion!==1||!Array.isArray(data.events)||!Array.isArray(data.pipelines)||!Array.isArray(data.documents))throw Error('確認済み情報の形式を確認できません。');
+ const ids=new Set();for(const e of data.events){if(!e.id||ids.has(e.id)||!e.title||!CERTAINTY[e.certainty]||!PROGRESS[e.progress]||!calendar(e.reviewedAt)||!e.source?.title||!e.source?.page||!officialUrl(e.source?.url)||!(e.date===null||calendar(e.date))||(e.dateEnd&&(!calendar(e.dateEnd)||e.dateEnd<e.date))||(!e.date&&e.certainty!=='undetermined'))throw Error('確認済みイベントの必須項目を確認できません。');ids.add(e.id);}
+ for(const p of data.pipelines)if(!p.id||!p.title||!STAGES.includes(p.stage)||!['planned','in_progress','analysis'].includes(p.state)||!calendar(p.reviewedAt)||!officialUrl(p.source?.url))throw Error('開発段階の確認情報が不足しています。');for(const d of data.documents)if(!officialUrl(d.url)||!calendar(d.reviewedAt))throw Error('本文確認記録の形式を確認できません。');return data;
+}
+export function conflicts(sources){const result=[];for(const t of TRIALS){const a=sources.jrct?.record.entries.find(e=>e.id===t.jrct),b=sources.ctgov?.record.entries.find(e=>e.id===t.nct);if(a&&b&&a.recruitmentState!==b.recruitmentState)result.push({trial:t.name,entries:[{source:'jrct',entry:a},{source:'ctgov',entry:b}]});}return result;}

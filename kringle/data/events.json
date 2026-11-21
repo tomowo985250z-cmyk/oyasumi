@@ -1,0 +1,3121 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "ir": {
+      "record": {
+        "entries": [
+          {
+            "id": "announcement_115866",
+            "title": "第24回定時株主総会招集ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/announcement/115866/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-27T17:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "announcement_115867",
+            "title": "第24回定時株主総会資料（交付書面省略事項）個別注記表",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/announcement/115867/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-27T17:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "announcement_116543",
+            "title": "第24回定時株主総会決議ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/announcement/116543/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-24T00:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "announcement_123901",
+            "title": "臨時株主総会招集ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/announcement/123901/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-05T17:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "announcement_124366",
+            "title": "臨時株主総会決議ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/announcement/124366/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-29T00:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "calendar_49244",
+            "title": "2025年9月期（第24期）第1四半期決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2025-02-07",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_49245",
+            "title": "2025年9月期（第24期）第2四半期決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2025-05-12",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_53155",
+            "title": "2025年9月期（第24期）第3四半期決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2025-08-08",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_53156",
+            "title": "2025年9月期（第24期）決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2025-11-12",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_55151",
+            "title": "第24回　定時株主総会",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2025-12-23",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_59326",
+            "title": "2026年9月期（第25期）第1四半期決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2026-02-09",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_59327",
+            "title": "2026年9月期（第25期）第2四半期決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2026-05-11",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_59328",
+            "title": "2026年9月期（第25期）第3四半期決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2026-08-10",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_60644",
+            "title": "臨時株主総会",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2026-08-28",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_60646",
+            "title": "2026年9月期（第25期）決算発表",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2026-11-11",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "calendar_61962",
+            "title": "第25回　定時株主総会（予定）",
+            "category": "決算・IR",
+            "url": "https://www.kringle-pharma.com/ir_info/news/",
+            "calendar": true,
+            "fields": {
+              "予定日": "2026-12-23",
+              "日付区分": "予定"
+            }
+          },
+          {
+            "id": "ir_material_286081",
+            "title": "声帯瘢痕治療薬の日本における独占的販売等に関する契約締結について",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/ir_material/286081/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-16T17:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2546991",
+            "title": "個人投資家向けIRセミナー【バイオ IR Day 】の動画公開のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2546991/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-01-10T11:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2560297",
+            "title": "2025年９月期第１四半期決算の説明動画掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2560297/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-07T15:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2565404",
+            "title": "「2025年９月期第１四半期決算について」の説明動画に関するログミーFinance書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2565404/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-13T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2572855",
+            "title": "2025年９月期第1四半期決算レポート更新のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2572855/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-25T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2579944",
+            "title": "「Nakanoshima Qross オフィス」開設のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2579944/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-03-12T16:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2582375",
+            "title": "第24回 日本再生医療学会総会での講演に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2582375/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-03-18T16:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2583026",
+            "title": "（訂正）「第24回 日本再生医療学会総会での講演に関するお知らせ」の一部訂正について",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2583026/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-03-21T09:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2585059",
+            "title": "個人投資家の皆様からのご質問への回答について",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2585059/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-03-26T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2592226",
+            "title": "アカデミア発バイオ・ヘルスケアベンチャー協会第７回講演会に当社代表取締役社長　安達喜一が登壇します",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2592226/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-04-11T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2594368",
+            "title": "決算説明会開催及びライブ配信（Zoom ウェビナー）のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2594368/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-04-15T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2620827",
+            "title": "2025年９月期 第2四半期決算説明会動画　掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2620827/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-05-16T17:35:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2622702",
+            "title": "「2025年９月期　第2四半期決算説明会」の動画に関するログミーFinance書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2622702/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-05-21T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2638061",
+            "title": "2025年９月期第2四半期決算レポート更新のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2638061/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-06-12T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2657048",
+            "title": "第三者割当てによる行使価額修正条項付新株予約権発行に関する補足説明動画掲載のお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2657048/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-07-18T12:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2672529",
+            "title": "2025年９月期第３四半期決算の説明動画掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2672529/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-08T15:47:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2675753",
+            "title": "「2025年９月期　第３四半期決算説明会」の動画に関するログミーFinance書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2675753/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-14T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2683300",
+            "title": "2025年９月期第3四半期決算レポート更新のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2683300/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-09-02T14:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2688253",
+            "title": "組織変更に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2688253/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-09-17T16:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2689157",
+            "title": "日欧バイオテック＆ファーマパートナリングカンファレンスに当社代表取締役社長　安達喜一が登壇します",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2689157/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-09-22T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2698365",
+            "title": "一般事業主行動計画の策定に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2698365/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-15T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2698939",
+            "title": "決算説明会開催及びライブ配信（Zoomウェビナー）のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2698939/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-17T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2721299",
+            "title": "2025年９月期 通期決算説明会動画　掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2721299/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-14T17:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2722006",
+            "title": "「2025年９月期　通期決算説明会」の動画に関するログミーFinance書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2722006/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-18T13:05:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2722321",
+            "title": "当社と慶應義塾大学との共同研究による、脊髄損傷患者の神経学的自然回復を予測する新たなバイオマーカーに関する論文掲載のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2722321/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-19T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2724217",
+            "title": "経営戦略室長採用のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2724217/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-26T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2727019",
+            "title": "HGF研究用試薬の株式会社リプロセルへの供給契約更新のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2727019/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-02T10:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2729481",
+            "title": "2025年９月期 通期決算レポート更新のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2729481/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-10T13:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2732938",
+            "title": "線維性疾患に対するHGF（肝細胞増殖因子）を用いた新規治療剤に関する特許出願のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2732938/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-19T10:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2752898",
+            "title": "提携先のクラリス・バイオセラピューティクス社による資金調達のお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2752898/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-09T08:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2753888",
+            "title": "2026年９月期第１四半期決算の説明動画掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2753888/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-09T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2756015",
+            "title": "個人投資家向けIRセミナー【バイオ IR Day 】に 当社代表取締役社長　安達喜一が登壇します",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2756015/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-12T11:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2763586",
+            "title": "「2026年９月期 第１四半期決算説明」の動画に関するログミーFinance書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2763586/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-16T11:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2771200",
+            "title": "2026年９月期第１四半期決算レポート更新のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2771200/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-03-03T12:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2778213",
+            "title": "「えるぼし認定」３段階目（３つ星）取得に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2778213/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-03-19T14:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2784603",
+            "title": "慢性期脊髄損傷の治療剤に関する特許登録のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2784603/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-01T09:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2787784",
+            "title": "個人投資家向けIR セミナー【バイオ IR Day】の動画公開のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2787784/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-08T14:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2788565",
+            "title": "日本呼吸器学会学術講演会におけるHGFの特発性肺線維症への応用研究発表に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2788565/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-10T10:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2789305",
+            "title": "決算説明会開催及びライブ配信（Zoomウェビナー）のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2789305/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-13T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2791143",
+            "title": "日本脊椎脊髄病学会学術集会におけるHGFの臨床データ解析発表に関するお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2791143/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-15T10:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2791950",
+            "title": "米国脊髄損傷協会主催のASIA Annual Scientific MeetingにおけるHGFの臨床データ解析結果の発表に関するお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2791950/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-17T09:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2798588",
+            "title": "Reeve Summit 2026への参加に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2798588/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-01T11:55:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2799439",
+            "title": "米国胸部学会主催のATS International ConferenceにおけるHGFの特発性肺線維症への応用研究発表に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2799439/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-07T10:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2800110",
+            "title": "大阪市女性活躍リーディングカンパニー認証（三つ星認証）取得に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2800110/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-08T11:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2808936",
+            "title": "日本整形外科学会学術総会におけるHGFの臨床データ解析発表に関するお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2808936/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-14T11:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2813009",
+            "title": "2026年９月期 第2四半期決算説明会動画　掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2813009/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-14T18:55:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2818674",
+            "title": "欧州頸椎研究学会主催のCSRS-Europe Annual MeetingにおけるHGFの臨床データ解析結果の発表に関するお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2818674/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-20T10:35:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2818762",
+            "title": "「2026年９月期　第２四半期決算説明会」の動画に関するログミーFinance書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2818762/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-20T13:20:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2819465",
+            "title": "当社社長の安達喜一が日本バイオテク協議会の会長に就任",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2819465/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-21T09:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2832882",
+            "title": "2026年９月期第2四半期決算レポート更新のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2832882/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-08T15:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2848617",
+            "title": "個人投資家の皆様からのご質問への回答について",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2848617/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-07T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2852791",
+            "title": "声帯瘢痕治療薬の日本における独占的販売に関する基本合意について",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2852791/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-15T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2852992",
+            "title": "脊髄損傷の国際的コンソーシアム「SCI PFDD」へ参画－脊髄損傷における患者中心のグローバル医薬品開発を推進－",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2852992/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-16T10:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2854904",
+            "title": "当社が支援する北米脊髄損傷コンソーシアムによる外傷性頚髄損傷に関する論文、国際学術誌への掲載のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2854904/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-23T12:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2856045",
+            "title": "再生医療リーディングサイエンティストセッションVol.２に当社経営戦略室長の金城一貴が登壇します",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2856045/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-27T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2856538",
+            "title": "脊髄損傷急性期に対するHGF（肝細胞増殖因子）の第III相臨床試験結果に関する論文発表のお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2856538/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-28T14:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2856953",
+            "title": "提携先のクラリス・バイオセラピューティクス社によるシリーズB資金調達、今後の開発計画、及び経営体制強化のお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2856953/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-29T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2870374",
+            "title": "2026年９月期第３四半期決算の説明動画掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2870374/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-10T15:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2876107",
+            "title": "「2026年９月期 第３四半期決算説明」の動画に関するログミーFinance 書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2876107/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-20T11:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2882841",
+            "title": "2026年９月期第3四半期決算レポート更新のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2882841/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-09T12:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2887745",
+            "title": "提携先のクラリス・バイオセラピューティクス社、本社をサンフランシスコ・ベイエリアへ移転 ～臨床開発の加速と成長基盤強化へ～",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2887745/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-28T10:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2891501",
+            "title": "提携先のクラリス・バイオセラピューティクス社、米国眼科学会（AAO）2026年次総会での発表のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2891501/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-10-05T14:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2892313",
+            "title": "「ジャパン・ヘルスケアベンチャー・サミット 2026」出展のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2892313/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-10-07T12:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2893790",
+            "title": "当社業務提携先のクラリス社、LSCDを対象としたCSB-001の良好な臨床Proof-of-Conceptデータを発表",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2893790/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-10-13T12:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2896651",
+            "title": "決算説明会開催及びライブ配信（Zoomウェビナー）のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2896651/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-10-19T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2898683",
+            "title": "バイオインダストリー協会主催セミナー「未来へのバイオ技術勉強会」に当社社長の安達喜一が登壇します",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2898683/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-10-27T12:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2911628",
+            "title": "クリングルファーマと丸石製薬、資本関係を強化 －組換えヒトHGFタンパク質製剤の実用化と安定供給に向けた協業を一層推進－",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2911628/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-11T15:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2918411",
+            "title": "2026年９月期 通期決算説明会動画 掲載のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2918411/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-13T17:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2919902",
+            "title": "「2026年９月期 通期決算説明会」の動画に関するログミーFinance書き起こし記事公開のお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919902/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-18T14:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "pr_2921117",
+            "title": "「WISH & SEEDsマッチング会2026」に当社取締役執行役員医薬開発部長の早田大真が登壇します",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2921117/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-20T17:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2547631",
+            "title": "第一種医薬品製造販売業許可取得のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2547631/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-01-10T16:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2549820",
+            "title": "譲渡制限付株式報酬としての新株式の発行の割当完了に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2549820/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-01-17T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2552300",
+            "title": "声帯瘢痕に対するHGF（肝細胞増殖因子）の第III相臨床試験における治験実施施設（藤田医科大学病院、福岡山王病院）の追加について",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2552300/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-01-29T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2560296",
+            "title": "2025年９月期第１四半期決算について（決算説明資料）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2560296/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-07T15:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2560298",
+            "title": "2025年９月期第１四半期決算発表に向けて頂戴した質疑への回答について",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2560298/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-07T15:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2572243",
+            "title": "[Delayed]Financial Results for the Three Months Ended December 31, 2024[Japanese GAAP](Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2572243/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-21T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2575148",
+            "title": "Analyst Report Released by Shared Research Inc.",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2575148/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-28T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2586802",
+            "title": "AMED CiCLE事業契約に伴う担保提供のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2586802/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-03-28T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2589614",
+            "title": "ALS を対象とする第II相臨床試験（医師主導治験）の追加解析：東北大学との共同研究延長のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2589614/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-04-02T16:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2620730",
+            "title": "2025年９月期 第２四半期決算説明会資料",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2620730/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-05-16T16:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2622706",
+            "title": "2025年９月期 第２四半期決算説明会 質疑応答について",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2622706/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-05-21T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2623185",
+            "title": "[Delayed]Financial Results for the Six Months Ended March 31, 2025[Japanese GAAP](Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2623185/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-05-22T14:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2637338",
+            "title": "脊髄損傷急性期を対象とする組換えヒトHGFタンパク質（KP-100IT）米国における希少疾病用医薬品指定の取得のお知らせ",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2637338/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-06-11T12:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2637600",
+            "title": "U.S. FDA Orphan Drug Designation Granted to Recombinant Human HGF, KP-100IT,for the Treatment of Acute Spinal Cord Injury",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2637600/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-06-11T16:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2640637",
+            "title": "Analyst Report Released by Shared Research Inc.",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2640637/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-06-19T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2648436",
+            "title": "HGF（肝細胞増殖因子）のペロニー病への応用研究に関する神戸大学との共同研究開始のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2648436/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-06-30T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2656501",
+            "title": "2025年９月期業績予想の修正に関するお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2656501/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-07-16T16:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2656502",
+            "title": "日本における脊髄損傷急性期治療薬の承認申請に向けた今後の開発方針について",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2656502/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-07-16T16:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2656503",
+            "title": "第三者割当による第16回新株予約権（行使価額修正条項付）の発行及び新株予約権の買取契約の締結に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2656503/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-07-16T16:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2656504",
+            "title": "第三者割当てによる行使価額修正条項付新株予約権発行に関する補足説明",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2656504/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-07-16T16:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2657049",
+            "title": "第三者割当てによる行使価額修正条項付新株予約権発行に関する補足説明動画使用資料",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2657049/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-07-18T12:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2663963",
+            "title": "第三者割当による第16回新株予約権（行使価額修正条項付）の発行に係る払込完了に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2663963/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-01T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2672480",
+            "title": "2025年９月期第３四半期決算について（決算説明資料）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2672480/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-08T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2672493",
+            "title": "Financial Results for the Nine Months Ended June 30, 2025 [Japanese GAAP](Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2672493/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-08T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2675194",
+            "title": "第一種医薬品製造販売業許可の返納のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2675194/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-13T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2680212",
+            "title": "HGF（肝細胞増殖因子）を用いた末梢神経障害に対する新規再生治療法開発に関する慶應義塾大学との共同研究開始のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2680212/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-26T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2682252",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2682252/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-09-01T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2684631",
+            "title": "Analyst Report Released by Shared Research Inc.",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2684631/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-09-05T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2692488",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2692488/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-01T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2698363",
+            "title": "ストックオプション（新株予約権）の発行に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2698363/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-15T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2698364",
+            "title": "米国における子会社設立のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2698364/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-15T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2698592",
+            "title": "[Delayed]Kringle Pharma Launches U.S. Subsidiary to Drive Global Growth",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2698592/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-16T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2698938",
+            "title": "肝細胞増殖因子（HGF）徐放性創傷治療剤の開発に関する京都大学との共同研究開始のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2698938/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-17T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2705534",
+            "title": "ストックオプション（新株予約権）の発行内容確定に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2705534/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-10-31T16:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2705892",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2705892/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-04T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2715218",
+            "title": "Financial Results for the Fiscal Year Ended September 30, 2025 [Japanese GAAP] (Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2715218/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-12T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2720872",
+            "title": "2025年9月期通期決算説明会資料",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2720872/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-14T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2721727",
+            "title": "2025年９月期 通期決算説明会 質疑応答について",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2721727/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-17T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2722496",
+            "title": "定時株主総会の付議議案に関するお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2722496/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-19T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2724216",
+            "title": "声帯瘢痕に対するHGF（肝細胞増殖因子）の第III相臨床試験における目標症例数への到達のお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2724216/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-26T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2725239",
+            "title": "第24回定時株主総会招集ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2725239/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-28T08:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2725241",
+            "title": "第24回定時株主総会資料（交付書面省略事項）個別注記表",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2725241/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-28T08:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2726153",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2726153/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-01T10:48:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2731075",
+            "title": "脊髄損傷急性期を対象とする組換えヒトHGFタンパク質「oremepermin alpha」の欧州における希少疾病用医薬品指定に向けた申請のお知らせ",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2731075/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-15T10:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2734284",
+            "title": "事業計画及び成長可能性に関する事項",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2734284/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-23T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2734392",
+            "title": "取締役選任および代表取締役選定に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2734392/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-23T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2734393",
+            "title": "譲渡制限付株式報酬としての新株式の発行に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2734393/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-23T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2734395",
+            "title": "本店移転に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2734395/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-23T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2734408",
+            "title": "コーポレート・ガバナンスに関する報告書 2025/12/23",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2734408/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-23T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2734581",
+            "title": "第24回定時株主総会決議ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2734581/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-24T08:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2735027",
+            "title": "第24回定時株主総会における議決権行使結果に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2735027/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-24T16:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2736843",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2736843/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-01-05T10:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2737797",
+            "title": "（Delayed)Analyst Report Released by Shared Research Inc.",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2737797/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-01-06T16:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2738774",
+            "title": "声帯瘢痕に対するHGF（肝細胞増殖因子）の第III相臨床試験における最終症例の組入れ完了のお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2738774/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-01-09T10:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2738775",
+            "title": "Completion of Patient Enrollment in Phase 3 Study of Oremepermin Alpha  for the Treatment of Vocal Fold Scarring",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2738775/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-01-09T10:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2739874",
+            "title": "譲渡制限付株式報酬としての新株式の発行の割当完了に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2739874/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-01-13T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2747733",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2747733/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-02T10:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2753885",
+            "title": "Financial Results for the Three Months Ended December 31, 2025[Japanese GAAP](Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2753885/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-09T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2753886",
+            "title": "関係会社株式評価損（特別損失）の計上に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2753886/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-09T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2753887",
+            "title": "2026年９月期第１四半期決算について（決算説明資料）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2753887/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-09T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2770030",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2770030/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-03-02T10:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2772835",
+            "title": "Analyst Report Released by Shared Research Inc.",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2772835/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-03-05T17:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2774615",
+            "title": "2026年９月期業績予想の修正に関するお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2774615/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-03-11T14:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2784629",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2784629/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-01T09:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2785891",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2785891/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-01T17:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2791431",
+            "title": "米国子会社への増資に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2791431/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-15T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2794036",
+            "title": "脊髄損傷急性期を対象とする組換えヒトHGFタンパク質「oremepermin alpha」の欧州における希少疾病用医薬品指定の取得のお知らせ",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2794036/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-04-24T09:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2798507",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2798507/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-01T10:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2798508",
+            "title": "脊髄損傷急性期患者を対象とした追加臨床試験に関するPMDAとの対面助言終了のお知らせ",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2798508/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-01T10:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2802785",
+            "title": "Financial Results for the Six Months Ended March 31, 2026 [Japanese GAAP] (Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2802785/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-11T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2812764",
+            "title": "2026年9月期 第2四半期決算説明会資料",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2812764/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-14T16:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2817422",
+            "title": "2026年９月期 第２四半期決算説明会 質疑応答について",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2817422/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-18T12:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2818704",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2818704/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-20T11:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2827375",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2827375/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-01T10:15:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2834007",
+            "title": "臨時株主総会招集のための基準日設定に関するお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2834007/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-10T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2834008",
+            "title": "ストックオプション（新株予約権）の発行に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2834008/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-10T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2834877",
+            "title": "Analyst Report Released by Shared Research Inc.",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2834877/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-12T14:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2835716",
+            "title": "脊髄損傷後の自然回復予測及び治療効果の評価に用いる急性期タンパク質バイオマーカーに関する慶應義塾大学との共同研究開始のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2835716/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-15T11:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2837765",
+            "title": "脊髄損傷急性期に対するHGF（肝細胞増殖因子）の第III相追加試験における治験計画届書の提出について",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2837765/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-19T14:20:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2843226",
+            "title": "ストックオプション（新株予約権）の発行内容確定に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2843226/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-26T16:10:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2844184",
+            "title": "（訂正）「ストックオプション（新株予約権）の発行に関するお知らせ」の一部訂正について",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2844184/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-06-29T15:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2845836",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2845836/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-01T09:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2847382",
+            "title": "脊髄損傷急性期に対するHGF（肝細胞増殖因子）の第III相追加試験における治験計画届書の調査完了について",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2847382/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-03T09:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2852787",
+            "title": "資本金及び資本準備金の額の減少並びに剰余金の処分に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2852787/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-15T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2852789",
+            "title": "声帯瘢痕治療薬の日本における独占的販売について丸石製薬株式会社と基本合意書を締結",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2852789/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-15T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2852993",
+            "title": "Kringle Pharma Joins the Spinal Cord Injury Patient-Focused Drug Development Advancing Patient-Centered Global Drug Development for Spinal Cord Injury",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2852993/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-16T10:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2854912",
+            "title": "Kringle Pharma Highlights Publication of NASCIC Perspective Paper in Spinal Cord",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2854912/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-23T12:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2855315",
+            "title": "脊髄損傷急性期に対するHGF（肝細胞増殖因子）の第III相追加臨床試験の登録情報公開のお知らせ",
+            "category": "治験",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2855315/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-24T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2855316",
+            "title": "Kringle Pharma Advances the Registrational Program for Oremepermin Alfa in Japan with Initiation of Additional Phase 3 in Acute Spinal Cord Injury",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2855316/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-24T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2856539",
+            "title": "Publication of a Scientific Paper Reporting Results from the Japanese Phase 3 Study of HGF (Hepatocyte Growth Factor) for Acute Spinal Cord Injury",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2856539/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-07-28T14:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2860669",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2860669/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-03T10:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2863967",
+            "title": "臨時株主総会招集ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2863967/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-06T08:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2870339",
+            "title": "Financial Results for the Nine Months Ended June 30, 2026 [Japanese GAAP] (Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2870339/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-10T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2870340",
+            "title": "2026年９月期第３四半期決算について（決算説明資料）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2870340/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-10T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2878607",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の行使完了及び月間行使状況に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2878607/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-27T16:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2878608",
+            "title": "第三者割当により発行された第16回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2878608/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-27T16:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2879195",
+            "title": "臨時株主総会決議ご通知",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2879195/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-29T08:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2880163",
+            "title": "岐阜大学医学部とのHGFの特発性大腿骨頭壊死症への応用に関する研究課題がAMED事業に採択されました",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2880163/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-01T15:20:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2881688",
+            "title": "末梢神経障害に対する肝細胞増殖因子（HGF）の薬効評価試験に関する横浜市立大学との共同研究開始のお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2881688/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-04T11:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2885534",
+            "title": "Analyst Report Released by Shared Research Inc.",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2885534/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-16T15:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2885659",
+            "title": "執行役員制度導入に関するお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2885659/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-16T16:35:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2885675",
+            "title": "2026年９月期業績予想の修正に関するお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2885675/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-16T17:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2885677",
+            "title": "声帯瘢痕治療薬の日本における独占的販売許諾等に関する契約書の締結に関するお知らせ",
+            "category": "提携・研究",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2885677/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-16T17:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2886725",
+            "title": "脊髄損傷急性期を対象とするoremepermin alfaの米国FDAに対するIND（新薬治験開始）申請のお知らせ",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2886725/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-24T09:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2886726",
+            "title": "Kringle Pharma Announces IND Submission to the U.S. FDA for Oremepermin Alfa for the Treatment of Acute Spinal Cord Injury",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2886726/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-09-24T09:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2896486",
+            "title": "脊髄損傷急性期を対象とするoremepermin alfaの米国FDAにおけるIND発効のお知らせ",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2896486/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-10-19T10:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2896487",
+            "title": "Kringle Pharma Receives FDA Clearance of IND Application for Oremepermin Alfa in Acute Spinal Cord Injury",
+            "category": "承認・薬事",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2896487/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-10-19T10:45:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2911629",
+            "title": "資金調達に関する補足説明資料",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2911629/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-11T15:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2911630",
+            "title": "第三者割当による株式、第19回新株予約権及び第20回新株予約権（行使価額修正条項選択権付）の発行、並びに新株予約権買取契約の締結に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2911630/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-11T15:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2917944",
+            "title": "2026年９月期 通期決算説明会資料",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2917944/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-13T16:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2919731",
+            "title": "2026年9月期 通期決算説明会 質疑応答について",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-17T17:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2920075",
+            "title": "第三者割当による株式、第19回新株予約権及び第20回新株予約権（行使価額修正条項選択権付）の発行条件等の決定に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2920075/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-18T16:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2920076",
+            "title": "定時株主総会の付議議案に関するお知らせ",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2920076/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-18T16:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2560283",
+            "title": "2025年９月期第１四半期決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2560283/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-02-07T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2609176",
+            "title": "2025年９月期第２四半期（中間期）決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2609176/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-05-12T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2672481",
+            "title": "2025年９月期第３四半期決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2672481/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-08-08T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2715209",
+            "title": "2025年９月期決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2715209/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-11-12T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2753883",
+            "title": "2026年９月期第１四半期決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2753883/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-02-09T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2802774",
+            "title": "2026年９月期第２四半期決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2802774/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-11T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2870324",
+            "title": "2026年９月期第３四半期決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2870324/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-08-10T15:40:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "tanshin_2911626",
+            "title": "2026年９月期決算短信〔日本基準〕（非連結）",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2911626/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-11T15:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "yuho_3004846",
+            "title": "2025年9月期 半期報告書",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/yuho_pdf/S100VQ66/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-05-12T00:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "yuho_3011407",
+            "title": "2025年9月期 有価証券報告書",
+            "category": "決算・IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/yuho_pdf/S100XBJD/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2025-12-19T00:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "yuho_3012762",
+            "title": "2026年9月期 半期報告書",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/yuho_pdf/S100Y2Q5/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-05-11T00:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          }
+        ]
+      },
+      "hash": "bd495cb4ef3237edbf0886507f4b5f03946ccdabc8b7e7dca6c50aef180abe5b",
+      "observedAt": "2026-11-21T10:19:14.021Z",
+      "latestChanges": []
+    },
+    "tdnet": {
+      "record": {
+        "entries": [
+          {
+            "id": "140120261117582308",
+            "title": "2026年9月期 通期決算説明会 質疑応答について",
+            "category": "決算・IR",
+            "url": "https://www.release.tdnet.info/inbs/140120261117582308.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-17T17:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "140120261118582613",
+            "title": "第三者割当による株式、第19回新株予約権及び第20回新株予約権（行使価額修正条項選択権付）の発行条件等の決定に関するお知らせ",
+            "category": "資金調達",
+            "url": "https://www.release.tdnet.info/inbs/140120261118582613.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-18T16:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "140120261118582789",
+            "title": "定時株主総会の付議議案に関するお知らせ",
+            "category": "決算・IR",
+            "url": "https://www.release.tdnet.info/inbs/140120261118582789.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-18T16:50:00+09:00",
+              "本文確認": "未確認"
+            }
+          }
+        ]
+      },
+      "hash": "6d6a7cce4542b61e4ff929d2e3b594893d9ecf9e9cbb9b8215a4e9ab4cd30d3b",
+      "observedAt": "2026-11-21T10:19:14.021Z",
+      "latestChanges": []
+    },
+    "jrct": {
+      "record": {
+        "entries": [
+          {
+            "id": "jRCT2031260281",
+            "title": "脊髄損傷急性期・国内追加試験",
+            "category": "治験",
+            "pipeline": "sci-jp",
+            "url": "https://jrct.mhlw.go.jp/latest-detail/jRCT2031260281",
+            "recruitmentState": "recruiting",
+            "fields": {
+              "募集状況": "募集中",
+              "開発段階": "第Ⅲ相",
+              "予定症例数": 10,
+              "実登録人数": null,
+              "登録開始予定日": "2026-07-10",
+              "第1症例登録日": null,
+              "実施期間開始日": "2026-07-01",
+              "試験終了予定日": "2028-12-31",
+              "更新日": "2026-09-02"
+            }
+          },
+          {
+            "id": "jRCT2051220132",
+            "title": "声帯瘢痕・国内第Ⅲ相",
+            "category": "治験",
+            "pipeline": "vfs-jp",
+            "url": "https://jrct.mhlw.go.jp/latest-detail/jRCT2051220132",
+            "recruitmentState": "not_recruiting",
+            "fields": {
+              "募集状況": "募集終了",
+              "開発段階": "第Ⅲ相",
+              "予定症例数": 62,
+              "実登録人数": null,
+              "登録開始予定日": "2022-12-01",
+              "第1症例登録日": "2023-01-16",
+              "実施期間開始日": "2022-12-01",
+              "試験終了予定日": "2027-02-28",
+              "更新日": "2026-07-02"
+            }
+          }
+        ]
+      },
+      "hash": "09d9b426247c15ca0b36dc067c5f7a051b2f590e16bcb67227d2e3f139088e29",
+      "observedAt": "2026-11-21T10:19:14.021Z",
+      "latestChanges": []
+    },
+    "ctgov": {
+      "record": {
+        "entries": [
+          {
+            "id": "NCT05627648",
+            "title": "声帯瘢痕・国内第Ⅲ相",
+            "category": "治験",
+            "pipeline": "vfs-jp",
+            "url": "https://clinicaltrials.gov/study/NCT05627648",
+            "recruitmentState": "not_recruiting",
+            "fields": {
+              "募集状況": "実施中・募集なし",
+              "開発段階": "第Ⅲ相",
+              "登録人数": 62,
+              "人数区分": "予定",
+              "更新日": "2026-07-06",
+              "開始日": "2022-12-01",
+              "開始日区分": "確定",
+              "主要評価完了日": "2026-07-31",
+              "主要評価完了日区分": "予定",
+              "試験完了日": "2027-02-28",
+              "試験完了日区分": "予定"
+            }
+          },
+          {
+            "id": "NCT07722962",
+            "title": "脊髄損傷急性期・国内追加試験",
+            "category": "治験",
+            "pipeline": "sci-jp",
+            "url": "https://clinicaltrials.gov/study/NCT07722962",
+            "recruitmentState": "not_yet_recruiting",
+            "fields": {
+              "募集状況": "募集開始前",
+              "開発段階": "第Ⅲ相",
+              "登録人数": 10,
+              "人数区分": "予定",
+              "更新日": "2026-07-23",
+              "開始日": "2026-07-31",
+              "開始日区分": "予定",
+              "主要評価完了日": "2028-12-31",
+              "主要評価完了日区分": "予定",
+              "試験完了日": "2028-12-31",
+              "試験完了日区分": "予定"
+            }
+          }
+        ]
+      },
+      "hash": "7acecab37c213d31dea2a1e0238f52238c1ce73e72cf04d9e616e8a059751a57",
+      "observedAt": "2026-11-21T10:19:14.021Z",
+      "latestChanges": []
+    },
+    "reviewed": {
+      "record": {
+        "entries": [
+          {
+            "id": "als-analysis",
+            "title": "ALS・第Ⅱ相データの追加解析",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": null,
+              "期間末": null,
+              "分類": "治験",
+              "日付区分": "undetermined",
+              "進捗": "in_progress",
+              "詳細": "第Ⅱ相の主要・副次評価項目に統計的有意差はなく、バイオマーカーと臨床データの追加解析を実施。次相試験の日程は未確認です。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 5〜6頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "annual-report",
+            "title": "有価証券報告書の提出予定",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": "2026-12-18",
+              "期間末": null,
+              "分類": "決算・IR",
+              "日付区分": "planned",
+              "進捗": "not_started",
+              "詳細": "決算短信に記載された予定日。実際の提出は新しい公式情報で確認します。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 1頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "financing-payment",
+            "title": "新株・新株予約権の払込予定",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2920075/00.pdf",
+            "fields": {
+              "日付": "2026-12-07",
+              "期間末": null,
+              "分類": "資金調達",
+              "日付区分": "planned",
+              "進捗": "not_started",
+              "詳細": "発行条件の決定資料に記載された払込予定。払込完了や新株予約権の行使完了は未確認です。調達見込額は行使状況・行使価額で変わります。",
+              "出典": "株式・第19回／第20回新株予約権の発行条件決定",
+              "出典ページ": "PDF 1〜4頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "financing-terms",
+            "title": "新株・第19回／第20回新株予約権の発行条件決定",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2920075/00.pdf",
+            "fields": {
+              "日付": "2026-11-18",
+              "期間末": null,
+              "分類": "資金調達",
+              "日付区分": "confirmed",
+              "進捗": "completed",
+              "詳細": "発行条件を決定。新株945,100株、予約権の潜在株式2,146,000株。払込・予約権行使による実際の増加とは区別します。",
+              "出典": "株式・第19回／第20回新株予約権の発行条件決定",
+              "出典ページ": "PDF 1〜4頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "fy2026-results",
+            "title": "2026年9月期 決算発表",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": "2026-11-11",
+              "期間末": null,
+              "分類": "決算・IR",
+              "日付区分": "confirmed",
+              "進捗": "completed",
+              "詳細": "通期決算を公表。次回の決算発表日は確認できた公式予定が追加されるまで未定とします。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 1頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "maruishi-vfs",
+            "title": "丸石製薬と声帯瘢痕の国内販売契約を締結",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": "2026-09",
+              "期間末": null,
+              "分類": "提携・研究",
+              "日付区分": "confirmed",
+              "進捗": "completed",
+              "詳細": "国内の独占的販売許諾等に関する契約を締結。販売開始日・承認日は未定です。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 7頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "pipeline-als",
+            "title": "筋萎縮性側索硬化症（ALS）",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "開発段階": "第Ⅱ相",
+              "段階の状態": "analysis",
+              "詳細": "第Ⅱ相終了後の追加解析。次の開発段階は未定。",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "pipeline-sci-jp",
+            "title": "脊髄損傷急性期・日本",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "開発段階": "第Ⅲ相",
+              "段階の状態": "in_progress",
+              "詳細": "追加試験を実施中。承認申請時期は未定。",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "pipeline-sci-us",
+            "title": "脊髄損傷急性期・米国",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+            "fields": {
+              "開発段階": "第Ⅲ相",
+              "段階の状態": "planned",
+              "詳細": "第Ⅲ相を開始できる状態に向けて準備・提携交渉中。試験開始日は未確認。",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "pipeline-vfs-jp",
+            "title": "声帯瘢痕・日本",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+            "fields": {
+              "開発段階": "第Ⅲ相",
+              "段階の状態": "in_progress",
+              "詳細": "症例組入れ完了・経過観察中。2027年前半に結果公表予定。",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "sci-additional",
+            "title": "国内脊髄損傷・第Ⅲ相追加試験",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": "2026-07",
+              "期間末": null,
+              "分類": "治験",
+              "日付区分": "confirmed",
+              "進捗": "in_progress",
+              "詳細": "追加試験を開始。患者登録の最新状態は、下の登録簿を出典別に表示しています。実登録人数は未確認です。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 4頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "sci-application",
+            "title": "国内脊髄損傷・製造販売承認申請",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": null,
+              "期間末": null,
+              "分類": "承認・薬事",
+              "日付区分": "undetermined",
+              "進捗": "unknown",
+              "詳細": "追加試験による有効性データ取得後に申請を目指す方針。申請日・承認日は未確認です。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 4頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "sci-ind",
+            "title": "米国脊髄損傷・IND申請の提出",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": "2026-09",
+              "期間末": null,
+              "分類": "承認・薬事",
+              "日付区分": "confirmed",
+              "進捗": "completed",
+              "詳細": "米国第Ⅲ相の開始に向けたIND申請を会社が公表。製造販売承認の取得状況は別途確認が必要です。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 4頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "sci-us-partner",
+            "title": "米国脊髄損傷・提携パートナーとの交渉",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+            "fields": {
+              "日付": null,
+              "期間末": null,
+              "分類": "提携・研究",
+              "日付区分": "undetermined",
+              "進捗": "in_progress",
+              "詳細": "第Ⅲ相を開始できる準備と並行して交渉。契約締結の時期・相手先・条件は未公表です。",
+              "出典": "2026年9月期 通期決算説明会 質疑応答について",
+              "出典ページ": "PDF 2〜3頁・回答5／9",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "vfs-enrollment",
+            "title": "声帯瘢痕・第Ⅲ相の症例組入れ完了",
+            "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+            "fields": {
+              "日付": "2026-01",
+              "期間末": null,
+              "分類": "治験",
+              "日付区分": "confirmed",
+              "進捗": "completed",
+              "詳細": "最終症例の組入れが完了。試験の観察・解析は別の段階です。",
+              "出典": "2026年9月期 決算短信",
+              "出典ページ": "PDF 5頁",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "vfs-observation",
+            "title": "声帯瘢痕・最終症例の観察終了予定",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+            "fields": {
+              "日付": "2026-12",
+              "期間末": null,
+              "分類": "治験",
+              "日付区分": "planned",
+              "進捗": "not_started",
+              "詳細": "会社は最終症例の観察終了を12月に予定。登録簿の試験全体の終了予定日とは区別して表示します。",
+              "出典": "2026年9月期 通期決算説明会 質疑応答について",
+              "出典ページ": "PDF 2頁・回答3",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "vfs-orphan",
+            "title": "声帯瘢痕・希少疾病用医薬品指定の申請準備",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+            "fields": {
+              "日付": null,
+              "期間末": null,
+              "分類": "承認・薬事",
+              "日付区分": "undetermined",
+              "進捗": "in_progress",
+              "詳細": "厚生労働省との協議と申請準備を継続。申請日・指定取得日は未確認です。",
+              "出典": "2026年9月期 通期決算説明会 質疑応答について",
+              "出典ページ": "PDF 2頁・回答4",
+              "確認日": "2026-11-21"
+            }
+          },
+          {
+            "id": "vfs-topline",
+            "title": "声帯瘢痕・トップライン結果公表予定",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+            "fields": {
+              "日付": "2027年前半",
+              "期間末": "2027-06-30",
+              "分類": "治験",
+              "日付区分": "planned",
+              "進捗": "not_started",
+              "詳細": "観察終了後のデータ固定・キーオープンを経て公表予定。具体的な発表日は未公表です。",
+              "出典": "2026年9月期 通期決算説明会 質疑応答について",
+              "出典ページ": "PDF 2頁・回答3",
+              "確認日": "2026-11-21"
+            }
+          }
+        ]
+      },
+      "hash": "3ff54b0e96b911834e798e4c671e6df098cb4af1d9c352f719951ebc03c8a05a",
+      "observedAt": "2026-11-21T10:19:14.021Z",
+      "latestChanges": []
+    }
+  },
+  "reviewed": {
+    "schemaVersion": 1,
+    "documents": [
+      {
+        "title": "2026年9月期 決算短信",
+        "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+        "reviewedAt": "2026-11-21"
+      },
+      {
+        "title": "2026年9月期 通期決算説明会 質疑応答について",
+        "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+        "aliases": [
+          "https://www.release.tdnet.info/inbs/140120261117582308.pdf"
+        ],
+        "reviewedAt": "2026-11-21"
+      },
+      {
+        "title": "株式・第19回／第20回新株予約権の発行条件決定",
+        "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2920075/00.pdf",
+        "aliases": [
+          "https://www.release.tdnet.info/inbs/140120261118582613.pdf"
+        ],
+        "reviewedAt": "2026-11-21"
+      }
+    ],
+    "events": [
+      {
+        "id": "vfs-enrollment",
+        "title": "声帯瘢痕・第Ⅲ相の症例組入れ完了",
+        "category": "治験",
+        "pipeline": "vfs-jp",
+        "date": "2026-01",
+        "certainty": "confirmed",
+        "progress": "completed",
+        "detail": "最終症例の組入れが完了。試験の観察・解析は別の段階です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 5頁"
+        }
+      },
+      {
+        "id": "sci-additional",
+        "title": "国内脊髄損傷・第Ⅲ相追加試験",
+        "category": "治験",
+        "pipeline": "sci-jp",
+        "date": "2026-07",
+        "certainty": "confirmed",
+        "progress": "in_progress",
+        "detail": "追加試験を開始。患者登録の最新状態は、下の登録簿を出典別に表示しています。実登録人数は未確認です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 4頁"
+        }
+      },
+      {
+        "id": "sci-ind",
+        "title": "米国脊髄損傷・IND申請の提出",
+        "category": "承認・薬事",
+        "pipeline": "sci-us",
+        "date": "2026-09",
+        "certainty": "confirmed",
+        "progress": "completed",
+        "detail": "米国第Ⅲ相の開始に向けたIND申請を会社が公表。製造販売承認の取得状況は別途確認が必要です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 4頁"
+        }
+      },
+      {
+        "id": "maruishi-vfs",
+        "title": "丸石製薬と声帯瘢痕の国内販売契約を締結",
+        "category": "提携・研究",
+        "pipeline": "vfs-jp",
+        "date": "2026-09",
+        "certainty": "confirmed",
+        "progress": "completed",
+        "detail": "国内の独占的販売許諾等に関する契約を締結。販売開始日・承認日は未定です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 7頁"
+        }
+      },
+      {
+        "id": "fy2026-results",
+        "title": "2026年9月期 決算発表",
+        "category": "決算・IR",
+        "date": "2026-11-11",
+        "certainty": "confirmed",
+        "progress": "completed",
+        "detail": "通期決算を公表。次回の決算発表日は確認できた公式予定が追加されるまで未定とします。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 1頁"
+        }
+      },
+      {
+        "id": "financing-terms",
+        "title": "新株・第19回／第20回新株予約権の発行条件決定",
+        "category": "資金調達",
+        "date": "2026-11-18",
+        "certainty": "confirmed",
+        "progress": "completed",
+        "detail": "発行条件を決定。新株945,100株、予約権の潜在株式2,146,000株。払込・予約権行使による実際の増加とは区別します。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "株式・第19回／第20回新株予約権の発行条件決定",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2920075/00.pdf",
+          "publishedAt": "2026-11-18",
+          "page": "PDF 1〜4頁"
+        }
+      },
+      {
+        "id": "financing-payment",
+        "title": "新株・新株予約権の払込予定",
+        "category": "資金調達",
+        "date": "2026-12-07",
+        "certainty": "planned",
+        "progress": "not_started",
+        "detail": "発行条件の決定資料に記載された払込予定。払込完了や新株予約権の行使完了は未確認です。調達見込額は行使状況・行使価額で変わります。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "株式・第19回／第20回新株予約権の発行条件決定",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2920075/00.pdf",
+          "publishedAt": "2026-11-18",
+          "page": "PDF 1〜4頁"
+        }
+      },
+      {
+        "id": "vfs-observation",
+        "title": "声帯瘢痕・最終症例の観察終了予定",
+        "category": "治験",
+        "pipeline": "vfs-jp",
+        "date": "2026-12",
+        "certainty": "planned",
+        "progress": "not_started",
+        "detail": "会社は最終症例の観察終了を12月に予定。登録簿の試験全体の終了予定日とは区別して表示します。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 通期決算説明会 質疑応答について",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+          "publishedAt": "2026-11-17",
+          "page": "PDF 2頁・回答3"
+        }
+      },
+      {
+        "id": "vfs-topline",
+        "title": "声帯瘢痕・トップライン結果公表予定",
+        "category": "治験",
+        "pipeline": "vfs-jp",
+        "date": "2027-01-01",
+        "dateEnd": "2027-06-30",
+        "dateText": "2027年前半",
+        "certainty": "planned",
+        "progress": "not_started",
+        "detail": "観察終了後のデータ固定・キーオープンを経て公表予定。具体的な発表日は未公表です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 通期決算説明会 質疑応答について",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+          "publishedAt": "2026-11-17",
+          "page": "PDF 2頁・回答3"
+        }
+      },
+      {
+        "id": "annual-report",
+        "title": "有価証券報告書の提出予定",
+        "category": "決算・IR",
+        "date": "2026-12-18",
+        "certainty": "planned",
+        "progress": "not_started",
+        "detail": "決算短信に記載された予定日。実際の提出は新しい公式情報で確認します。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 1頁"
+        }
+      },
+      {
+        "id": "sci-application",
+        "title": "国内脊髄損傷・製造販売承認申請",
+        "category": "承認・薬事",
+        "pipeline": "sci-jp",
+        "date": null,
+        "certainty": "undetermined",
+        "progress": "unknown",
+        "detail": "追加試験による有効性データ取得後に申請を目指す方針。申請日・承認日は未確認です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 4頁"
+        }
+      },
+      {
+        "id": "vfs-orphan",
+        "title": "声帯瘢痕・希少疾病用医薬品指定の申請準備",
+        "category": "承認・薬事",
+        "pipeline": "vfs-jp",
+        "date": null,
+        "certainty": "undetermined",
+        "progress": "in_progress",
+        "detail": "厚生労働省との協議と申請準備を継続。申請日・指定取得日は未確認です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 通期決算説明会 質疑応答について",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+          "publishedAt": "2026-11-17",
+          "page": "PDF 2頁・回答4"
+        }
+      },
+      {
+        "id": "sci-us-partner",
+        "title": "米国脊髄損傷・提携パートナーとの交渉",
+        "category": "提携・研究",
+        "pipeline": "sci-us",
+        "date": null,
+        "certainty": "undetermined",
+        "progress": "in_progress",
+        "detail": "第Ⅲ相を開始できる準備と並行して交渉。契約締結の時期・相手先・条件は未公表です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 通期決算説明会 質疑応答について",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+          "publishedAt": "2026-11-17",
+          "page": "PDF 2〜3頁・回答5／9"
+        }
+      },
+      {
+        "id": "als-analysis",
+        "title": "ALS・第Ⅱ相データの追加解析",
+        "category": "治験",
+        "pipeline": "als",
+        "date": null,
+        "certainty": "undetermined",
+        "progress": "in_progress",
+        "detail": "第Ⅱ相の主要・副次評価項目に統計的有意差はなく、バイオマーカーと臨床データの追加解析を実施。次相試験の日程は未確認です。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "publishedAt": "2026-11-11",
+          "page": "PDF 5〜6頁"
+        }
+      }
+    ],
+    "pipelines": [
+      {
+        "id": "sci-jp",
+        "title": "脊髄損傷急性期・日本",
+        "stage": "第Ⅲ相",
+        "state": "in_progress",
+        "note": "追加試験を実施中。承認申請時期は未定。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "page": "PDF 4頁"
+        }
+      },
+      {
+        "id": "vfs-jp",
+        "title": "声帯瘢痕・日本",
+        "stage": "第Ⅲ相",
+        "state": "in_progress",
+        "note": "症例組入れ完了・経過観察中。2027年前半に結果公表予定。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 通期決算説明会 質疑応答について",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+          "page": "PDF 2頁"
+        }
+      },
+      {
+        "id": "sci-us",
+        "title": "脊髄損傷急性期・米国",
+        "stage": "第Ⅲ相",
+        "state": "planned",
+        "note": "第Ⅲ相を開始できる状態に向けて準備・提携交渉中。試験開始日は未確認。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 通期決算説明会 質疑応答について",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2919731/00.pdf",
+          "page": "PDF 2〜3頁"
+        }
+      },
+      {
+        "id": "als",
+        "title": "筋萎縮性側索硬化症（ALS）",
+        "stage": "第Ⅱ相",
+        "state": "analysis",
+        "note": "第Ⅱ相終了後の追加解析。次の開発段階は未定。",
+        "reviewedAt": "2026-11-21",
+        "source": {
+          "title": "2026年9月期 決算短信",
+          "url": "https://www2.jpx.co.jp/disc/48840/140120261111572874.pdf",
+          "page": "PDF 5〜6頁"
+        }
+      }
+    ]
+  },
+  "history": [
+    {
+      "id": "3fab53cf3b3683968b107585",
+      "source": "ir",
+      "entityId": "ir",
+      "title": "公式IR",
+      "field": "初回記録",
+      "before": null,
+      "after": "初回の正常データを保存",
+      "kind": "baseline",
+      "confirmedAt": "2026-11-21T10:19:14.021Z",
+      "url": "https://www.kringle-pharma.com/ir_info/news/"
+    },
+    {
+      "id": "83048f62d9ddc7c476f0e6e4",
+      "source": "tdnet",
+      "entityId": "tdnet",
+      "title": "TDnet",
+      "field": "初回記録",
+      "before": null,
+      "after": "初回の正常データを保存",
+      "kind": "baseline",
+      "confirmedAt": "2026-11-21T10:19:14.021Z",
+      "url": "https://www.release.tdnet.info/inbs/I_main_00.html"
+    },
+    {
+      "id": "95478e84da38a761cacaae00",
+      "source": "jrct",
+      "entityId": "jrct",
+      "title": "jRCT",
+      "field": "初回記録",
+      "before": null,
+      "after": "初回の正常データを保存",
+      "kind": "baseline",
+      "confirmedAt": "2026-11-21T10:19:14.021Z",
+      "url": "https://jrct.mhlw.go.jp/"
+    },
+    {
+      "id": "71a09678ceb55235c3af881a",
+      "source": "ctgov",
+      "entityId": "ctgov",
+      "title": "ClinicalTrials.gov",
+      "field": "初回記録",
+      "before": null,
+      "after": "初回の正常データを保存",
+      "kind": "baseline",
+      "confirmedAt": "2026-11-21T10:19:14.021Z",
+      "url": "https://clinicaltrials.gov/"
+    },
+    {
+      "id": "8860891a73a90a38d19e790d",
+      "source": "reviewed",
+      "entityId": "reviewed",
+      "title": "確認済み資料",
+      "field": "初回記録",
+      "before": null,
+      "after": "初回の正常データを保存",
+      "kind": "baseline",
+      "confirmedAt": "2026-11-21T10:19:14.021Z",
+      "url": "https://www.kringle-pharma.com/ir_info/news/"
+    }
+  ]
+}
