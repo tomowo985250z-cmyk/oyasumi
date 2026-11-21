@@ -1,0 +1,53 @@
+name: Joby previous-close FX reference
+on:
+  schedule:
+    - cron: '32 13,14 * * 1-5' # Covers US market opening in both DST and standard time.
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  actions: read
+concurrency:
+  group: canbas-monitor
+  cancel-in-progress: false
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Validate matched closing-time FX and yen comparison
+        run: node --test joby/tests/yen.test.mjs
+      - name: Retrieve Joby closing-time FX only
+        id: reference
+        continue-on-error: true
+        run: node joby/scripts/update-yen.mjs
+      - name: Preserve Joby reference and retrieval status
+        id: persist
+        if: always() && steps.reference.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- joby/data/yen-reference.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(joby): record previous-close USD/JPY reference'
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Publish using existing Pages configuration
+        if: always() && steps.persist.outputs.commit != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JOBY_COMMIT: ${{ steps.persist.outputs.commit }}
+        run: node joby/scripts/pages-build.mjs
+      - name: Report retrieval failure with previous good references preserved
+        if: always() && steps.reference.outcome == 'failure'
+        run: exit 1
