@@ -1,0 +1,13 @@
+# Search exclusion policy for the four stock-monitor pages:
+# /oyasumi/stocks/ /oyasumi/canbas/ /oyasumi/kringle/ /oyasumi/joby/
+# Each HTML document declares: noindex, nofollow, noarchive.
+# Crawling remains allowed so search engines can read the noindex directive.
+# A Disallow for these HTML pages would prevent crawlers from seeing noindex.
+# GitHub Pages serves this project file at /oyasumi/robots.txt.
+# Robots Exclusion Protocol requires /robots.txt at the origin root;
+# this project-level file documents the policy, while HTML enforces noindex.
+User-agent: *
+Allow: /oyasumi/stocks/
+Allow: /oyasumi/canbas/
+Allow: /oyasumi/kringle/
+Allow: /oyasumi/joby/
