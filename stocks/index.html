@@ -6,30 +6,23 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="googlebot" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#0b1420">
-  <title>3社の株式モニター</title>
-  <link rel="stylesheet" href="./style.css?v=2">
-  <script type="module" src="./app.mjs?v=3"></script>
+  <title>3社統合モニター</title>
+  <link rel="stylesheet" href="./style.css?v=3">
+  <script type="module" src="./app.mjs?v=4"></script>
 </head>
 <body>
   <div id="app">
-    <nav class="tabs" role="tablist" aria-label="銘柄とヒートマップ">
-      <button id="tab-canbas" role="tab" aria-controls="screen-canbas" aria-selected="true" data-screen="canbas">CanBas</button>
+    <nav class="tabs" role="tablist" aria-label="会社の切替">
+      <button id="tab-canbas" role="tab" aria-controls="screen-canbas" aria-selected="true" data-screen="canbas">キャンバス</button>
       <button id="tab-kringle" role="tab" aria-controls="screen-kringle" aria-selected="false" tabindex="-1" data-screen="kringle">クリングル</button>
       <button id="tab-joby" role="tab" aria-controls="screen-joby" aria-selected="false" tabindex="-1" data-screen="joby">Joby</button>
-      <button id="tab-heatmap" role="tab" aria-controls="screen-heatmap" aria-selected="false" tabindex="-1" data-screen="heatmap">ヒートマップ</button>
     </nav>
     <main id="screens">
       <section id="screen-canbas" class="screen" role="tabpanel" aria-labelledby="tab-canbas"><iframe title="CanBas 治験・イベントモニター" data-company="canbas"></iframe></section>
       <section id="screen-kringle" class="screen" role="tabpanel" aria-labelledby="tab-kringle" hidden><iframe title="クリングルファーマ 開発・イベントモニター" data-company="kringle"></iframe></section>
       <section id="screen-joby" class="screen" role="tabpanel" aria-labelledby="tab-joby" hidden><iframe title="Joby 認証・イベントモニター" data-company="joby"></iframe></section>
-      <section id="screen-heatmap" class="screen" role="tabpanel" aria-labelledby="tab-heatmap" hidden>
-        <div class="map-bar"><div><span id="map-mode">保有構成比</span><strong id="map-total">合計 —</strong></div><button id="refresh" aria-label="公開株価・為替を再読込">再読込</button></div>
-        <div id="heatmap" role="group" aria-label="円建て保有時価評価額に比例するヒートマップ" aria-busy="true"></div>
-        <div id="compact-labels" aria-label="小さいタイルの補助表示" hidden></div>
-        <p id="map-status" role="status" aria-live="polite">公開データを読み込んでいます。</p>
-      </section>
     </main>
   </div>
-  <noscript>表示にはJavaScriptが必要です。<a href="../canbas/">CanBas</a>・<a href="../kringle/">クリングル</a>・<a href="../joby/">Joby</a></noscript>
+  <noscript>表示にはJavaScriptが必要です。<a href="../canbas/">キャンバス</a>・<a href="../kringle/">クリングル</a>・<a href="../joby/">Joby</a></noscript>
 </body>
 </html>

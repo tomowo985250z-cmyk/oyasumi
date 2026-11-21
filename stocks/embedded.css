@@ -1,7 +1,2 @@
-/* Theme and horizontal gestures apply only inside the new stocks/ shell. */
-html{color-scheme:light;touch-action:pan-y pinch-zoom}
-[data-quote-summary] .quote-summary-price strong{font-size:40px}
-[data-quote-summary] .quote-summary-price small{display:none}
-[data-quote-summary][data-direction=down] .quote-summary-card{background:linear-gradient(rgba(12,134,79,var(--quote-tint)),rgba(12,134,79,var(--quote-tint))),#fff}
-[data-quote-summary][data-direction=down] .quote-summary-price strong,[data-quote-summary][data-direction=down] .quote-summary-change strong{color:#0c6b43}
-[data-quote-summary] .quote-summary-loss strong,[data-holdings] .holding-loss{color:#0c6b43}
+/* Horizontal gestures apply only inside the integrated monitor. */
+html{touch-action:pan-y pinch-zoom}

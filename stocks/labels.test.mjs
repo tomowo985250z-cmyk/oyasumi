@@ -1,7 +1,0 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {fitTileLabels} from './labels.mjs';
-const texts={name:'クリングルファーマ',short:'クリングル',rate:'−12.34％',value:'¥123,456,789',compactValue:'¥1.2億'};
-const measure=(text,size)=>[...text].reduce((sum,char)=>sum+(char.charCodeAt(0)>255?1:.6)*size,0);
-test('larger rectangles grow text continuously and respect actual width and height',()=>{const small=fitTileLabels(120,140,texts,measure),large=fitTileLabels(320,420,texts,measure);assert(large.rows[0].size>small.rows[0].size);assert(large.rows[1].size>small.rows[1].size);for(const [w,h]of [[320,420],[120,140],[85,65],[90,40],[90,22],[3,3]]){const labels=fitTileLabels(w,h,texts,measure),visible=labels.rows.filter(row=>row.visible);for(const row of visible)assert(measure(row.text,row.size,row.weight)<=w-2*labels.padding-4+.01);assert(visible.reduce((sum,row)=>sum+row.size*1.25,0)+labels.gap*Math.max(0,visible.length-1)<=Math.max(0,h-2*labels.padding-4)+.01);}});
-test('space is allocated to name, then rate, then valuation; tiny labels use the legend',()=>{const three=fitTileLabels(160,160,texts,measure),two=fitTileLabels(90,43,texts,measure),one=fitTileLabels(90,24,texts,measure),zero=fitTileLabels(4,4,texts,measure);assert.equal(three.count,3);assert.equal(two.count,2);assert.deepEqual(two.rows.map(row=>row.visible),[true,true,false]);assert.equal(one.count,1);assert.deepEqual(one.rows.map(row=>row.visible),[true,false,false]);assert.equal(zero.count,0);});

@@ -1,71 +1,66 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..'),pw=require(process.env.OYASUMI_PLAYWRIGHT||path.resolve(root,'../../webkit-tools/core/package')),out=path.resolve(root,'../stocks-check-'+Date.now());fs.mkdirSync(out,{recursive:true});
-const server=http.createServer((req,res)=>{const u=new URL(req.url,'http://localhost'),file=path.resolve(root,'.'+decodeURIComponent(u.pathname)+(u.pathname.endsWith('/')?'index.html':''));if(!file.startsWith(root+path.sep))return res.writeHead(403).end();fs.readFile(file,(e,b)=>{if(e)return res.writeHead(404).end();res.writeHead(200,{'Content-Type':({'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json'})[path.extname(file)]||'application/octet-stream'});res.end(b);});});
+const server=http.createServer((req,res)=>{const u=new URL(req.url,'http://localhost'),file=path.resolve(root,'.'+decodeURIComponent(u.pathname)+(u.pathname.endsWith('/')?'index.html':''));if(!file.startsWith(root+path.sep))return res.writeHead(403).end();fs.readFile(file,(error,body)=>{if(error)return res.writeHead(404).end();res.writeHead(200,{'Content-Type':({'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json'})[path.extname(file)]||'application/octet-stream'});res.end(body);});});
+const companies=['canbas','kringle','joby'],symbols=['4575.T','4884.T','JOBY'],retired=/monitor-shared|yen-reference|yen-card|update-yen|finance\.yahoo|heatmap/;
 (async()=>{let browser;const report={cases:[],errors:[]};try{
- await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=process.env.STOCKS_BASE||'http://127.0.0.1:'+server.address().port;browser=await pw.webkit.launch({headless:true});
- const quotes=process.env.STOCKS_BASE?await(await fetch(base+'/monitor-shared/data/quotes.json')).json():JSON.parse(fs.readFileSync(root+'/monitor-shared/data/quotes.json'));
- const {portfolio}=await import('./model.mjs');const history=process.env.STOCKS_BASE?await(await fetch(base+'/joby/data/yen-reference.json')).json():JSON.parse(fs.readFileSync(root+'/joby/data/yen-reference.json'));
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base=process.env.STOCKS_BASE||'http://127.0.0.1:'+server.address().port;browser=await pw.webkit.launch({headless:true});
  for(const [width,height]of [[320,568],[375,667],[390,844],[430,932]]){
-  const ctx=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true}),p=await ctx.newPage(),requests=[];
-  p.on('pageerror',e=>report.errors.push(e.message));p.on('request',r=>requests.push({url:r.url(),post:r.postData()}));await p.goto(base+'/stocks/');
-  async function active(id){await p.waitForFunction(id=>document.getElementById('tab-'+id)?.getAttribute('aria-selected')==='true',id);}
-  async function frameReady(id){const handle=await p.locator('iframe[data-company="'+id+'"]').elementHandle(),frame=await handle.contentFrame();await frame.waitForFunction(()=>['#monitor','[data-holdings]','[data-quote-summary]'].every(s=>document.querySelector(s)?.getAttribute('aria-busy')==='false')&&(!document.querySelector('#ev-monitor')||document.querySelector('#ev-monitor').getAttribute('aria-busy')==='false'));await frame.waitForFunction(()=>{const price=document.querySelector('.quote-summary-price strong'),currency=document.querySelector('.quote-summary-price small');return price?.textContent.startsWith('¥')&&getComputedStyle(price).fontSize==='40px'&&(!currency||getComputedStyle(currency).display==='none');});assert.equal(await frame.locator('meta[name=robots]').count(),1);assert.deepEqual((await frame.locator('meta[name=robots]').getAttribute('content')).split(',').map(s=>s.trim()).sort(),['noarchive','nofollow','noindex']);return frame;}
-  async function settled(){await p.evaluate(()=>Promise.all(document.getAnimations().map(animation=>animation.finished.catch(()=>{}))));}
-  async function atTop(frame){await settled();await frame.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))));await frame.waitForFunction(()=>scrollY===0&&document.scrollingElement.scrollTop===0);}
-  async function heat(){await p.locator('#tab-heatmap').click();await active('heatmap');await p.waitForFunction(()=>document.querySelector('#heatmap')?.getAttribute('aria-busy')==='false'&&document.querySelectorAll('#heatmap .tile').length>0);await settled();}
-  async function swipe(target,direction){await settled();await target.evaluate((node,direction)=>{const doc=node.ownerDocument,start=direction==='left'?240:60,end=direction==='left'?60:240;for(const [type,x]of [['pointerdown',start],['pointermove',(start+end)/2],['pointerup',end]])node.dispatchEvent(new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:7,pointerType:'touch',isPrimary:true,clientX:x,clientY:100,button:0}));},direction);}
-  await active('canbas');await frameReady('canbas');await heat();assert.equal(await p.locator('#heatmap .tile').count(),3);assert((await p.locator('#map-mode').innerText()).includes('均等'));const equal=await p.locator('#heatmap .tile').evaluateAll(ts=>ts.map(t=>{const r=t.getBoundingClientRect();return r.width*r.height;}));assert(Math.max(...equal)-Math.min(...equal)<width);
-  for(const [id,shares]of [['canbas','10'],['kringle','20'],['joby','30']]){
-   await p.locator('#tab-'+id).click();const frame=await frameReady(id);await frame.locator('.holding-cost').fill('500');await frame.locator('.holding-shares').fill(shares);assert(await frame.locator('.holding-results').isVisible());
+  const context=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true}),page=await context.newPage(),requests=[];
+  page.on('pageerror',error=>report.errors.push(error.message));page.on('request',request=>requests.push({url:request.url(),method:request.method()}));
+  await context.addInitScript(()=>{try{if(!localStorage.getItem('oyasumi:test:app-preserved')){for(const symbol of ['4575.T','4884.T','JOBY'])localStorage.setItem('oyasumi:portfolio:v1:'+symbol,JSON.stringify({currency:'JPY',unitCost:'500',shares:'10'}));localStorage.setItem('oyasumi:test:app-preserved','untouched');}}catch{}});
+  const active=async id=>page.waitForFunction(id=>document.getElementById('tab-'+id)?.getAttribute('aria-selected')==='true',id);
+  const settled=async()=>page.evaluate(()=>Promise.all(document.getAnimations().map(animation=>animation.finished.catch(()=>{}))));
+  async function ready(id){
+   const frame=await(await page.locator('iframe[data-company="'+id+'"]').elementHandle()).contentFrame();
+   await frame.waitForFunction(()=>document.getElementById('monitor')?.getAttribute('aria-busy')==='false'&&(!document.getElementById('ev-monitor')||document.getElementById('ev-monitor').getAttribute('aria-busy')==='false'));
+   assert.equal(await frame.locator('[data-quote-summary],[data-holdings],.holding-inputs,.quote-summary-card').count(),0);
+   assert.equal(await frame.locator('meta[name=robots]').count(),1);assert.deepEqual((await frame.locator('meta[name=robots]').getAttribute('content')).split(',').map(s=>s.trim()).sort(),['noarchive','nofollow','noindex']);
    assert.equal(await frame.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-   if(id==='canbas')assert.equal(await frame.locator('.country').count(),8);if(id==='kringle')assert.equal(await frame.locator('.pipeline-card').count(),4);if(id==='joby')assert.equal(await frame.locator('[role=progressbar]').count(),10);
-   if(id!=='canbas'){await frame.waitForFunction(()=>getComputedStyle(document.querySelector('.quote-summary-change strong')).color==='rgb(12, 107, 67)');}
-   await p.locator('#tab-'+id).click();await atTop(frame);if(width===375)await p.screenshot({path:path.join(out,id+'-375.png')});
+   return frame;
+  }
+  async function top(frame){await settled();await frame.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))));await frame.waitForFunction(()=>scrollY===0&&document.scrollingElement.scrollTop===0);}
+  async function swipe(frame,direction){await settled();await frame.locator('body').evaluate((node,direction)=>{const end=direction==='left'?-26:26;for(const [type,x,y]of [['pointerdown',0,0],['pointermove',end/2,6],['pointermove',end,12],['pointerup',end,12]])node.dispatchEvent(new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:7,pointerType:'touch',isPrimary:true,clientX:150+x,clientY:150+y,button:0}));},direction);}
+  await page.goto(base+'/stocks/#heatmap');await active('canbas');assert.equal(new URL(page.url()).hash,'#canbas');assert.deepEqual(await page.locator('[role=tab]').allTextContents(),['キャンバス','クリングル','Joby']);assert.equal(await page.locator('.screen').count(),3);
+  assert.equal(await page.locator('#heatmap,#screen-heatmap,[data-holdings],[data-quote-summary]').count(),0);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight>innerHeight||document.documentElement.scrollWidth>innerWidth),false);
+  assert.deepEqual(await page.evaluate(()=>['4575.T','4884.T','JOBY'].map(symbol=>localStorage.getItem('oyasumi:portfolio:v1:'+symbol))),[null,null,null]);assert.equal(await page.evaluate(()=>localStorage.getItem('oyasumi:test:app-preserved')),'untouched');
+  const frames={};
+  for(const id of companies){
+   await page.locator('#tab-'+id).click();await active(id);const frame=frames[id]=await ready(id);await top(frame);
+   if(id==='canbas'){assert.equal(await frame.locator('.country').count(),8);assert.equal(await frame.locator('#ev-pipelines > article').count(),2);assert.equal(await frame.locator('#ev-sources [data-source]').count(),4);assert(await frame.locator('#changes-title').isVisible());}
+   if(id==='kringle'){assert.equal(await frame.locator('.pipeline-card').count(),4);assert.equal(await frame.locator('.registry-source').count(),4);assert.equal(await frame.locator('.source-card').count(),4);}
+   if(id==='joby'){assert.equal(await frame.locator('.stage-card').count(),5);assert.equal(await frame.locator('[role=progressbar]').count(),10);assert.equal(await frame.locator('.stage-card .change-mark').count(),3);assert.equal(await frame.locator('#sources .source-card').count(),4);}
+   const filter=frame.locator(id==='canbas'?'#ev-category':'#category');await filter.selectOption(id==='joby'?'資金調達':'治験');await filter.selectOption('all');
+   const history=frame.locator(id==='canbas'?'#ev-history-count':'#history-count');await history.click();assert(await history.evaluate(node=>node.closest('details').open));assert.equal(await frame.locator(id==='canbas'?'#ev-history':id==='kringle'?'#history-list':'#history').count(),1);
+   await frame.locator(id==='canbas'?'#ev-reload':'#reload').click();await ready(id);
+   await page.locator('#tab-'+id).click();await top(frame);await page.screenshot({path:path.join(out,id+'-'+width+'.png')});
    await frame.evaluate(()=>scrollTo(0,450));await frame.waitForFunction(()=>scrollY>100);
   }
-  await heat();const expected=portfolio(quotes,history,{canbas:'10',kringle:'20',joby:'30'});
-  const geometry=await p.evaluate(()=>{const r=document.getElementById('heatmap').getBoundingClientRect();return {width:r.width,height:r.height,tiles:[...document.querySelectorAll('#heatmap .tile')].map(t=>{const a=t.getBoundingClientRect();return {id:t.dataset.company,area:a.width*a.height,text:t.innerText,share:Number(t.dataset.share),bottom:a.bottom};}),overflow:document.documentElement.scrollHeight>innerHeight||document.documentElement.scrollWidth>innerWidth,bottom:r.bottom};});
-  assert.equal(geometry.overflow,false);assert(geometry.bottom<=height);assert.equal(geometry.tiles.length,3);for(const tile of geometry.tiles){const item=expected.tiles.find(t=>t.id===tile.id);assert(Math.abs(tile.area/(geometry.width*geometry.height)-item.share)<.0002);assert(tile.text.includes('¥'));assert(tile.text.includes('％'));}
-  assert((await p.locator('#heatmap .tile[data-company=canbas]').getAttribute('class')).includes('up'));assert((await p.locator('#heatmap .tile[data-company=joby]').getAttribute('class')).includes('down'));await p.screenshot({path:path.join(out,'heatmap-'+width+'.png')});
-  async function labelsFit(){const labels=await p.locator('#heatmap .tile').evaluateAll(tiles=>tiles.map(tile=>{const bounds=tile.getBoundingClientRect(),rows=[...tile.children],visible=rows.filter(row=>!row.hidden);return {width:bounds.width,height:bounds.height,area:bounds.width*bounds.height,fonts:visible.map(row=>parseFloat(getComputedStyle(row).fontSize)),priority:rows.map(row=>!row.hidden),inside:visible.every(row=>{const r=row.getBoundingClientRect();return r.left>=bounds.left-.1&&r.right<=bounds.right+.1&&r.top>=bounds.top-.1&&r.bottom<=bounds.bottom+.1&&row.scrollWidth<=row.clientWidth+1;}),ordered:visible.every((row,i)=>i===0||row.getBoundingClientRect().top>=visible[i-1].getBoundingClientRect().bottom-.1)};}));for(const label of labels){assert(label.inside&&label.ordered,JSON.stringify(label));assert(!label.priority[2]||label.priority[1]);assert(!label.priority[1]||label.priority[0]);}return labels;}
-  const labelSizes=await labelsFit();const sorted=labelSizes.filter(label=>label.fonts.length===3).sort((a,b)=>a.area-b.area);if(sorted.length>1)assert(sorted.at(-1).fonts[1]>sorted[0].fonts[1]);
-  await p.locator('#heatmap .tile[data-company=joby]').click();await active('joby');const joby=await frameReady('joby');await atTop(joby);assert.equal(await joby.locator('.holding-shares').inputValue(),'30');
-  const jobyPrice=expected.tiles.find(tile=>tile.id==='joby').price,integer=new Intl.NumberFormat('ja-JP',{maximumFractionDigits:0});
-  assert.equal(await joby.locator('.quote-summary-price strong').innerText(),'¥'+integer.format(Math.floor(jobyPrice)));
-  assert.equal(await joby.locator('.holding-quote p').filter({hasText:'円換算株価（1株あたり）'}).locator('strong').innerText(),integer.format(Math.floor(jobyPrice))+' 円');
-  await swipe(joby.locator('body'),'right');await active('kringle');const kringle=await frameReady('kringle');await atTop(kringle);await swipe(kringle.locator('body'),'right');await active('canbas');const canbas=await frameReady('canbas');await atTop(canbas);await swipe(canbas.locator('body'),'left');await active('kringle');await atTop(kringle);await swipe(kringle.locator('body'),'left');await active('joby');await atTop(joby);
-  await swipe(joby.locator('body'),'left');await active('heatmap');await swipe(p.locator('#heatmap'),'right');await active('joby');await atTop(joby);
-  // Native pointer path across an embedded document, in addition to touch-pointer events.
-  await settled();await joby.evaluate(()=>scrollTo(0,0));await p.mouse.move(width-55,180);await p.mouse.down();await p.mouse.move(55,180,{steps:8});await p.mouse.up();await active('heatmap');
-  // A short diagonal switches before release; residual events and a rapid next swipe cannot double-switch.
-  await p.locator('#tab-canbas').click();await atTop(canbas);
-  const shortSwipe=await p.evaluate(()=>{
-    const body=id=>document.querySelector('iframe[data-company='+id+']').contentDocument.body;
-    const send=(node,type,x,y)=>{const event=new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:31,pointerType:'touch',isPrimary:true,clientX:150+x,clientY:150+y,button:0});node.dispatchEvent(event);return event.defaultPrevented;};
-    const source=body('canbas');send(source,'pointerdown',0,0);const early=send(source,'pointermove',-12,8),short=send(source,'pointermove',-24,15),beforeRelease=document.querySelector('[role=tab][aria-selected=true]').dataset.screen;
-    send(source,'pointermove',-70,15);send(source,'pointerup',-70,15);
-    const target=body('kringle');send(target,'pointerdown',0,0);send(target,'pointermove',-40,0);send(target,'pointerup',-40,0);
-    return {early,short,beforeRelease,current:document.querySelector('[role=tab][aria-selected=true]').dataset.screen,animated:document.getAnimations().some(a=>a.effect.getTiming().duration===180)};
-  });assert.deepEqual(shortSwipe,{early:true,short:true,beforeRelease:'kringle',current:'kringle',animated:true});await atTop(kringle);
-  const ignored=await kringle.evaluate(()=>{
-    const send=(target,type,x,y,primary=true)=>{const event=new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:32,pointerType:'touch',isPrimary:primary,clientX:150+x,clientY:150+y,button:0});target.dispatchEvent(event);return event.defaultPrevented;};
-    const node=document.body;send(node,'pointerdown',0,0);const vertical=send(node,'pointermove',8,16);const bent=send(node,'pointermove',40,24);send(node,'pointerup',40,24);
-    send(node,'pointerdown',0,0);send(node,'pointermove',-12,0);send(node,'pointercancel',-12,0);send(node,'pointerup',-40,0);
-    send(node,'pointerdown',0,0);send(node,'pointerdown',0,0,false);send(node,'pointerup',-40,0);
-    const input=document.querySelector('.holding-shares');send(input,'pointerdown',0,0);send(input,'pointermove',-40,0);send(input,'pointerup',-40,0);
-    return {vertical,bent,value:input.value};
-  });assert.deepEqual(ignored,{vertical:false,bent:false,value:'20'});await active('kringle');
-  await kringle.locator('.holding-reload').click();await frameReady('kringle');await active('kringle');
-  await p.locator('#tab-heatmap').click();await settled();
-  await p.reload();await active('heatmap');await p.waitForFunction(()=>document.querySelector('#heatmap')?.getAttribute('aria-busy')==='false');assert.equal(await p.locator('#heatmap .tile').count(),3);
-  await p.evaluate(()=>{for(const [symbol,shares]of [['4575.T','999999999'],['4884.T','1'],['JOBY','1']])localStorage.setItem('oyasumi:portfolio:v1:'+symbol,JSON.stringify({currency:'JPY',unitCost:'500',shares}));dispatchEvent(new StorageEvent('storage',{key:'oyasumi:portfolio:v1:4575.T'}));});
-  await p.waitForFunction(()=>!document.getElementById('compact-labels').hidden);assert.equal(await p.locator('#compact-labels button').count(),3);assert.equal(await p.evaluate(()=>document.documentElement.scrollHeight>innerHeight),false);assert(Number(await p.locator('#heatmap .tile[data-company=joby]').getAttribute('data-share'))<1e-6);
-  await labelsFit();if(width===320)await p.screenshot({path:path.join(out,'tiny-labels-320.png')});
-  await p.addStyleTag({content:'#app{padding-top:59px;padding-bottom:34px}'});await p.setViewportSize({width,height:height-55});await p.waitForFunction(()=>document.getElementById('heatmap').getBoundingClientRect().bottom<=innerHeight-34);assert.equal(await p.evaluate(()=>document.documentElement.scrollHeight>innerHeight||document.documentElement.scrollWidth>innerWidth),false);
-  await p.evaluate(()=>{localStorage.setItem('oyasumi:portfolio:v1:4884.T',JSON.stringify({currency:'JPY',shares:'0'}));localStorage.removeItem('oyasumi:portfolio:v1:JOBY');dispatchEvent(new StorageEvent('storage',{key:'oyasumi:portfolio:v1:4884.T'}));});await p.waitForFunction(()=>document.querySelectorAll('#heatmap .tile').length===1);assert.equal(await p.locator('#heatmap .tile').getAttribute('data-company'),'canbas');
-  assert(requests.every(r=>!r.post&&r.url.startsWith(base+'/')),'only same-origin public resources, no portfolio requests');assert.equal(await p.locator('meta[name=robots]').count(),1);assert.deepEqual((await p.locator('meta[name=robots]').getAttribute('content')).split(',').map(s=>s.trim()).sort(),['noarchive','nofollow','noindex']);
-  if(width===375||width===390){const standalone=await ctx.newPage();await standalone.goto(base+'/joby/');await standalone.waitForFunction(()=>['[data-holdings]','[data-quote-summary]'].every(selector=>document.querySelector(selector)?.getAttribute('aria-busy')==='false'));assert.equal(await standalone.locator('.quote-summary-price strong').innerText(),'¥'+integer.format(Math.floor(jobyPrice)));assert.equal(await standalone.locator('.holding-quote p').filter({hasText:'円換算株価（1株あたり）'}).locator('strong').innerText(),integer.format(Math.floor(jobyPrice))+' 円');await standalone.close();}
-  report.cases.push({width,height,fourScreens:true,price40pxYenOnly:true,jobyFloorDisplayOnly:true,adaptiveLabels:true,noLabelOverflow:true,scrollResetOnTabsAndSwipes:true,normalVerticalScroll:true,shortDiagonalSwipe:true,animation:true,noDoubleSwitch:true,verticalAndInputPreserved:true,weightedArea:true,equalFallback:true,zeroExcluded:true,smallTileLabels:true,tabsAndSwipe:true,tileTap:true,sharedHoldings:true,safeAreaSimulation:true,noScrollOnHeatmap:true});await ctx.close();
+  await swipe(frames.joby,'left');await active('joby'); // No fourth screen at the right boundary.
+  await swipe(frames.joby,'right');await active('kringle');await top(frames.kringle);await swipe(frames.kringle,'right');await active('canbas');await top(frames.canbas);
+  await swipe(frames.canbas,'right');await active('canbas');await swipe(frames.canbas,'left');await active('kringle');await top(frames.kringle);
+  const preserved=await frames.kringle.evaluate(()=>{
+   const send=(target,type,x,y)=>{const event=new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:33,pointerType:'touch',isPrimary:true,clientX:150+x,clientY:150+y,button:0});target.dispatchEvent(event);return event.defaultPrevented;};
+   send(document.body,'pointerdown',0,0);const vertical=send(document.body,'pointermove',8,16);send(document.body,'pointermove',40,24);send(document.body,'pointerup',40,24);
+   const input=document.getElementById('category');send(input,'pointerdown',0,0);send(input,'pointermove',-40,0);send(input,'pointerup',-40,0);return vertical;
+  });assert.equal(preserved,false);await active('kringle');
+  await page.locator('#tab-canbas').click();await top(frames.canbas);
+  const duplicate=await page.evaluate(()=>{
+   const body=id=>document.querySelector('iframe[data-company='+id+']').contentDocument.body;
+   const send=(node,type,x)=>node.dispatchEvent(new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:41,pointerType:'touch',isPrimary:true,clientX:150+x,clientY:150,button:0}));
+   for(const id of ['canbas','kringle']){const node=body(id);send(node,'pointerdown',0);send(node,'pointermove',-26);send(node,'pointermove',-90);send(node,'pointerup',-90);}
+   return document.querySelector('[role=tab][aria-selected=true]').dataset.screen;
+  });assert.equal(duplicate,'kringle');await top(frames.kringle);
+  await page.locator('#tab-joby').click();await top(frames.joby);await page.locator('#tab-joby').focus();await page.keyboard.press('ArrowRight');await active('canbas');await top(frames.canbas);await page.keyboard.press('End');await active('joby');await page.keyboard.press('Home');await active('canbas');await top(frames.canbas);
+  await page.addStyleTag({content:'#app{padding-top:59px;padding-bottom:34px}'});const bounds=await page.locator('#screen-canbas iframe').boundingBox();assert(bounds.y>=59);assert(bounds.y+bounds.height<=height-34+.1);assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight>innerHeight||document.documentElement.scrollWidth>innerWidth),false);
+  await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#tab-joby').click();await active('joby');assert.equal(await page.evaluate(()=>document.getAnimations().length),0);await top(frames.joby);
+  if(width===375||width===390)for(const [index,id]of companies.entries()){
+   await page.evaluate(symbol=>localStorage.setItem('oyasumi:portfolio:v1:'+symbol,'old-entry'),symbols[index]);const standalone=await context.newPage();standalone.on('pageerror',error=>report.errors.push(error.message));standalone.on('request',request=>requests.push({url:request.url(),method:request.method()}));await standalone.goto(base+'/'+id+'/');await standalone.waitForFunction(()=>document.getElementById('monitor')?.getAttribute('aria-busy')==='false');
+   assert.equal(await standalone.locator('[data-holdings],[data-quote-summary]').count(),0);assert.equal(await standalone.evaluate(symbol=>localStorage.getItem('oyasumi:portfolio:v1:'+symbol),symbols[index]),null);assert.equal(await standalone.evaluate(()=>localStorage.getItem('oyasumi:test:app-preserved')),'untouched');await standalone.close();
+  }
+  assert(requests.every(request=>request.method==='GET'&&request.url.startsWith(base+'/')&&!retired.test(new URL(request.url).pathname)),'No price/FX/portfolio resources or external API requests');
+  report.cases.push({width,height,threeScreens:true,tabsSwipeKeyboard:true,noFourthScreen:true,topReset:true,verticalScroll:true,filtersHistoryReload:true,clinicalAndCertificationPreserved:true,changeMarksPreserved:true,noMarketUIOrRequests:true,onlyOldPortfolioStorageRemoved:true,safeArea:true,reducedMotion:true});await context.close();
  }
- const robots=await fetch(base+'/robots.txt');assert(robots.ok);const policy=await robots.text();for(const id of ['stocks','canbas','kringle','joby'])assert(policy.includes('/oyasumi/'+id+'/'));assert.equal(report.errors.length,0);report.pass=true;
-}catch(e){report.pass=false;report.error=e.stack;process.exitCode=1;}finally{if(browser)await browser.close();server.close();fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));}})();
+ for(const path of ['/monitor-shared/data/quotes.json','/joby/data/yen-reference.json']){const response=await fetch(base+path);assert.equal(response.status,404,'Retired public JSON must be absent: '+path);}
+ assert.equal(report.errors.length,0);report.pass=true;
+}catch(error){report.pass=false;report.error=error.stack;process.exitCode=1;}finally{if(browser)await browser.close();server.close();fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));}})();

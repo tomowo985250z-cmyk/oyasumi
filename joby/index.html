@@ -10,15 +10,10 @@
   <title>Joby Aviation｜FAA認証・重要イベントモニター</title>
   <link rel="stylesheet" href="./style.css?v=1">
   <script type="module" src="./app.mjs?v=1"></script>
-  <link rel="stylesheet" href="../monitor-shared/holdings.css?v=1">
-  <script type="module" src="../monitor-shared/holdings.mjs?v=2"></script>
-  <link rel="stylesheet" href="../monitor-shared/quote-summary.css?v=3">
-  <script type="module" src="./yen-card.mjs?v=2"></script>
-  <style>aside[data-quote-summary="joby"] .quote-summary-price strong{font-size:40px}</style>
+  <script>try{localStorage.removeItem('oyasumi:portfolio:v1:JOBY')}catch{}</script>
 </head>
 <body>
   <header><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">J</span><span>JOBY AVIATION<small>認証・重要イベントモニター</small></span></a><span class="unofficial">非公式</span></header>
-  <aside data-quote-summary="joby" aria-label="Jobyの株価と前日比" aria-busy="true">株価を読み込んでいます。</aside>
   <main id="monitor" aria-busy="true">
     <section class="intro"><p class="eyebrow">CERTIFICATION &amp; MILESTONES</p><h1>認証の進み方と、<br>次の節目。</h1><p>Jobyの公表資料と規制当局の情報から、確認できた事実をたどります。</p><nav aria-label="ページ内"><a href="#certification">認証5段階</a><a href="#timeline-section">重要イベント</a><a href="#documents-section">新着資料</a><a href="#history-section">変更履歴</a><a href="#sources-section">取得状況</a></nav></section>
     <div id="notice" class="notice" role="status" aria-live="polite">保存済みの公式情報を読み込んでいます。</div>
@@ -32,7 +27,6 @@
     </div>
     <button id="reload" type="button">公開済みデータを再読込</button><p class="small">毎日1回取得。再読込は公開済みデータの読み直しです。</p>
     <noscript><p class="notice warning">表示にはJavaScriptが必要です。<a href="https://ir.jobyaviation.com/financial-information/financial-results">Joby公式資料をご確認ください。</a></p></noscript>
-    <section data-holdings="joby" aria-label="株価と保有株式" aria-busy="true"></section>
   </main>
   <footer><p>Joby Aviation、FAA、SECの公式サイトではありません。推測で進捗や日付を補完しません。</p><p>SEC提出資料も会社の説明であり、FAAによる承認とは区別します。既存のヘリコプター等の事業実績とeVTOLの商用運航を混同しません。</p><p><a href="https://ir.jobyaviation.com/" target="_blank" rel="noopener noreferrer">Joby公式IR</a> · <a href="https://www.sec.gov/edgar/browse/?CIK=1819848" target="_blank" rel="noopener noreferrer">SEC</a> · <a href="https://www.faa.gov/air-taxis" target="_blank" rel="noopener noreferrer">FAA</a></p></footer>
 </body>
