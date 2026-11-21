@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#173e51">
   <title>FUJI-PanC01｜CanBas 治験モニター</title>
   <meta name="description" content="FUJI-PanC01の国別承認・患者募集・施設情報を、公式CTISの公開データから確認する非公式モニター。">
-  <link rel="stylesheet" href="./style.css?v=1">
-  <script type="module" src="./app.mjs?v=2"></script>
+  <link rel="stylesheet" href="./style.css?v=2">
+  <script type="module" src="./app.mjs?v=3"></script>
 </head>
 <body>
   <header class="masthead">
@@ -25,6 +25,7 @@
     </section>
     <div id="notice" class="notice" role="status" aria-live="polite">保存済みの公式情報を読み込んでいます。</div>
     <div id="data" hidden>
+      <section class="changes" aria-labelledby="changes-title"><div class="section-top"><h2 id="changes-title">最新の変更情報</h2><span id="changes-badge" class="pill" hidden></span></div><p id="changes-message"></p><p id="changes-date" class="change-date" hidden></p><ul id="changes-list" class="change-list" hidden></ul></section>
       <section class="overview" aria-label="承認・患者募集の状況">
         <article class="summary approval-summary"><span class="summary-label">治験の承認状況</span><h2 id="approval-summary"></h2><p id="approval-detail"></p><div class="progress" id="approval-progress" aria-hidden="true"></div></article>
         <article class="summary recruitment-summary"><span class="summary-label">患者募集の状況</span><h2 id="recruitment-summary"></h2><p id="recruitment-detail"></p><span class="summary-foot">国単位のCTIS登録状況</span></article>
@@ -34,7 +35,6 @@
         <div><span>CTIS公開日</span><strong id="published-date"></strong></div>
         <div class="success-date"><span>最終取得成功日時<span class="timezone">（日本時間）</span></span><strong id="success-date"></strong></div>
       </section>
-      <section class="changes" aria-labelledby="changes-title"><div class="section-top"><h2 id="changes-title">前回取得からの変更</h2><span id="changes-badge" class="pill" hidden></span></div><p id="changes-message"></p><ul id="changes-list" class="change-list" hidden></ul><details id="previous-changes" hidden><summary>直近に確認できた変更</summary><p id="previous-changes-date"></p><ul id="previous-changes-list" class="change-list"></ul></details></section>
       <section class="countries-section" aria-labelledby="countries-title"><div class="section-top"><h2 id="countries-title">参加国の状況</h2><span id="country-count" class="count"></span></div><p class="section-note">承認・募集は国単位です。施設ごとの患者募集状況は、この公開データには含まれていません。</p><div id="countries" class="country-grid"></div></section>
       <section class="about" aria-labelledby="about-title"><h2 id="about-title">この試験について</h2><p>進行膵がんの3次治療以降を対象に、CBP501・シスプラチン・ニボルマブの併用療法と、医師が選択する治療を比較する第III相試験です。</p><p class="section-note">試験概要はCTIS公開タイトルの参考訳です。</p><dl><div><dt>プロトコル番号</dt><dd>CBP 24-01</dd></div><div><dt>治験スポンサー</dt><dd>株式会社キャンバス（CanBas）</dd></div><div><dt>情報源</dt><dd>欧州医薬品庁（EMA）のCTIS</dd></div></dl></section>
     </div>

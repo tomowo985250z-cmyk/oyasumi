@@ -59,10 +59,25 @@ export function normalize(detail,search){
   return {trialId:TRIAL_ID,acronym:'FUJI-PanC01',protocol:identifiers.shortTitle,sponsor:row.sponsor,sourceStatus:trialState(detail.ctStatus),ctisUpdatedDate:date(row.lastUpdated,'CTIS情報更新日'),ctisPublishedDate:date(row.lastPublicationUpdate,'CTIS公開日'),countries,sources:{portal:PORTAL,detail:`${API}/retrieve/${TRIAL_ID}`,search:`${API}/search`}};
 }
 export function hash(record){return createHash('sha256').update(JSON.stringify(record)).digest('hex');}
+function siteChanges(before,after,country){
+  const key=site=>JSON.stringify(site),old=(before||[]).filter(a=>!(after||[]).some(b=>key(a)===key(b))),fresh=(after||[]).filter(b=>!(before||[]).some(a=>key(a)===key(b))),out=[];
+  // Match corrections only when the public name or full address identifies one
+  // remaining site on each side. Ambiguous rows remain separate listings.
+  for(const identify of [s=>s.name,s=>JSON.stringify([s.address,s.city,s.postcode])])for(const a of [...old]){
+    const candidates=fresh.filter(b=>identify(a)===identify(b));
+    if(candidates.length!==1||old.filter(b=>identify(a)===identify(b)).length!==1)continue;
+    const b=candidates[0];old.splice(old.indexOf(a),1);fresh.splice(fresh.indexOf(b),1);
+    for(const [field,kind] of [['name','siteName'],['address','siteAddress'],['city','siteCity'],['postcode','sitePostcode']])if(a[field]!==b[field])out.push({country,kind,site:b.name,siteKey:key(b),before:a[field],after:b[field]});
+  }
+  for(const a of old)out.push({country,kind:'siteRemoved',site:a.name,siteKey:key(a),before:'listed',after:'not_listed'});
+  for(const b of fresh)out.push({country,kind:'siteAdded',site:b.name,siteKey:key(b),before:'not_listed',after:'listed'});
+  return out;
+}
 export function changes(previous,next){
   const out=[];for(const field of ['sourceStatus','ctisUpdatedDate','ctisPublishedDate','sponsor'])if(previous[field]!==next[field])out.push({kind:field,before:previous[field],after:next[field]});
   for(const after of next.countries){const before=previous.countries.find(c=>c.code===after.code);need(before,'前回データの参加国');for(const field of ['approval','trialStatus','decisionDate','recruitment','recruitmentStartDate','recruitmentEndDate'])if(before[field]!==after[field])out.push({country:after.code,kind:field,before:before[field],after:after[field]});
-    if(JSON.stringify(before.sites)!==JSON.stringify(after.sites))out.push({country:after.code,kind:'sites',before:before.sites?.length??null,after:after.sites?.length??null,detailsChanged:before.sites?.length===after.sites?.length});
+    if((before.sites?.length??null)!==(after.sites?.length??null))out.push({country:after.code,kind:'sites',before:before.sites?.length??null,after:after.sites?.length??null});
+    out.push(...siteChanges(before.sites,after.sites,after.code));
   }return out;
 }
 export async function retrieve(fetchImpl=fetch){
