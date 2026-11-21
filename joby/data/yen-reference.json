@@ -1,8 +1,8 @@
 {
   "version": 1,
   "result": "success",
-  "lastAttemptAt": "2026-11-21T13:06:54.841Z",
-  "lastSuccessAt": "2026-11-21T13:06:54.841Z",
+  "lastAttemptAt": "2026-11-21T13:12:00.213Z",
+  "lastSuccessAt": "2026-11-21T13:12:00.213Z",
   "error": null,
   "references": [
     {
@@ -13,8 +13,8 @@
       "stockAsOf": "2026-11-20T21:00:03.000Z",
       "usdJpy": 159.663,
       "fxAsOf": "2026-11-19T21:00:00.000Z",
-      "stockRetrievedAt": "2026-11-21T13:06:54.841Z",
-      "fxRetrievedAt": "2026-11-21T13:06:54.841Z",
+      "stockRetrievedAt": "2026-11-21T13:12:00.213Z",
+      "fxRetrievedAt": "2026-11-21T13:12:00.213Z",
       "stockSourceURL": "https://query1.finance.yahoo.com/v8/finance/chart/JOBY?interval=1h&range=5d",
       "fxSourceURL": "https://query1.finance.yahoo.com/v8/finance/chart/JPY%3DX?interval=1m&period1=1795122000&period2=1795122060"
     }
