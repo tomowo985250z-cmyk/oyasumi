@@ -10,6 +10,8 @@
   <meta name="description" content="クリングルファーマの治験、薬事、提携、資金調達とIRを、公式出典と確認日時からたどる非公式モニター。">
   <link rel="stylesheet" href="./style.css?v=1">
   <script type="module" src="./app.mjs?v=1"></script>
+  <link rel="stylesheet" href="../monitor-shared/holdings.css?v=1">
+  <script type="module" src="../monitor-shared/holdings.mjs?v=1"></script>
 </head>
 <body>
   <header><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">K</span><span>KRINGLE<span class="brand-sub">クリングルファーマ · 4884</span></span></a><span class="unofficial">非公式モニター</span></header>
@@ -26,6 +28,7 @@
       <section id="sources" aria-labelledby="sources-title"><p class="eyebrow">SOURCE HEALTH</p><h2 id="sources-title">情報源ごとの取得状況</h2><p class="small">毎日1回の取得に対応。最終取得成功日時・取得試行日時は日本時間です。</p><div id="source-list" class="grid"></div><button id="reload" type="button">公開済みデータを再読込</button><p class="small">再読込は公開済みデータの読み直しです。公式サイトへの新しい取得は毎日の自動処理・管理者の手動実行で行います。</p></section>
     </div>
     <noscript><p class="notice warning">表示にはJavaScriptが必要です。<a href="https://www.kringle-pharma.com/ir_info/news/">公式IRをご確認ください。</a></p></noscript>
+    <section data-holdings="kringle" aria-label="株価と保有株式" aria-busy="true"></section>
   </main>
   <footer><p>クリングルファーマ、取引所、治験登録機関の公式サイトではありません。</p><p>未公表の進捗・日付は補完しません。公式情報の公表日、登録簿の更新日、取得確認日時を区別します。</p><p><a href="https://www.kringle-pharma.com/ir_info/news/" target="_blank" rel="noopener noreferrer">公式IR</a> · <a href="https://www.release.tdnet.info/inbs/I_main_00.html" target="_blank" rel="noopener noreferrer">TDnet</a> · <a href="https://jrct.mhlw.go.jp/" target="_blank" rel="noopener noreferrer">jRCT</a> · <a href="https://clinicaltrials.gov/" target="_blank" rel="noopener noreferrer">ClinicalTrials.gov</a></p></footer>
 </body>

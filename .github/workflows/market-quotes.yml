@@ -1,0 +1,55 @@
+name: Monitor market quotes
+on:
+  schedule:
+    - cron: '7,37 0-6,13-21 * * 1-5'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  actions: read
+concurrency:
+  group: canbas-monitor
+  cancel-in-progress: false
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Test quote validation and calculations
+        run: node --test monitor-shared/market.test.mjs
+      - name: Fetch public quotes and USD/JPY
+        id: quotes
+        continue-on-error: true
+        run: node monitor-shared/update.mjs
+      - name: Preserve public market data only
+        id: persist
+        if: always() && steps.quotes.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- monitor-shared/data/quotes.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: refresh public stock quotes and USD/JPY'
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Publish with existing Pages configuration
+        if: always() && steps.persist.outputs.commit != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MARKET_COMMIT: ${{ steps.persist.outputs.commit }}
+        run: node monitor-shared/pages-build.mjs
+      - name: Report source failure after preserving data
+        if: always() && steps.quotes.outcome == 'failure'
+        run: |
+          echo '::error::Quote retrieval failed. Previous valid prices are retained and marked old.'
+          exit 1

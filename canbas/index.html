@@ -12,6 +12,8 @@
   <script type="module" src="./app.mjs?v=3"></script>
   <link rel="stylesheet" href="./events/style.css?v=1">
   <script type="module" src="./events/app.mjs?v=1"></script>
+  <link rel="stylesheet" href="../monitor-shared/holdings.css?v=1">
+  <script type="module" src="../monitor-shared/holdings.mjs?v=1"></script>
 </head>
 <body>
   <header class="masthead">
@@ -64,6 +66,7 @@
       <p class="ev-small">毎日1回取得。再読込は公開済みデータの読み直しです。CanBas・各登録機関の公式サイトではありません。</p>
     </section>
     <noscript><p class="notice failure">表示にはJavaScriptが必要です。上のリンクから公式CTISをご確認ください。</p></noscript>
+    <section data-holdings="canbas" aria-label="株価と保有株式" aria-busy="true"></section>
   </main>
   <footer><p>CanBasやEMAが運営する公式サイトではありません。</p><p>未公開の情報を推定して補完せず、取得できた公開情報のみを表示します。施設名・住所はCTISの正式な掲載表記を保持しています。</p><p>出典：<a href="https://euclinicaltrials.eu/" target="_blank" rel="noopener noreferrer">EMA / CTIS</a> · 日本語の項目名・状態表示・試験概要は本モニターによる参考訳です。</p></footer>
 </body>
