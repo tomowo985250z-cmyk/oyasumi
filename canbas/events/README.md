@@ -1,5 +1,11 @@
 # CanBasイベント追加
 
+## 公式X（2026年11月21日確認）
+
+CanBas公式サイト https://www.canbas.co.jp/ の公式SNSリンクから https://twitter.com/canbas4575 （@canbas4575）を特定。現状はリンクのみで投稿を取得・要約・時系列／履歴へ反映しない。既存4情報源の更新・正常データ・通知は変更しない。
+
+公式の自動取得候補はX API v2の `GET /2/users/by/username/:username` と `GET /2/users/:id/tweets`（created_at、text、entities、since_id、ページング）。公式ドキュメントは https://docs.x.com/x-api/posts/timelines/introduction 、認証は https://docs.x.com/fundamentals/authentication/oauth-2-0/bearer-tokens 、料金条件は https://docs.x.com/x-api/getting-started/pricing 。開発者アプリの認証と利用枠が必要。今回の環境では利用可能な認証情報を確認できず、ユーザー照会APIを認証なしで1回実通信した結果はHTTP 401。認証済みの投稿取得・安定性・重複統合は未検証。非公式プロキシ、スクレイピング、ゲストトークン等による取得制限の回避は行わない。
+
 既存CTISのapp.mjs、model.mjs、取得・差分処理、正常データは独立したまま維持。イベント画面は独立モジュール・CSS・データで追加する。データはcanbas/data/events.json、取得状態はevents-status.json。
 
 kringle/は変更せず、日付区分・進捗・段階・時系列分類、公開文字列処理・開示分類・TDnet日付／ページ一覧、ハッシュ・項目差分、Pages完了確認をimportして再利用する。実行時依存は同一リポジトリの静的モジュールのみ。
