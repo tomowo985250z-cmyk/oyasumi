@@ -1,0 +1,57 @@
+name: Joby FAA認証・イベント更新
+on:
+  schedule:
+    - cron: '17 5 * * *' # 日本時間14:17ごろ
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  actions: read
+concurrency:
+  group: canbas-monitor
+  cancel-in-progress: false
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: ソースを取得
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Node.jsを準備
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: 項目欠落・差分・履歴・失敗時保持を検証
+        run: node --test joby/tests/update.test.mjs
+      - name: 公式情報を取得
+        id: sources
+        continue-on-error: true
+        run: node joby/scripts/update.mjs
+      - name: 取得結果だけを保存
+        id: persist
+        if: always() && steps.sources.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- joby/data/events.json joby/data/status.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(joby): record official source retrieval'
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: 既存Pages設定で公開・確認
+        if: always() && steps.persist.outputs.commit != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JOBY_COMMIT: ${{ steps.persist.outputs.commit }}
+        run: node joby/scripts/pages-build.mjs
+      - name: 取得失敗を記録
+        if: always() && steps.sources.outcome == 'failure'
+        run: |
+          echo '::error::一部取得に失敗。以前の正常データを保持し、情報源別に失敗を表示しました。'
+          exit 1

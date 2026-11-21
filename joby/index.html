@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="googlebot" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#173b55">
+  <meta name="description" content="Joby AviationのFAA認証5段階と重要イベントを、会社公表値・規制当局の出典・確認日時を区別して表示する非公式モニター。">
+  <title>Joby Aviation｜FAA認証・重要イベントモニター</title>
+  <link rel="stylesheet" href="./style.css?v=1">
+  <script type="module" src="./app.mjs?v=1"></script>
+</head>
+<body>
+  <header><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">J</span><span>JOBY AVIATION<small>認証・重要イベントモニター</small></span></a><span class="unofficial">非公式</span></header>
+  <main id="monitor" aria-busy="true">
+    <section class="intro"><p class="eyebrow">CERTIFICATION &amp; MILESTONES</p><h1>認証の進み方と、<br>次の節目。</h1><p>Jobyの公表資料と規制当局の情報から、確認できた事実をたどります。</p><nav aria-label="ページ内"><a href="#certification">認証5段階</a><a href="#timeline-section">重要イベント</a><a href="#documents-section">新着資料</a><a href="#history-section">変更履歴</a><a href="#sources-section">取得状況</a></nav></section>
+    <div id="notice" class="notice" role="status" aria-live="polite">保存済みの公式情報を読み込んでいます。</div>
+    <div id="data" hidden>
+      <section id="certification"><p class="eyebrow">FIVE STAGES · TWO SERIES</p><h2>FAA認証の5段階</h2><div class="notice info"><strong>FAA側の数値もJoby公表値です。</strong><p>FAA自身が独立公表した進捗率ではありません。段階ごとの割合であり、総合進捗率は算出しません。段階名は参考訳です。</p></div><div id="cert-dates" class="dates"></div><p id="cert-source" class="source-ref"></p><p id="cert-pending" class="notice warning" hidden></p><p id="cert-comparison" class="small"></p><div id="stages" class="stage-grid"></div><p class="small">文書の修正・再提出により割合が下がる場合もあります。増減だけで認証完了・延期とは判定しません。</p></section>
+      <section id="latest-section" class="panel"><div class="section-title"><h2>最新の変更情報</h2><span id="change-count" class="badge"></span></div><p id="changes-message"></p><ul id="latest" class="change-list"></ul><p class="small">変更日時が公表されていない項目は取得確認日時を表示。通知は次の変更まで保持します。</p></section>
+      <section id="timeline-section"><div class="section-title"><div><p class="eyebrow">EVENT TIMELINE</p><h2>重要イベント</h2></div><label class="filter">分類<select id="category"><option value="all">すべて</option><option>認証</option><option>TIA</option><option>試験飛行</option><option>製造</option><option>商用運航</option><option>提携</option><option>資金調達</option></select></label></div><p class="small">「規制当局確認／会社発表」は出典の区分、「実績／予定／未定」は日付・出来事の確度です。開始準備・試験飛行と、型式証明取得・通常の商用運航を区別します。</p><div id="timeline"></div></section>
+      <section id="documents-section" class="panel"><p class="eyebrow">OFFICIAL SOURCE WATCH</p><h2>新着発表・資料の検出</h2><p class="small">公式IR RSS、株主資料一覧、SEC提出情報、FAA関連情報を自動検出。表題は公式原文です。未確認の本文・進捗率はイベントや数値へ自動反映しません。掲載期間外になった過去取得分も保持します。</p><div id="documents"></div><details><summary id="older-count">以前の資料を見る</summary><div id="older"></div></details></section>
+      <section id="history-section" class="panel"><p class="eyebrow">CHANGE HISTORY</p><h2>すべての変更履歴</h2><p class="small">認証値の公表資料間比較と、このモニターの取得開始後の変更を区別して保存します。</p><details><summary id="history-count">履歴を開く</summary><ol id="history" class="change-list"></ol></details></section>
+      <section id="sources-section"><p class="eyebrow">SOURCE HEALTH</p><h2>情報源ごとの取得状況</h2><p class="small">最終取得成功日時と取得試行日時は日本時間です。代替経路での取得は直接取得と区別します。</p><div id="sources" class="source-grid"></div></section>
+    </div>
+    <button id="reload" type="button">公開済みデータを再読込</button><p class="small">毎日1回取得。再読込は公開済みデータの読み直しです。</p>
+    <noscript><p class="notice warning">表示にはJavaScriptが必要です。<a href="https://ir.jobyaviation.com/financial-information/financial-results">Joby公式資料をご確認ください。</a></p></noscript>
+  </main>
+  <footer><p>Joby Aviation、FAA、SECの公式サイトではありません。推測で進捗や日付を補完しません。</p><p>SEC提出資料も会社の説明であり、FAAによる承認とは区別します。既存のヘリコプター等の事業実績とeVTOLの商用運航を混同しません。</p><p><a href="https://ir.jobyaviation.com/" target="_blank" rel="noopener noreferrer">Joby公式IR</a> · <a href="https://www.sec.gov/edgar/browse/?CIK=1819848" target="_blank" rel="noopener noreferrer">SEC</a> · <a href="https://www.faa.gov/air-taxis" target="_blank" rel="noopener noreferrer">FAA</a></p></footer>
+</body>
+</html>

@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "certifications": [
+    {
+      "asOf": "2026-07-31",
+      "publishedAt": "2026-08-05",
+      "reviewedAt": "2026-11-21",
+      "source": {
+        "title": "2026年第2四半期 株主資料（提出資料HTML）",
+        "url": "https://ir.jobyaviation.com/sec-filings/all-sec-filings/content/0001819848-26-000432/joby-8kx20260805xexx99_2.htm",
+        "page": "7",
+        "publishedAt": "2026-08-05"
+      },
+      "stages": [
+        {
+          "stage": 1,
+          "joby": 100,
+          "faa": 100
+        },
+        {
+          "stage": 2,
+          "joby": 97,
+          "faa": 97
+        },
+        {
+          "stage": 3,
+          "joby": 100,
+          "faa": 100
+        },
+        {
+          "stage": 4,
+          "joby": 83,
+          "faa": 77
+        },
+        {
+          "stage": 5,
+          "joby": 20,
+          "faa": 10
+        }
+      ],
+      "period": "Q2 2026"
+    },
+    {
+      "asOf": "2026-10-30",
+      "publishedAt": "2026-11-04",
+      "reviewedAt": "2026-11-21",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "7",
+        "publishedAt": "2026-11-04"
+      },
+      "stages": [
+        {
+          "stage": 1,
+          "joby": 100,
+          "faa": 100
+        },
+        {
+          "stage": 2,
+          "joby": 100,
+          "faa": 100
+        },
+        {
+          "stage": 3,
+          "joby": 100,
+          "faa": 100
+        },
+        {
+          "stage": 4,
+          "joby": 83,
+          "faa": 78
+        },
+        {
+          "stage": 5,
+          "joby": 25,
+          "faa": 14
+        }
+      ],
+      "period": "Q3 2026"
+    }
+  ],
+  "documents": [
+    {
+      "title": "2026年第2四半期 株主資料（提出資料HTML）",
+      "url": "https://ir.jobyaviation.com/sec-filings/all-sec-filings/content/0001819848-26-000432/joby-8kx20260805xexx99_2.htm",
+      "page": "7",
+      "publishedAt": "2026-08-05",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "2026年第3四半期 株主資料",
+      "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+      "page": "7",
+      "publishedAt": "2026-11-04",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "2025年第4四半期 株主資料（提出資料HTML）",
+      "url": "https://ir.jobyaviation.com/sec-filings/all-sec-filings/content/0001819848-26-000154/joby-20260225xex99_2.htm",
+      "page": "2",
+      "publishedAt": "2026-02-25",
+      "reviewedAt": "2026-11-21"
+    },
+    {
+      "title": "FAA公式 eIPP紹介",
+      "url": "https://www.faa.gov/blog/clearedfortakeoff/faas-evtol-integration-pilot-program-advancing-aviations-next-frontier",
+      "page": "参加企業・各地域の説明",
+      "reviewedAt": "2026-11-21"
+    }
+  ],
+  "events": [
+    {
+      "id": "cert123",
+      "title": "認証第1〜3段階：両系列が100％",
+      "category": "認証",
+      "date": "2026-10-30",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "会社公表の進捗表で確認。型式証明の取得完了を意味しません。",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "7",
+        "publishedAt": "2026-11-04"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company"
+    },
+    {
+      "id": "for-credit",
+      "title": "認証に使う試験・報告書の作業を進行",
+      "category": "認証",
+      "date": null,
+      "certainty": "undetermined",
+      "progress": "in_progress",
+      "detail": "機体・部品の試験や報告書承認を会社が説明。進捗率とは分けて表示します。",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "7",
+        "publishedAt": "2026-11-04"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company"
+    },
+    {
+      "id": "tia-training",
+      "title": "TIAに向けた操縦士訓練・Joby試験飛行の予定",
+      "category": "TIA",
+      "date": "2027-01",
+      "certainty": "planned",
+      "progress": "not_started",
+      "detail": "会社は2027年前半を見込むと説明。FAAによるTIA試験の開始日を断定する情報ではありません。",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "7",
+        "publishedAt": "2026-11-04"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company",
+      "dateEnd": "2027-06",
+      "dateText": "2027年前半（会社予定）"
+    },
+    {
+      "id": "eipp-flights",
+      "title": "テキサス・フロリダでeIPP飛行を実施",
+      "category": "試験飛行",
+      "date": "2026-11-04",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "会社が実施を公表。表示日は公表日で、各飛行の実施日とは異なります。",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "2、4–6",
+        "publishedAt": "2026-11-04"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company"
+    },
+    {
+      "id": "manufacturing",
+      "title": "製造体制を拡大・17機を製造中と公表",
+      "category": "製造",
+      "date": "2026-11-04",
+      "certainty": "confirmed",
+      "progress": "in_progress",
+      "detail": "会社公表時点の機数。完成・納入機数ではありません。",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "2、8",
+        "publishedAt": "2026-11-04"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company"
+    },
+    {
+      "id": "commercial",
+      "title": "eVTOL旅客運航へ向けた準備",
+      "category": "商用運航",
+      "date": null,
+      "certainty": "undetermined",
+      "progress": "in_progress",
+      "detail": "eIPPで段階的な旅客搭乗を目指す会社方針。通常の商用運航開始・型式証明取得とは区別します。",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "4、7",
+        "publishedAt": "2026-11-04"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company"
+    },
+    {
+      "id": "toyota",
+      "title": "Toyotaと量産を支える合弁を設立",
+      "category": "提携",
+      "date": "2026",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "会社は第2四半期中の合弁設立を説明。将来の生産能力や投資効果は実績と扱いません。",
+      "source": {
+        "title": "2026年第2四半期 株主資料（提出資料HTML）",
+        "url": "https://ir.jobyaviation.com/sec-filings/all-sec-filings/content/0001819848-26-000432/joby-8kx20260805xexx99_2.htm",
+        "page": "7",
+        "publishedAt": "2026-08-05"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company",
+      "dateText": "2026年第2四半期（会社発表）"
+    },
+    {
+      "id": "resonant",
+      "title": "Resonant Sciences買収の完了予定",
+      "category": "提携",
+      "date": "2027",
+      "certainty": "planned",
+      "progress": "not_started",
+      "detail": "会社は2027年初めの完了を見込むと説明。承認等の条件があり、完了済みとは扱いません。",
+      "source": {
+        "title": "2026年第3四半期 株主資料",
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "page": "12",
+        "publishedAt": "2026-11-04"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company",
+      "dateText": "2027年初め（会社予定）"
+    },
+    {
+      "id": "financing-feb",
+      "title": "2月に約12億ドルの資金受領を公表",
+      "category": "資金調達",
+      "date": "2026-02",
+      "certainty": "confirmed",
+      "progress": "completed",
+      "detail": "2025年第4四半期株主資料で追加の純受領額を説明。現金残高とは別の項目です。",
+      "source": {
+        "title": "2025年第4四半期 株主資料（提出資料HTML）",
+        "url": "https://ir.jobyaviation.com/sec-filings/all-sec-filings/content/0001819848-26-000154/joby-20260225xex99_2.htm",
+        "page": "2",
+        "publishedAt": "2026-02-25"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "company"
+    },
+    {
+      "id": "faa-eipp",
+      "title": "FAA公式資料にJobyのeIPP参画を掲載",
+      "category": "商用運航",
+      "date": null,
+      "certainty": "undetermined",
+      "progress": "in_progress",
+      "detail": "FAAの参加企業・実証計画の記載を確認。Jobyの型式証明取得を示すものではありません。",
+      "source": {
+        "title": "FAA公式 eIPP紹介",
+        "url": "https://www.faa.gov/blog/clearedfortakeoff/faas-evtol-integration-pilot-program-advancing-aviations-next-frontier",
+        "page": "参加企業・各地域の説明"
+      },
+      "reviewedAt": "2026-11-21",
+      "basis": "regulator"
+    }
+  ]
+}
