@@ -1,0 +1,544 @@
+{
+  "detail": {
+    "ctNumber": "2024-511500-16-01",
+    "ctStatus": "Authorised",
+    "ctPublicStatusCode": 2,
+    "authorizedApplication": {
+      "authorizedPartI": {
+        "trialDetails": {
+          "clinicalTrialIdentifiers": {
+            "publicTitle": "A Phase 3 Study of CBP501 + Cisplatin + Nivolumab versus Physician’s Choice of Therapy for ≥3rd Line Treatment of Patients with Advanced Pancreatic Adenocarcinoma [FUJI-PanC01]",
+            "shortTitle": "CBP 24-01"
+          }
+        }
+      },
+      "applicationInfo": [
+        {
+          "submissionDate": "2026-07-31",
+          "partIIInfo": [
+            {
+              "mscInfo": {
+                "countryName": "Czechia",
+                "trialStatus": "Authorised",
+                "decision": "authorized",
+                "decisionDate": "2026-11-19"
+              }
+            },
+            {
+              "mscInfo": {
+                "countryName": "Belgium",
+                "trialStatus": "Under evaluation"
+              }
+            },
+            {
+              "mscInfo": {
+                "countryName": "Italy",
+                "trialStatus": "Authorised",
+                "decision": "authorized",
+                "decisionDate": "2026-11-20"
+              }
+            },
+            {
+              "mscInfo": {
+                "countryName": "France",
+                "trialStatus": "Authorised",
+                "decision": "authorized",
+                "decisionDate": "2026-11-18"
+              }
+            },
+            {
+              "mscInfo": {
+                "countryName": "Germany",
+                "trialStatus": "Authorised",
+                "decision": "authorized",
+                "decisionDate": "2026-11-19"
+              }
+            },
+            {
+              "mscInfo": {
+                "countryName": "Austria",
+                "trialStatus": "Under evaluation"
+              }
+            },
+            {
+              "mscInfo": {
+                "countryName": "Spain",
+                "trialStatus": "Under evaluation"
+              }
+            },
+            {
+              "mscInfo": {
+                "countryName": "Hungary",
+                "trialStatus": "Authorised",
+                "decision": "authorized",
+                "decisionDate": "2026-11-20"
+              }
+            }
+          ]
+        }
+      ],
+      "authorizedPartsII": [
+        {
+          "mscInfo": {
+            "countryName": "Czechia",
+            "trialStatus": "Authorised",
+            "decision": "authorized",
+            "decisionDate": "2026-11-19",
+            "hasRecruitmentStarted": false,
+            "trialRecruitmentPeriod": [],
+            "activeTrialRecruitmentPeriod": {}
+          },
+          "trialSites": [
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "University Hospital Olomouc"
+                },
+                "address": {
+                  "oneLine": "Zdravotniku 248/7",
+                  "city": "Olomouc",
+                  "postcode": "779 00",
+                  "countryName": "Czechia"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Fakultni Nemocnice V Motole"
+                },
+                "address": {
+                  "oneLine": "V Uvalu 84/1, Motol",
+                  "city": "Prague",
+                  "postcode": "150 00",
+                  "countryName": "Czechia"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Masarykuv Onkologicky Ustav"
+                },
+                "address": {
+                  "oneLine": "Zluty Kopec 543/7, Stare Brno",
+                  "city": "Brno-Stred",
+                  "postcode": "656 53",
+                  "countryName": "Czechia"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Fakultni Nemocnice Hradec Kralove"
+                },
+                "address": {
+                  "oneLine": "Sokolska 581, Novy Hradec Kralove",
+                  "city": "Hradec Kralove",
+                  "postcode": "500 03",
+                  "countryName": "Czechia"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "mscInfo": {
+            "countryName": "Italy",
+            "trialStatus": "Authorised",
+            "decision": "authorized",
+            "decisionDate": "2026-11-20",
+            "hasRecruitmentStarted": false,
+            "trialRecruitmentPeriod": [],
+            "activeTrialRecruitmentPeriod": {}
+          },
+          "trialSites": [
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Humanitas Mirasole S.p.A."
+                },
+                "address": {
+                  "oneLine": "Via Alessandro Manzoni 56",
+                  "city": "Rozzano",
+                  "postcode": "20089",
+                  "countryName": "Italy"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Centro Di Riferimento Oncologico Di Aviano"
+                },
+                "address": {
+                  "oneLine": "Via Franco Gallini 2",
+                  "city": "Aviano",
+                  "postcode": "33081",
+                  "countryName": "Italy"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Istituto Oncologico Veneto"
+                },
+                "address": {
+                  "oneLine": "Via Gattamelata 64",
+                  "city": "Padova",
+                  "postcode": "35128",
+                  "countryName": "Italy"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Centro Ricerche Cliniche Di Verona S.r.l."
+                },
+                "address": {
+                  "oneLine": "Piazzale Ludovico Antonio Scuro 10",
+                  "city": "Verona",
+                  "postcode": "37134",
+                  "countryName": "Italy"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Azienda Ospedaliero Universitaria Delle Marche"
+                },
+                "address": {
+                  "oneLine": "Via Conca 71",
+                  "city": "Ancona",
+                  "postcode": "60126",
+                  "countryName": "Italy"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "mscInfo": {
+            "countryName": "France",
+            "trialStatus": "Authorised",
+            "decision": "authorized",
+            "decisionDate": "2026-11-18",
+            "hasRecruitmentStarted": false,
+            "trialRecruitmentPeriod": [],
+            "activeTrialRecruitmentPeriod": {}
+          },
+          "trialSites": [
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Assistance Publique Hopitaux De Paris"
+                },
+                "address": {
+                  "oneLine": "100 Boulevard Du General Leclerc",
+                  "city": "Clichy",
+                  "postcode": "92110",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Institut Paoli Calmettes"
+                },
+                "address": {
+                  "oneLine": "232 Boulevard De Sainte Marguerite, Bp 156",
+                  "city": "Marseille",
+                  "postcode": "13009",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Institut Godinot"
+                },
+                "address": {
+                  "oneLine": "1 Rue Du General Koenig",
+                  "city": "Reims",
+                  "postcode": "51100",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Centre Hospitalier Universitaire Grenoble Alpes"
+                },
+                "address": {
+                  "oneLine": "Boulevard De La Chantourne, Cs 10217, La Tronche",
+                  "city": "Grenoble Cedex 9",
+                  "postcode": "38043",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Centr Georges Francois Leclerc"
+                },
+                "address": {
+                  "oneLine": "1 Rue Professeur Marion",
+                  "city": "Dijon",
+                  "postcode": "21000",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Institut De Cancerologie De Lorraine"
+                },
+                "address": {
+                  "oneLine": "6 Avenue De Bourgogne, Cs 30519",
+                  "city": "Vandoeuvre Les Nancy Cedex",
+                  "postcode": "54519",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Centre Hospitalier Universitaire De Nantes"
+                },
+                "address": {
+                  "oneLine": "Boulevard Du Professeur Jacques Monod",
+                  "city": "Saint Herblain",
+                  "postcode": "44800",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Hospital Foch"
+                },
+                "address": {
+                  "oneLine": "40 Rue Worth",
+                  "city": "Suresnes",
+                  "postcode": "92150",
+                  "countryName": "France"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Centre Antoine Lacassagne"
+                },
+                "address": {
+                  "oneLine": "33 Avenue De Valombrose",
+                  "city": "Nice Cedex 2",
+                  "postcode": "06189",
+                  "countryName": "France"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "mscInfo": {
+            "countryName": "Germany",
+            "trialStatus": "Authorised",
+            "decision": "authorized",
+            "decisionDate": "2026-11-19",
+            "hasRecruitmentStarted": false,
+            "trialRecruitmentPeriod": [],
+            "activeTrialRecruitmentPeriod": {}
+          },
+          "trialSites": [
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Charite Universitaetsmedizin Berlin KöR"
+                },
+                "address": {
+                  "oneLine": "Chariteplatz 1, Mitte",
+                  "city": "Berlin",
+                  "postcode": "10117",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Asklepios Kliniken Hamburg GmbH"
+                },
+                "address": {
+                  "oneLine": "Paul-Ehrlich-Strasse 1, Othmarschen",
+                  "city": "Hamburg",
+                  "postcode": "22763",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Muenchen Klinik gGmbH"
+                },
+                "address": {
+                  "oneLine": "Oskar-Maria-Graf-Ring 51, Ramersdorf-Perlach",
+                  "city": "Munich",
+                  "postcode": "81737",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Haematologisch Onkologische Praxis Eppendorf"
+                },
+                "address": {
+                  "oneLine": "Norddeutsches Studienzentrum fuer Innovative Onkologie, Eppendorfer Landstrasse 42",
+                  "city": "Hamburg",
+                  "postcode": "20249",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Universitaetsmedizin der Johannes Gutenberg-Universitaet Mainz KöR"
+                },
+                "address": {
+                  "oneLine": "Langenbeckstrasse 1, Oberstadt",
+                  "city": "Mainz",
+                  "postcode": "55131",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Gemeinschaftspraxis Haematologie Onkologie"
+                },
+                "address": {
+                  "oneLine": "Arnoldstrasse 18, Johannstadt-Nord",
+                  "city": "Dresden",
+                  "postcode": "01307",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Leopoldina-Krankenhaus der Stadt Schweinfurt GmbH"
+                },
+                "address": {
+                  "oneLine": "Gustav-Adolf-Strasse 8/6, Hochfeld-Steinberg",
+                  "city": "Schweinfurt",
+                  "postcode": "97422",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "MM-Medizinische Management GmbH"
+                },
+                "address": {
+                  "oneLine": "Friedrichstrasse 53",
+                  "city": "Friedrichshafen",
+                  "postcode": "88045",
+                  "countryName": "Germany"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "SLK-Kliniken Heilbronn GmbH"
+                },
+                "address": {
+                  "oneLine": "Am Gesundbrunnen 20-26, Neckargartach",
+                  "city": "Heilbronn",
+                  "postcode": "74078",
+                  "countryName": "Germany"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "mscInfo": {
+            "countryName": "Hungary",
+            "trialStatus": "Authorised",
+            "decision": "authorized",
+            "decisionDate": "2026-11-20",
+            "hasRecruitmentStarted": false,
+            "trialRecruitmentPeriod": [],
+            "activeTrialRecruitmentPeriod": {}
+          },
+          "trialSites": [
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Central Hospital Of Northern Pest Military Hospital"
+                },
+                "address": {
+                  "oneLine": "Podmaniczky Utca 109",
+                  "city": "Budapest VI",
+                  "postcode": "1062",
+                  "countryName": "Hungary"
+                }
+              }
+            },
+            {
+              "organisationAddressInfo": {
+                "organisation": {
+                  "name": "Bekes Varmegyei Koezponti Korhaz"
+                },
+                "address": {
+                  "oneLine": "Semmelweis Utca 1",
+                  "city": "Gyula",
+                  "postcode": "5700",
+                  "countryName": "Hungary"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "search": {
+    "data": [
+      {
+        "ctNumber": "2024-511500-16-01",
+        "ctStatus": 2,
+        "sponsor": "Canbas Co. Ltd.",
+        "trialCountries": [
+          "Czechia:2",
+          "Italy:2",
+          "Hungary:2",
+          "France:2",
+          "Germany:2"
+        ],
+        "lastUpdated": "20/11/2026",
+        "lastPublicationUpdate": "21/11/2026"
+      }
+    ]
+  }
+}

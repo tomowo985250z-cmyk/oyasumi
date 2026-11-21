@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "snapshotHash": "fd7cc6b9ba09805e18694e6dc1f78d87eb4f074364b987d7647a63987e8f42dd",
+  "observedAt": "2026-11-21T07:07:45.140Z",
+  "comparison": {
+    "previousSuccessAt": null,
+    "previousSnapshotHash": null,
+    "changes": []
+  },
+  "record": {
+    "trialId": "2024-511500-16-01",
+    "acronym": "FUJI-PanC01",
+    "protocol": "CBP 24-01",
+    "sponsor": "Canbas Co. Ltd.",
+    "sourceStatus": "authorised",
+    "ctisUpdatedDate": "2026-11-20",
+    "ctisPublishedDate": "2026-11-21",
+    "countries": [
+      {
+        "code": "FR",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-18",
+        "recruitment": "pending",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": [
+          {
+            "name": "Assistance Publique Hopitaux De Paris",
+            "address": "100 Boulevard Du General Leclerc",
+            "city": "Clichy",
+            "postcode": "92110"
+          },
+          {
+            "name": "Centr Georges Francois Leclerc",
+            "address": "1 Rue Professeur Marion",
+            "city": "Dijon",
+            "postcode": "21000"
+          },
+          {
+            "name": "Centre Antoine Lacassagne",
+            "address": "33 Avenue De Valombrose",
+            "city": "Nice Cedex 2",
+            "postcode": "06189"
+          },
+          {
+            "name": "Centre Hospitalier Universitaire De Nantes",
+            "address": "Boulevard Du Professeur Jacques Monod",
+            "city": "Saint Herblain",
+            "postcode": "44800"
+          },
+          {
+            "name": "Centre Hospitalier Universitaire Grenoble Alpes",
+            "address": "Boulevard De La Chantourne, Cs 10217, La Tronche",
+            "city": "Grenoble Cedex 9",
+            "postcode": "38043"
+          },
+          {
+            "name": "Hospital Foch",
+            "address": "40 Rue Worth",
+            "city": "Suresnes",
+            "postcode": "92150"
+          },
+          {
+            "name": "Institut De Cancerologie De Lorraine",
+            "address": "6 Avenue De Bourgogne, Cs 30519",
+            "city": "Vandoeuvre Les Nancy Cedex",
+            "postcode": "54519"
+          },
+          {
+            "name": "Institut Godinot",
+            "address": "1 Rue Du General Koenig",
+            "city": "Reims",
+            "postcode": "51100"
+          },
+          {
+            "name": "Institut Paoli Calmettes",
+            "address": "232 Boulevard De Sainte Marguerite, Bp 156",
+            "city": "Marseille",
+            "postcode": "13009"
+          }
+        ]
+      },
+      {
+        "code": "DE",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-19",
+        "recruitment": "pending",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": [
+          {
+            "name": "Asklepios Kliniken Hamburg GmbH",
+            "address": "Paul-Ehrlich-Strasse 1, Othmarschen",
+            "city": "Hamburg",
+            "postcode": "22763"
+          },
+          {
+            "name": "Charite Universitaetsmedizin Berlin KöR",
+            "address": "Chariteplatz 1, Mitte",
+            "city": "Berlin",
+            "postcode": "10117"
+          },
+          {
+            "name": "Gemeinschaftspraxis Haematologie Onkologie",
+            "address": "Arnoldstrasse 18, Johannstadt-Nord",
+            "city": "Dresden",
+            "postcode": "01307"
+          },
+          {
+            "name": "Haematologisch Onkologische Praxis Eppendorf",
+            "address": "Norddeutsches Studienzentrum fuer Innovative Onkologie, Eppendorfer Landstrasse 42",
+            "city": "Hamburg",
+            "postcode": "20249"
+          },
+          {
+            "name": "Leopoldina-Krankenhaus der Stadt Schweinfurt GmbH",
+            "address": "Gustav-Adolf-Strasse 8/6, Hochfeld-Steinberg",
+            "city": "Schweinfurt",
+            "postcode": "97422"
+          },
+          {
+            "name": "MM-Medizinische Management GmbH",
+            "address": "Friedrichstrasse 53",
+            "city": "Friedrichshafen",
+            "postcode": "88045"
+          },
+          {
+            "name": "Muenchen Klinik gGmbH",
+            "address": "Oskar-Maria-Graf-Ring 51, Ramersdorf-Perlach",
+            "city": "Munich",
+            "postcode": "81737"
+          },
+          {
+            "name": "SLK-Kliniken Heilbronn GmbH",
+            "address": "Am Gesundbrunnen 20-26, Neckargartach",
+            "city": "Heilbronn",
+            "postcode": "74078"
+          },
+          {
+            "name": "Universitaetsmedizin der Johannes Gutenberg-Universitaet Mainz KöR",
+            "address": "Langenbeckstrasse 1, Oberstadt",
+            "city": "Mainz",
+            "postcode": "55131"
+          }
+        ]
+      },
+      {
+        "code": "IT",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-20",
+        "recruitment": "pending",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": [
+          {
+            "name": "Azienda Ospedaliero Universitaria Delle Marche",
+            "address": "Via Conca 71",
+            "city": "Ancona",
+            "postcode": "60126"
+          },
+          {
+            "name": "Centro Di Riferimento Oncologico Di Aviano",
+            "address": "Via Franco Gallini 2",
+            "city": "Aviano",
+            "postcode": "33081"
+          },
+          {
+            "name": "Centro Ricerche Cliniche Di Verona S.r.l.",
+            "address": "Piazzale Ludovico Antonio Scuro 10",
+            "city": "Verona",
+            "postcode": "37134"
+          },
+          {
+            "name": "Humanitas Mirasole S.p.A.",
+            "address": "Via Alessandro Manzoni 56",
+            "city": "Rozzano",
+            "postcode": "20089"
+          },
+          {
+            "name": "Istituto Oncologico Veneto",
+            "address": "Via Gattamelata 64",
+            "city": "Padova",
+            "postcode": "35128"
+          }
+        ]
+      },
+      {
+        "code": "CZ",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-19",
+        "recruitment": "pending",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": [
+          {
+            "name": "Fakultni Nemocnice Hradec Kralove",
+            "address": "Sokolska 581, Novy Hradec Kralove",
+            "city": "Hradec Kralove",
+            "postcode": "500 03"
+          },
+          {
+            "name": "Fakultni Nemocnice V Motole",
+            "address": "V Uvalu 84/1, Motol",
+            "city": "Prague",
+            "postcode": "150 00"
+          },
+          {
+            "name": "Masarykuv Onkologicky Ustav",
+            "address": "Zluty Kopec 543/7, Stare Brno",
+            "city": "Brno-Stred",
+            "postcode": "656 53"
+          },
+          {
+            "name": "University Hospital Olomouc",
+            "address": "Zdravotniku 248/7",
+            "city": "Olomouc",
+            "postcode": "779 00"
+          }
+        ]
+      },
+      {
+        "code": "HU",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-20",
+        "recruitment": "pending",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": [
+          {
+            "name": "Bekes Varmegyei Koezponti Korhaz",
+            "address": "Semmelweis Utca 1",
+            "city": "Gyula",
+            "postcode": "5700"
+          },
+          {
+            "name": "Central Hospital Of Northern Pest Military Hospital",
+            "address": "Podmaniczky Utca 109",
+            "city": "Budapest VI",
+            "postcode": "1062"
+          }
+        ]
+      },
+      {
+        "code": "BE",
+        "approval": "under_review",
+        "trialStatus": "under_review",
+        "decisionDate": null,
+        "recruitment": "not_published",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": null
+      },
+      {
+        "code": "AT",
+        "approval": "under_review",
+        "trialStatus": "under_review",
+        "decisionDate": null,
+        "recruitment": "not_published",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": null
+      },
+      {
+        "code": "ES",
+        "approval": "under_review",
+        "trialStatus": "under_review",
+        "decisionDate": null,
+        "recruitment": "not_published",
+        "recruitmentStartDate": null,
+        "recruitmentEndDate": null,
+        "sites": null
+      }
+    ],
+    "sources": {
+      "portal": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "detail": "https://euclinicaltrials.eu/ctis-public-api/retrieve/2024-511500-16-01",
+      "search": "https://euclinicaltrials.eu/ctis-public-api/search"
+    }
+  }
+}
