@@ -1,0 +1,37 @@
+/* Limit the shared presentation to important-event timeline cards. */
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event {
+  --event-accent: #526b7c;
+  --event-tint: #f3f6f9;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 12px 0;
+  padding: 18px;
+  border: 1px solid #d6e2e9;
+  border-left: 4px solid var(--event-accent);
+  border-radius: 14px;
+  background: #fff;
+  color: #263e50;
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event::before { display: none; }
+#timeline-groups .events { border: 0; margin: 0; padding: 0; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event[data-sentiment="positive"] { --event-accent: #a52b40; --event-tint: #fff1f3; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event[data-sentiment="negative"] { --event-accent: #176443; --event-tint: #edf8f1; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event:is(.changed, .ev-changed) { box-shadow: 0 0 0 2px #c49539; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-heading :is(.entry-title, .ev-title) { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin: 0; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-heading :is(h3, h4) { flex: 1 1 0; min-width: 0; margin: 0; color: #173b55; font-size: 1.125rem; line-height: 1.6; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .monitor-event-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin: 16px 0; padding: 0; border: 0; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-fields > div { display: block; min-width: 0; padding: 0; border: 0; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-fields dt { min-width: 0; color: #526b7c; font-size: .875rem; line-height: 1.6; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-fields dd { margin: 4px 0 0; color: #263e50; text-align: left; font-size: 1rem; font-weight: 600; line-height: 1.65; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event > p { margin: 12px 0; font-size: 1rem; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .monitor-event-assessment { padding: 6px 10px; border-radius: 6px; background: var(--event-tint); color: var(--event-accent); font-size: .875rem; font-weight: 600; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-labels { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; color: #385e73; font-size: .875rem; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .badge { max-width: 100%; padding: 3px 8px; border-radius: 5px; font-size: .875rem; font-weight: 600; line-height: 1.75; white-space: normal; color: #385e73; background: #eaf1f6; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .badge:is(.planned, .undetermined) { color: #7d5608; background: #fff2d7; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .badge.delayed { color: #874b43; background: #f7e7e5; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event :is(.source-ref, small, .small, .change-summary, .ev-summary, summary, .change-list, .ev-changes) { font-size: .875rem; line-height: 1.75; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event :is(a, small, p, dd, dt) { min-width: 0; overflow-wrap: anywhere; }
