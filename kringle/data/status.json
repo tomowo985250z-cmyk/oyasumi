@@ -4,8 +4,8 @@
     "ir": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-23T14:25:47.103Z",
-      "lastSuccessAt": "2026-11-23T14:25:47.103Z",
+      "lastAttemptAt": "2026-11-23T15:25:12.705Z",
+      "lastSuccessAt": "2026-11-23T15:25:12.705Z",
       "snapshotHash": "bd495cb4ef3237edbf0886507f4b5f03946ccdabc8b7e7dca6c50aef180abe5b",
       "error": null,
       "coverage": "2025年以降の公式IR公開一覧"
@@ -13,26 +13,26 @@
     "tdnet": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-23T14:25:47.103Z",
-      "lastSuccessAt": "2026-11-23T14:25:47.103Z",
+      "lastAttemptAt": "2026-11-23T15:25:12.705Z",
+      "lastSuccessAt": "2026-11-23T15:25:12.705Z",
       "snapshotHash": "6d6a7cce4542b61e4ff929d2e3b594893d9ecf9e9cbb9b8215a4e9ab4cd30d3b",
       "error": null,
-      "coverage": "20261121〜20261123（全ページ確認・過去取得分を保持）"
+      "coverage": "20261122〜20261124（全ページ確認・過去取得分を保持）"
     },
     "jrct": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-23T14:25:47.103Z",
-      "lastSuccessAt": "2026-11-23T14:25:47.103Z",
+      "lastAttemptAt": "2026-11-23T15:25:12.705Z",
+      "lastSuccessAt": "2026-11-23T15:25:12.705Z",
       "snapshotHash": "09d9b426247c15ca0b36dc067c5f7a051b2f590e16bcb67227d2e3f139088e29",
       "error": null,
       "coverage": "対象2試験の公開詳細"
     },
     "ctgov": {
       "result": "success",
-      "dataResult": "changed",
-      "lastAttemptAt": "2026-11-23T14:25:47.103Z",
-      "lastSuccessAt": "2026-11-23T14:25:47.103Z",
+      "dataResult": "unchanged",
+      "lastAttemptAt": "2026-11-23T15:25:12.705Z",
+      "lastSuccessAt": "2026-11-23T15:25:12.705Z",
       "snapshotHash": "c5a62d7e96253f8f9292437437eee6730d6ff2b4be7d9a3cf5afd9e17fdc7168",
       "error": null,
       "coverage": "対象2試験の公開JSON"
@@ -40,7 +40,7 @@
   },
   "automation": {
     "result": "success",
-    "lastAttemptAt": "2026-11-23T14:25:47.103Z",
+    "lastAttemptAt": "2026-11-23T15:25:12.705Z",
     "checks": {},
     "error": null
   }
