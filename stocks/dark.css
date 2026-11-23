@@ -1,0 +1,102 @@
+/* Shared presentation only. The company pages keep their existing behavior. */
+:root {
+  color-scheme: dark;
+  background: #121820;
+  color: #f1f5f9;
+  --ink: #f1f5f9;
+  --muted: #bdc9d6;
+  --line: #425365;
+  --white: #1e2935;
+  --company-color: #8dc7ee;
+  --blue: var(--company-color);
+  --teal: var(--company-color);
+  --amber: #ffd487;
+}
+:root:has(.brand-mark) { --company-color: #80d5c5; }
+:root:has(.brand-sub) { --company-color: #a9c7ef; }
+body { background: #121820; color: #f1f5f9; }
+h1, h2, h3, h4, .brand, .site-count, .recruitment, .dates strong, .bar-top strong { color: #f1f5f9; }
+a, summary, .eyebrow, nav a, #ev-monitor a, #ev-monitor summary { color: var(--company-color); }
+.brand-icon, .brand-mark { color: #121820; background: var(--company-color); }
+.intro-copy, .intro > p:not(.eyebrow), .brand-sub, .brand small, .brand span:not(.brand-mark, .brand-icon),
+.unofficial, .trial-number, .trial-number span, .small, small, .source-ref, .entry-meta,
+.confirmation, .coverage, .source-card .coverage, .dates span, .dates dt, .summary-foot,
+.metric-label, .country-note, .country-change, .site-address, .section-note, .pipeline-status,
+.stage-number, .filter, dt, footer, .change-date, .changes p, .change-list .before,
+.changes .change-date, .source-links p, #ev-monitor small, #ev-monitor .ev-small, #ev-monitor dt { color: #bdc9d6; }
+.panel, .summary, .country, .changes, .dates, .dates > div, .about,
+.pipeline-card, .registry-card, .source-card, .stage-card, .event, .document,
+#ev-monitor .ev-card, #ev-monitor .ev-event,
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event {
+  background: #1e2935;
+  color: #f1f5f9;
+  border-color: #425365;
+}
+.summary p, .summary-label, .summary h2, .recruitment-summary p { color: #f1f5f9; }
+.approval-summary { border: 1px solid #425365; border-left: 4px solid #80d5c5; }
+.notice, #ev-monitor .ev-note { color: #d6eaff; background: #21364c; border-color: #6fa6d1; }
+.notice:is(.warning, .failure, .stale), .warning, .source-card .warning,
+#ev-monitor .ev-warning { color: #ffd487; background: #3a2e1d; border-color: #b48a45; }
+.status, .source-card .status, .recruitment.recruiting { color: #83dfb6; }
+.status:is(.failed, .stale), .source-card .status:is(.failed, .stale) { color: #ffd487; }
+.badge, .pill, :is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .badge {
+  color: #d6eaff; background: #263d52;
+}
+.badge:is(.completed, .regulator), .pill:is(.approved, .authorised),
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .badge:is(.completed, .regulator) {
+  color: #97e8c2; background: #203e36;
+}
+.badge:is(.planned, .undetermined), .pill.under_review,
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .badge:is(.planned, .undetermined) {
+  color: #ffd487; background: #40321f;
+}
+.badge.delayed, .pill:is(.not_approved, .withdrawn, .expired),
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event .badge.delayed {
+  color: #ffb5bd; background: #4a2933;
+}
+.badge.company, .pill.conditional { color: #b9dcff; background: #243d56; }
+.changed, .country.changed, .changes.changed, .event.changed, .document.changed,
+.changed-field, #ev-monitor .ev-changed {
+  background: #352e22 !important;
+  color: #f1f5f9;
+  border-color: #d0a35c;
+}
+.changed-field { outline-color: #d0a35c; }
+.change-mark, .change-summary, .country-change-summary, .bar .delta,
+#ev-monitor .ev-mark, #ev-monitor .ev-summary { color: #ffd487; }
+.group-title, .event-date, #ev-monitor .ev-date, #ev-monitor .ev-labels { color: #c6d9ec; }
+.stages li, .stages li.active, #ev-monitor .ev-stages li { color: #bdc9d6; }
+.stages li::before, .track, .progress span { background: #425365; }
+.stages li.active::before, .fill { background: #8dc7ee; }
+.stages li.target::before { background: #1e2935; border-color: #ffd487; }
+.bar.faa .fill { background: #bad0e6; }
+.bar.changed { background: transparent !important; }
+.bar.changed .fill { background: #ffd487; }
+.progress span.approved { background: #83dfb6; }
+#ev-monitor .ev-stages li { border-color: #425365; }
+#ev-monitor .ev-stages .ev-passed { border-color: #83dfb6; }
+#ev-monitor .ev-stages .ev-current { border-color: #8dc7ee; color: #d6eaff; }
+#ev-monitor .ev-stages .ev-target { border-color: #ffd487; color: #ffd487; }
+button, select, #reload, .official-link, #ev-monitor select, #ev-monitor #ev-reload {
+  color: #f1f5f9; background: #263747; border-color: #71869b;
+}
+.official-link { color: #121820; background: var(--company-color); }
+:is(a, button, select, summary):focus-visible { outline-color: #ffd487; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event {
+  --event-accent: #bdc9d6; --event-tint: #2a3847;
+  border-left-color: var(--event-accent);
+}
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event[data-sentiment="positive"] {
+  --event-accent: #ffb5bd; --event-tint: #4a2933;
+}
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event[data-sentiment="negative"] {
+  --event-accent: #97e8c2; --event-tint: #203e36;
+}
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-heading :is(h3, h4),
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-fields dd { color: #f1f5f9; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-fields dt,
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event-labels { color: #bdc9d6; }
+:is(#ev-timeline, #timeline-groups, #timeline) .monitor-event:is(.changed, .ev-changed) {
+  background: #1e2935 !important;
+  box-shadow: 0 0 0 2px #d0a35c;
+}
