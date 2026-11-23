@@ -41,22 +41,38 @@ globalThis.GardenCampfire=(()=>{
  function init(){new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['data-location','data-world-season','data-world-weather','data-world-daylight','data-room-preferences-pending']});schedule();document.addEventListener('visibilitychange',schedule);reduced.addEventListener('change',()=>{for(const e of fires.values()){e.animations.forEach(a=>a.cancel());e.animations=reduced.matches?[]:animate(e.svg);}schedule();});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 
- // Original procedural wood crackle: fresh noise and grains for every segment.
- // Never repeat a short recording; adjacent 48s segments have complementary fades.
- function soundBuffer(context,value=seed()){
-  const rng=random(value),rate=16000,n=48*rate,out=context.createBuffer(1,n,rate),pcm=out.getChannelData(0);let brown=0,low=0,high=0;
-  for(let i=0;i<n;i++){const white=rng()*2-1;brown=.993*brown+.007*white;low+=.16*(white-low);high+=.035*(low-high);const swell=.85+.10*Math.sin(i/rate*.39)+.05*Math.sin(i/rate*.73);pcm[i]=(.018*(low-high)+.065*brown)*swell;}
-  let at=.04;while(at<48){at+=.065+(rng()**1.6)*.55;const start=Math.floor(at*rate),duration=.022+rng()*.11,length=Math.ceil(duration*rate),amplitude=.025+.060*rng()**2,alpha=.18+.42*rng(),ring=720+rng()*2000;let state=0,body=0;
-   for(let j=0;j<length&&start+j<n;j++){const t=j/rate,envelope=(1-Math.exp(-t/.0025))*Math.exp(-t/(duration*.19));state+=alpha*((rng()*2-1)-state);body=.72*body+.28*state;pcm[start+j]+=amplitude*envelope*(state*.8+body*.35+Math.sin(2*Math.PI*ring*t)*Math.exp(-t/.009)*.08);}
+ // CC0 field recording: HECKFRICKER, Campfire 02. See the asset README.
+ // The full 4m19s cycle has an offline 6s crossfade; native looping needs no timer.
+ const recordingUrl='assets/garden-campfire-v1/campfire-recorded.mp3?v=dff8999e0449d842',loopStart=.0690625,loopEnd=259.681875;
+ let recording;
+ function loadRecording(context){
+  if(!recording){
+   const task=fetch(new URL(recordingUrl,document.baseURI),{cache:'force-cache'}).then(response=>{if(!response.ok)throw Error('Campfire audio unavailable');return response.arrayBuffer();}).then(bytes=>{
+    const Offline=globalThis.OfflineAudioContext||globalThis.webkitOfflineAudioContext;
+    const decoder=Offline?new Offline(1,1,16000):context;
+    return decoder.decodeAudioData(bytes);
+   }).then(buffer=>{if(buffer.numberOfChannels!==1||buffer.duration<loopEnd)throw Error('Invalid campfire recording');return buffer;});
+   recording=task;task.catch(()=>{if(recording===task)recording=null;});
   }
-  let power=0,peak=0;for(const x of pcm){power+=x*x;peak=Math.max(peak,Math.abs(x));}const gain=Math.min(.075/Math.sqrt(power/n),.42/peak);for(let i=0;i<n;i++)pcm[i]*=gain;return out;
+  return recording;
  }
- function createSound(context,destination){let running=false,timer,nextAt=0,total=0;const sources=new Set(),bus=context.createGain();bus.gain.value=0;bus.connect(destination);
-  function add(at){const buffer=soundBuffer(context),source=context.createBufferSource(),gain=context.createGain();source.buffer=buffer;source.connect(gain);gain.connect(bus);gain.gain.value=0;gain.gain.setValueAtTime(0,at);for(let i=1;i<=24;i++)gain.gain.linearRampToValueAtTime(Math.sin(i/24*Math.PI/2),at+i/24*2.5);gain.gain.setValueAtTime(1,at+45.5);for(let i=1;i<=24;i++)gain.gain.linearRampToValueAtTime(Math.cos(i/24*Math.PI/2),at+45.5+i/24*2.5);const entry={source,gain};sources.add(entry);source.onended=()=>{source.disconnect();gain.disconnect();sources.delete(entry);};source.start(at);total++;nextAt=at+45.5;timer=setTimeout(()=>{timer=null;if(!running||context.state!=='running')return;add(Math.max(context.currentTime+.04,nextAt));},Math.max(0,nextAt-context.currentTime-6)*1000);}
-  function start(){if(running)return;running=true;const t=context.currentTime;bus.gain.cancelScheduledValues(t);bus.gain.setValueAtTime(bus.gain.value,t);bus.gain.linearRampToValueAtTime(.12,t+.3);add(t+.04);}
-  function stop(immediate=false){clearTimeout(timer);timer=null;running=false;const t=context.currentTime,delay=immediate?0:.14;bus.gain.cancelScheduledValues(t);bus.gain.setValueAtTime(immediate?0:bus.gain.value,t);if(!immediate)bus.gain.linearRampToValueAtTime(0,t+delay);for(const entry of sources)try{entry.source.stop(t+delay);}catch{}}
-  return{start,stop,inspect:()=>({running,sources:sources.size,segments:total,gain:bus.gain.value,nextAt,timer:timer!==null&&timer!==undefined})};
+ function createSound(context,destination){let running=false,loading=false,revision=0,total=0,retryAt=0,failed=false;const sources=new Set(),bus=context.createGain();bus.gain.value=0;bus.connect(destination);
+  function start(){
+   if(running||Date.now()<retryAt)return;running=true;loading=true;const ticket=++revision;
+   loadRecording(context).then(buffer=>{
+    if(ticket!==revision)return;loading=false;
+    if(!running||context.state!=='running'){running=false;return;}
+    const at=context.currentTime,source=context.createBufferSource();
+    for(const previous of sources)try{previous.stop(at);}catch{}
+    source.buffer=buffer;source.loop=true;source.loopStart=loopStart;source.loopEnd=loopEnd;source.connect(bus);sources.add(source);
+    source.onended=()=>{source.disconnect();sources.delete(source);};
+    bus.gain.cancelScheduledValues(at);bus.gain.setValueAtTime(0,at);bus.gain.linearRampToValueAtTime(.12,at+.5);
+    source.start(at+.04,loopStart+random(seed())()*(loopEnd-loopStart));total++;failed=false;
+   }).catch(()=>{if(ticket===revision){loading=false;running=false;failed=true;retryAt=Date.now()+60000;}});
+  }
+  function stop(immediate=false){running=false;loading=false;revision++;const t=context.currentTime,delay=immediate?0:.14;bus.gain.cancelScheduledValues(t);bus.gain.setValueAtTime(immediate?0:bus.gain.value,t);if(!immediate)bus.gain.linearRampToValueAtTime(0,t+delay);for(const source of sources)try{source.stop(t+delay);}catch{}}
+  return{start,stop,inspect:()=>({running,loading,failed,sources:sources.size,segments:total,gain:bus.gain.value,nextAt:0,timer:false,duration:loopEnd-loopStart})};
  }
- return{createSound,soundBuffer,inspect:()=>({fires:fires.size,animations:[...fires.values()].reduce((n,e)=>n+e.animations.length,0)})};
+ return{createSound,inspect:()=>({fires:fires.size,animations:[...fires.values()].reduce((n,e)=>n+e.animations.length,0)})};
 })();
 document.dispatchEvent(new Event('campfirechange'));

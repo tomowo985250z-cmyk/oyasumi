@@ -1,0 +1,58 @@
+{
+  "title": "Campfire 02",
+  "author": "HECKFRICKER",
+  "sourcePage": "https://freesound.org/people/HECKFRICKER/sounds/729396/",
+  "downloadUrl": "https://cdn.freesound.org/previews/729/729396_12863902-hq.mp3",
+  "license": "CC0 1.0 Universal",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "checkedDateJapan": "2026-11-23",
+  "recordingDescription": "Close-perspective campfire, TASCAM DR-05X; uploader describes the recording and publishes it as CC0.",
+  "sourceBytes": 7034491,
+  "sourceSha256": "da2b715c2039a88802985f82f038478bfc5032f1b16ac07434ddae39f1b01dcf",
+  "sourcePageSha256": "6a50135ffd4772a00ea635837f6ac1d9bd3ab44dc72d793fa19cedb0cc1285ad",
+  "licenseTextSha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+  "processing": {
+    "sourceSeconds": 267.6128125,
+    "seconds": 259.6128125,
+    "sampleRate": 16000,
+    "channels": 1,
+    "highpassHz": 130,
+    "lowpassHz": 5600,
+    "crossfadeSeconds": 6,
+    "peakDb": -11.056839336175662,
+    "rmsDb": -32.67818723226045,
+    "seamStep": 0,
+    "syntheticAudioAdded": false,
+    "humanListening": false,
+    "encoded": {
+      "file": "campfire-recorded.mp3",
+      "bytes": 1558224,
+      "bitrateKbps": 48,
+      "sha256": "dff8999e0449d8424bf32c416d8436b2a2756e3984ec4059c37cc50e9b917977",
+      "alignmentSamples": 1105,
+      "correlation": 0.9959204511649313,
+      "loopStart": 0.0690625,
+      "loopEnd": 259.681875,
+      "decodedSeconds": 259.704,
+      "decodedBytes": 16621056,
+      "peakDb": -11.036867253951922,
+      "rmsDb": -33.1128122529306,
+      "clipped": 0,
+      "seamStep": 0.0011960025876760483
+    }
+  },
+  "playback": {
+    "lazy": true,
+    "loop": "single native AudioBufferSource, offline 6-second crossfade, random initial offset only",
+    "decodedBufferCount": 1,
+    "decodeRate": 16000,
+    "defaultBusGain": 0.12,
+    "schedulingTimers": 0,
+    "fetchRetryBackoffSeconds": 60
+  },
+  "verification": {
+    "humanListening": false,
+    "physicalIPhoneListening": false,
+    "absenceOfSpeechWindMusicVerifiedByListening": false
+  }
+}

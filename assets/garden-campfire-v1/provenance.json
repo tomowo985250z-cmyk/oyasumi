@@ -10,5 +10,5 @@
   "transparentPixels": 5439,
   "opaquePixels": 0,
   "changes": "Downscaled to 192px wide and encoded as alpha-preserving WebP. Original generated output retained in private build output.",
-  "audio": "Original procedural noise/grain synthesis in garden-campfire.js; no third-party sound asset."
+  "audio": "CC0 field recording, HECKFRICKER / Campfire 02. See README.md and audio.json for source, processing and license; former procedural crackle removed."
 }

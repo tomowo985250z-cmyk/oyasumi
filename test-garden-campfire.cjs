@@ -1,14 +1,43 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require('node:crypto');
-let time=0,id=0;const timers=new Map(),starts=[],nodes=new Set();
-const sandbox={console,crypto:crypto.webcrypto,Uint32Array,Float32Array,Math,Map,Set,Event:class{},matchMedia:()=>({matches:false,addEventListener(){}}),document:{readyState:'loading',addEventListener(){},dispatchEvent(){}},IntersectionObserver:class{},setTimeout:(fn,ms)=>{const serial=++id;timers.set(serial,{at:time+ms/1000,fn});return serial;},clearTimeout:i=>timers.delete(i)};
-vm.createContext(sandbox);vm.runInContext(fs.readFileSync('garden-campfire.js','utf8'),sandbox);const fire=sandbox.GardenCampfire;
-class Param{constructor(){this.value=0;this.events=[];}cancelScheduledValues(){}setValueAtTime(value,at){this.value=value;this.events.push({value,at});}linearRampToValueAtTime(value,at){this.value=value;this.events.push({value,at});}}
-const context={state:'running',get currentTime(){return time;},createBuffer(c,length,rate){const pcm=new Float32Array(length);return{duration:length/rate,sampleRate:rate,getChannelData:()=>pcm};},createGain:()=>({gain:new Param(),connect(){},disconnect(){}}),createBufferSource(){const node={connect(gain){this.gain=gain;},disconnect(){},loop:false,end:Infinity,start(at){this.end=at+this.buffer.duration;starts.push({at,buffer:this.buffer,gain:this.gain});},stop(at=time){this.end=Math.min(this.end,at);}};nodes.add(node);return node;}};
-const hash=b=>crypto.createHash('sha256').update(Buffer.from(b.getChannelData(0).buffer)).digest('hex'),stats=b=>{const a=b.getChannelData(0);let peak=0,power=0;for(const x of a){assert(Number.isFinite(x));peak=Math.max(peak,Math.abs(x));power+=x*x;}return{peak,rms:Math.sqrt(power/a.length)};};
-const hashes=[];for(const seed of [11,27,74,106]){const buffer=fire.soundBuffer(context,seed),a=buffer.getChannelData(0),s=stats(buffer);assert.equal(buffer.duration,48);assert(s.peak<=.420001);assert(s.rms>.012&&s.rms<.080001);hashes.push(hash(buffer));assert.equal(hash(fire.soundBuffer(context,seed)),hash(buffer));for(const seconds of [1,3,7]){let cross=0,power=0;const lag=seconds*buffer.sampleRate;for(let i=0;i<a.length-lag;i+=8){cross+=a[i]*a[i+lag];power+=a[i]*a[i];}assert(Math.abs(cross/power)<.06,'No recurring short waveform');}}
-assert.equal(new Set(hashes).size,4);
-function advance(seconds){const end=time+seconds;while(true){let at=end+1,task,ended;for(const [i,t]of timers)if(t.at<at){at=t.at;task=i;ended=null;}for(const n of nodes)if(n.end<at){at=n.end;task=null;ended=n;}if(at>end)break;time=at;if(ended){ended.end=Infinity;ended.onended?.();}else{const t=timers.get(task);timers.delete(task);t.fn();}}time=end;}
-const sound=fire.createSound(context,{});assert.equal(starts.length,0);sound.start();sound.start();assert.equal(starts.length,1);advance(182);assert(starts.length>=5);for(let i=1;i<starts.length;i++){assert(Math.abs(starts[i].at-starts[i-1].at-45.5)<1e-8);assert.notEqual(hash(starts[i].buffer),hash(starts[i-1].buffer));}
-for(let i=0;i<=24;i++){const x=i/24*Math.PI/2;assert(Math.abs(Math.sin(x)**2+Math.cos(x)**2-1)<1e-12);}
-assert(sound.inspect().sources<=2);const count=starts.length;sound.stop(true);advance(100);assert.equal(starts.length,count);assert.equal(sound.inspect().sources,0);assert.equal(sound.inspect().timer,false);sound.start();assert.equal(starts.length,count+1);sound.stop();advance(.2);assert.equal(sound.inspect().sources,0);assert.equal(timers.size,0);
-console.log('PASS original crackle: bounded peaks, finite PCM, fresh 48s segments without short repetition, 3-minute continuous equal-power joins, single start, mute/stop cleanup and restart');
+const info=JSON.parse(fs.readFileSync('assets/garden-campfire-v1/audio.json','utf8'));
+const encoded=fs.readFileSync('assets/garden-campfire-v1/campfire-recorded.mp3');
+assert.equal(encoded.length,info.processing.encoded.bytes);
+assert.equal(crypto.createHash('sha256').update(encoded).digest('hex'),info.processing.encoded.sha256);
+assert.equal(info.license,'CC0 1.0 Universal');
+assert(info.processing.seconds>250);assert.equal(info.processing.encoded.clipped,0);
+assert(info.processing.encoded.peakDb<-9);assert(info.processing.encoded.seamStep<.002);
+assert.equal(info.processing.sampleRate,16000);assert.equal(info.processing.channels,1);
+assert(info.processing.encoded.decodedBytes<17*1024*1024);
+const script=fs.readFileSync('garden-campfire.js','utf8');
+const settle=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
+function harness(){
+ let at=0,requests=0,decodes=0,resolveDownload,rejectDownload;
+ const starts=[];
+ const sandbox={console,crypto:crypto.webcrypto,Uint32Array,Math,Map,Set,URL,Event:class{},Date:{now:()=>at},
+  matchMedia:()=>({matches:false,addEventListener(){}}),document:{baseURI:'https://local.invalid/index.html',readyState:'loading',addEventListener(){},dispatchEvent(){}},IntersectionObserver:class{},
+  setTimeout(){throw Error('Recorded playback must not use a timer');},
+  fetch(url,options){requests++;assert.match(String(url),/campfire-recorded\.mp3/);assert.equal(options.cache,'force-cache');return new Promise((resolve,reject)=>{resolveDownload=()=>resolve({ok:true,arrayBuffer:async()=>new ArrayBuffer(1)});rejectDownload=reject;});}};
+ vm.createContext(sandbox);vm.runInContext(script,sandbox);
+ class Param{constructor(){this.value=0;}cancelScheduledValues(){}setValueAtTime(v){this.value=v;}linearRampToValueAtTime(v){this.value=v;}}
+ const buffer={duration:info.processing.encoded.decodedSeconds,numberOfChannels:1,sampleRate:16000};
+ const context={state:'running',currentTime:0,async decodeAudioData(){decodes++;return buffer;},createGain:()=>({gain:new Param(),connect(){}}),createBufferSource(){return{connect(){},disconnect(){this.disconnected=true;},start(time,offset){starts.push({source:this,time,offset});},stop(){this.onended?.();}};}};
+ return{api:sandbox.GardenCampfire,context,starts,get requests(){return requests;},get decodes(){return decodes;},resolve:()=>resolveDownload(),reject:()=>rejectDownload(Error('offline')),advance:ms=>{at+=ms;}};
+}
+(async()=>{
+ const h=harness(),sound=h.api.createSound(h.context,{});
+ assert.equal(h.requests,0);sound.start();sound.start();assert.equal(h.requests,1);assert(sound.inspect().loading);
+ sound.stop(true);h.resolve();await settle();assert.equal(h.starts.length,0,'OFF cancels an in-flight start');
+ sound.start();await settle();assert.equal(h.requests,1);assert.equal(h.decodes,1);assert.equal(h.starts.length,1);
+ const first=h.starts[0];assert.equal(first.source.loop,true);assert.equal(first.source.buffer.numberOfChannels,1);
+ assert(first.offset>=first.source.loopStart&&first.offset<first.source.loopEnd);
+ assert(Math.abs(first.source.loopEnd-first.source.loopStart-info.processing.seconds)<1e-8);
+ sound.start();await settle();assert.equal(h.starts.length,1,'Repeated sync cannot duplicate playback');assert.equal(sound.inspect().timer,false);
+ sound.stop();assert.equal(sound.inspect().sources,0);assert.equal(sound.inspect().running,false);
+ sound.start();await settle();assert.equal(h.requests,1);assert.equal(h.decodes,1);assert.equal(h.starts.length,2);sound.stop(true);
+ h.context.state='suspended';sound.start();await settle();assert.equal(h.starts.length,2);assert.equal(sound.inspect().running,false);
+ h.context.state='running';sound.start();await settle();assert.equal(h.starts.length,3);sound.stop(true);
+ const offline=harness(),failed=offline.api.createSound(offline.context,{});failed.start();offline.reject();await settle();
+ assert.equal(failed.inspect().failed,true);failed.start();assert.equal(offline.requests,1,'Network failure has bounded retries');
+ offline.advance(60001);failed.start();assert.equal(offline.requests,2);offline.resolve();await settle();assert.equal(failed.inspect().failed,false);failed.stop(true);
+ console.log('PASS CC0 recording integrity, long cycle, bounded peaks/memory, lazy single fetch/decode, in-flight cancellation, duplicate start, native loop, shared mute cleanup, resume and retry backoff');
+})().catch(error=>{console.error(error);process.exitCode=1;});
