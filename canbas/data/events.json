@@ -940,6 +940,14 @@
             "title": "FUJI-PanC01・オーストリア",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "AT",
+              "approval": "under_review",
+              "trialStatus": "under_review",
+              "recruitment": "not_published",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "審査中",
               "患者募集": "募集情報は未公開",
@@ -956,6 +964,14 @@
             "title": "FUJI-PanC01・ベルギー",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "BE",
+              "approval": "under_review",
+              "trialStatus": "under_review",
+              "recruitment": "not_published",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "審査中",
               "患者募集": "募集情報は未公開",
@@ -972,6 +988,14 @@
             "title": "FUJI-PanC01・チェコ",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "CZ",
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "承認済み",
               "患者募集": "募集開始前",
@@ -992,6 +1016,14 @@
             "title": "FUJI-PanC01・ドイツ",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "DE",
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "承認済み",
               "患者募集": "募集開始前",
@@ -1017,6 +1049,14 @@
             "title": "FUJI-PanC01・スペイン",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "ES",
+              "approval": "under_review",
+              "trialStatus": "under_review",
+              "recruitment": "not_published",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "審査中",
               "患者募集": "募集情報は未公開",
@@ -1033,6 +1073,14 @@
             "title": "FUJI-PanC01・フランス",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "FR",
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "承認済み",
               "患者募集": "募集開始前",
@@ -1058,6 +1106,14 @@
             "title": "FUJI-PanC01・ハンガリー",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "HU",
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "承認済み",
               "患者募集": "募集開始前",
@@ -1076,6 +1132,14 @@
             "title": "FUJI-PanC01・イタリア",
             "category": "治験",
             "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+            "original": {
+              "trialId": "2024-511500-16-01",
+              "country": "IT",
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-20"
+            },
             "fields": {
               "承認状況": "承認済み",
               "患者募集": "募集開始前",
@@ -1094,8 +1158,8 @@
           }
         ]
       },
-      "hash": "e18e9e1b5c16683107de1a998d50333b449e5bdba28d1b805112a9950f9b2b81",
-      "observedAt": "2026-11-21T10:56:20.196Z",
+      "hash": "0254d02ed2be56aeaeb4c95985980680d85e740de1c122219570b00e89dc73b5",
+      "observedAt": "2026-11-23T14:25:48.107Z",
       "latestChanges": []
     },
     "reviewed": {
@@ -1663,5 +1727,11 @@
       "confirmedAt": "2026-11-21T10:57:04.976Z",
       "url": "https://clinicaltrials.gov/"
     }
-  ]
+  ],
+  "automation": {
+    "version": 1,
+    "documents": {},
+    "facts": {},
+    "registryPending": []
+  }
 }

@@ -2419,6 +2419,20 @@
             "pipeline": "vfs-jp",
             "url": "https://clinicaltrials.gov/study/NCT05627648",
             "recruitmentState": "not_recruiting",
+            "original": {
+              "id": "NCT05627648",
+              "title": "Phase 3 Study of KP-100LI in Subjects With Vocal Fold Scar",
+              "sponsor": "Kringle Pharma, Inc.",
+              "phases": [
+                "PHASE3"
+              ],
+              "status": "ACTIVE_NOT_RECRUITING",
+              "updatedAt": "2026-07-06",
+              "completion": {
+                "date": "2027-02-28",
+                "type": "ESTIMATED"
+              }
+            },
             "fields": {
               "募集状況": "実施中・募集なし",
               "開発段階": "第Ⅲ相",
@@ -2440,6 +2454,20 @@
             "pipeline": "sci-jp",
             "url": "https://clinicaltrials.gov/study/NCT07722962",
             "recruitmentState": "not_yet_recruiting",
+            "original": {
+              "id": "NCT07722962",
+              "title": "Additional Phase 3 Study of KP-100IT in Subjects With Acute Spinal Cord Injury",
+              "sponsor": "Kringle Pharma, Inc.",
+              "phases": [
+                "PHASE3"
+              ],
+              "status": "NOT_YET_RECRUITING",
+              "updatedAt": "2026-07-23",
+              "completion": {
+                "date": "2028-12-31",
+                "type": "ESTIMATED"
+              }
+            },
             "fields": {
               "募集状況": "募集開始前",
               "開発段階": "第Ⅲ相",
@@ -2456,8 +2484,8 @@
           }
         ]
       },
-      "hash": "7acecab37c213d31dea2a1e0238f52238c1ce73e72cf04d9e616e8a059751a57",
-      "observedAt": "2026-11-21T10:19:14.021Z",
+      "hash": "c5a62d7e96253f8f9292437437eee6730d6ff2b4be7d9a3cf5afd9e17fdc7168",
+      "observedAt": "2026-11-23T14:25:47.103Z",
       "latestChanges": []
     },
     "reviewed": {
@@ -2761,6 +2789,14 @@
           "https://www.release.tdnet.info/inbs/140120261118582613.pdf"
         ],
         "reviewedAt": "2026-11-21"
+      },
+      {
+        "title": "ClinicalTrials.gov・声帯瘢痕・国内試験",
+        "url": "https://clinicaltrials.gov/study/NCT05627648",
+        "page": "protocolSection",
+        "publishedAt": "2026-07-06",
+        "method": "automatic",
+        "reviewedAt": "2026-11-23"
       }
     ],
     "events": [
@@ -3117,5 +3153,38 @@
       "confirmedAt": "2026-11-21T10:19:14.021Z",
       "url": "https://www.kringle-pharma.com/ir_info/news/"
     }
-  ]
+  ],
+  "automation": {
+    "version": 1,
+    "documents": {},
+    "facts": {
+      "pipeline:vfs-jp": {
+        "key": "pipeline:vfs-jp",
+        "kind": "pipeline",
+        "target": "vfs-jp",
+        "value": {
+          "stage": "第Ⅲ相",
+          "state": "in_progress"
+        },
+        "evidence": {
+          "url": "https://clinicaltrials.gov/study/NCT05627648",
+          "title": "ClinicalTrials.gov・声帯瘢痕・国内試験",
+          "page": "protocolSection",
+          "original": "{\"id\":\"NCT05627648\",\"title\":\"Phase 3 Study of KP-100LI in Subjects With Vocal Fold Scar\",\"sponsor\":\"Kringle Pharma, Inc.\",\"phases\":[\"PHASE3\"],\"status\":\"ACTIVE_NOT_RECRUITING\",\"updatedAt\":\"2026-07-06\",\"completion\":{\"date\":\"2027-02-28\",\"type\":\"ESTIMATED\"}}",
+          "asOf": "2026-07-06",
+          "publishedAt": "2026-07-06",
+          "confirmedAt": "2026-11-23T14:25:47.103Z",
+          "method": "automatic"
+        }
+      }
+    },
+    "registryPending": [
+      {
+        "url": "https://clinicaltrials.gov/study/NCT07722962",
+        "title": "脊髄損傷・国内追加試験",
+        "result": "pending",
+        "reason": "登録簿間の募集状態が不一致、または対になる登録簿の最新取得を確認できません。"
+      }
+    ]
+  }
 }

@@ -1078,5 +1078,76 @@
       "confirmedAt": "2026-11-21T11:40:37.280Z",
       "url": "https://ir.jobyaviation.com/sec-filings/all-sec-filings"
     }
-  ]
+  ],
+  "automation": {
+    "version": 1,
+    "documents": {
+      "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf": {
+        "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "title": "Q3 2026 株主資料",
+        "publishedAt": "2026-11-04",
+        "source": "shareholders",
+        "period": "Q3 2026",
+        "hash": "d4cd01558cb8dcaca61f4bd912b0ff737b7ccb907a37f1ff6afe0ac54535ca3b",
+        "etag": "W/\"389a6506c93c8a71464fb2715f081f79\"",
+        "lastModified": "Wed, 04 Nov 2026 21:10:38 GMT",
+        "resolvedUrl": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+        "observedAt": "2026-11-23T14:25:45.571Z",
+        "result": "verified",
+        "reason": "本文・対象・日付を自動照合"
+      }
+    },
+    "facts": {
+      "certification:2026-10-30": {
+        "key": "certification:2026-10-30",
+        "kind": "certification",
+        "target": "2026-10-30",
+        "value": {
+          "asOf": "2026-10-30",
+          "publishedAt": "2026-11-04",
+          "period": "Q3 2026",
+          "stages": [
+            {
+              "stage": 1,
+              "joby": 100,
+              "faa": 100
+            },
+            {
+              "stage": 2,
+              "joby": 100,
+              "faa": 100
+            },
+            {
+              "stage": 3,
+              "joby": 100,
+              "faa": 100
+            },
+            {
+              "stage": 4,
+              "joby": 83,
+              "faa": 78
+            },
+            {
+              "stage": 5,
+              "joby": 25,
+              "faa": 14
+            }
+          ]
+        },
+        "evidence": {
+          "url": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+          "resolvedUrl": "https://d1io3yog0oux5.cloudfront.net/_980d8bfcc1656117460efb6ab040a346/jobyaviation/db/1110/9894/shareholder_letter/Joby_Aviation_2026-Q3-Ltr_to_Shareholders_FINAL110426.pdf",
+          "title": "Q3 2026 株主資料",
+          "documentHash": "d4cd01558cb8dcaca61f4bd912b0ff737b7ccb907a37f1ff6afe0ac54535ca3b",
+          "page": "7",
+          "original": "DATA AS OF OCTOBER 30, 2026 STAGE 1 Certification Basis JOBY 100% FAA 100% STAGE 2 Means of Compliance 100% 100% STAGE 3 Certification Plans 100% 100% STAGE 4 Testing & Analysis STAGE 5 Show & Verify 83% 78% 25% 14%",
+          "asOf": "2026-10-30",
+          "publishedAt": "2026-11-04",
+          "confirmedAt": "2026-11-23T14:25:45.571Z",
+          "method": "automatic"
+        }
+      }
+    },
+    "registryPending": []
+  }
 }

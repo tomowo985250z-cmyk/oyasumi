@@ -28,8 +28,10 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
+      - name: PDF本文・位置情報の抽出ツール
+        run: command -v pdftotext >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends poppler-utils)
       - name: 保持・差分・解析を検証
-        run: node --test kringle/tests/update.test.mjs
+        run: node --test kringle/tests/update.test.mjs event-shared/automation.test.mjs
       - name: 4情報源を取得
         id: sources
         continue-on-error: true
