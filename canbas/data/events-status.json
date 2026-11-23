@@ -4,8 +4,8 @@
     "ir": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-22T12:32:39.639Z",
-      "lastSuccessAt": "2026-11-22T12:32:39.639Z",
+      "lastAttemptAt": "2026-11-23T14:31:14.369Z",
+      "lastSuccessAt": "2026-11-23T14:31:14.369Z",
       "snapshotHash": "be4c4172f9ff6fcd963c5164769666b405feff67a2bef6aadb0952655730c70e",
       "error": null,
       "coverage": "2025年以降の公開IR一覧。過去取得分も保持"
@@ -13,17 +13,17 @@
     "tdnet": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-22T12:32:39.639Z",
-      "lastSuccessAt": "2026-11-22T12:32:39.639Z",
+      "lastAttemptAt": "2026-11-23T14:31:14.369Z",
+      "lastSuccessAt": "2026-11-23T14:31:14.369Z",
       "snapshotHash": "825857254e7f646cf6cf289e6a01c43aa78688211bddf9dbc74a637e0ee3a0f9",
       "error": null,
-      "coverage": "20261120〜20261122（全ページ・過去取得分保持）"
+      "coverage": "20261121〜20261123（全ページ・過去取得分保持）"
     },
     "ctis": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-22T12:32:39.639Z",
-      "lastSuccessAt": "2026-11-22T12:32:38.542Z",
+      "lastAttemptAt": "2026-11-23T14:31:14.369Z",
+      "lastSuccessAt": "2026-11-23T14:31:13.018Z",
       "snapshotHash": "e18e9e1b5c16683107de1a998d50333b449e5bdba28d1b805112a9950f9b2b81",
       "error": null,
       "coverage": "既存のCTIS取得結果と照合。国・施設情報（同じ取得で通信を重複しない）"
@@ -31,8 +31,8 @@
     "ctgov": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-22T12:32:39.639Z",
-      "lastSuccessAt": "2026-11-22T12:32:39.639Z",
+      "lastAttemptAt": "2026-11-23T14:31:14.369Z",
+      "lastSuccessAt": "2026-11-23T14:31:14.369Z",
       "snapshotHash": "8277944d9b8fdf525121f01d341e3d7daefc753412293152d425f66b52c07802",
       "error": null,
       "coverage": "スポンサー名CanBasの公開試験。FUJI-PanC01との対応は未確認"
