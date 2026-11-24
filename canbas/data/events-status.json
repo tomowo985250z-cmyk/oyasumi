@@ -3,36 +3,36 @@
   "sources": {
     "ir": {
       "result": "success",
-      "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-23T14:40:33.669Z",
-      "lastSuccessAt": "2026-11-23T14:40:33.669Z",
-      "snapshotHash": "be4c4172f9ff6fcd963c5164769666b405feff67a2bef6aadb0952655730c70e",
+      "dataResult": "changed",
+      "lastAttemptAt": "2026-11-24T14:50:05.330Z",
+      "lastSuccessAt": "2026-11-24T14:50:05.330Z",
+      "snapshotHash": "28a0d4161f148e02af3953cfa425d7146c752cf7f02c8ddce9dfc03269dda926",
       "error": null,
       "coverage": "2025年以降の公開IR一覧。過去取得分も保持"
     },
     "tdnet": {
       "result": "success",
-      "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-23T14:40:33.669Z",
-      "lastSuccessAt": "2026-11-23T14:40:33.669Z",
-      "snapshotHash": "825857254e7f646cf6cf289e6a01c43aa78688211bddf9dbc74a637e0ee3a0f9",
+      "dataResult": "changed",
+      "lastAttemptAt": "2026-11-24T14:50:05.330Z",
+      "lastSuccessAt": "2026-11-24T14:50:05.330Z",
+      "snapshotHash": "6514003a7eb760178cb25e21d75a92586f87f0c6f3121b18b379d7f6d825ac91",
       "error": null,
-      "coverage": "20261122〜20261123（全ページ・過去取得分保持）"
+      "coverage": "20261122〜20261124（全ページ・過去取得分保持）"
     },
     "ctis": {
       "result": "success",
-      "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-23T14:40:33.669Z",
-      "lastSuccessAt": "2026-11-23T14:31:13.018Z",
-      "snapshotHash": "0254d02ed2be56aeaeb4c95985980680d85e740de1c122219570b00e89dc73b5",
+      "dataResult": "changed",
+      "lastAttemptAt": "2026-11-24T14:50:05.330Z",
+      "lastSuccessAt": "2026-11-24T14:50:03.900Z",
+      "snapshotHash": "707bd76dc68b646c498a725b77dd4ac31d02b3403b241a0ee3ca114e63a12d30",
       "error": null,
       "coverage": "既存のCTIS取得結果と照合。国・施設情報（同じ取得で通信を重複しない）"
     },
     "ctgov": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-23T14:40:33.669Z",
-      "lastSuccessAt": "2026-11-23T14:40:33.669Z",
+      "lastAttemptAt": "2026-11-24T14:50:05.330Z",
+      "lastSuccessAt": "2026-11-24T14:50:05.330Z",
       "snapshotHash": "8277944d9b8fdf525121f01d341e3d7daefc753412293152d425f66b52c07802",
       "error": null,
       "coverage": "スポンサー名CanBasの公開試験。FUJI-PanC01との対応は未確認"
@@ -40,8 +40,13 @@
   },
   "automation": {
     "result": "success",
-    "lastAttemptAt": "2026-11-23T14:40:33.669Z",
-    "checks": {},
+    "lastAttemptAt": "2026-11-24T14:50:05.330Z",
+    "checks": {
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf": "2026-11-24T14:50:05.330Z",
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf": "2026-11-24T14:50:05.330Z",
+      "https://www.release.tdnet.info/inbs/140120261123584555.pdf": "2026-11-24T14:50:05.330Z",
+      "https://www.release.tdnet.info/inbs/140120261124584819.pdf": "2026-11-24T14:50:05.330Z"
+    },
     "error": null
   }
 }

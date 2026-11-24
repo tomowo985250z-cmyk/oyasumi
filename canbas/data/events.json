@@ -742,6 +742,28 @@
             }
           },
           {
+            "id": "press_2921212",
+            "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+            "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf",
+            "category": "承認・薬事",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-24T08:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "press_2921320",
+            "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+            "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf",
+            "category": "承認・薬事",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-24T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
             "id": "tanshin_2565494",
             "title": "2025年6月期 第2四半期（中間期）決算短信〔日本基準〕（非連結）",
             "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2565494/00.pdf",
@@ -875,9 +897,34 @@
           }
         ]
       },
-      "hash": "be4c4172f9ff6fcd963c5164769666b405feff67a2bef6aadb0952655730c70e",
-      "observedAt": "2026-11-21T10:56:20.196Z",
-      "latestChanges": []
+      "hash": "28a0d4161f148e02af3953cfa425d7146c752cf7f02c8ddce9dfc03269dda926",
+      "observedAt": "2026-11-24T14:50:05.330Z",
+      "latestChanges": [
+        {
+          "id": "d4a66c35a74eaebc668ea698",
+          "source": "ir",
+          "entityId": "press_2921212",
+          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+          "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf",
+          "field": "掲載",
+          "before": "前回データなし",
+          "after": "新たに取得",
+          "kind": "added",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "0502de354025b7f57fffea0d",
+          "source": "ir",
+          "entityId": "press_2921320",
+          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+          "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf",
+          "field": "掲載",
+          "before": "前回データなし",
+          "after": "新たに取得",
+          "kind": "added",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        }
+      ]
     },
     "tdnet": {
       "record": {
@@ -925,12 +972,59 @@
               "開示日時": "2026-11-20T16:30:00+09:00",
               "本文確認": "未確認"
             }
+          },
+          {
+            "id": "140120261123584555",
+            "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+            "url": "https://www.release.tdnet.info/inbs/140120261123584555.pdf",
+            "category": "承認・薬事",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-24T08:30:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
+            "id": "140120261124584819",
+            "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+            "url": "https://www.release.tdnet.info/inbs/140120261124584819.pdf",
+            "category": "承認・薬事",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-24T11:30:00+09:00",
+              "本文確認": "未確認"
+            }
           }
         ]
       },
-      "hash": "825857254e7f646cf6cf289e6a01c43aa78688211bddf9dbc74a637e0ee3a0f9",
-      "observedAt": "2026-11-21T10:56:20.196Z",
-      "latestChanges": []
+      "hash": "6514003a7eb760178cb25e21d75a92586f87f0c6f3121b18b379d7f6d825ac91",
+      "observedAt": "2026-11-24T14:50:05.330Z",
+      "latestChanges": [
+        {
+          "id": "cc7db25cc9dcc9f13368356c",
+          "source": "tdnet",
+          "entityId": "140120261123584555",
+          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+          "url": "https://www.release.tdnet.info/inbs/140120261123584555.pdf",
+          "field": "掲載",
+          "before": "前回データなし",
+          "after": "新たに取得",
+          "kind": "added",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "459f726a61985ae22eb425d2",
+          "source": "tdnet",
+          "entityId": "140120261124584819",
+          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+          "url": "https://www.release.tdnet.info/inbs/140120261124584819.pdf",
+          "field": "掲載",
+          "before": "前回データなし",
+          "after": "新たに取得",
+          "kind": "added",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        }
+      ]
     },
     "ctis": {
       "record": {
@@ -943,20 +1037,22 @@
             "original": {
               "trialId": "2024-511500-16-01",
               "country": "AT",
-              "approval": "under_review",
-              "trialStatus": "under_review",
-              "recruitment": "not_published",
-              "updatedAt": "2026-11-20"
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-23"
             },
             "fields": {
-              "承認状況": "審査中",
-              "患者募集": "募集情報は未公開",
-              "治験状態": "審査中",
-              "判断日": null,
+              "承認状況": "承認済み",
+              "患者募集": "募集開始前",
+              "治験状態": "承認済み",
+              "判断日": "2026-11-23",
               "募集開始日": null,
               "募集終了日": null,
-              "公開施設数": null,
-              "CTIS更新日": "2026-11-20"
+              "公開施設数": 2,
+              "CTIS更新日": "2026-11-23",
+              "施設：Klinikum Wels-Grieskirchen GmbH": "Grieskirchner Strasse 42 / Wels / 4600",
+              "施設：Medical University Of Vienna": "Waehringer Guertel 18-20, Alsergrund / Vienna / 1090"
             }
           },
           {
@@ -967,20 +1063,25 @@
             "original": {
               "trialId": "2024-511500-16-01",
               "country": "BE",
-              "approval": "under_review",
-              "trialStatus": "under_review",
-              "recruitment": "not_published",
-              "updatedAt": "2026-11-20"
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-23"
             },
             "fields": {
-              "承認状況": "審査中",
-              "患者募集": "募集情報は未公開",
-              "治験状態": "審査中",
-              "判断日": null,
+              "承認状況": "承認済み",
+              "患者募集": "募集開始前",
+              "治験状態": "承認済み",
+              "判断日": "2026-11-23",
               "募集開始日": null,
               "募集終了日": null,
-              "公開施設数": null,
-              "CTIS更新日": "2026-11-20"
+              "公開施設数": 5,
+              "CTIS更新日": "2026-11-23",
+              "施設：Antwerp University Hospital": "Drie Eikenstraat 655 / Edegem / 2650",
+              "施設：Az St-Jan Brugge-Oostende A.V.": "Ruddershove 10 / Brugge / 8000",
+              "施設：CHC MontLegia": "Boulev. De Patience Et Beajonc 2 / Liege / 4000",
+              "施設：Institut Jules Bordet": "Mijlenmeersstraat 90 / Anderlecht / 1070",
+              "施設：UZ Leuven": "Herestraat 49 / Leuven / 3000"
             }
           },
           {
@@ -994,7 +1095,7 @@
               "approval": "approved",
               "trialStatus": "authorised",
               "recruitment": "pending",
-              "updatedAt": "2026-11-20"
+              "updatedAt": "2026-11-23"
             },
             "fields": {
               "承認状況": "承認済み",
@@ -1004,7 +1105,7 @@
               "募集開始日": null,
               "募集終了日": null,
               "公開施設数": 4,
-              "CTIS更新日": "2026-11-20",
+              "CTIS更新日": "2026-11-23",
               "施設：Fakultni Nemocnice Hradec Kralove": "Sokolska 581, Novy Hradec Kralove / Hradec Kralove / 500 03",
               "施設：Fakultni Nemocnice V Motole": "V Uvalu 84/1, Motol / Prague / 150 00",
               "施設：Masarykuv Onkologicky Ustav": "Zluty Kopec 543/7, Stare Brno / Brno-Stred / 656 53",
@@ -1022,7 +1123,7 @@
               "approval": "approved",
               "trialStatus": "authorised",
               "recruitment": "pending",
-              "updatedAt": "2026-11-20"
+              "updatedAt": "2026-11-23"
             },
             "fields": {
               "承認状況": "承認済み",
@@ -1032,7 +1133,7 @@
               "募集開始日": null,
               "募集終了日": null,
               "公開施設数": 9,
-              "CTIS更新日": "2026-11-20",
+              "CTIS更新日": "2026-11-23",
               "施設：Asklepios Kliniken Hamburg GmbH": "Paul-Ehrlich-Strasse 1, Othmarschen / Hamburg / 22763",
               "施設：Charite Universitaetsmedizin Berlin KöR": "Chariteplatz 1, Mitte / Berlin / 10117",
               "施設：Gemeinschaftspraxis Haematologie Onkologie": "Arnoldstrasse 18, Johannstadt-Nord / Dresden / 01307",
@@ -1052,20 +1153,31 @@
             "original": {
               "trialId": "2024-511500-16-01",
               "country": "ES",
-              "approval": "under_review",
-              "trialStatus": "under_review",
-              "recruitment": "not_published",
-              "updatedAt": "2026-11-20"
+              "approval": "approved",
+              "trialStatus": "authorised",
+              "recruitment": "pending",
+              "updatedAt": "2026-11-23"
             },
             "fields": {
-              "承認状況": "審査中",
-              "患者募集": "募集情報は未公開",
-              "治験状態": "審査中",
-              "判断日": null,
+              "承認状況": "承認済み",
+              "患者募集": "募集開始前",
+              "治験状態": "承認済み",
+              "判断日": "2026-11-23",
               "募集開始日": null,
               "募集終了日": null,
-              "公開施設数": null,
-              "CTIS更新日": "2026-11-20"
+              "公開施設数": 11,
+              "CTIS更新日": "2026-11-23",
+              "施設：Hospital Clinico Universitario De Valencia": "Avenida Blasco Ibanez 17 / Valencia / 46010",
+              "施設：Hospital De La Santa Creu I Sant Pau": "Carrer De San Quinti 89 / Barcelona / 08041",
+              "施設：Hospital General Universitario Gregorio Maranon": "Calle Del Doctor Esquerdo 46 / Madrid / 28007",
+              "施設：Hospital Quironsalud Valencia": "Avenida Blasco Ibanez 14 / Valencia / 46010",
+              "施設：Hospital Universitari Vall D Hebron": "Passeig De La Vall D'Hebron 119-129 / Barcelona / 08035",
+              "施設：Hospital Universitario De Cruces": "Cruces Plaza S/n / Barakaldo / 48903",
+              "施設：Hospital Universitario Hm Sanchinarro": "Calle Ona 10 / Madrid / 28050",
+              "施設：Hospital Universitario Miguel Servet": "Paseo De Isabel La Catolica 1-3 / Zaragoza / 50009",
+              "施設：Hospital Universitario Ramon Y Cajal": "Carretera Del Colmenar Viejo Km 9 100, Por El Pardo / Madrid / 28034",
+              "施設：Hospital Universitario Virgen De La Victoria": "Calle Del Arroyo Teatinos S/N / Malaga / 29010",
+              "施設：University Hospital Virgen Del Rocio S.L.": "Avenida De Manuel Siurot S/n / Sevilla / 41013"
             }
           },
           {
@@ -1079,7 +1191,7 @@
               "approval": "approved",
               "trialStatus": "authorised",
               "recruitment": "pending",
-              "updatedAt": "2026-11-20"
+              "updatedAt": "2026-11-23"
             },
             "fields": {
               "承認状況": "承認済み",
@@ -1089,7 +1201,7 @@
               "募集開始日": null,
               "募集終了日": null,
               "公開施設数": 9,
-              "CTIS更新日": "2026-11-20",
+              "CTIS更新日": "2026-11-23",
               "施設：Assistance Publique Hopitaux De Paris": "100 Boulevard Du General Leclerc / Clichy / 92110",
               "施設：Centr Georges Francois Leclerc": "1 Rue Professeur Marion / Dijon / 21000",
               "施設：Centre Antoine Lacassagne": "33 Avenue De Valombrose / Nice Cedex 2 / 06189",
@@ -1112,7 +1224,7 @@
               "approval": "approved",
               "trialStatus": "authorised",
               "recruitment": "pending",
-              "updatedAt": "2026-11-20"
+              "updatedAt": "2026-11-23"
             },
             "fields": {
               "承認状況": "承認済み",
@@ -1122,7 +1234,7 @@
               "募集開始日": null,
               "募集終了日": null,
               "公開施設数": 2,
-              "CTIS更新日": "2026-11-20",
+              "CTIS更新日": "2026-11-23",
               "施設：Bekes Varmegyei Koezponti Korhaz": "Semmelweis Utca 1 / Gyula / 5700",
               "施設：Central Hospital Of Northern Pest Military Hospital": "Podmaniczky Utca 109 / Budapest VI / 1062"
             }
@@ -1138,7 +1250,7 @@
               "approval": "approved",
               "trialStatus": "authorised",
               "recruitment": "pending",
-              "updatedAt": "2026-11-20"
+              "updatedAt": "2026-11-23"
             },
             "fields": {
               "承認状況": "承認済み",
@@ -1148,7 +1260,7 @@
               "募集開始日": null,
               "募集終了日": null,
               "公開施設数": 5,
-              "CTIS更新日": "2026-11-20",
+              "CTIS更新日": "2026-11-23",
               "施設：Azienda Ospedaliero Universitaria Delle Marche": "Via Conca 71 / Ancona / 60126",
               "施設：Centro Di Riferimento Oncologico Di Aviano": "Via Franco Gallini 2 / Aviano / 33081",
               "施設：Centro Ricerche Cliniche Di Verona S.r.l.": "Piazzale Ludovico Antonio Scuro 10 / Verona / 37134",
@@ -1158,9 +1270,502 @@
           }
         ]
       },
-      "hash": "0254d02ed2be56aeaeb4c95985980680d85e740de1c122219570b00e89dc73b5",
-      "observedAt": "2026-11-23T14:25:48.107Z",
-      "latestChanges": []
+      "hash": "707bd76dc68b646c498a725b77dd4ac31d02b3403b241a0ee3ca114e63a12d30",
+      "observedAt": "2026-11-24T14:50:05.330Z",
+      "latestChanges": [
+        {
+          "id": "ec49d6cf30388be3ea013181",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "承認状況",
+          "before": "審査中",
+          "after": "承認済み",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "c1dbefbfd0213868a060ed1f",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "患者募集",
+          "before": "募集情報は未公開",
+          "after": "募集開始前",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "550998bbb5c2b29696ff1c7a",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "治験状態",
+          "before": "審査中",
+          "after": "承認済み",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "2edab4fb6dfb43b433dc97a4",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "判断日",
+          "before": null,
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "a7013a3759425ae5d9ac1c6b",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "公開施設数",
+          "before": null,
+          "after": 2,
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "6e1b5561d0d7b46d71c9bc7f",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "538787e17da0cc132625f95c",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Klinikum Wels-Grieskirchen GmbH",
+          "before": null,
+          "after": "Grieskirchner Strasse 42 / Wels / 4600",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "b261546642e76aa1e42aea44",
+          "source": "ctis",
+          "entityId": "AT",
+          "title": "FUJI-PanC01・オーストリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Medical University Of Vienna",
+          "before": null,
+          "after": "Waehringer Guertel 18-20, Alsergrund / Vienna / 1090",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "613f4a80c86f402565bccd2c",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "承認状況",
+          "before": "審査中",
+          "after": "承認済み",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "783bd780195c3f82b13c6559",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "患者募集",
+          "before": "募集情報は未公開",
+          "after": "募集開始前",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "d300cd1750061317a94b5de6",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "治験状態",
+          "before": "審査中",
+          "after": "承認済み",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "cf7c4d35ea839fe6f701a807",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "判断日",
+          "before": null,
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "ea170ec9c0a75874d415e365",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "公開施設数",
+          "before": null,
+          "after": 5,
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "7c93521146022c4a4daec7c2",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "35fbf6a001d85ea6b94ca10a",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Antwerp University Hospital",
+          "before": null,
+          "after": "Drie Eikenstraat 655 / Edegem / 2650",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "c47e77162c9527289bd1e64a",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Az St-Jan Brugge-Oostende A.V.",
+          "before": null,
+          "after": "Ruddershove 10 / Brugge / 8000",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "2cdd532910683466bf9b887e",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：CHC MontLegia",
+          "before": null,
+          "after": "Boulev. De Patience Et Beajonc 2 / Liege / 4000",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "b9974cc3e043d0820774453e",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Institut Jules Bordet",
+          "before": null,
+          "after": "Mijlenmeersstraat 90 / Anderlecht / 1070",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "a9dc23a0e706a41712bdde8c",
+          "source": "ctis",
+          "entityId": "BE",
+          "title": "FUJI-PanC01・ベルギー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：UZ Leuven",
+          "before": null,
+          "after": "Herestraat 49 / Leuven / 3000",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "61dc4bdf412f0b544342c6c8",
+          "source": "ctis",
+          "entityId": "CZ",
+          "title": "FUJI-PanC01・チェコ",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "2154e48be766ec58b670845e",
+          "source": "ctis",
+          "entityId": "DE",
+          "title": "FUJI-PanC01・ドイツ",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "45ccaec839473ba6e4321d7e",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "承認状況",
+          "before": "審査中",
+          "after": "承認済み",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "b2c199c590a50be31b58525e",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "患者募集",
+          "before": "募集情報は未公開",
+          "after": "募集開始前",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "2e00364cc3bf987265cafc4c",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "治験状態",
+          "before": "審査中",
+          "after": "承認済み",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "67cc4d6553583ecb92acdc48",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "判断日",
+          "before": null,
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "23e5d5e03832ab5646650729",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "公開施設数",
+          "before": null,
+          "after": 11,
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "a0e40ad276ae1c67f3eb45e7",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "54ef49aabfb3bf6c418958ca",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Clinico Universitario De Valencia",
+          "before": null,
+          "after": "Avenida Blasco Ibanez 17 / Valencia / 46010",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "80b61b8a8e9584f9fd3cd45a",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital De La Santa Creu I Sant Pau",
+          "before": null,
+          "after": "Carrer De San Quinti 89 / Barcelona / 08041",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "e0927aafb53db042ad6cbfeb",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital General Universitario Gregorio Maranon",
+          "before": null,
+          "after": "Calle Del Doctor Esquerdo 46 / Madrid / 28007",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "5070d24f284de6f9d3cfa23c",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Quironsalud Valencia",
+          "before": null,
+          "after": "Avenida Blasco Ibanez 14 / Valencia / 46010",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "230bafa5d61d370bdbcd30b8",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Universitari Vall D Hebron",
+          "before": null,
+          "after": "Passeig De La Vall D'Hebron 119-129 / Barcelona / 08035",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "4e9ef692db0c04510dbad8e1",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Universitario De Cruces",
+          "before": null,
+          "after": "Cruces Plaza S/n / Barakaldo / 48903",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "3a5599b9a0237adfb105135d",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Universitario Hm Sanchinarro",
+          "before": null,
+          "after": "Calle Ona 10 / Madrid / 28050",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "aec34c1fb3cd7adc046b6678",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Universitario Miguel Servet",
+          "before": null,
+          "after": "Paseo De Isabel La Catolica 1-3 / Zaragoza / 50009",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "f705321203825960205042fa",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Universitario Ramon Y Cajal",
+          "before": null,
+          "after": "Carretera Del Colmenar Viejo Km 9 100, Por El Pardo / Madrid / 28034",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "f3f32023a23a7805b2479121",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：Hospital Universitario Virgen De La Victoria",
+          "before": null,
+          "after": "Calle Del Arroyo Teatinos S/N / Malaga / 29010",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "553fbc4ce44a756df8035cdb",
+          "source": "ctis",
+          "entityId": "ES",
+          "title": "FUJI-PanC01・スペイン",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "施設：University Hospital Virgen Del Rocio S.L.",
+          "before": null,
+          "after": "Avenida De Manuel Siurot S/n / Sevilla / 41013",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "ba235e55c752c7a828bce19e",
+          "source": "ctis",
+          "entityId": "FR",
+          "title": "FUJI-PanC01・フランス",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "7984b7fcf9532a64fc3ad163",
+          "source": "ctis",
+          "entityId": "HU",
+          "title": "FUJI-PanC01・ハンガリー",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        },
+        {
+          "id": "6c5d1f53135dc22d1db3b742",
+          "source": "ctis",
+          "entityId": "IT",
+          "title": "FUJI-PanC01・イタリア",
+          "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+          "field": "CTIS更新日",
+          "before": "2026-11-20",
+          "after": "2026-11-23",
+          "kind": "updated",
+          "confirmedAt": "2026-11-24T14:50:05.330Z"
+        }
+      ]
     },
     "reviewed": {
       "record": {
@@ -1726,11 +2331,604 @@
       "kind": "baseline",
       "confirmedAt": "2026-11-21T10:57:04.976Z",
       "url": "https://clinicaltrials.gov/"
+    },
+    {
+      "id": "d4a66c35a74eaebc668ea698",
+      "source": "ir",
+      "entityId": "press_2921212",
+      "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "0502de354025b7f57fffea0d",
+      "source": "ir",
+      "entityId": "press_2921320",
+      "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "cc7db25cc9dcc9f13368356c",
+      "source": "tdnet",
+      "entityId": "140120261123584555",
+      "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+      "url": "https://www.release.tdnet.info/inbs/140120261123584555.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "459f726a61985ae22eb425d2",
+      "source": "tdnet",
+      "entityId": "140120261124584819",
+      "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+      "url": "https://www.release.tdnet.info/inbs/140120261124584819.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "ec49d6cf30388be3ea013181",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "承認状況",
+      "before": "審査中",
+      "after": "承認済み",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "c1dbefbfd0213868a060ed1f",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "患者募集",
+      "before": "募集情報は未公開",
+      "after": "募集開始前",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "550998bbb5c2b29696ff1c7a",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "治験状態",
+      "before": "審査中",
+      "after": "承認済み",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "2edab4fb6dfb43b433dc97a4",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "判断日",
+      "before": null,
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "a7013a3759425ae5d9ac1c6b",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "公開施設数",
+      "before": null,
+      "after": 2,
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "6e1b5561d0d7b46d71c9bc7f",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "538787e17da0cc132625f95c",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Klinikum Wels-Grieskirchen GmbH",
+      "before": null,
+      "after": "Grieskirchner Strasse 42 / Wels / 4600",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "b261546642e76aa1e42aea44",
+      "source": "ctis",
+      "entityId": "AT",
+      "title": "FUJI-PanC01・オーストリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Medical University Of Vienna",
+      "before": null,
+      "after": "Waehringer Guertel 18-20, Alsergrund / Vienna / 1090",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "613f4a80c86f402565bccd2c",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "承認状況",
+      "before": "審査中",
+      "after": "承認済み",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "783bd780195c3f82b13c6559",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "患者募集",
+      "before": "募集情報は未公開",
+      "after": "募集開始前",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "d300cd1750061317a94b5de6",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "治験状態",
+      "before": "審査中",
+      "after": "承認済み",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "cf7c4d35ea839fe6f701a807",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "判断日",
+      "before": null,
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "ea170ec9c0a75874d415e365",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "公開施設数",
+      "before": null,
+      "after": 5,
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "7c93521146022c4a4daec7c2",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "35fbf6a001d85ea6b94ca10a",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Antwerp University Hospital",
+      "before": null,
+      "after": "Drie Eikenstraat 655 / Edegem / 2650",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "c47e77162c9527289bd1e64a",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Az St-Jan Brugge-Oostende A.V.",
+      "before": null,
+      "after": "Ruddershove 10 / Brugge / 8000",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "2cdd532910683466bf9b887e",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：CHC MontLegia",
+      "before": null,
+      "after": "Boulev. De Patience Et Beajonc 2 / Liege / 4000",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "b9974cc3e043d0820774453e",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Institut Jules Bordet",
+      "before": null,
+      "after": "Mijlenmeersstraat 90 / Anderlecht / 1070",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "a9dc23a0e706a41712bdde8c",
+      "source": "ctis",
+      "entityId": "BE",
+      "title": "FUJI-PanC01・ベルギー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：UZ Leuven",
+      "before": null,
+      "after": "Herestraat 49 / Leuven / 3000",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "61dc4bdf412f0b544342c6c8",
+      "source": "ctis",
+      "entityId": "CZ",
+      "title": "FUJI-PanC01・チェコ",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "2154e48be766ec58b670845e",
+      "source": "ctis",
+      "entityId": "DE",
+      "title": "FUJI-PanC01・ドイツ",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "45ccaec839473ba6e4321d7e",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "承認状況",
+      "before": "審査中",
+      "after": "承認済み",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "b2c199c590a50be31b58525e",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "患者募集",
+      "before": "募集情報は未公開",
+      "after": "募集開始前",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "2e00364cc3bf987265cafc4c",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "治験状態",
+      "before": "審査中",
+      "after": "承認済み",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "67cc4d6553583ecb92acdc48",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "判断日",
+      "before": null,
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "23e5d5e03832ab5646650729",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "公開施設数",
+      "before": null,
+      "after": 11,
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "a0e40ad276ae1c67f3eb45e7",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "54ef49aabfb3bf6c418958ca",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Clinico Universitario De Valencia",
+      "before": null,
+      "after": "Avenida Blasco Ibanez 17 / Valencia / 46010",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "80b61b8a8e9584f9fd3cd45a",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital De La Santa Creu I Sant Pau",
+      "before": null,
+      "after": "Carrer De San Quinti 89 / Barcelona / 08041",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "e0927aafb53db042ad6cbfeb",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital General Universitario Gregorio Maranon",
+      "before": null,
+      "after": "Calle Del Doctor Esquerdo 46 / Madrid / 28007",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "5070d24f284de6f9d3cfa23c",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Quironsalud Valencia",
+      "before": null,
+      "after": "Avenida Blasco Ibanez 14 / Valencia / 46010",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "230bafa5d61d370bdbcd30b8",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Universitari Vall D Hebron",
+      "before": null,
+      "after": "Passeig De La Vall D'Hebron 119-129 / Barcelona / 08035",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "4e9ef692db0c04510dbad8e1",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Universitario De Cruces",
+      "before": null,
+      "after": "Cruces Plaza S/n / Barakaldo / 48903",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "3a5599b9a0237adfb105135d",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Universitario Hm Sanchinarro",
+      "before": null,
+      "after": "Calle Ona 10 / Madrid / 28050",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "aec34c1fb3cd7adc046b6678",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Universitario Miguel Servet",
+      "before": null,
+      "after": "Paseo De Isabel La Catolica 1-3 / Zaragoza / 50009",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "f705321203825960205042fa",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Universitario Ramon Y Cajal",
+      "before": null,
+      "after": "Carretera Del Colmenar Viejo Km 9 100, Por El Pardo / Madrid / 28034",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "f3f32023a23a7805b2479121",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：Hospital Universitario Virgen De La Victoria",
+      "before": null,
+      "after": "Calle Del Arroyo Teatinos S/N / Malaga / 29010",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "553fbc4ce44a756df8035cdb",
+      "source": "ctis",
+      "entityId": "ES",
+      "title": "FUJI-PanC01・スペイン",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "施設：University Hospital Virgen Del Rocio S.L.",
+      "before": null,
+      "after": "Avenida De Manuel Siurot S/n / Sevilla / 41013",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "ba235e55c752c7a828bce19e",
+      "source": "ctis",
+      "entityId": "FR",
+      "title": "FUJI-PanC01・フランス",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "7984b7fcf9532a64fc3ad163",
+      "source": "ctis",
+      "entityId": "HU",
+      "title": "FUJI-PanC01・ハンガリー",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "6c5d1f53135dc22d1db3b742",
+      "source": "ctis",
+      "entityId": "IT",
+      "title": "FUJI-PanC01・イタリア",
+      "url": "https://euclinicaltrials.eu/ctis-public/view/2024-511500-16-01",
+      "field": "CTIS更新日",
+      "before": "2026-11-20",
+      "after": "2026-11-23",
+      "kind": "updated",
+      "confirmedAt": "2026-11-24T14:50:05.330Z"
     }
   ],
   "automation": {
     "version": 1,
-    "documents": {},
+    "documents": {
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf": {
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf",
+        "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+        "publishedAt": "2026-11-24",
+        "source": "ir",
+        "hash": "980fa8cad57351cce53d414468415c94be7cc7c210f32e8b01e39f63d9b21d9e",
+        "etag": null,
+        "lastModified": "Mon, 23 Nov 2026 23:32:09 GMT",
+        "resolvedUrl": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf",
+        "observedAt": "2026-11-24T14:50:05.330Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      },
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf": {
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf",
+        "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+        "publishedAt": "2026-11-24",
+        "source": "ir",
+        "hash": "b2ca654d5c9b1bbee820094712b2920ee79110c7336055ad0f03c6f4877e0226",
+        "etag": null,
+        "lastModified": "Tue, 24 Nov 2026 02:33:10 GMT",
+        "resolvedUrl": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf",
+        "observedAt": "2026-11-24T14:50:05.330Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      },
+      "https://www.release.tdnet.info/inbs/140120261123584555.pdf": {
+        "url": "https://www.release.tdnet.info/inbs/140120261123584555.pdf",
+        "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+        "publishedAt": "2026-11-24",
+        "source": "tdnet",
+        "hash": "980fa8cad57351cce53d414468415c94be7cc7c210f32e8b01e39f63d9b21d9e",
+        "etag": "\"202e1-3df21-660f9f55e8700\"",
+        "lastModified": "Mon, 23 Nov 2026 23:29:00 GMT",
+        "resolvedUrl": "https://www.release.tdnet.info/inbs/140120261123584555.pdf",
+        "observedAt": "2026-11-24T14:50:05.330Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      },
+      "https://www.release.tdnet.info/inbs/140120261124584819.pdf": {
+        "url": "https://www.release.tdnet.info/inbs/140120261124584819.pdf",
+        "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
+        "publishedAt": "2026-11-24",
+        "source": "tdnet",
+        "hash": "b2ca654d5c9b1bbee820094712b2920ee79110c7336055ad0f03c6f4877e0226",
+        "etag": "\"40413-291ba-660fc7928b540\"",
+        "lastModified": "Tue, 24 Nov 2026 02:29:01 GMT",
+        "resolvedUrl": "https://www.release.tdnet.info/inbs/140120261124584819.pdf",
+        "observedAt": "2026-11-24T14:50:05.330Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      }
+    },
     "facts": {},
     "registryPending": []
   }

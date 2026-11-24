@@ -1,11 +1,256 @@
 {
   "schemaVersion": 1,
-  "snapshotHash": "fd7cc6b9ba09805e18694e6dc1f78d87eb4f074364b987d7647a63987e8f42dd",
-  "observedAt": "2026-11-21T07:07:45.140Z",
+  "snapshotHash": "4b78a1c0ded7a1a390d4377bf9b1a31094669872e1549c9dd571a438bd042ecc",
+  "observedAt": "2026-11-24T14:50:03.900Z",
   "comparison": {
-    "previousSuccessAt": null,
-    "previousSnapshotHash": null,
-    "changes": []
+    "previousSuccessAt": "2026-11-23T14:31:13.018Z",
+    "previousSnapshotHash": "fd7cc6b9ba09805e18694e6dc1f78d87eb4f074364b987d7647a63987e8f42dd",
+    "changes": [
+      {
+        "kind": "ctisUpdatedDate",
+        "before": "2026-11-20",
+        "after": "2026-11-23"
+      },
+      {
+        "kind": "ctisPublishedDate",
+        "before": "2026-11-21",
+        "after": "2026-11-24"
+      },
+      {
+        "country": "BE",
+        "kind": "approval",
+        "before": "under_review",
+        "after": "approved"
+      },
+      {
+        "country": "BE",
+        "kind": "trialStatus",
+        "before": "under_review",
+        "after": "authorised"
+      },
+      {
+        "country": "BE",
+        "kind": "decisionDate",
+        "before": null,
+        "after": "2026-11-23"
+      },
+      {
+        "country": "BE",
+        "kind": "recruitment",
+        "before": "not_published",
+        "after": "pending"
+      },
+      {
+        "country": "BE",
+        "kind": "sites",
+        "before": null,
+        "after": 5
+      },
+      {
+        "country": "BE",
+        "kind": "siteAdded",
+        "site": "Antwerp University Hospital",
+        "siteKey": "{\"name\":\"Antwerp University Hospital\",\"address\":\"Drie Eikenstraat 655\",\"city\":\"Edegem\",\"postcode\":\"2650\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "BE",
+        "kind": "siteAdded",
+        "site": "Az St-Jan Brugge-Oostende A.V.",
+        "siteKey": "{\"name\":\"Az St-Jan Brugge-Oostende A.V.\",\"address\":\"Ruddershove 10\",\"city\":\"Brugge\",\"postcode\":\"8000\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "BE",
+        "kind": "siteAdded",
+        "site": "CHC MontLegia",
+        "siteKey": "{\"name\":\"CHC MontLegia\",\"address\":\"Boulev. De Patience Et Beajonc 2\",\"city\":\"Liege\",\"postcode\":\"4000\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "BE",
+        "kind": "siteAdded",
+        "site": "Institut Jules Bordet",
+        "siteKey": "{\"name\":\"Institut Jules Bordet\",\"address\":\"Mijlenmeersstraat 90\",\"city\":\"Anderlecht\",\"postcode\":\"1070\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "BE",
+        "kind": "siteAdded",
+        "site": "UZ Leuven",
+        "siteKey": "{\"name\":\"UZ Leuven\",\"address\":\"Herestraat 49\",\"city\":\"Leuven\",\"postcode\":\"3000\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "AT",
+        "kind": "approval",
+        "before": "under_review",
+        "after": "approved"
+      },
+      {
+        "country": "AT",
+        "kind": "trialStatus",
+        "before": "under_review",
+        "after": "authorised"
+      },
+      {
+        "country": "AT",
+        "kind": "decisionDate",
+        "before": null,
+        "after": "2026-11-23"
+      },
+      {
+        "country": "AT",
+        "kind": "recruitment",
+        "before": "not_published",
+        "after": "pending"
+      },
+      {
+        "country": "AT",
+        "kind": "sites",
+        "before": null,
+        "after": 2
+      },
+      {
+        "country": "AT",
+        "kind": "siteAdded",
+        "site": "Klinikum Wels-Grieskirchen GmbH",
+        "siteKey": "{\"name\":\"Klinikum Wels-Grieskirchen GmbH\",\"address\":\"Grieskirchner Strasse 42\",\"city\":\"Wels\",\"postcode\":\"4600\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "AT",
+        "kind": "siteAdded",
+        "site": "Medical University Of Vienna",
+        "siteKey": "{\"name\":\"Medical University Of Vienna\",\"address\":\"Waehringer Guertel 18-20, Alsergrund\",\"city\":\"Vienna\",\"postcode\":\"1090\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "approval",
+        "before": "under_review",
+        "after": "approved"
+      },
+      {
+        "country": "ES",
+        "kind": "trialStatus",
+        "before": "under_review",
+        "after": "authorised"
+      },
+      {
+        "country": "ES",
+        "kind": "decisionDate",
+        "before": null,
+        "after": "2026-11-23"
+      },
+      {
+        "country": "ES",
+        "kind": "recruitment",
+        "before": "not_published",
+        "after": "pending"
+      },
+      {
+        "country": "ES",
+        "kind": "sites",
+        "before": null,
+        "after": 11
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Clinico Universitario De Valencia",
+        "siteKey": "{\"name\":\"Hospital Clinico Universitario De Valencia\",\"address\":\"Avenida Blasco Ibanez 17\",\"city\":\"Valencia\",\"postcode\":\"46010\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital De La Santa Creu I Sant Pau",
+        "siteKey": "{\"name\":\"Hospital De La Santa Creu I Sant Pau\",\"address\":\"Carrer De San Quinti 89\",\"city\":\"Barcelona\",\"postcode\":\"08041\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital General Universitario Gregorio Maranon",
+        "siteKey": "{\"name\":\"Hospital General Universitario Gregorio Maranon\",\"address\":\"Calle Del Doctor Esquerdo 46\",\"city\":\"Madrid\",\"postcode\":\"28007\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Quironsalud Valencia",
+        "siteKey": "{\"name\":\"Hospital Quironsalud Valencia\",\"address\":\"Avenida Blasco Ibanez 14\",\"city\":\"Valencia\",\"postcode\":\"46010\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Universitari Vall D Hebron",
+        "siteKey": "{\"name\":\"Hospital Universitari Vall D Hebron\",\"address\":\"Passeig De La Vall D'Hebron 119-129\",\"city\":\"Barcelona\",\"postcode\":\"08035\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Universitario De Cruces",
+        "siteKey": "{\"name\":\"Hospital Universitario De Cruces\",\"address\":\"Cruces Plaza S/n\",\"city\":\"Barakaldo\",\"postcode\":\"48903\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Universitario Hm Sanchinarro",
+        "siteKey": "{\"name\":\"Hospital Universitario Hm Sanchinarro\",\"address\":\"Calle Ona 10\",\"city\":\"Madrid\",\"postcode\":\"28050\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Universitario Miguel Servet",
+        "siteKey": "{\"name\":\"Hospital Universitario Miguel Servet\",\"address\":\"Paseo De Isabel La Catolica 1-3\",\"city\":\"Zaragoza\",\"postcode\":\"50009\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Universitario Ramon Y Cajal",
+        "siteKey": "{\"name\":\"Hospital Universitario Ramon Y Cajal\",\"address\":\"Carretera Del Colmenar Viejo Km 9 100, Por El Pardo\",\"city\":\"Madrid\",\"postcode\":\"28034\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "Hospital Universitario Virgen De La Victoria",
+        "siteKey": "{\"name\":\"Hospital Universitario Virgen De La Victoria\",\"address\":\"Calle Del Arroyo Teatinos S/N\",\"city\":\"Malaga\",\"postcode\":\"29010\"}",
+        "before": "not_listed",
+        "after": "listed"
+      },
+      {
+        "country": "ES",
+        "kind": "siteAdded",
+        "site": "University Hospital Virgen Del Rocio S.L.",
+        "siteKey": "{\"name\":\"University Hospital Virgen Del Rocio S.L.\",\"address\":\"Avenida De Manuel Siurot S/n\",\"city\":\"Sevilla\",\"postcode\":\"41013\"}",
+        "before": "not_listed",
+        "after": "listed"
+      }
+    ]
   },
   "record": {
     "trialId": "2024-511500-16-01",
@@ -13,8 +258,8 @@
     "protocol": "CBP 24-01",
     "sponsor": "Canbas Co. Ltd.",
     "sourceStatus": "authorised",
-    "ctisUpdatedDate": "2026-11-20",
-    "ctisPublishedDate": "2026-11-21",
+    "ctisUpdatedDate": "2026-11-23",
+    "ctisPublishedDate": "2026-11-24",
     "countries": [
       {
         "code": "FR",
@@ -247,33 +492,144 @@
       },
       {
         "code": "BE",
-        "approval": "under_review",
-        "trialStatus": "under_review",
-        "decisionDate": null,
-        "recruitment": "not_published",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-23",
+        "recruitment": "pending",
         "recruitmentStartDate": null,
         "recruitmentEndDate": null,
-        "sites": null
+        "sites": [
+          {
+            "name": "Antwerp University Hospital",
+            "address": "Drie Eikenstraat 655",
+            "city": "Edegem",
+            "postcode": "2650"
+          },
+          {
+            "name": "Az St-Jan Brugge-Oostende A.V.",
+            "address": "Ruddershove 10",
+            "city": "Brugge",
+            "postcode": "8000"
+          },
+          {
+            "name": "CHC MontLegia",
+            "address": "Boulev. De Patience Et Beajonc 2",
+            "city": "Liege",
+            "postcode": "4000"
+          },
+          {
+            "name": "Institut Jules Bordet",
+            "address": "Mijlenmeersstraat 90",
+            "city": "Anderlecht",
+            "postcode": "1070"
+          },
+          {
+            "name": "UZ Leuven",
+            "address": "Herestraat 49",
+            "city": "Leuven",
+            "postcode": "3000"
+          }
+        ]
       },
       {
         "code": "AT",
-        "approval": "under_review",
-        "trialStatus": "under_review",
-        "decisionDate": null,
-        "recruitment": "not_published",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-23",
+        "recruitment": "pending",
         "recruitmentStartDate": null,
         "recruitmentEndDate": null,
-        "sites": null
+        "sites": [
+          {
+            "name": "Klinikum Wels-Grieskirchen GmbH",
+            "address": "Grieskirchner Strasse 42",
+            "city": "Wels",
+            "postcode": "4600"
+          },
+          {
+            "name": "Medical University Of Vienna",
+            "address": "Waehringer Guertel 18-20, Alsergrund",
+            "city": "Vienna",
+            "postcode": "1090"
+          }
+        ]
       },
       {
         "code": "ES",
-        "approval": "under_review",
-        "trialStatus": "under_review",
-        "decisionDate": null,
-        "recruitment": "not_published",
+        "approval": "approved",
+        "trialStatus": "authorised",
+        "decisionDate": "2026-11-23",
+        "recruitment": "pending",
         "recruitmentStartDate": null,
         "recruitmentEndDate": null,
-        "sites": null
+        "sites": [
+          {
+            "name": "Hospital Clinico Universitario De Valencia",
+            "address": "Avenida Blasco Ibanez 17",
+            "city": "Valencia",
+            "postcode": "46010"
+          },
+          {
+            "name": "Hospital De La Santa Creu I Sant Pau",
+            "address": "Carrer De San Quinti 89",
+            "city": "Barcelona",
+            "postcode": "08041"
+          },
+          {
+            "name": "Hospital General Universitario Gregorio Maranon",
+            "address": "Calle Del Doctor Esquerdo 46",
+            "city": "Madrid",
+            "postcode": "28007"
+          },
+          {
+            "name": "Hospital Quironsalud Valencia",
+            "address": "Avenida Blasco Ibanez 14",
+            "city": "Valencia",
+            "postcode": "46010"
+          },
+          {
+            "name": "Hospital Universitari Vall D Hebron",
+            "address": "Passeig De La Vall D'Hebron 119-129",
+            "city": "Barcelona",
+            "postcode": "08035"
+          },
+          {
+            "name": "Hospital Universitario De Cruces",
+            "address": "Cruces Plaza S/n",
+            "city": "Barakaldo",
+            "postcode": "48903"
+          },
+          {
+            "name": "Hospital Universitario Hm Sanchinarro",
+            "address": "Calle Ona 10",
+            "city": "Madrid",
+            "postcode": "28050"
+          },
+          {
+            "name": "Hospital Universitario Miguel Servet",
+            "address": "Paseo De Isabel La Catolica 1-3",
+            "city": "Zaragoza",
+            "postcode": "50009"
+          },
+          {
+            "name": "Hospital Universitario Ramon Y Cajal",
+            "address": "Carretera Del Colmenar Viejo Km 9 100, Por El Pardo",
+            "city": "Madrid",
+            "postcode": "28034"
+          },
+          {
+            "name": "Hospital Universitario Virgen De La Victoria",
+            "address": "Calle Del Arroyo Teatinos S/N",
+            "city": "Malaga",
+            "postcode": "29010"
+          },
+          {
+            "name": "University Hospital Virgen Del Rocio S.L.",
+            "address": "Avenida De Manuel Siurot S/n",
+            "city": "Sevilla",
+            "postcode": "41013"
+          }
+        ]
       }
     ],
     "sources": {
