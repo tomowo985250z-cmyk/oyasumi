@@ -255,7 +255,7 @@ globalThis.RoomBackgrounds=(()=>{
   // the closed node at -8 holds water on the negative (mouth) side of the axle.
   // Photo: https://tikuzai.com/syohin/sonota/index.html
   // Mechanism: https://mijikanas.com/handicraft/kousaku_sisiodosi.htm
-  const id='garden-souzu-'+(++uid),p=SolarLighting.palette(w,phase=>phase==='night'?{
+  const id='engawa-souzu-'+(++uid),p=SolarLighting.palette(w,phase=>phase==='night'?{
    shade:'#29302c',skin:'#454b42',sun:'#626655',fibre:'#6c6c60',end:'#6d6b5b',cavity:'#19211c',wet:'#2b3932',rock:'#39423f',rockTop:'#4a554e',moss:'#384837',pool:'#435a59'
   }:{shade:'#575d50',skin:'#858976',sun:'#a19e86',fibre:'#aaa28d',end:'#aba087',cavity:'#383f32',wet:'#4d5c50',rock:'#6c726a',rockTop:'#898e83',moss:'#59694f',pool:'#788f88'});
   const mix=SeasonLandscape.mix,radius=6.7,mouth=-31,tail=41,bevel=1.15;
@@ -286,7 +286,7 @@ globalThis.RoomBackgrounds=(()=>{
   for(let i=0;i<9;i++){const a=i*.69;cutGrain+=`<path d="M${xy(point(mouth,a,radius-.95,bevel))}L${xy(point(mouth,a+.025,radius-.15,bevel))}" stroke="${p.shade}" stroke-width=".23" opacity=".32"/>`;}
   const shell=outline([...Array.from({length:19},(_,i)=>point(mouth,front+span*i/18,radius,bevel)),...Array.from({length:19},(_,i)=>point(tail,front+span*(18-i)/18))]);
   const flow='M-26.4-35C-27-28-26-23-26.4-16S-26 5-26.4 14S-26 25-26.4 31';
-  return `<svg class="garden-shishi" viewBox="0 0 400 330" aria-hidden="true" focusable="false" data-shishi-period="48000" data-shishi-impact=".975" data-souzu-design="counterweighted-cylinder" style="--shishi-delay:-${(NightClock.now()%48000)/1000}s"><defs>
+  return `<svg class="engawa-shishi" viewBox="0 0 400 330" aria-hidden="true" focusable="false" data-shishi-period="48000" data-shishi-impact=".975" data-souzu-design="counterweighted-cylinder" style="--shishi-delay:-${(NightClock.now()%48000)/1000}s"><defs>
    <linearGradient id="${id}-upright"><stop stop-color="${p.shade}"/><stop offset=".28" stop-color="${p.skin}"/><stop offset=".56" stop-color="${mix(p.skin,p.sun,.48)}"/><stop offset=".8" stop-color="${p.skin}"/><stop offset="1" stop-color="${p.shade}"/></linearGradient>
    <linearGradient id="${id}-rock" x2=".24" y2="1"><stop stop-color="${p.rockTop}"/><stop offset=".4" stop-color="${p.rock}"/><stop offset="1" stop-color="${p.shade}"/></linearGradient>
    <linearGradient id="${id}-hollow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${p.cavity}"/><stop offset=".65" stop-color="${p.cavity}"/><stop offset="1" stop-color="${p.wet}"/></linearGradient>
@@ -294,7 +294,8 @@ globalThis.RoomBackgrounds=(()=>{
    <linearGradient id="${id}-rim" x2=".3" y2="1"><stop stop-color="${p.fibre}"/><stop offset=".46" stop-color="${p.end}"/><stop offset="1" stop-color="${mix(p.end,p.wet,.42)}"/></linearGradient>
    <linearGradient id="${id}-pool" x2=".2" y2="1"><stop stop-color="${p.wet}"/><stop offset=".28" stop-color="${mix(p.pool,p.fibre,.14)}"/><stop offset=".57" stop-color="${p.pool}"/><stop offset="1" stop-color="${mix(p.pool,p.cavity,.4)}"/></linearGradient>
    <clipPath id="${id}-water"><path d="${ring(mouth,radius-1.3,bevel)}"/></clipPath>
-  </defs><g transform="translate(342 245) scale(.9)">
+  <clipPath id="${id}-outside"><path d="M76 35H369V215H76Z"/></clipPath>
+  </defs><g clip-path="url(#${id}-outside)"><g transform="translate(309 192) scale(.52)">
    <path d="M-46 33q9-9 37-4 16-5 41 .4 15 4 12 8-18 6-44 3-31 3-46-7Z" fill="${p.cavity}" opacity=".18"/>
    <ellipse cx="-26" cy="34" rx="20" ry="5" fill="${p.cavity}" opacity=".21"/>
    <path d="M-44 35q9 4 18 3m13-1 5-3M22 37q5 3 13 2m-43-9 4 1m7 4 7 .5" fill="none" stroke="${p.cavity}" stroke-width="1.2" stroke-linecap="round" opacity=".22"/>
@@ -329,7 +330,7 @@ globalThis.RoomBackgrounds=(()=>{
    <path d="m4.2 31 5 .5m-14.6-8.3 2.2 1" stroke="${p.wet}" stroke-width="1.4" opacity=".5"/><ellipse cx="7.3" cy="3.65" rx="2.1" ry="1.8" fill="${p.shade}"/><ellipse cx="7.3" cy="3.65" rx=".9" ry=".7" fill="${p.cavity}"/>
    <path class="souzu-drain" d="M-30 25q.8 3 1.2 5m-2.6-3 .8 2m-2.1-.5 1 .9" fill="none" stroke="url(#${id}-pool)" stroke-width=".65" stroke-opacity=".7" stroke-linecap="round"/>
    <path class="souzu-ripple" d="M-34 30q6.4-2.3 13 .3m-15 1.4q8.5 3.2 17-.2" fill="none" stroke="${p.rockTop}" stroke-width=".5" opacity=".18"/>
-  </g></svg>`;
+  </g></g></svg>`;
  }
 
  function markup(where,value){
@@ -342,7 +343,7 @@ globalThis.RoomBackgrounds=(()=>{
    // dim sunlight and moonlight without rebuilding a room image each second.
    content=art.replace('<svg ','<svg class="day-room-art" aria-hidden="true" ').replace(/\bid="/g,'id="'+prefix).replace(/url\(#/g,'url(#'+prefix)+'<div class="day-room-world-window">'+SolarLighting.landscape(w)+glass(w)+'</div>';
   }else content='<div class="day-room-world-outdoors">'+SolarLighting.landscape(w,where)+'</div>'+staticPlace(where,w);
-  if(where==='garden')content+=shishi(w);
+  if(where==='engawa')content+=shishi(w);
   const frame=SolarLighting.palette(w,phase=>({frame:phase==='night'?'#7d8989':'#ded8c8'})).frame;
   return '<div class="room-background-layer" data-background-location="'+where+'" data-light-at="'+w.at+'" data-light-weather="'+w.weather+'" data-light-season="'+w.season+'" data-background-phase="'+w.phase+'" style="--study-frame:'+frame+'">'+content+'</div>';
  }

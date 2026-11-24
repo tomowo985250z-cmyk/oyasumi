@@ -7,17 +7,6 @@
 .day-room-scenery{position:absolute;inset:0;pointer-events:none}
 /* Keep the room's space while account-specific preferences await identity. */
 .day-room[data-room-preferences-pending]{visibility:hidden}
-/* A quiet wall ornament, between the window and picture in the 400:330 room. */
-.day-room .room-wall-clock{position:absolute;left:55.5%;top:18.8%;width:10%;height:auto;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;z-index:1}
-.day-room:not([data-location=room]) .room-wall-clock{display:none}
-.day-room[data-location=engawa] .engawa-wall-clock{display:block;left:7.17%;top:15%;width:13.5%;aspect-ratio:40/94;transform:translateX(-50%)}
-.engawa-wall-clock .clock-pendulum{transform-box:view-box;transform-origin:20px 36px;animation:country-clock-swing .97115s ease-in-out infinite}
-@keyframes country-clock-swing{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
-@media(prefers-reduced-motion:reduce){.engawa-wall-clock .clock-pendulum{animation:none;transform:none}}
-.day-room[data-world-daylight=false] .room-wall-clock{filter:brightness(.64) saturate(.8)}
-/* One shared exposure keeps the case, face and brass reflective at night. */
-.day-room[data-location=engawa][data-world-daylight=false] .engawa-wall-clock{filter:brightness(.4) saturate(.68) sepia(.08)}
-.day-room[data-location=engawa][data-world-daylight=false][data-engawa-pendant=off] .engawa-wall-clock{filter:brightness(.24) saturate(.62) sepia(.08)}
 .day-room-world-outdoors{position:absolute;inset:0 0 31%;overflow:hidden}
 .day-room-place-art{position:absolute;inset:0;width:100%;height:100%;z-index:1}
 .day-room[data-location]:not([data-location=room]) .day-room-cat.day-cat{left:50%;bottom:20%;width:40%;transform:translate(-50%,var(--ground-cat-pad,0%))}
@@ -194,21 +183,17 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 .day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .day-room-art{filter:brightness(calc(1 - .57 * var(--scene-object-night,0))) saturate(calc(1 - .24 * var(--scene-object-night,0)))}
 .day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .room-curtains{filter:brightness(calc(1 - .32 * var(--scene-object-night,0)))}
 .day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .room-sconce-art{filter:brightness(calc(1 - .50 * var(--scene-object-night,0)))}
-.day-room[data-location=room][data-solar-light]:not(:has(.room-light-switch[aria-pressed=true])) .room-wall-clock{filter:brightness(calc(1 - .57 * var(--scene-object-night,0))) saturate(calc(1 - .24 * var(--scene-object-night,0)))}
 .day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off]{--unlit-cat-brightness:calc(1 - .62 * var(--scene-object-night,0))}
 .day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off] .day-room-place-art{filter:brightness(calc(1 - .68 * var(--scene-object-night,0))) saturate(calc(1 - .10 * var(--scene-object-night,0)))}
 .day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off] .engawa-shoji{filter:brightness(calc(1 - .66 * var(--scene-object-night,0)))}
 .day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off]>.engawa-pendant-switch{--pendant-top:color-mix(in srgb,#eeeadd,#5a5f5a calc(100% * var(--scene-object-night,0)));--pendant-edge:color-mix(in srgb,#b5b4a6,#3c4240 calc(100% * var(--scene-object-night,0)));--pendant-bottom:color-mix(in srgb,#c8c4b3,#484c46 calc(100% * var(--scene-object-night,0)))}
 .day-room[data-cat-harmony][data-solar-light]:is([data-location=room]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,calc(1 - .36 * var(--scene-object-night,0)));filter:var(--bedroom-sage-ambient,var(--harmony-ambient)) brightness(var(--object-ambient))}
 .day-room[data-cat-harmony][data-solar-light]:is([data-location=room][data-curtain-closed=true]:not(:has(.room-light-switch[aria-pressed=true])),[data-location=engawa][data-shoji-closed=true][data-engawa-pendant=off]) :is(.room-resident>img,.room-care-animation img,.room-care-animation .care-bowl,.cat-idle-detail){--object-ambient:var(--unlit-cat-brightness,calc(1 - .36 * var(--scene-object-night,0)));filter:var(--bedroom-sage-shade,var(--harmony-shade)) brightness(var(--object-ambient))}
-/* Clocks and passive overlays use the same exposure as the objects around them. */
+/* Passive overlays use the same exposure as the objects around them. */
 .day-room[data-solar-light] .room-sconce-art{--sconce-milk-top:color-mix(in srgb,#f0ede2,#958e7e calc(100% * var(--scene-object-night,0)));--sconce-milk-edge:color-mix(in srgb,#c6c4b6,#676356 calc(100% * var(--scene-object-night,0)))}
-.day-room[data-solar-light] .room-wall-clock{filter:brightness(calc(1 - .36 * var(--scene-object-night,0))) saturate(calc(1 - .20 * var(--scene-object-night,0)))}
-.day-room[data-location=engawa][data-solar-light] .engawa-wall-clock{filter:brightness(calc(1 - .60 * var(--scene-object-night,0))) saturate(calc(1 - .32 * var(--scene-object-night,0))) sepia(calc(.08 * var(--scene-object-night,0)))}
-.day-room[data-location=engawa][data-solar-light][data-engawa-pendant=off] .engawa-wall-clock{filter:brightness(calc(1 - .76 * var(--scene-object-night,0))) saturate(calc(1 - .38 * var(--scene-object-night,0))) sepia(calc(.08 * var(--scene-object-night,0)))}
 .day-room[data-solar-light] .day-room-night-light{display:block;opacity:var(--scene-object-night,0)}
-.day-room[data-solar-light] :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art){transition:filter 1600ms ease-in-out}
-@media(prefers-reduced-motion:reduce){.day-room[data-solar-light] :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art){transition:none}}
+.day-room[data-solar-light] :is(.day-room-art,.day-room-place-art,.room-curtains,.engawa-shoji,.room-sconce-art){transition:filter 1600ms ease-in-out}
+@media(prefers-reduced-motion:reduce){.day-room[data-solar-light] :is(.day-room-art,.day-room-place-art,.room-curtains,.engawa-shoji,.room-sconce-art){transition:none}}
 /* Reuse the existing sky gradients and star paths: no extra layers or animation. */
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:first-child{stop-color:#01040b}
 .day-room[data-location=engawa][data-solar-light=moon][data-engawa-pendant=off] [id^=engawa-night-][id$=-blue]>stop:nth-child(2){stop-color:#030919}
@@ -233,23 +218,23 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 @media(prefers-reduced-motion:reduce){[data-night-room-reflection]{transition:none}}
 
 /* Native dusk/night targets remain unchanged; soften their discrete state edges. */
-.day-room :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art){transition:filter 1800ms ease-in-out}
+.day-room :is(.day-room-art,.day-room-place-art,.room-curtains,.engawa-shoji,.room-sconce-art){transition:filter 1800ms ease-in-out}
 .country-landscape :is([data-landscape-gradient],[id^=engawa-night-][id$=-blue])>stop{transition:stop-color 1800ms linear}
 .roof-sky-card .card-sky-stars,[data-engawa-night-study],.day-room>.engawa-pendant-light,.day-room :is(.room-sconce-lit,.pendant-glow){transition:opacity 1800ms linear}
 .day-room :is(.room-sconce-art,.engawa-pendant-switch) :is(stop,path,ellipse){transition:fill 1200ms ease-in-out,stroke 1200ms ease-in-out,stop-color 1200ms ease-in-out}
 @media(prefers-reduced-motion:reduce){
- .day-room :is(.day-room-art,.day-room-place-art,.room-wall-clock,.room-curtains,.engawa-shoji,.room-sconce-art),
+ .day-room :is(.day-room-art,.day-room-place-art,.room-curtains,.engawa-shoji,.room-sconce-art),
  .country-landscape stop,.roof-sky-card .card-sky-stars,[data-engawa-night-study],.day-room>.engawa-pendant-light,.day-room :is(.room-sconce-lit,.pendant-glow),
  .day-room :is(.room-sconce-art,.engawa-pendant-switch) :is(stop,path,ellipse){transition:none!important}
 }
 
-/* A separate garden overlay preserves the original artwork's filter bounds. */
-.garden-shishi{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;filter:var(--room-light-filter,none)}
-.garden-shishi .shishi-arm{transform-box:view-box;transform-origin:0 0;transform:rotate(34deg);animation:shishi-tip 48s linear infinite;animation-delay:var(--shishi-delay)}
-.garden-shishi .souzu-water{transform-box:fill-box;transform-origin:center bottom;animation:souzu-fill 48s linear infinite;animation-delay:var(--shishi-delay)}
-.garden-shishi .souzu-inflow{animation:souzu-feed 48s linear infinite,souzu-shimmer 3.7s ease-in-out infinite;animation-delay:var(--shishi-delay),var(--shishi-delay)}
-.garden-shishi .souzu-drain{opacity:0;animation:souzu-empty 48s linear infinite;animation-delay:var(--shishi-delay)}
-.garden-shishi .souzu-ripple{transform-box:fill-box;transform-origin:center;animation:souzu-ripple 48s linear infinite;animation-delay:var(--shishi-delay)}
+/* The outdoor overlay stays beyond the engawa sill and the artwork's filter bounds. */
+.engawa-shishi{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;filter:var(--room-light-filter,none)}
+.engawa-shishi .shishi-arm{transform-box:view-box;transform-origin:0 0;transform:rotate(34deg);animation:shishi-tip 48s linear infinite;animation-delay:var(--shishi-delay)}
+.engawa-shishi .souzu-water{transform-box:fill-box;transform-origin:center bottom;animation:souzu-fill 48s linear infinite;animation-delay:var(--shishi-delay)}
+.engawa-shishi .souzu-inflow{animation:souzu-feed 48s linear infinite,souzu-shimmer 3.7s ease-in-out infinite;animation-delay:var(--shishi-delay),var(--shishi-delay)}
+.engawa-shishi .souzu-drain{opacity:0;animation:souzu-empty 48s linear infinite;animation-delay:var(--shishi-delay)}
+.engawa-shishi .souzu-ripple{transform-box:fill-box;transform-origin:center;animation:souzu-ripple 48s linear infinite;animation-delay:var(--shishi-delay)}
 /* The dry tail meets its stone at 97.5%, matching the unchanged recording scheduler. */
 @keyframes shishi-tip{0%,89.8%{transform:rotate(34deg);animation-timing-function:cubic-bezier(.5,0,.85,.45)}94%,95.4%{transform:rotate(-31deg);animation-timing-function:cubic-bezier(.65,0,.9,.55)}97.5%{transform:rotate(34deg);animation-timing-function:ease-out}98.25%{transform:rotate(31.5deg)}99.1%,100%{transform:rotate(34deg)}}
 @keyframes souzu-fill{0%{opacity:.05;transform:scaleY(.12)}89.8%,92%{opacity:.54;transform:scaleY(1)}93.8%{opacity:.43;transform:scaleY(.9)}94%{opacity:.3;transform:scaleY(.55)}95.4%,100%{opacity:.05;transform:scaleY(.12)}}
@@ -257,4 +242,4 @@ html[data-cat-own-ready] .own-cat-room .room-night-shadows{visibility:visible}
 @keyframes souzu-empty{0%,93.8%,95.7%,100%{opacity:0}94%,95.4%{opacity:.48}}
 @keyframes souzu-shimmer{0%,100%{opacity:.74;transform:translateX(0)}38%{opacity:.86;transform:translateX(.12px)}74%{opacity:.78;transform:translateX(-.08px)}}
 @keyframes souzu-ripple{0%,92%,100%{opacity:.08;transform:scale(.88,.9)}94%{opacity:.18;transform:scale(.94,.95)}95.4%{opacity:.14;transform:scale(1.04,1)}98%{opacity:.04;transform:scale(1.16,1.04)}}
-@media(prefers-reduced-motion:reduce){.garden-shishi :is(.shishi-arm,.souzu-water,.souzu-inflow,.souzu-drain,.souzu-ripple){animation:none}.garden-shishi .souzu-water{opacity:.16}.garden-shishi .souzu-drain{display:none}}
+@media(prefers-reduced-motion:reduce){.engawa-shishi :is(.shishi-arm,.souzu-water,.souzu-inflow,.souzu-drain,.souzu-ripple){animation:none}.engawa-shishi .souzu-water{opacity:.16}.engawa-shishi .souzu-drain{display:none}}

@@ -59,7 +59,6 @@ for(const file of ['fuel.webp','provenance.json'])files['/assets/garden-campfire
 for(const file of ['garden-campfire.js','garden-campfire.css'])files['/'+file]=file;
 for(const name of ['wind','rain','insects','chime'])files['/assets/nature-sounds-v1/'+name+'.mp3']='assets/nature-sounds-v1/'+name+'.mp3';
 types['.mp3']='audio/mpeg';
-for(const file of ['clock-ticking-f950717d33644d4b.wav','credits.html','manifest.json'])files['/assets/clock-audio-v1/'+file]='assets/clock-audio-v1/'+file;
 for(const file of ['shishi-0925d44163b7a135.wav','water-64f0f65d0a95cbf5.wav','credits.html','manifest.json'])files['/assets/shishi-audio-v1/'+file]='assets/shishi-audio-v1/'+file;
 types['.wav']='audio/wav';
 types['.txt']='text/plain';

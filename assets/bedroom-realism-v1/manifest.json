@@ -80,25 +80,6 @@
       ]
     },
     {
-      "file": "assets/bedroom-realism-v1/clock.webp",
-      "bytes": 7736,
-      "sha256": "62a1bc44e8b59215d00aba51bc61b8c07e122affeeb1f839db359f3ea732688e",
-      "dimensions": [
-        144,
-        144
-      ],
-      "sourceSize": [
-        1254,
-        1254
-      ],
-      "alphaBox": [
-        0,
-        0,
-        1254,
-        1254
-      ]
-    },
-    {
       "file": "assets/bedroom-realism-v1/cushion.webp",
       "bytes": 20384,
       "sha256": "cb80c85472605d47b11262cbb7d6751e9106c61f9888de03dadb43df3ef70984",
