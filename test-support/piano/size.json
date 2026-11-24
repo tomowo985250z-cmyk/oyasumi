@@ -1,6 +1,6 @@
 {
   "sampleBytes": 1053987,
-  "newRuntimeBytes": 1261518,
+  "newRuntimeBytes": 1295610,
   "previousCurrentFiveAudioBytes": 12688166,
   "removedTrackedFiles": 159,
   "removedBytes": 204047368,
@@ -12,5 +12,15 @@
     "additionalSampleBytes": 0,
     "addedScoresBytes": 64055,
     "note": "Uses the same 19-note MP3 bank. New music is compact note JSON, rendered locally; no external playback service."
+  },
+  "replacement": {
+    "removedScoreBytes": 64055,
+    "addedScoreBytes": 97148,
+    "scoreDeltaBytes": 33093,
+    "additionalSampleBytes": 0,
+    "sampleBytes": 1053987,
+    "bankReused": true,
+    "note": "Only compact notation changes. The same 19-note sample bank is decoded once; no per-song audio downloads.",
+    "runtimeBytes": 1295610
   }
 }

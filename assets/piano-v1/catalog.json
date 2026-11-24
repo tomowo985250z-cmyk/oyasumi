@@ -50,19 +50,19 @@
       "level": 0.15848931924611132
     },
     {
-      "id": "barcarolle-june",
-      "title": "舟歌（「四季」6月）",
-      "url": "assets/piano-v1/barcarolle-june.json",
+      "id": "moonlight-27-2-1",
+      "title": "月光 第1楽章 Op.27-2",
+      "url": "assets/piano-v1/moonlight-27-2-1.json",
       "loopStart": 0,
-      "loopEnd": 379.556479,
+      "loopEnd": 350.125,
       "level": 0.15848931924611132
     },
     {
-      "id": "prelude-28-4",
-      "title": "プレリュード Op.28-4",
-      "url": "assets/piano-v1/prelude-28-4.json",
+      "id": "tristesse-10-3",
+      "title": "別れの曲 Op.10-3",
+      "url": "assets/piano-v1/tristesse-10-3.json",
       "loopStart": 0,
-      "loopEnd": 121.769231,
+      "loopEnd": 205.539865,
       "level": 0.15848931924611132
     }
   ],
@@ -269,14 +269,14 @@
         "derivedLicense": "CC BY 3.0"
       },
       {
-        "id": "barcarolle-june",
-        "notationLicense": "CC0 1.0",
-        "derivedLicense": "CC BY 3.0"
+        "id": "moonlight-27-2-1",
+        "notationLicense": "Creative Commons Attribution-ShareAlike 2.5",
+        "derivedLicense": "CC BY-SA 3.0"
       },
       {
-        "id": "prelude-28-4",
-        "notationLicense": "Public Domain",
-        "derivedLicense": "CC BY 3.0"
+        "id": "tristesse-10-3",
+        "notationLicense": "Creative Commons Attribution 4.0",
+        "derivedLicense": "CC BY 4.0"
       }
     ]
   }

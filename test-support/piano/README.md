@@ -7,12 +7,15 @@ are octave-spaced, bass is brought to MIDI 45–57, and simultaneous duplicates
 become one piano key. No external performance or arrangement was copied.
 All seven use a bounded soft-touch curve (`.54 + .12*tanh((v-.55)*2)`),
 restrained phrase dynamics and the same sampled piano and output reference.
-June retains all 99 measures and its contrasting middle section, at 60–76 bpm
-with two-beat continuous transitions; Prelude uses 52 bpm. Their final four
-beats broaden by 10%, followed by five seconds for decay and the existing
-crossfade. `import-new.cjs --check` reproduces their note inputs from the
-retained CC0 MusicXML and public-domain score MIDI/LilyPond, including ties
-across voices and separately timed grace notes. Importing uses a development
+Moonlight retains the complete 69-bar first movement at quarter-note 48 bpm,
+with its singing line separated from the continuous triplet accompaniment.
+Tristesse retains all 78 measures (including the pickup), using quarter-note
+38–49 bpm with continuous transitions, restrained central dynamics and softer
+high notes. Both broaden their final two beats by 10%, followed by five seconds
+for decay and the existing crossfade. `import-replacements.cjs --check`
+reproduces their note inputs from retained licensed MIDI/LilyPond and MusicXML,
+including staff/voice-changing ties. `import-new.cjs` and its old source files
+remain as historical build records. Importing uses a development
 browser; the application needs no additional library or network service.
 
 `assets/piano-v1/credits.html`, `LICENSE.txt`, `SOURCE-README.txt` and the catalog
@@ -22,9 +25,12 @@ single notes. Samples remain CC BY 3.0. Original compositions are public domain;
 notation editions have separate rights. The Air edition (Jeff Covey; MIDI
 preparation credited to Hans Hokke) and Nocturne edition (Renato Biolcati Rinaldi)
 are CC BY-SA 3.0. Their score adaptations and derived performances are also
-CC BY-SA 3.0. June's Noctave notation is CC0; Prelude's Magnus Lewis-Smith
-Mutopia edition is public domain. The other five Oyasumi arrangements and
-derived performances are CC BY 3.0. The app code's license does not change.
+CC BY-SA 3.0. Moonlight's Chris Sawer / Stewart Holmes Mutopia edition is
+CC BY-SA 2.5; this adaptation and derived performance use CC BY-SA 3.0 as
+permitted by source section 4b. Tristesse's NIFC first-edition encoding and
+Noctave conversion are CC BY 4.0, as are this adaptation and derived performance.
+Clair de lune, Traumerei and Gymnopedie arrangements remain CC BY 3.0.
+The app code's license does not change.
 
 `piano-player.js` decodes the bank once and uses a worker for 24kHz mono sampled
 rendering. Only the current and upcoming performances are kept by `roof-music.js`.

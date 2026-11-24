@@ -2,58 +2,58 @@
   "pass": true,
   "native": [
     {
-      "seed": 1509862084,
+      "seed": 2453255714,
       "lufs": -26,
-      "peak": 0.49912220186683237,
+      "peak": 0.424457538820236,
       "seconds": 111.767875,
       "finite": true
     },
     {
-      "seed": 2860686935,
+      "seed": 2104431605,
       "lufs": -26,
-      "peak": 0.44698166301568865,
+      "peak": 0.44520323070226453,
       "seconds": 143.57520833333334,
       "finite": true
     },
     {
-      "seed": 1400703753,
+      "seed": 3617637640,
       "lufs": -26,
-      "peak": 0.381327634709084,
+      "peak": 0.40375774379303053,
       "seconds": 226.89979166666666,
       "finite": true
     },
     {
-      "seed": 3133180866,
+      "seed": 4092952652,
       "lufs": -26,
-      "peak": 0.42884786463993946,
+      "peak": 0.46807566876401024,
       "seconds": 100.53408333333333,
       "finite": true
     },
     {
-      "seed": 1335691398,
+      "seed": 3175896737,
       "lufs": -26,
-      "peak": 0.510017632050497,
+      "peak": 0.4984927345781075,
       "seconds": 139.00825,
       "finite": true
     },
     {
-      "seed": 1873021017,
+      "seed": 1944672506,
       "lufs": -26,
-      "peak": 0.5910518452040558,
-      "seconds": 379.55645833333335,
+      "peak": 0.47414249216030785,
+      "seconds": 350.125,
       "finite": true
     },
     {
-      "seed": 52784038,
+      "seed": 1632711491,
       "lufs": -26,
-      "peak": 0.4115946329791779,
-      "seconds": 121.76925,
+      "peak": 0.400937376625937,
+      "seconds": 205.539875,
       "finite": true
     },
     {
-      "seed": 1247951560,
+      "seed": 4142083062,
       "lufs": -26,
-      "peak": 0.4470073112121321,
+      "peak": 0.44744312922013024,
       "seconds": 111.767875,
       "finite": true
     }
@@ -73,9 +73,9 @@
         226.89979166666666,
         100.53408333333333,
         139.00825,
-        379.55645833333335,
-        121.76925,
-        121.76925
+        350.125,
+        205.539875,
+        205.539875
       ],
       "audioContextAdapter": true
     },
@@ -93,9 +93,9 @@
         226.89979166666666,
         100.53408333333333,
         139.00825,
-        379.55645833333335,
-        121.76925,
-        121.76925
+        350.125,
+        205.539875,
+        205.539875
       ],
       "audioContextAdapter": true
     }
@@ -103,18 +103,10 @@
   "errors": [],
   "physicalIPhoneListening": false,
   "humanListening": false,
-  "fullApplicationWebkit": [
-    {
-      "width": 375,
-      "overflow": false,
-      "roof": true,
-      "pianoSettings": true
-    },
-    {
-      "width": 390,
-      "overflow": false,
-      "roof": true,
-      "pianoSettings": true
-    }
-  ]
+  "nativeRequests": {
+    "samples": 19,
+    "sampleBytes": 1053987,
+    "oneFetchPerSampleAndScore": true,
+    "retiredSongsRequested": false
+  }
 }

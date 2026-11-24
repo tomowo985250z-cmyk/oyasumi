@@ -1,5 +1,5 @@
 {
-  "checkedOn": "2026-11-19",
+  "checkedOn": "2026-11-25",
   "jurisdiction": "Japan; current original compositions only. Third-party source editions/recordings reviewed separately.",
   "music": [
     {
@@ -167,6 +167,62 @@
       "redistribution": true,
       "modification": true,
       "shareAlike": false
+    },
+    {
+      "id": "moonlight-27-2-1",
+      "title": "月光 第1楽章 Op.27-2",
+      "composer": "Ludwig van Beethoven (1770–1827)",
+      "originalComposition": "Public domain composition; source edition separately licensed",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=276",
+      "sourceLicense": "Creative Commons Attribution-ShareAlike 2.5",
+      "sourceArrangement": "test-support/piano/arrangement.json",
+      "sourceEventHash": "a190efb8e3937f578e786fc17f6d40c7ecfe0afb9e56100ccbb28ca4198acedf",
+      "acquiredFiles": [
+        {
+          "file": "sources/replacements/moonlight1.mid",
+          "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-mids.zip",
+          "bytes": 9491,
+          "sha256": "a34e969c4957f0e9e98fc9ff0278cc1284931bdae6d463469797faa2b73a9c5c"
+        },
+        {
+          "file": "sources/replacements/moonlight1-a4.ly",
+          "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-lys.zip",
+          "bytes": 15196,
+          "sha256": "afdc56dc1ea4d4052333f673ac8e0fabca487bfa77f4a97404a394b6b2ce97ef"
+        }
+      ],
+      "attributionRequired": true,
+      "commercialUse": true,
+      "derivativeLicense": "CC BY-SA 3.0",
+      "changes": "Original calm tempo and soft-touch voicing, full-form melody and harmony retained, central dynamics/high register softened; no external performance recording."
+    },
+    {
+      "id": "tristesse-10-3",
+      "title": "別れの曲 Op.10-3",
+      "composer": "Frédéric Chopin (1810–1849)",
+      "originalComposition": "Public domain composition; source edition separately licensed",
+      "page": "https://noctavepiano.com/en/sheet-music/chopin-etude-op10-3/",
+      "sourceLicense": "Creative Commons Attribution 4.0",
+      "sourceArrangement": "test-support/piano/arrangement.json",
+      "sourceEventHash": "43b2c5f7f06ff3ad41917a570e846412b9217ac0c5ec2b9f813afaf4becc2a5c",
+      "acquiredFiles": [
+        {
+          "file": "sources/replacements/chopin-etude-op10-3.mxl",
+          "url": "https://noctavepiano.com/partitions/chopin-etude-op10-3/chopin-etude-op10-3.mxl",
+          "bytes": 14710,
+          "sha256": "cebde09d88b3becfd8558366b75ac35d288a1640503e0942a2ff2273cac0b26a"
+        },
+        {
+          "file": "sources/replacements/010-1b-Sm-003.krn",
+          "url": "https://raw.githubusercontent.com/pl-wnifc/humdrum-chopin-first-editions/95dfb105c1669c72d10b04088566154f12d3dc1c/kern/010-1b-Sm-003.krn",
+          "bytes": 26009,
+          "sha256": "a374d83beaf5353e851f2cb054655c015a382f1458b091c86ae93514eef155c9"
+        }
+      ],
+      "attributionRequired": true,
+      "commercialUse": true,
+      "derivativeLicense": "CC BY 4.0",
+      "changes": "Original calm tempo and soft-touch voicing, full-form melody and harmony retained, central dynamics/high register softened; no external performance recording."
     }
   ],
   "nature": [
@@ -253,10 +309,10 @@
     "audioOrPlaybackModifiedByAudit": false
   },
   "currentHashes": {
-    "roof-music.js": "9dd77d821985b444b2434c23ae6a58afe9a7d53e9385c9302f6151c0ab1d9c65",
+    "roof-music.js": "0578bc1eeac6a92b6d6bc9d99d15c55993bef86a5edc062218de19d8f5aff94f",
     "piano-player.js": "7a0180ad78b3d51d97bf81b5b6eedeccf1808f3a2163180b49a193db137943fe",
     "piano-renderer.js": "75225a411463a3dd5831645f57c86256d37e64050aaa8adfceda5edcb8939c09",
-    "nature-sounds.js": "209462b1d9f7c9a14f875cf513efa9bb02ef42b1478f7f3d4ef3ab49d5a70dc0",
-    "assets/piano-v1/catalog.json": "01b9aa99d65886df1354deb8b56730bbf202b51052b0078468befb850064d5c8"
+    "nature-sounds.js": "e40aeb611a5223f1b4b5fd944c6aea9581c033a24e989fe862dcfa043cd1d474",
+    "assets/piano-v1/catalog.json": "066d3b8a8223d04d6543ca183e2c03c6c771a54867677bb288f0b4ba755ffd36"
   }
 }

@@ -219,122 +219,66 @@
     "derivedLicense": "CC BY 3.0"
   },
   {
-    "id": "barcarolle-june",
+    "id": "moonlight-27-2-1",
     "source": {
-      "composer": "Pyotr Ilyich Tchaikovsky (1840–1893)",
-      "title": "June: Barcarolle, The Seasons Op.37a No.6",
-      "edition": "Noctave CC0 notation, original piano transcription (2019), released with written author consent; four note corrections by Noctave",
-      "credit": "Noctave and the consenting transcription author",
-      "page": "https://noctavepiano.com/en/sheet-music/tchaikovsky-barcarolle-op37a-6/",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "composer": "Ludwig van Beethoven (1770–1827)",
+      "title": "Piano Sonata No.14 in C-sharp minor Op.27 No.2, I. Adagio sostenuto",
+      "edition": "Berners, 1908 (A. Winterberger); Mutopia-2007/02/11-276, first movement only",
+      "credit": "Chris Sawer and Stewart Holmes / Mutopia Project; Copyright © 2007",
+      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=276",
+      "license": "Creative Commons Attribution-ShareAlike 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/",
       "sources": [
         {
-          "file": "sources/barcarolle.mxl",
-          "url": "https://noctavepiano.com/partitions/tchaikovsky-barcarolle-op37a-6/tchaikovsky-barcarolle-op37a-6.mxl",
-          "bytes": 25387,
-          "sha256": "fadc42a777d22cfaf6baab3cd6d97e8b8215fcb7cf0253a0bf6653f0aa135a8d"
+          "file": "sources/replacements/moonlight1.mid",
+          "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-mids.zip",
+          "bytes": 9491,
+          "sha256": "a34e969c4957f0e9e98fc9ff0278cc1284931bdae6d463469797faa2b73a9c5c"
+        },
+        {
+          "file": "sources/replacements/moonlight1-a4.ly",
+          "url": "https://www.mutopiaproject.org/ftp/BeethovenLv/O27/moonlight/moonlight-lys.zip",
+          "bytes": 15196,
+          "sha256": "afdc56dc1ea4d4052333f673ac8e0fabca487bfa77f4a97404a394b6b2ce97ef"
         }
       ],
       "timing": {
-        "baseBpm": 60,
-        "sections": [
-          {
-            "measure": 32,
-            "bpm": 64,
-            "transitionBeats": 2
-          },
-          {
-            "measure": 40,
-            "bpm": 76,
-            "transitionBeats": 2
-          },
-          {
-            "measure": 50,
-            "bpm": 70,
-            "transitionBeats": 2
-          },
-          {
-            "measure": 52,
-            "bpm": 68,
-            "transitionBeats": 2
-          },
-          {
-            "measure": 53,
-            "bpm": 60,
-            "transitionBeats": 2
-          }
-        ],
+        "baseBpm": 48,
+        "sections": [],
         "clockNodes": [
           {
             "beat": 0,
-            "spb": 1
+            "spb": 1.25
           },
           {
-            "beat": 122,
-            "spb": 1
+            "beat": 274,
+            "spb": 1.25
           },
           {
-            "beat": 124,
-            "spb": 0.9375
-          },
-          {
-            "beat": 154,
-            "spb": 0.9375
-          },
-          {
-            "beat": 156,
-            "spb": 0.7894736842105263
-          },
-          {
-            "beat": 184,
-            "spb": 0.7894736842105263
-          },
-          {
-            "beat": 186,
-            "spb": 0.8571428571428571
-          },
-          {
-            "beat": 190,
-            "spb": 0.8571428571428571
-          },
-          {
-            "beat": 192,
-            "spb": 0.8823529411764706
-          },
-          {
-            "beat": 194,
-            "spb": 0.8823529411764706
-          },
-          {
-            "beat": 196,
-            "spb": 1
-          },
-          {
-            "beat": 380,
-            "spb": 1
-          },
-          {
-            "beat": 384,
-            "spb": 1.1
+            "beat": 276,
+            "spb": 1.375
           }
         ],
         "closingBroadening": 1.1,
-        "notice": "Notation pitch and rhythm only; original Oyasumi tempo map, no external performance."
-      },
-      "rights": [
-        "Noctave edition, CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/). Composition: Pyotr Ilyich Tchaikovsky (1840–1893), public domain. Source: Transcription MuseScore inédite (2019), diffusée avec l'accord de son auteur. Made into this edition by Noctave, with some notes adapted (details: https://noctavepiano.com/partitions/tchaikovsky-barcarolle-op37a-6/).",
-        "Public domain composition. Unpublished MuseScore transcription (2019), released under CC0 1.0 with the written consent of its author; four notes corrected for the Noctave project (see catalog/LICENSES.md). This file: CC0 1.0."
-      ]
+        "notice": "Notation pitch and rhythm only; original restrained tempo map, no external performance."
+      }
     },
-    "sourceEventHash": "220f444cb1cdaa7f0807e218e25b7851e966050e9b91a126637861d51ed48aaf",
-    "sourceNotes": 1527,
+    "sourceEventHash": "a190efb8e3937f578e786fc17f6d40c7ecfe0afb9e56100ccbb28ca4198acedf",
+    "sourceNotes": 1142,
     "timeScale": 1,
-    "phraseSeconds": 16,
-    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
-    "derivedLicense": "CC BY 3.0",
-    "notes": 1479,
-    "melodyNotes": 467,
+    "phraseSeconds": 20,
+    "softSections": [
+      {
+        "from": 135,
+        "to": 270,
+        "floor": 0.92
+      }
+    ],
+    "softHighNotes": true,
+    "profile": "Oyasumi piano: original melody, full-form harmony and characteristic accompaniment; restrained middle section, quiet high register, same sampled piano and -26 LUFS reference",
+    "derivedLicense": "CC BY-SA 3.0",
+    "notes": 1029,
+    "melodyNotes": 122,
     "melodyPitchesPreserved": true,
     "pitchClassesPreserved": true,
     "bassRange": [
@@ -343,58 +287,175 @@
     ]
   },
   {
-    "id": "prelude-28-4",
+    "id": "tristesse-10-3",
     "source": {
       "composer": "Frédéric Chopin (1810–1849)",
-      "title": "Prelude in E minor Op.28 No.4",
-      "edition": "Peters, 1879; Magnus Lewis-Smith / Mutopia-468",
-      "credit": "Magnus Lewis-Smith",
-      "page": "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=468",
-      "license": "Public Domain",
-      "licenseUrl": "https://www.mutopiaproject.org/legal.html",
+      "title": "Étude in E major Op.10 No.3 (Tristesse)",
+      "edition": "First Paris edition (M. Schlesinger, 1833), NIFC encoding; Noctave MusicXML conversion, no note changes",
+      "credit": "First Editions of Fryderyk Chopin’s Music, © 2017-2021 The Fryderyk Chopin Institute (nifc.pl), chopinscores.org; Noctave edition",
+      "page": "https://noctavepiano.com/en/sheet-music/chopin-etude-op10-3/",
+      "license": "Creative Commons Attribution 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
       "sources": [
         {
-          "file": "sources/prelude.mid",
-          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O28/Chop-28-4/Chop-28-4.mid",
-          "bytes": 5444,
-          "sha256": "c1d7e05aa4e6e2baeec2e9108402a969c16d5df302b82fd66d110634697f2e3b"
+          "file": "sources/replacements/chopin-etude-op10-3.mxl",
+          "url": "https://noctavepiano.com/partitions/chopin-etude-op10-3/chopin-etude-op10-3.mxl",
+          "bytes": 14710,
+          "sha256": "cebde09d88b3becfd8558366b75ac35d288a1640503e0942a2ff2273cac0b26a"
         },
         {
-          "file": "sources/prelude.ly",
-          "url": "https://www.mutopiaproject.org/ftp/ChopinFF/O28/Chop-28-4/Chop-28-4.ly",
-          "bytes": 9355,
-          "sha256": "d4fca574bc3c3ad810ee643d42b7299e1c97b3b8b3fa379c3d7f77edb02f6192"
+          "file": "sources/replacements/010-1b-Sm-003.krn",
+          "url": "https://raw.githubusercontent.com/pl-wnifc/humdrum-chopin-first-editions/95dfb105c1669c72d10b04088566154f12d3dc1c/kern/010-1b-Sm-003.krn",
+          "bytes": 26009,
+          "sha256": "a374d83beaf5353e851f2cb054655c015a382f1458b091c86ae93514eef155c9"
         }
       ],
       "timing": {
-        "baseBpm": 52,
-        "sections": [],
+        "baseBpm": 46,
+        "sections": [
+          {
+            "measure": 20,
+            "bpm": 43,
+            "transitionBeats": 1
+          },
+          {
+            "measure": 21,
+            "bpm": 49,
+            "transitionBeats": 1
+          },
+          {
+            "measure": 32,
+            "bpm": 48,
+            "transitionBeats": 1
+          },
+          {
+            "measure": 45,
+            "bpm": 46,
+            "transitionBeats": 1
+          },
+          {
+            "measure": 60,
+            "bpm": 43,
+            "transitionBeats": 1
+          },
+          {
+            "measure": 62,
+            "bpm": 46,
+            "transitionBeats": 1
+          },
+          {
+            "measure": 75,
+            "bpm": 42,
+            "transitionBeats": 1
+          },
+          {
+            "measure": 76,
+            "bpm": 38,
+            "transitionBeats": 1
+          }
+        ],
         "clockNodes": [
           {
             "beat": 0,
-            "spb": 1.1538461538461537
+            "spb": 1.3043478260869565
           },
           {
-            "beat": 97,
-            "spb": 1.1538461538461537
+            "beat": 37.5,
+            "spb": 1.3043478260869565
           },
           {
-            "beat": 101,
-            "spb": 1.2692307692307692
+            "beat": 38.5,
+            "spb": 1.3953488372093024
+          },
+          {
+            "beat": 39.5,
+            "spb": 1.3953488372093024
+          },
+          {
+            "beat": 40.5,
+            "spb": 1.2244897959183674
+          },
+          {
+            "beat": 61.5,
+            "spb": 1.2244897959183674
+          },
+          {
+            "beat": 62.5,
+            "spb": 1.25
+          },
+          {
+            "beat": 87.5,
+            "spb": 1.25
+          },
+          {
+            "beat": 88.5,
+            "spb": 1.3043478260869565
+          },
+          {
+            "beat": 117.5,
+            "spb": 1.3043478260869565
+          },
+          {
+            "beat": 118.5,
+            "spb": 1.3953488372093024
+          },
+          {
+            "beat": 121.5,
+            "spb": 1.3953488372093024
+          },
+          {
+            "beat": 122.5,
+            "spb": 1.3043478260869565
+          },
+          {
+            "beat": 147.5,
+            "spb": 1.3043478260869565
+          },
+          {
+            "beat": 148.5,
+            "spb": 1.4285714285714286
+          },
+          {
+            "beat": 149.5,
+            "spb": 1.4285714285714286
+          },
+          {
+            "beat": 150.5,
+            "spb": 1.5789473684210527
+          },
+          {
+            "beat": 152.5,
+            "spb": 1.5789473684210527
+          },
+          {
+            "beat": 154.5,
+            "spb": 1.736842105263158
           }
         ],
         "closingBroadening": 1.1,
-        "notice": "Notation pitch and rhythm only; original Oyasumi tempo map, no external performance."
-      }
+        "notice": "Notation pitch and rhythm only; original restrained tempo map, no external performance."
+      },
+      "rights": [
+        "Noctave edition, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Attribution: First Editions of Fryderyk Chopin’s Music, © 2017-2021 The Fryderyk Chopin Institute (nifc.pl), chopinscores.org, CC BY 4.0. Composition: Frédéric Chopin (1810–1849), public domain. Source: Institut Frédéric Chopin (NIFC), saisie de la première édition (M. Schlesinger, Paris, 1833) https://github.com/pl-wnifc/humdrum-chopin-first-editions/blob/95dfb105c1669c72d10b04088566154f12d3dc1c/kern/010-1b-Sm-003.krn. Made into this edition by Noctave (details: https://noctavepiano.com/partitions/chopin-etude-op10-3/).",
+        "Public domain composition. Encoded after the first edition (M. Schlesinger, Paris) by The Fryderyk Chopin Institute: First Editions of Fryderyk Chopin's Music, Copyright 2017-2021 The Fryderyk Chopin Institute (https://nifc.pl), https://chopinscores.org, https://github.com/pl-wnifc/humdrum-chopin-first-editions, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Converted to MusicXML for Noctave (changes: catalog/LICENSES.md of the Noctave project). This file: CC BY 4.0."
+      ]
     },
-    "sourceEventHash": "74bdbcba4a667317b60e593fd28f53399855ccf3423a064970a51aa4f81cf6e5",
-    "sourceNotes": 600,
+    "sourceEventHash": "43b2c5f7f06ff3ad41917a570e846412b9217ac0c5ec2b9f813afaf4becc2a5c",
+    "sourceNotes": 1938,
     "timeScale": 1,
-    "phraseSeconds": 18.461538,
-    "profile": "Oyasumi piano: bounded soft touch, melody intact, octave-spaced accompaniment, A2–A3 bass, common instrument and -26 LUFS",
-    "derivedLicense": "CC BY 3.0",
-    "notes": 594,
-    "melodyNotes": 79,
+    "phraseSeconds": 10.434783,
+    "softSections": [
+      {
+        "from": 52.96816,
+        "to": 157.158695,
+        "floor": 0.78
+      }
+    ],
+    "softHighNotes": true,
+    "profile": "Oyasumi piano: original melody, full-form harmony and characteristic accompaniment; restrained middle section, quiet high register, same sampled piano and -26 LUFS reference",
+    "derivedLicense": "CC BY 4.0",
+    "notes": 1842,
+    "melodyNotes": 471,
     "melodyPitchesPreserved": true,
     "pitchClassesPreserved": true,
     "bassRange": [

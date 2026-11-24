@@ -11,10 +11,17 @@ credited to Hans Hokke) and Nocturne Op.9 No.2 (Renato Biolcati Rinaldi) use
 Mutopia editions under CC BY-SA 3.0. Their score adaptations and derived
 performances are distributed under CC BY-SA 3.0:
 https://creativecommons.org/licenses/by-sa/3.0/
-June uses Noctave's CC0 1.0 notation; Prelude uses Magnus Lewis-Smith's
-public-domain Mutopia edition. Other editions retain their listed notices.
-The other five original Oyasumi arrangements and derived performances are
-CC BY 3.0. Full per-song attribution, edition links and licenses: credits.html.
+Moonlight I uses Chris Sawer and Stewart Holmes / Mutopia-276, Copyright © 2007,
+notation under
+CC BY-SA 2.5. Its Oyasumi adaptation and derived performance are CC BY-SA 3.0
+(permitted by the source license, section 4b).
+https://creativecommons.org/licenses/by-sa/2.5/
+Tristesse uses First Editions of Fryderyk Chopin’s Music, © 2017-2021 The
+Fryderyk Chopin Institute (nifc.pl), chopinscores.org, CC BY 4.0; Noctave edition.
+Its Oyasumi adaptation and derived performance are CC BY 4.0.
+https://creativecommons.org/licenses/by/4.0/
+Clair de lune, Traumerei and Gymnopedie arrangements remain CC BY 3.0.
+Full per-song attribution, edition links and licenses: credits.html.
 
 Changes: original seven-song Oyasumi piano voicing and calm tempo maps,
 softened dynamics, mono resampling, gain/envelope and gentle filtering,

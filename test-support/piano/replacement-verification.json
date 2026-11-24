@@ -1,0 +1,63 @@
+{
+  "pass": true,
+  "checkedOn": "2026-11-25",
+  "replaced": {
+    "removed": [
+      "barcarolle-june",
+      "prelude-28-4"
+    ],
+    "added": [
+      {
+        "id": "moonlight-27-2-1",
+        "title": "月光 第1楽章 Op.27-2",
+        "seconds": 350.125
+      },
+      {
+        "id": "tristesse-10-3",
+        "title": "別れの曲 Op.10-3",
+        "seconds": 205.539865
+      }
+    ]
+  },
+  "firstFiveExactScoreHashes": {
+    "clair-de-lune": "249a7f4bedb0cfdb740391a1faf1858fe3172cba565f18115f01439927c2b82e",
+    "air-g-string": "f44de31108666eb4d2c9ca415ddde2d1a5ec047923b0cbdfdf7e289260f9f6c5",
+    "nocturne-9-2": "f407418fd6dec023a431cf373e75baa7b45d1add87bd5ba9fde4bf738c374519",
+    "traumerei": "74e41feb11dcf625801d7f9789231f6a744d45e564fac1660c542980839af3a2",
+    "gymnopedie-1": "08845698d3f27cfc3bac79f2433f8e5c844b3fe62a137895d0e43d744a676f6f"
+  },
+  "firstFiveCatalogAndNotationUnchanged": true,
+  "sampleBank": {
+    "count": 19,
+    "bytes": 1053987,
+    "additionalBytes": 0,
+    "identicalFiles": true,
+    "oneCachedFetchPerSampleAndScore": true
+  },
+  "unrelatedFeaturesUnchanged": true,
+  "playbackCodeOnlyTrackListChanged": true,
+  "fullSongRenders": 7,
+  "allSevenWithNature": 7,
+  "remainingActiveSourcesAfterStop": 0,
+  "nativeEdge": true,
+  "webkitWidths": [
+    375,
+    390
+  ],
+  "webkitAudioAdapter": true,
+  "humanListening": false,
+  "physicalIPhoneListening": false,
+  "licenseSources": [
+    {
+      "id": "moonlight-27-2-1",
+      "notationLicense": "Creative Commons Attribution-ShareAlike 2.5",
+      "derivedLicense": "CC BY-SA 3.0"
+    },
+    {
+      "id": "tristesse-10-3",
+      "notationLicense": "Creative Commons Attribution 4.0",
+      "derivedLicense": "CC BY 4.0"
+    }
+  ],
+  "scoreDataDeltaBytes": 33093
+}

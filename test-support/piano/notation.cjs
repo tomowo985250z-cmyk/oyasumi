@@ -1,0 +1,25 @@
+// Development-only import of licensed notation, never an external performance.
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),assert=require('assert/strict'),zlib=require('zlib');
+const round=n=>Math.round(n*1e6)/1e6,hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+function unzip(b){let end=b.length-22;while(end>=0&&b.readUInt32LE(end)!==0x06054b50)end--;assert(end>=0);let p=b.readUInt32LE(end+16);const files={};for(let i=0;i<b.readUInt16LE(end+10);i++){assert.equal(b.readUInt32LE(p),0x02014b50);const method=b.readUInt16LE(p+10),size=b.readUInt32LE(p+20),n=b.readUInt16LE(p+28),extra=b.readUInt16LE(p+30),comment=b.readUInt16LE(p+32),at=b.readUInt32LE(p+42),name=b.toString('utf8',p+46,p+46+n),start=at+30+b.readUInt16LE(at+26)+b.readUInt16LE(at+28),raw=b.subarray(start,start+size);assert([0,8].includes(method));files[name]=method===0?raw:zlib.inflateRawSync(raw);p+=46+n+extra+comment;}return files;}
+function midi(b){assert.equal(b.toString('ascii',0,4),'MThd');const division=b.readUInt16BE(12),notes=[];assert(division<32768);let p=8+b.readUInt32BE(4);for(let tr=0;tr<b.readUInt16BE(10);tr++){assert.equal(b.toString('ascii',p,p+4),'MTrk');const end=p+8+b.readUInt32BE(p+4);p+=8;let tick=0,running=0;const active=new Map(),vlq=()=>{let n=0,v;do{v=b[p++];n=n*128+(v&127);}while(v&128);return n;};while(p<end){tick+=vlq();const s=b[p]<128?running:b[p++];if(s===255){p++;const n=vlq();p+=n;continue;}if(s===240||s===247){const n=vlq();p+=n;continue;}running=s;const kind=s>>4,ch=s&15,a=b[p++],v=kind===12||kind===13?0:b[p++],key=ch+':'+a;if(kind===9&&v>0){assert(!active.has(key));active.set(key,{tick,midi:a,velocity:v/127,sourceTrack:tr});}else if(kind===8||(kind===9&&v===0)){const n=active.get(key);if(n){notes.push({...n,beat:n.tick/division,endBeat:tick/division});active.delete(key);}}}assert.equal(active.size,0);p=end;}return notes.sort((a,b)=>a.beat-b.beat||a.midi-b.midi);}
+function musicXML(xml){
+ const d=new DOMParser().parseFromString(xml,'text/xml');if(d.querySelector('parsererror'))throw Error('Malformed notation');if(d.querySelector('repeat,ending,sound[dacapo],sound[dalsegno]'))throw Error('Unexpanded notation repeat');
+ const notes=[],ties=new Map(),measures=[],rights=[...d.querySelectorAll('rights')].map(x=>x.textContent),text=(el,q,def='')=>el.querySelector(q)?.textContent??def,num=(el,q,def=0)=>Number(text(el,q,def));let base=0,divisions=1,velocity=.5;
+ for(const m of d.querySelectorAll('part > measure')){let cursor=0,last=0,max=0,graces=[];measures.push({number:Number(m.getAttribute('number')),beat:base});
+  for(const el of m.children){if(el.tagName==='attributes'){divisions=num(el,'divisions',divisions);continue;}if(el.tagName==='direction'){const dynamic=el.querySelector('sound[dynamics]');if(dynamic)velocity=Number(dynamic.getAttribute('dynamics'))/127;continue;}if(el.tagName==='backup'){cursor-=num(el,'duration')/divisions;continue;}if(el.tagName==='forward'){cursor+=num(el,'duration')/divisions;max=Math.max(max,cursor);continue;}if(el.tagName!=='note')continue;
+   const grace=!!el.querySelector('grace'),chord=!!el.querySelector('chord'),duration=grace?0:num(el,'duration')/divisions,at=base+(chord?last:cursor),pitch=el.querySelector('pitch'),voice=text(el,'voice','1'),staff=num(el,'staff',1);
+   if(!chord&&!grace){last=cursor;cursor+=duration;}max=Math.max(max,cursor);if(!pitch)continue;
+   const n={beat:at,endBeat:at+duration,midi:12*(num(pitch,'octave')+1)+({C:0,D:2,E:4,F:5,G:7,A:9,B:11})[text(pitch,'step')]+num(pitch,'alter'),velocity,sourceTrack:voice==='1'?1:staff===2?2:3,voice,staff,measure:Number(m.getAttribute('number'))};
+   if(grace){graces.push(n);continue;}
+   if(graces.length){for(let i=0;i<graces.length;i++){const g=graces[i];g.beat=at-(graces.length-i)*.125;g.endBeat=g.beat+.1125;notes.push(g);}graces=[];}
+   const key=staff+':'+voice+':'+n.midi,types=[...el.querySelectorAll('tie')].map(t=>t.getAttribute('type'));
+   // Voice-changing ties can span an arpeggiated onset; match a unique held pitch on the same staff.
+   const crossing=types.includes('stop')&&!ties.has(key)?[...ties].filter(([,p])=>p.staff===staff&&p.midi===n.midi&&p.endBeat<=at+1e-8):[];if(crossing.length>1)throw Error('Ambiguous cross-voice tie');const tieKey=ties.has(key)?key:crossing[0]?.[0];
+   if(types.includes('stop')){if(!tieKey)throw Error('Unmatched tie stop');const prior=ties.get(tieKey);prior.endBeat=n.endBeat;ties.delete(tieKey);if(types.includes('start'))ties.set(key,prior);}else{notes.push(n);if(types.includes('start'))ties.set(key,n);}
+  }if(graces.length)throw Error('Dangling grace group');base+=max;
+ }if(ties.size)throw Error('Unclosed ties: '+JSON.stringify([...ties]));return{notes,measures,rights,beats:base};
+}
+function clock(nodes){return beat=>{let seconds=0;for(let i=1;i<nodes.length&&nodes[i-1].beat<beat;i++){const a=nodes[i-1],b=nodes[i],length=Math.min(beat,b.beat)-a.beat;if(length>0)seconds+=a.spb*length+(b.spb-a.spb)*length*length/(2*(b.beat-a.beat));}const last=nodes.at(-1);if(beat>last.beat)seconds+=(beat-last.beat)*last.spb;return seconds;};}
+
+module.exports={unzip,midi,musicXML,clock};

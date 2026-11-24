@@ -1,0 +1,6 @@
+# Keep source notation and captured attribution byte-for-byte for provenance hashes.
+*.ly -text -diff
+*.mid -text -diff
+*.mxl -text -diff
+*.krn -text -diff
+*.html -text -diff

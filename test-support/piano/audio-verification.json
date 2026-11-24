@@ -1,201 +1,129 @@
 {
   "pass": true,
-  "physicalIPhoneListening": false,
+  "bankReused": true,
   "humanListening": false,
-  "sampleLicense": "CC BY 3.0 / Alexander Holm",
+  "physicalIPhoneListening": false,
   "tracks": [
     {
       "id": "clair-de-lune",
       "seconds": 111.767875,
       "notes": 452,
-      "takes": [
+      "measurements": [
         {
-          "seed": 100,
-          "lufs": -26.000000000092697,
-          "peakDb": -6.783660685756915,
-          "interpolatedPeakDb": -6.776312995201389,
-          "sha256": "6f401a778874a1af4b742b79be1bcc5adbb4134237f6fb804294ed0c105c2017"
-        },
-        {
-          "seed": 900,
-          "lufs": -25.99999999946986,
-          "peakDb": -6.061195541616757,
-          "interpolatedPeakDb": -6.040433038464822,
-          "sha256": "0ce62db32178aedd0440e0de99c63825f5cfe03892aa28f561d7f6bd0f8b8524"
+          "seed": 5100,
+          "lufs": -26.000000000167827,
+          "samplePeak": 0.4449864189022744,
+          "interpolationPeak": 0.4454594315029681,
+          "pcmHash": "79e0fa64b5b2c4566ef82b3a6065cfa992af44c7ae4b1aea19bc654980ec4216",
+          "finite": true
         }
-      ],
-      "bassRange": [
-        49,
-        57
-      ],
-      "bassPassbandFraction250To4500": 0.6736558144922304,
-      "renderAndAnalysisMs": 12704
+      ]
     },
     {
       "id": "air-g-string",
       "seconds": 143.57520833333334,
       "notes": 511,
-      "takes": [
+      "measurements": [
         {
-          "seed": 101,
-          "lufs": -26.000000000030862,
-          "peakDb": -6.828680843760902,
-          "interpolatedPeakDb": -6.812031415460447,
-          "sha256": "cff79ad99c81e5bb842387c2691482e576e9b4a9ec2ce9f5938f1470b7cf8d1e"
-        },
-        {
-          "seed": 901,
-          "lufs": -26.0000000002739,
-          "peakDb": -6.121958354798419,
-          "interpolatedPeakDb": -6.100354123156253,
-          "sha256": "76b23cbe06e086b659a5532b3ffd5a1eef2f48ef6e1ec3275157c6ca2c32c7ce"
+          "seed": 5101,
+          "lufs": -26.000000000227118,
+          "samplePeak": 0.40333904269328913,
+          "interpolationPeak": 0.4033005291130394,
+          "pcmHash": "6fa6b63f561c9e80b94d8c266bcb6a2737d58f7b3d300efe8ee76c303c998dfd",
+          "finite": true
         }
-      ],
-      "bassRange": [
-        45,
-        57
-      ],
-      "bassPassbandFraction250To4500": 0.5092539454743984,
-      "renderAndAnalysisMs": 15857
+      ]
     },
     {
       "id": "nocturne-9-2",
       "seconds": 226.89979166666666,
       "notes": 1239,
-      "takes": [
+      "measurements": [
         {
-          "seed": 102,
-          "lufs": -25.99999999986849,
-          "peakDb": -7.408692823676077,
-          "interpolatedPeakDb": -7.402281437495981,
-          "sha256": "bbf3b51cf05d2b666e52fb941c5461b240578d3eaebaba0bf0477987585713fe"
-        },
-        {
-          "seed": 902,
-          "lufs": -26.000000000048917,
-          "peakDb": -8.116253392929005,
-          "interpolatedPeakDb": -8.116253366243573,
-          "sha256": "c749a9b22f49f1e0df5f06778b9f17d35c84b6f0ff5832d0a8b74157d6aec9c7"
+          "seed": 5102,
+          "lufs": -25.999999999746557,
+          "samplePeak": 0.40314620416826713,
+          "interpolationPeak": 0.4043399686925113,
+          "pcmHash": "4db8bd5b772fff23ed9e6e39881639a804fb00d38ed8e588def14937ddb7993f",
+          "finite": true
         }
-      ],
-      "bassRange": [
-        45,
-        57
-      ],
-      "bassPassbandFraction250To4500": 0.6026852407886201,
-      "renderAndAnalysisMs": 32490
+      ]
     },
     {
       "id": "traumerei",
       "seconds": 100.53408333333333,
       "notes": 338,
-      "takes": [
+      "measurements": [
         {
-          "seed": 103,
-          "lufs": -25.999999999850264,
-          "peakDb": -7.635060606018159,
-          "interpolatedPeakDb": -7.620677452768986,
-          "sha256": "9ba3f182af4a3f6157492c4e627e03cee26abaca07dc60531f8a266c816ea7ee"
-        },
-        {
-          "seed": 903,
-          "lufs": -25.99999999972764,
-          "peakDb": -6.316448407691146,
-          "interpolatedPeakDb": -6.316448256037619,
-          "sha256": "8ae1c3a804e146caa914ea0eb4861c7b1e83fca6150093e615ede4f9f74fbc53"
+          "seed": 5103,
+          "lufs": -25.99999999978686,
+          "samplePeak": 0.4316439914217748,
+          "interpolationPeak": 0.43223293288610876,
+          "pcmHash": "99e9139ae9342922f7fd452f1473909d54627d2d5b7853a4d822626426ab7444",
+          "finite": true
         }
-      ],
-      "bassRange": [
-        45,
-        57
-      ],
-      "bassPassbandFraction250To4500": 0.5854904967319218,
-      "renderAndAnalysisMs": 12415
+      ]
     },
     {
       "id": "gymnopedie-1",
       "seconds": 139.00825,
       "notes": 280,
-      "takes": [
+      "measurements": [
         {
-          "seed": 104,
-          "lufs": -25.99999999969486,
-          "peakDb": -5.4876930384666185,
-          "interpolatedPeakDb": -5.487692894068457,
-          "sha256": "39f0d606bc619246f07d49eada1243ca2adcfd01eb368bcea37d1eedfdcbdf1d"
-        },
-        {
-          "seed": 904,
-          "lufs": -25.999999999885002,
-          "peakDb": -4.791479785911805,
-          "interpolatedPeakDb": -4.789425723378246,
-          "sha256": "e01b3d3cc348a44945b25449fb5bd1bcb48b36e5b103ef3b4450a40b11ed121b"
+          "seed": 5104,
+          "lufs": -26.000000000108965,
+          "samplePeak": 0.574301088786489,
+          "interpolationPeak": 0.5742301088757813,
+          "pcmHash": "b3157aeff444d66c6137d4a99662dcc73457502ec7066498a8d7acdd89c3eaf3",
+          "finite": true
         }
-      ],
-      "bassRange": [
-        45,
-        57
-      ],
-      "bassPassbandFraction250To4500": 0.529624432362877,
-      "renderAndAnalysisMs": 14262
+      ]
     },
     {
-      "id": "barcarolle-june",
-      "seconds": 379.556479,
-      "notes": 1479,
-      "takes": [
+      "id": "moonlight-27-2-1",
+      "seconds": 350.125,
+      "notes": 1029,
+      "measurements": [
         {
-          "seed": 105,
-          "lufs": -25.999999999758693,
-          "peakDb": -4.635628757049467,
-          "interpolatedPeakDb": -4.63562854388296,
-          "sha256": "29ead0658ae7c89992d46aa18ce810f934280f33a275af35b784b69a9b9b84df"
+          "seed": 5105,
+          "lufs": -26.000000000139664,
+          "samplePeak": 0.4775470235749131,
+          "interpolationPeak": 0.4783205259591341,
+          "pcmHash": "96b94c5a7089bf852fe68fa32d14480b31d6c3a75119a4532079c7328a6df1b7",
+          "finite": true
         },
         {
-          "seed": 905,
-          "lufs": -25.99999999994157,
-          "peakDb": -4.980213423999589,
-          "interpolatedPeakDb": -4.95268938646848,
-          "sha256": "8b6def47a5600f8cfec6d8e4af8a8d04eb6daabce0ef9957f28459aa1bbbb281"
+          "seed": 9105,
+          "lufs": -26.000000000060812,
+          "samplePeak": 0.5218084840524814,
+          "interpolationPeak": 0.5218291054479778,
+          "pcmHash": "8c4e1a2cb39678d074e3030fbe0e5c0a21b2642c7b6ec3db9866142d353e58c0",
+          "finite": true
         }
-      ],
-      "bassRange": [
-        45,
-        57
-      ],
-      "bassPassbandFraction250To4500": 0.6231840212716784,
-      "renderAndAnalysisMs": 44582
+      ]
     },
     {
-      "id": "prelude-28-4",
-      "seconds": 121.769231,
-      "notes": 594,
-      "takes": [
+      "id": "tristesse-10-3",
+      "seconds": 205.539865,
+      "notes": 1842,
+      "measurements": [
         {
-          "seed": 106,
-          "lufs": -25.99999999984719,
-          "peakDb": -6.945572714266525,
-          "interpolatedPeakDb": -6.945572616537796,
-          "sha256": "ad9c485e6b6c9aee26407137c98265f948a14ae583e06b4c198c89af7eb02804"
+          "seed": 5106,
+          "lufs": -25.999999999725606,
+          "samplePeak": 0.3765343164243476,
+          "interpolationPeak": 0.37700560269877315,
+          "pcmHash": "28462d63613588f3574df7d1585f93f03ddb0c38bc3a7048e7d33e0317a63aaa",
+          "finite": true
         },
         {
-          "seed": 906,
-          "lufs": -26.000000000230077,
-          "peakDb": -7.6878459793636384,
-          "interpolatedPeakDb": -7.6836554428715145,
-          "sha256": "c4fe5b424ca9a3f5e02305785be8a66188f040c19841ca8936be768050c4cf49"
+          "seed": 9106,
+          "lufs": -25.999999999996156,
+          "samplePeak": 0.4299164019267595,
+          "interpolationPeak": 0.4297384605742991,
+          "pcmHash": "d0e83d75b8bf68444bd075b8804c3b3e4976d9aa305fd2692e908c53019878c7",
+          "finite": true
         }
-      ],
-      "bassRange": [
-        45,
-        57
-      ],
-      "bassPassbandFraction250To4500": 0.5599618331581393,
-      "renderAndAnalysisMs": 13964
+      ]
     }
-  ],
-  "notes": [
-    "Two full performances per song, stable pitches and melody ordering, bounded onset timing, common integrated loudness and no clipped/non-finite samples.",
-    "250–4500Hz bass passband is a generic speaker proxy, not an iPhone measurement."
   ]
 }
