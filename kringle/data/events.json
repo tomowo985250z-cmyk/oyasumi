@@ -2194,6 +2194,17 @@
             }
           },
           {
+            "id": "press_2921299",
+            "title": "[Delayed]Financial Results for the Fiscal Year Ended September 30, 2026 [Japanese GAAP] (Non-consolidated)",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2921299/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-24T11:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
             "id": "tanshin_2560283",
             "title": "2025年９月期第１四半期決算短信〔日本基準〕（非連結）",
             "category": "決算・IR",
@@ -2316,9 +2327,22 @@
           }
         ]
       },
-      "hash": "bd495cb4ef3237edbf0886507f4b5f03946ccdabc8b7e7dca6c50aef180abe5b",
-      "observedAt": "2026-11-21T10:19:14.021Z",
-      "latestChanges": []
+      "hash": "3f4db464ab09c15c4e98d3d024aa077d94f1a7d5f9eb7acf77174018aa824551",
+      "observedAt": "2026-11-24T15:19:04.773Z",
+      "latestChanges": [
+        {
+          "id": "95d9d622de869af3a962c1c7",
+          "source": "ir",
+          "entityId": "press_2921299",
+          "title": "[Delayed]Financial Results for the Fiscal Year Ended September 30, 2026 [Japanese GAAP] (Non-consolidated)",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2921299/00.pdf",
+          "field": "掲載",
+          "before": "前回データなし",
+          "after": "新たに取得",
+          "kind": "added",
+          "confirmedAt": "2026-11-24T15:19:04.773Z"
+        }
+      ]
     },
     "tdnet": {
       "record": {
@@ -3152,6 +3176,18 @@
       "kind": "baseline",
       "confirmedAt": "2026-11-21T10:19:14.021Z",
       "url": "https://www.kringle-pharma.com/ir_info/news/"
+    },
+    {
+      "id": "95d9d622de869af3a962c1c7",
+      "source": "ir",
+      "entityId": "press_2921299",
+      "title": "[Delayed]Financial Results for the Fiscal Year Ended September 30, 2026 [Japanese GAAP] (Non-consolidated)",
+      "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2921299/00.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-24T15:19:04.773Z"
     }
   ],
   "automation": {
