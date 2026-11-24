@@ -56,14 +56,6 @@
       "loopStart": 0,
       "loopEnd": 350.125,
       "level": 0.15848931924611132
-    },
-    {
-      "id": "tristesse-10-3",
-      "title": "別れの曲 Op.10-3",
-      "url": "assets/piano-v1/tristesse-10-3.json",
-      "loopStart": 0,
-      "loopEnd": 205.539865,
-      "level": 0.15848931924611132
     }
   ],
   "samples": [
@@ -272,11 +264,6 @@
         "id": "moonlight-27-2-1",
         "notationLicense": "Creative Commons Attribution-ShareAlike 2.5",
         "derivedLicense": "CC BY-SA 3.0"
-      },
-      {
-        "id": "tristesse-10-3",
-        "notationLicense": "Creative Commons Attribution 4.0",
-        "derivedLicense": "CC BY 4.0"
       }
     ]
   }

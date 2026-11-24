@@ -1,7 +1,12 @@
 // Home-only rooftop composition. Four stable night patterns give each slot
 // a reclining pose once in four nights, without changing the selected coat.
+// Two additional seated sprites share the same schedule and decode gate.
 globalThis.RoofRecline=(()=>{
  const assets = {"black":{"version":"2a79f44d009ae901","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.9752604166666666]},"black-footed":{"version":"e89bb3ca32fa2646","reclining":[1536,1024,0.986328125],"seated":[1024,1536,0.9733072916666666]},"brown":{"version":"d096c6a4f094ac67","reclining":[1536,1024,0.990234375],"seated":[1024,1536,0.9830729166666666]},"calico":{"version":"321e856cab3e252f","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.966796875]},"cheetah":{"version":"65fd573380ee8f53","reclining":[1536,1024,0.986328125],"seated":[1024,1536,0.970703125]},"fishing":{"version":"4777dd312ee24c1d","reclining":[1536,1024,0.9892578125],"seated":[1024,1536,0.966796875]},"gray":{"version":"5e427168559423d6","reclining":[1536,1024,0.9921875],"seated":[1024,1536,0.9778645833333334]},"jaguar":{"version":"915f14e99728b9bb","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.9791666666666666]},"leopard":{"version":"668808d912fee919","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.9765625]},"manul":{"version":"ca9c669d3caab34e","reclining":[1536,1024,0.9892578125],"seated":[1024,1536,0.97265625]},"orange":{"version":"00f8fc9ea51d2439","reclining":[1536,1024,0.98828125],"seated":[1024,1536,0.9654947916666666]},"sand":{"version":"746109cc4193715f","reclining":[1536,1024,0.990234375],"seated":[1024,1536,0.98828125]},"silver":{"version":"5e90bce5ec2bd356","reclining":[1536,1024,0.984375],"seated":[1024,1536,0.974609375]},"snow-leopard":{"version":"b0aadf2daca20fb6","reclining":[1536,1024,0.986328125],"seated":[1024,1536,0.9720052083333334]},"tuxedo":{"version":"def2783aa67036c5","reclining":[1536,1024,0.98828125],"seated":[1024,1536,0.9778645833333334]},"white":{"version":"4657799f6ecfdace","reclining":[1536,1024,0.9921875],"seated":[1024,1536,0.9830729166666666]}};
+ const seatedPoses={
+  calico:{id:'loaf',width:76,geometry:[384,256,.9765625],version:'eacc959e05020bf2'},
+  gray:{id:'side-sit',width:62,geometry:[384,384,.9921875],version:'ba432ab52359e452'}
+ };
  const ridge=x=>{const t=(-208+Math.sqrt(208*208+64*(x+8)))/32;return 75+2*t+6*t*t;};
  // Continue the original contact profile across wide cards; never scale
  // the roof or its cats horizontally to fit a wider card.
@@ -30,12 +35,14 @@ globalThis.RoofRecline=(()=>{
    // Choose the category first so duplicate avoidance never changes its odds.
    const roll=random(),pool=coatGroups[roll<.85?0:roll<.97?1:2],fresh=pool.filter(coat=>!used.has(coat)),choices=fresh.length?fresh:pool;
    const coat=CatFaces.normalizeCoat(coats[i]||choices[Math.floor(random()*choices.length)]),reclining=(phase+i)%4===0;used.add(coat);
-   return {coat,reclining,width:.9*(reclining?78:68*.765)};
+   // Add a seated variation only for its own coat; never substitute fur colors.
+   const pose=(phase+i)%4===1?seatedPoses[coat]:null;
+   return {coat,reclining,...(pose?{pose:pose.id}:{}),width:pose?.width??.9*(reclining?78:68*.765)};
   });
   const bodyWidth=cats.reduce((sum,cat)=>sum+cat.width,0),gap=Number.isFinite(width)&&count>1?Math.max(gapMinimum,(width+2*edgeCrop-bodyWidth)/(count-1)):gapMinimum;
   const span=bodyWidth+gap*Math.max(0,count-1);let left=104-span/2;
   for(const cat of cats){
-   const asset=assets[cat.coat],geometry=cat.reclining?asset.reclining:asset.seated;
+   const asset=assets[cat.coat],geometry=cat.pose?seatedPoses[cat.coat].geometry:cat.reclining?asset.reclining:asset.seated;
    cat.height=cat.width*geometry[1]/geometry[0];cat.left=left;
    // Keep the extended forepaws on the far side of the plane, with rump/torso nearer.
    cat.contact=ridge(left+cat.width/2)+(cat.reclining?18:12);
@@ -120,7 +127,8 @@ globalThis.RoofRecline=(()=>{
  function group(coats,count,night,at=NightClock.now(),width){
   return plan(coats,count,night,width).map(cat=>{
    const style=`--roof-cat-x:${cat.left}px;--roof-cat-y:${cat.top}px;--roof-cat-width:${cat.width}px;--roof-cat-height:${cat.height}px;opacity:${presence(at,cat.rank,count)}`;
-   let html=!cat.reclining?RoofCats.svg(cat.coat).replace('>',` data-roof-rank="${cat.rank}" style="${style}">`):`<img class="roof-cat" src="assets/roof-recline-v1/${cat.coat}.png?v=${assets[cat.coat].version}" alt="" aria-hidden="true" data-asset-key="recline/${cat.coat}" data-cat-coat="${cat.coat}" data-cat-pose="rear-reclining" data-roof-rank="${cat.rank}" style="${style}">`;
+   const pose=cat.pose&&seatedPoses[cat.coat];
+   let html=pose?`<img class="roof-cat" src="assets/roof-poses-v1/${cat.coat}-${pose.id}.webp?v=${pose.version}" alt="" aria-hidden="true" data-asset-key="roof-pose/${cat.coat}/${pose.id}" data-cat-coat="${cat.coat}" data-cat-pose="rear-${pose.id}" data-cat-facing="moon" data-roof-rank="${cat.rank}" style="${style}">`:!cat.reclining?RoofCats.svg(cat.coat).replace('>',` data-roof-rank="${cat.rank}" style="${style}">`):`<img class="roof-cat" src="assets/roof-recline-v1/${cat.coat}.png?v=${assets[cat.coat].version}" alt="" aria-hidden="true" data-asset-key="recline/${cat.coat}" data-cat-coat="${cat.coat}" data-cat-pose="rear-reclining" data-roof-rank="${cat.rank}" style="${style}">`;
    html=html.replace('<img ','<img loading="eager" decoding="async" fetchpriority="low" ');
    return presence(at,cat.rank,count)>0||presence(at+120000,cat.rank,count)>0?html:html.replace(' src="',' data-roof-src="');
   }).join('');

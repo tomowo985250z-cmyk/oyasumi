@@ -32,6 +32,7 @@ for(const coat of fs.readdirSync(path.join(__dirname,'assets/cat-meals-v1')))if(
 for(const coat of fs.readdirSync(path.join(__dirname,'assets/cat-refresh-v1')))if(/^[a-z-]+$/.test(coat))for(const file of fs.readdirSync(path.join(__dirname,'assets/cat-refresh-v1',coat)))if(/^[a-z-]+\.png$/.test(file))files['/assets/cat-refresh-v1/'+coat+'/'+file]='assets/cat-refresh-v1/'+coat+'/'+file;
 for(const file of fs.readdirSync(path.join(__dirname,'assets/roof-cats-v2')))if(/^[a-z-]+\.png$/.test(file))files['/assets/roof-cats-v2/'+file]='assets/roof-cats-v2/'+file;
 files['/roof-recline.js']='roof-recline.js';
+for(const file of ['calico-loaf.webp','gray-side-sit.webp'])files['/assets/roof-poses-v1/'+file]='assets/roof-poses-v1/'+file;
 files['/night-cats.js']='night-cats.js';
 files['/cat-places.js']='cat-places.js';
 files['/cat-place-scenes.js']='cat-place-scenes.js';

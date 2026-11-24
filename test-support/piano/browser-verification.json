@@ -2,58 +2,51 @@
   "pass": true,
   "native": [
     {
-      "seed": 2453255714,
+      "seed": 568003551,
       "lufs": -26,
-      "peak": 0.424457538820236,
+      "peak": 0.47061876746236897,
       "seconds": 111.767875,
       "finite": true
     },
     {
-      "seed": 2104431605,
+      "seed": 4080855623,
       "lufs": -26,
-      "peak": 0.44520323070226453,
+      "peak": 0.44093073558233986,
       "seconds": 143.57520833333334,
       "finite": true
     },
     {
-      "seed": 3617637640,
+      "seed": 2044924959,
       "lufs": -26,
-      "peak": 0.40375774379303053,
+      "peak": 0.400143900155378,
       "seconds": 226.89979166666666,
       "finite": true
     },
     {
-      "seed": 4092952652,
+      "seed": 812111783,
       "lufs": -26,
-      "peak": 0.46807566876401024,
+      "peak": 0.5045147575980673,
       "seconds": 100.53408333333333,
       "finite": true
     },
     {
-      "seed": 3175896737,
+      "seed": 1958255185,
       "lufs": -26,
-      "peak": 0.4984927345781075,
+      "peak": 0.5908530932102685,
       "seconds": 139.00825,
       "finite": true
     },
     {
-      "seed": 1944672506,
+      "seed": 3649257982,
       "lufs": -26,
-      "peak": 0.47414249216030785,
+      "peak": 0.5925142265693802,
       "seconds": 350.125,
       "finite": true
     },
     {
-      "seed": 1632711491,
+      "seed": 3736509683,
       "lufs": -26,
-      "peak": 0.400937376625937,
-      "seconds": 205.539875,
-      "finite": true
-    },
-    {
-      "seed": 4142083062,
-      "lufs": -26,
-      "peak": 0.44744312922013024,
+      "peak": 0.4096539316697882,
       "seconds": 111.767875,
       "finite": true
     }
@@ -66,7 +59,7 @@
       "title": "ピアノ",
       "nextLabel": "次のピアノ曲",
       "volume": 0.48,
-      "workerTakes": 7,
+      "workerTakes": 6,
       "playedSongs": [
         111.767875,
         143.57520833333334,
@@ -74,8 +67,7 @@
         100.53408333333333,
         139.00825,
         350.125,
-        205.539875,
-        205.539875
+        350.125
       ],
       "audioContextAdapter": true
     },
@@ -86,7 +78,7 @@
       "title": "ピアノ",
       "nextLabel": "次のピアノ曲",
       "volume": 0.48,
-      "workerTakes": 7,
+      "workerTakes": 6,
       "playedSongs": [
         111.767875,
         143.57520833333334,
@@ -94,8 +86,7 @@
         100.53408333333333,
         139.00825,
         350.125,
-        205.539875,
-        205.539875
+        350.125
       ],
       "audioContextAdapter": true
     }
@@ -103,6 +94,7 @@
   "errors": [],
   "physicalIPhoneListening": false,
   "humanListening": false,
+  "published": false,
   "nativeRequests": {
     "samples": 19,
     "sampleBytes": 1053987,

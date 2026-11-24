@@ -1,0 +1,173 @@
+[
+  {
+    "role": "現行：座り（全16毛色）",
+    "files": [
+      {
+        "file": "assets/roof-cats-v2/black-footed.png",
+        "sha256": "f95c7b3b0c47319dea61ea4a8f9f510a08058aa811b6a5928b28464790d27145"
+      },
+      {
+        "file": "assets/roof-cats-v2/black.png",
+        "sha256": "9ce25310b4941e780adb41a9e6d73be57ea1cdf156ee2921c1cce738ef8ff0c3"
+      },
+      {
+        "file": "assets/roof-cats-v2/brown.png",
+        "sha256": "944319222778728093b1ebcc02d6653592844205586a57a8e23eca67ddff50dd"
+      },
+      {
+        "file": "assets/roof-cats-v2/calico.png",
+        "sha256": "0ebb903c401c41d8f764a73c2439a74cf66ff83f8cf3e9a8c9f7ee4687a4e566"
+      },
+      {
+        "file": "assets/roof-cats-v2/cheetah.png",
+        "sha256": "6064db5668528d0f1ae2d4ed0ecd202c1c2b4177668fed662b411402d858c08a"
+      },
+      {
+        "file": "assets/roof-cats-v2/fishing.png",
+        "sha256": "12092bd2a1c06828bf0325fed57cd1e8292ffc45ae6d9415a51b4c08b34f86bb"
+      },
+      {
+        "file": "assets/roof-cats-v2/gray.png",
+        "sha256": "b6ae795a2697e0c5e5af4e8be28c6b71412a8218cf447f920513edaa7df5457c"
+      },
+      {
+        "file": "assets/roof-cats-v2/jaguar.png",
+        "sha256": "41d9327c5ffa2ee0235c80370f6ed2223ba772fa9dc133d0015296ee7673f708"
+      },
+      {
+        "file": "assets/roof-cats-v2/leopard.png",
+        "sha256": "a0420397258a6827cd5189e0bead4da956b607de8ff59785c52d42ff493cea78"
+      },
+      {
+        "file": "assets/roof-cats-v2/manul.png",
+        "sha256": "4a8fbe9e308dc235e7322a9e99a2915854821f9e9ace67079386e662a12648d9"
+      },
+      {
+        "file": "assets/roof-cats-v2/orange.png",
+        "sha256": "0504c845ce1bfce177b64a5e950bbf3b4cf8c7fcc91ffc3d0274dba09d22a2eb"
+      },
+      {
+        "file": "assets/roof-cats-v2/sand.png",
+        "sha256": "7cf46bc9a27b662de284272e6e68f3830880ee703599fa7a364ef132c56ede35"
+      },
+      {
+        "file": "assets/roof-cats-v2/silver.png",
+        "sha256": "3bdccfbf7f22f0aa8a4d4641e5aa6c7991a5232cf8c20a7b4ac3624b156d2283"
+      },
+      {
+        "file": "assets/roof-cats-v2/snow-leopard.png",
+        "sha256": "23109158e5a7e8e42fb121e696b4963587131a875cd60908ea814b634a1882c8"
+      },
+      {
+        "file": "assets/roof-cats-v2/tuxedo.png",
+        "sha256": "377fa9232f3f88e7d53bb1910c6f66ee3134a7ebc8c7987cc15c6f019ff8836f"
+      },
+      {
+        "file": "assets/roof-cats-v2/white.png",
+        "sha256": "7f5918a547a7aa8ac604852d6c0e1504a406418e28ac503dd988a873266de549"
+      }
+    ]
+  },
+  {
+    "role": "現行：伏せ（全16毛色）",
+    "files": [
+      {
+        "file": "assets/roof-recline-v1/black-footed.png",
+        "sha256": "e89bb3ca32fa26460b5b0d61b501a4a3beeacb87045388343dd123e9bd7981f0"
+      },
+      {
+        "file": "assets/roof-recline-v1/black.png",
+        "sha256": "2a79f44d009ae901bf99a6d5292a9be33e28fff6154b2efbff7c668c510505cb"
+      },
+      {
+        "file": "assets/roof-recline-v1/brown.png",
+        "sha256": "d096c6a4f094ac673d2811abcff946198b7a331057e406734c5dedf914a243b1"
+      },
+      {
+        "file": "assets/roof-recline-v1/calico.png",
+        "sha256": "321e856cab3e252fa6af7e0948959a49f272ab287581cb27cdf2a8c799308284"
+      },
+      {
+        "file": "assets/roof-recline-v1/cheetah.png",
+        "sha256": "65fd573380ee8f53ad37018947721291219118822b9a72636211632a4e2e356b"
+      },
+      {
+        "file": "assets/roof-recline-v1/fishing.png",
+        "sha256": "4777dd312ee24c1df0585a6b91be0a165a342180b63b1d75f263a9d82205da33"
+      },
+      {
+        "file": "assets/roof-recline-v1/gray.png",
+        "sha256": "5e427168559423d62a584ebd8424e723616a1fd61248c356957f7784e960d884"
+      },
+      {
+        "file": "assets/roof-recline-v1/jaguar.png",
+        "sha256": "915f14e99728b9bb429a8b8de08aafb7ca0d2d4f82037482bd94b8e5138a605c"
+      },
+      {
+        "file": "assets/roof-recline-v1/leopard.png",
+        "sha256": "668808d912fee919ec416b830f15a908eb19339662877d24c5a9ae725a5985e5"
+      },
+      {
+        "file": "assets/roof-recline-v1/manul.png",
+        "sha256": "ca9c669d3caab34eb690b42f35a6541a37bc6d227590895ac28606106f868c30"
+      },
+      {
+        "file": "assets/roof-recline-v1/orange.png",
+        "sha256": "00f8fc9ea51d2439b2faf5c3b07184df42876f8964fae152428f954ddcf0e084"
+      },
+      {
+        "file": "assets/roof-recline-v1/sand.png",
+        "sha256": "746109cc4193715fa68f54a090bc61bd7b50f6de4196ca6aa5fe771857ed2b86"
+      },
+      {
+        "file": "assets/roof-recline-v1/silver.png",
+        "sha256": "5e90bce5ec2bd356a31d3f762a53e0a338721d01bfd6ac54bc671215f87fc443"
+      },
+      {
+        "file": "assets/roof-recline-v1/snow-leopard.png",
+        "sha256": "b0aadf2daca20fb65c4593695f3d3ea76910b7396663816092552f4dd73d5a7a"
+      },
+      {
+        "file": "assets/roof-recline-v1/tuxedo.png",
+        "sha256": "def2783aa67036c5dc8711c1eef60b1472c7b1783e092282f6849de263f3f71c"
+      },
+      {
+        "file": "assets/roof-recline-v1/white.png",
+        "sha256": "4657799f6ecfdace536120db151129714e4b0857b6cb48400a30589aad848b74"
+      }
+    ]
+  },
+  {
+    "role": "保存されている旧パターン（現在未使用）",
+    "files": [
+      {
+        "file": "assets/roof-cats/rear-relaxed.png",
+        "sha256": "ea0d9714960d42daad0e1f75d11c07dab4fc72b96bf17f04f6c15bd57b4d9051"
+      },
+      {
+        "file": "assets/roof-cats/rear-rounded.png",
+        "sha256": "8a25e44ac137e16801dcdee70b37d8905b889dcee550b0ae1f5d33ed7eb719c2"
+      },
+      {
+        "file": "assets/roof-cats/rear-template.png",
+        "sha256": "b1fa949ee33454cd4e6bd609786fed8674c8f85c316251910960bf3e2744a6fb"
+      },
+      {
+        "file": "assets/roof-cats/rear-upright.png",
+        "sha256": "e232a6773f822dff102a80ff2465d91b477565b2bd82de7922e2bfc4d74eaa2f"
+      },
+      {
+        "file": "assets/roof-cats/storybook-relaxed.png",
+        "sha256": "e30e2af13cad743e336fdcc6be1b9ed3b11983722c378e670704b4bf5ee593e7"
+      },
+      {
+        "file": "assets/roof-cats/storybook-rounded.png",
+        "sha256": "c187710ce839af2d2328f567764cd55582b8df03457ba5dd1f7e33098304867a"
+      },
+      {
+        "file": "assets/roof-cats/storybook-upright.png",
+        "sha256": "afdac2a62e72145968ea87e48b0433c6f66896b7dc21f6afd10fad965344585f"
+      }
+    ]
+  }
+]

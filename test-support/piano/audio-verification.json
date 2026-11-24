@@ -101,29 +101,8 @@
           "finite": true
         }
       ]
-    },
-    {
-      "id": "tristesse-10-3",
-      "seconds": 205.539865,
-      "notes": 1842,
-      "measurements": [
-        {
-          "seed": 5106,
-          "lufs": -25.999999999725606,
-          "samplePeak": 0.3765343164243476,
-          "interpolationPeak": 0.37700560269877315,
-          "pcmHash": "28462d63613588f3574df7d1585f93f03ddb0c38bc3a7048e7d33e0317a63aaa",
-          "finite": true
-        },
-        {
-          "seed": 9106,
-          "lufs": -25.999999999996156,
-          "samplePeak": 0.4299164019267595,
-          "interpolationPeak": 0.4297384605742991,
-          "pcmHash": "d0e83d75b8bf68444bd075b8804c3b3e4976d9aa305fd2692e908c53019878c7",
-          "finite": true
-        }
-      ]
     }
-  ]
+  ],
+  "trackCount": 6,
+  "note": "Retained measurements of the unchanged six arrangements; removed track omitted."
 }

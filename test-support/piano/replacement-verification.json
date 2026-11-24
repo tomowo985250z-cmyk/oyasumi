@@ -59,5 +59,7 @@
       "derivedLicense": "CC BY 4.0"
     }
   ],
-  "scoreDataDeltaBytes": 33093
+  "scoreDataDeltaBytes": 33093,
+  "historical": true,
+  "note": "Historical seven-track replacement audit; superseded by six-song-verification.json. Not the current catalog."
 }

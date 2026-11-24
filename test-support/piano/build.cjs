@@ -10,4 +10,4 @@ for(const t of catalog.tracks){const s=sources.find(s=>s.id===t.id),v=audit.find
  notes.sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const old=JSON.parse(fs.readFileSync(path.join(root,t.url),'utf8')),score={id:t.id,title:t.title,seconds:t.loopEnd,phraseSeconds:v.phraseSeconds??old.phraseSeconds,notes};
  if(process.argv.includes('--check'))assert.deepEqual(score,old,t.id+' piano score is stale');else if(JSON.stringify(score)!==JSON.stringify(old))fs.writeFileSync(path.join(root,t.url),JSON.stringify(score)+'\n');
 }
-console.log('PASS all seven Oyasumi piano voicings reproducible from retained notation');
+console.log('PASS all six Oyasumi piano voicings reproducible from retained notation');

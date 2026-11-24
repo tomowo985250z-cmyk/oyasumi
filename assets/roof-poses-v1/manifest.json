@@ -1,0 +1,42 @@
+[
+  {
+    "id": "loaf",
+    "coat": "calico",
+    "label": "香箱座り",
+    "width": 76,
+    "file": "assets/roof-poses-v1/calico-loaf.webp",
+    "geometry": [
+      384,
+      256,
+      0.9765625
+    ],
+    "source": [
+      1536,
+      1024
+    ],
+    "bytes": 13630,
+    "sha256": "eacc959e05020bf2b9905f092bea2d2c9f8fae27c39773a19821a0396a1f4368",
+    "opaque": 35418,
+    "clear": 61652
+  },
+  {
+    "id": "side-sit",
+    "coat": "gray",
+    "label": "横座り",
+    "width": 62,
+    "file": "assets/roof-poses-v1/gray-side-sit.webp",
+    "geometry": [
+      384,
+      384,
+      0.9921875
+    ],
+    "source": [
+      1254,
+      1254
+    ],
+    "bytes": 13612,
+    "sha256": "ba432ab52359e452f6b247ae48913ae38af999074f143fb846e2cb3c2c44a319",
+    "opaque": 56166,
+    "clear": 88942
+  }
+]

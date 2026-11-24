@@ -16,14 +16,10 @@ notation under
 CC BY-SA 2.5. Its Oyasumi adaptation and derived performance are CC BY-SA 3.0
 (permitted by the source license, section 4b).
 https://creativecommons.org/licenses/by-sa/2.5/
-Tristesse uses First Editions of Fryderyk Chopin’s Music, © 2017-2021 The
-Fryderyk Chopin Institute (nifc.pl), chopinscores.org, CC BY 4.0; Noctave edition.
-Its Oyasumi adaptation and derived performance are CC BY 4.0.
-https://creativecommons.org/licenses/by/4.0/
 Clair de lune, Traumerei and Gymnopedie arrangements remain CC BY 3.0.
 Full per-song attribution, edition links and licenses: credits.html.
 
-Changes: original seven-song Oyasumi piano voicing and calm tempo maps,
+Changes: original six-song Oyasumi piano voicing and calm tempo maps,
 softened dynamics, mono resampling, gain/envelope and gentle filtering,
 quiet reflections and expressive timing/dynamics. No third-party recordings of these compositions.
 No endorsement by the source creators or Tone.js is implied. No additional

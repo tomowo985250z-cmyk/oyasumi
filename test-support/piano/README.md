@@ -1,20 +1,18 @@
-# Seven-song Oyasumi piano
+# Six-song Oyasumi piano
 
-Seven licensed notation inputs are retained in `source-scores.json`.
+Six licensed notation inputs are retained in `source-scores.json`.
 `build.cjs --check` verifies the original piano voicings. Highest notes of the
 existing first voice retain their exact pitches and ordered onsets; inner voices
 are octave-spaced, bass is brought to MIDI 45–57, and simultaneous duplicates
 become one piano key. No external performance or arrangement was copied.
-All seven use a bounded soft-touch curve (`.54 + .12*tanh((v-.55)*2)`),
+All six use a bounded soft-touch curve (`.54 + .12*tanh((v-.55)*2)`),
 restrained phrase dynamics and the same sampled piano and output reference.
 Moonlight retains the complete 69-bar first movement at quarter-note 48 bpm,
 with its singing line separated from the continuous triplet accompaniment.
-Tristesse retains all 78 measures (including the pickup), using quarter-note
-38–49 bpm with continuous transitions, restrained central dynamics and softer
-high notes. Both broaden their final two beats by 10%, followed by five seconds
+Its final two beats broaden by 10%, followed by five seconds
 for decay and the existing crossfade. `import-replacements.cjs --check`
-reproduces their note inputs from retained licensed MIDI/LilyPond and MusicXML,
-including staff/voice-changing ties. `import-new.cjs` and its old source files
+reproduces its note inputs from retained licensed MIDI/LilyPond.
+`import-new.cjs` and its old source files
 remain as historical build records. Importing uses a development
 browser; the application needs no additional library or network service.
 
@@ -27,8 +25,7 @@ preparation credited to Hans Hokke) and Nocturne edition (Renato Biolcati Rinald
 are CC BY-SA 3.0. Their score adaptations and derived performances are also
 CC BY-SA 3.0. Moonlight's Chris Sawer / Stewart Holmes Mutopia edition is
 CC BY-SA 2.5; this adaptation and derived performance use CC BY-SA 3.0 as
-permitted by source section 4b. Tristesse's NIFC first-edition encoding and
-Noctave conversion are CC BY 4.0, as are this adaptation and derived performance.
+permitted by source section 4b.
 Clair de lune, Traumerei and Gymnopedie arrangements remain CC BY 3.0.
 The app code's license does not change.
 
