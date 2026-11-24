@@ -294,8 +294,13 @@ globalThis.RoomBackgrounds=(()=>{
    <linearGradient id="${id}-rim" x2=".3" y2="1"><stop stop-color="${p.fibre}"/><stop offset=".46" stop-color="${p.end}"/><stop offset="1" stop-color="${mix(p.end,p.wet,.42)}"/></linearGradient>
    <linearGradient id="${id}-pool" x2=".2" y2="1"><stop stop-color="${p.wet}"/><stop offset=".28" stop-color="${mix(p.pool,p.fibre,.14)}"/><stop offset=".57" stop-color="${p.pool}"/><stop offset="1" stop-color="${mix(p.pool,p.cavity,.4)}"/></linearGradient>
    <clipPath id="${id}-water"><path d="${ring(mouth,radius-1.3,bevel)}"/></clipPath>
-  <clipPath id="${id}-outside"><path d="M76 35H369V215H76Z"/></clipPath>
-  </defs><g clip-path="url(#${id}-outside)"><g transform="translate(309 192) scale(.52)">
+  <clipPath id="${id}-outside"><path d="M69.05 35H332.75V205.5H69.05Z"/></clipPath>
+  </defs><g clip-path="url(#${id}-outside)"><g transform="translate(112 198.7) scale(.52)">
+   <!-- The ground and lower third sit behind the veranda's near edge. -->
+   <path data-souzu-ground="" d="M-54 35q6-6 21-5 14-4 27-1 17-4 33 0 17-1 22 6-1 4-20 5-20 3-38 0-29 3-45-5Z" fill="${mix(p.moss,p.rock,.38)}"/>
+   <path d="M-48 36q15 5 35 2m25 .5q14 3 29-2M-43 32l5-.7m40-.3 7-.6" fill="none" stroke="${p.rockTop}" stroke-width=".65" stroke-linecap="round" opacity=".26"/>
+   <ellipse cx="-26" cy="37" rx="20" ry="2.2" fill="${p.cavity}" opacity=".36"/>
+   <ellipse cx="30" cy="39" rx="14" ry="1.8" fill="${p.cavity}" opacity=".32"/>
    <path d="M-46 33q9-9 37-4 16-5 41 .4 15 4 12 8-18 6-44 3-31 3-46-7Z" fill="${p.cavity}" opacity=".18"/>
    <ellipse cx="-26" cy="34" rx="20" ry="5" fill="${p.cavity}" opacity=".21"/>
    <path d="M-44 35q9 4 18 3m13-1 5-3M22 37q5 3 13 2m-43-9 4 1m7 4 7 .5" fill="none" stroke="${p.cavity}" stroke-width="1.2" stroke-linecap="round" opacity=".22"/>
