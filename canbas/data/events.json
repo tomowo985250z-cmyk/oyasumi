@@ -764,6 +764,17 @@
             }
           },
           {
+            "id": "press_2921831",
+            "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+            "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf",
+            "category": "資金調達",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-25T12:25:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
             "id": "tanshin_2565494",
             "title": "2025年6月期 第2四半期（中間期）決算短信〔日本基準〕（非連結）",
             "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2565494/00.pdf",
@@ -897,32 +908,20 @@
           }
         ]
       },
-      "hash": "28a0d4161f148e02af3953cfa425d7146c752cf7f02c8ddce9dfc03269dda926",
-      "observedAt": "2026-11-24T14:50:05.330Z",
+      "hash": "1f7269c4e126eee56a696bb04c039c26aec4251e7df254b18260a7e9aef057a9",
+      "observedAt": "2026-11-25T14:16:44.689Z",
       "latestChanges": [
         {
-          "id": "d4a66c35a74eaebc668ea698",
+          "id": "cbf90bceb59273a6520655f8",
           "source": "ir",
-          "entityId": "press_2921212",
-          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
-          "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf",
+          "entityId": "press_2921831",
+          "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+          "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf",
           "field": "掲載",
           "before": "前回データなし",
           "after": "新たに取得",
           "kind": "added",
-          "confirmedAt": "2026-11-24T14:50:05.330Z"
-        },
-        {
-          "id": "0502de354025b7f57fffea0d",
-          "source": "ir",
-          "entityId": "press_2921320",
-          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
-          "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf",
-          "field": "掲載",
-          "before": "前回データなし",
-          "after": "新たに取得",
-          "kind": "added",
-          "confirmedAt": "2026-11-24T14:50:05.330Z"
+          "confirmedAt": "2026-11-25T14:16:44.689Z"
         }
       ]
     },
@@ -994,35 +993,34 @@
               "開示日時": "2026-11-24T11:30:00+09:00",
               "本文確認": "未確認"
             }
+          },
+          {
+            "id": "140120261125585865",
+            "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+            "url": "https://www.release.tdnet.info/inbs/140120261125585865.pdf",
+            "category": "資金調達",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-25T12:25:00+09:00",
+              "本文確認": "未確認"
+            }
           }
         ]
       },
-      "hash": "6514003a7eb760178cb25e21d75a92586f87f0c6f3121b18b379d7f6d825ac91",
-      "observedAt": "2026-11-24T14:50:05.330Z",
+      "hash": "ed8a3d222e60ba176b8981b2b35cd9128298586fc58f83da753d7793f6e0afa6",
+      "observedAt": "2026-11-25T14:16:44.689Z",
       "latestChanges": [
         {
-          "id": "cc7db25cc9dcc9f13368356c",
+          "id": "9dc296e3c3a23a0a972e839c",
           "source": "tdnet",
-          "entityId": "140120261123584555",
-          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
-          "url": "https://www.release.tdnet.info/inbs/140120261123584555.pdf",
+          "entityId": "140120261125585865",
+          "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+          "url": "https://www.release.tdnet.info/inbs/140120261125585865.pdf",
           "field": "掲載",
           "before": "前回データなし",
           "after": "新たに取得",
           "kind": "added",
-          "confirmedAt": "2026-11-24T14:50:05.330Z"
-        },
-        {
-          "id": "459f726a61985ae22eb425d2",
-          "source": "tdnet",
-          "entityId": "140120261124584819",
-          "title": "（開示事項の経過）CBP501欧州臨床第3相試験開始承認後の動向について",
-          "url": "https://www.release.tdnet.info/inbs/140120261124584819.pdf",
-          "field": "掲載",
-          "before": "前回データなし",
-          "after": "新たに取得",
-          "kind": "added",
-          "confirmedAt": "2026-11-24T14:50:05.330Z"
+          "confirmedAt": "2026-11-25T14:16:44.689Z"
         }
       ]
     },
@@ -2871,6 +2869,30 @@
       "after": "2026-11-23",
       "kind": "updated",
       "confirmedAt": "2026-11-24T14:50:05.330Z"
+    },
+    {
+      "id": "cbf90bceb59273a6520655f8",
+      "source": "ir",
+      "entityId": "press_2921831",
+      "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-25T14:16:44.689Z"
+    },
+    {
+      "id": "9dc296e3c3a23a0a972e839c",
+      "source": "tdnet",
+      "entityId": "140120261125585865",
+      "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+      "url": "https://www.release.tdnet.info/inbs/140120261125585865.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-25T14:16:44.689Z"
     }
   ],
   "automation": {
@@ -2925,6 +2947,32 @@
         "lastModified": "Tue, 24 Nov 2026 02:29:01 GMT",
         "resolvedUrl": "https://www.release.tdnet.info/inbs/140120261124584819.pdf",
         "observedAt": "2026-11-24T14:50:05.330Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      },
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf": {
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf",
+        "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+        "publishedAt": "2026-11-25",
+        "source": "ir",
+        "hash": "7a2a9a59fe72413d3f9f0eed3ef8ab74c3ed9d810d7d4bc570a2ed92f7592100",
+        "etag": null,
+        "lastModified": "Wed, 25 Nov 2026 03:28:52 GMT",
+        "resolvedUrl": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf",
+        "observedAt": "2026-11-25T14:16:44.689Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      },
+      "https://www.release.tdnet.info/inbs/140120261125585865.pdf": {
+        "url": "https://www.release.tdnet.info/inbs/140120261125585865.pdf",
+        "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
+        "publishedAt": "2026-11-25",
+        "source": "tdnet",
+        "hash": "7a2a9a59fe72413d3f9f0eed3ef8ab74c3ed9d810d7d4bc570a2ed92f7592100",
+        "etag": "\"60401-12872-661115ba2d400\"",
+        "lastModified": "Wed, 25 Nov 2026 03:24:00 GMT",
+        "resolvedUrl": "https://www.release.tdnet.info/inbs/140120261125585865.pdf",
+        "observedAt": "2026-11-25T14:16:44.689Z",
         "result": "pending",
         "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
       }
