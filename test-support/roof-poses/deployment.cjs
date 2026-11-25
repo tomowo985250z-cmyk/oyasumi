@@ -7,7 +7,8 @@ const hash=s=>crypto.createHash('sha256').update(s.replace(/\r\n/g,'\n')).digest
  const marker=await fetch(base+'release.json?roof-poses='+Date.now(),{cache:'no-store'}).then(r=>r.json());
  assert.equal(marker.release,expected);assert(html.includes(`name="oyasumi-release" content="${expected}"`));
  const resources=[...html.matchAll(/(?:src|href)="([^"?#]+)\?v=([a-f0-9]{16})"/g)];
- for(const [,file,version] of resources){const r=await fetch(base+file+'?v='+version);assert(r.ok,file);assert.equal(hash(await r.text()),version,file);assert.equal(hash(fs.readFileSync(path.join(root,file),'utf8')),version);}
+ // Response.text() strips a UTF-8 BOM; hash the retained source bytes instead.
+ for(const [,file,version] of resources){const r=await fetch(base+file+'?v='+version);assert(r.ok,file);assert.equal(hash(Buffer.from(await r.arrayBuffer()).toString('utf8')),version,file);assert.equal(hash(fs.readFileSync(path.join(root,file),'utf8')),version);}
  const images=[];
  for(const m of JSON.parse(fs.readFileSync(path.join(root,'assets/roof-poses-v1/manifest.json')))){
   const r=await fetch(base+m.file+'?v='+m.sha256.slice(0,16));assert.equal(r.status,200);assert(r.headers.get('content-type').includes('image/webp'));
