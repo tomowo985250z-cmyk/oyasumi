@@ -13,7 +13,7 @@ const proof={pass:false,published,engine:edge?'Edge':'WebKit',cases:[],errors:[]
  browser=await(edge?pw.chromium:pw.webkit).launch(edge?{executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'}:{});
  for(const width of [375,390]){
   const c=await browser.newContext({viewport:{width,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2,timezoneId:'Asia/Tokyo',reducedMotion:'reduce'});
-  await c.addInitScript({content:`(${fixture})({standalone:false,cache:'cold',coat:'black',asleep:false,at:Date.parse('2026-10-22T23:00:00+09:00'),holdOptional:false,holdProfiles:false});globalThis.RoofPoseIntervals=[];{const interval=setInterval;globalThis.setInterval=(...args)=>{const id=interval(...args);RoofPoseIntervals.push(id);return id;};}`});
+  await c.addInitScript({content:`(${fixture})({standalone:false,cache:'cold',coat:'black',asleep:false,at:Number(localStorage.getItem('roof-pose-test-at'))||Date.parse('2026-10-22T23:00:00+09:00'),holdOptional:false,holdProfiles:false});globalThis.RoofPoseIntervals=[];{const interval=setInterval;globalThis.setInterval=(...args)=>{const id=interval(...args);RoofPoseIntervals.push(id);return id;};}`});
   const page=await c.newPage();page.on('pageerror',e=>proof.errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith(base))proof.external.push(r.url());});
   await page.route('**/*',route=>{const u=new URL(route.request().url());if(!u.href.startsWith(base))return route.abort();if(/\/(?:vendor\/supabase|supabase-config|update-client)\.js$/.test(u.pathname))return route.fulfill({contentType:'text/javascript',body:''});return route.continue();});
   await page.goto(base,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!refreshPromise&&!catStatePending);
@@ -42,7 +42,24 @@ const proof={pass:false,published,engine:edge?'Edge':'WebKit',cases:[],errors:[]
     if(width===390&&edge)await page.locator('.roof-sky-card').screenshot({path:path.join(out,`${published?'published':'local'}-${proof.engine}-${season}-${m.id}.png`)});
    }
   }
-  await c.close();console.log(`PASS ${proof.engine} ${width}px: four seasons, day/twilight/night, two seated poses, alpha contacts, cast shadows and shared light response.`);
+  // Use natural, unmodified draws, including after navigation and a real reload.
+  for(const m of manifest){
+   const at=await page.evaluate(({id,roofWidth})=>{for(let d=1;d<=365;d++){const date=new Date(Date.UTC(2026,0,d)).toISOString().slice(0,10),n=SolarModel.nightSpan(Date.parse(date+'T23:00:00+09:00')),night=new Date(n.start+9*3600000).toISOString().slice(0,10);if(RoofRecline.plan([],RoofRecline.capacity(roofWidth,night),night,roofWidth).some(c=>c.pose===id))return(n.dusk+n.dawn)/2+20*60000;}},{id:m.id,roofWidth});
+   assert(at);await frame(at);
+   const selector=`.roof-cat-group>[data-cat-pose="rear-${m.id}"]`;
+   const src=await page.locator(selector).getAttribute('src');
+   await page.evaluate(()=>{go('profile');go('home');});
+   await page.waitForFunction(selector=>{const i=document.querySelector(selector);return i?.naturalWidth&&!i.hasAttribute('data-cat-placeholder')&&!i.parentElement.hasAttribute('data-cat-placeholder');},selector);
+   assert.equal(await page.locator(selector).getAttribute('src'),src);
+   assert(await page.locator(selector).evaluate(i=>{const group=i.parentElement;RoofRecline.update(group,NightClock.now());return group.contains(i);}), 'Same tick retains the selected node');
+   await page.evaluate(at=>localStorage.setItem('roof-pose-test-at',String(at)),at);
+   await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof ready!=='undefined'&&ready&&!refreshPromise&&!catStatePending);
+   await page.evaluate(()=>{RoofPoseIntervals.forEach(clearInterval);NightClock.now=()=>CatStartupFixture.at;Date.now=()=>CatStartupFixture.at;});
+   await page.waitForFunction(selector=>{const i=document.querySelector(selector);return i?.naturalWidth&&!i.hasAttribute('data-cat-placeholder')&&!i.parentElement.hasAttribute('data-cat-placeholder')&&+i.style.opacity>.99;},selector);
+   assert.equal(await page.locator(selector).getAttribute('src'),src);
+   assert(await page.locator(selector).isVisible());proof.cases.push({width,pose:m.id,phase:'navigation-reload',at,src});
+  }
+  await c.close();console.log(`PASS ${proof.engine} ${width}px: four seasons, day/twilight/night, natural seated draws, navigation/reload, alpha contacts, cast shadows and shared light response.`);
  }
  assert.deepEqual(proof.errors,[]);assert.deepEqual(proof.external,[]);proof.pass=true;
 }finally{await browser?.close();server?.close();fs.writeFileSync(path.join(out,`${published?'published':'local'}-${proof.engine}.json`),JSON.stringify(proof,null,2)+'\n');}})().catch(e=>{console.error(e.stack);process.exitCode=1;});

@@ -1,6 +1,6 @@
 // Home-only rooftop composition. Four stable night patterns give each slot
 // a reclining pose once in four nights, without changing the selected coat.
-// Two additional seated sprites share the same schedule and decode gate.
+// Additional seated sprites enter the ordinary candidate pool and decode gate.
 globalThis.RoofRecline=(()=>{
  const assets = {"black":{"version":"2a79f44d009ae901","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.9752604166666666]},"black-footed":{"version":"e89bb3ca32fa2646","reclining":[1536,1024,0.986328125],"seated":[1024,1536,0.9733072916666666]},"brown":{"version":"d096c6a4f094ac67","reclining":[1536,1024,0.990234375],"seated":[1024,1536,0.9830729166666666]},"calico":{"version":"321e856cab3e252f","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.966796875]},"cheetah":{"version":"65fd573380ee8f53","reclining":[1536,1024,0.986328125],"seated":[1024,1536,0.970703125]},"fishing":{"version":"4777dd312ee24c1d","reclining":[1536,1024,0.9892578125],"seated":[1024,1536,0.966796875]},"gray":{"version":"5e427168559423d6","reclining":[1536,1024,0.9921875],"seated":[1024,1536,0.9778645833333334]},"jaguar":{"version":"915f14e99728b9bb","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.9791666666666666]},"leopard":{"version":"668808d912fee919","reclining":[1536,1024,0.9873046875],"seated":[1024,1536,0.9765625]},"manul":{"version":"ca9c669d3caab34e","reclining":[1536,1024,0.9892578125],"seated":[1024,1536,0.97265625]},"orange":{"version":"00f8fc9ea51d2439","reclining":[1536,1024,0.98828125],"seated":[1024,1536,0.9654947916666666]},"sand":{"version":"746109cc4193715f","reclining":[1536,1024,0.990234375],"seated":[1024,1536,0.98828125]},"silver":{"version":"5e90bce5ec2bd356","reclining":[1536,1024,0.984375],"seated":[1024,1536,0.974609375]},"snow-leopard":{"version":"b0aadf2daca20fb6","reclining":[1536,1024,0.986328125],"seated":[1024,1536,0.9720052083333334]},"tuxedo":{"version":"def2783aa67036c5","reclining":[1536,1024,0.98828125],"seated":[1024,1536,0.9778645833333334]},"white":{"version":"4657799f6ecfdace","reclining":[1536,1024,0.9921875],"seated":[1024,1536,0.9830729166666666]}};
  const seatedPoses={
@@ -23,6 +23,10 @@ globalThis.RoofRecline=(()=>{
  }
  const gapMinimum=6,edgeCrop=8,layouts=new WeakMap();
  const coatGroups=['basic','wild','big'].map(id=>CatFaces.groups.find(group=>group.id===id).coats.map(coat=>coat.id));
+ const candidates=coatGroups.map((coats,group)=>[
+  ...coats.map(coat=>({coat})),
+  ...(group===0?Object.entries(seatedPoses).map(([coat,pose])=>({coat,pose:pose.id})):[])
+ ]);
  function plan(coats,count,night,width){
   count=Math.max(0,Math.min(Object.keys(assets).length,Math.trunc(count)||0));
   const day=Math.floor(Date.parse(night+'T06:00:00+09:00')/86400000),phase=((day%4)+4)%4;
@@ -33,10 +37,12 @@ globalThis.RoofRecline=(()=>{
   const random=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return(seed>>>0)/4294967296;},used=new Set();
   const cats=Array.from({length:count},(_,i)=>{
    // Choose the category first so duplicate avoidance never changes its odds.
-   const roll=random(),pool=coatGroups[roll<.85?0:roll<.97?1:2],fresh=pool.filter(coat=>!used.has(coat)),choices=fresh.length?fresh:pool;
-   const coat=CatFaces.normalizeCoat(coats[i]||choices[Math.floor(random()*choices.length)]),reclining=(phase+i)%4===0;used.add(coat);
-   // Add a seated variation only for its own coat; never substitute fur colors.
-   const pose=(phase+i)%4===1?seatedPoses[coat]:null;
+   const roll=random(),reclining=(phase+i)%4===0;
+   // Every seated sprite has one entry. Do not gate the two additions on a
+   // second four-night phase after their coat has already won the draw.
+   const pool=candidates[roll<.85?0:roll<.97?1:2].filter(cat=>!reclining||!cat.pose),fresh=pool.filter(cat=>!used.has(cat.coat)),choices=fresh.length?fresh:pool;
+   const selected=coats[i]?{coat:coats[i]}:choices[Math.floor(random()*choices.length)];
+   const coat=CatFaces.normalizeCoat(selected.coat),pose=selected.pose?seatedPoses[coat]:null;used.add(coat);
    return {coat,reclining,...(pose?{pose:pose.id}:{}),width:pose?.width??.9*(reclining?78:68*.765)};
   });
   const bodyWidth=cats.reduce((sum,cat)=>sum+cat.width,0),gap=Number.isFinite(width)&&count>1?Math.max(gapMinimum,(width+2*edgeCrop-bodyWidth)/(count-1)):gapMinimum;
