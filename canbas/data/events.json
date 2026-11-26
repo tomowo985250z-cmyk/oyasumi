@@ -775,6 +775,17 @@
             }
           },
           {
+            "id": "press_2922746",
+            "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+            "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2922746/00.pdf",
+            "category": "資金調達",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-26T19:05:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
             "id": "tanshin_2565494",
             "title": "2025年6月期 第2四半期（中間期）決算短信〔日本基準〕（非連結）",
             "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2565494/00.pdf",
@@ -908,20 +919,20 @@
           }
         ]
       },
-      "hash": "1f7269c4e126eee56a696bb04c039c26aec4251e7df254b18260a7e9aef057a9",
-      "observedAt": "2026-11-25T14:16:44.689Z",
+      "hash": "2ac1d011028533915b88e94740136b4429fbbe9d307a83c3e5824989351c072a",
+      "observedAt": "2026-11-26T13:51:48.931Z",
       "latestChanges": [
         {
-          "id": "cbf90bceb59273a6520655f8",
+          "id": "60828e0feb1d7e01280641bb",
           "source": "ir",
-          "entityId": "press_2921831",
-          "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
-          "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf",
+          "entityId": "press_2922746",
+          "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+          "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2922746/00.pdf",
           "field": "掲載",
           "before": "前回データなし",
           "after": "新たに取得",
           "kind": "added",
-          "confirmedAt": "2026-11-25T14:16:44.689Z"
+          "confirmedAt": "2026-11-26T13:51:48.931Z"
         }
       ]
     },
@@ -1004,23 +1015,34 @@
               "開示日時": "2026-11-25T12:25:00+09:00",
               "本文確認": "未確認"
             }
+          },
+          {
+            "id": "140120261126587209",
+            "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+            "url": "https://www.release.tdnet.info/inbs/140120261126587209.pdf",
+            "category": "資金調達",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-26T19:05:00+09:00",
+              "本文確認": "未確認"
+            }
           }
         ]
       },
-      "hash": "ed8a3d222e60ba176b8981b2b35cd9128298586fc58f83da753d7793f6e0afa6",
-      "observedAt": "2026-11-25T14:16:44.689Z",
+      "hash": "f5d35665d943a2138e5aeaf4e7c1c876fbb3292116cea78fdce681555428f24d",
+      "observedAt": "2026-11-26T13:51:48.931Z",
       "latestChanges": [
         {
-          "id": "9dc296e3c3a23a0a972e839c",
+          "id": "5f931c41dd08df36f3593175",
           "source": "tdnet",
-          "entityId": "140120261125585865",
-          "title": "第22回新株予約権（行使価額修正条項付）に係る行使停止指定の通知に関するお知らせ",
-          "url": "https://www.release.tdnet.info/inbs/140120261125585865.pdf",
+          "entityId": "140120261126587209",
+          "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+          "url": "https://www.release.tdnet.info/inbs/140120261126587209.pdf",
           "field": "掲載",
           "before": "前回データなし",
           "after": "新たに取得",
           "kind": "added",
-          "confirmedAt": "2026-11-25T14:16:44.689Z"
+          "confirmedAt": "2026-11-26T13:51:48.931Z"
         }
       ]
     },
@@ -2893,6 +2915,30 @@
       "after": "新たに取得",
       "kind": "added",
       "confirmedAt": "2026-11-25T14:16:44.689Z"
+    },
+    {
+      "id": "60828e0feb1d7e01280641bb",
+      "source": "ir",
+      "entityId": "press_2922746",
+      "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+      "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2922746/00.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-26T13:51:48.931Z"
+    },
+    {
+      "id": "5f931c41dd08df36f3593175",
+      "source": "tdnet",
+      "entityId": "140120261126587209",
+      "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+      "url": "https://www.release.tdnet.info/inbs/140120261126587209.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-26T13:51:48.931Z"
     }
   ],
   "automation": {
@@ -2973,6 +3019,32 @@
         "lastModified": "Wed, 25 Nov 2026 03:24:00 GMT",
         "resolvedUrl": "https://www.release.tdnet.info/inbs/140120261125585865.pdf",
         "observedAt": "2026-11-25T14:16:44.689Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      },
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2922746/00.pdf": {
+        "url": "https://ssl4.eir-parts.net/doc/4575/tdnet/2922746/00.pdf",
+        "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+        "publishedAt": "2026-11-26",
+        "source": "ir",
+        "hash": "8a50295dea4cdde36d3165b1d83274d79ce187eb05f7dd97df54c74661c0a201",
+        "etag": null,
+        "lastModified": "Thu, 26 Nov 2026 10:08:52 GMT",
+        "resolvedUrl": "https://ssl4.eir-parts.net/doc/4575/tdnet/2922746/00.pdf",
+        "observedAt": "2026-11-26T13:51:48.931Z",
+        "result": "pending",
+        "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
+      },
+      "https://www.release.tdnet.info/inbs/140120261126587209.pdf": {
+        "url": "https://www.release.tdnet.info/inbs/140120261126587209.pdf",
+        "title": "（訂正）適時開示書類「第22回新株予約権（行使価額修正条項付）の大量行使に関するお知らせ」 一部訂正について",
+        "publishedAt": "2026-11-26",
+        "source": "tdnet",
+        "hash": "8a50295dea4cdde36d3165b1d83274d79ce187eb05f7dd97df54c74661c0a201",
+        "etag": "\"602f4-109ff-6612b0ffd2400\"",
+        "lastModified": "Thu, 26 Nov 2026 10:04:00 GMT",
+        "resolvedUrl": "https://www.release.tdnet.info/inbs/140120261126587209.pdf",
+        "observedAt": "2026-11-26T13:51:48.931Z",
         "result": "pending",
         "reason": "ID・実施済み表現・基準日、または認証表の対応を厳密に確定できません。"
       }

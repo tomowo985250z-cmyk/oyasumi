@@ -4,26 +4,26 @@
     "ir": {
       "result": "success",
       "dataResult": "changed",
-      "lastAttemptAt": "2026-11-25T14:16:44.689Z",
-      "lastSuccessAt": "2026-11-25T14:16:44.689Z",
-      "snapshotHash": "1f7269c4e126eee56a696bb04c039c26aec4251e7df254b18260a7e9aef057a9",
+      "lastAttemptAt": "2026-11-26T13:51:48.931Z",
+      "lastSuccessAt": "2026-11-26T13:51:48.931Z",
+      "snapshotHash": "2ac1d011028533915b88e94740136b4429fbbe9d307a83c3e5824989351c072a",
       "error": null,
       "coverage": "2025年以降の公開IR一覧。過去取得分も保持"
     },
     "tdnet": {
       "result": "success",
       "dataResult": "changed",
-      "lastAttemptAt": "2026-11-25T14:16:44.689Z",
-      "lastSuccessAt": "2026-11-25T14:16:44.689Z",
-      "snapshotHash": "ed8a3d222e60ba176b8981b2b35cd9128298586fc58f83da753d7793f6e0afa6",
+      "lastAttemptAt": "2026-11-26T13:51:48.931Z",
+      "lastSuccessAt": "2026-11-26T13:51:48.931Z",
+      "snapshotHash": "f5d35665d943a2138e5aeaf4e7c1c876fbb3292116cea78fdce681555428f24d",
       "error": null,
-      "coverage": "20261123〜20261125（全ページ・過去取得分保持）"
+      "coverage": "20261124〜20261126（全ページ・過去取得分保持）"
     },
     "ctis": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-25T14:16:44.689Z",
-      "lastSuccessAt": "2026-11-25T14:16:43.315Z",
+      "lastAttemptAt": "2026-11-26T13:51:48.931Z",
+      "lastSuccessAt": "2026-11-26T13:51:47.318Z",
       "snapshotHash": "707bd76dc68b646c498a725b77dd4ac31d02b3403b241a0ee3ca114e63a12d30",
       "error": null,
       "coverage": "既存のCTIS取得結果と照合。国・施設情報（同じ取得で通信を重複しない）"
@@ -31,8 +31,8 @@
     "ctgov": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-25T14:16:44.689Z",
-      "lastSuccessAt": "2026-11-25T14:16:44.689Z",
+      "lastAttemptAt": "2026-11-26T13:51:48.931Z",
+      "lastSuccessAt": "2026-11-26T13:51:48.931Z",
       "snapshotHash": "8277944d9b8fdf525121f01d341e3d7daefc753412293152d425f66b52c07802",
       "error": null,
       "coverage": "スポンサー名CanBasの公開試験。FUJI-PanC01との対応は未確認"
@@ -40,14 +40,16 @@
   },
   "automation": {
     "result": "success",
-    "lastAttemptAt": "2026-11-25T14:16:44.689Z",
+    "lastAttemptAt": "2026-11-26T13:51:48.931Z",
     "checks": {
-      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf": "2026-11-25T14:16:44.689Z",
-      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf": "2026-11-25T14:16:44.689Z",
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921212/00.pdf": "2026-11-26T13:51:48.931Z",
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921320/00.pdf": "2026-11-26T13:51:48.931Z",
       "https://www.release.tdnet.info/inbs/140120261123584555.pdf": "2026-11-25T14:16:44.689Z",
       "https://www.release.tdnet.info/inbs/140120261124584819.pdf": "2026-11-25T14:16:44.689Z",
-      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf": "2026-11-25T14:16:44.689Z",
-      "https://www.release.tdnet.info/inbs/140120261125585865.pdf": "2026-11-25T14:16:44.689Z"
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2921831/00.pdf": "2026-11-26T13:51:48.931Z",
+      "https://www.release.tdnet.info/inbs/140120261125585865.pdf": "2026-11-26T13:51:48.931Z",
+      "https://ssl4.eir-parts.net/doc/4575/tdnet/2922746/00.pdf": "2026-11-26T13:51:48.931Z",
+      "https://www.release.tdnet.info/inbs/140120261126587209.pdf": "2026-11-26T13:51:48.931Z"
     },
     "error": null
   }
