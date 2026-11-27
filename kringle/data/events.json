@@ -951,6 +951,17 @@
             }
           },
           {
+            "id": "pr_2922881",
+            "title": "頸髄損傷後の運動機能回復をより詳細に捉える新たな解析指標 「Myotome Conversion from Zero（MC-0）」に関する論文発表のお知らせ",
+            "category": "IR",
+            "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2922881/00.pdf",
+            "calendar": false,
+            "fields": {
+              "開示日時": "2026-11-27T11:00:00+09:00",
+              "本文確認": "未確認"
+            }
+          },
+          {
             "id": "press_2547631",
             "title": "第一種医薬品製造販売業許可取得のお知らせ",
             "category": "IR",
@@ -2327,20 +2338,20 @@
           }
         ]
       },
-      "hash": "3f4db464ab09c15c4e98d3d024aa077d94f1a7d5f9eb7acf77174018aa824551",
-      "observedAt": "2026-11-24T15:19:04.773Z",
+      "hash": "97e457cf3eb3ca521baffd723027eb66d54a6c9103fce42fa3d7ef24844f2d9b",
+      "observedAt": "2026-11-27T14:23:23.613Z",
       "latestChanges": [
         {
-          "id": "95d9d622de869af3a962c1c7",
+          "id": "0e79b9418c16270731fcef97",
           "source": "ir",
-          "entityId": "press_2921299",
-          "title": "[Delayed]Financial Results for the Fiscal Year Ended September 30, 2026 [Japanese GAAP] (Non-consolidated)",
-          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2921299/00.pdf",
+          "entityId": "pr_2922881",
+          "title": "頸髄損傷後の運動機能回復をより詳細に捉える新たな解析指標 「Myotome Conversion from Zero（MC-0）」に関する論文発表のお知らせ",
+          "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2922881/00.pdf",
           "field": "掲載",
           "before": "前回データなし",
           "after": "新たに取得",
           "kind": "added",
-          "confirmedAt": "2026-11-24T15:19:04.773Z"
+          "confirmedAt": "2026-11-27T14:23:23.613Z"
         }
       ]
     },
@@ -3188,6 +3199,18 @@
       "after": "新たに取得",
       "kind": "added",
       "confirmedAt": "2026-11-24T15:19:04.773Z"
+    },
+    {
+      "id": "0e79b9418c16270731fcef97",
+      "source": "ir",
+      "entityId": "pr_2922881",
+      "title": "頸髄損傷後の運動機能回復をより詳細に捉える新たな解析指標 「Myotome Conversion from Zero（MC-0）」に関する論文発表のお知らせ",
+      "url": "https://ssl4.eir-parts.net/doc/4884/tdnet/2922881/00.pdf",
+      "field": "掲載",
+      "before": "前回データなし",
+      "after": "新たに取得",
+      "kind": "added",
+      "confirmedAt": "2026-11-27T14:23:23.613Z"
     }
   ],
   "automation": {
