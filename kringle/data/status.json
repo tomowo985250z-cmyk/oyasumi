@@ -3,9 +3,9 @@
   "sources": {
     "ir": {
       "result": "success",
-      "dataResult": "changed",
-      "lastAttemptAt": "2026-11-27T14:23:23.613Z",
-      "lastSuccessAt": "2026-11-27T14:23:23.613Z",
+      "dataResult": "unchanged",
+      "lastAttemptAt": "2026-11-28T13:38:44.976Z",
+      "lastSuccessAt": "2026-11-28T13:38:44.976Z",
       "snapshotHash": "97e457cf3eb3ca521baffd723027eb66d54a6c9103fce42fa3d7ef24844f2d9b",
       "error": null,
       "coverage": "2025年以降の公式IR公開一覧"
@@ -13,17 +13,17 @@
     "tdnet": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-27T14:23:23.613Z",
-      "lastSuccessAt": "2026-11-27T14:23:23.613Z",
+      "lastAttemptAt": "2026-11-28T13:38:44.976Z",
+      "lastSuccessAt": "2026-11-28T13:38:44.976Z",
       "snapshotHash": "6d6a7cce4542b61e4ff929d2e3b594893d9ecf9e9cbb9b8215a4e9ab4cd30d3b",
       "error": null,
-      "coverage": "20261125〜20261127（全ページ確認・過去取得分を保持）"
+      "coverage": "20261126〜20261128（全ページ確認・過去取得分を保持）"
     },
     "jrct": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-27T14:23:23.613Z",
-      "lastSuccessAt": "2026-11-27T14:23:23.613Z",
+      "lastAttemptAt": "2026-11-28T13:38:44.976Z",
+      "lastSuccessAt": "2026-11-28T13:38:44.976Z",
       "snapshotHash": "09d9b426247c15ca0b36dc067c5f7a051b2f590e16bcb67227d2e3f139088e29",
       "error": null,
       "coverage": "対象2試験の公開詳細"
@@ -31,8 +31,8 @@
     "ctgov": {
       "result": "success",
       "dataResult": "unchanged",
-      "lastAttemptAt": "2026-11-27T14:23:23.613Z",
-      "lastSuccessAt": "2026-11-27T14:23:23.613Z",
+      "lastAttemptAt": "2026-11-28T13:38:44.976Z",
+      "lastSuccessAt": "2026-11-28T13:38:44.976Z",
       "snapshotHash": "c5a62d7e96253f8f9292437437eee6730d6ff2b4be7d9a3cf5afd9e17fdc7168",
       "error": null,
       "coverage": "対象2試験の公開JSON"
@@ -40,7 +40,7 @@
   },
   "automation": {
     "result": "success",
-    "lastAttemptAt": "2026-11-27T14:23:23.613Z",
+    "lastAttemptAt": "2026-11-28T13:38:44.976Z",
     "checks": {},
     "error": null
   }
